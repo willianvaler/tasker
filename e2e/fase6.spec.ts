@@ -177,3 +177,12 @@ test('performance: lista com 500 tarefas, marcar responde rápido', async ({ pag
   });
   expect(ms).toBeLessThan(150);
 });
+
+test('avisos: na web, o Perfil explica que ficam no sino', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
+  await signUp(page, testInfo);
+  await openTab(page, 'Perfil');
+  await expect(page.getByText('Avisos no celular')).toBeVisible();
+  await expect(page.getByText(/No navegador, os avisos aparecem no sino/)).toBeVisible();
+  await expect(page.getByRole('switch', { name: 'Avisos no celular' })).toHaveCount(0);
+});

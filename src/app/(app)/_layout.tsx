@@ -4,12 +4,14 @@ import { Platform, View } from 'react-native';
 
 import { OfflineBanner } from '@/components/offline-banner';
 import { Sidebar, useIsWide } from '@/components/sidebar';
+import { usePushTapHandler } from '@/lib/push';
 import { useProfile } from '@/lib/queries/profile';
 import { useRealtimeSync } from '@/providers/realtime';
 
 export default function AppLayout() {
   useCaptureShortcut();
   useRealtimeSync();
+  usePushTapHandler();
   const onboarding = useOnboarding();
   const wide = useIsWide();
   return (

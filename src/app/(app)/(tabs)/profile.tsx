@@ -4,12 +4,14 @@ import { ScrollView, Text, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
 import { PrivacySection } from '@/components/privacy-section';
+import { PushSetting } from '@/components/push-setting';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { clearPrefs, type ThemePreference } from '@/lib/prefs';
+import { disablePush } from '@/lib/push';
 import { useProfile, useUpdateProfile, type Profile } from '@/lib/queries/profile';
 import { supabase } from '@/lib/supabase';
 import { useIsOnline } from '@/providers/online';
@@ -40,6 +42,8 @@ function ProfileForm({ profile }: { profile: Profile }) {
   const validTimezone = isValidTimezone(timezone.trim());
 
   async function signOut() {
+    // O próximo a usar este aparelho não recebe os avisos de quem saiu
+    await disablePush().catch(() => {});
     await supabase.auth.signOut();
     // O próximo usuário deste aparelho não pode ver o cache do anterior
     clearQueryCache();
@@ -51,6 +55,8 @@ function ProfileForm({ profile }: { profile: Profile }) {
       <Text className="text-muted-foreground">{session?.user.email}</Text>
 
       <ThemeChooser />
+
+      <PushSetting />
 
       <GameProfile />
       <Button

@@ -63,6 +63,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"app_config": {
+                  Row: {
+                    "key": string,"value": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "key": string,"value": string
+                  }
+                  Update: {
+                    "key"?: string,"value"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"boss_damage": {
                   Row: {
                     "amount": number,"boss_id": string,"created_at": string,"id": string,"user_id": string,"xp_event_id": string
@@ -370,6 +384,26 @@ isOneToOne: false
                   }
                   Relationships: [
                     
+                  ]
+                },"push_tokens": {
+                  Row: {
+                    "created_at": string,"id": string,"last_seen_at": string,"platform": string,"token": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"platform": string,"token": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"platform"?: string,"token"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "push_tokens_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
                   ]
                 },"task_assignees": {
                   Row: {
@@ -803,6 +837,9 @@ isOneToOne: false
                            },
 "refresh_cycles":
 { Args: { "p_page_id"?: string }; Returns: number
+                           },
+"register_push_token":
+{ Args: { "p_platform": string,"p_token": string }; Returns: undefined
                            },
 "remove_member":
 { Args: { "p_folder_id": string,"p_user_id": string }; Returns: undefined
