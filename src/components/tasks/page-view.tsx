@@ -12,6 +12,7 @@ import { useTreeMutations, type Page } from '@/lib/queries/tree';
 import { useCanWrite } from '@/providers/write';
 import { useToast } from '@/providers/toast';
 import { HabitRow, useHabitDates } from './habit-row';
+import { KanbanBoard } from './kanban-board';
 import { QuickAdd } from './quick-add';
 import { SortableTasks } from './sortable-tasks';
 import { TaskCard } from './task-card';
@@ -22,7 +23,7 @@ type Counts = Map<string, { done: number; total: number }>;
 const byPosition = (a: Task, b: Task) =>
   a.position - b.position || a.created_at.localeCompare(b.created_at);
 
-/** Conteúdo de uma página, conforme o tipo: lista, cards ou hábitos. */
+/** Conteúdo de uma página, conforme o tipo: lista, cards, hábitos ou kanban. */
 export function PageView({ page }: { page: Page | undefined }) {
   const today = useToday();
   const tasks = usePageTasks(page?.id);
@@ -54,7 +55,7 @@ export function PageView({ page }: { page: Page | undefined }) {
     list: 'Nada por aqui. Digite uma tarefa acima, ou cole uma lista.',
     cards: 'Monte a rotina: cole os itens, um por linha. Dica: "Supino 4x12 20kg".',
     habits: 'Adicione hábitos, como "Beber água" ou "Ler 10 páginas /seg,qua,sex".',
-    kanban: '',
+    kanban: 'Quadro vazio. Digite uma tarefa acima: ela entra em "A fazer".',
   }[viewType];
 
   return (
@@ -90,7 +91,9 @@ export function PageView({ page }: { page: Page | undefined }) {
         className="mt-2 flex-1"
         keyboardShouldPersistTaps="handled"
       >
-        {viewType === 'cards' && page ? (
+        {viewType === 'kanban' && page ? (
+          <KanbanBoard tasks={all} folderId={page.folder_id} subtaskCount={subtaskCount} />
+        ) : viewType === 'cards' && page ? (
           <CardsBody page={page} tasks={all} subtaskCount={subtaskCount} scrollRef={scrollRef} />
         ) : viewType === 'habits' ? (
           <HabitsBody tasks={all} scrollRef={scrollRef} />

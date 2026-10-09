@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import type { Page, PageSettings } from '@/lib/queries/tree';
 
 const VIEW_TYPES: { value: Page['view_type']; label: string; hint: string }[] = [
-  { value: 'list', label: '📋 Lista', hint: 'Uma tarefa por linha.' },
+  { value: 'list', label: '📄 Lista', hint: 'Uma tarefa por linha.' },
   {
     value: 'cards',
     label: '🃏 Cards',
@@ -25,6 +25,11 @@ const VIEW_TYPES: { value: Page['view_type']; label: string; hint: string }[] = 
     value: 'habits',
     label: '🔥 Hábitos',
     hint: 'Itens que se repetem, com sequência e histórico.',
+  },
+  {
+    value: 'kanban',
+    label: '📋 Kanban',
+    hint: 'Colunas A fazer, Fazendo e Feito. Bom para projetos com etapas.',
   },
 ];
 
@@ -63,7 +68,8 @@ export function PageDialog({
       icon: icon.trim(),
       view_type: viewType,
       // Hábitos reiniciam pela recorrência de cada item; o ciclo da página não se aplica
-      reset_cycle: viewType === 'habits' ? 'none' : effectiveReset,
+      // Hábitos têm o ciclo de cada item; kanban é fluxo, não rotina: nunca reiniciam
+      reset_cycle: viewType === 'habits' || viewType === 'kanban' ? 'none' : effectiveReset,
     });
   }
 
@@ -107,7 +113,7 @@ export function PageDialog({
               {VIEW_TYPES.find((t) => t.value === viewType)?.hint}
             </Text>
 
-            {viewType !== 'habits' && (
+            {viewType !== 'habits' && viewType !== 'kanban' && (
               <>
                 <Text className="font-semibold text-foreground">Reiniciar os checks</Text>
                 <View className="flex-row flex-wrap gap-2">

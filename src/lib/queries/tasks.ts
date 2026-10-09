@@ -431,6 +431,7 @@ export function advanceOnComplete(
 export const createTasksKey = [...taskMutationKey, 'create'] as const;
 export const toggleTaskKey = [...taskMutationKey, 'toggle'] as const;
 export const updateTaskKey = [...taskMutationKey, 'update'] as const;
+export const statusTaskKey = [...taskMutationKey, 'status'] as const;
 
 /** Mesma fila para todas as mutações de tarefa: a ordem de envio é a ordem em que foram feitas. */
 const offlineTaskMutation = (mutationKey: readonly unknown[]) =>
@@ -439,6 +440,8 @@ const offlineTaskMutation = (mutationKey: readonly unknown[]) =>
 export type CreateTasksVars = { pageId: string; items: (NewTask & { id: string })[] };
 export type ToggleTaskVars = { id: string; done: boolean; nextDue?: string | null };
 export type UpdateTaskVars = { id: string; patch: TaskPatch };
+export type TaskStatus = Task['status'];
+export type StatusTaskVars = { id: string; status: TaskStatus };
 
 export async function createTasksFn({ pageId, items }: CreateTasksVars) {
   const { error } = await supabase.rpc('create_tasks_batch', {
@@ -466,6 +469,19 @@ export async function updateTaskFn({ id, patch }: UpdateTaskVars) {
   if (error) throw error;
 }
 
+/** Kanban: mover entre A fazer, Fazendo e Feito (Feito = concluir, com XP). */
+export async function setTaskStatusFn({
+  id,
+  status,
+}: StatusTaskVars): Promise<CompletionSummary | null> {
+  const { data, error } = await supabase.rpc('set_task_status', {
+    p_task_id: id,
+    p_status: status,
+  });
+  if (error) throw error;
+  return completionSummarySchema.safeParse(data).data ?? null;
+}
+
 /** Registra as funções da fila (para as mutações restauradas do disco depois de reabrir o app). */
 export function registerOfflineTaskMutations(queryClient: QueryClient) {
   const settle = () => {
@@ -486,5 +502,33 @@ export function registerOfflineTaskMutations(queryClient: QueryClient) {
     ...offlineTaskMutation(updateTaskKey),
     mutationFn: (vars: UpdateTaskVars) => updateTaskFn(vars),
     onSettled: settle,
+  });
+  queryClient.setMutationDefaults(statusTaskKey, {
+    ...offlineTaskMutation(statusTaskKey),
+    mutationFn: (vars: StatusTaskVars) => setTaskStatusFn(vars),
+    onSettled: settle,
+  });
+}
+
+export function useSetTaskStatus() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...offlineTaskMutation(statusTaskKey),
+    mutationFn: setTaskStatusFn,
+    onMutate: async ({ id, status }) => {
+      const saved = await snapshot(queryClient);
+      const now = new Date().toISOString();
+      patchTaskLists(queryClient, (t) =>
+        t.id === id ? { ...t, status, completed_at: status === 'done' ? now : null } : t,
+      );
+      return { saved };
+    },
+    onError: (_err, _vars, context) => restore(queryClient, context?.saved),
+    onSettled: () => {
+      invalidateWhenIdle(queryClient);
+      queryClient.invalidateQueries({ queryKey: keys.game });
+      queryClient.invalidateQueries({ queryKey: ['project-boss'] });
+      queryClient.invalidateQueries({ queryKey: ['board'] });
+    },
   });
 }

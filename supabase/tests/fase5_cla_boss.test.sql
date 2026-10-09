@@ -80,13 +80,15 @@ select public.complete_task('cccccccc-0000-0000-0000-000000000011');
 select is((select count(*)::int from public.boss_damage d join public.xp_events e on e.id = d.xp_event_id
            where e.task_id = 'cccccccc-0000-0000-0000-000000000011'), 2,
   'um XP bate no boss solo e no do clã');
-insert into ids select 'clan_boss', id from public.bosses where scope = 'clan';
-select is((select max_hp - hp from public.bosses where scope = 'clan'), 10, 'boss do clã tomou 10');
+insert into ids select 'clan_boss', id from public.bosses
+  where scope = 'clan' and scope_id = (select v::uuid from ids where k = 'clan');
+select is((select max_hp - hp from public.bosses where id = (select v::uuid from ids where k = 'clan_boss')), 10,
+  'boss do clã tomou 10');
 
 -- Deixa o boss do clã a 5 HP do fim
 reset role;
 update public.bosses set max_hp = (select sum(amount) from public.boss_damage where boss_id = bosses.id) + 5,
-  hp = 5 where scope = 'clan';
+  hp = 5 where id = (select v::uuid from ids where k = 'clan_boss');
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';
 select is((public.complete_task('cccccccc-0000-0000-0000-000000000021') ->> 'boss_defeated')::boolean, true,
@@ -100,8 +102,10 @@ select is((select count(*)::int from public.xp_events where kind = 'boss_reward'
   'todos que contribuíram ganham (Ana e Bia)');
 select is((select xp from public.profiles where id = '11111111-1111-1111-1111-111111111111'), 60,
   'o XP da Ana (que não fez nada agora) já conta a recompensa');
-select is((select count(*)::int from public.clan_activity where action = 'boss_defeated'), 1, 'derrota no feed do clã');
-select ok(exists (select 1 from public.clan_activity where action = 'achievement'), 'conquistas no feed do clã');
+select is((select count(*)::int from public.clan_activity where action = 'boss_defeated'
+           and clan_id = (select v::uuid from ids where k = 'clan')), 1, 'derrota no feed do clã');
+select ok(exists (select 1 from public.clan_activity where action = 'achievement'
+                  and clan_id = (select v::uuid from ids where k = 'clan')), 'conquistas no feed do clã');
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';
 select is(jsonb_array_length(public.boss_board((select v::uuid from ids where k = 'clan_boss'))), 2,
@@ -109,12 +113,13 @@ select is(jsonb_array_length(public.boss_board((select v::uuid from ids where k 
 
 select public.uncomplete_task('cccccccc-0000-0000-0000-000000000021');
 reset role;
-select is((select status from public.bosses where scope = 'clan' and id = (select v::uuid from ids where k = 'clan_boss')),
+select is((select status from public.bosses where id = (select v::uuid from ids where k = 'clan_boss')),
   'active', 'desmarcar o golpe final revive o boss do clã');
 select is((select count(*)::int from public.xp_events where kind = 'boss_reward' and not reverted
            and boss_id = (select v::uuid from ids where k = 'clan_boss')), 0, 'e a recompensa sai de todos');
 select is((select xp from public.profiles where id = '11111111-1111-1111-1111-111111111111'), 10, 'XP da Ana volta');
-select is((select count(*)::int from public.clan_activity where action = 'boss_defeated'), 0, 'e some do feed');
+select is((select count(*)::int from public.clan_activity where action = 'boss_defeated'
+           and clan_id = (select v::uuid from ids where k = 'clan')), 0, 'e some do feed');
 
 -- ---------- Boss de projeto ----------
 set local role authenticated;

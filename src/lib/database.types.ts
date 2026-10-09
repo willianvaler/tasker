@@ -819,6 +819,9 @@ isOneToOne: false
 "set_member_role":
 { Args: { "p_folder_id": string,"p_role": Database["public"]['Enums']["folder_role"],"p_user_id": string }; Returns: undefined
                            },
+"set_task_status":
+{ Args: { "p_status": Database["public"]['Enums']["task_status"],"p_task_id": string }; Returns: Json
+                           },
 "start_project_boss":
 { Args: { "p_deadline": string,"p_folder_id": string }; Returns: {
               "created_at": string,
