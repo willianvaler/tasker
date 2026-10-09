@@ -42,7 +42,11 @@ export function useUpdateProfile() {
   const queryClient = useQueryClient();
   const { session } = useSession();
   return useMutation({
-    mutationFn: async (patch: { display_name?: string; timezone?: string }) => {
+    mutationFn: async (patch: {
+      display_name?: string;
+      timezone?: string;
+      onboarded_at?: string;
+    }) => {
       const { data, error } = await supabase
         .from('profiles')
         .update(patch)

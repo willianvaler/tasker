@@ -9,7 +9,13 @@ export type BuiltInTemplate = {
   name: string;
   icon: string;
   description: string;
-  pages: { name: string; icon?: string; view_type?: Page['view_type']; lines: string }[];
+  pages: {
+    name: string;
+    icon?: string;
+    view_type?: Page['view_type'];
+    reset_cycle?: Page['reset_cycle'];
+    lines: string;
+  }[];
 };
 
 export const BUILT_IN_TEMPLATES: BuiltInTemplate[] = [
@@ -139,6 +145,50 @@ Arrumar a mesa`,
   },
 ];
 
+/** Pastas para começar, oferecidas no onboarding (pessoais, não são projetos). */
+export const STARTER_TEMPLATES: BuiltInTemplate[] = [
+  {
+    key: 'treino',
+    name: 'Academia',
+    icon: '🏋️',
+    description: 'Treino em cards que reinicia toda segunda.',
+    pages: [
+      {
+        name: 'Treino A',
+        view_type: 'cards',
+        reset_cycle: 'weekly',
+        lines: `Supino 4x12 20kg
+Agachamento 4x10
+Remada 3x12
+Prancha 3x`,
+      },
+    ],
+  },
+  {
+    key: 'casa',
+    name: 'Casa',
+    icon: '🏠',
+    description: 'Lista do mercado e contas do mês.',
+    pages: [
+      { name: 'Mercado', icon: '🛒', lines: `Arroz\nFeijão\nCafé\nFrutas` },
+      { name: 'Contas', icon: '💡', lines: `Luz /mensal\nInternet /mensal` },
+    ],
+  },
+  {
+    key: 'habitos',
+    name: 'Hábitos',
+    icon: '🔥',
+    description: 'Marque todo dia e veja a sequência crescer.',
+    pages: [
+      {
+        name: 'Hábitos',
+        view_type: 'habits',
+        lines: `Beber 2 litros de água\nLer 10 páginas /seg,qua,sex\nMeditar 5 minutos`,
+      },
+    ],
+  },
+];
+
 type TemplateItem = {
   title: string;
   priority: number;
@@ -165,7 +215,7 @@ export function templateData(template: BuiltInTemplate, today: string) {
       name: page.name,
       icon: page.icon ?? null,
       view_type: page.view_type ?? 'list',
-      reset_cycle: 'none',
+      reset_cycle: page.reset_cycle ?? 'none',
       items: parseBatchInput(page.lines, { today, meta: page.view_type === 'cards' }).map(
         (item) => ({ ...toItem(item), children: item.children.map(toItem) }),
       ),

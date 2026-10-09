@@ -9,6 +9,8 @@ export async function signUp(page: Page, testInfo: TestInfo) {
   await page.getByPlaceholder('E-mail').fill(email);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
   await page.getByRole('button', { name: 'Criar conta' }).click();
+  // Conta nova abre a introdução (fase6.spec.ts testa ela); aqui, pula
+  await page.getByRole('button', { name: 'Pular introdução' }).click();
   await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
   return email;
 }

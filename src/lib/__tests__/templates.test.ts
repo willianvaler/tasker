@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 
-import { BUILT_IN_TEMPLATES, templateData } from '../templates';
+import { BUILT_IN_TEMPLATES, STARTER_TEMPLATES, templateData } from '../templates';
 
 describe('modelos prontos', () => {
   test('os quatro do escopo existem', () => {
@@ -37,5 +37,28 @@ describe('modelos prontos', () => {
         expect(page.items.every((i) => !i.done)).toBe(true);
       }
     }
+  });
+});
+
+describe('pastas para começar (onboarding)', () => {
+  const data = (key: string) => {
+    const t = STARTER_TEMPLATES.find((x) => x.key === key);
+    if (!t) throw new Error(key);
+    return templateData(t, '2026-10-09');
+  };
+  test('treino em cards com séries e carga, reiniciando toda segunda', () => {
+    const page = data('treino').pages[0];
+    expect(page).toMatchObject({ view_type: 'cards', reset_cycle: 'weekly' });
+    expect(page.items[0]).toMatchObject({
+      title: 'Supino',
+      meta: { sets: 4, reps: 12, weight: '20kg' },
+    });
+  });
+  test('contas mensais e hábitos com dias da semana', () => {
+    expect(data('casa').pages[1].items[0].recurrence).toEqual({ type: 'monthly' });
+    expect(data('habitos').pages[0].items[1].recurrence).toEqual({
+      type: 'weekdays',
+      days: [1, 3, 5],
+    });
   });
 });

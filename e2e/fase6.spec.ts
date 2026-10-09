@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ageTask, signUp } from './helpers';
+import { ageTask, openTab, signUp } from './helpers';
 
 test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
@@ -76,4 +76,46 @@ test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando',
     getComputedStyle(document.documentElement).getPropertyValue('--background').trim(),
   );
   expect(background).toBe('2 6 23');
+});
+
+test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ page }, testInfo) => {
+  await page.goto('/');
+  await page.getByText('Não tenho conta').click();
+  await page.getByPlaceholder('Seu nome').fill('Nova Pessoa');
+  await page
+    .getByPlaceholder('E-mail')
+    .fill(`e2e-onb-${testInfo.project.name}-${Date.now()}@teste.local`);
+  await page.getByPlaceholder('Senha').fill('senha-forte-123');
+  await page.getByRole('button', { name: 'Criar conta' }).click();
+
+  // 1. Capturar
+  await expect(page.getByRole('heading', { name: 'Anote em 2 segundos' })).toBeVisible();
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Comprar pão amanhã !!');
+  await input.press('Enter');
+  await expect(page.getByText('✓ Tarefa criada na Caixa de entrada.')).toBeVisible();
+  await page.getByRole('button', { name: 'Próximo' }).click();
+
+  // 2. Organizar: cria a pasta de treino pronta
+  await expect(page.getByRole('heading', { name: 'Organize em pastas' })).toBeVisible();
+  await page.getByRole('button', { name: 'Criar pasta Academia' }).click();
+  await expect(page.getByText('🏋️ Academia ✓')).toBeVisible();
+  await page.getByRole('button', { name: 'Próximo' }).click();
+
+  // 3. Gamificação
+  await expect(page.getByRole('heading', { name: 'Ganhe XP fazendo' })).toBeVisible();
+  await expect(page.getByRole('switch', { name: 'Gamificação' })).toBeChecked();
+  const saved = page.waitForResponse(
+    (r) => r.url().includes('/profiles') && r.request().method() === 'PATCH' && r.ok(),
+  );
+  await page.getByRole('button', { name: 'Começar' }).click();
+  await saved;
+
+  await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
+  await openTab(page, 'Pastas');
+  await expect(page.getByRole('link', { name: /🏋️ Academia/ }).first()).toBeVisible();
+  // Vista uma vez, não volta
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Pastas' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Pular introdução' })).toHaveCount(0);
 });

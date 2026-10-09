@@ -1,19 +1,21 @@
-import { router, Stack } from 'expo-router';
+import { router, Stack, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { Platform, View } from 'react-native';
 
 import { OfflineBanner } from '@/components/offline-banner';
 import { Sidebar, useIsWide } from '@/components/sidebar';
+import { useProfile } from '@/lib/queries/profile';
 import { useRealtimeSync } from '@/providers/realtime';
 
 export default function AppLayout() {
   useCaptureShortcut();
   useRealtimeSync();
+  const onboarding = useOnboarding();
   const wide = useIsWide();
   return (
     // Em tela larga, a barra lateral fica ao lado da pilha e não some ao abrir uma página
     <View className="flex-1 flex-row bg-background">
-      {wide && <Sidebar />}
+      {wide && !onboarding && <Sidebar />}
       <View className="flex-1">
         <OfflineBanner />
         <Stack screenOptions={{ headerShown: false }}>
@@ -24,6 +26,7 @@ export default function AppLayout() {
           <Stack.Screen name="notifications" />
           <Stack.Screen name="clan" />
           <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
           <Stack.Screen name="task/[id]" options={{ presentation: 'modal' }} />
           <Stack.Screen
             name="capture"
@@ -34,6 +37,18 @@ export default function AppLayout() {
       </View>
     </View>
   );
+}
+
+/** Conta nova (sem onboarded_at) vai para a introdução de 3 passos. Devolve se está nela. */
+function useOnboarding() {
+  const profile = useProfile();
+  const pathname = usePathname();
+  // Só com o perfil buscado agora: o do cache do disco pode ser de antes de concluir a introdução
+  const pending = profile.isFetchedAfterMount && !!profile.data && !profile.data.onboarded_at;
+  useEffect(() => {
+    if (pending && pathname !== '/onboarding') router.replace('/onboarding');
+  }, [pending, pathname]);
+  return pathname === '/onboarding';
 }
 
 /** Na web: "N" ou Ctrl/Cmd+K abre a captura rápida de qualquer tela (ESCOPO 4.1). */
