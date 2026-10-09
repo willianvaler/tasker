@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
@@ -16,7 +17,7 @@ import { metaLabel } from './task-meta';
 import { useToggleWithUndo } from './task-row';
 
 /** Card grande (ESCOPO 4.3): o toque em qualquer parte marca/desmarca, com animação curta e vibração. */
-export function TaskCard({
+function TaskCardView({
   task,
   subtasks,
 }: {
@@ -55,7 +56,7 @@ export function TaskCard({
           done ? 'border-primary bg-primary/10' : 'border-border bg-card',
         )}
       >
-        <DragHandle label={task.title} />
+        <DragHandle label={task.title} taskId={task.id} />
         <View className="flex-1 gap-1">
           <Text
             className={cn(
@@ -88,3 +89,12 @@ export function TaskCard({
     </Animated.View>
   );
 }
+
+/** Card memoizado, pelo mesmo motivo da TaskRow (D57). */
+export const TaskCard = memo(
+  TaskCardView,
+  (a, b) =>
+    a.task === b.task &&
+    a.subtasks?.done === b.subtasks?.done &&
+    a.subtasks?.total === b.subtasks?.total,
+);

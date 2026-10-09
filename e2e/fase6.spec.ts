@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ageTask, openTab, signUp } from './helpers';
+import { ageTask, openTab, paste, shown, signUp } from './helpers';
 
 test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
@@ -118,4 +118,62 @@ test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ 
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Pastas' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Pular introdução' })).toHaveCount(0);
+});
+
+test('acessibilidade: reordenar pelo teclado, sem arrastar', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Teclado físico só no desktop');
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.click();
+  await paste(page, 'Primeira\nSegunda\nTerceira');
+  const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
+  await page.getByRole('button', { name: 'Criar 3' }).click();
+  await created;
+
+  const titles = () => shown(page, /^(Primeira|Segunda|Terceira)$/).allTextContents();
+  await expect.poll(titles).toEqual(['Primeira', 'Segunda', 'Terceira']);
+
+  await page.getByRole('button', { name: 'Arrastar Terceira' }).focus();
+  const saved = page.waitForResponse(
+    (r) => r.url().includes('/tasks') && r.request().method() === 'PATCH' && r.ok(),
+  );
+  await page.keyboard.press('ArrowUp');
+  await saved;
+  await expect.poll(titles).toEqual(['Primeira', 'Terceira', 'Segunda']);
+  await page.reload();
+  await expect.poll(titles).toEqual(['Primeira', 'Terceira', 'Segunda']);
+});
+
+test('performance: lista com 500 tarefas, marcar responde rápido', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Mede uma vez, no desktop');
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  await page.getByRole('textbox', { name: 'Nova tarefa' }).click();
+  await paste(page, Array.from({ length: 500 }, (_, i) => `Item ${i + 1}`).join('\n'));
+  const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
+  await page.getByRole('button', { name: 'Criar 500' }).click();
+  await created;
+  await page.reload();
+  await expect(page.getByText('Item 500', { exact: true })).toBeAttached({ timeout: 30_000 });
+
+  // Medido dentro da página: do clique até a tarefa sair da lista (o Playwright em si é lento
+  // para consultar 500 linhas). Meta do ESCOPO 9: < 100 ms; aqui com folga para máquina lenta.
+  const ms = await page.evaluate(async () => {
+    const label = 'Concluir Item 10';
+    const box = document.querySelector<HTMLElement>(`[aria-label="${label}"]`);
+    if (!box) throw new Error('sem a tarefa');
+    const t0 = performance.now();
+    box.click();
+    await new Promise<void>((resolve) => {
+      const check = () =>
+        document.querySelector(`[aria-label="${label}"]`)
+          ? requestAnimationFrame(check)
+          : resolve();
+      check();
+    });
+    return performance.now() - t0;
+  });
+  expect(ms).toBeLessThan(150);
 });

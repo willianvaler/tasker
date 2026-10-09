@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import * as Haptics from 'expo-haptics';
 import { Platform, Pressable, Text, TextInput, View } from 'react-native';
 
@@ -53,7 +53,7 @@ export function useToggleWithUndo() {
   };
 }
 
-export function TaskRow({
+function TaskRowView({
   task,
   today,
   subtasks,
@@ -84,7 +84,7 @@ export function TaskRow({
 
   return (
     <View className="min-h-14 flex-row items-center border-b border-border bg-background">
-      {draggable && <DragHandle label={task.title} />}
+      {draggable && <DragHandle label={task.title} taskId={task.id} />}
       <Checkbox
         checked={done}
         disabled={!writable}
@@ -137,3 +137,21 @@ export function TaskRow({
     </View>
   );
 }
+
+type Subtasks = { done: number; total: number } | undefined;
+const sameSubtasks = (a: Subtasks, b: Subtasks) => a?.done === b?.done && a?.total === b?.total;
+
+/**
+ * Linha de tarefa memoizada (D57): numa lista de 500, marcar uma não re-renderiza as outras 499.
+ * As tarefas que não mudaram mantêm o mesmo objeto (patchTaskLists); `subtasks` é recriado a cada
+ * mudança, então compara pelo conteúdo.
+ */
+export const TaskRow = memo(
+  TaskRowView,
+  (a, b) =>
+    a.task === b.task &&
+    a.today === b.today &&
+    a.pageLabel === b.pageLabel &&
+    a.draggable === b.draggable &&
+    sameSubtasks(a.subtasks, b.subtasks),
+);

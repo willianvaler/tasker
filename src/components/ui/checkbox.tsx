@@ -1,8 +1,18 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { cn } from '@/lib/cn';
 
-/** Caixa de marcar com área de toque de 44px (a caixa visível é menor). */
+/**
+ * Caixa de marcar com área de toque de 44px (a caixa visível é menor). Ao marcar, dá um pulso
+ * curto (o Reanimated respeita o "reduzir movimento" do sistema).
+ */
 export function Checkbox({
   checked,
   onChange,
@@ -14,6 +24,9 @@ export function Checkbox({
   disabled?: boolean;
   label: string;
 }) {
+  const scale = useSharedValue(1);
+  const pulse = useAnimatedStyle(() => ({ transform: [{ scale: scale.get() }] }));
+
   return (
     <Pressable
       accessibilityRole="checkbox"
@@ -24,16 +37,33 @@ export function Checkbox({
       disabled={disabled}
       hitSlop={4}
       className={cn('h-11 w-11 items-center justify-center', disabled && 'opacity-50')}
-      onPress={() => onChange(!checked)}
+      onPress={() => {
+        if (!checked)
+          scale.set(
+            withSequence(withTiming(1.3, { duration: 90 }), withSpring(1, { damping: 10 })),
+          );
+        onChange(!checked);
+      }}
     >
-      <View
-        className={cn(
-          'h-6 w-6 items-center justify-center rounded-full border-2',
-          checked ? 'border-primary bg-primary' : 'border-muted-foreground',
-        )}
-      >
-        {checked && <Text className="text-xs font-bold text-primary-foreground">✓</Text>}
-      </View>
+      <Animated.View style={pulse}>
+        {/* Classes num View comum dentro do Animated.View: o NativeWind não estiliza o Animated.View */}
+        <CheckCircle checked={checked} />
+      </Animated.View>
     </Pressable>
+  );
+}
+
+function CheckCircle({ checked }: { checked: boolean }) {
+  return (
+    <Text
+      className={cn(
+        'h-6 w-6 overflow-hidden rounded-full border-2 text-center text-xs font-bold leading-5',
+        checked
+          ? 'border-primary bg-primary text-primary-foreground'
+          : 'border-muted-foreground text-transparent',
+      )}
+    >
+      ✓
+    </Text>
   );
 }

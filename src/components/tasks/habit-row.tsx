@@ -68,7 +68,7 @@ export function HabitRow({
 
   return (
     <View className="min-h-16 flex-row items-center border-b border-border bg-background">
-      {draggable && <DragHandle label={task.title} />}
+      {draggable && <DragHandle label={task.title} taskId={task.id} />}
       <Checkbox
         checked={done}
         disabled={!writable}
