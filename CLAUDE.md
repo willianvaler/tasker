@@ -6,7 +6,7 @@
 
 ## Estado atual
 
-**Fases 0 a 5 concluídas.** Próxima: Fase 6 (polimento: acessibilidade, performance, animações, onboarding em 3 passos, e-mail/push com `expo-notifications`, kanban, publicação nas lojas). Barra lateral e telas de pasta em D32; gamificação em D33 a D39; projetos colaborativos em D40 a D48; clã, bosses cooperativos, fila offline e privacidade em D49 a D53.
+**Fases 0 a 6 concluídas** (todas as do ESCOPO). Falta só o que depende do dono do projeto (contas das lojas e do EAS, nome/ícone, domínio, e-mail, teste em aparelho): veja `PUBLICACAO.md`. Barra lateral e telas de pasta em D32; gamificação em D33 a D39; projetos em D40 a D48; clã, bosses cooperativos, fila offline e privacidade em D49 a D53; Fase 6 (kanban, tema, onboarding, acessibilidade/performance, push, publicação) em D54 a D59.
 
 ## Stack
 
@@ -45,6 +45,8 @@ src/
     (app)/templates.tsx       # Usar modelo (prontos + salvos)
     (app)/clan.tsx            # Clã: criar, boss da semana com destaques, membros, convite, feed, sair
     clan-invite/[token].tsx   # Convite do clã, FORA do login (como o de projeto)
+    privacidade.tsx           # Política de privacidade, pública (as lojas pedem o endereço)
+    (app)/onboarding.tsx      # Introdução em 3 passos (conta nova sem profiles.onboarded_at)
     invite/[token].tsx        # Link de convite, FORA do login: prévia, cria conta, entra, escolhe o nome pendente
     (app)/page/[id].tsx       # Página (lista, cards ou hábitos) + menu: configurar, duplicar
     (app)/task/[id].tsx       # Detalhes da tarefa (modal): notas, data, prioridade, etiquetas, subtarefas, mover, apagar
@@ -62,9 +64,10 @@ src/
     project-boss.tsx          # Boss de projeto com prazo: chamar, barra, destaques, desistir
     boss-board.tsx            # Quadro de contribuição (só destaques, sem último lugar)
     privacy-section.tsx       # Perfil: exportar (JSON/CSV) e excluir conta
+    push-setting.tsx          # Perfil: avisos no celular (push); na web, explica o 🔔
     notifications-bell.tsx    # Sino com contador (Hoje) e Badge
     sign-in-form.tsx          # Formulário de entrar/criar conta (login e convite)
-    tasks/                    # PageView (escolhe a visão pelo tipo), TaskRow (+ useToggleWithUndo), TaskCard,
+    tasks/                    # PageView (escolhe a visão pelo tipo), TaskRow (+ useToggleWithUndo), TaskCard, KanbanBoard,
                               # assignee-chips (AssigneeChips, MentionChips), task-collab (AssigneesEditor, Comments),
                               # HabitRow (+ useHabitDates), SortableTasks/DragHandle, TaskMeta, QuickAdd,
                               # task-extras (RecurrenceEditor, MetaEditor, HabitHistory)
@@ -77,13 +80,15 @@ src/
     members.ts                # nameKey/memberMatches/resolveMention (espelho do banco), toAssignees, initials
     progress.ts, activity.ts, notifications.ts, templates.ts, board.ts, export.ts   # funções puras, com testes
     download(.web).ts         # saveTextFile: baixa no navegador; no celular grava e abre o Compartilhar
+    push(.web).ts             # registro do aparelho para push e toque no aviso; na web, nada
     gamification.config.ts    # Valores de XP/anti-farm/nível/boss (espelho de public.xp_rules(), teste compara)
     gamification.ts           # levelFromXp/xpToNext (espelho do banco), rewardMessage
     recurrence.ts             # nextDueDate (espelho do banco), habitStreak, rótulos de recorrência
     positions.ts              # positionAfterMove (arrastar)
     supabase.ts, storage(.web).ts, db.ts, database.types.ts (GERADO), prefs.ts, batch-draft.ts
   providers/                  # session, query (cache persistido + clearQueryCache), online (useIsOnline), toast,
-                              # write (useCanWrite/WriteScope: conexão + papel), realtime (useRealtimeSync)
+                              # write (useCanWrite/WriteScope: conexão + papel), realtime (useRealtimeSync),
+                              # theme (Sistema/Claro/Escuro, D55)
   global.css
 supabase/
   migrations/                 # 1: base + RLS · 2: Fase 1 (due_date, labels, complete/uncomplete, create_tasks_batch)
@@ -92,6 +97,8 @@ supabase/
                               # 5: Fase 4 (invites, task_assignees, comments, activity_log, notifications, user_templates, Realtime)
                               # 6: Fase 5 (clans, clan_members/invites/activity, boss de clã e de projeto, boss_board,
                               #    export_my_data, delete_my_account)
+                              # 7-9: Fase 6 (set_task_status do kanban, onboarded_at, push_tokens + app_config + pg_net)
+  functions/                  # Edge Functions (Deno): push/ e _shared/ (texto das notificações, usado também pelo app)
   tests/                      # pgTAP (*.test.sql)
 e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, shown, createPage, ageCycle, ageTask)
 ```
@@ -118,6 +125,9 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 - **Diálogos:** use os de `components/ui/dialog.tsx`. O `Alert` do React Native não tem botões na web.
 - **Atalhos de teclado na web:** escute `keydown` na fase de captura (`addEventListener(..., true)`); o `TextInput` do react-native-web para a propagação.
 - **Depois de mudar o banco:** `npm run db:reset` (ou só aplicar a migração), `npm run db:test` e `npm run db:types`.
+- **Listas longas:** `TaskRow` e `TaskCard` são memoizadas; não passe objetos recriados a cada render como props delas (compare pelo conteúdo no `memo`). Acima de `SORTABLE_LIMIT` itens a lista não usa a grade de arrastar (D57).
+- **Classes do NativeWind não pegam em `Animated.View`**: ponha a classe num `View` comum dentro dele (ProgressBar, Checkbox).
+- **`mutate(..., { onSuccess })` não dispara se o componente desmontar antes da resposta** (ex.: card que muda de coluna no kanban): deixe a mutação num componente que continua na tela.
 - **Estilos com classes do NativeWind** usando as cores do tema (`bg-background`, `text-foreground`, `text-muted-foreground`, `border-border`, `bg-primary`...). Nada de cor fixa, para o modo escuro funcionar.
 - **Campos de captura rápida** usam `submitBehavior="submit"` para não perder o foco no Enter; o `Input` traduz isso para a web (o react-native-web só entende o antigo `blurOnSubmit`).
 - **Diferenças de plataforma** vão em arquivos `.web.ts(x)` / `.native.ts(x)` ou `Platform.OS`, nunca quebrando a outra plataforma.

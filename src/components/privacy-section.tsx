@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 
@@ -60,6 +61,9 @@ export function PrivacySection() {
   return (
     <View className="gap-2">
       <Text className="font-semibold text-foreground">Seus dados</Text>
+      <Link href="/privacidade" className="text-sm text-primary">
+        Política de privacidade
+      </Link>
       <Text className="text-sm text-muted-foreground">
         Baixe tudo o que é seu: pastas, páginas, tarefas, histórico de XP, conquistas e comentários.
       </Text>

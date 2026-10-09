@@ -70,6 +70,8 @@ function RootNavigator() {
       {/* Link de convite: abre com ou sem login (cria a conta ali mesmo) */}
       <Stack.Screen name="invite/[token]" />
       <Stack.Screen name="clan-invite/[token]" />
+      {/* Política de privacidade: pública (as lojas pedem o endereço) */}
+      <Stack.Screen name="privacidade" />
     </Stack>
   );
 }

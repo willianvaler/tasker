@@ -186,3 +186,9 @@ test('avisos: na web, o Perfil explica que ficam no sino', async ({ page }, test
   await expect(page.getByText(/No navegador, os avisos aparecem no sino/)).toBeVisible();
   await expect(page.getByRole('switch', { name: 'Avisos no celular' })).toHaveCount(0);
 });
+
+test('política de privacidade é pública (sem login)', async ({ page }) => {
+  await page.goto('/privacidade');
+  await expect(page.getByRole('heading', { name: 'Política de privacidade' })).toBeVisible();
+  await expect(page.getByText(/Não vendemos nem compartilhamos seus dados/)).toBeVisible();
+});
