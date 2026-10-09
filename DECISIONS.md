@@ -125,3 +125,5 @@ Registro das decisões de produto e de técnica. A mais nova fica no fim. Format
 ## 2026-10-09 — Fase 6
 
 **D54. Kanban com três colunas fixas (A fazer / Fazendo / Feito), usando o `status` que a tarefa já tinha.** Mover é por botões ◀ ▶ em cada card (funciona com toque, teclado e leitor de tela), não por arrastar entre colunas. O RPC `set_task_status` é o único caminho: ir para Feito é `complete_task` (XP, bosses, histórico) e sair de Feito é `uncomplete_task`. Entra na fila offline. Página kanban nunca reinicia por ciclo. Colunas personalizadas ficam para depois.
+
+**D55. Tema manual: Sistema, Claro ou Escuro** (resolve a pendência da D21). As cores escuras ficam em `.dark:root` no `global.css` (antes em `@media`). No celular, `colorScheme.set` do NativeWind troca o `Appearance` ("Sistema" volta a seguir o aparelho). Na web, o NativeWind só põe e tira a classe `dark` no `<html>`, então `providers/theme.tsx` resolve "Sistema" pelo `prefers-color-scheme` e acompanha a troca. A escolha é do aparelho (preferência local), não da conta: continua ao sair. A navegação usa o `useColorScheme` do NativeWind, que segue a escolha.

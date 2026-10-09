@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Cores do tema em RGB (sem vírgulas), usadas pelo tailwind.config.js. O escuro segue o sistema. */
+/* Cores do tema em RGB (sem vírgulas), usadas pelo tailwind.config.js. O escuro vale com a classe
+   "dark" (D55): no celular o NativeWind a aplica pelo Appearance; na web, providers/theme.tsx põe e
+   tira a classe no <html> conforme a escolha (Sistema, Claro, Escuro). */
 @layer base {
   :root {
     --background: 255 255 255;
@@ -16,17 +18,15 @@
     --destructive: 220 38 38;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: 2 6 23;
-      --foreground: 241 245 249;
-      --card: 15 23 42;
-      --muted: 30 41 59;
-      --muted-foreground: 148 163 184;
-      --border: 51 65 85;
-      --primary: 167 139 250;
-      --primary-foreground: 2 6 23;
-      --destructive: 248 113 113;
-    }
+  .dark:root {
+    --background: 2 6 23;
+    --foreground: 241 245 249;
+    --card: 15 23 42;
+    --muted: 30 41 59;
+    --muted-foreground: 148 163 184;
+    --border: 51 65 85;
+    --primary: 167 139 250;
+    --primary-foreground: 2 6 23;
+    --destructive: 248 113 113;
   }
 }

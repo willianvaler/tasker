@@ -7,13 +7,15 @@ import { PrivacySection } from '@/components/privacy-section';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
+import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
-import { clearPrefs } from '@/lib/prefs';
+import { clearPrefs, type ThemePreference } from '@/lib/prefs';
 import { useProfile, useUpdateProfile, type Profile } from '@/lib/queries/profile';
 import { supabase } from '@/lib/supabase';
 import { useIsOnline } from '@/providers/online';
 import { clearQueryCache } from '@/providers/query';
 import { useSession } from '@/providers/session';
+import { useThemePreference } from '@/providers/theme';
 
 const deviceTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -47,6 +49,8 @@ function ProfileForm({ profile }: { profile: Profile }) {
   return (
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-28">
       <Text className="text-muted-foreground">{session?.user.email}</Text>
+
+      <ThemeChooser />
 
       <GameProfile />
       <Button
@@ -108,6 +112,33 @@ function ProfileForm({ profile }: { profile: Profile }) {
         <Button variant="outline" label="Sair da conta" onPress={signOut} />
       </View>
     </ScrollView>
+  );
+}
+
+const THEMES: { value: ThemePreference; label: string }[] = [
+  { value: 'system', label: 'Sistema' },
+  { value: 'light', label: '☀️ Claro' },
+  { value: 'dark', label: '🌙 Escuro' },
+];
+
+/** Tema do aparelho (D55): "Sistema" segue o claro/escuro do celular ou do computador. */
+function ThemeChooser() {
+  const { preference, setPreference } = useThemePreference();
+  return (
+    <View className="gap-1">
+      <Text className="font-semibold text-foreground">Aparência</Text>
+      <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+        {THEMES.map((t) => (
+          <Chip
+            key={t.value}
+            role="radio"
+            label={t.label}
+            selected={preference === t.value}
+            onPress={() => setPreference(t.value)}
+          />
+        ))}
+      </View>
+    </View>
   );
 }
 

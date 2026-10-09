@@ -44,3 +44,36 @@ test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page 
   await page.reload();
   await expect(page.getByLabel('Coluna Fazendo').getByText(title)).toBeVisible();
 });
+
+test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await signUp(page, testInfo);
+  const html = page.locator('html');
+  // Sistema (padrão) com o navegador escuro
+  await expect(html).toHaveClass(/dark/);
+
+  await page
+    .getByRole('navigation')
+    .getByRole('link', { name: /Perfil/ })
+    .click();
+  await page.getByRole('radio', { name: '☀️ Claro' }).click();
+  await expect(html).not.toHaveClass(/dark/);
+  await page.reload();
+  await expect(page.getByRole('radio', { name: '☀️ Claro' })).toBeVisible();
+  await expect(html).not.toHaveClass(/dark/);
+
+  await page.getByRole('radio', { name: 'Sistema' }).click();
+  await expect(html).toHaveClass(/dark/);
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(html).not.toHaveClass(/dark/);
+
+  await page.getByRole('radio', { name: '🌙 Escuro' }).click();
+  await expect(html).toHaveClass(/dark/);
+  const background = await page.evaluate(() =>
+    getComputedStyle(document.documentElement).getPropertyValue('--background').trim(),
+  );
+  expect(background).toBe('2 6 23');
+});

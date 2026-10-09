@@ -1,14 +1,15 @@
 import '../global.css';
 
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider as NavThemeProvider } from 'expo-router';
+import { useColorScheme } from 'nativewind';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { QueryProvider } from '@/providers/query';
 import { SessionProvider, useSession } from '@/providers/session';
+import { ThemeProvider } from '@/providers/theme';
 import { ToastProvider } from '@/providers/toast';
 
 SplashScreen.preventAutoHideAsync();
@@ -21,21 +22,30 @@ const lightNavTheme = {
 const darkNavTheme = { ...DarkTheme, colors: { ...DarkTheme.colors, primary: 'rgb(167 139 250)' } };
 
 export default function RootLayout() {
-  const scheme = useColorScheme();
   return (
     // GestureHandlerRootView: necessário para arrastar (react-native-sortables)
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={scheme === 'dark' ? darkNavTheme : lightNavTheme}>
-        <SessionProvider>
-          <QueryProvider>
-            <ToastProvider>
-              <StatusBar style="auto" />
-              <RootNavigator />
-            </ToastProvider>
-          </QueryProvider>
-        </SessionProvider>
+      <ThemeProvider>
+        <ThemedApp />
       </ThemeProvider>
     </GestureHandlerRootView>
+  );
+}
+
+function ThemedApp() {
+  // Do NativeWind: segue a escolha de tema (Sistema, Claro, Escuro), não só o sistema
+  const { colorScheme } = useColorScheme();
+  return (
+    <NavThemeProvider value={colorScheme === 'dark' ? darkNavTheme : lightNavTheme}>
+      <SessionProvider>
+        <QueryProvider>
+          <ToastProvider>
+            <StatusBar style="auto" />
+            <RootNavigator />
+          </ToastProvider>
+        </QueryProvider>
+      </SessionProvider>
+    </NavThemeProvider>
   );
 }
 

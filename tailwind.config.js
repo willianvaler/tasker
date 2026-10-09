@@ -2,9 +2,8 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
-  // 'class' só para o NativeWind não lançar erro no dev da web (ele observa a classe do <html> e,
-  // em 'media', recusa o ajuste). As cores continuam seguindo o sistema pelo @media do global.css,
-  // e o app não usa variantes dark: (D21).
+  // 'class': o tema escuro vem da classe "dark" (as variáveis em .dark:root do global.css). No
+  // celular o NativeWind a aplica pelo Appearance; na web, providers/theme.tsx (D55).
   darkMode: 'class',
   theme: {
     extend: {
