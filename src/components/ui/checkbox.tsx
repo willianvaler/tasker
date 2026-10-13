@@ -1,18 +1,21 @@
-import { Pressable } from 'react-native';
+import { useEffect } from 'react';
+import { Pressable, View } from 'react-native';
 import Animated, {
+  Easing,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
-  withSequence,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import Svg, { Path, Rect } from 'react-native-svg';
 
-import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
+import { DURATION, useColors } from '@/lib/tokens';
 
 /**
- * Caixa de marcar com área de toque de 44px (a caixa visível é menor). Ao marcar, dá um pulso
- * curto (o Reanimated respeita o "reduzir movimento" do sistema).
+ * Caixa de marcar "carimbo" (docs/DESIGN.md): marcada, vira um X traçado à mão no acento, que
+ * aparece com um "carimbar" curto. A caixa visível tem 18 px; a área de toque, 44 px no celular e
+ * 32 px no computador. Com "reduzir movimento", aparece direto.
  */
 export function Checkbox({
   checked,
@@ -25,8 +28,23 @@ export function Checkbox({
   disabled?: boolean;
   label: string;
 }) {
-  const scale = useSharedValue(1);
-  const pulse = useAnimatedStyle(() => ({ transform: [{ scale: scale.get() }] }));
+  const colors = useColors();
+  const reduced = useReducedMotion();
+  const stamp = useSharedValue(checked ? 1 : 0);
+
+  useEffect(() => {
+    const to = checked ? 1 : 0;
+    stamp.set(
+      reduced || !checked
+        ? to
+        : withTiming(to, { duration: DURATION.slow, easing: Easing.out(Easing.quad) }),
+    );
+  }, [checked, reduced, stamp]);
+
+  const mark = useAnimatedStyle(() => ({
+    opacity: stamp.get(),
+    transform: [{ scale: 1.4 - 0.4 * stamp.get() }, { rotate: `${(1 - stamp.get()) * -8}deg` }],
+  }));
 
   return (
     <Pressable
@@ -37,32 +55,41 @@ export function Checkbox({
       accessibilityLabel={label}
       disabled={disabled}
       hitSlop={4}
-      className={cn('h-11 w-11 items-center justify-center', disabled && 'opacity-50')}
-      onPress={() => {
-        if (!checked)
-          scale.set(
-            withSequence(withTiming(1.3, { duration: 90 }), withSpring(1, { damping: 10 })),
-          );
-        onChange(!checked);
-      }}
-    >
-      <Animated.View style={pulse}>
-        {/* Classes num View comum dentro do Animated.View: o NativeWind não estiliza o Animated.View */}
-        <CheckCircle checked={checked} />
-      </Animated.View>
-    </Pressable>
-  );
-}
-
-function CheckCircle({ checked }: { checked: boolean }) {
-  return (
-    <Text
       className={cn(
-        'h-6 w-6 overflow-hidden rounded-full border-2 text-center text-xs font-semibold ',
-        checked ? 'border-accent bg-accent text-on-accent' : 'border-ink-muted text-transparent',
+        'h-11 w-11 items-center justify-center md:h-8 md:w-8',
+        disabled && 'opacity-40',
       )}
+      onPress={() => onChange(!checked)}
     >
-      ✓
-    </Text>
+      <View style={{ width: 18, height: 18 }}>
+        <Svg width={18} height={18} viewBox="0 0 18 18">
+          <Rect
+            x={0.75}
+            y={0.75}
+            width={16.5}
+            height={16.5}
+            rx={3}
+            fill="none"
+            stroke={checked ? colors.accent : colors['ink-muted']}
+            strokeWidth={1.5}
+          />
+        </Svg>
+        <Animated.View
+          pointerEvents="none"
+          style={[{ position: 'absolute', left: -3, top: -3, width: 24, height: 24 }, mark]}
+        >
+          <Svg width={24} height={24} viewBox="0 0 20 20">
+            {/* Dois traços levemente curvos, como um X de caneta */}
+            <Path
+              d="M4 5.5 C8 9 12 13 16.5 15.5 M15.5 4.5 C12 8 8 12.5 4.5 15.8"
+              stroke={colors.accent}
+              strokeWidth={2.2}
+              strokeLinecap="round"
+              fill="none"
+            />
+          </Svg>
+        </Animated.View>
+      </View>
+    </Pressable>
   );
 }

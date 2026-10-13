@@ -13,10 +13,11 @@ import {
   User,
   Users,
 } from 'lucide-react-native';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { Button, IconButton } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
@@ -44,6 +45,7 @@ export default function DesignScreen() {
         <Icons />
         <Buttons />
         <Inputs />
+        <Checkboxes />
       </View>
     </ScrollView>
   );
@@ -181,6 +183,19 @@ function Inputs() {
         <Input placeholder="Nome (ex.: Academia)" />
         <Input value="Treino A" onChangeText={() => {}} />
         <Input placeholder="Desabilitado" editable={false} className="opacity-40" />
+      </View>
+    </Section>
+  );
+}
+
+function Checkboxes() {
+  const [checked, setChecked] = useState(true);
+  return (
+    <Section title="Caixa de marcar (carimbo)">
+      <View className="flex-row items-center gap-4">
+        <Checkbox label="Exemplo" checked={checked} onChange={setChecked} />
+        <Checkbox label="Desmarcada" checked={false} onChange={() => {}} />
+        <Checkbox label="Desabilitada" checked disabled onChange={() => {}} />
       </View>
     </Section>
   );
