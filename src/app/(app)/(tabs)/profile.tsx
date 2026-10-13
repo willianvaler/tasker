@@ -24,7 +24,7 @@ const deviceTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 export default function ProfileScreen() {
   const profile = useProfile();
   return (
-    <Screen>
+    <Screen size="wide">
       <ScreenHeader title="Perfil" />
       {profile.data ? <ProfileForm key={profile.data.id} profile={profile.data} /> : null}
     </Screen>
@@ -51,71 +51,80 @@ function ProfileForm({ profile }: { profile: Profile }) {
   }
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-28">
-      <Text className="text-muted-foreground">{session?.user.email}</Text>
+    <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-28">
+      {/* Computador: conta à esquerda, jogo e conquistas à direita (D67) */}
+      <View className="gap-8 lg:flex-row-reverse lg:items-start">
+        <View className="gap-4 lg:flex-[3]">
+          <GameProfile />
+          <View className="flex-row flex-wrap gap-2">
+            <Button
+              variant="outline"
+              label="🧙 Personagem"
+              onPress={() => router.push('/character')}
+            />
+            <Button variant="outline" label="🛒 Loja" onPress={() => router.push('/shop')} />
+            <Button variant="outline" label="🛡️ Clã" onPress={() => router.push('/clan')} />
+          </View>
+        </View>
+        <View className="gap-4 lg:flex-[2]">
+          <Text className="text-muted-foreground">{session?.user.email}</Text>
 
-      <ThemeChooser />
+          <ThemeChooser />
 
-      <PushSetting />
+          <PushSetting />
 
-      <GameProfile />
-      <Button
-        variant="outline"
-        className="self-start"
-        label="🛡️ Clã"
-        onPress={() => router.push('/clan')}
-      />
+          <View className="gap-1">
+            <Text className="font-semibold text-foreground">Nome</Text>
+            <Input
+              value={name}
+              onChangeText={setName}
+              maxLength={50}
+              editable={online}
+              accessibilityLabel="Nome"
+            />
+          </View>
 
-      <View className="gap-1">
-        <Text className="font-semibold text-foreground">Nome</Text>
-        <Input
-          value={name}
-          onChangeText={setName}
-          maxLength={50}
-          editable={online}
-          accessibilityLabel="Nome"
-        />
-      </View>
+          <View className="gap-1">
+            <Text className="font-semibold text-foreground">Fuso horário</Text>
+            <Text className="text-sm text-muted-foreground">
+              Define quando o dia vira para &quot;Hoje&quot; e &quot;Atrasadas&quot;.
+            </Text>
+            <Input
+              value={timezone}
+              onChangeText={setTimezone}
+              autoCapitalize="none"
+              editable={online}
+              accessibilityLabel="Fuso horário"
+            />
+            {!validTimezone && (
+              <Text className="text-sm text-destructive">
+                Fuso desconhecido (ex.: America/Sao_Paulo).
+              </Text>
+            )}
+            {deviceTimezone && deviceTimezone !== timezone && (
+              <Button
+                variant="ghost"
+                label={`Usar o do aparelho (${deviceTimezone})`}
+                onPress={() => setTimezone(deviceTimezone)}
+              />
+            )}
+          </View>
 
-      <View className="gap-1">
-        <Text className="font-semibold text-foreground">Fuso horário</Text>
-        <Text className="text-sm text-muted-foreground">
-          Define quando o dia vira para &quot;Hoje&quot; e &quot;Atrasadas&quot;.
-        </Text>
-        <Input
-          value={timezone}
-          onChangeText={setTimezone}
-          autoCapitalize="none"
-          editable={online}
-          accessibilityLabel="Fuso horário"
-        />
-        {!validTimezone && (
-          <Text className="text-sm text-destructive">
-            Fuso desconhecido (ex.: America/Sao_Paulo).
-          </Text>
-        )}
-        {deviceTimezone && deviceTimezone !== timezone && (
+          {update.error && (
+            <Text className="text-destructive">Não deu para salvar: {update.error.message}</Text>
+          )}
           <Button
-            variant="ghost"
-            label={`Usar o do aparelho (${deviceTimezone})`}
-            onPress={() => setTimezone(deviceTimezone)}
+            label="Salvar"
+            disabled={!changed || !validTimezone || !name.trim() || !online}
+            loading={update.isPending}
+            onPress={() => update.mutate({ display_name: name.trim(), timezone: timezone.trim() })}
           />
-        )}
-      </View>
 
-      {update.error && (
-        <Text className="text-destructive">Não deu para salvar: {update.error.message}</Text>
-      )}
-      <Button
-        label="Salvar"
-        disabled={!changed || !validTimezone || !name.trim() || !online}
-        loading={update.isPending}
-        onPress={() => update.mutate({ display_name: name.trim(), timezone: timezone.trim() })}
-      />
-
-      <View className="mt-6 gap-6 border-t border-border pt-4">
-        <PrivacySection />
-        <Button variant="outline" label="Sair da conta" onPress={signOut} />
+          <View className="mt-6 gap-6 border-t border-border pt-4">
+            <PrivacySection />
+            <Button variant="outline" label="Sair da conta" onPress={signOut} />
+          </View>
+        </View>
       </View>
     </ScrollView>
   );

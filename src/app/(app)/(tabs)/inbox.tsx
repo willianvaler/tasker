@@ -6,7 +6,7 @@ import { useTree } from '@/lib/queries/tree';
 export default function InboxScreen() {
   const tree = useTree();
   return (
-    <Screen>
+    <Screen size="medium">
       <ScreenHeader title="📥 Caixa de entrada" />
       <PageView page={tree.data?.inbox ?? undefined} />
     </Screen>

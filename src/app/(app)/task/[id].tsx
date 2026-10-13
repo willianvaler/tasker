@@ -6,7 +6,12 @@ import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { useHabitDates } from '@/components/tasks/habit-row';
-import { HabitHistory, MetaEditor, RecurrenceEditor } from '@/components/tasks/task-extras';
+import {
+  HabitHistory,
+  HabitKindEditor,
+  MetaEditor,
+  RecurrenceEditor,
+} from '@/components/tasks/task-extras';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
 import type { Json } from '@/lib/db';
 import { asRecurrence } from '@/lib/recurrence';
@@ -95,12 +100,15 @@ function TaskDetails({ task }: { task: Task }) {
         <ScreenHeader title={task.parent_task_id ? 'Subtarefa' : 'Tarefa'} back />
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 pb-10">
           <View className="flex-row items-start">
-            <Checkbox
-              checked={done}
-              disabled={!writable}
-              label={done ? 'Reabrir' : 'Concluir'}
-              onChange={(checked) => toggle(task, checked)}
-            />
+            {/* Contador e bom/ruim se marcam pelo + e − da linha do hábito */}
+            {(!isHabit || task.habit_kind === 'check') && (
+              <Checkbox
+                checked={done}
+                disabled={!writable}
+                label={done ? 'Reabrir' : 'Concluir'}
+                onChange={(checked) => toggle(task, checked)}
+              />
+            )}
             <TextInput
               value={title}
               onChangeText={setTitle}
@@ -134,6 +142,12 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
 
           {isHabit && !task.parent_task_id && (
+            <Section title="Tipo de hábito">
+              <HabitKindEditor task={task} onSave={save} />
+            </Section>
+          )}
+
+          {isHabit && !task.parent_task_id && task.habit_kind !== 'plusminus' && (
             <Section title="Histórico">
               <HabitHistory task={task} dates={habitDates.datesOf(task)} today={today} />
             </Section>
@@ -185,7 +199,7 @@ function TaskDetails({ task }: { task: Task }) {
             </Section>
           )}
 
-          {!task.parent_task_id && (
+          {!task.parent_task_id && task.habit_kind !== 'plusminus' && (
             <Section title="Repetição">
               <RecurrenceEditor
                 habit={isHabit}

@@ -5,6 +5,7 @@ import { useFolderActions } from '@/components/folder-actions';
 import { folderLabel, folderSummary, MenuButton, PageTile } from '@/components/folder-cards';
 import { ProjectOverview } from '@/components/project-overview';
 import { Screen } from '@/components/screen';
+import { Grid } from '@/components/ui/grid';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { findFolder, useTree } from '@/lib/queries/tree';
@@ -35,7 +36,7 @@ export default function FolderScreen() {
   const empty = !!folder && folder.pages.length === 0 && children.length === 0;
 
   return (
-    <Screen>
+    <Screen size="wide">
       <ScreenHeader
         title={folder ? folderLabel(folder) : ''}
         back
@@ -83,13 +84,15 @@ export default function FolderScreen() {
             <ProjectOverview root={folder} />
           </View>
         )}
-        {folder?.pages.map((page) => (
-          <PageTile
-            key={page.id}
-            page={page}
-            onMenu={writable ? () => actions.pageMenu(page) : undefined}
-          />
-        ))}
+        <Grid gap={8}>
+          {folder?.pages.map((page) => (
+            <PageTile
+              key={page.id}
+              page={page}
+              onMenu={writable ? () => actions.pageMenu(page) : undefined}
+            />
+          ))}
+        </Grid>
         {empty && (
           <View className="mt-8 items-center gap-2">
             <Text className="text-center text-muted-foreground">
@@ -120,13 +123,15 @@ export default function FolderScreen() {
                 <MenuButton label={folderLabel(child)} onPress={() => actions.folderMenu(child)} />
               )}
             </View>
-            {child.pages.map((page) => (
-              <PageTile
-                key={page.id}
-                page={page}
-                onMenu={writable ? () => actions.pageMenu(page) : undefined}
-              />
-            ))}
+            <Grid gap={8}>
+              {child.pages.map((page) => (
+                <PageTile
+                  key={page.id}
+                  page={page}
+                  onMenu={writable ? () => actions.pageMenu(page) : undefined}
+                />
+              ))}
+            </Grid>
             {child.pages.length === 0 && online && (
               <Pressable
                 accessibilityRole="button"

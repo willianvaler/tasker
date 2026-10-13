@@ -65,7 +65,8 @@ export function PrivacySection() {
         Política de privacidade
       </Link>
       <Text className="text-sm text-muted-foreground">
-        Baixe tudo o que é seu: pastas, páginas, tarefas, histórico de XP, conquistas e comentários.
+        Baixe tudo o que é seu: pastas, páginas, tarefas, histórico de XP, personagem e itens,
+        conquistas e comentários.
       </Text>
       <View className="flex-row flex-wrap gap-2">
         <Button

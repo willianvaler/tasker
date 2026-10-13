@@ -82,7 +82,7 @@ export default function ClanScreen() {
   const boss = game.data?.clan_boss;
 
   return (
-    <Screen>
+    <Screen size="medium">
       <ScreenHeader title={`${data.icon || '🛡️'} ${data.name}`} back />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 pb-12">
         {boss && game.data?.enabled !== false && (

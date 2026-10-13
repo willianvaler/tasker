@@ -209,7 +209,7 @@ function CardsBody({
       </View>
       <SortableTasks
         tasks={tasks}
-        columns={width >= 700 ? 2 : 1}
+        columns={width >= 1200 ? 3 : width >= 700 ? 2 : 1}
         gap={12}
         scrollRef={scrollRef}
         renderTask={(t) => <TaskCard task={t} subtasks={subtaskCount.get(t.id)} />}

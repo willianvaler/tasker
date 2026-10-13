@@ -19,19 +19,20 @@ export default function PrivacyScreen() {
 
         <Section title="O que guardamos">
           Seu nome, e-mail e fuso horário; as pastas, páginas, tarefas e comentários que você cria;
-          o histórico de conclusões e de XP; e, se você ligar os avisos no celular, um identificador
-          do aparelho para mandar as notificações.
+          o histórico de conclusões e de XP; o seu personagem (classe, atributos, ouro e itens); e,
+          se você ligar os avisos no celular, um identificador do aparelho para mandar as
+          notificações.
         </Section>
         <Section title="Para que usamos">
           Só para o app funcionar: mostrar suas tarefas, sincronizar entre aparelhos, mostrar aos
-          membros de um projeto ou clã o que é compartilhado com eles e calcular XP, sequência e
-          bosses. Não vendemos nem compartilhamos seus dados, não mostramos anúncios e não
-          rastreamos você em outros apps ou sites.
+          membros de um projeto ou clã o que é compartilhado com eles e calcular XP, dano, ouro,
+          sequência e bosses. Não vendemos nem compartilhamos seus dados, não mostramos anúncios e
+          não rastreamos você em outros apps ou sites.
         </Section>
         <Section title="Quem vê o quê">
           Suas pastas pessoais são só suas. Em um projeto compartilhado, os membros veem as tarefas,
           comentários e a atividade daquele projeto. Num clã, os membros veem seu nome, nível,
-          conquistas e o dano no boss, nunca as suas tarefas.
+          classe, o visual do personagem, conquistas e o dano no boss, nunca as suas tarefas.
         </Section>
         <Section title="Onde fica">
           Os dados ficam num banco de dados Supabase, com acesso restrito por regras de segurança

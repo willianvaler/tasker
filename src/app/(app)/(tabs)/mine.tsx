@@ -8,7 +8,7 @@ import { useToday } from '@/lib/queries/profile';
 import { useMyTasks } from '@/lib/queries/projects';
 import { pageLabel } from '@/lib/queries/tree';
 
-// Minhas tarefas (ESCOPO 4.5): abertas e atribuídas a mim, de todos os projetos.
+// Atribuídas a mim (ESCOPO 4.5, D69): abertas e atribuídas a mim, de todos os projetos.
 export default function MineScreen() {
   const today = useToday();
   const tasks = useMyTasks();
@@ -29,8 +29,8 @@ export default function MineScreen() {
     .map((g) => ({ ...g, title: `${g.title} (${g.data.length})` }));
 
   return (
-    <Screen>
-      <ScreenHeader title="🙋 Minhas tarefas" />
+    <Screen size="medium">
+      <ScreenHeader title="🙋 Atribuídas a mim" back />
       {tasks.error && (
         <Text className="text-destructive">Erro ao carregar: {tasks.error.message}</Text>
       )}

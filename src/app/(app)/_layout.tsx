@@ -27,6 +27,8 @@ export default function AppLayout() {
           <Stack.Screen name="share/[id]" />
           <Stack.Screen name="notifications" />
           <Stack.Screen name="clan" />
+          <Stack.Screen name="character" />
+          <Stack.Screen name="shop" />
           <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
           <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
           <Stack.Screen name="task/[id]" options={{ presentation: 'modal' }} />

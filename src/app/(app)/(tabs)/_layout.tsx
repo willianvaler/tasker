@@ -29,24 +29,26 @@ export default function TabsLayout() {
       >
         <Tabs.Screen
           name="index"
+          options={{ title: 'Início', tabBarIcon: icon('🏠'), tabBarAccessibilityLabel: 'Início' }}
+        />
+        <Tabs.Screen
+          name="today"
           options={{ title: 'Hoje', tabBarIcon: icon('☀️'), tabBarAccessibilityLabel: 'Hoje' }}
         />
         <Tabs.Screen
           name="inbox"
           options={{
-            title: 'Caixa de entrada',
+            title: 'Entrada',
             tabBarIcon: icon('📥'),
             tabBarAccessibilityLabel: 'Caixa de entrada',
           }}
         />
         <Tabs.Screen
-          name="mine"
-          options={{
-            title: 'Minhas',
-            tabBarIcon: icon('🙋'),
-            tabBarAccessibilityLabel: 'Minhas tarefas',
-          }}
+          name="habits"
+          options={{ title: 'Hábitos', tabBarIcon: icon('🔥'), tabBarAccessibilityLabel: 'Hábitos' }}
         />
+        {/* Atribuídas a mim: no celular abre pelo Início (cartão "Atribuídas a mim"), sem aba própria */}
+        <Tabs.Screen name="mine" options={{ title: 'Atribuídas a mim', href: null }} />
         <Tabs.Screen
           name="folders"
           options={{ title: 'Pastas', tabBarIcon: icon('📁'), tabBarAccessibilityLabel: 'Pastas' }}

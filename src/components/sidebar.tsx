@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useFolderActions } from '@/components/folder-actions';
 import { SidebarGame } from '@/components/game-bar';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
 import { folderLabel, MenuButton } from '@/components/folder-cards';
 import { cn } from '@/lib/cn';
@@ -19,11 +20,16 @@ export function useIsWide() {
   return useWindowDimensions().width >= WIDE;
 }
 
-const NAV: { href: Href & string; label: string; icon: string }[] = [
-  { href: '/', label: 'Hoje', icon: '☀️' },
+const NAV: { href: Href & string; label: string; icon: string; projectsOnly?: boolean }[] = [
+  { href: '/', label: 'Início', icon: '🏠' },
+  { href: '/today', label: 'Hoje', icon: '☀️' },
   { href: '/inbox', label: 'Caixa de entrada', icon: '📥' },
-  { href: '/mine', label: 'Minhas tarefas', icon: '🙋' },
+  { href: '/habits', label: 'Hábitos', icon: '🔥' },
+  // Só para quem participa de algum projeto (D69)
+  { href: '/mine', label: 'Atribuídas a mim', icon: '🙋', projectsOnly: true },
   { href: '/folders', label: 'Pastas', icon: '📁' },
+  { href: '/character', label: 'Personagem', icon: '🧙' },
+  { href: '/shop', label: 'Loja', icon: '🛒' },
   { href: '/clan', label: 'Clã', icon: '🛡️' },
   { href: '/profile', label: 'Perfil', icon: '👤' },
 ];
@@ -125,7 +131,10 @@ export function Sidebar() {
       role="navigation"
     >
       <View className="gap-1 px-3 pt-4">
-        <Text className="mb-2 px-2 text-lg font-bold text-foreground">Questlist</Text>
+        <View className="mb-2 flex-row items-center pl-2">
+          <Text className="flex-1 text-lg font-bold text-foreground">Questlist</Text>
+          <ThemeToggle />
+        </View>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Nova tarefa"
@@ -137,7 +146,9 @@ export function Sidebar() {
           <Text className="text-xs text-muted-foreground">N</Text>
         </Pressable>
         <View>
-          {NAV.map((item) => {
+          {NAV.filter(
+            (item) => !item.projectsOnly || tree.data?.folders.some((f) => f.is_shared),
+          ).map((item) => {
             const selected =
               pathname === item.href ||
               (item.href === '/folders' && pathname.startsWith('/folder/'));

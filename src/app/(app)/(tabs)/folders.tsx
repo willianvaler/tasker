@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
-import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import { FolderCard } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
 import { Screen } from '@/components/screen';
+import { Grid } from '@/components/ui/grid';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { useTree } from '@/lib/queries/tree';
@@ -14,11 +15,10 @@ export default function FoldersScreen() {
   const tree = useTree();
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
-  const twoColumns = useWindowDimensions().width >= 640;
   const folders = tree.data?.folders ?? [];
 
   return (
-    <Screen>
+    <Screen size="wide">
       <ScreenHeader
         title="Pastas"
         right={
@@ -37,21 +37,16 @@ export default function FoldersScreen() {
         <Text className="text-destructive">Erro ao carregar: {tree.error.message}</Text>
       )}
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-28">
-        <View className="flex-row flex-wrap gap-3">
+        <Grid>
           {folders.map((folder) => (
-            <View key={folder.id} style={{ flexBasis: twoColumns ? '40%' : '100%', flexGrow: 1 }}>
-              <FolderCard
-                folder={folder}
-                onMenu={online ? () => actions.folderMenu(folder) : undefined}
-                onNewPage={online ? () => actions.newPage(folder.id) : undefined}
-              />
-            </View>
+            <FolderCard
+              key={folder.id}
+              folder={folder}
+              onMenu={online ? () => actions.folderMenu(folder) : undefined}
+              onNewPage={online ? () => actions.newPage(folder.id) : undefined}
+            />
           ))}
-          {/* Com número ímpar de pastas, o último card não estica até a largura toda */}
-          {twoColumns && folders.length % 2 === 1 && (
-            <View style={{ flexBasis: '40%', flexGrow: 1 }} />
-          )}
-        </View>
+        </Grid>
         {tree.data && folders.length === 0 && (
           <View className="mt-10 items-center gap-3">
             <Text className="text-4xl">📁</Text>

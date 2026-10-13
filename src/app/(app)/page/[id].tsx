@@ -39,13 +39,16 @@ export default function PageScreen() {
 
   const onError = (err: Error) => toast({ message: `Não deu certo: ${err.message}` });
 
+  // Cards e kanban aproveitam a tela toda; lista e hábitos ficam numa coluna de leitura
+  const size = page?.view_type === 'cards' || page?.view_type === 'kanban' ? 'wide' : 'medium';
   return (
-    <Screen>
+    <Screen size={size}>
       <ScreenHeader
         title={page ? pageLabel(page) : ''}
         back
         right={
-          page && online ? (
+          // Página de hábitos de sistema: sem configurar nem duplicar (D68)
+          page && online && !page.is_habits ? (
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Opções da página"
