@@ -18,6 +18,7 @@ import { ScrollView, View } from 'react-native';
 
 import { Button, IconButton } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
@@ -46,6 +47,7 @@ export default function DesignScreen() {
         <Buttons />
         <Inputs />
         <Checkboxes />
+        <Chips />
       </View>
     </ScrollView>
   );
@@ -196,6 +198,27 @@ function Checkboxes() {
         <Checkbox label="Exemplo" checked={checked} onChange={setChecked} />
         <Checkbox label="Desmarcada" checked={false} onChange={() => {}} />
         <Checkbox label="Desabilitada" checked disabled onChange={() => {}} />
+      </View>
+    </Section>
+  );
+}
+
+function Chips() {
+  const [selected, setSelected] = useState('semana');
+  return (
+    <Section title="Chips">
+      <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+        {['dia', 'semana', 'mês'].map((c) => (
+          <Chip
+            key={c}
+            role="radio"
+            label={c}
+            selected={selected === c}
+            onPress={() => setSelected(c)}
+          />
+        ))}
+        <Chip label="#churrasco" onPress={() => {}} />
+        <Chip label="desabilitado" disabled onPress={() => {}} />
       </View>
     </Section>
   );
