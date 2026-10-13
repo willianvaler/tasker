@@ -6,7 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { cn } from '@/lib/cn';
 import { getLastPageId } from '@/lib/prefs';
-import { pageLabel, useTree } from '@/lib/queries/tree';
+import { folderLabel } from '@/components/folder-cards';
+import { pageLabel, useTree, type Page } from '@/lib/queries/tree';
 import { useToast } from '@/providers/toast';
 
 // Captura rápida de qualquer tela (atalho N / Ctrl+K na web, botão + no celular).
@@ -17,14 +18,19 @@ export default function CaptureScreen() {
   const insets = useSafeAreaInsets();
   const [chosen, setChosen] = useState<string | null>(null);
 
-  const pages = useMemo(() => {
+  // Destinos agrupados por pasta (as páginas de sistema primeiro, sem pasta)
+  const groups = useMemo(() => {
     if (!tree.data) return [];
-    const ordered = tree.data.folders.flatMap((f) => [
-      ...f.pages,
-      ...f.children.flatMap((c) => c.pages),
-    ]);
-    return tree.data.inbox ? [tree.data.inbox, ...ordered] : ordered;
+    const system = [tree.data.inbox, tree.data.habits].filter((p): p is Page => !!p);
+    return [
+      { label: '', pages: system },
+      ...tree.data.folders.flatMap((f) => [
+        { label: folderLabel(f), pages: f.pages },
+        ...f.children.map((c) => ({ label: `${folderLabel(f)} › ${folderLabel(c)}`, pages: c.pages })),
+      ]),
+    ].filter((g) => g.pages.length > 0);
   }, [tree.data]);
+  const pages = groups.flatMap((g) => g.pages);
 
   const lastPageId = getLastPageId();
   const target =
@@ -59,28 +65,44 @@ export default function CaptureScreen() {
           autoFocus
           onCreated={() => target && toast({ message: `Criada em ${pageLabel(target)}` })}
         />
+        {/* Grupos com quebra de linha (sem rolagem lateral), rolando na vertical se forem muitos */}
         <ScrollView
-          horizontal
           keyboardShouldPersistTaps="handled"
-          contentContainerClassName="gap-2"
+          style={{ maxHeight: 280 }}
+          contentContainerClassName="gap-3"
+          accessibilityRole="radiogroup"
+          accessibilityLabel="Onde criar"
         >
-          {pages.map((page) => (
-            <Pressable
-              key={page.id}
-              accessibilityRole="radio"
-              aria-checked={page.id === target?.id}
-              onPress={() => setChosen(page.id)}
-              className={cn(
-                'min-h-11 justify-center rounded-full border px-3',
-                page.id === target?.id ? 'border-primary bg-primary' : 'border-border',
-              )}
-            >
-              <Text
-                className={page.id === target?.id ? 'text-primary-foreground' : 'text-foreground'}
-              >
-                {pageLabel(page)}
-              </Text>
-            </Pressable>
+          {groups.map((group) => (
+            <View key={group.label || 'sistema'} className="gap-1">
+              {group.label ? (
+                <Text className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  {group.label}
+                </Text>
+              ) : null}
+              <View className="flex-row flex-wrap gap-2">
+                {group.pages.map((page) => (
+                  <Pressable
+                    key={page.id}
+                    accessibilityRole="radio"
+                    aria-checked={page.id === target?.id}
+                    onPress={() => setChosen(page.id)}
+                    className={cn(
+                      'min-h-11 justify-center rounded-full border px-3',
+                      page.id === target?.id ? 'border-primary bg-primary' : 'border-border',
+                    )}
+                  >
+                    <Text
+                      className={
+                        page.id === target?.id ? 'text-primary-foreground' : 'text-foreground'
+                      }
+                    >
+                      {pageLabel(page)}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
           ))}
         </ScrollView>
         <Text className="text-xs text-muted-foreground">

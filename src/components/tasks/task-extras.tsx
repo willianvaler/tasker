@@ -215,3 +215,74 @@ function Stat({ value, label }: { value: string; label: string }) {
     </View>
   );
 }
+
+const HABIT_KINDS: { value: Task['habit_kind']; label: string; hint: string }[] = [
+  { value: 'check', label: '✔️ Marcar', hint: 'Feito ou não feito no período.' },
+  {
+    value: 'counter',
+    label: '🔢 Contador',
+    hint: 'Uma meta por período (ex.: 8 copos de água). + soma, − desfaz; bater a meta conclui.',
+  },
+  {
+    value: 'plusminus',
+    label: '➕➖ Bom e ruim',
+    hint: 'Sem meta: + quando fizer o bom (XP e dano no boss), − quando escorregar (o boss se cura um pouco).',
+  },
+];
+
+/** Tipo do hábito (D63): marcar, contador com meta ou bom/ruim (+/−). */
+export function HabitKindEditor({
+  task,
+  onSave,
+}: {
+  task: Task;
+  onSave: (patch: Pick<Task, 'habit_kind' | 'habit_target'>) => void;
+}) {
+  const writable = useCanWrite();
+  const [target, setTarget] = useState(String(task.habit_target ?? 8));
+  const current = HABIT_KINDS.find((k) => k.value === task.habit_kind) ?? HABIT_KINDS[0];
+
+  function saveTarget() {
+    const n = Math.min(100, Math.max(1, Math.round(Number(target)) || 1));
+    setTarget(String(n));
+    if (n !== task.habit_target) onSave({ habit_kind: 'counter', habit_target: n });
+  }
+
+  return (
+    <View className="gap-2">
+      <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+        {HABIT_KINDS.map((k) => (
+          <Chip
+            key={k.value}
+            role="radio"
+            label={k.label}
+            selected={task.habit_kind === k.value}
+            disabled={!writable}
+            onPress={() =>
+              onSave({
+                habit_kind: k.value,
+                habit_target: k.value === 'counter' ? Number(target) || 8 : null,
+              })
+            }
+          />
+        ))}
+      </View>
+      <Text className="text-sm text-muted-foreground">{current.hint}</Text>
+      {task.habit_kind === 'counter' && (
+        <View className="flex-row items-center gap-2">
+          <Text className="text-foreground">Meta por período:</Text>
+          <Input
+            value={target}
+            onChangeText={(t) => setTarget(t.replace(/\D/g, ''))}
+            onBlur={saveTarget}
+            onSubmitEditing={saveTarget}
+            keyboardType="number-pad"
+            editable={writable}
+            className="w-20"
+            accessibilityLabel="Meta por período"
+          />
+        </View>
+      )}
+    </View>
+  );
+}

@@ -27,6 +27,7 @@ export function QuickAdd({
   autoFocus,
   onCreated,
   parseMeta,
+  habit,
 }: {
   pageId: string | undefined;
   defaultDueDate?: string;
@@ -35,6 +36,8 @@ export function QuickAdd({
   onCreated?: () => void;
   /** Página de cards: "4x12" e "20kg" viram séries/repetições/carga */
   parseMeta?: boolean;
+  /** Hábito: tipo e meta escolhidos ao lado do campo (tela Hábitos, D68) */
+  habit?: { kind: 'check' | 'counter' | 'plusminus'; target?: number };
 }) {
   const online = useIsOnline();
   const tree = useTree();
@@ -77,6 +80,7 @@ export function QuickAdd({
           dueDate: parsed.dueDate ?? defaultDueDate ?? null,
           assignees: mentions.toAssignees(resolved),
           id: randomUUID(),
+          ...(habit ? { habitKind: habit.kind, habitTarget: habit.target ?? null } : {}),
         },
       ],
     });

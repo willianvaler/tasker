@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
@@ -11,7 +12,9 @@ import { useGameState, useSetGamification } from '@/lib/queries/game';
 import { keys } from '@/lib/queries/keys';
 import { useToday, useUpdateProfile, type Profile } from '@/lib/queries/profile';
 import { useTemplateMutations } from '@/lib/queries/projects';
+import { useCreateTasks, type Task } from '@/lib/queries/tasks';
 import { useTree } from '@/lib/queries/tree';
+import { parseQuickInput } from '@/lib/parser/quick';
 import { STARTER_TEMPLATES, templateData } from '@/lib/templates';
 import { useToast } from '@/providers/toast';
 
@@ -121,19 +124,73 @@ function CaptureStep() {
   );
 }
 
+/** Hábitos sugeridos: vão para a página de Hábitos (D68), não viram pasta. */
+const STARTER_HABITS: { title: string; kind: Task['habit_kind']; target?: number }[] = [
+  { title: 'Beber um copo de água', kind: 'counter', target: 8 },
+  { title: 'Meditar 5 minutos', kind: 'check' },
+  { title: 'Ler 10 páginas /seg,qua,sex', kind: 'check' },
+  { title: 'Comer bem', kind: 'plusminus' },
+];
+
 function OrganizeStep() {
   const today = useToday();
+  const tree = useTree();
   const m = useTemplateMutations();
+  const createTasks = useCreateTasks();
   const toast = useToast();
   const [done, setDone] = useState<string[]>([]);
+
+  function createHabits() {
+    const pageId = tree.data?.habits?.id;
+    if (!pageId) return;
+    createTasks.mutate(
+      {
+        pageId,
+        items: STARTER_HABITS.map((h) => ({
+          ...parseQuickInput(h.title, { today }),
+          habitKind: h.kind,
+          habitTarget: h.target ?? null,
+          id: randomUUID(),
+        })),
+      },
+      {
+        onSuccess: () => setDone((d) => [...d, 'habitos']),
+        onError: (err) => toast({ message: `Não deu certo: ${err.message}` }),
+      },
+    );
+  }
   return (
     <>
       <Title emoji="📁" title="Organize em pastas">
-        Pastas guardam páginas: uma lista, um treino em cards, seus hábitos. Quer começar com
-        alguma? Dá para mudar tudo depois.
+        Pastas guardam páginas: uma lista, um treino em cards. Os hábitos têm lugar próprio, no
+        menu Hábitos. Quer começar com algo pronto? Dá para mudar tudo depois.
       </Title>
       {STARTER_TEMPLATES.map((t) => {
         const created = done.includes(t.key);
+        if (t.key === 'habitos') {
+          return (
+            <Pressable
+              key={t.key}
+              accessibilityRole="button"
+              accessibilityLabel="Adicionar hábitos sugeridos"
+              aria-disabled={created}
+              disabled={created || createTasks.isPending || !tree.data?.habits}
+              className={cn(
+                'gap-1 rounded-xl border p-4 active:opacity-70',
+                created ? 'border-primary bg-card' : 'border-border',
+              )}
+              onPress={createHabits}
+            >
+              <Text className="text-lg font-semibold text-foreground">
+                🔥 Hábitos sugeridos {created ? '✓' : ''}
+              </Text>
+              <Text className="text-sm text-muted-foreground">
+                Água (contador, meta 8), meditar, ler e &quot;comer bem&quot; (bom e ruim). Ficam em
+                Hábitos, no menu.
+              </Text>
+            </Pressable>
+          );
+        }
         return (
           <Pressable
             key={t.key}
