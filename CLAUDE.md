@@ -1,12 +1,14 @@
 # CLAUDE.md
 
-**Questlist** (nome provisório): app de tarefas e projetos colaborativos com gamificação leve, para Android, iOS e web com um único código. O escopo completo, com fases e critérios de aceite, está em `ESCOPO.md`; as decisões tomadas, em `DECISIONS.md`. Leia os dois antes de mudar comportamento. Interface, mensagens, comentários e commits em **português (pt-BR)**.
+**Questlist** (nome provisório): app de tarefas e projetos colaborativos com gamificação leve, para Android, iOS e web com um único código. O escopo está em `ESCOPO.md` (v1), `ESCOPO_V2.md` e `ESCOPO_V3.md` (em conflito, o mais recente vence); as decisões tomadas, em `DECISIONS.md`; o plano da V2/V3, em `docs/CRONOGRAMA.md`, e o andamento, em `docs/STATUS.md`. Leia antes de mudar comportamento.
+
+**Sempre que concluir uma tarefa do cronograma, atualize `docs/STATUS.md` no mesmo commit** (feito / em andamento / pendente / decisões). Um commit por tarefa, em Conventional Commits e pt-BR, com o id no fim: `feat(i18n): infraestrutura [A3]`. Interface, mensagens, comentários e commits em **português (pt-BR)**.
 
 `AGENTS.md` (veio do template do Expo) vale também: **o Expo muda a cada SDK, não confie na memória**. Confira a doc da versão instalada (`https://docs.expo.dev/versions/v57.0.0/`, índice em `https://docs.expo.dev/llms.txt`) antes de usar uma API do Expo/React Native. Instale pacotes com `npx expo install`, não com `npm install`.
 
 ## Estado atual
 
-**Fases 0 a 6 concluídas** (todas as do ESCOPO), mais a **Fase 7** (RPG leve e redesign para tela larga, D60 a D67; Início, tela Hábitos e página de hábitos de sistema, D68 a D70). Falta só o que depende do dono do projeto (contas das lojas e do EAS, nome/ícone, domínio, e-mail, teste em aparelho): veja `PUBLICACAO.md`. Barra lateral e telas de pasta em D32; gamificação em D33 a D39; projetos em D40 a D48; clã, bosses cooperativos, fila offline e privacidade em D49 a D53; Fase 6 (kanban, tema, onboarding, acessibilidade/performance, push, publicação) em D54 a D59; Fase 7 (dano separado do XP, classes, atributos, níveis de boss, ouro, loja e drops, hábitos contador e bom/ruim, conquistas, telas largas) em D60 a D67.
+**V2/V3 em andamento:** veja `docs/STATUS.md`. Antes disso, **Fases 0 a 6 concluídas** (todas as do ESCOPO), mais a **Fase 7** (RPG leve e redesign para tela larga, D60 a D67; Início, tela Hábitos e página de hábitos de sistema, D68 a D70). Falta só o que depende do dono do projeto (contas das lojas e do EAS, nome/ícone, domínio, e-mail, teste em aparelho): veja `PUBLICACAO.md`. Barra lateral e telas de pasta em D32; gamificação em D33 a D39; projetos em D40 a D48; clã, bosses cooperativos, fila offline e privacidade em D49 a D53; Fase 6 (kanban, tema, onboarding, acessibilidade/performance, push, publicação) em D54 a D59; Fase 7 (dano separado do XP, classes, atributos, níveis de boss, ouro, loja e drops, hábitos contador e bom/ruim, conquistas, telas largas) em D60 a D67.
 
 ## Stack
 
