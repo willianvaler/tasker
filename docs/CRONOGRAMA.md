@@ -101,10 +101,9 @@ O que **já existe** e só será adaptado, não refeito: subtarefas (`parent_tas
 
 Decidido na A7: **PowerSync** (D75). A tabela abaixo é a do protocolo próprio; com PowerSync, D3/D4 viram configuração (Sync Streams + `uploadData`) e a fase começa pelo protótipo:
 
-| D0 | Protótipo PowerSync validando os riscos do `docs/SPIKE_SYNC.md` |
-
 | # | Tarefa |
 |---|---|
+| D0 | Protótipo PowerSync validando os riscos do `docs/SPIKE_SYNC.md` |
 | D1 | Migração "sync-ready" em todas as tabelas sincronizáveis: `deleted_at`, `version`, `updated_by`, `change_seq` global; ids UUID v7 gerados no cliente |
 | D2 | `LocalStore` (interface) + implementação `expo-sqlite` (nativo) e web (SQLite WASM ou IndexedDB) |
 | D3 | Outbox de mutations com `mutation_id`, worker em lote, `sync/push` idempotente com checagem de permissão por mutation |
