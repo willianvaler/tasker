@@ -99,7 +99,9 @@ O que **já existe** e só será adaptado, não refeito: subtarefas (`parent_tas
 
 ## Fase D — Offline-first e sync (04/11 – 13/11)
 
-Detalhe final depende da A7. Com protocolo próprio (o caso mais longo):
+Decidido na A7: **PowerSync** (D75). A tabela abaixo é a do protocolo próprio; com PowerSync, D3/D4 viram configuração (Sync Streams + `uploadData`) e a fase começa pelo protótipo:
+
+| D0 | Protótipo PowerSync validando os riscos do `docs/SPIKE_SYNC.md` |
 
 | # | Tarefa |
 |---|---|

@@ -13,7 +13,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **A4** Teste que falha se uma chave existir num idioma e faltar em outro; seletor de idioma no Perfil, salvo em `profiles.locale`
 - [x] **A5** Permissões como dados: catálogo de permissões atômicas (já com as da V3 §8), presets Gerente/Editor/Colaborador/Leitor, função única `can(user, action, resource)` no app e espelho no banco; mapear os papéis atuais (owner/editor/viewer)
 - [x] **A6** Registro central de atalhos `shortcuts.ts` (id, teclas, chave i18n, escopo, permissão); migrar os atalhos existentes (N, Ctrl+K) para ele
-- [~] **A7** Spike de sync (1 dia): PowerSync × protocolo próprio sobre Supabase, com protótipo descartável numa branch; decisão em `DECISIONS.md` — parte 1 (pesquisa) em `docs/SPIKE_SYNC.md`; protótipo aguardando aprovação da direção
+- [x] **A7** Spike de sync: pesquisa em `docs/SPIKE_SYNC.md`, decisão D75 (PowerSync). O protótipo virou a D0
 
 ## Fase B — Correção visual (19/10 – 27/10)
 
@@ -42,6 +42,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## Fase D — Offline-first e sync (04/11 – 13/11)
 
+- [ ] **D0** Protótipo PowerSync (riscos do fim do `docs/SPIKE_SYNC.md`): serviço local, Sync Streams por membro, leitura local na web e no development build, escrita offline até a RPC, revogação
 - [ ] **D1** Migração "sync-ready" em todas as tabelas sincronizáveis: `deleted_at`, `version`, `updated_by`, `change_seq` global; ids UUID v7 gerados no cliente
 - [ ] **D2** `LocalStore` (interface) + implementação `expo-sqlite` (nativo) e web (SQLite WASM ou IndexedDB)
 - [ ] **D3** Outbox de mutations com `mutation_id`, worker em lote, `sync/push` idempotente com checagem de permissão por mutation
@@ -141,7 +142,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 | # | Pergunta | Quando | Resposta |
 |---|---|---|---|
-| V2-2 | Engine de sync pronta ou protocolo próprio | A7 | Recomendação: PowerSync (`docs/SPIKE_SYNC.md`), aguardando você |
+| V2-2 | Engine de sync pronta ou protocolo próprio | A7 | **PowerSync** (D75, 13/10) |
 | V2-4 | Tipografia e acento final | B3/B9 | |
 | V2-1 / V3-5 | Nome dos itens dentro de Projeto (proposta: "Listas") e das visões | antes da E | |
 | V2-3 | Cargos personalizados já na V2? | antes da E | |
