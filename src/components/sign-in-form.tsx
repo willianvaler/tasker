@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { supabase } from '@/lib/supabase';
 
 type Mode = 'sign-in' | 'sign-up';
@@ -34,7 +35,7 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
 
   return (
     <View className="w-full max-w-sm gap-3">
-      <Text className="mb-2 text-center text-3xl font-bold text-ink">Questlist</Text>
+      <Text className="mb-2 text-center text-xl font-semibold text-ink">Questlist</Text>
       <Text className="mb-4 text-center text-ink-muted">
         {mode === 'sign-in' ? 'Entre na sua conta' : 'Crie sua conta'}
       </Text>

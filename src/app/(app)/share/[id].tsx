@@ -1,7 +1,7 @@
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Platform, ScrollView, Share, Text, View } from 'react-native';
+import { Platform, ScrollView, Share, View } from 'react-native';
 
 import { folderLabel } from '@/components/folder-cards';
 import { Screen } from '@/components/screen';
@@ -20,6 +20,7 @@ import {
   type Member,
   type Role,
 } from '@/lib/queries/projects';
+import { Text } from '@/components/ui/text';
 import { roleCan } from '@/lib/permissions';
 import { findFolder, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
@@ -150,13 +151,11 @@ export default function ShareScreen() {
         )}
 
         <View className="gap-2">
-          <Text className="font-semibold text-ink">
-            Pessoas ({members.data?.length ?? '…'})
-          </Text>
+          <Text className="font-semibold text-ink">Pessoas ({members.data?.length ?? '…'})</Text>
           {members.data?.map((member) => {
             const me = member.userId === session?.user.id;
             return (
-              <View key={member.userId} className="gap-2 rounded-xl border border-line p-3">
+              <View key={member.userId} className="gap-2 rounded-lg border border-line p-3">
                 <View className="flex-row items-center gap-2">
                   <Text className="flex-1 text-base text-ink">
                     {member.displayName}
@@ -210,7 +209,7 @@ export default function ShareScreen() {
               nome; você também pode vincular agora.
             </Text>
             {pending.map((name) => (
-              <View key={name} className="gap-2 rounded-xl border border-dashed border-line p-3">
+              <View key={name} className="gap-2 rounded-lg border border-dashed border-line p-3">
                 <View className="flex-row items-center">
                   <Text className="flex-1 text-base text-ink">@{name}</Text>
                   {canInvite && online && (

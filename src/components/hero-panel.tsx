@@ -1,10 +1,11 @@
 import { Link } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Avatar, classOf } from '@/components/character';
 import { BossLine } from '@/components/game-bar';
 import { Button } from '@/components/ui/button';
 import { ProgressBar } from '@/components/ui/progress-bar';
+import { Text } from '@/components/ui/text';
 import { CLASSES } from '@/lib/character';
 import { useGameState, useUseSkill, type GameState } from '@/lib/queries/game';
 import { useIsOnline } from '@/providers/online';
@@ -17,7 +18,7 @@ export function HeroPanel() {
   const cls = classOf(game);
   return (
     <View aria-label="Personagem e boss da semana" className="gap-4">
-      <View className="gap-3 rounded-2xl border border-line bg-surface p-4">
+      <View className="gap-3 rounded-lg border border-line bg-surface p-4">
         <Link href="/character" asChild>
           <Pressable
             accessibilityRole="link"
@@ -26,7 +27,7 @@ export function HeroPanel() {
           >
             <Avatar game={game} size="md" />
             <View className="flex-1 gap-1">
-              <Text className="text-base font-bold text-ink">
+              <Text className="text-base font-semibold text-ink">
                 {cls ? `${CLASSES[cls].icon} ${CLASSES[cls].name}` : '🧭 Escolha sua classe'} · Nv{' '}
                 {game.level}
               </Text>
@@ -44,7 +45,7 @@ export function HeroPanel() {
         {cls && <SkillButton game={game} />}
       </View>
       {game.boss && (
-        <View className="gap-2 rounded-2xl border border-line bg-surface p-4">
+        <View className="gap-2 rounded-lg border border-line bg-surface p-4">
           <BossLine boss={game.boss} />
           <Text className="text-xs text-ink-muted">
             ⚔️ {game.damage_today} de dano hoje · 💥 maior golpe: {game.best_hit}

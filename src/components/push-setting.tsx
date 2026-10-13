@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Switch, Text, View } from 'react-native';
+import { Switch, View } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { disablePush, enablePush, hasPushToken, pushSupported } from '@/lib/push';
 import { useIsOnline } from '@/providers/online';
 

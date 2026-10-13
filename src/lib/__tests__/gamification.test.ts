@@ -68,7 +68,12 @@ describe('personagem (mesmos casos do pgTAP fase7_rpg)', () => {
   test('sem classe, todos os atributos em 1; lutador ganha Força e Constituição', () => {
     expect(totalAttributes(null, none)).toEqual({ str: 1, agi: 1, int: 1, con: 1 });
     expect(totalAttributes('lutador', none)).toEqual({ str: 4, agi: 1, int: 1, con: 2 });
-    expect(totalAttributes('mago', { ...none, int: 2 })).toEqual({ str: 1, agi: 2, int: 6, con: 1 });
+    expect(totalAttributes('mago', { ...none, int: 2 })).toEqual({
+      str: 1,
+      agi: 2,
+      int: 6,
+      con: 1,
+    });
   });
 
   test('tarefa do lutador no primeiro golpe: 4 × 1,2 × 2 = 9,6 → 10 (crítico 19)', () => {
@@ -89,7 +94,9 @@ describe('personagem (mesmos casos do pgTAP fase7_rpg)', () => {
   test('mago: sequência e Tempestade somam no multiplicador', () => {
     const attrs = totalAttributes('mago', none);
     // 3 × (1 + 0,2 + 0,2 + 0,5) = 5,7 → 6
-    expect(hitDamage(3, 'routine', 'mago', attrs, { streak: 10, skillActive: true }).normal).toBe(6);
+    expect(hitDamage(3, 'routine', 'mago', attrs, { streak: 10, skillActive: true }).normal).toBe(
+      6,
+    );
   });
 
   test('crítico: 2% por Agilidade, arqueiro com Mira certeira', () => {

@@ -3,6 +3,9 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "dependencies": {
+    "@expo-google-fonts/fraunces": "^0.4.1",
+    "@expo-google-fonts/instrument-sans": "^0.4.2",
+    "@expo-google-fonts/jetbrains-mono": "^0.4.1",
     "@react-native-community/netinfo": "12.0.1",
     "@supabase/supabase-js": "^2.117.3",
     "@tanstack/query-sync-storage-persister": "^5.104.1",
@@ -75,7 +78,8 @@
     "db:test": "supabase test db",
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
     "export:web": "expo export --platform web",
-    "e2e": "node scripts/e2e.mjs"
+    "e2e": "node scripts/e2e.mjs",
+    "capturas": "node scripts/e2e.mjs -c playwright.capturas.config.ts"
   },
   "private": true,
   "jest": {

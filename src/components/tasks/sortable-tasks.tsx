@@ -1,8 +1,9 @@
 import { createContext, useContext, type ReactNode } from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import type { AnimatedRef } from 'react-native-reanimated';
 import Sortable from 'react-native-sortables';
 
+import { Text } from '@/components/ui/text';
 import { positionAfterMove } from '@/lib/positions';
 import { useUpdateTask, type Task } from '@/lib/queries/tasks';
 import { useCanWrite } from '@/providers/write';
@@ -57,7 +58,7 @@ export function DragHandle({ label, taskId }: { label: string; taskId?: string }
         if (event.nativeEvent.actionName === 'decrement') move(taskId, -1);
         if (event.nativeEvent.actionName === 'increment') move(taskId, 1);
       }}
-      className="h-11 w-8 items-center justify-center rounded-md"
+      className="h-11 w-8 items-center justify-center rounded"
       {...(keyboard as object)}
     >
       <Text className="text-lg text-ink-muted">⠿</Text>

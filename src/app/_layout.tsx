@@ -3,11 +3,13 @@ import '@/i18n';
 
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider as NavThemeProvider } from 'expo-router';
 import { useColorScheme } from 'nativewind';
+import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { FONT_FAMILY, FONTS } from '@/lib/fonts';
 import { COLORS } from '@/lib/tokens';
 import { QueryProvider } from '@/providers/query';
 import { SessionProvider, useSession } from '@/providers/session';
@@ -25,8 +27,22 @@ const navColors = (c: (typeof COLORS)['light' | 'dark']) => ({
   border: c.line,
   notification: c.accent,
 });
-const lightNavTheme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, ...navColors(COLORS.light) } };
-const darkNavTheme = { ...DarkTheme, colors: { ...DarkTheme.colors, ...navColors(COLORS.dark) } };
+const navFonts = (base: typeof DefaultTheme.fonts) => ({
+  regular: { ...base.regular, fontFamily: FONT_FAMILY.sans },
+  medium: { ...base.medium, fontFamily: FONT_FAMILY.sans },
+  bold: { ...base.bold, fontFamily: FONT_FAMILY.sansSemibold, fontWeight: 'normal' as const },
+  heavy: { ...base.heavy, fontFamily: FONT_FAMILY.sansSemibold, fontWeight: 'normal' as const },
+});
+const lightNavTheme = {
+  ...DefaultTheme,
+  colors: { ...DefaultTheme.colors, ...navColors(COLORS.light) },
+  fonts: navFonts(DefaultTheme.fonts),
+};
+const darkNavTheme = {
+  ...DarkTheme,
+  colors: { ...DarkTheme.colors, ...navColors(COLORS.dark) },
+  fonts: navFonts(DarkTheme.fonts),
+};
 
 export default function RootLayout() {
   return (
@@ -58,13 +74,16 @@ function ThemedApp() {
 
 function RootNavigator() {
   const { session, isLoading } = useSession();
+  // Fontes embutidas (lib/fonts.ts); com erro ao carregar, segue com a do sistema
+  const [fontsLoaded, fontError] = useFonts(FONTS);
+  const ready = !isLoading && (fontsLoaded || !!fontError);
 
   // Esconde a splash só depois de saber se há sessão, para não piscar a tela de login
   useEffect(() => {
-    if (!isLoading) SplashScreen.hideAsync();
-  }, [isLoading]);
+    if (ready) SplashScreen.hideAsync();
+  }, [ready]);
 
-  if (isLoading) return null;
+  if (!ready) return null;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>

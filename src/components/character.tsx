@@ -1,6 +1,6 @@
 import { Link } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Button } from '@/components/ui/button';
@@ -20,6 +20,7 @@ import {
   type AttrKey,
   type ClassKey,
 } from '@/lib/character';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { gamificationConfig as config } from '@/lib/gamification.config';
 import {
@@ -46,9 +47,9 @@ function useItemMap() {
 }
 
 const AVATAR = {
-  sm: { box: 'h-14 w-14 rounded-xl', figure: 30, extra: 16 },
-  md: { box: 'h-24 w-24 rounded-2xl', figure: 48, extra: 24 },
-  lg: { box: 'h-36 w-36 rounded-3xl', figure: 72, extra: 34 },
+  sm: { box: 'h-14 w-14 rounded-lg', figure: 30, extra: 16 },
+  md: { box: 'h-24 w-24 rounded-lg', figure: 48, extra: 24 },
+  lg: { box: 'h-36 w-36 rounded-lg', figure: 72, extra: 34 },
 } as const;
 
 /** O personagem: figura da classe, aura de fundo e os itens equipados em volta (só visual, D64). */
@@ -99,12 +100,12 @@ export function HeroCard({ game, name }: { game: GameState; name?: string }) {
   const cls = classOf(game);
   const title = useEquippedTitle(game);
   return (
-    <View className="gap-3 rounded-2xl border border-line bg-surface p-4">
+    <View className="gap-3 rounded-lg border border-line bg-surface p-4">
       <View className="flex-row items-center gap-4">
         <Avatar game={game} size="lg" />
         <View className="flex-1 gap-1">
           {name ? (
-            <Text className="text-xl font-bold text-ink" numberOfLines={1}>
+            <Text className="text-lg font-semibold text-ink" numberOfLines={1}>
               {name}
             </Text>
           ) : null}
@@ -154,7 +155,7 @@ export function ClassPicker({
               key={key}
               className={cn(
                 // Conteúdo em cima e botão no pé: os botões ficam alinhados na linha da grade
-                'flex-1 justify-between gap-3 rounded-2xl border bg-surface p-4',
+                'flex-1 justify-between gap-3 rounded-lg border bg-surface p-4',
                 selected ? 'border-accent' : 'border-line',
               )}
             >
@@ -162,7 +163,7 @@ export function ClassPicker({
                 <View className="flex-row items-center gap-3">
                   <Text style={{ fontSize: 40, lineHeight: 48 }}>{c.figure}</Text>
                   <View className="flex-1">
-                    <Text className="text-lg font-bold text-ink">
+                    <Text className="text-lg font-semibold text-ink">
                       {c.icon} {c.name}
                     </Text>
                     <Text className="text-sm text-ink-muted">{c.blurb}</Text>
@@ -220,7 +221,7 @@ export function AttributesPanel({ game }: { game: GameState }) {
       title="Atributos"
       right={
         <Text
-          className={cn('text-sm', points > 0 ? 'font-bold text-accent' : 'text-ink-muted')}
+          className={cn('text-sm', points > 0 ? 'font-semibold text-accent' : 'text-ink-muted')}
         >
           {points > 0 ? `✨ ${points} para distribuir` : 'Ganhe 1 ponto a cada nível'}
         </Text>
@@ -243,7 +244,7 @@ export function AttributesPanel({ game }: { game: GameState }) {
               <Text className="text-xs text-ink-muted">{a.effect}</Text>
             </View>
             <Text
-              className="w-8 text-center text-xl font-bold text-ink"
+              className="w-8 text-center text-lg font-semibold text-ink"
               accessibilityLabel={`${a.label}: ${game.attributes[a.key as AttrKey]}`}
             >
               {game.attributes[a.key as AttrKey]}
@@ -263,7 +264,7 @@ export function AttributesPanel({ game }: { game: GameState }) {
                 (points < 1 || !online) && 'opacity-30',
               )}
             >
-              <Text className="text-xl font-bold text-accent">+</Text>
+              <Text className="text-lg font-semibold text-accent">+</Text>
             </Pressable>
           </View>
         );
@@ -300,7 +301,7 @@ export function SkillsPanel({ game }: { game: GameState }) {
           </Text>
         )}
       </View>
-      <View className="gap-2 rounded-xl border border-line p-3">
+      <View className="gap-2 rounded-lg border border-line p-3">
         <Text className="font-semibold text-ink">⚡ {c.active.name}</Text>
         <Text className="text-sm text-ink-muted">{c.active.text} Uma vez por dia.</Text>
         <Button
@@ -343,7 +344,7 @@ export function DamagePanel({ game }: { game: GameState }) {
             <View key={r.label} className="flex-row items-center justify-between">
               <Text className="text-sm text-ink">{r.label}</Text>
               <Text className="text-sm text-ink">
-                ⚔️ <Text className="font-bold">{hit.normal}</Text>
+                ⚔️ <Text className="font-semibold">{hit.normal}</Text>
                 <Text className="text-ink-muted"> · 💥 {hit.crit}</Text>
               </Text>
             </View>
@@ -463,9 +464,9 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <View className={cn('gap-3 rounded-2xl border border-line bg-surface p-4', className)}>
+    <View className={cn('gap-3 rounded-lg border border-line bg-surface p-4', className)}>
       <View className="flex-row items-center justify-between gap-2">
-        <Text className="text-base font-bold text-ink" accessibilityRole="header">
+        <Text className="text-base font-semibold text-ink" accessibilityRole="header">
           {title}
         </Text>
         {right}

@@ -1,5 +1,6 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { formatDueDate } from '@/lib/parser/dates';
 import type { Task } from '@/lib/queries/tasks';
@@ -30,16 +31,13 @@ export function TaskMeta({
     task.due_date && (
       <Text
         key="due"
-        className={cn(
-          'text-xs',
-          overdue ? 'font-semibold text-danger' : 'text-ink-muted',
-        )}
+        className={cn('text-xs', overdue ? 'font-semibold text-danger' : 'text-ink-muted')}
       >
         📅 {formatDueDate(task.due_date, today)}
       </Text>
     ),
     task.priority > 0 && (
-      <Text key="priority" className={cn('text-xs font-bold', PRIORITY_COLOR[task.priority])}>
+      <Text key="priority" className={cn('text-xs font-semibold', PRIORITY_COLOR[task.priority])}>
         {PRIORITY_LABEL[task.priority]}
       </Text>
     ),
@@ -71,7 +69,7 @@ export function TaskMeta({
   ].filter(Boolean);
 
   if (parts.length === 0) return null;
-  return <View className="flex-row flex-wrap items-center gap-x-3 gap-y-0.5">{parts}</View>;
+  return <View className="flex-row flex-wrap items-center gap-x-3 gap-y-1">{parts}</View>;
 }
 
 /** "4x12 · 20kg" a partir do meta da tarefa (cards). */

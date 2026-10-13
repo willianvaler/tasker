@@ -21,7 +21,7 @@ export const Input = forwardRef<TextInput, TextInputProps & { className?: string
       ref={ref}
       placeholderTextColor={colors['ink-muted']}
       className={cn(
-        'min-h-11 rounded-lg border border-line bg-paper px-3 text-base text-ink',
+        'font-sans min-h-11 rounded border border-line bg-paper px-3 text-base text-ink',
         className,
       )}
       {...webSubmit}

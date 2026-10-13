@@ -1,5 +1,6 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { initials, type MentionResolution } from '@/lib/members';
 import {
@@ -52,7 +53,7 @@ export function AssigneeChips({ taskId, folderId }: { taskId: string; folderId: 
             key={a.id}
             className="h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1"
           >
-            <Text className="text-[10px] font-bold text-on-accent">
+            <Text className="text-xs font-semibold text-on-accent">
               {initials(assigneeName(a, members))}
             </Text>
           </View>

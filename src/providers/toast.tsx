@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { Text } from '@/components/ui/text';
 
 type Toast = { id: number; message: string; action?: { label: string; onPress: () => void } };
 
@@ -32,7 +34,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         >
           <View
             accessibilityRole="alert"
-            className="w-full max-w-md flex-row items-center justify-between gap-3 rounded-xl bg-ink px-4 py-2 shadow-lg"
+            className="w-full max-w-md flex-row items-center justify-between gap-3 rounded-lg bg-ink px-4 py-2 "
           >
             <Text className="flex-1 text-paper" numberOfLines={2}>
               {toast.message}
@@ -46,7 +48,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   setToast(null);
                 }}
               >
-                <Text className="font-bold text-accent">{toast.action.label}</Text>
+                <Text className="font-semibold text-accent">{toast.action.label}</Text>
               </Pressable>
             )}
           </View>

@@ -1,8 +1,10 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { KeyboardAvoidingView, Modal, Platform, Pressable, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, View } from 'react-native';
 
 import { Button } from './button';
 import { Input } from './input';
+
+import { Text } from '@/components/ui/text';
 
 // Diálogos próprios: o Alert do React Native não tem botões na web.
 
@@ -14,7 +16,7 @@ function Backdrop({ onClose, children }: { onClose: () => void; children: ReactN
         className="flex-1 items-center justify-center bg-scrim/40 px-6"
       >
         <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={onClose} />
-        <View className="w-full max-w-sm gap-3 rounded-2xl bg-paper p-5">{children}</View>
+        <View className="w-full max-w-sm gap-3 rounded-lg bg-paper p-6">{children}</View>
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -53,7 +55,7 @@ export function PromptDialog({
 
   return (
     <Backdrop onClose={onClose}>
-      <Text className="text-lg font-bold text-ink">{title}</Text>
+      <Text className="text-lg font-semibold text-ink">{title}</Text>
       {fields.map((field, index) => (
         <Input
           key={field.key}
@@ -91,7 +93,7 @@ export function ConfirmDialog({
 }) {
   return (
     <Backdrop onClose={onClose}>
-      <Text className="text-lg font-bold text-ink">{title}</Text>
+      <Text className="text-lg font-semibold text-ink">{title}</Text>
       {message && <Text className="text-ink-muted">{message}</Text>}
       <View className="flex-row justify-end gap-2">
         <Button variant="ghost" label="Cancelar" onPress={onClose} />
@@ -115,7 +117,7 @@ export function ActionMenu({
 }) {
   return (
     <Backdrop onClose={onClose}>
-      <Text className="text-lg font-bold text-ink" numberOfLines={1}>
+      <Text className="text-lg font-semibold text-ink" numberOfLines={1}>
         {title}
       </Text>
       {actions.map((action) => (
@@ -128,11 +130,7 @@ export function ActionMenu({
             action.onPress();
           }}
         >
-          <Text
-            className={
-              action.destructive ? 'text-base text-danger' : 'text-base text-ink'
-            }
-          >
+          <Text className={action.destructive ? 'text-base text-danger' : 'text-base text-ink'}>
             {action.label}
           </Text>
         </Pressable>

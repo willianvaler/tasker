@@ -1,4 +1,4 @@
-import { ScrollView, SectionList, Text, useWindowDimensions, View } from 'react-native';
+import { ScrollView, SectionList, useWindowDimensions, View } from 'react-native';
 
 import { GameHeader } from '@/components/game-bar';
 import { HeroPanel } from '@/components/hero-panel';
@@ -9,6 +9,7 @@ import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { TaskRow } from '@/components/tasks/task-row';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { Text } from '@/components/ui/text';
 import { formatShortDate } from '@/lib/parser/dates';
 import { useToday } from '@/lib/queries/profile';
 import { useHabits, useTodayTasks, type HabitTask, type TaskWithPage } from '@/lib/queries/tasks';
@@ -97,8 +98,8 @@ export default function TodayScreen() {
       renderItem={({ item }) => renderRow(item)}
       ListEmptyComponent={
         tasks.isPending || habits.isPending ? null : (
-          <View className="mt-10 items-center gap-1">
-            <Text className="text-4xl">🎉</Text>
+          <View className="mt-12 items-center gap-1">
+            <Text className="text-xl">🎉</Text>
             <Text className="text-center text-ink-muted">Nada para hoje.</Text>
             <Text className="text-center text-sm text-ink-muted">
               Dica: escreva &quot;amanhã&quot;, &quot;sexta&quot; ou &quot;15/10&quot; no título
@@ -135,10 +136,10 @@ export default function TodayScreen() {
             )}
             {list}
           </View>
-          <ScrollView className="w-[420px] flex-none" contentContainerClassName="gap-4 pb-16">
+          <ScrollView className="w-[420px] flex-none" contentContainerClassName="gap-4 pb-12">
             <HeroPanel />
             {todaysHabits.length > 0 && (
-              <View className="rounded-2xl border border-line bg-surface px-3 pb-2">
+              <View className="rounded-lg border border-line bg-surface px-3 pb-2">
                 <SectionTitle title={habitsTitle} />
                 {todaysHabits.map((task) => (
                   <View key={task.id}>{renderRow({ kind: 'habit', task })}</View>

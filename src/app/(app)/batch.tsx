@@ -1,13 +1,14 @@
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, TextInput, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { MentionChips } from '@/components/tasks/assignee-chips';
 import { TaskMeta } from '@/components/tasks/task-meta';
 import { Button } from '@/components/ui/button';
+import { Text, textClass } from '@/components/ui/text';
 import { takeBatchDraft } from '@/lib/batch-draft';
 import { cn } from '@/lib/cn';
 import { useColors } from '@/lib/tokens';
@@ -116,9 +117,7 @@ export default function BatchScreen() {
     return (
       <Screen>
         <ScreenHeader title="Adicionar várias" back />
-        <Text className="mt-6 text-ink-muted">
-          Abra pela página onde quer criar as tarefas.
-        </Text>
+        <Text className="mt-6 text-ink-muted">Abra pela página onde quer criar as tarefas.</Text>
       </Screen>
     );
   }
@@ -141,7 +140,9 @@ export default function BatchScreen() {
         placeholderTextColor={colors['ink-muted']}
         accessibilityLabel="Lista de tarefas"
         textAlignVertical="top"
-        className="max-h-48 min-h-28 rounded-lg border border-line bg-paper p-3 text-base text-ink"
+        className={textClass(
+          'max-h-48 min-h-28 rounded-lg border border-line bg-paper p-3 text-base text-ink',
+        )}
       />
 
       <Text className="mt-4 font-semibold text-ink" accessibilityLiveRegion="polite">
@@ -233,7 +234,7 @@ function PreviewRow({
             onBlur={save}
             onSubmitEditing={save}
             accessibilityLabel="Editar item"
-            className="text-base text-ink"
+            className={textClass('text-base text-ink')}
           />
         ) : (
           <Pressable
@@ -241,12 +242,7 @@ function PreviewRow({
             accessibilityHint="Toque para editar"
             onPress={() => setEditing(true)}
           >
-            <Text
-              className={cn(
-                'text-base text-ink',
-                item.done && 'text-ink-muted line-through',
-              )}
-            >
+            <Text className={cn('text-base text-ink', item.done && 'text-ink-muted line-through')}>
               {item.title}
             </Text>
           </Pressable>

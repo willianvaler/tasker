@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { useNotifications } from '@/lib/queries/projects';
 
@@ -34,7 +35,7 @@ export function Badge({ count, className }: { count: number; className?: string 
         className,
       )}
     >
-      <Text className="text-[11px] font-bold text-on-accent">{count > 99 ? '99+' : count}</Text>
+      <Text className="text-xs font-semibold text-on-accent">{count > 99 ? '99+' : count}</Text>
     </View>
   );
 }

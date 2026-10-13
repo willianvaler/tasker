@@ -1,10 +1,11 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
 import { resetCycleLabel } from '@/components/page-dialog';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { setBatchDraft } from '@/lib/batch-draft';
 import { useToday } from '@/lib/queries/profile';
 import { usePageTasks, type Task } from '@/lib/queries/tasks';
@@ -178,9 +179,7 @@ function CardsBody({
             {complete ? 'Tudo feito! 🎉' : `${doneCount}/${total} feitos`}
           </Text>
           <View className="flex-row items-center gap-2">
-            <Text className="text-xs text-ink-muted">
-              {resetCycleLabel(page.reset_cycle)}
-            </Text>
+            <Text className="text-xs text-ink-muted">{resetCycleLabel(page.reset_cycle)}</Text>
             {page.reset_cycle === 'manual' && (
               <Button
                 variant="ghost"

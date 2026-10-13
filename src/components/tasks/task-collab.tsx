@@ -1,10 +1,11 @@
 import { randomUUID } from 'expo-crypto';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { assigneeName, useTaskMembers } from '@/components/tasks/assignee-chips';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { nameKey } from '@/lib/members';
 import {
   assigneesOf,
@@ -53,9 +54,7 @@ export function AssigneesEditor({ task }: { task: Task }) {
 
   return (
     <View className="gap-2">
-      {current.length === 0 && (
-        <Text className="text-sm text-ink-muted">Ninguém ainda.</Text>
-      )}
+      {current.length === 0 && <Text className="text-sm text-ink-muted">Ninguém ainda.</Text>}
       <View className="flex-row flex-wrap gap-2">
         {current.map((a) => (
           <Chip
@@ -141,9 +140,7 @@ export function Comments({ task }: { task: Task }) {
           <View key={c.id} className="gap-1 rounded-lg bg-wash p-3">
             <View className="flex-row items-center gap-2">
               <Text className="flex-1 text-sm font-semibold text-ink">{author}</Text>
-              <Text className="text-xs text-ink-muted">
-                {WHEN.format(new Date(c.created_at))}
-              </Text>
+              <Text className="text-xs text-ink-muted">{WHEN.format(new Date(c.created_at))}</Text>
               {c.author_id === session?.user.id && online && (
                 <Pressable
                   accessibilityRole="button"

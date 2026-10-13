@@ -1,9 +1,10 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
+import { Text } from '@/components/ui/text';
 import { saveTextFile } from '@/lib/download';
 import { tasksToCsv } from '@/lib/export';
 import { clearPrefs } from '@/lib/prefs';

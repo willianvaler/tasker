@@ -1,12 +1,13 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { PageView } from '@/components/tasks/page-view';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
+import { Text } from '@/components/ui/text';
 import { setLastPageId } from '@/lib/prefs';
 import { pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
@@ -55,7 +56,7 @@ export default function PageScreen() {
               className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
               onPress={() => setDialog('menu')}
             >
-              <Text className="text-xl text-ink-muted">⋯</Text>
+              <Text className="text-lg text-ink-muted">⋯</Text>
             </Pressable>
           ) : null
         }

@@ -2,11 +2,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, Switch, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { useGameState, useSetGamification } from '@/lib/queries/game';
 import { keys } from '@/lib/queries/keys';
@@ -39,7 +40,7 @@ export default function OnboardingScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-paper">
-      <View className="w-full max-w-lg flex-1 self-center px-5">
+      <View className="w-full max-w-lg flex-1 self-center px-6">
         <View className="flex-row items-center py-3">
           <View className="flex-1 flex-row gap-2" accessibilityLabel={`Passo ${step + 1} de 3`}>
             {STEPS.map((s, i) => (
@@ -85,7 +86,7 @@ function Title({ emoji, title, children }: { emoji: string; title: string; child
   return (
     <View className="gap-2">
       <Text style={{ fontSize: 40, lineHeight: 48 }}>{emoji}</Text>
-      <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
+      <Text accessibilityRole="header" className="text-xl font-semibold text-ink">
         {title}
       </Text>
       <Text className="text-base text-ink-muted">{children}</Text>
@@ -114,7 +115,7 @@ function CaptureStep() {
           ✓ {created === 1 ? 'Tarefa criada' : `${created} tarefas criadas`} na Caixa de entrada.
         </Text>
       )}
-      <View className="gap-1 rounded-xl bg-wash p-3">
+      <View className="gap-1 rounded-lg bg-wash p-3">
         <Text className="text-sm text-ink">amanhã, sexta, 15/10 → vencimento</Text>
         <Text className="text-sm text-ink">! !! !!! → prioridade</Text>
         <Text className="text-sm text-ink">#mercado → etiqueta</Text>
@@ -162,8 +163,8 @@ function OrganizeStep() {
   return (
     <>
       <Title emoji="📁" title="Organize em pastas">
-        Pastas guardam páginas: uma lista, um treino em cards. Os hábitos têm lugar próprio, no
-        menu Hábitos. Quer começar com algo pronto? Dá para mudar tudo depois.
+        Pastas guardam páginas: uma lista, um treino em cards. Os hábitos têm lugar próprio, no menu
+        Hábitos. Quer começar com algo pronto? Dá para mudar tudo depois.
       </Title>
       {STARTER_TEMPLATES.map((t) => {
         const created = done.includes(t.key);
@@ -176,7 +177,7 @@ function OrganizeStep() {
               aria-disabled={created}
               disabled={created || createTasks.isPending || !tree.data?.habits}
               className={cn(
-                'gap-1 rounded-xl border p-4 active:opacity-70',
+                'gap-1 rounded-lg border p-4 active:opacity-70',
                 created ? 'border-accent bg-surface' : 'border-line',
               )}
               onPress={createHabits}
@@ -199,7 +200,7 @@ function OrganizeStep() {
             aria-disabled={created}
             disabled={created || m.createFrom.isPending}
             className={cn(
-              'gap-1 rounded-xl border p-4 active:opacity-70',
+              'gap-1 rounded-lg border p-4 active:opacity-70',
               created ? 'border-accent bg-surface' : 'border-line',
             )}
             onPress={() =>
@@ -233,10 +234,8 @@ function GameStep() {
         Cada tarefa concluída vale XP e sobe seu nível. Dias seguidos viram sequência (um dia de
         folga por semana não quebra). Toda semana aparece um boss: seu XP é o dano nele.
       </Title>
-      <View className="gap-1 rounded-xl bg-wash p-3">
-        <Text className="text-sm text-ink">
-          Nada de punição: tarefa esquecida não tira XP.
-        </Text>
+      <View className="gap-1 rounded-lg bg-wash p-3">
+        <Text className="text-sm text-ink">Nada de punição: tarefa esquecida não tira XP.</Text>
         <Text className="text-sm text-ink">
           Em projetos e clãs, o boss é de todo mundo, e quem ajudou ganha a recompensa.
         </Text>

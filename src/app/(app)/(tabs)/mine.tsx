@@ -1,8 +1,9 @@
-import { SectionList, Text, View } from 'react-native';
+import { SectionList, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { TaskRow } from '@/components/tasks/task-row';
+import { Text } from '@/components/ui/text';
 import { addDays } from '@/lib/parser/dates';
 import { useToday } from '@/lib/queries/profile';
 import { useMyTasks } from '@/lib/queries/projects';
@@ -31,14 +32,12 @@ export default function MineScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader title="🙋 Atribuídas a mim" back />
-      {tasks.error && (
-        <Text className="text-danger">Erro ao carregar: {tasks.error.message}</Text>
-      )}
+      {tasks.error && <Text className="text-danger">Erro ao carregar: {tasks.error.message}</Text>}
       <SectionList
         sections={groups}
         keyExtractor={(task) => task.id}
         stickySectionHeadersEnabled={false}
-        contentContainerClassName="pb-28"
+        contentContainerClassName="pb-clear"
         renderSectionHeader={({ section }) => (
           <Text
             className={
@@ -59,11 +58,9 @@ export default function MineScreen() {
         )}
         ListEmptyComponent={
           tasks.isPending ? null : (
-            <View className="mt-10 items-center gap-1">
-              <Text className="text-4xl">🙌</Text>
-              <Text className="text-center text-ink-muted">
-                Nada atribuído a você agora.
-              </Text>
+            <View className="mt-12 items-center gap-1">
+              <Text className="text-xl">🙌</Text>
+              <Text className="text-center text-ink-muted">Nada atribuído a você agora.</Text>
               <Text className="text-center text-sm text-ink-muted">
                 Em um projeto compartilhado, escreva @nome na tarefa para atribuir a alguém.
               </Text>

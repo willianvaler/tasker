@@ -1,9 +1,10 @@
 import * as Haptics from 'expo-haptics';
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Platform, Pressable, View } from 'react-native';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { rewardMessage } from '@/lib/gamification';
 import { addDays, type IsoDate } from '@/lib/parser/dates';
@@ -106,18 +107,11 @@ function TickButton({
       onPress={onPress}
       className={cn(
         'h-11 w-11 items-center justify-center rounded-full border active:opacity-70',
-        sign === '+'
-          ? 'border-ok bg-ok/10'
-          : 'border-danger bg-danger/10',
+        sign === '+' ? 'border-ok bg-ok/10' : 'border-danger bg-danger/10',
         disabled && 'opacity-40',
       )}
     >
-      <Text
-        className={cn(
-          'text-xl font-bold',
-          sign === '+' ? 'text-ok' : 'text-danger',
-        )}
-      >
+      <Text className={cn('text-lg font-semibold', sign === '+' ? 'text-ok' : 'text-danger')}>
         {sign}
       </Text>
     </Pressable>
@@ -179,7 +173,7 @@ export function HabitRow({
           />
           <Text
             className={cn(
-              'min-w-12 text-center text-sm font-bold',
+              'min-w-12 text-center text-sm font-semibold',
               done ? 'text-accent' : 'text-ink',
             )}
             accessibilityLabel={`${task.count_up} de ${target}`}
@@ -201,9 +195,7 @@ export function HabitRow({
         className="flex-1 gap-1 py-2"
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
       >
-        <Text className={cn('text-base', done ? 'text-ink-muted' : 'text-ink')}>
-          {task.title}
-        </Text>
+        <Text className={cn('text-base', done ? 'text-ink-muted' : 'text-ink')}>{task.title}</Text>
         <View className="flex-row flex-wrap items-center gap-x-3">
           <Text className="text-xs text-ink-muted">
             {kind === 'plusminus' ? 'Bom e ruim' : recurrenceLabel(r) || 'Todo dia'}
@@ -217,11 +209,9 @@ export function HabitRow({
             className="text-right text-xs text-ink-muted"
             accessibilityLabel={`Hoje: ${task.count_up} bons, ${task.count_down} ruins`}
           >
-            <Text className="font-bold text-ok">
-              +{task.count_up}
-            </Text>
+            <Text className="font-semibold text-ok">+{task.count_up}</Text>
             {'  '}
-            <Text className="font-bold text-danger">−{task.count_down}</Text>
+            <Text className="font-semibold text-danger">−{task.count_down}</Text>
           </Text>
           <TickButton
             sign="−"
@@ -233,10 +223,7 @@ export function HabitRow({
       ) : (
         <View className="items-end gap-1 pr-2">
           <Text
-            className={cn(
-              'text-sm font-bold',
-              streak > 0 ? 'text-warn' : 'text-ink-muted',
-            )}
+            className={cn('text-sm font-semibold', streak > 0 ? 'text-warn' : 'text-ink-muted')}
             accessibilityLabel={`Sequência de ${streak}`}
           >
             🔥 {streak}

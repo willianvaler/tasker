@@ -1,9 +1,10 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SignInForm } from '@/components/sign-in-form';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { useClanInvitePreview, useClanMutations } from '@/lib/queries/clan';
 import { useSession } from '@/providers/session';
 
@@ -20,7 +21,7 @@ export default function ClanInviteScreen() {
   } else if (preview.error || !preview.data?.valid) {
     body = (
       <>
-        <Text className="text-center text-xl font-bold text-ink">Convite inválido</Text>
+        <Text className="text-center text-lg font-semibold text-ink">Convite inválido</Text>
         <Text className="text-center text-ink-muted">
           {preview.data && !preview.data.valid
             ? preview.data.reason
@@ -34,12 +35,9 @@ export default function ClanInviteScreen() {
     const member = clan.my_clan === clan.clan_id;
     body = (
       <>
-        <View className="items-center gap-1 rounded-2xl border border-line bg-surface p-5">
+        <View className="items-center gap-1 rounded-lg border border-line bg-surface p-6">
           <Text style={{ fontSize: 40, lineHeight: 48 }}>{clan.icon || '🛡️'}</Text>
-          <Text
-            accessibilityRole="header"
-            className="text-center text-2xl font-bold text-ink"
-          >
+          <Text accessibilityRole="header" className="text-center text-xl font-semibold text-ink">
             {clan.name}
           </Text>
           <Text className="text-center text-ink-muted">
@@ -58,9 +56,7 @@ export default function ClanInviteScreen() {
           </Text>
         ) : (
           <>
-            {join.error && (
-              <Text className="text-center text-danger">{join.error.message}</Text>
-            )}
+            {join.error && <Text className="text-center text-danger">{join.error.message}</Text>}
             <Button
               label="Entrar no clã"
               loading={join.isPending}
@@ -80,7 +76,7 @@ export default function ClanInviteScreen() {
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerClassName="flex-grow items-center justify-center px-6 py-10"
+          contentContainerClassName="flex-grow items-center justify-center px-6 py-12"
         >
           <View className="w-full max-w-sm gap-4">{body}</View>
         </ScrollView>

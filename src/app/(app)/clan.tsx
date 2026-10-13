@@ -1,6 +1,6 @@
 import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { BossBoard } from '@/components/boss-board';
 import { BossLine } from '@/components/game-bar';
@@ -9,6 +9,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { describeClanActivity } from '@/lib/activity';
 import { initials } from '@/lib/members';
 import { clanInviteUrl, useClan, useClanMutations } from '@/lib/queries/clan';
@@ -84,9 +85,9 @@ export default function ClanScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader title={`${data.icon || '🛡️'} ${data.name}`} back />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 pb-12">
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 pb-12">
         {boss && game.data?.enabled !== false && (
-          <View className="gap-2 rounded-xl border border-line bg-surface p-3">
+          <View className="gap-2 rounded-lg border border-line bg-surface p-3">
             <Text className="font-semibold text-ink">Boss da semana do clã</Text>
             <BossLine boss={boss} />
             <BossBoard bossId={boss.id} />
@@ -98,7 +99,7 @@ export default function ClanScreen() {
           {data.members.map((member) => (
             <View key={member.userId} className="flex-row items-center gap-2">
               <View className="h-8 w-8 items-center justify-center rounded-full bg-accent">
-                <Text className="text-xs font-bold text-on-accent">
+                <Text className="text-xs font-semibold text-on-accent">
                   {initials(member.displayName)}
                 </Text>
               </View>
@@ -159,9 +160,7 @@ export default function ClanScreen() {
           {data.activity.map((a) => (
             <View key={a.id} className="flex-row gap-2 py-1">
               <Text className="flex-1 text-sm text-ink">{describeClanActivity(a)}</Text>
-              <Text className="text-xs text-ink-muted">
-                {WHEN.format(new Date(a.created_at))}
-              </Text>
+              <Text className="text-xs text-ink-muted">{WHEN.format(new Date(a.created_at))}</Text>
             </View>
           ))}
         </View>

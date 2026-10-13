@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { FolderCard } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
@@ -7,6 +7,7 @@ import { Screen } from '@/components/screen';
 import { Grid } from '@/components/ui/grid';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 
@@ -33,10 +34,8 @@ export default function FoldersScreen() {
           </View>
         }
       />
-      {tree.error && (
-        <Text className="text-danger">Erro ao carregar: {tree.error.message}</Text>
-      )}
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-28">
+      {tree.error && <Text className="text-danger">Erro ao carregar: {tree.error.message}</Text>}
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
         <Grid>
           {folders.map((folder) => (
             <FolderCard
@@ -48,8 +47,8 @@ export default function FoldersScreen() {
           ))}
         </Grid>
         {tree.data && folders.length === 0 && (
-          <View className="mt-10 items-center gap-3">
-            <Text className="text-4xl">📁</Text>
+          <View className="mt-12 items-center gap-3">
+            <Text className="text-xl">📁</Text>
             <Text className="text-center text-ink-muted">
               Crie pastas para separar os assuntos (Academia, Casa, Trabalho...) e páginas dentro
               delas.

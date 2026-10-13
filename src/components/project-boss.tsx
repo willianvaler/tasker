@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { BossBoard } from '@/components/boss-board';
 import { BossLine } from '@/components/game-bar';
@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { addDays, formatShortDate, nextWeekday } from '@/lib/parser/dates';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { useProjectBoss, useProjectBossMutations } from '@/lib/queries/clan';
@@ -47,7 +48,7 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
   const typed = dateText.trim() ? parseQuickInput(`x ${dateText}`, { today }).dueDate : null;
 
   return (
-    <View className="gap-2 rounded-xl border border-line bg-surface p-3">
+    <View className="gap-2 rounded-lg border border-line bg-surface p-3">
       <Text className="font-semibold text-ink">Boss do projeto</Text>
       {current ? (
         <>

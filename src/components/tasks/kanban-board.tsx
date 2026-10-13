@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { rewardMessage } from '@/lib/gamification';
 import { useGameState } from '@/lib/queries/game';
@@ -63,7 +64,7 @@ export function KanbanBoard({
     <View
       key={column.status}
       accessibilityLabel={`Coluna ${column.title}`}
-      className={cn('gap-2 rounded-xl bg-wash p-2', wide ? 'flex-1' : '')}
+      className={cn('gap-2 rounded-lg bg-wash p-2', wide ? 'flex-1' : '')}
       style={wide ? undefined : { width: Math.min(320, width * 0.8) }}
     >
       <Text className="px-1 text-sm font-semibold text-ink-muted">
@@ -174,7 +175,7 @@ function MoveButton({
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={a11y}
-      className="min-h-11 justify-center rounded-md px-2 active:bg-wash"
+      className="min-h-11 justify-center rounded px-2 active:bg-wash"
       onPress={onPress}
     >
       <Text className="text-xs font-semibold text-accent">{label}</Text>

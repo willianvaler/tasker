@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { QuickAdd } from '@/components/tasks/quick-add';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { getLastPageId } from '@/lib/prefs';
 import { useShortcut } from '@/lib/use-shortcut';
@@ -54,10 +55,10 @@ export default function CaptureScreen() {
     >
       <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={close} />
       <View
-        className="mx-auto w-full max-w-xl gap-3 rounded-b-2xl bg-paper p-4 shadow-lg"
+        className="mx-auto w-full max-w-xl gap-3 rounded-b-lg bg-paper p-4 "
         style={{ paddingTop: insets.top + 16 }}
       >
-        <Text className="text-lg font-bold text-ink">Captura rápida</Text>
+        <Text className="text-lg font-semibold text-ink">Captura rápida</Text>
         <QuickAdd
           pageId={target?.id}
           autoFocus
@@ -90,11 +91,7 @@ export default function CaptureScreen() {
                       page.id === target?.id ? 'border-accent bg-accent' : 'border-line',
                     )}
                   >
-                    <Text
-                      className={
-                        page.id === target?.id ? 'text-on-accent' : 'text-ink'
-                      }
-                    >
+                    <Text className={page.id === target?.id ? 'text-on-accent' : 'text-ink'}>
                       {pageLabel(page)}
                     </Text>
                   </Pressable>

@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
 import { PrivacySection } from '@/components/privacy-section';
@@ -11,6 +11,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { LOCALES, type LocalePreference } from '@/i18n/locale';
 import { useLocalePreference } from '@/i18n/use-locale';
 import { clearPrefs, type ThemePreference } from '@/lib/prefs';
@@ -54,7 +55,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
   }
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-28">
+    <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
       {/* Computador: conta à esquerda, jogo e conquistas à direita (D67) */}
       <View className="gap-8 lg:flex-row-reverse lg:items-start">
         <View className="gap-4 lg:flex-[3]">

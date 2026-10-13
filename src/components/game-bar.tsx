@@ -1,8 +1,9 @@
 import { Link } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Avatar, classOf } from '@/components/character';
 import { ProgressBar } from '@/components/ui/progress-bar';
+import { Text } from '@/components/ui/text';
 import { CLASSES } from '@/lib/character';
 import { cn } from '@/lib/cn';
 import { useGameState, type Boss, type GameState } from '@/lib/queries/game';
@@ -12,7 +13,7 @@ export { ProgressBar };
 function LevelLine({ game }: { game: GameState }) {
   return (
     <View className="flex-row items-center gap-2">
-      <Text className="text-sm font-bold text-ink">Nv {game.level}</Text>
+      <Text className="text-sm font-semibold text-ink">Nv {game.level}</Text>
       <ProgressBar
         className="flex-1"
         value={game.into_level / game.for_next}
@@ -92,7 +93,7 @@ export function GameHeader() {
       <Pressable
         accessibilityRole="link"
         accessibilityLabel="Personagem, nível, XP e boss da semana"
-        className="mb-2 gap-2 rounded-xl border border-line bg-surface px-3 py-2 active:opacity-80"
+        className="mb-2 gap-2 rounded-lg border border-line bg-surface px-3 py-2 active:opacity-80"
       >
         <View className="flex-row items-center gap-3">
           <Avatar game={game} size="sm" />
@@ -127,7 +128,7 @@ export function SidebarGame() {
         <Avatar game={game} size="sm" />
         <View className="flex-1 gap-1">
           <View className="flex-row items-baseline justify-between">
-            <Text className="text-sm font-bold text-ink">Nível {game.level}</Text>
+            <Text className="text-sm font-semibold text-ink">Nível {game.level}</Text>
             <Text className="text-xs text-ink-muted">
               🔥 {game.streak} · 🪙 {game.gold}
             </Text>

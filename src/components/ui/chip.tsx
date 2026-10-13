@@ -1,5 +1,6 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 
 /** Opção selecionável em formato de pílula (alvo de toque de 44px). */

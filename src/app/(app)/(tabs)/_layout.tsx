@@ -1,12 +1,13 @@
 import { router } from 'expo-router';
 import { Tabs } from 'expo-router/js-tabs';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useIsWide } from '@/components/sidebar';
+import { Text } from '@/components/ui/text';
 
 const icon = (emoji: string) =>
   function TabIcon() {
-    // Altura de linha fixa: com a padrão do text-xl, o emoji empurrava o rótulo para fora da barra
+    // Altura de linha fixa: com a padrão do text-lg, o emoji empurrava o rótulo para fora da barra
     return <Text style={{ fontSize: 18, lineHeight: 22 }}>{emoji}</Text>;
   };
 
@@ -45,7 +46,11 @@ export default function TabsLayout() {
         />
         <Tabs.Screen
           name="habits"
-          options={{ title: 'Hábitos', tabBarIcon: icon('🔥'), tabBarAccessibilityLabel: 'Hábitos' }}
+          options={{
+            title: 'Hábitos',
+            tabBarIcon: icon('🔥'),
+            tabBarAccessibilityLabel: 'Hábitos',
+          }}
         />
         {/* Atribuídas a mim: no celular abre pelo Início (cartão "Atribuídas a mim"), sem aba própria */}
         <Tabs.Screen name="mine" options={{ title: 'Atribuídas a mim', href: null }} />
@@ -62,10 +67,10 @@ export default function TabsLayout() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Captura rápida"
-          className="absolute bottom-24 right-5 h-14 w-14 items-center justify-center rounded-full bg-accent shadow-lg active:opacity-80"
+          className="absolute bottom-24 right-5 h-14 w-14 items-center justify-center rounded-full bg-accent  active:opacity-80"
           onPress={() => router.push('/capture')}
         >
-          <Text className="text-3xl text-on-accent">+</Text>
+          <Text className="text-xl text-on-accent">+</Text>
         </Pressable>
       )}
     </View>

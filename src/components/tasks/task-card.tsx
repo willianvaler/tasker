@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { router } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import type { Task } from '@/lib/queries/tasks';
 import { useCanWrite } from '@/providers/write';
@@ -52,7 +53,7 @@ function TaskCardView({
           toggle(task, !done);
         }}
         className={cn(
-          'min-h-24 flex-row items-center gap-2 rounded-2xl border-2 p-3 pl-1',
+          'min-h-24 flex-row items-center gap-2 rounded-lg border-2 p-3 pl-1',
           done ? 'border-accent bg-accent/10' : 'border-line bg-surface',
         )}
       >
@@ -75,7 +76,7 @@ function TaskCardView({
             done ? 'border-accent bg-accent' : 'border-ink-muted',
           )}
         >
-          {done && <Text className="text-lg font-bold text-on-accent">✓</Text>}
+          {done && <Text className="text-lg font-semibold text-on-accent">✓</Text>}
         </View>
         <Pressable
           accessibilityRole="button"
@@ -83,7 +84,7 @@ function TaskCardView({
           className="h-11 w-8 items-center justify-center"
           onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
         >
-          <Text className="text-xl text-ink-muted">›</Text>
+          <Text className="text-lg text-ink-muted">›</Text>
         </Pressable>
       </Pressable>
     </Animated.View>

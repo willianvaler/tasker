@@ -1,7 +1,7 @@
 import { randomUUID } from 'expo-crypto';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, TextInput, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -13,6 +13,7 @@ import {
   RecurrenceEditor,
 } from '@/components/tasks/task-extras';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
+import { Text, textClass } from '@/components/ui/text';
 import type { Json } from '@/lib/db';
 import { asRecurrence } from '@/lib/recurrence';
 import { Button } from '@/components/ui/button';
@@ -100,7 +101,7 @@ function TaskDetails({ task }: { task: Task }) {
     <WriteScope folderId={task.folder_id}>
       <Screen>
         <ScreenHeader title={task.parent_task_id ? 'Subtarefa' : 'Tarefa'} back />
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 pb-10">
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 pb-12">
           <View className="flex-row items-start">
             {/* Contador e bom/ruim se marcam pelo + e − da linha do hábito */}
             {(!isHabit || task.habit_kind === 'check') && (
@@ -121,9 +122,8 @@ function TaskDetails({ task }: { task: Task }) {
               multiline
               maxLength={500}
               accessibilityLabel="Título"
-              className={cn(
-                'flex-1 py-2 text-xl font-semibold text-ink',
-                done && 'line-through',
+              className={textClass(
+                cn('flex-1 py-2 text-lg font-semibold text-ink', done && 'line-through'),
               )}
             />
           </View>
@@ -139,7 +139,7 @@ function TaskDetails({ task }: { task: Task }) {
               placeholderTextColor={colors['ink-muted']}
               accessibilityLabel="Notas"
               textAlignVertical="top"
-              className="min-h-20 rounded-lg border border-line p-3 text-base text-ink"
+              className={textClass('min-h-20 rounded-lg border border-line p-3 text-base text-ink')}
             />
           </Section>
 

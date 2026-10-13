@@ -1,6 +1,6 @@
 import { Link, router, usePathname, type Href } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useFolderActions } from '@/components/folder-actions';
@@ -8,6 +8,7 @@ import { SidebarGame } from '@/components/game-bar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
 import { folderLabel, MenuButton } from '@/components/folder-cards';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { getOpenFolders, setOpenFolders } from '@/lib/prefs';
 import { pageLabel, useTree, type Page, type SubFolder } from '@/lib/queries/tree';
@@ -132,7 +133,7 @@ export function Sidebar() {
     >
       <View className="gap-1 px-3 pt-4">
         <View className="mb-2 flex-row items-center pl-2">
-          <Text className="flex-1 text-lg font-bold text-ink">Questlist</Text>
+          <Text className="flex-1 text-lg font-semibold text-ink">Questlist</Text>
           <ThemeToggle />
         </View>
         <Pressable
@@ -142,7 +143,7 @@ export function Sidebar() {
           onPress={() => router.push('/capture')}
         >
           <Text className="text-base text-accent">＋</Text>
-          <Text className="flex-1 text-sm font-medium text-ink">Nova tarefa</Text>
+          <Text className="flex-1 text-sm font-normal text-ink">Nova tarefa</Text>
           <Text className="text-xs text-ink-muted">N</Text>
         </Pressable>
         <View>
@@ -164,10 +165,7 @@ export function Sidebar() {
                 >
                   <Text style={{ fontSize: 16, lineHeight: 20 }}>{item.icon}</Text>
                   <Text
-                    className={cn(
-                      'text-sm text-ink',
-                      selected ? 'font-semibold' : 'font-normal',
-                    )}
+                    className={cn('text-sm text-ink', selected ? 'font-semibold' : 'font-normal')}
                   >
                     {item.label}
                   </Text>
@@ -193,7 +191,7 @@ export function Sidebar() {
         </View>
       </View>
 
-      <View className="mt-5 flex-row items-center pl-5 pr-3">
+      <View className="mt-6 flex-row items-center pl-6 pr-3">
         <Text className="flex-1 text-xs font-semibold uppercase tracking-wide text-ink-muted">
           Pastas
         </Text>
@@ -271,10 +269,7 @@ function Row({
           aria-current={active ? 'page' : undefined}
           className="min-h-9 flex-1 justify-center active:opacity-60"
         >
-          <Text
-            className={cn('text-sm text-ink', active && 'font-semibold')}
-            numberOfLines={1}
-          >
+          <Text className={cn('text-sm text-ink', active && 'font-semibold')} numberOfLines={1}>
             {label}
           </Text>
         </Pressable>

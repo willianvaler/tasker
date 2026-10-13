@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { addDays, startOfIsoWeek, type IsoDate } from '@/lib/parser/dates';
 import type { Recurrence, TaskMeta } from '@/lib/parser/quick';
@@ -179,7 +180,7 @@ export function HabitHistory({
                 key={day}
                 accessibilityLabel={`${day}: ${done.has(day) ? 'feito' : 'não feito'}`}
                 className={cn(
-                  'h-8 w-8 items-center justify-center rounded-md',
+                  'h-8 w-8 items-center justify-center rounded',
                   day > today
                     ? 'opacity-0'
                     : done.has(day)
@@ -191,10 +192,7 @@ export function HabitHistory({
                 )}
               >
                 <Text
-                  className={cn(
-                    'text-xs',
-                    done.has(day) ? 'text-on-accent' : 'text-ink-muted',
-                  )}
+                  className={cn('text-xs', done.has(day) ? 'text-on-accent' : 'text-ink-muted')}
                 >
                   {Number(day.slice(8))}
                 </Text>
@@ -210,7 +208,7 @@ export function HabitHistory({
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <View>
-      <Text className="text-lg font-bold text-ink">{value}</Text>
+      <Text className="text-lg font-semibold text-ink">{value}</Text>
       <Text className="text-xs text-ink-muted">{label}</Text>
     </View>
   );

@@ -1,7 +1,8 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { ProgressBar } from '@/components/game-bar';
 import { ProjectBoss } from '@/components/project-boss';
+import { Text } from '@/components/ui/text';
 import { describeActivity } from '@/lib/activity';
 import { initials } from '@/lib/members';
 import { projectProgress } from '@/lib/progress';
@@ -34,7 +35,7 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
   return (
     <View className="gap-4">
       <ProjectBoss rootId={root.id} />
-      <View className="gap-2 rounded-xl border border-line bg-surface p-3">
+      <View className="gap-2 rounded-lg border border-line bg-surface p-3">
         <View className="flex-row items-baseline justify-between">
           <Text className="font-semibold text-ink">Progresso</Text>
           <Text className="text-sm text-ink-muted" accessibilityLabel="Progresso do projeto">
@@ -50,7 +51,7 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
           return (
             <View key={m.userId} className="flex-row items-center gap-2">
               <View className="h-6 w-6 items-center justify-center rounded-full bg-accent">
-                <Text className="text-[10px] font-bold text-on-accent">
+                <Text className="text-xs font-semibold text-on-accent">
                   {initials(m.displayName)}
                 </Text>
               </View>
@@ -74,9 +75,7 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
           {activity.data?.map((a) => (
             <View key={a.id} className="flex-row gap-2 py-1">
               <Text className="flex-1 text-sm text-ink">{describeActivity(a)}</Text>
-              <Text className="text-xs text-ink-muted">
-                {WHEN.format(new Date(a.created_at))}
-              </Text>
+              <Text className="text-xs text-ink-muted">{WHEN.format(new Date(a.created_at))}</Text>
             </View>
           ))}
         </View>

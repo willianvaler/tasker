@@ -1,21 +1,20 @@
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 // Política de privacidade (ESCOPO 9). Pública (fora do login): as lojas pedem um endereço para ela.
 export default function PrivacyScreen() {
   return (
     <SafeAreaView className="flex-1 bg-paper">
-      <ScrollView contentContainerClassName="w-full max-w-2xl self-center gap-4 px-5 py-8">
-        <Text accessibilityRole="header" className="text-3xl font-bold text-ink">
+      <ScrollView contentContainerClassName="w-full max-w-2xl self-center gap-4 px-6 py-8">
+        <Text accessibilityRole="header" className="text-xl font-semibold text-ink">
           Política de privacidade
         </Text>
-        <Text className="text-sm text-ink-muted">
-          Questlist · atualizada em outubro de 2026
-        </Text>
+        <Text className="text-sm text-ink-muted">Questlist · atualizada em outubro de 2026</Text>
 
         <Section title="O que guardamos">
           Seu nome, e-mail e fuso horário; as pastas, páginas, tarefas e comentários que você cria;
@@ -64,7 +63,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <View className="gap-1">
       <Text className="text-lg font-semibold text-ink">{title}</Text>
-      <Text className="text-base leading-6 text-ink">{children}</Text>
+      <Text className="text-base  text-ink">{children}</Text>
     </View>
   );
 }

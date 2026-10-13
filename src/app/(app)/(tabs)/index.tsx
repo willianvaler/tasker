@@ -1,6 +1,6 @@
 import { Link, useIsFocused, type Href } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { GameHeader } from '@/components/game-bar';
 import { HeroPanel } from '@/components/hero-panel';
@@ -11,6 +11,7 @@ import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { TaskRow } from '@/components/tasks/task-row';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Grid } from '@/components/ui/grid';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { addDays, formatShortDate } from '@/lib/parser/dates';
 import { useMyTasks } from '@/lib/queries/projects';
@@ -163,7 +164,7 @@ export default function HomeScreen() {
           </View>
         }
       />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-28">
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-clear">
         <Text className="text-ink-muted">
           {formatShortDate(today)} ·{' '}
           {nothingPending ? 'nada pendente por enquanto' : 'o que está pendente'}
@@ -209,13 +210,10 @@ function Tile({
       <Pressable
         accessibilityRole="link"
         accessibilityLabel={`${label}: ${value}`}
-        className="gap-1 rounded-2xl border border-line bg-surface p-3 active:opacity-80 md:p-4"
+        className="gap-1 rounded-lg border border-line bg-surface p-3 active:opacity-80 md:p-4"
       >
         <Text
-          className={cn(
-            'text-xl font-bold md:text-2xl',
-            alert ? 'text-danger' : 'text-ink',
-          )}
+          className={cn('text-lg font-semibold md:text-xl', alert ? 'text-danger' : 'text-ink')}
         >
           {value}
         </Text>
@@ -239,9 +237,9 @@ function Card({
   children?: ReactNode;
 }) {
   return (
-    <View className="rounded-2xl border border-line bg-surface px-4 pb-3 pt-3">
+    <View className="rounded-lg border border-line bg-surface px-4 pb-3 pt-3">
       <View className="min-h-11 flex-row items-center justify-between">
-        <Text className="text-base font-bold text-ink" accessibilityRole="header">
+        <Text className="text-base font-semibold text-ink" accessibilityRole="header">
           {title}
         </Text>
         {link && (

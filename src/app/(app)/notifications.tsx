@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { describeNotification } from '@/lib/notifications';
 import { useMarkNotificationsRead, useNotifications } from '@/lib/queries/projects';

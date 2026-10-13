@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
+import { Text } from '@/components/ui/text';
 import { useToday } from '@/lib/queries/profile';
 import { useTemplateMutations, useUserTemplates, type TemplateData } from '@/lib/queries/projects';
 import { BUILT_IN_TEMPLATES, templateData } from '@/lib/templates';
@@ -102,7 +103,7 @@ function TemplateCard({
   onDelete?: () => void;
 }) {
   return (
-    <View className="flex-row items-center rounded-2xl border border-line bg-surface">
+    <View className="flex-row items-center rounded-lg border border-line bg-surface">
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`Modelo ${name}`}

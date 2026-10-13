@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { memo, useState } from 'react';
 import * as Haptics from 'expo-haptics';
-import { Platform, Pressable, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, TextInput, View } from 'react-native';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { rewardMessage } from '@/lib/gamification';
 import { useGameState } from '@/lib/queries/game';
@@ -101,7 +102,7 @@ function TaskRowView({
             onBlur={saveTitle}
             maxLength={500}
             accessibilityLabel="Título da tarefa"
-            className="min-h-8 text-base text-ink"
+            className={textClass('min-h-8 text-base text-ink')}
           />
         ) : (
           <Pressable
@@ -113,12 +114,7 @@ function TaskRowView({
               setEditing(true);
             }}
           >
-            <Text
-              className={cn(
-                'text-base',
-                done ? 'text-ink-muted line-through' : 'text-ink',
-              )}
-            >
+            <Text className={cn('text-base', done ? 'text-ink-muted line-through' : 'text-ink')}>
               {task.title}
             </Text>
           </Pressable>
@@ -132,7 +128,7 @@ function TaskRowView({
         className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
       >
-        <Text className="text-xl text-ink-muted">›</Text>
+        <Text className="text-lg text-ink-muted">›</Text>
       </Pressable>
     </View>
   );

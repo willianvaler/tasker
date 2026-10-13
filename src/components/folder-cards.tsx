@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { pageLabel, type FolderNode, type Page, type SubFolder } from '@/lib/queries/tree';
 
 const VIEW_LABEL: Record<string, string> = {
@@ -60,7 +61,7 @@ export function FolderCard({
   const label = folderLabel(folder);
   const empty = folder.pages.length === 0 && folder.children.length === 0;
   return (
-    <View className="gap-1 rounded-2xl border border-line bg-surface p-3">
+    <View className="gap-1 rounded-lg border border-line bg-surface p-3">
       <View className="flex-row items-center">
         <Link href={{ pathname: '/folder/[id]', params: { id: folder.id } }} asChild>
           <Pressable accessibilityRole="link" className="min-h-11 flex-1 justify-center">
@@ -124,10 +125,10 @@ export function PageTile({ page, onMenu }: { page: Page; onMenu?: () => void }) 
   const label = pageLabel(page);
   const reset = RESET_LABEL[page.reset_cycle];
   return (
-    <View className="flex-row items-center rounded-xl border border-line bg-surface pl-3">
+    <View className="flex-row items-center rounded-lg border border-line bg-surface pl-3">
       <Link href={{ pathname: '/page/[id]', params: { id: page.id } }} asChild>
         <Pressable accessibilityRole="link" className="min-h-14 flex-1 justify-center py-2">
-          <Text className="text-base font-medium text-ink" numberOfLines={1}>
+          <Text className="text-base font-normal text-ink" numberOfLines={1}>
             {label}
           </Text>
           <Text className="text-xs text-ink-muted">

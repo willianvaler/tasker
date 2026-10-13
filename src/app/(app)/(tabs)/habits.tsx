@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -7,6 +7,7 @@ import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { useToday } from '@/lib/queries/profile';
 import { useHabits, type HabitTask } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
@@ -88,7 +89,8 @@ export default function HabitsScreen() {
           placeholder={`Novo hábito… (ex.: ${current.example})`}
           habit={{
             kind,
-            target: kind === 'counter' ? Math.min(100, Math.max(1, Number(target) || 1)) : undefined,
+            target:
+              kind === 'counter' ? Math.min(100, Math.max(1, Number(target) || 1)) : undefined,
           }}
         />
         <Text className="text-xs text-ink-muted">
@@ -116,8 +118,8 @@ export default function HabitsScreen() {
           </View>
         ))}
         {!habits.isPending && all.length === 0 && (
-          <View className="mt-10 items-center gap-1">
-            <Text className="text-4xl">🔥</Text>
+          <View className="mt-12 items-center gap-1">
+            <Text className="text-xl">🔥</Text>
             <Text className="text-center text-ink-muted">
               Nenhum hábito ainda. Escolha o tipo acima e escreva o primeiro.
             </Text>

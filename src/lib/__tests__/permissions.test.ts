@@ -40,7 +40,9 @@ describe('can() (mesmos casos do pgTAP v2_permissoes)', () => {
   });
 
   test('":own" não vale para permissão sem regra de dono', () => {
-    expect(can({ userId: ana, preset: 'contributor' }, 'task.edit', { createdBy: ana })).toBe(false);
+    expect(can({ userId: ana, preset: 'contributor' }, 'task.edit', { createdBy: ana })).toBe(
+      false,
+    );
   });
 
   test('papéis de hoje: owner e editor escrevem, viewer não; sem papel, nada', () => {

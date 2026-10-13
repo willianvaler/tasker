@@ -1,5 +1,5 @@
 import { Link, router, useLocalSearchParams } from 'expo-router';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import { useFolderActions } from '@/components/folder-actions';
 import { folderLabel, folderSummary, MenuButton, PageTile } from '@/components/folder-cards';
@@ -8,6 +8,7 @@ import { Screen } from '@/components/screen';
 import { Grid } from '@/components/ui/grid';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { findFolder, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useCanWrite } from '@/providers/write';
@@ -78,7 +79,7 @@ export default function FolderScreen() {
         </View>
       )}
 
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-2 pb-28">
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-2 pb-clear">
         {folder && 'children' in folder && folder.is_shared && (
           <View className="mb-2">
             <ProjectOverview root={folder} />

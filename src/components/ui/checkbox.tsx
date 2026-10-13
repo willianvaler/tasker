@@ -1,4 +1,4 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 
 /**
@@ -57,10 +58,8 @@ function CheckCircle({ checked }: { checked: boolean }) {
   return (
     <Text
       className={cn(
-        'h-6 w-6 overflow-hidden rounded-full border-2 text-center text-xs font-bold leading-5',
-        checked
-          ? 'border-accent bg-accent text-on-accent'
-          : 'border-ink-muted text-transparent',
+        'h-6 w-6 overflow-hidden rounded-full border-2 text-center text-xs font-semibold ',
+        checked ? 'border-accent bg-accent text-on-accent' : 'border-ink-muted text-transparent',
       )}
     >
       ✓

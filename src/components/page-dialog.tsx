@@ -1,17 +1,10 @@
 import { useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import type { Page, PageSettings } from '@/lib/queries/tree';
 
 const VIEW_TYPES: { value: Page['view_type']; label: string; hint: string }[] = [
@@ -80,9 +73,9 @@ export function PageDialog({
         className="flex-1 items-center justify-center bg-scrim/40 px-6"
       >
         <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={onClose} />
-        <View className="max-h-[90%] w-full max-w-md rounded-2xl bg-paper">
-          <ScrollView contentContainerClassName="gap-3 p-5" keyboardShouldPersistTaps="handled">
-            <Text className="text-lg font-bold text-ink">{title}</Text>
+        <View className="max-h-[90%] w-full max-w-md rounded-lg bg-paper">
+          <ScrollView contentContainerClassName="gap-3 p-6" keyboardShouldPersistTaps="handled">
+            <Text className="text-lg font-semibold text-ink">{title}</Text>
             <Input
               placeholder="Nome (ex.: Treino A)"
               value={name}

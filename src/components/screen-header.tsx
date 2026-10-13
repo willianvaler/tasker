@@ -1,6 +1,8 @@
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+
+import { Text } from '@/components/ui/text';
 
 export function ScreenHeader({
   title,
@@ -20,11 +22,11 @@ export function ScreenHeader({
           className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         >
-          <Text className="text-2xl text-ink">‹</Text>
+          <Text className="text-xl text-ink">‹</Text>
         </Pressable>
       )}
       <Text
-        className="flex-1 text-2xl font-bold text-ink"
+        className="flex-1 text-xl font-semibold text-ink"
         numberOfLines={1}
         accessibilityRole="header"
       >

@@ -1,6 +1,7 @@
 import { useColorScheme } from 'nativewind';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { useThemePreference } from '@/providers/theme';
 
@@ -17,10 +18,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       accessibilityRole="button"
       accessibilityLabel={dark ? 'Usar tema claro' : 'Usar tema escuro'}
       onPress={() => setPreference(dark ? 'light' : 'dark')}
-      className={cn(
-        'h-11 w-11 items-center justify-center rounded-full active:bg-wash',
-        className,
-      )}
+      className={cn('h-11 w-11 items-center justify-center rounded-full active:bg-wash', className)}
     >
       <Text style={{ fontSize: 18, lineHeight: 22 }}>{dark ? '☀️' : '🌙'}</Text>
     </Pressable>

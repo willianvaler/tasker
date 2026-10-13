@@ -1,6 +1,7 @@
-import { Switch, Text, View } from 'react-native';
+import { Switch, View } from 'react-native';
 
 import { BossLine, ProgressBar } from '@/components/game-bar';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { useGameState, useSetGamification } from '@/lib/queries/game';
 import { useIsOnline } from '@/providers/online';
@@ -33,9 +34,9 @@ export function GameProfile() {
 
       {game.enabled && (
         <>
-          <View className="gap-2 rounded-xl border border-line bg-surface p-3">
+          <View className="gap-2 rounded-lg border border-line bg-surface p-3">
             <View className="flex-row items-baseline justify-between">
-              <Text className="text-xl font-bold text-ink">Nível {game.level}</Text>
+              <Text className="text-lg font-semibold text-ink">Nível {game.level}</Text>
               <Text className="text-sm text-ink-muted">{game.xp} XP no total</Text>
             </View>
             <ProgressBar
@@ -61,7 +62,7 @@ export function GameProfile() {
           </Text>
 
           {game.boss && (
-            <View className="gap-1 rounded-xl border border-line bg-surface p-3">
+            <View className="gap-1 rounded-lg border border-line bg-surface p-3">
               <Text className="text-sm font-semibold text-ink">Boss da semana</Text>
               <BossLine boss={game.boss} />
               <Text className="text-xs text-ink-muted">
@@ -83,14 +84,14 @@ export function GameProfile() {
                   key={a.key}
                   accessibilityLabel={`${a.name}: ${a.description}${a.unlocked_at ? '' : ' (bloqueada)'}`}
                   className={cn(
-                    'w-[31%] min-w-28 flex-grow items-center gap-1 rounded-xl border border-line p-2 md:w-[23%] xl:w-[18%]',
+                    'w-[31%] min-w-28 flex-grow items-center gap-1 rounded-lg border border-line p-2 md:w-[23%] xl:w-[18%]',
                     a.unlocked_at ? 'bg-surface' : 'opacity-40',
                   )}
                 >
                   <Text style={{ fontSize: 24, lineHeight: 30 }}>
                     {a.unlocked_at ? a.icon : '🔒'}
                   </Text>
-                  <Text className="text-center text-sm font-medium text-ink">{a.name}</Text>
+                  <Text className="text-center text-sm font-normal text-ink">{a.name}</Text>
                   <Text className="text-center text-xs text-ink-muted">{a.description}</Text>
                 </View>
               ))}
@@ -104,8 +105,8 @@ export function GameProfile() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <View className="flex-1 items-center rounded-xl border border-line bg-surface py-2">
-      <Text className="text-lg font-bold text-ink">{value}</Text>
+    <View className="flex-1 items-center rounded-lg border border-line bg-surface py-2">
+      <Text className="text-lg font-semibold text-ink">{value}</Text>
       <Text className="text-xs text-ink-muted">{label}</Text>
     </View>
   );

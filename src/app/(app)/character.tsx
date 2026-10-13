@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import {
   AttributesPanel,
@@ -15,6 +15,7 @@ import { BossLine } from '@/components/game-bar';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { bossHpForLevel } from '@/lib/character';
 import { gamificationConfig as config } from '@/lib/gamification.config';
 import { useGameState } from '@/lib/queries/game';
@@ -45,7 +46,7 @@ export default function CharacterScreen() {
     return (
       <Screen size="wide">
         <ScreenHeader title={cls ? 'Trocar de classe' : 'Escolha sua classe'} back />
-        <ScrollView contentContainerClassName="gap-4 pb-16">
+        <ScrollView contentContainerClassName="gap-4 pb-12">
           <Text className="text-ink-muted">
             A classe é o seu estilo: muda os atributos iniciais e dá uma passiva e uma habilidade
             por dia. Dá para trocar depois, sem custo.
@@ -67,7 +68,7 @@ export default function CharacterScreen() {
   return (
     <Screen size="wide">
       <ScreenHeader title="Personagem" back />
-      <ScrollView contentContainerClassName="pb-16">
+      <ScrollView contentContainerClassName="pb-12">
         <View className="flex-col gap-4 lg:flex-row lg:items-start">
           <View className="gap-4 lg:flex-1">
             <HeroCard game={game} name={profile.data?.display_name} />
@@ -110,8 +111,8 @@ export default function CharacterScreen() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <View className="flex-1 items-center rounded-xl border border-line bg-surface py-2">
-      <Text className="text-lg font-bold text-ink">{value}</Text>
+    <View className="flex-1 items-center rounded-lg border border-line bg-surface py-2">
+      <Text className="text-lg font-semibold text-ink">{value}</Text>
       <Text className="text-center text-xs text-ink-muted">{label}</Text>
     </View>
   );

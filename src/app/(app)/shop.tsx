@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { Avatar } from '@/components/character';
 import { Screen } from '@/components/screen';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Grid } from '@/components/ui/grid';
+import { Text } from '@/components/ui/text';
 import { RARITY, SLOTS, type Slot } from '@/lib/character';
 import { cn } from '@/lib/cn';
 import { useBuyItem, useEquipItem, useGameState, useItems, type Item } from '@/lib/queries/game';
@@ -35,15 +36,12 @@ export default function ShopScreen() {
         title="Loja"
         back
         right={
-          <Text
-            className="text-lg font-bold text-ink"
-            accessibilityLabel={`${gold} de ouro`}
-          >
+          <Text className="text-lg font-semibold text-ink" accessibilityLabel={`${gold} de ouro`}>
             🪙 {gold}
           </Text>
         }
       />
-      <ScrollView contentContainerClassName="gap-4 pb-16">
+      <ScrollView contentContainerClassName="gap-4 pb-12">
         <View className="flex-row items-center gap-4">
           {game && <Avatar game={game} size="md" />}
           <Text className="flex-1 text-sm text-ink-muted">
@@ -73,7 +71,7 @@ export default function ShopScreen() {
               <View
                 key={item.key}
                 className={cn(
-                  'flex-1 items-center justify-between gap-1 rounded-2xl border-2 bg-surface p-3',
+                  'flex-1 items-center justify-between gap-1 rounded-lg border-2 bg-surface p-3',
                   rarity.border,
                   !mine && item.price === null && 'opacity-60',
                 )}

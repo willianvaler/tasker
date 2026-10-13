@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SignInForm } from '@/components/sign-in-form';
@@ -11,6 +11,7 @@ import {
   useMemberMutations,
   type InvitePreview,
 } from '@/lib/queries/projects';
+import { Text } from '@/components/ui/text';
 import { useSession } from '@/providers/session';
 
 const ROLE_LABEL = { owner: 'dono', editor: 'editor', viewer: 'leitor' } as const;
@@ -45,7 +46,7 @@ export default function InviteScreen() {
   } else if (preview.error || !preview.data?.valid) {
     body = (
       <>
-        <Text className="text-center text-xl font-bold text-ink">Convite inválido</Text>
+        <Text className="text-center text-lg font-semibold text-ink">Convite inválido</Text>
         <Text className="text-center text-ink-muted">
           {preview.data && !preview.data.valid
             ? preview.data.reason
@@ -91,7 +92,7 @@ export default function InviteScreen() {
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerClassName="flex-grow items-center justify-center px-6 py-10"
+          contentContainerClassName="flex-grow items-center justify-center px-6 py-12"
         >
           <View className="w-full max-w-sm gap-4">{body}</View>
         </ScrollView>
@@ -102,9 +103,9 @@ export default function InviteScreen() {
 
 function InviteCard({ invite }: { invite: Extract<InvitePreview, { valid: true }> }) {
   return (
-    <View className="items-center gap-1 rounded-2xl border border-line bg-surface p-5">
+    <View className="items-center gap-1 rounded-lg border border-line bg-surface p-6">
       <Text style={{ fontSize: 40, lineHeight: 48 }}>{invite.folder_icon || '📁'}</Text>
-      <Text accessibilityRole="header" className="text-center text-2xl font-bold text-ink">
+      <Text accessibilityRole="header" className="text-center text-xl font-semibold text-ink">
         {invite.folder_name}
       </Text>
       <Text className="text-center text-ink-muted">
@@ -131,7 +132,7 @@ function ClaimPending({
   const { claim } = useMemberMutations(folderId);
   return (
     <>
-      <Text accessibilityRole="header" className="text-center text-2xl font-bold text-ink">
+      <Text accessibilityRole="header" className="text-center text-xl font-semibold text-ink">
         Você entrou! Quem é você na lista?
       </Text>
       <Text className="text-center text-ink-muted">
