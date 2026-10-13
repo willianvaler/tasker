@@ -1,8 +1,17 @@
 import { router } from 'expo-router';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
+import { ChevronRight } from 'lucide-react-native';
 import { Platform, Pressable, TextInput, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
+import { IconButton } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
@@ -12,6 +21,7 @@ import { formatDueDate } from '@/lib/parser/dates';
 import { useToday } from '@/lib/queries/profile';
 import { advanceOnComplete, useToggleTask, useUpdateTask, type Task } from '@/lib/queries/tasks';
 import { useTree } from '@/lib/queries/tree';
+import { DURATION } from '@/lib/tokens';
 import { useCanWrite } from '@/providers/write';
 import { useToast } from '@/providers/toast';
 import { AssigneeChips } from './assignee-chips';
@@ -28,6 +38,7 @@ export function useToggleWithUndo() {
   const tree = useTree();
   const today = useToday();
   const game = useGameState();
+  const { t } = useTranslation();
   return (task: Task, done: boolean) => {
     const page = tree.data?.pages.find((p) => p.id === task.page_id);
     const nextDue = done ? advanceOnComplete(task, page, today) : null;
@@ -37,9 +48,12 @@ export function useToggleWithUndo() {
       return;
     }
     const message = nextDue
-      ? `Feito! Próxima: ${formatDueDate(nextDue, today)}`
-      : `Concluída: ${task.title}`;
-    const undo = { label: 'Desfazer', onPress: () => toggle.mutate({ id: task.id, done: false }) };
+      ? t('task.doneNext', { date: formatDueDate(nextDue, today) })
+      : t('task.done', { title: task.title });
+    const undo = {
+      label: t('common.undo'),
+      onPress: () => toggle.mutate({ id: task.id, done: false }),
+    };
     toast({ message, action: undo });
     toggle.mutate(
       { id: task.id, done, nextDue },
@@ -71,6 +85,7 @@ function TaskRowView({
   const writable = useCanWrite(task.folder_id, { offline: true });
   const toggle = useToggleWithUndo();
   const update = useUpdateTask();
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const done = task.status === 'done';
@@ -84,53 +99,82 @@ function TaskRowView({
   }
 
   return (
-    <View className="min-h-14 flex-row items-center border-b border-line bg-paper">
+    // 52 px no celular, 40 no computador (docs/DESIGN.md); só a divisória fina, sem caixa
+    <View className="min-h-[52px] flex-row items-center border-b border-line md:min-h-10">
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
       <Checkbox
         checked={done}
         disabled={!writable}
-        label={done ? `Reabrir ${task.title}` : `Concluir ${task.title}`}
+        label={t(done ? 'task.reopen' : 'task.complete', { title: task.title })}
         onChange={(checked) => toggle(task, checked)}
       />
-      <View className="flex-1 py-2">
-        {editing ? (
-          <TextInput
-            autoFocus
-            value={title}
-            onChangeText={setTitle}
-            onSubmitEditing={saveTitle}
-            onBlur={saveTitle}
-            maxLength={500}
-            accessibilityLabel="Título da tarefa"
-            className={textClass('min-h-8 text-base text-ink')}
-          />
-        ) : (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityHint="Toque para editar o título"
-            disabled={!writable}
-            onPress={() => {
-              setTitle(task.title);
-              setEditing(true);
-            }}
-          >
-            <Text className={cn('text-base', done ? 'text-ink-muted line-through' : 'text-ink')}>
-              {task.title}
-            </Text>
-          </Pressable>
-        )}
-        <TaskMeta task={task} today={today} subtasks={subtasks} pageLabel={pageLabel} />
-        <AssigneeChips taskId={task.id} folderId={task.folder_id} />
+      <View className="flex-1 justify-center gap-1 py-1 md:flex-row md:items-center md:gap-3">
+        <View className="flex-1 md:flex-initial md:shrink">
+          {editing ? (
+            <TextInput
+              autoFocus
+              value={title}
+              onChangeText={setTitle}
+              onSubmitEditing={saveTitle}
+              onBlur={saveTitle}
+              maxLength={500}
+              accessibilityLabel={t('task.titleField')}
+              className={textClass('min-h-8 text-base text-ink md:text-sm')}
+            />
+          ) : (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityHint={t('task.editHint')}
+              disabled={!writable}
+              className="self-start"
+              onPress={() => {
+                setTitle(task.title);
+                setEditing(true);
+              }}
+            >
+              <Text
+                numberOfLines={2}
+                className={cn('text-base md:text-sm', done ? 'text-ink-muted' : 'text-ink')}
+              >
+                {task.title}
+              </Text>
+              <PenStrike done={done} />
+            </Pressable>
+          )}
+        </View>
+        <View className="flex-row items-center gap-3 md:ml-auto">
+          <TaskMeta task={task} today={today} subtasks={subtasks} pageLabel={pageLabel} />
+          <AssigneeChips taskId={task.id} folderId={task.folder_id} />
+        </View>
       </View>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={`Detalhes de ${task.title}`}
-        className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
+      <IconButton
+        icon={ChevronRight}
+        label={t('task.details', { title: task.title })}
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
-      >
-        <Text className="text-lg text-ink-muted">›</Text>
-      </Pressable>
+      />
     </View>
+  );
+}
+
+/**
+ * Risco de caneta sobre o título ao concluir (docs/DESIGN.md): uma linha no acento que atravessa
+ * o texto em 180 ms. Já concluída ao abrir a tela, aparece pronta; com "reduzir movimento", direto.
+ */
+function PenStrike({ done }: { done: boolean }) {
+  const reduced = useReducedMotion();
+  const progress = useSharedValue(done ? 1 : 0);
+  useEffect(() => {
+    const to = done ? 1 : 0;
+    progress.set(reduced || !done ? to : withTiming(to, { duration: DURATION.slow }));
+  }, [done, reduced, progress]);
+  const style = useAnimatedStyle(() => ({ width: `${progress.get() * 100}%` }));
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[{ position: 'absolute', left: 0, top: '50%', height: 1.5 }, style]}
+    >
+      <View className="h-full bg-accent" />
+    </Animated.View>
   );
 }
 

@@ -18,5 +18,19 @@
     "captureOpen": "Abrir la captura rápida",
     "captureClose": "Cerrar la captura rápida",
     "overlayClose": "Cerrar el panel o menú"
+  },
+  "task": {
+    "complete": "Completar {{title}}",
+    "reopen": "Reabrir {{title}}",
+    "details": "Detalles de {{title}}",
+    "titleField": "Título de la tarea",
+    "editHint": "Toca para editar el título",
+    "done": "Completada: {{title}}",
+    "doneNext": "¡Hecho! Próxima: {{date}}",
+    "assignees": "Responsables: {{names}}",
+    "pending": "@{{name}} (pendiente)",
+    "subtasks": "{{done}} de {{total}} subtareas",
+    "recurrence": "Se repite: {{rule}}",
+    "due": "Fecha: {{date}}"
   }
 }

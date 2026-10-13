@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
+import { Avatar } from '@/components/ui/person';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { initials, type MentionResolution } from '@/lib/members';
+import type { MentionResolution } from '@/lib/members';
 import {
   assigneesOf,
   rootFolder,
@@ -33,30 +35,29 @@ export function useTaskMembers(folderId: string | undefined) {
 export function AssigneeChips({ taskId, folderId }: { taskId: string; folderId: string }) {
   const all = useAssignees();
   const members = useTaskMembers(folderId);
+  const { t } = useTranslation();
   const assignees = assigneesOf(all.data, taskId);
   if (assignees.length === 0) return null;
   const label = assignees
-    .map((a) => (a.pending_name ? `@${a.pending_name} (pendente)` : assigneeName(a, members)))
+    .map((a) =>
+      a.pending_name ? t('task.pending', { name: a.pending_name }) : assigneeName(a, members),
+    )
     .join(', ');
   return (
-    <View className="flex-row flex-wrap gap-1" accessibilityLabel={`Responsáveis: ${label}`}>
+    <View
+      className="flex-row flex-wrap items-center gap-1"
+      accessibilityLabel={t('task.assignees', { names: label })}
+    >
       {assignees.map((a) =>
         a.pending_name ? (
           <Text
             key={a.id}
-            className="rounded-full border border-dashed border-ink-muted px-2 text-xs text-ink-muted"
+            className="rounded border border-dashed border-ink-muted px-1 text-xs text-ink-muted"
           >
             @{a.pending_name}
           </Text>
         ) : (
-          <View
-            key={a.id}
-            className="h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1"
-          >
-            <Text className="text-xs font-semibold text-on-accent">
-              {initials(assigneeName(a, members))}
-            </Text>
-          </View>
+          <Avatar key={a.id} name={assigneeName(a, members)} />
         ),
       )}
     </View>

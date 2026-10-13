@@ -73,9 +73,9 @@ test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando',
   await page.getByRole('radio', { name: '🌙 Escuro' }).click();
   await expect(html).toHaveClass(/dark/);
   const background = await page.evaluate(() =>
-    getComputedStyle(document.documentElement).getPropertyValue('--background').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--paper').trim(),
   );
-  expect(background).toBe('2 6 23');
+  expect(background).toBe('27 26 23');
 });
 
 test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ page }, testInfo) => {
@@ -166,21 +166,28 @@ test('performance: lista com 500 tarefas, marcar responde rápido', async ({ pag
 
   // Medido dentro da página: do clique até a tarefa sair da lista (o Playwright em si é lento
   // para consultar 500 linhas). Meta do ESCOPO 9: < 100 ms; aqui com folga para máquina lenta.
-  const ms = await page.evaluate(async () => {
-    const label = 'Concluir Item 10';
-    const box = document.querySelector<HTMLElement>(`[aria-label="${label}"]`);
-    if (!box) throw new Error('sem a tarefa');
-    const t0 = performance.now();
-    box.click();
-    await new Promise<void>((resolve) => {
-      const check = () =>
-        document.querySelector(`[aria-label="${label}"]`)
-          ? requestAnimationFrame(check)
-          : resolve();
-      check();
-    });
-    return performance.now() - t0;
-  });
+  // Mediana de 3 marcações: um pico isolado (coleta de lixo) não derruba o teste.
+  const times: number[] = [];
+  for (const item of ['Item 10', 'Item 11', 'Item 12']) {
+    times.push(
+      await page.evaluate(async (label) => {
+        const box = document.querySelector<HTMLElement>(`[aria-label="${label}"]`);
+        if (!box) throw new Error('sem a tarefa');
+        const t0 = performance.now();
+        box.click();
+        await new Promise<void>((resolve) => {
+          const check = () =>
+            document.querySelector(`[aria-label="${label}"]`)
+              ? requestAnimationFrame(check)
+              : resolve();
+          check();
+        });
+        return performance.now() - t0;
+      }, `Concluir ${item}`),
+    );
+    await page.waitForTimeout(300);
+  }
+  const ms = [...times].sort((a, b) => a - b)[1];
   expect(ms).toBeLessThan(150);
 });
 

@@ -1,5 +1,8 @@
+import { Repeat } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { formatDueDate } from '@/lib/parser/dates';
@@ -24,45 +27,54 @@ export function TaskMeta({
   /** Nos hábitos a recorrência já aparece de outro jeito */
   hideRecurrence?: boolean;
 }) {
+  const { t } = useTranslation();
   const recurrence = hideRecurrence ? '' : recurrenceLabel(asRecurrence(task.recurrence));
   const detail = metaLabel(task.meta);
   const overdue = !!task.due_date && task.due_date < today && task.status !== 'done';
+  // Metadados em mono, pequenos, sem emoji (docs/DESIGN.md); atraso em `warn`
+  const meta = 'font-mono text-xs text-ink-muted';
   const parts = [
     task.due_date && (
       <Text
         key="due"
-        className={cn('text-xs', overdue ? 'font-semibold text-danger' : 'text-ink-muted')}
+        className={cn(meta, overdue && 'text-warn')}
+        accessibilityLabel={t('task.due', { date: formatDueDate(task.due_date, today) })}
       >
-        📅 {formatDueDate(task.due_date, today)}
+        {formatDueDate(task.due_date, today)}
       </Text>
     ),
     task.priority > 0 && (
-      <Text key="priority" className={cn('text-xs font-semibold', PRIORITY_COLOR[task.priority])}>
+      <Text key="priority" className={cn('font-mono text-xs', PRIORITY_COLOR[task.priority])}>
         {PRIORITY_LABEL[task.priority]}
       </Text>
     ),
     recurrence && (
-      <Text key="recurrence" className="text-xs text-ink-muted">
-        🔁 {recurrence}
-      </Text>
+      <View
+        key="recurrence"
+        className="flex-row items-center gap-1"
+        accessibilityLabel={t('task.recurrence', { rule: recurrence })}
+      >
+        <Icon icon={Repeat} size={16} tone="ink-muted" />
+        <Text className={meta}>{recurrence}</Text>
+      </View>
     ),
     detail && (
-      <Text key="detail" className="text-xs text-ink-muted">
+      <Text key="detail" className={meta}>
         {detail}
       </Text>
     ),
     subtasks && subtasks.total > 0 && (
-      <Text key="subtasks" className="text-xs text-ink-muted">
-        ☑ {subtasks.done}/{subtasks.total}
+      <Text key="subtasks" className={meta} accessibilityLabel={t('task.subtasks', subtasks)}>
+        {subtasks.done}/{subtasks.total}
       </Text>
     ),
     ...task.labels.map((label) => (
-      <Text key={`label-${label}`} className="text-xs text-accent">
+      <Text key={`label-${label}`} className="text-xs text-ink-muted">
         #{label}
       </Text>
     )),
     pageLabel && (
-      <Text key="page" className="text-xs text-ink-muted" numberOfLines={1}>
+      <Text key="page" className={cn(meta, 'max-w-40')} numberOfLines={1}>
         {pageLabel}
       </Text>
     ),

@@ -71,7 +71,7 @@ test('lote: subtarefas, [x], remover item na prévia e sintaxe rápida', async (
   await page.getByRole('button', { name: 'Criar 5' }).click();
 
   await expect(page.getByText('Treino', { exact: true })).toBeVisible();
-  await expect(page.getByText('☑ 1/2')).toBeVisible();
+  await expect(page.getByLabel('1 de 2 subtarefas')).toBeVisible();
   await expect(page.getByText('#churrasco')).toBeVisible();
   await expect(page.getByText('Errado')).toHaveCount(0);
   // Subtarefas não aparecem soltas na lista
@@ -99,7 +99,7 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
   await input.fill('Agachamento !!! #perna amanhã');
   await input.press('Enter');
   await expect(page.getByText('Agachamento', { exact: true })).toBeVisible();
-  await expect(page.getByText('📅 Amanhã')).toBeVisible();
+  await expect(page.getByLabel('Data: Amanhã')).toBeVisible();
   await expect(page.getByText('#perna')).toBeVisible();
 
   await page.getByRole('button', { name: 'Detalhes de Agachamento' }).click();
@@ -111,8 +111,8 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
   await page.getByRole('textbox', { name: 'Notas' }).fill('Descer até 90 graus');
   await page.getByRole('button', { name: 'Voltar' }).click();
 
-  await expect(page.getByText('☑ 0/1')).toBeVisible();
-  await expect(page.getByText('📅 Amanhã')).toHaveCount(0);
+  await expect(page.getByLabel('0 de 1 subtarefas')).toBeVisible();
+  await expect(page.getByLabel('Data: Amanhã')).toHaveCount(0);
 
   // Renomear a página pelo menu (volta da página para a pasta)
   await page.getByRole('button', { name: 'Voltar' }).click();

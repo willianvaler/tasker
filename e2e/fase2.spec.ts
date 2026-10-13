@@ -92,8 +92,12 @@ test('recorrente: concluir avança a data e desfazer volta', async ({ page }, te
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   await input.fill('Pagar luz hoje /mensal');
   await input.press('Enter');
-  await expect(shown(page, '🔁 Todo mês')).toBeVisible();
-  await expect(shown(page, '📅 Hoje')).toBeVisible();
+  await expect(
+    page.getByLabel('Repete: Todo mês').and(page.locator(':not([aria-hidden="true"] *)')),
+  ).toBeVisible();
+  await expect(
+    page.getByLabel('Data: Hoje').and(page.locator(':not([aria-hidden="true"] *)')),
+  ).toBeVisible();
 
   const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
   await page.getByRole('checkbox', { name: 'Concluir Pagar luz' }).click();
@@ -101,12 +105,16 @@ test('recorrente: concluir avança a data e desfazer volta', async ({ page }, te
   await expect(shown(page, /^Feito! Próxima: /)).toBeVisible();
   // Continua aberta, com a data do mês que vem
   await expect(page.getByRole('checkbox', { name: 'Concluir Pagar luz' })).not.toBeChecked();
-  await expect(shown(page, '📅 Hoje')).toHaveCount(0);
+  await expect(
+    page.getByLabel('Data: Hoje').and(page.locator(':not([aria-hidden="true"] *)')),
+  ).toHaveCount(0);
 
   const undone = page.waitForResponse((r) => r.url().includes('uncomplete_task') && r.ok());
   await page.getByRole('button', { name: 'Desfazer' }).click();
   await undone;
-  await expect(shown(page, '📅 Hoje')).toBeVisible();
+  await expect(
+    page.getByLabel('Data: Hoje').and(page.locator(':not([aria-hidden="true"] *)')),
+  ).toBeVisible();
 });
 
 test('arrastar para reordenar (lista)', async ({ page }, testInfo) => {

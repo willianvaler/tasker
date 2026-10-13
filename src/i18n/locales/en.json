@@ -18,5 +18,19 @@
     "captureOpen": "Open quick capture",
     "captureClose": "Close quick capture",
     "overlayClose": "Close the panel or menu"
+  },
+  "task": {
+    "complete": "Complete {{title}}",
+    "reopen": "Reopen {{title}}",
+    "details": "Details of {{title}}",
+    "titleField": "Task title",
+    "editHint": "Tap to edit the title",
+    "done": "Done: {{title}}",
+    "doneNext": "Done! Next: {{date}}",
+    "assignees": "Assigned to: {{names}}",
+    "pending": "@{{name}} (pending)",
+    "subtasks": "{{done}} of {{total}} subtasks",
+    "recurrence": "Repeats: {{rule}}",
+    "due": "Date: {{date}}"
   }
 }
