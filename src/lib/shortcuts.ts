@@ -35,6 +35,12 @@ export const SHORTCUTS = [
     description: 'shortcuts.captureClose',
     scope: 'capture',
   },
+  {
+    id: 'overlay.close',
+    combos: ['escape'],
+    description: 'shortcuts.overlayClose',
+    scope: 'editor',
+  },
 ] as const satisfies readonly Shortcut[];
 
 export type ShortcutId = (typeof SHORTCUTS)[number]['id'];

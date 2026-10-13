@@ -16,6 +16,7 @@
   },
   "shortcuts": {
     "captureOpen": "Open quick capture",
-    "captureClose": "Close quick capture"
+    "captureClose": "Close quick capture",
+    "overlayClose": "Close the panel or menu"
   }
 }

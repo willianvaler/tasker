@@ -13,7 +13,7 @@ import {
   User,
   Users,
 } from 'lucide-react-native';
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { Button, IconButton } from '@/components/ui/button';
@@ -21,6 +21,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Chip } from '@/components/ui/chip';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
+import { MenuItem, Popover } from '@/components/ui/popover';
 import { Avatar, PersonRow } from '@/components/ui/person';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Input } from '@/components/ui/input';
@@ -55,6 +56,7 @@ export default function DesignScreen() {
         <Rules />
         <People />
         <Feedback />
+        <Menus />
       </View>
     </ScrollView>
   );
@@ -296,6 +298,25 @@ function Feedback() {
         title="Nada para hoje. Aproveite o café."
         hint="Digite no campo acima para criar uma tarefa."
       />
+    </Section>
+  );
+}
+
+function Menus() {
+  const anchor = useRef<View>(null);
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  return (
+    <Section title="Popover e menu">
+      <View ref={anchor} collapsable={false} className="self-start">
+        <Button label="Novo" icon={Plus} variant="ghost" onPress={() => setOpen(true)} />
+      </View>
+      <Popover anchor={anchor} open={open} onClose={close}>
+        <MenuItem label="Tarefa" shortcut="T" icon={<Icon icon={Check} />} onPress={close} />
+        <MenuItem label="Página" shortcut="P" icon={<Icon icon={Folder} />} onPress={close} />
+        <MenuItem label="Projeto" shortcut="J" icon={<Icon icon={Users} />} onPress={close} />
+        <MenuItem label="Apagar" danger onPress={close} />
+      </Popover>
     </Section>
   );
 }

@@ -16,6 +16,7 @@
   },
   "shortcuts": {
     "captureOpen": "Abrir la captura rápida",
-    "captureClose": "Cerrar la captura rápida"
+    "captureClose": "Cerrar la captura rápida",
+    "overlayClose": "Cerrar el panel o menú"
   }
 }

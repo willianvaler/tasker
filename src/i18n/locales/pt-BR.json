@@ -16,6 +16,7 @@
   },
   "shortcuts": {
     "captureOpen": "Abrir a captura rápida",
-    "captureClose": "Fechar a captura rápida"
+    "captureClose": "Fechar a captura rápida",
+    "overlayClose": "Fechar o painel ou menu"
   }
 }
