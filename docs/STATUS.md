@@ -13,7 +13,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **A4** Teste que falha se uma chave existir num idioma e faltar em outro; seletor de idioma no Perfil, salvo em `profiles.locale`
 - [x] **A5** Permissões como dados: catálogo de permissões atômicas (já com as da V3 §8), presets Gerente/Editor/Colaborador/Leitor, função única `can(user, action, resource)` no app e espelho no banco; mapear os papéis atuais (owner/editor/viewer)
 - [x] **A6** Registro central de atalhos `shortcuts.ts` (id, teclas, chave i18n, escopo, permissão); migrar os atalhos existentes (N, Ctrl+K) para ele
-- [ ] **A7** Spike de sync (1 dia): PowerSync × protocolo próprio sobre Supabase, com protótipo descartável numa branch; decisão em `DECISIONS.md`
+- [~] **A7** Spike de sync (1 dia): PowerSync × protocolo próprio sobre Supabase, com protótipo descartável numa branch; decisão em `DECISIONS.md` — parte 1 (pesquisa) em `docs/SPIKE_SYNC.md`; protótipo aguardando aprovação da direção
 
 ## Fase B — Correção visual (19/10 – 27/10)
 
@@ -141,7 +141,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 | # | Pergunta | Quando | Resposta |
 |---|---|---|---|
-| V2-2 | Engine de sync pronta ou protocolo próprio | A7 | |
+| V2-2 | Engine de sync pronta ou protocolo próprio | A7 | Recomendação: PowerSync (`docs/SPIKE_SYNC.md`), aguardando você |
 | V2-4 | Tipografia e acento final | B3/B9 | |
 | V2-1 / V3-5 | Nome dos itens dentro de Projeto (proposta: "Listas") e das visões | antes da E | |
 | V2-3 | Cargos personalizados já na V2? | antes da E | |
