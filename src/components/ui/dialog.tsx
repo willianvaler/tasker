@@ -79,12 +79,15 @@ export function ConfirmDialog({
   confirmLabel,
   onConfirm,
   onClose,
+  variant = 'destructive',
 }: {
   title: string;
   message?: string;
   confirmLabel: string;
   onConfirm: () => void;
   onClose: () => void;
+  /** Ações que não destroem nada (ex.: comprar) usam 'primary' */
+  variant?: 'destructive' | 'primary';
 }) {
   return (
     <Backdrop onClose={onClose}>
@@ -92,7 +95,7 @@ export function ConfirmDialog({
       {message && <Text className="text-muted-foreground">{message}</Text>}
       <View className="flex-row justify-end gap-2">
         <Button variant="ghost" label="Cancelar" onPress={onClose} />
-        <Button variant="destructive" label={confirmLabel} onPress={onConfirm} />
+        <Button variant={variant} label={confirmLabel} onPress={onConfirm} />
       </View>
     </Backdrop>
   );
