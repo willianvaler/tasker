@@ -42,23 +42,26 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             key={toast.id}
             entering={reduced ? undefined : FadeInDown.duration(DURATION.base)}
             accessibilityRole="alert"
-            className="w-full max-w-md flex-row items-center justify-between gap-3 rounded bg-ink py-1 pl-4 pr-1"
+            style={{ width: '100%', maxWidth: 448 }}
           >
-            <Text className="flex-1 text-sm text-paper" numberOfLines={2}>
-              {toast.message}
-            </Text>
-            {toast.action && (
-              <Pressable
-                accessibilityRole="button"
-                className="min-h-11 justify-center rounded px-3 md:min-h-8"
-                onPress={() => {
-                  toast.action?.onPress();
-                  setToast(null);
-                }}
-              >
-                <Text className="text-sm font-semibold text-accent">{toast.action.label}</Text>
-              </Pressable>
-            )}
+            {/* As classes ficam num View comum: o NativeWind não estiliza o Animated.View */}
+            <View className="flex-row items-center justify-between gap-3 rounded bg-ink py-1 pl-4 pr-1">
+              <Text className="flex-1 text-sm text-paper" numberOfLines={2}>
+                {toast.message}
+              </Text>
+              {toast.action && (
+                <Pressable
+                  accessibilityRole="button"
+                  className="min-h-11 justify-center rounded px-3 md:min-h-8"
+                  onPress={() => {
+                    toast.action?.onPress();
+                    setToast(null);
+                  }}
+                >
+                  <Text className="text-sm font-semibold text-accent">{toast.action.label}</Text>
+                </Pressable>
+              )}
+            </View>
           </Animated.View>
         </View>
       )}

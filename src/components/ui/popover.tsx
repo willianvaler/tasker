@@ -63,12 +63,14 @@ export function Popover({
       <Modal transparent animationType="none" onRequestClose={onClose}>
         <View className="flex-1 justify-end bg-scrim/40">
           {backdrop}
-          <Animated.View
-            entering={reduced ? undefined : SlideInDown.duration(DURATION.slow)}
-            className="rounded-t-lg border-t border-line bg-surface p-2"
-            style={{ paddingBottom: insets.bottom + 8 }}
-          >
-            {children}
+          <Animated.View entering={reduced ? undefined : SlideInDown.duration(DURATION.slow)}>
+            {/* As classes num View comum: o NativeWind não estiliza o Animated.View */}
+            <View
+              className="rounded-t-lg border-t border-line bg-surface p-2"
+              style={{ paddingBottom: insets.bottom + 8 }}
+            >
+              {children}
+            </View>
           </Animated.View>
         </View>
       </Modal>
@@ -94,19 +96,19 @@ export function Popover({
       {rect && (
         <Animated.View
           entering={reduced ? undefined : FadeIn.duration(DURATION.fast)}
-          className="absolute rounded-lg border border-line bg-surface p-1"
-          style={[
-            { left, width, maxHeight: window.height - 16 },
-            vertical,
-            {
+          style={[{ position: 'absolute', left, width, maxHeight: window.height - 16 }, vertical]}
+        >
+          <View
+            className="rounded-lg border border-line bg-surface p-1"
+            style={{
               shadowColor: colors.scrim,
               shadowOpacity: 0.08,
               shadowRadius: 12,
               shadowOffset: { width: 0, height: 4 },
-            },
-          ]}
-        >
-          {children}
+            }}
+          >
+            {children}
+          </View>
         </Animated.View>
       )}
     </Modal>
