@@ -17,18 +17,30 @@ export function levelFromXp(xp: number) {
   return { level, intoLevel: rest, forNext: xpToNext(level) };
 }
 
-/** "+10 XP · 🎉 Nível 3! · ⚔️ Boss derrotado! · 🌱 Primeiro passo" (null se não houve nada). */
+/** "+10 XP · ⚔️ 5 de dano · 🪙 2 · 🎉 Nível 3! · ⚔️ Boss derrotado! · 🎁 Coroa · 🌱 Primeiro passo" (null se nada). */
 export function rewardMessage(summary: {
   xp: number;
   level: number | null;
   level_up: boolean;
   boss_defeated: boolean;
   achievements: { name: string; icon: string }[];
+  damage?: number;
+  crit?: boolean;
+  heal?: number;
+  gold?: number;
+  drops?: { name: string; icon: string }[];
 }) {
   const parts: string[] = [];
   if (summary.xp > 0) parts.push(`+${summary.xp} XP`);
+  if (summary.damage && summary.damage > 0)
+    parts.push(
+      summary.crit ? `💥 ${summary.damage} de dano (crítico!)` : `⚔️ ${summary.damage} de dano`,
+    );
+  if (summary.heal && summary.heal > 0) parts.push(`💚 o boss curou ${summary.heal}`);
+  if (summary.gold && summary.gold > 0) parts.push(`🪙 +${summary.gold}`);
   if (summary.level_up && summary.level) parts.push(`🎉 Nível ${summary.level}!`);
-  if (summary.boss_defeated) parts.push('⚔️ Boss derrotado!');
+  if (summary.boss_defeated) parts.push('🏆 Boss derrotado!');
+  for (const d of summary.drops ?? []) parts.push(`🎁 ${d.icon} ${d.name}`);
   for (const a of summary.achievements) parts.push(`${a.icon} ${a.name}`);
   return parts.length ? parts.join(' · ') : null;
 }

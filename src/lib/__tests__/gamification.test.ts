@@ -1,5 +1,13 @@
 import { describe, expect, test } from '@jest/globals';
 
+import {
+  bossHpForLevel,
+  critChance,
+  goldFor,
+  healAmount,
+  hitDamage,
+  totalAttributes,
+} from '../character';
 import { levelFromXp, rewardMessage, xpToNext } from '../gamification';
 import { gamificationConfig } from '../gamification.config';
 
@@ -28,28 +36,99 @@ describe('curva de nível (mesmos casos do pgTAP fase3_gamificacao)', () => {
 });
 
 describe('gamification.config.ts', () => {
-  test('é igual ao public.xp_rules() da migração (quem concede o XP é o banco)', () => {
+  test('é igual ao public.xp_rules() da migração mais nova (quem concede o XP é o banco)', () => {
     // Sem @types/node no projeto: o Jest roda no Node, então o require existe
-    const { readFileSync } = require('fs') as { readFileSync: (p: string, e: string) => string };
-    const sql = readFileSync('supabase/migrations/20261011000000_fase3_gamificacao.sql', 'utf8');
-    const json = /\$json\$([\s\S]*?)\$json\$/.exec(sql)?.[1];
+    const fs = require('fs') as {
+      readFileSync: (p: string, e: string) => string;
+      readdirSync: (p: string) => string[];
+    };
+    const dir = 'supabase/migrations';
+    const latest = fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith('.sql'))
+      .sort()
+      .map((f) => fs.readFileSync(`${dir}/${f}`, 'utf8'))
+      .filter((sql) => sql.includes('function public.xp_rules()'))
+      .pop();
+    const json = /\$json\$([\s\S]*?)\$json\$/.exec(latest ?? '')?.[1];
     expect(json).toBeDefined();
     expect(JSON.parse(json ?? '{}')).toEqual(gamificationConfig);
+  });
+});
+
+describe('personagem (mesmos casos do pgTAP fase7_rpg)', () => {
+  const none = { str: 0, agi: 0, int: 0, con: 0 };
+
+  test.each([
+    [1, 120],
+    [2, 144],
+    [5, 249],
+  ])('boss nível %i: %i HP', (level, hp) => expect(bossHpForLevel(level)).toBe(hp));
+
+  test('sem classe, todos os atributos em 1; lutador ganha Força e Constituição', () => {
+    expect(totalAttributes(null, none)).toEqual({ str: 1, agi: 1, int: 1, con: 1 });
+    expect(totalAttributes('lutador', none)).toEqual({ str: 4, agi: 1, int: 1, con: 2 });
+    expect(totalAttributes('mago', { ...none, int: 2 })).toEqual({ str: 1, agi: 2, int: 6, con: 1 });
+  });
+
+  test('tarefa do lutador no primeiro golpe: 4 × 1,2 × 2 = 9,6 → 10 (crítico 19)', () => {
+    const attrs = totalAttributes('lutador', none);
+    expect(hitDamage(4, 'task', 'lutador', attrs, { firstStrike: true })).toEqual({
+      normal: 10,
+      crit: 19,
+    });
+    expect(hitDamage(4, 'task', 'lutador', attrs).normal).toBe(5);
+  });
+
+  test('sem classe: tarefa 4 × 1,05 → 4; hábito 3 × 1,05 → 3', () => {
+    const attrs = totalAttributes(null, none);
+    expect(hitDamage(4, 'task', null, attrs).normal).toBe(4);
+    expect(hitDamage(3, 'routine', null, attrs).normal).toBe(3);
+  });
+
+  test('mago: sequência e Tempestade somam no multiplicador', () => {
+    const attrs = totalAttributes('mago', none);
+    // 3 × (1 + 0,2 + 0,2 + 0,5) = 5,7 → 6
+    expect(hitDamage(3, 'routine', 'mago', attrs, { streak: 10, skillActive: true }).normal).toBe(6);
+  });
+
+  test('crítico: 2% por Agilidade, arqueiro com Mira certeira', () => {
+    expect(critChance(null, totalAttributes(null, none))).toBeCloseTo(0.02);
+    expect(critChance('arqueiro', totalAttributes('arqueiro', none), true)).toBeCloseTo(0.33);
+  });
+
+  test('cura do hábito ruim: 3 × (1 − 0,08 × CON); paladino cura metade', () => {
+    expect(healAmount('lutador', totalAttributes('lutador', none))).toBe(3);
+    expect(healAmount('paladino', totalAttributes('paladino', none))).toBe(1);
+  });
+
+  test('ouro: 2 × (1 + 0,03 × CON); ladino +50%', () => {
+    expect(goldFor(2, 'lutador', totalAttributes('lutador', none))).toBe(2);
+    expect(goldFor(2, 'ladino', totalAttributes('ladino', none))).toBe(3);
   });
 });
 
 describe('rewardMessage', () => {
   const base = { xp: 0, level: 1, level_up: false, boss_defeated: false, achievements: [] };
   test('nada ganho: sem mensagem', () => expect(rewardMessage(base)).toBeNull());
-  test('junta XP, nível, boss e conquistas', () => {
+  test('junta XP, dano, ouro, nível, boss, item e conquistas', () => {
     expect(
       rewardMessage({
         xp: 10,
         level: 3,
         level_up: true,
         boss_defeated: true,
+        damage: 9,
+        crit: true,
+        gold: 2,
+        drops: [{ name: 'Coroa', icon: '👑' }],
         achievements: [{ name: 'Primeiro passo', icon: '🌱' }],
       }),
-    ).toBe('+10 XP · 🎉 Nível 3! · ⚔️ Boss derrotado! · 🌱 Primeiro passo');
+    ).toBe(
+      '+10 XP · 💥 9 de dano (crítico!) · 🪙 +2 · 🎉 Nível 3! · 🏆 Boss derrotado! · 🎁 👑 Coroa · 🌱 Primeiro passo',
+    );
+  });
+  test('relâmpago: sem XP, mas o golpe aparece', () => {
+    expect(rewardMessage({ ...base, damage: 4 })).toBe('⚔️ 4 de dano');
   });
 });

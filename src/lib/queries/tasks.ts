@@ -8,7 +8,7 @@ import { asRecurrence, nextDueDate } from '../recurrence';
 import { supabase } from '../supabase';
 import { completionSummarySchema, type CompletionSummary } from './game';
 import { keys, taskMutationKey } from './keys';
-import type { Page, Tree } from './tree';
+import { useTree, type Page, type Tree } from './tree';
 
 export type Task = Tables<'tasks'>;
 export type TaskWithPage = Task & {
@@ -58,18 +58,50 @@ export function useTodayTasks(today: string) {
   });
 }
 
-export type HabitTask = Task & { page: { name: string; icon: string | null; view_type: string } };
-
-/** Hábitos de todas as páginas do tipo hábitos (a tela Hoje filtra os agendados para hoje). */
-export function useHabits(today: string) {
+/** Abertas que vencem depois de hoje, até `until` (Início: próximos dias). */
+export function useUpcomingTasks(today: string, until: string) {
   return useQuery({
-    queryKey: keys.habits(today),
+    queryKey: ['tasks', 'upcoming', today, until],
     queryFn: async () => {
-      await supabase.rpc('refresh_cycles', {});
       const { data, error } = await supabase
         .from('tasks')
-        .select('*, page:pages!inner(name, icon, view_type)')
-        .eq('page.view_type', 'habits')
+        .select(TASK_WITH_PAGE)
+        .is('parent_task_id', null)
+        .neq('status', 'done')
+        .gt('due_date', today)
+        .lte('due_date', until)
+        .order('due_date')
+        .order('priority', { ascending: false })
+        .order('position');
+      if (error) throw error;
+      return data as TaskWithPage[];
+    },
+  });
+}
+
+export type HabitTask = Task & { page: { name: string; icon: string | null; view_type: string } };
+
+/**
+ * Hábitos de todas as páginas do tipo hábitos (a tela Hoje filtra os agendados para hoje).
+ * Busca pelos ids das páginas (da árvore em cache), que usa o índice: filtrar só pelo tipo da página
+ * fazia o banco checar a permissão de todas as tarefas da tabela, de todo mundo (~1 s com 18 mil).
+ */
+export function useHabits(today: string) {
+  const tree = useTree();
+  const pageIds = (tree.data?.pages ?? [])
+    .filter((p) => p.view_type === 'habits')
+    .map((p) => p.id)
+    .sort();
+  return useQuery({
+    queryKey: [...keys.habits(today), pageIds.join(',')],
+    enabled: !!tree.data,
+    queryFn: async () => {
+      await supabase.rpc('refresh_cycles', {});
+      if (pageIds.length === 0) return [];
+      const { data, error } = await supabase
+        .from('tasks')
+        .select('*, page:pages(name, icon, view_type)')
+        .in('page_id', pageIds)
         .is('parent_task_id', null)
         .order('position');
       if (error) throw error;
@@ -171,6 +203,9 @@ export type NewAssignee = { user_id: string } | { pending_name: string };
 
 type NewTask = ParsedTask & {
   done?: boolean;
+  /** Hábito: tipo e meta já na criação (D68) */
+  habitKind?: Task['habit_kind'];
+  habitTarget?: number | null;
   assignees?: NewAssignee[];
   children?: (ParsedTask & { done?: boolean; assignees?: NewAssignee[] })[];
 };
@@ -186,6 +221,8 @@ type RpcItem = {
   done: boolean;
   assignees: NewAssignee[];
   children: RpcItem[];
+  habit_kind?: Task['habit_kind'];
+  habit_target?: number | null;
 };
 
 function toRpcItem(item: NewTask & { id: string }): RpcItem {
@@ -200,6 +237,9 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     done: item.done ?? false,
     assignees: item.assignees ?? [],
     children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: randomUUID() })),
+    ...(item.habitKind
+      ? { habit_kind: item.habitKind, habit_target: item.habitTarget ?? null }
+      : {}),
   };
 }
 
@@ -224,6 +264,11 @@ function optimisticTask(
     position: Number.MAX_SAFE_INTEGER,
     meta: item.meta as Json,
     done_cycle_key: null,
+    habit_kind: item.habitKind ?? 'check',
+    habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
+    count_up: 0,
+    count_down: 0,
+    count_key: null,
     created_by: '',
     completed_by: null,
     completed_at: item.done ? now : null,
@@ -369,6 +414,8 @@ export type TaskPatch = Partial<
     | 'position'
     | 'recurrence'
     | 'meta'
+    | 'habit_kind'
+    | 'habit_target'
   >
 >;
 
@@ -432,6 +479,8 @@ export const createTasksKey = [...taskMutationKey, 'create'] as const;
 export const toggleTaskKey = [...taskMutationKey, 'toggle'] as const;
 export const updateTaskKey = [...taskMutationKey, 'update'] as const;
 export const statusTaskKey = [...taskMutationKey, 'status'] as const;
+export const habitTickKey = [...taskMutationKey, 'habit'] as const;
+export const undoHabitTickKey = [...taskMutationKey, 'habit-undo'] as const;
 
 /** Mesma fila para todas as mutações de tarefa: a ordem de envio é a ordem em que foram feitas. */
 const offlineTaskMutation = (mutationKey: readonly unknown[]) =>
@@ -442,6 +491,8 @@ export type ToggleTaskVars = { id: string; done: boolean; nextDue?: string | nul
 export type UpdateTaskVars = { id: string; patch: TaskPatch };
 export type TaskStatus = Task['status'];
 export type StatusTaskVars = { id: string; status: TaskStatus };
+/** `id`: id do evento, gerado aqui, para o reenvio da fila não contar duas vezes */
+export type HabitTickVars = { taskId: string; delta: 1 | -1; id: string };
 
 export async function createTasksFn({ pageId, items }: CreateTasksVars) {
   const { error } = await supabase.rpc('create_tasks_batch', {
@@ -482,6 +533,26 @@ export async function setTaskStatusFn({
   return completionSummarySchema.safeParse(data).data ?? null;
 }
 
+/** Um toque no + ou − de um hábito contador ou bom/ruim (D63). */
+export async function habitTickFn({
+  taskId,
+  delta,
+  id,
+}: HabitTickVars): Promise<CompletionSummary | null> {
+  const { data, error } = await supabase.rpc('habit_tick', {
+    p_task_id: taskId,
+    p_delta: delta,
+    p_id: id,
+  });
+  if (error) throw error;
+  return completionSummarySchema.safeParse(data).data ?? null;
+}
+
+export async function undoHabitTickFn({ id }: HabitTickVars) {
+  const { error } = await supabase.rpc('undo_habit_tick', { p_event_id: id });
+  if (error) throw error;
+}
+
 /** Registra as funções da fila (para as mutações restauradas do disco depois de reabrir o app). */
 export function registerOfflineTaskMutations(queryClient: QueryClient) {
   const settle = () => {
@@ -507,6 +578,77 @@ export function registerOfflineTaskMutations(queryClient: QueryClient) {
     ...offlineTaskMutation(statusTaskKey),
     mutationFn: (vars: StatusTaskVars) => setTaskStatusFn(vars),
     onSettled: settle,
+  });
+  queryClient.setMutationDefaults(habitTickKey, {
+    ...offlineTaskMutation(habitTickKey),
+    mutationFn: (vars: HabitTickVars) => habitTickFn(vars),
+    onSettled: settle,
+  });
+  queryClient.setMutationDefaults(undoHabitTickKey, {
+    ...offlineTaskMutation(undoHabitTickKey),
+    mutationFn: (vars: HabitTickVars) => undoHabitTickFn(vars),
+    onSettled: settle,
+  });
+}
+
+/** Contagens depois de um toque (espelho do habit_tick, para a tela mudar na hora). */
+export function applyHabitTick(task: Task, delta: 1 | -1): Task {
+  if (task.habit_kind === 'counter') {
+    const target = task.habit_target ?? 1;
+    const count = Math.max(0, Math.min(target, task.count_up + delta));
+    const done = count >= target;
+    return {
+      ...task,
+      count_up: count,
+      status: done ? 'done' : task.status === 'done' ? 'todo' : task.status,
+      completed_at: done ? (task.completed_at ?? new Date().toISOString()) : null,
+    };
+  }
+  return delta === 1
+    ? { ...task, count_up: task.count_up + 1 }
+    : { ...task, count_down: task.count_down + 1 };
+}
+
+export function useHabitTick() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...offlineTaskMutation(habitTickKey),
+    mutationFn: habitTickFn,
+    onMutate: async ({ taskId, delta }) => {
+      const saved = await snapshot(queryClient);
+      patchTaskLists(queryClient, (t) => (t.id === taskId ? applyHabitTick(t, delta) : t));
+      return { saved };
+    },
+    onError: (_err, _vars, context) => restore(queryClient, context?.saved),
+    onSettled: () => {
+      invalidateWhenIdle(queryClient);
+      queryClient.invalidateQueries({ queryKey: keys.game });
+    },
+  });
+}
+
+/** Desfaz um + ou − de hábito bom/ruim (o "Desfazer" do aviso). Recebe o mesmo vars do toque. */
+export function useUndoHabitTick() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...offlineTaskMutation(undoHabitTickKey),
+    mutationFn: undoHabitTickFn,
+    onMutate: async ({ taskId, delta }: HabitTickVars) => {
+      const saved = await snapshot(queryClient);
+      patchTaskLists(queryClient, (t) =>
+        t.id !== taskId
+          ? t
+          : delta === 1
+            ? { ...t, count_up: Math.max(0, t.count_up - 1) }
+            : { ...t, count_down: Math.max(0, t.count_down - 1) },
+      );
+      return { saved };
+    },
+    onError: (_err, _vars, context) => restore(queryClient, context?.saved),
+    onSettled: () => {
+      invalidateWhenIdle(queryClient);
+      queryClient.invalidateQueries({ queryKey: keys.game });
+    },
   });
 }
 

@@ -17,7 +17,13 @@ export type PageSettings = {
 
 export type SubFolder = Folder & { pages: Page[] };
 export type FolderNode = SubFolder & { children: SubFolder[] };
-export type Tree = { inbox: Page | null; folders: FolderNode[]; pages: Page[] };
+/** inbox e habits: as páginas de sistema (ficam na pasta escondida da Caixa de entrada, D8 e D68) */
+export type Tree = {
+  inbox: Page | null;
+  habits: Page | null;
+  folders: FolderNode[];
+  pages: Page[];
+};
 
 const byPosition = <T extends { position: number; created_at: string }>(a: T, b: T) =>
   a.position - b.position || a.created_at.localeCompare(b.created_at);
@@ -51,6 +57,7 @@ export function useTree() {
 
       return {
         inbox: pages.data.find((p) => p.is_inbox) ?? null,
+        habits: pages.data.find((p) => p.is_habits) ?? null,
         folders: roots,
         pages: pages.data,
       };

@@ -290,11 +290,12 @@ export function useAssigneeMutations() {
 }
 
 /** Minhas tarefas: abertas e atribuídas a mim, de todos os projetos (ESCOPO 4.5). */
-export function useMyTasks() {
+/** `enabled: false` evita a busca para quem não participa de projeto (Início, D69). */
+export function useMyTasks({ enabled = true }: { enabled?: boolean } = {}) {
   const { session } = useSession();
   return useQuery({
     queryKey: keys.mine,
-    enabled: !!session,
+    enabled: !!session && enabled,
     queryFn: async () => {
       const { data, error } = await supabase
         .from('tasks')

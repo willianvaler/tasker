@@ -111,14 +111,14 @@ isOneToOne: false
                   ]
                 },"bosses": {
                   Row: {
-                    "created_at": string,"defeated_at": string | null,"ends_at": string,"hp": number,"icon": string,"id": string,"max_hp": number,"name": string,"period_key": string,"scope": string,"scope_id": string,"starts_at": string,"status": string,"_boss_json": Json | null,"_sync_boss_rewards": undefined | null
+                    "created_at": string,"defeated_at": string | null,"ends_at": string,"hp": number,"icon": string,"id": string,"level": number,"max_hp": number,"name": string,"period_key": string,"scope": string,"scope_id": string,"starts_at": string,"status": string,"_boss_json": Json | null,"_sync_boss_rewards": undefined | null
                   }
                   ComputedFields: "_boss_json" | "_sync_boss_rewards"
                   Insert: {
-                    "created_at"?: string,"defeated_at"?: string | null,"ends_at": string,"hp": number,"icon": string,"id"?: string,"max_hp": number,"name": string,"period_key": string,"scope"?: string,"scope_id": string,"starts_at": string,"status"?: string
+                    "created_at"?: string,"defeated_at"?: string | null,"ends_at": string,"hp": number,"icon": string,"id"?: string,"level"?: number,"max_hp": number,"name": string,"period_key": string,"scope"?: string,"scope_id": string,"starts_at": string,"status"?: string
                   }
                   Update: {
-                    "created_at"?: string,"defeated_at"?: string | null,"ends_at"?: string,"hp"?: number,"icon"?: string,"id"?: string,"max_hp"?: number,"name"?: string,"period_key"?: string,"scope"?: string,"scope_id"?: string,"starts_at"?: string,"status"?: string
+                    "created_at"?: string,"defeated_at"?: string | null,"ends_at"?: string,"hp"?: number,"icon"?: string,"id"?: string,"level"?: number,"max_hp"?: number,"name"?: string,"period_key"?: string,"scope"?: string,"scope_id"?: string,"starts_at"?: string,"status"?: string
                   }
                   Relationships: [
                     
@@ -331,6 +331,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"items": {
+                  Row: {
+                    "drop": boolean,"icon": string,"key": string,"name": string,"position": number,"price": number | null,"rarity": string,"slot": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "drop"?: boolean,"icon": string,"key": string,"name": string,"position": number,"price"?: number | null,"rarity": string,"slot": string
+                  }
+                  Update: {
+                    "drop"?: boolean,"icon"?: string,"key"?: string,"name"?: string,"position"?: number,"price"?: number | null,"rarity"?: string,"slot"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"notifications": {
                   Row: {
                     "created_at": string,"id": string,"kind": string,"payload": NonNullable<Json>,"read_at": string | null,"user_id": string
@@ -353,14 +367,14 @@ isOneToOne: false
                   ]
                 },"pages": {
                   Row: {
-                    "created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_inbox": boolean,"manual_cycle": number,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"view_type": Database["public"]['Enums']["page_view_type"]
+                    "created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"view_type": Database["public"]['Enums']["page_view_type"]
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"manual_cycle"?: number,"name": string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"name": string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Update: {
-                    "created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"manual_cycle"?: number,"name"?: string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"name"?: string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Relationships: [
                     {
@@ -373,14 +387,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "avatar_url": string | null,"coins": number,"created_at": string,"display_name": string,"gamification_enabled": boolean,"id": string,"last_active_date": string | null,"level": number,"onboarded_at": string | null,"streak": number,"streak_best": number,"timezone": string,"xp": number
+                    "attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar_url": string | null,"class": string | null,"coins": number,"created_at": string,"display_name": string,"equipped": NonNullable<Json>,"gamification_enabled": boolean,"id": string,"last_active_date": string | null,"level": number,"onboarded_at": string | null,"skill_day": string | null,"streak": number,"streak_best": number,"timezone": string,"xp": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "avatar_url"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"gamification_enabled"?: boolean,"id": string,"last_active_date"?: string | null,"level"?: number,"onboarded_at"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
+                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id": string,"last_active_date"?: string | null,"level"?: number,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
                   }
                   Update: {
-                    "avatar_url"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"gamification_enabled"?: boolean,"id"?: string,"last_active_date"?: string | null,"level"?: number,"onboarded_at"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
+                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id"?: string,"last_active_date"?: string | null,"level"?: number,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
                   }
                   Relationships: [
                     
@@ -477,14 +491,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "completed_at": string | null,"completed_by": string | null,"created_at": string,"created_by": string,"done_cycle_key": string | null,"due_date": string | null,"folder_id": string,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string
+                    "completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"done_cycle_key": string | null,"due_date": string | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"created_at"?: string,"created_by"?: string,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id": string,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string
+                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string
                   }
                   Update: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"created_at"?: string,"created_by"?: string,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id"?: string,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string
+                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -545,6 +559,38 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"user_items": {
+                  Row: {
+                    "acquired_at": string,"event_id": string | null,"item_key": string,"price": number,"source": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "acquired_at"?: string,"event_id"?: string | null,"item_key": string,"price"?: number,"source": string,"user_id": string
+                  }
+                  Update: {
+                    "acquired_at"?: string,"event_id"?: string | null,"item_key"?: string,"price"?: number,"source"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "user_items_event_id_fkey"
+      columns: ["event_id"]
+isOneToOne: false
+      referencedRelation: "xp_events"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "user_items_item_key_fkey"
+      columns: ["item_key"]
+isOneToOne: false
+      referencedRelation: "items"
+      referencedColumns: ["key"]
+    },{
+      foreignKeyName: "user_items_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"user_templates": {
                   Row: {
                     "created_at": string,"data": NonNullable<Json>,"icon": string | null,"id": string,"name": string,"owner_id": string
@@ -567,14 +613,14 @@ isOneToOne: false
                   ]
                 },"xp_events": {
                   Row: {
-                    "amount": number,"boss_id": string | null,"completion_id": string | null,"created_at": string,"cycle_key": string | null,"day": string,"id": string,"kind": string,"page_id": string | null,"quick": boolean,"reverted": boolean,"reverted_at": string | null,"task_id": string | null,"user_id": string
+                    "amount": number,"boss_id": string | null,"completion_id": string | null,"created_at": string,"crit": boolean,"cycle_key": string | null,"damage": number,"day": string,"gold": number,"id": string,"kind": string,"page_id": string | null,"quick": boolean,"reverted": boolean,"reverted_at": string | null,"task_id": string | null,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "amount": number,"boss_id"?: string | null,"completion_id"?: string | null,"created_at"?: string,"cycle_key"?: string | null,"day": string,"id"?: string,"kind": string,"page_id"?: string | null,"quick"?: boolean,"reverted"?: boolean,"reverted_at"?: string | null,"task_id"?: string | null,"user_id": string
+                    "amount": number,"boss_id"?: string | null,"completion_id"?: string | null,"created_at"?: string,"crit"?: boolean,"cycle_key"?: string | null,"damage"?: number,"day": string,"gold"?: number,"id"?: string,"kind": string,"page_id"?: string | null,"quick"?: boolean,"reverted"?: boolean,"reverted_at"?: string | null,"task_id"?: string | null,"user_id": string
                   }
                   Update: {
-                    "amount"?: number,"boss_id"?: string | null,"completion_id"?: string | null,"created_at"?: string,"cycle_key"?: string | null,"day"?: string,"id"?: string,"kind"?: string,"page_id"?: string | null,"quick"?: boolean,"reverted"?: boolean,"reverted_at"?: string | null,"task_id"?: string | null,"user_id"?: string
+                    "amount"?: number,"boss_id"?: string | null,"completion_id"?: string | null,"created_at"?: string,"crit"?: boolean,"cycle_key"?: string | null,"damage"?: number,"day"?: string,"gold"?: number,"id"?: string,"kind"?: string,"page_id"?: string | null,"quick"?: boolean,"reverted"?: boolean,"reverted_at"?: string | null,"task_id"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -615,11 +661,17 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "_award_completion":
+            "_attack":
+{ Args: { "p_base": number,"p_category": string,"p_overdue": boolean,"p_user": string }; Returns: Record<string, unknown>
+                           },
+"_award_completion":
 { Args: { "p_completion_id": string,"p_created_done": boolean,"p_cycle_kind": string,"p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
                            },
 "_boss_json":
 { Args: { "p_boss": Omit<Database["public"]['Tables']["bosses"]['Row'], Database["public"]['Tables']["bosses"]['ComputedFields']> }; Returns: Json
+                           },
+"_cap_quick_damage":
+{ Args: { "p_damage": number,"p_user": string }; Returns: number
                            },
 "_check_achievements":
 { Args: { "p_user": string }; Returns: Json
@@ -630,8 +682,11 @@ isOneToOne: false
 "_game_summary":
 { Args: { "p_boss_defeated": boolean,"p_level_before": number,"p_user": string,"p_xp": number }; Returns: Json
                            },
-"_grant_xp":
-{ Args: { "p_amount": number,"p_completion_id": string,"p_cycle_key": string,"p_kind": string,"p_page_id": string,"p_quick": boolean,"p_task_id": string,"p_user": string }; Returns: Record<string, unknown>
+"_gold_for":
+{ Args: { "p_base": number,"p_user": string }; Returns: number
+                           },
+"_grant_event":
+{ Args: { "p_amount": number,"p_completion_id": string,"p_crit": boolean,"p_cycle_key": string,"p_damage": number,"p_gold": number,"p_id"?: string,"p_kind": string,"p_page_id": string,"p_quick": boolean,"p_task_id": string,"p_user": string }; Returns: Record<string, unknown>
                            },
 "_insert_batch_task":
 { Args: { "p_item": Json,"p_page_id": string,"p_parent_id": string,"p_position": number }; Returns: string
@@ -654,6 +709,9 @@ isOneToOne: false
 "_revert_xp":
 { Args: { "p_event_ids": (string)[] }; Returns: number
                            },
+"_roll_drop":
+{ Args: { "p_level": number,"p_user": string }; Returns: string
+                           },
 "_settle_boss":
 { Args: { "p_boss_id": string }; Returns: boolean
                            },
@@ -666,11 +724,26 @@ isOneToOne: false
 "accept_invite":
 { Args: { "p_token": string }; Returns: Json
                            },
+"allocate_attribute":
+{ Args: { "p_attr": string }; Returns: Json
+                           },
+"attribute_points":
+{ Args: { "p_user": string }; Returns: number
+                           },
 "boss_board":
 { Args: { "p_boss_id": string }; Returns: Json
                            },
+"boss_hp_for_level":
+{ Args: { "p_level": number }; Returns: number
+                           },
+"buy_item":
+{ Args: { "p_item": string }; Returns: Json
+                           },
 "cancel_project_boss":
 { Args: { "p_folder_id": string }; Returns: undefined
+                           },
+"character_attributes":
+{ Args: { "p_user": string }; Returns: Record<string, unknown>
                            },
 "claim_pending_assignee":
 { Args: { "p_folder_id": string,"p_pending_name": string,"p_user_id"?: string }; Returns: number
@@ -713,11 +786,16 @@ isOneToOne: false
 { Args: { "p_items": Json,"p_page_id": string }; Returns: {
               "completed_at": string | null,
 "completed_by": string | null,
+"count_down": number,
+"count_key": string | null,
+"count_up": number,
 "created_at": string,
 "created_by": string,
 "done_cycle_key": string | null,
 "due_date": string | null,
 "folder_id": string,
+"habit_kind": string,
+"habit_target": number | null,
 "id": string,
 "labels": (string)[],
 "meta": Json | null,
@@ -754,6 +832,7 @@ isOneToOne: false
 "hp": number,
 "icon": string,
 "id": string,
+"level": number,
 "max_hp": number,
 "name": string,
 "period_key": string,
@@ -776,6 +855,7 @@ isOneToOne: false
 "hp": number,
 "icon": string,
 "id": string,
+"level": number,
 "max_hp": number,
 "name": string,
 "period_key": string,
@@ -790,6 +870,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"equip_item":
+{ Args: { "p_item": string,"p_slot": string }; Returns: undefined
+                           },
 "export_my_data":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
@@ -801,6 +884,15 @@ isOneToOne: false
                            },
 "game_state":
 { Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"gold_balance":
+{ Args: { "p_user": string }; Returns: number
+                           },
+"habit_count_key":
+{ Args: { "p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: string
+                           },
+"habit_tick":
+{ Args: { "p_delta": number,"p_id"?: string,"p_task_id": string }; Returns: Json
                            },
 "invite_preview":
 { Args: { "p_token": string }; Returns: Json
@@ -844,6 +936,9 @@ isOneToOne: false
 "remove_member":
 { Args: { "p_folder_id": string,"p_user_id": string }; Returns: undefined
                            },
+"reset_attributes":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "reset_page":
 { Args: { "p_page_id": string }; Returns: number
                            },
@@ -852,6 +947,9 @@ isOneToOne: false
                            },
 "save_folder_as_template":
 { Args: { "p_folder_id": string,"p_name": string }; Returns: string
+                           },
+"set_class":
+{ Args: { "p_class": string }; Returns: Json
                            },
 "set_member_role":
 { Args: { "p_folder_id": string,"p_role": Database["public"]['Enums']["folder_role"],"p_user_id": string }; Returns: undefined
@@ -867,6 +965,7 @@ isOneToOne: false
 "hp": number,
 "icon": string,
 "id": string,
+"level": number,
 "max_hp": number,
 "name": string,
 "period_key": string,
@@ -889,6 +988,12 @@ isOneToOne: false
                            },
 "uncomplete_task":
 { Args: { "p_task_id": string }; Returns: Json
+                           },
+"undo_habit_tick":
+{ Args: { "p_event_id": string }; Returns: Json
+                           },
+"use_skill":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "user_today":
 { Args: { "p_user": string }; Returns: string
