@@ -1,0 +1,79 @@
+import type { ReactNode } from 'react';
+import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import Animated, {
+  FadeIn,
+  SlideInDown,
+  SlideInRight,
+  useReducedMotion,
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
+
+import { DURATION, SIZE } from '@/lib/tokens';
+import { useShortcut } from '@/lib/use-shortcut';
+
+/**
+ * Painel de detalhes (docs/DESIGN.md): no computador, 400 px à direita, deslizando em 150 ms e sem
+ * bloquear a lista atrás (V2 §7: nunca um modal que trava tudo); no celular, folha de baixo para
+ * cima com fundo escurecido. Esc fecha. Use dentro de uma rota `transparentModal`.
+ */
+export function Sheet({
+  onClose,
+  header,
+  children,
+}: {
+  onClose: () => void;
+  header?: ReactNode;
+  children: ReactNode;
+}) {
+  const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  const reduced = useReducedMotion();
+  const { t } = useTranslation();
+  const wide = width >= 768;
+  useShortcut('overlay.close', onClose);
+
+  if (wide)
+    return (
+      // box-none: o que está fora do painel continua clicável (a lista ao lado)
+      <View pointerEvents="box-none" className="flex-1 flex-row justify-end">
+        <Animated.View
+          entering={reduced ? undefined : SlideInRight.duration(DURATION.base)}
+          className="h-full border-l border-line bg-surface"
+          style={{ width: SIZE.panel, paddingTop: insets.top }}
+        >
+          {header}
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerClassName="gap-6 p-4 pb-12"
+          >
+            {children}
+          </ScrollView>
+        </Animated.View>
+      </View>
+    );
+
+  return (
+    <View className="flex-1 justify-end">
+      <Animated.View
+        entering={reduced ? undefined : FadeIn.duration(DURATION.base)}
+        className="absolute inset-0 bg-scrim/40"
+      >
+        <Pressable accessibilityLabel={t('common.close')} className="flex-1" onPress={onClose} />
+      </Animated.View>
+      <Animated.View
+        entering={reduced ? undefined : SlideInDown.duration(DURATION.slow)}
+        className="max-h-[92%] rounded-t-lg border-t border-line bg-surface"
+        style={{ paddingBottom: insets.bottom }}
+      >
+        <View className="items-center pt-2">
+          <View className="h-1 w-8 rounded-full bg-line" />
+        </View>
+        {header}
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 p-4 pb-8">
+          {children}
+        </ScrollView>
+      </Animated.View>
+    </View>
+  );
+}
