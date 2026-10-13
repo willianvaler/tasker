@@ -1,0 +1,17 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "undo": "Deshacer",
+    "close": "Cerrar",
+    "back": "Volver"
+  },
+  "language": {
+    "label": "Idioma",
+    "system": "Idioma del dispositivo",
+    "pt-BR": "Português (Brasil)",
+    "en": "English",
+    "es": "Español"
+  }
+}

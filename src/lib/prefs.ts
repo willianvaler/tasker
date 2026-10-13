@@ -1,9 +1,12 @@
+import { isLocale, type LocalePreference } from '@/i18n/locale';
+
 import { localStore } from './storage';
 
 // Preferências de UI guardadas no aparelho (não são dados do usuário: perder não faz mal).
 const LAST_PAGE_KEY = 'questlist:last-page';
 const OPEN_FOLDERS_KEY = 'questlist:open-folders';
 const THEME_KEY = 'questlist:theme';
+const LOCALE_KEY = 'questlist:locale';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -15,6 +18,16 @@ export function getThemePreference(): ThemePreference {
 
 export function setThemePreference(value: ThemePreference) {
   localStore.setItem(THEME_KEY, value);
+}
+
+/** Idioma escolhido no aparelho ('system' = o do aparelho). */
+export function getLocalePreference(): LocalePreference {
+  const value = localStore.getItem(LOCALE_KEY);
+  return isLocale(value) ? value : 'system';
+}
+
+export function setLocalePreference(value: LocalePreference) {
+  localStore.setItem(LOCALE_KEY, value);
 }
 
 export function getLastPageId(): string | null {

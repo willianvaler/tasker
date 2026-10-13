@@ -1,4 +1,5 @@
 import '../global.css';
+import '@/i18n';
 
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider as NavThemeProvider } from 'expo-router';
 import { useColorScheme } from 'nativewind';
