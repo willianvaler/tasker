@@ -18,7 +18,8 @@ export function GameProfile() {
         <View className="flex-1">
           <Text className="font-semibold text-foreground">Gamificação</Text>
           <Text className="text-sm text-muted-foreground">
-            XP, nível, sequência e boss. Desligada, some da tela (o histórico continua guardado).
+            XP, nível, personagem, boss e loja. Desligada, some da tela (o histórico continua
+            guardado).
           </Text>
         </View>
         <Switch
@@ -51,6 +52,7 @@ export function GameProfile() {
             <Stat label="Recorde" value={`${game.streak_best}`} />
             <Stat label="Concluídas" value={`${game.tasks_done}`} />
             <Stat label="XP hoje" value={`${game.xp_today}`} />
+            <Stat label="Ouro" value={`🪙 ${game.gold}`} />
           </View>
           <Text className="text-xs text-muted-foreground">
             {game.freeze_available
@@ -63,20 +65,25 @@ export function GameProfile() {
               <Text className="text-sm font-semibold text-foreground">Boss da semana</Text>
               <BossLine boss={game.boss} />
               <Text className="text-xs text-muted-foreground">
-                Cada XP ganho é um ponto de dano. Se ele fugir, o próximo vem sem punição.
+                Cada tarefa, hábito e card é um golpe; atributos e classe mudam o dano (veja em
+                Personagem). Vencer sobe o nível do próximo. Se ele fugir, o próximo vem sem
+                punição.
               </Text>
             </View>
           )}
 
           <View className="gap-2">
-            <Text className="font-semibold text-foreground">Conquistas</Text>
+            <Text className="font-semibold text-foreground">
+              Conquistas ({game.achievements.filter((a) => a.unlocked_at).length}/
+              {game.achievements.length})
+            </Text>
             <View className="flex-row flex-wrap gap-2">
               {game.achievements.map((a) => (
                 <View
                   key={a.key}
                   accessibilityLabel={`${a.name}: ${a.description}${a.unlocked_at ? '' : ' (bloqueada)'}`}
                   className={cn(
-                    'w-[31%] min-w-28 flex-grow items-center gap-1 rounded-xl border border-border p-2',
+                    'w-[31%] min-w-28 flex-grow items-center gap-1 rounded-xl border border-border p-2 md:w-[23%] xl:w-[18%]',
                     a.unlocked_at ? 'bg-card' : 'opacity-40',
                   )}
                 >
