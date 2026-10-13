@@ -82,13 +82,14 @@ select is((select count(*)::int from public.boss_damage d join public.xp_events 
   'um XP bate no boss solo e no do clã');
 insert into ids select 'clan_boss', id from public.bosses
   where scope = 'clan' and scope_id = (select v::uuid from ids where k = 'clan');
-select is((select max_hp - hp from public.bosses where id = (select v::uuid from ids where k = 'clan_boss')), 10,
-  'boss do clã tomou 10');
+select is((select max_hp - hp from public.bosses where id = (select v::uuid from ids where k = 'clan_boss')),
+          (select damage from public.xp_events where task_id = 'cccccccc-0000-0000-0000-000000000011' and not reverted),
+  'boss do clã tomou o dano do golpe (D61)');
 
--- Deixa o boss do clã a 5 HP do fim
+-- Deixa o boss do clã a 1 HP do fim (todo golpe tira ao menos 1)
 reset role;
-update public.bosses set max_hp = (select sum(amount) from public.boss_damage where boss_id = bosses.id) + 5,
-  hp = 5 where id = (select v::uuid from ids where k = 'clan_boss');
+update public.bosses set max_hp = (select sum(amount) from public.boss_damage where boss_id = bosses.id) + 1,
+  hp = 1 where id = (select v::uuid from ids where k = 'clan_boss');
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';
 select is((public.complete_task('cccccccc-0000-0000-0000-000000000021') ->> 'boss_defeated')::boolean, true,

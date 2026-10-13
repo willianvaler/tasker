@@ -130,14 +130,14 @@ select is((select hp from public.bosses where scope_id = auth.uid()),
           (select greatest(0, b.max_hp - sum(d.amount))::int from public.bosses b join public.boss_damage d on d.boss_id = b.id
            where b.scope_id = auth.uid() group by b.max_hp), 'HP do boss = máximo − dano (sem passar de 0)');
 select is((select sum(amount)::int from public.boss_damage where user_id = auth.uid()),
-          (select sum(amount)::int from public.xp_events where user_id = auth.uid() and not reverted and kind <> 'boss_reward'),
-          'dano = XP ganho (e o revertido saiu)');
+          (select sum(damage)::int from public.xp_events where user_id = auth.uid() and not reverted),
+          'dano no boss = dano dos eventos (e o revertido saiu)');
 
 reset role;
--- Um boss novo, a 5 HP do fim
+-- Um boss novo, a 3 HP do fim (uma tarefa comum tira ao menos 4)
 update public.bosses
-set max_hp = (select sum(amount) from public.boss_damage where user_id = '11111111-1111-1111-1111-111111111111') + 5,
-    hp = 5, status = 'active', defeated_at = null
+set max_hp = (select sum(amount) from public.boss_damage where user_id = '11111111-1111-1111-1111-111111111111') + 3,
+    hp = 3, status = 'active', defeated_at = null
 where scope_id = '11111111-1111-1111-1111-111111111111';
 update public.xp_events set reverted = true
 where kind = 'boss_reward' and user_id = '11111111-1111-1111-1111-111111111111';
@@ -150,7 +150,7 @@ select is((public.complete_task('cccccccc-0000-0000-0000-000000000005') ->> 'bos
 select is((select status from public.bosses where scope_id = auth.uid()), 'defeated', 'boss derrotado');
 select is((select count(*)::int from public.xp_events where kind = 'boss_reward' and not reverted), 1, 'recompensa no ledger');
 select public.uncomplete_task('cccccccc-0000-0000-0000-000000000005');
-select is((select status || ':' || hp from public.bosses where scope_id = auth.uid()), 'active:5', 'desmarcar o golpe final revive o boss');
+select is((select status || ':' || hp from public.bosses where scope_id = auth.uid()), 'active:3', 'desmarcar o golpe final revive o boss');
 select is((select count(*)::int from public.xp_events where kind = 'boss_reward' and not reverted), 0, 'e a recompensa sai');
 
 -- Conquistas e estado
@@ -163,7 +163,7 @@ select is((public.game_state() ->> 'xp')::int, (select sum(amount)::int from pub
 select throws_ok($$ insert into public.xp_events (user_id, kind, amount, day) values (auth.uid(), 'task', 999, current_date) $$,
   '42501', null, 'cliente não grava no ledger');
 select throws_ok($$ update public.profiles set xp = 99999 where id = auth.uid() $$, '42501', null, 'cliente não muda o XP do perfil');
-select throws_ok($$ select public._grant_xp(auth.uid(), 'task', 999, false, null, null, null, 'x') $$,
+select throws_ok($$ select public._grant_event(auth.uid(), 'task', 999, false, null, null, null, 'x', 999, false, 999) $$,
   '42501', null, 'cliente não chama as funções internas');
 
 -- Bia não vê nada da Ana e, como leitora da pasta, não conclui
