@@ -19,11 +19,14 @@ import { ScrollView, View } from 'react-native';
 import { Button, IconButton } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip } from '@/components/ui/chip';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
+import { Avatar, PersonRow } from '@/components/ui/person';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { useToast } from '@/providers/toast';
 import { COLORS, MARKER_COLORS, useColors, type ColorToken } from '@/lib/tokens';
 
 // Referência visual dos tokens e componentes (V3 §0.1). Só em desenvolvimento: em produção a
@@ -50,6 +53,8 @@ export default function DesignScreen() {
         <Checkboxes />
         <Chips />
         <Rules />
+        <People />
+        <Feedback />
       </View>
     </ScrollView>
   );
@@ -243,6 +248,54 @@ function Rules() {
           <Text className="font-mono text-xs text-ink-muted">HP 640/900</Text>
         </View>
       </View>
+    </Section>
+  );
+}
+
+function People() {
+  return (
+    <Section title="Pessoas">
+      <View className="max-w-md">
+        <PersonRow
+          name="Willian Valer"
+          detail="Gerente"
+          right={<Text className="font-mono text-xs text-ink-muted">4 tarefas</Text>}
+        />
+        <PersonRow
+          name="Greg"
+          detail="Editor"
+          right={<Text className="font-mono text-xs text-ink-muted">3 tarefas</Text>}
+        />
+      </View>
+      <View className="flex-row gap-2">
+        <Avatar name="Willian Valer" />
+        <Avatar name="Greg" />
+        <Avatar name="Ana Souza" size={32} />
+      </View>
+    </Section>
+  );
+}
+
+function Feedback() {
+  const toast = useToast();
+  return (
+    <Section title="Aviso e estado vazio">
+      <View className="flex-row">
+        <Button
+          variant="ghost"
+          label="Mostrar aviso"
+          onPress={() =>
+            toast({
+              message: 'Concluída: Comprar carvão · +10 xp',
+              action: { label: 'Desfazer', onPress: () => {} },
+            })
+          }
+        />
+      </View>
+      <EmptyState
+        title="Nada para hoje. Aproveite o café."
+        hint="Digite no campo acima para criar uma tarefa."
+      />
     </Section>
   );
 }
