@@ -1,20 +1,33 @@
 import { router } from 'expo-router';
 import { Tabs } from 'expo-router/js-tabs';
-import { Pressable, View } from 'react-native';
+import {
+  House,
+  Inbox,
+  LayoutGrid,
+  Plus,
+  Repeat,
+  Sun,
+  User,
+  type LucideIcon,
+} from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import { Pressable, View, type ColorValue } from 'react-native';
 
 import { useIsWide } from '@/components/sidebar';
-import { Text } from '@/components/ui/text';
+import { Icon } from '@/components/ui/icon';
+import { FONT_FAMILY } from '@/lib/fonts';
 
-const icon = (emoji: string) =>
-  function TabIcon() {
-    // Altura de linha fixa: com a padrão do text-lg, o emoji empurrava o rótulo para fora da barra
-    return <Text style={{ fontSize: 18, lineHeight: 22 }}>{emoji}</Text>;
+// Ícone da aba: a cor vem da barra (ativa = tinta, inativa = tinta suave, pelo tema da navegação)
+const tabIcon = (Glyph: LucideIcon) =>
+  function TabIcon({ color }: { color: ColorValue }) {
+    return <Glyph size={20} color={String(color)} strokeWidth={1.5} absoluteStrokeWidth />;
   };
 
-// Abas embaixo no celular. Em tela larga, quem navega é a barra lateral (components/sidebar.tsx),
-// que fica no layout de cima para continuar visível dentro das páginas (ESCOPO 5)
+// Abas embaixo no celular (D69, D76). Em tela larga, quem navega é a barra lateral
+// (components/sidebar.tsx), que fica no layout de cima para continuar visível dentro das páginas.
 export default function TabsLayout() {
   const wide = useIsWide();
+  const { t } = useTranslation();
 
   return (
     <View className="flex-1 bg-paper">
@@ -22,55 +35,71 @@ export default function TabsLayout() {
         tabBar={wide ? () => null : undefined}
         screenOptions={{
           headerShown: false,
-          // No celular, a altura padrão (49) cortava o rótulo embaixo do ícone de emoji
-          tabBarStyle: { height: 62 },
-          tabBarItemStyle: { paddingVertical: 6 },
+          // Altura calculada pela barra (com a área segura); só a borda fina em cima
+          tabBarStyle: { borderTopWidth: 1 },
+          tabBarLabelStyle: { fontFamily: FONT_FAMILY.sans, fontSize: 12 },
           sceneStyle: { backgroundColor: 'transparent' },
         }}
       >
         <Tabs.Screen
           name="index"
-          options={{ title: 'Início', tabBarIcon: icon('🏠'), tabBarAccessibilityLabel: 'Início' }}
+          options={{
+            title: t('nav.home'),
+            tabBarIcon: tabIcon(House),
+            tabBarAccessibilityLabel: t('nav.home'),
+          }}
         />
         <Tabs.Screen
           name="today"
-          options={{ title: 'Hoje', tabBarIcon: icon('☀️'), tabBarAccessibilityLabel: 'Hoje' }}
+          options={{
+            title: t('nav.today'),
+            tabBarIcon: tabIcon(Sun),
+            tabBarAccessibilityLabel: t('nav.today'),
+          }}
         />
         <Tabs.Screen
           name="inbox"
           options={{
-            title: 'Entrada',
-            tabBarIcon: icon('📥'),
-            tabBarAccessibilityLabel: 'Caixa de entrada',
+            title: t('nav.inboxShort'),
+            tabBarIcon: tabIcon(Inbox),
+            tabBarAccessibilityLabel: t('nav.inbox'),
           }}
         />
         <Tabs.Screen
           name="habits"
           options={{
-            title: 'Hábitos',
-            tabBarIcon: icon('🔥'),
-            tabBarAccessibilityLabel: 'Hábitos',
+            title: t('nav.habits'),
+            tabBarIcon: tabIcon(Repeat),
+            tabBarAccessibilityLabel: t('nav.habits'),
           }}
         />
         {/* Atribuídas a mim: no celular abre pelo Início (cartão "Atribuídas a mim"), sem aba própria */}
-        <Tabs.Screen name="mine" options={{ title: 'Atribuídas a mim', href: null }} />
+        <Tabs.Screen name="mine" options={{ title: t('nav.mine'), href: null }} />
         <Tabs.Screen
           name="folders"
-          options={{ title: 'Pastas', tabBarIcon: icon('📁'), tabBarAccessibilityLabel: 'Pastas' }}
+          options={{
+            title: t('nav.folders'),
+            tabBarIcon: tabIcon(LayoutGrid),
+            tabBarAccessibilityLabel: t('nav.folders'),
+          }}
         />
         <Tabs.Screen
           name="profile"
-          options={{ title: 'Perfil', tabBarIcon: icon('👤'), tabBarAccessibilityLabel: 'Perfil' }}
+          options={{
+            title: t('nav.profile'),
+            tabBarIcon: tabIcon(User),
+            tabBarAccessibilityLabel: t('nav.profile'),
+          }}
         />
       </Tabs>
       {!wide && (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Captura rápida"
-          className="absolute bottom-24 right-5 h-14 w-14 items-center justify-center rounded-full bg-accent  active:opacity-80"
+          accessibilityLabel={t('nav.quickCapture')}
+          className="absolute bottom-24 right-4 h-12 w-12 items-center justify-center rounded bg-accent active:opacity-80"
           onPress={() => router.push('/capture')}
         >
-          <Text className="text-xl text-on-accent">+</Text>
+          <Icon icon={Plus} size={24} tone="on-accent" />
         </Pressable>
       )}
     </View>

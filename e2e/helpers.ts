@@ -22,7 +22,7 @@ export async function signUp(page: Page, testInfo: TestInfo) {
 export async function openTab(page: Page, name: string) {
   await page
     .getByRole('tab', { name })
-    .or(page.getByRole('navigation').getByRole('link', { name: new RegExp(`^\\S+ ${name}$`) }))
+    .or(page.getByRole('navigation').getByRole('link', { name: new RegExp(`^(\\S+ )?${name}$`) }))
     .click();
 }
 
@@ -68,12 +68,12 @@ export async function createPage(
   await page.getByPlaceholder('Nome (ex.: Academia)').fill(folder);
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A pasta nova abre sozinha
-  await expect(page.getByRole('heading', { name: `📁 ${folder}` })).toBeVisible();
+  await expect(page.getByRole('heading', { name: folder })).toBeVisible();
   await page.getByRole('button', { name: '+ Criar a primeira página' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill(name);
   await page.getByRole('radio', { name: new RegExp(type) }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await expect(page.getByRole('heading', { name: new RegExp(`^\\S+ ${name}$`) })).toBeVisible();
+  await expect(page.getByRole('heading', { name: new RegExp(`^(\\S+ )?${name}$`) })).toBeVisible();
   return new URL(page.url()).pathname.split('/').pop()!;
 }
 

@@ -44,7 +44,7 @@ test('clã: convite por link, boss da semana e destaques', async ({ page, browse
   await page.getByRole('textbox', { name: 'Nome do clã' }).fill('Os Produtivos');
   await page.getByRole('textbox', { name: 'Emoji do clã' }).fill('🛡️');
   await page.getByRole('button', { name: 'Criar clã' }).click();
-  await expect(page.getByRole('heading', { name: '🛡️ Os Produtivos' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Os Produtivos' })).toBeVisible();
   await expect(page.getByText('Boss da semana do clã')).toBeVisible();
   await page.getByRole('button', { name: 'Gerar link de convite' }).click();
   const link = (await page.getByLabel('Link de convite do clã').textContent()) ?? '';
@@ -61,7 +61,7 @@ test('clã: convite por link, boss da semana e destaques', async ({ page, browse
   await friend.getByPlaceholder('Senha').fill('senha-forte-123');
   await friend.getByRole('button', { name: 'Criar conta' }).click();
   await friend.getByRole('button', { name: 'Entrar no clã' }).click();
-  await expect(friend.getByRole('heading', { name: '🛡️ Os Produtivos' })).toBeVisible();
+  await expect(friend.getByRole('heading', { name: 'Os Produtivos' })).toBeVisible();
 
   // A dona vê a amiga entrar sem recarregar
   await expect(page.getByText('Bia Amiga entrou no clã')).toBeVisible();
@@ -90,13 +90,13 @@ test('boss de projeto com prazo: cada tarefa é um golpe', async ({ page }, test
   await page.getByRole('button', { name: 'Usar modelo' }).click();
   await page.getByRole('button', { name: 'Modelo Festa' }).click();
   await page.getByRole('button', { name: 'Criar', exact: true }).click();
-  await expect(page.getByRole('heading', { name: '🎉 Festa' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Festa' })).toBeVisible();
 
-  await page.getByRole('button', { name: '⚔️ Chamar boss com prazo' }).click();
+  await page.getByRole('button', { name: 'Chamar boss com prazo' }).click();
   await page.getByRole('button', { name: 'Em 1 semana' }).click();
   await expect(page.getByText(/faltam 12 de 12 tarefas/)).toBeVisible();
 
-  await page.getByRole('link', { name: '🎈 Preparação' }).first().click();
+  await page.getByRole('link', { name: 'Preparação' }).first().click();
   const done = page.waitForResponse((r) => r.url().includes('/complete_task') && r.ok());
   await page.getByRole('checkbox', { name: 'Concluir Bolo' }).click();
   await done;

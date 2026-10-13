@@ -50,7 +50,7 @@ test('critério de aceite: Treino A com 8 exercícios, marcar tudo e reset na se
   await shown(page, '📑 Duplicar página').click();
   await expect(page.getByPlaceholder('Nome da cópia')).toHaveValue('Treino B');
   await page.getByRole('button', { name: 'Duplicar' }).click();
-  await expect(page.getByRole('heading', { name: '🃏 Treino B' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Treino B' })).toBeVisible();
   await expect(shown(page, '0/8 feitos')).toBeVisible();
 });
 

@@ -195,16 +195,9 @@ export function useTreeMutations() {
   };
 }
 
-const DEFAULT_PAGE_ICON: Record<string, string> = {
-  list: '📄',
-  cards: '🃏',
-  habits: '🔥',
-  kanban: '📋',
-};
-
-/** Nome para exibir de uma página: "📄 Nome" (sem ícone próprio, usa o do tipo). */
-export function pageLabel(page: Pick<Page, 'icon' | 'name'> & { view_type?: string }) {
-  return `${page.icon || DEFAULT_PAGE_ICON[page.view_type ?? 'list'] || '📄'} ${page.name}`;
+/** Nome da página para texto (o ícone é desenhado à parte, pelo components/item-icon.tsx). */
+export function pageLabel(page: Pick<Page, 'name'>) {
+  return page.name;
 }
 
 /** Pasta pelo id (raiz ou subpasta), com a pasta-mãe quando for subpasta. */

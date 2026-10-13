@@ -35,7 +35,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         <View
           pointerEvents="box-none"
           className="absolute inset-x-0 items-center px-4 md:items-end md:px-6"
-          style={{ bottom: insets.bottom + (wide ? 24 : 72) }}
+          // No celular, acima da barra de abas e do botão de captura
+          style={{ bottom: insets.bottom + (wide ? 24 : 152) }}
         >
           {/* Tinta sobre papel invertida: o aviso se destaca sem sombra nem cor nova */}
           <Animated.View

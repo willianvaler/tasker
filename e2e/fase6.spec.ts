@@ -17,7 +17,7 @@ test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page 
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Quadro');
   await page.getByRole('radio', { name: /Kanban/ }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await expect(page.getByRole('heading', { name: '📋 Quadro' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Quadro' })).toBeVisible();
 
   const title = `Relatório ${Date.now()}`;
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
@@ -59,10 +59,10 @@ test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando',
     .getByRole('navigation')
     .getByRole('link', { name: /Perfil/ })
     .click();
-  await page.getByRole('radio', { name: '☀️ Claro' }).click();
+  await page.getByRole('radio', { name: 'Claro' }).click();
   await expect(html).not.toHaveClass(/dark/);
   await page.reload();
-  await expect(page.getByRole('radio', { name: '☀️ Claro' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Claro' })).toBeVisible();
   await expect(html).not.toHaveClass(/dark/);
 
   await page.getByRole('radio', { name: 'Sistema' }).click();
@@ -70,7 +70,7 @@ test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando',
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(html).not.toHaveClass(/dark/);
 
-  await page.getByRole('radio', { name: '🌙 Escuro' }).click();
+  await page.getByRole('radio', { name: 'Escuro' }).click();
   await expect(html).toHaveClass(/dark/);
   const background = await page.evaluate(() =>
     getComputedStyle(document.documentElement).getPropertyValue('--paper').trim(),
@@ -119,7 +119,7 @@ test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ 
   await expect(page.getByLabel('0 de 8')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Hábito bom: Comer bem' })).toBeVisible();
   await openTab(page, 'Pastas');
-  await expect(page.getByRole('link', { name: /🏋️ Academia/ }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: /Academia/ }).first()).toBeVisible();
   // Vista uma vez, não volta
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Pastas' })).toBeVisible();

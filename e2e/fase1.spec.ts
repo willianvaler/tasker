@@ -87,13 +87,13 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
   await page.getByPlaceholder('Emoji (opcional, ex.: 🏋️)').fill('🏋️');
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A pasta nova abre sozinha, vazia
-  await expect(page.getByRole('heading', { name: '🏋️ Academia' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Academia' })).toBeVisible();
 
   await page.getByRole('button', { name: '+ Criar a primeira página' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Treino A');
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A página nova abre sozinha
-  await expect(page.getByRole('heading', { name: '📄 Treino A' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Treino A' })).toBeVisible();
 
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   await input.fill('Agachamento !!! #perna amanhã');
@@ -116,19 +116,19 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
 
   // Renomear a página pelo menu (volta da página para a pasta)
   await page.getByRole('button', { name: 'Voltar' }).click();
-  await expect(page.getByRole('heading', { name: '🏋️ Academia' })).toBeVisible();
-  await page.getByRole('button', { name: 'Opções de 📄 Treino A' }).click();
+  await expect(page.getByRole('heading', { name: 'Academia' })).toBeVisible();
+  await page.getByRole('button', { name: 'Opções de Treino A' }).click();
   await page.getByText('⚙️ Configurar').click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Treino B');
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await expect(page.getByRole('link', { name: /📄 Treino B/ }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: /Treino B/ }).first()).toBeVisible();
 
   // A aba Pastas lista a pasta em card, com a página dentro (2 toques até ela)
   await page.getByRole('button', { name: 'Voltar' }).click();
   await openTab(page, 'Pastas');
-  await expect(page.getByRole('link', { name: /🏋️ Academia/ }).first()).toBeVisible();
-  await page.getByRole('link', { name: '📄 Treino B' }).first().click();
-  await expect(page.getByRole('heading', { name: '📄 Treino B' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Academia/ }).first()).toBeVisible();
+  await page.getByRole('link', { name: 'Treino B' }).first().click();
+  await expect(page.getByRole('heading', { name: 'Treino B' })).toBeVisible();
 });
 
 test('barra lateral: criar pasta, ver a árvore e abrir a página', async ({ page }, testInfo) => {
@@ -139,23 +139,20 @@ test('barra lateral: criar pasta, ver a árvore e abrir a página', async ({ pag
   await nav.getByRole('button', { name: 'Nova pasta' }).click();
   await page.getByPlaceholder('Nome (ex.: Academia)').fill('Casa');
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await expect(page.getByRole('heading', { name: '📁 Casa' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Casa' })).toBeVisible();
   // A pasta aparece na barra lateral, já aberta (é a tela atual)
-  await expect(nav.getByRole('link', { name: '📁 Casa' })).toBeVisible();
-  await expect(nav.getByRole('button', { name: 'Recolher 📁 Casa' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Casa' })).toBeVisible();
+  await expect(nav.getByRole('button', { name: 'Recolher Casa' })).toBeVisible();
 
-  await nav.getByRole('button', { name: '+ Nova página' }).click();
+  await nav.getByRole('button', { name: 'Nova página' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Mercado');
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await expect(page.getByRole('heading', { name: '📄 Mercado' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Mercado' })).toBeVisible();
   // Dentro da página a barra continua, com a página marcada
-  await expect(nav.getByRole('link', { name: '📄 Mercado' })).toHaveAttribute(
-    'aria-current',
-    'page',
-  );
+  await expect(nav.getByRole('link', { name: 'Mercado' })).toHaveAttribute('aria-current', 'page');
 
-  await nav.getByRole('button', { name: 'Recolher 📁 Casa' }).click();
-  await expect(nav.getByRole('link', { name: '📄 Mercado' })).toHaveCount(0);
+  await nav.getByRole('button', { name: 'Recolher Casa' }).click();
+  await expect(nav.getByRole('link', { name: 'Mercado' })).toHaveCount(0);
   await openTab(page, 'Hoje');
   await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
 });
@@ -169,7 +166,7 @@ test('captura rápida com Ctrl+K vai para a última página usada', async ({ pag
   await expect(page.getByText('Captura rápida')).toBeVisible();
   await input.fill('Ideia solta');
   await input.press('Enter');
-  await expect(page.getByText('Criada em 📥 Caixa de entrada')).toBeVisible();
+  await expect(page.getByText('Criada em Caixa de entrada')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByText('Captura rápida')).toHaveCount(0);
 

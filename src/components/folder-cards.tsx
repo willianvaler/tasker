@@ -1,6 +1,9 @@
 import { Link } from 'expo-router';
+import { MoreHorizontal } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
+import { IconButton } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { pageLabel, type FolderNode, type Page, type SubFolder } from '@/lib/queries/tree';
 
@@ -16,8 +19,9 @@ const RESET_LABEL: Record<string, string> = {
   manual: 'reinício manual',
 };
 
-export function folderLabel(folder: { icon: string | null; name: string }) {
-  return `${folder.icon || '📁'} ${folder.name}`;
+/** Nome da pasta para texto (o ícone é desenhado à parte, pelo components/item-icon.tsx). */
+export function folderLabel(folder: { name: string }) {
+  return folder.name;
 }
 
 /** "3 páginas · 1 subpasta" */
@@ -31,17 +35,11 @@ export function folderSummary(folder: FolderNode | SubFolder) {
 
 const sum = (children: SubFolder[]) => children.reduce((n, c) => n + c.pages.length, 0);
 
-/** Botão "⋯" de opções (alvo de 44px). */
+/** Botão de opções (⋯) com alvo de 44 px no celular e 32 no computador. */
 export function MenuButton({ label, onPress }: { label: string; onPress: () => void }) {
+  const { t } = useTranslation();
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`Opções de ${label}`}
-      className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
-      onPress={onPress}
-    >
-      <Text className="text-lg text-ink-muted">⋯</Text>
-    </Pressable>
+    <IconButton icon={MoreHorizontal} label={t('nav.options', { name: label })} onPress={onPress} />
   );
 }
 

@@ -25,7 +25,7 @@ async function joinByLink(
 
 async function claimAndOpenMine(page: Page, pendingName: string) {
   await page.getByRole('button', { name: `Sou @${pendingName}` }).click();
-  await expect(page.getByRole('heading', { name: '🍖 Churrasco' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
   // O projeto abre por cima das abas; no celular, a barra de baixo volta com o "Voltar"
   await page.getByRole('button', { name: 'Voltar' }).click();
   // "Atribuídas a mim" não tem aba no celular (abre pelo Início); aqui vai direto
@@ -48,12 +48,12 @@ test('critério de aceite: Churrasco por modelo, @nomes antes de convidar, 2 con
   await page.getByRole('button', { name: 'Usar modelo' }).click();
   await page.getByRole('button', { name: 'Modelo Churrasco' }).click();
   await page.getByRole('button', { name: 'Criar', exact: true }).click();
-  await expect(page.getByRole('heading', { name: '🍖 Churrasco' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
   await expect(page.getByText('👥 Projeto ·').last()).toBeVisible();
 
   // Cola a lista com @nomes de quem ainda não está no app
-  await page.getByRole('link', { name: '🛒 Compras' }).first().click();
-  await expect(page.getByRole('heading', { name: '🛒 Compras' })).toBeVisible();
+  await page.getByRole('link', { name: 'Compras' }).first().click();
+  await expect(page.getByRole('heading', { name: 'Compras' })).toBeVisible();
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   await input.fill('carne @gregory; cerveja @cris; carvão; gelo');
   await input.press('Enter');
@@ -67,13 +67,13 @@ test('critério de aceite: Churrasco por modelo, @nomes antes de convidar, 2 con
 
   // Gera o link de convite
   await page.getByRole('button', { name: 'Voltar' }).click();
-  await page.getByRole('button', { name: '👥 Pessoas' }).click();
+  await page.getByRole('button', { name: 'Pessoas' }).click();
   await expect(page.getByText('@gregory', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Gerar link de convite' }).click();
   const link = (await page.getByLabel('Link de convite').textContent()) ?? '';
   expect(link).toMatch(/\/invite\/[\w-]{24}$/);
   await page.getByRole('button', { name: 'Voltar' }).click();
-  await expect(page.getByRole('heading', { name: '🍖 Churrasco' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
 
   // Gregory entra pela web no computador; Cris, no celular
   const gregory = await joinByLink(browser, link, 'Gregory Souza', devices['Desktop Chrome']);
@@ -119,15 +119,15 @@ test('leitor só vê e comenta; @menção avisa', async ({ page, browser }, test
   await page.getByRole('button', { name: 'Usar modelo' }).click();
   await page.getByRole('button', { name: 'Modelo Churrasco' }).click();
   await page.getByRole('button', { name: 'Criar', exact: true }).click();
-  await page.getByRole('button', { name: '👥 Pessoas' }).click();
+  await page.getByRole('button', { name: 'Pessoas' }).click();
   await page.getByRole('radio', { name: 'Só vê e comenta' }).click();
   await page.getByRole('button', { name: 'Gerar link de convite' }).click();
   const link = (await page.getByLabel('Link de convite').textContent()) ?? '';
 
   const viewer = await joinByLink(browser, link, 'Vera Leitora', devices['Desktop Chrome']);
-  await expect(viewer.getByRole('heading', { name: '🍖 Churrasco' })).toBeVisible();
-  await expect(viewer.getByRole('button', { name: '+ Nova página' })).toHaveCount(0);
-  await viewer.getByRole('link', { name: '🛒 Compras' }).first().click();
+  await expect(viewer.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
+  await expect(viewer.getByRole('button', { name: 'Nova página' })).toHaveCount(0);
+  await viewer.getByRole('link', { name: 'Compras' }).first().click();
   await expect(viewer.getByRole('textbox', { name: 'Nova tarefa' })).toHaveAttribute(
     'placeholder',
     'Só leitura: você é leitor deste projeto',

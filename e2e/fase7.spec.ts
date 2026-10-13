@@ -18,7 +18,7 @@ test('personagem: escolher classe, ver o golpe e a habilidade do dia', async ({
   const skill = page.waitForResponse((r) => r.url().includes('use_skill') && r.ok());
   await page.getByRole('button', { name: 'Usar Fúria' }).click();
   await skill;
-  await expect(page.getByRole('button', { name: '✓ Ativa até o fim do dia' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Ativa até o fim do dia' })).toBeVisible();
 
   // Loja: sem ouro, nada à venda fica disponível; os de boss nem têm preço
   await page.goto('/shop');

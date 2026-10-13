@@ -1,17 +1,38 @@
 import { Link, router, usePathname, type Href } from 'expo-router';
-import { useState } from 'react';
+import {
+  Bell,
+  ChevronDown,
+  ChevronRight,
+  House,
+  Inbox,
+  LayoutGrid,
+  Plus,
+  Repeat,
+  Shield,
+  ShoppingBag,
+  Sun,
+  User,
+  UserCheck,
+  type LucideIcon,
+} from 'lucide-react-native';
+import { useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useFolderActions } from '@/components/folder-actions';
-import { SidebarGame } from '@/components/game-bar';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { MenuButton } from '@/components/folder-cards';
+import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
-import { folderLabel, MenuButton } from '@/components/folder-cards';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { IconButton } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
+import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { getOpenFolders, setOpenFolders } from '@/lib/prefs';
-import { pageLabel, useTree, type Page, type SubFolder } from '@/lib/queries/tree';
+import { useGameState } from '@/lib/queries/game';
+import { useTree, type Page, type SubFolder } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 
 /** Largura a partir da qual as abas viram barra lateral (ESCOPO 5). */
@@ -21,30 +42,29 @@ export function useIsWide() {
   return useWindowDimensions().width >= WIDE;
 }
 
-const NAV: { href: Href & string; label: string; icon: string; projectsOnly?: boolean }[] = [
-  { href: '/', label: 'Início', icon: '🏠' },
-  { href: '/today', label: 'Hoje', icon: '☀️' },
-  { href: '/inbox', label: 'Caixa de entrada', icon: '📥' },
-  { href: '/habits', label: 'Hábitos', icon: '🔥' },
+type NavKey = 'home' | 'today' | 'inbox' | 'habits' | 'mine' | 'folders';
+
+const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; projectsOnly?: boolean }[] = [
+  { href: '/', key: 'home', icon: House },
+  { href: '/today', key: 'today', icon: Sun },
+  { href: '/inbox', key: 'inbox', icon: Inbox },
+  { href: '/habits', key: 'habits', icon: Repeat },
   // Só para quem participa de algum projeto (D69)
-  { href: '/mine', label: 'Atribuídas a mim', icon: '🙋', projectsOnly: true },
-  { href: '/folders', label: 'Pastas', icon: '📁' },
-  { href: '/character', label: 'Personagem', icon: '🧙' },
-  { href: '/shop', label: 'Loja', icon: '🛒' },
-  { href: '/clan', label: 'Clã', icon: '🛡️' },
-  { href: '/profile', label: 'Perfil', icon: '👤' },
+  { href: '/mine', key: 'mine', icon: UserCheck, projectsOnly: true },
+  { href: '/folders', key: 'folders', icon: LayoutGrid },
 ];
 
 /**
- * Barra lateral da web em tela larga: atalhos, botão de nova pasta e a árvore de pastas e
- * páginas (recolhível). Fica fora da pilha de telas, então continua visível dentro das páginas.
+ * Barra lateral em tela larga (docs/mockups/sidebar.html): 256 px, atalhos, Pastas e Projetos como
+ * seções separadas e recolhíveis, e no rodapé o nível, os atalhos do jogo e o estado da conexão.
+ * Fica fora da pilha de telas, então continua visível dentro das páginas.
  */
 export function Sidebar() {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const tree = useTree();
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
-  const unread = useUnreadCount();
   const [open, setOpen] = useState(() => new Set(getOpenFolders()));
 
   // Pasta da tela atual (a própria pasta, ou a pasta da página aberta)
@@ -79,13 +99,14 @@ export function Sidebar() {
   function renderFolder(folder: SubFolder & { children?: SubFolder[] }, depth: number) {
     const expanded = open.has(folder.id);
     const children = folder.children ?? [];
-    const label = folderLabel(folder);
     return (
       <View key={folder.id}>
-        <Row
+        <TreeRow
           depth={depth}
           href={`/folder/${folder.id}`}
-          label={label}
+          label={folder.name}
+          icon={<ItemIcon icon={folder.icon} kind={folder.is_shared ? 'project' : 'folder'} />}
+          marker={folder.color}
           active={pathname === `/folder/${folder.id}`}
           expanded={expanded}
           onToggle={() => toggle(folder.id)}
@@ -98,11 +119,12 @@ export function Sidebar() {
             {folder.pages.length === 0 && children.length === 0 && online && (
               <Pressable
                 accessibilityRole="button"
-                className="min-h-9 justify-center rounded-lg active:bg-wash"
-                style={{ paddingLeft: 12 + (depth + 1) * 16 + 20 }}
+                className="min-h-8 flex-row items-center gap-2 rounded hover:bg-wash active:bg-wash"
+                style={{ paddingLeft: 28 + (depth + 1) * 12 }}
                 onPress={() => actions.newPage(folder.id)}
               >
-                <Text className="text-sm text-accent">+ Nova página</Text>
+                <Icon icon={Plus} tone="ink-muted" />
+                <Text className="text-sm text-ink-muted">{t('nav.newPage')}</Text>
               </Pressable>
             )}
           </>
@@ -113,17 +135,21 @@ export function Sidebar() {
 
   function renderPage(page: Page, depth: number) {
     return (
-      <Row
+      <TreeRow
         key={page.id}
         depth={depth}
         href={`/page/${page.id}`}
-        label={pageLabel(page)}
+        label={page.name}
+        icon={<ItemIcon icon={page.icon} kind={page.view_type as ItemKind} />}
         active={pathname === `/page/${page.id}`}
       />
     );
   }
 
   const folders = tree.data?.folders ?? [];
+  const personal = folders.filter((f) => !f.is_shared);
+  const projects = folders.filter((f) => f.is_shared);
+  const inProject = projects.length > 0;
 
   return (
     <SafeAreaView
@@ -131,107 +157,230 @@ export function Sidebar() {
       className="w-64 border-r border-line bg-surface"
       role="navigation"
     >
-      <View className="gap-1 px-3 pt-4">
-        <View className="mb-2 flex-row items-center pl-2">
-          <Text className="flex-1 text-lg font-semibold text-ink">Questlist</Text>
+      <View className="gap-6 px-2 pt-3">
+        <View className="flex-row items-center pl-2">
+          <Text className="flex-1 font-serif text-lg text-ink">Questlist</Text>
           <ThemeToggle />
         </View>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Nova tarefa"
-          className="mb-2 min-h-10 flex-row items-center gap-2 rounded-lg border border-line bg-paper px-3 active:bg-wash"
-          onPress={() => router.push('/capture')}
-        >
-          <Text className="text-base text-accent">＋</Text>
-          <Text className="flex-1 text-sm font-normal text-ink">Nova tarefa</Text>
-          <Text className="text-xs text-ink-muted">N</Text>
-        </Pressable>
         <View>
-          {NAV.filter(
-            (item) => !item.projectsOnly || tree.data?.folders.some((f) => f.is_shared),
-          ).map((item) => {
-            const selected =
-              pathname === item.href ||
-              (item.href === '/folders' && pathname.startsWith('/folder/'));
-            return (
-              <Link key={item.href} href={item.href} asChild>
-                <Pressable
-                  accessibilityRole="link"
-                  aria-current={selected ? 'page' : undefined}
-                  className={cn(
-                    'min-h-10 flex-row items-center gap-3 rounded-lg px-2 active:bg-wash',
-                    selected && 'bg-wash',
-                  )}
-                >
-                  <Text style={{ fontSize: 16, lineHeight: 20 }}>{item.icon}</Text>
-                  <Text
-                    className={cn('text-sm text-ink', selected ? 'font-semibold' : 'font-normal')}
-                  >
-                    {item.label}
-                  </Text>
-                </Pressable>
-              </Link>
-            );
-          })}
-          <Link href="/notifications" asChild>
-            <Pressable
-              accessibilityRole="link"
-              aria-current={pathname === '/notifications' ? 'page' : undefined}
-              accessibilityLabel={unread ? `Notificações: ${unread} novas` : 'Notificações'}
-              className={cn(
-                'min-h-10 flex-row items-center gap-3 rounded-lg px-2 active:bg-wash',
-                pathname === '/notifications' && 'bg-wash',
-              )}
-            >
-              <Text style={{ fontSize: 16, lineHeight: 20 }}>🔔</Text>
-              <Text className="flex-1 text-sm text-ink">Notificações</Text>
-              {unread > 0 && <Badge count={unread} />}
-            </Pressable>
-          </Link>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('nav.newTask')}
+            className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+            onPress={() => router.push('/capture')}
+          >
+            <Icon icon={Plus} tone="accent" />
+            <Text className="flex-1 text-sm font-semibold text-ink">{t('nav.newTask')}</Text>
+            <Kbd>N</Kbd>
+          </Pressable>
+          {NAV.filter((item) => !item.projectsOnly || inProject).map((item) => (
+            <NavRow
+              key={item.href}
+              href={item.href}
+              icon={item.icon}
+              label={t(`nav.${item.key}`)}
+              selected={
+                pathname === item.href ||
+                (item.href === '/folders' && pathname.startsWith('/folder/'))
+              }
+            />
+          ))}
         </View>
       </View>
 
-      <View className="mt-6 flex-row items-center pl-6 pr-3">
-        <Text className="flex-1 text-xs font-semibold uppercase tracking-wide text-ink-muted">
-          Pastas
-        </Text>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Nova pasta"
-          disabled={!online}
-          aria-disabled={!online}
-          className={cn(
-            'h-8 w-8 items-center justify-center rounded-lg active:bg-wash',
-            !online && 'opacity-50',
+      <ScrollView className="mt-6 flex-1" contentContainerClassName="gap-6 px-2 pb-6">
+        <View>
+          <SectionHeader
+            label={t('nav.folders')}
+            action={
+              <IconButton
+                icon={Plus}
+                label={t('nav.newFolder')}
+                disabled={!online}
+                aria-disabled={!online}
+                onPress={() => actions.newFolder()}
+              />
+            }
+          />
+          {personal.map((folder) => renderFolder(folder, 0))}
+          {tree.data && folders.length === 0 && (
+            <Pressable
+              accessibilityRole="button"
+              disabled={!online}
+              className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+              onPress={() => actions.newFolder()}
+            >
+              <Icon icon={Plus} tone="ink-muted" />
+              <Text className="text-sm text-ink-muted">{t('nav.firstFolder')}</Text>
+            </Pressable>
           )}
-          onPress={() => actions.newFolder()}
-        >
-          <Text className="text-lg text-ink-muted">+</Text>
-        </Pressable>
-      </View>
-      <ScrollView className="flex-1" contentContainerClassName="px-3 pb-6">
-        {folders.map((folder) => renderFolder(folder, 0))}
-        {tree.data && folders.length === 0 && (
-          <Pressable
-            accessibilityRole="button"
-            disabled={!online}
-            className="mt-1 min-h-10 justify-center rounded-lg border border-dashed border-line px-3 active:bg-wash"
-            onPress={() => actions.newFolder()}
-          >
-            <Text className="text-sm text-ink-muted">+ Criar a primeira pasta</Text>
-          </Pressable>
+        </View>
+        {inProject && (
+          <View>
+            <SectionHeader label={t('nav.projects')} />
+            {projects.map((folder) => renderFolder(folder, 0))}
+          </View>
         )}
       </ScrollView>
-      <SidebarGame />
+
+      <SidebarFooter online={online} />
       {dialog}
     </SafeAreaView>
   );
 }
 
-function Row({
+/** Rodapé: nível e XP (fio de 2 px), atalhos do jogo e da conta, e o ponto de sincronização. */
+function SidebarFooter({ online }: { online: boolean }) {
+  const { t } = useTranslation();
+  const pathname = usePathname();
+  const unread = useUnreadCount();
+  const { data: game } = useGameState();
+  return (
+    <View className="gap-2 border-t border-line px-2 py-2">
+      {game?.enabled && (
+        <Link href="/character" asChild>
+          <Pressable
+            accessibilityRole="link"
+            accessibilityLabel={t('nav.characterSummary', {
+              level: game.level,
+              into: game.into_level,
+              next: game.for_next,
+            })}
+            className="gap-1 rounded px-2 py-2 hover:bg-wash active:bg-wash"
+          >
+            <View className="flex-row justify-between">
+              <Text className="font-mono text-xs text-ink">
+                {t('nav.level', { level: game.level })}
+              </Text>
+              <Text className="font-mono text-xs text-ink-muted">
+                {t('nav.xp', { into: game.into_level, next: game.for_next })}
+              </Text>
+            </View>
+            <ProgressBar value={game.into_level / game.for_next} label="" />
+          </Pressable>
+        </Link>
+      )}
+      <View className="flex-row items-center">
+        <FooterLink
+          href="/profile"
+          icon={User}
+          label={t('nav.profile')}
+          active={pathname === '/profile'}
+        />
+        <FooterLink
+          href="/notifications"
+          icon={Bell}
+          label={unread ? t('nav.notificationsUnread', { count: unread }) : t('nav.notifications')}
+          active={pathname === '/notifications'}
+          badge={unread > 0 ? <Badge count={unread} /> : null}
+        />
+        <FooterLink
+          href="/clan"
+          icon={Shield}
+          label={t('nav.clan')}
+          active={pathname === '/clan'}
+        />
+        <FooterLink
+          href="/shop"
+          icon={ShoppingBag}
+          label={t('nav.shop')}
+          active={pathname === '/shop'}
+        />
+        <View
+          accessibilityLabel={online ? t('nav.online') : t('nav.offline')}
+          className="ml-auto mr-2 flex-row items-center"
+        >
+          <View className={cn('h-2 w-2 rounded-full', online ? 'bg-ok' : 'bg-warn')} />
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function FooterLink({
+  href,
+  icon,
+  label,
+  active,
+  badge,
+}: {
+  href: Href & string;
+  icon: LucideIcon;
+  label: string;
+  active: boolean;
+  badge?: ReactNode;
+}) {
+  return (
+    <Link href={href} asChild>
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel={label}
+        aria-current={active ? 'page' : undefined}
+        className={cn(
+          'h-8 w-8 items-center justify-center rounded hover:bg-wash active:bg-wash',
+          active && 'bg-wash',
+        )}
+      >
+        <Icon icon={icon} size={20} tone={active ? 'ink' : 'ink-muted'} />
+        {badge && <View className="absolute -right-1 -top-1">{badge}</View>}
+      </Pressable>
+    </Link>
+  );
+}
+
+function NavRow({
+  href,
+  icon,
+  label,
+  selected,
+}: {
+  href: Href & string;
+  icon: LucideIcon;
+  label: string;
+  selected: boolean;
+}) {
+  return (
+    <Link href={href} asChild>
+      <Pressable
+        accessibilityRole="link"
+        aria-current={selected ? 'page' : undefined}
+        className={cn(
+          'min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash',
+          selected && 'bg-wash',
+        )}
+      >
+        <Icon icon={icon} tone={selected ? 'ink' : 'ink-muted'} />
+        <Text className={cn('text-sm text-ink', selected && 'font-semibold')}>{label}</Text>
+      </Pressable>
+    </Link>
+  );
+}
+
+function SectionHeader({ label, action }: { label: string; action?: ReactNode }) {
+  return (
+    <View className="min-h-8 flex-row items-center pl-2">
+      <Text className="flex-1 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        {label}
+      </Text>
+      {action}
+    </View>
+  );
+}
+
+function Kbd({ children }: { children: string }) {
+  return (
+    <Text className="rounded border border-line px-1 font-mono text-xs text-ink-muted">
+      {children}
+    </Text>
+  );
+}
+
+function TreeRow({
   depth,
   href,
   label,
+  icon,
+  marker,
   active,
   expanded,
   onToggle,
@@ -240,25 +389,28 @@ function Row({
   depth: number;
   href: Href & string;
   label: string;
+  icon: ReactNode;
+  marker?: string | null;
   active: boolean;
   expanded?: boolean;
   onToggle?: () => void;
   onMenu?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View
-      className={cn('min-h-9 flex-row items-center rounded-lg', active && 'bg-wash')}
-      style={{ paddingLeft: depth * 16 }}
+      className={cn('min-h-8 flex-row items-center rounded hover:bg-wash', active && 'bg-wash')}
+      style={{ paddingLeft: depth * 12 }}
     >
       {onToggle ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`${expanded ? 'Recolher' : 'Expandir'} ${label}`}
+          accessibilityLabel={t(expanded ? 'nav.collapse' : 'nav.expand', { name: label })}
           aria-expanded={expanded}
-          className="h-9 w-7 items-center justify-center rounded active:bg-wash"
+          className="h-8 w-7 items-center justify-center rounded"
           onPress={onToggle}
         >
-          <Text className="text-xs text-ink-muted">{expanded ? '▾' : '▸'}</Text>
+          <Icon icon={expanded ? ChevronDown : ChevronRight} tone="ink-muted" />
         </Pressable>
       ) : (
         <View className="w-7" />
@@ -267,9 +419,14 @@ function Row({
         <Pressable
           accessibilityRole="link"
           aria-current={active ? 'page' : undefined}
-          className="min-h-9 flex-1 justify-center active:opacity-60"
+          className="min-h-8 flex-1 flex-row items-center gap-2"
         >
-          <Text className={cn('text-sm text-ink', active && 'font-semibold')} numberOfLines={1}>
+          {marker && <View className="h-4 w-1 rounded" style={{ backgroundColor: marker }} />}
+          {icon}
+          <Text
+            className={cn('flex-1 text-sm text-ink', active && 'font-semibold')}
+            numberOfLines={1}
+          >
             {label}
           </Text>
         </Pressable>
