@@ -137,7 +137,7 @@ export default function ClanScreen() {
             </>
           ) : (
             <Button
-              variant="outline"
+              variant="ghost"
               className="self-start"
               label="Gerar link de convite"
               disabled={!online}

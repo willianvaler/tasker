@@ -74,7 +74,7 @@ export default function CharacterScreen() {
             <HeroCard game={game} name={profile.data?.display_name} />
             <SkillsPanel game={game} />
             <Button
-              variant="outline"
+              variant="ghost"
               className="self-start"
               label="Trocar de classe"
               onPress={() => setChoosing(true)}

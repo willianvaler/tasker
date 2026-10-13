@@ -27,7 +27,7 @@ export default function ClanInviteScreen() {
             ? preview.data.reason
             : 'Não deu para abrir o convite.'}
         </Text>
-        <Button variant="outline" label="Ir para o Questlist" onPress={() => router.replace('/')} />
+        <Button variant="ghost" label="Ir para o Questlist" onPress={() => router.replace('/')} />
       </>
     );
   } else {

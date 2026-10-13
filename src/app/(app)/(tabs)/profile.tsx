@@ -62,12 +62,12 @@ function ProfileForm({ profile }: { profile: Profile }) {
           <GameProfile />
           <View className="flex-row flex-wrap gap-2">
             <Button
-              variant="outline"
+              variant="ghost"
               label="🧙 Personagem"
               onPress={() => router.push('/character')}
             />
-            <Button variant="outline" label="🛒 Loja" onPress={() => router.push('/shop')} />
-            <Button variant="outline" label="🛡️ Clã" onPress={() => router.push('/clan')} />
+            <Button variant="ghost" label="🛒 Loja" onPress={() => router.push('/shop')} />
+            <Button variant="ghost" label="🛡️ Clã" onPress={() => router.push('/clan')} />
           </View>
         </View>
         <View className="gap-4 lg:flex-[2]">
@@ -128,7 +128,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
 
           <View className="mt-6 gap-6 border-t border-line pt-4">
             <PrivacySection />
-            <Button variant="outline" label="Sair da conta" onPress={signOut} />
+            <Button variant="ghost" label="Sair da conta" onPress={signOut} />
           </View>
         </View>
       </View>

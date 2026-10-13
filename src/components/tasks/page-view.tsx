@@ -71,7 +71,7 @@ export function PageView({ page }: { page: Page | undefined }) {
           />
         </View>
         <Button
-          variant="outline"
+          variant="ghost"
           label="Várias"
           accessibilityLabel="Adicionar várias"
           disabled={!page || !writable}

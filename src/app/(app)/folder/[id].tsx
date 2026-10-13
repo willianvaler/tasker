@@ -62,7 +62,7 @@ export default function FolderScreen() {
           </Text>
           {!folder.parent_id && (
             <Button
-              variant="outline"
+              variant="ghost"
               label={folder.is_shared ? '👥 Pessoas' : '👥 Compartilhar'}
               disabled={!online}
               onPress={() => router.push({ pathname: '/share/[id]', params: { id: folder.id } })}
@@ -70,7 +70,7 @@ export default function FolderScreen() {
           )}
           {!folder.parent_id && writable && (
             <Button
-              variant="outline"
+              variant="ghost"
               label="+ Subpasta"
               onPress={() => actions.newFolder(folder.id)}
             />

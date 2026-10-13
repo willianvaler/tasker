@@ -71,14 +71,14 @@ export function PrivacySection() {
       </Text>
       <View className="flex-row flex-wrap gap-2">
         <Button
-          variant="outline"
+          variant="ghost"
           label="Exportar (JSON)"
           disabled={!online || !!busy}
           loading={busy === 'json'}
           onPress={() => download('json')}
         />
         <Button
-          variant="outline"
+          variant="ghost"
           label="Tarefas em planilha (CSV)"
           disabled={!online || !!busy}
           loading={busy === 'csv'}

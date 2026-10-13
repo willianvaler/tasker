@@ -270,7 +270,7 @@ function TaskDetails({ task }: { task: Task }) {
               <Text className="text-ink">{page ? pageLabel(page) : '…'}</Text>
               {writable && (
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   label={moving ? 'Fechar' : 'Mover para outra página'}
                   onPress={() => setMoving(!moving)}
                 />

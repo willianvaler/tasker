@@ -48,7 +48,7 @@ export default function PrivacyScreen() {
 
         <View className="pt-4">
           <Button
-            variant="outline"
+            variant="ghost"
             className="self-start"
             label="Ir para o Questlist"
             onPress={() => router.replace('/')}

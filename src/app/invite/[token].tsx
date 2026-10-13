@@ -53,7 +53,7 @@ export default function InviteScreen() {
             : 'Não deu para abrir o convite.'}{' '}
           Peça um link novo para quem te convidou.
         </Text>
-        <Button variant="outline" label="Ir para o Questlist" onPress={() => router.replace('/')} />
+        <Button variant="ghost" label="Ir para o Questlist" onPress={() => router.replace('/')} />
       </>
     );
   } else if (joined) {
@@ -143,7 +143,7 @@ function ClaimPending({
       {names.map((name) => (
         <Button
           key={name}
-          variant="outline"
+          variant="ghost"
           label={`Sou @${name}`}
           disabled={claim.isPending}
           onPress={() => claim.mutate({ name }, { onSuccess: () => onDone(folderId) })}

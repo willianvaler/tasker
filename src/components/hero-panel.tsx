@@ -66,7 +66,7 @@ function SkillButton({ game }: { game: GameState }) {
   const skill = CLASSES[cls].active;
   return (
     <Button
-      variant={game.skill_active ? 'outline' : 'primary'}
+      variant={game.skill_active ? 'ghost' : 'primary'}
       label={game.skill_active ? `⚡ ${skill.name} ativa hoje` : `⚡ Usar ${skill.name}`}
       accessibilityHint={skill.text}
       disabled={game.skill_active || !online}

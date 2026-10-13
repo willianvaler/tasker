@@ -25,7 +25,7 @@ export default function FoldersScreen() {
         right={
           <View className="flex-row gap-2">
             <Button
-              variant="outline"
+              variant="ghost"
               label="Usar modelo"
               disabled={!online}
               onPress={() => router.push('/templates')}
@@ -54,7 +54,7 @@ export default function FoldersScreen() {
               delas.
             </Text>
             <Button
-              variant="outline"
+              variant="ghost"
               label="Criar a primeira pasta"
               disabled={!online}
               onPress={() => actions.newFolder()}

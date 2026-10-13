@@ -16,6 +16,7 @@ import {
 import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 
+import { Button, IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -40,6 +41,7 @@ export default function DesignScreen() {
         <Typography />
         <Spacing />
         <Icons />
+        <Buttons />
       </View>
     </ScrollView>
   );
@@ -148,6 +150,23 @@ function Icons() {
           <Icon key={`s${i}`} icon={glyph} size={16} tone="ink-muted" />
         ))}
         <Icon icon={Check} size={20} tone="accent" />
+      </View>
+    </Section>
+  );
+}
+
+function Buttons() {
+  return (
+    <Section title="Botões (só primário e fantasma)">
+      <View className="flex-row flex-wrap items-center gap-2">
+        <Button label="Salvar" onPress={() => {}} />
+        <Button label="Nova tarefa" icon={Plus} onPress={() => {}} />
+        <Button label="Cancelar" variant="ghost" onPress={() => {}} />
+        <Button label="Configurar" variant="ghost" icon={SlidersHorizontal} onPress={() => {}} />
+        <Button label="Salvando" loading onPress={() => {}} />
+        <Button label="Desabilitado" disabled onPress={() => {}} />
+        <IconButton icon={Search} label="Buscar" />
+        <IconButton icon={Settings} label="Configurações" />
       </View>
     </Section>
   );

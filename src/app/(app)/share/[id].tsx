@@ -116,7 +116,7 @@ export default function ShareScreen() {
                   <Button label="Copiar link" onPress={copy} />
                   {Platform.OS !== 'web' && (
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       label="Enviar…"
                       onPress={() =>
                         Share.share({ message: `Bora organizar ${folder?.name}? ${link}` })

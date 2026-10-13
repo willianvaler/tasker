@@ -103,7 +103,7 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
           </Text>
           {writable && (
             <Button
-              variant="outline"
+              variant="ghost"
               className="self-start"
               label="⚔️ Chamar boss com prazo"
               loading={m.start.isPending}

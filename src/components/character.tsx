@@ -186,7 +186,7 @@ export function ClassPicker({
                 label={
                   selected ? 'Classe atual' : current ? `Virar ${c.name}` : `Escolher ${c.name}`
                 }
-                variant={selected ? 'outline' : 'primary'}
+                variant={selected ? 'ghost' : 'primary'}
                 disabled={selected || !online}
                 loading={setClass.isPending && setClass.variables === key}
                 onPress={() =>
@@ -306,7 +306,7 @@ export function SkillsPanel({ game }: { game: GameState }) {
         <Text className="text-sm text-ink-muted">{c.active.text} Uma vez por dia.</Text>
         <Button
           label={game.skill_active ? '✓ Ativa até o fim do dia' : `Usar ${c.active.name}`}
-          variant={game.skill_active ? 'outline' : 'primary'}
+          variant={game.skill_active ? 'ghost' : 'primary'}
           disabled={game.skill_active || !online}
           loading={use.isPending}
           onPress={() =>

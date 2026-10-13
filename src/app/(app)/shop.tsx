@@ -85,7 +85,7 @@ export default function ShopScreen() {
                 <Text className={cn('text-xs font-semibold', rarity.text)}>{rarity.label}</Text>
                 {mine ? (
                   <Button
-                    variant={equipped ? 'primary' : 'outline'}
+                    variant={equipped ? 'primary' : 'ghost'}
                     className="mt-1 self-stretch"
                     label={equipped ? '✓ Equipado' : 'Equipar'}
                     disabled={!online}
@@ -120,7 +120,6 @@ export default function ShopScreen() {
           title={`Comprar ${confirm.name}?`}
           message={`Custa 🪙 ${confirm.price}. Você fica com 🪙 ${gold - (confirm.price ?? 0)}.`}
           confirmLabel="Comprar"
-          variant="primary"
           onConfirm={() => {
             const item = confirm;
             closeConfirm();
