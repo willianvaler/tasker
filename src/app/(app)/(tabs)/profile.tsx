@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
@@ -10,6 +11,8 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { LOCALES, type LocalePreference } from '@/i18n/locale';
+import { useLocalePreference } from '@/i18n/use-locale';
 import { clearPrefs, type ThemePreference } from '@/lib/prefs';
 import { disablePush } from '@/lib/push';
 import { useProfile, useUpdateProfile, type Profile } from '@/lib/queries/profile';
@@ -70,6 +73,8 @@ function ProfileForm({ profile }: { profile: Profile }) {
           <Text className="text-muted-foreground">{session?.user.email}</Text>
 
           <ThemeChooser />
+
+          <LanguageChooser />
 
           <PushSetting />
 
@@ -150,6 +155,30 @@ function ThemeChooser() {
             label={t.label}
             selected={preference === t.value}
             onPress={() => setPreference(t.value)}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
+const LANGUAGE_OPTIONS: LocalePreference[] = ['system', ...LOCALES];
+
+/** Idioma (V2 §11): muda na hora e vai para o perfil, valendo nos outros aparelhos. */
+function LanguageChooser() {
+  const { t } = useTranslation();
+  const { preference, choose } = useLocalePreference();
+  return (
+    <View className="gap-1">
+      <Text className="font-semibold text-foreground">{t('language.label')}</Text>
+      <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+        {LANGUAGE_OPTIONS.map((value) => (
+          <Chip
+            key={value}
+            role="radio"
+            label={t(`language.${value}`)}
+            selected={preference === value}
+            onPress={() => choose(value)}
           />
         ))}
       </View>

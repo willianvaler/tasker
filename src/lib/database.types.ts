@@ -387,14 +387,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar_url": string | null,"class": string | null,"coins": number,"created_at": string,"display_name": string,"equipped": NonNullable<Json>,"gamification_enabled": boolean,"id": string,"last_active_date": string | null,"level": number,"onboarded_at": string | null,"skill_day": string | null,"streak": number,"streak_best": number,"timezone": string,"xp": number
+                    "attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar_url": string | null,"class": string | null,"coins": number,"created_at": string,"display_name": string,"equipped": NonNullable<Json>,"gamification_enabled": boolean,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"onboarded_at": string | null,"skill_day": string | null,"streak": number,"streak_best": number,"timezone": string,"xp": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id": string,"last_active_date"?: string | null,"level"?: number,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
+                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
                   }
                   Update: {
-                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id"?: string,"last_active_date"?: string | null,"level"?: number,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
+                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
                   }
                   Relationships: [
                     

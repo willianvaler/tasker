@@ -3,7 +3,8 @@ import { defineConfig, devices } from '@playwright/test';
 // E2E da web: exporta a SPA e serve na 8081 (precisa do Supabase local rodando: npm run db:start)
 export default defineConfig({
   testDir: './e2e',
-  use: { baseURL: 'http://localhost:8081', trace: 'retain-on-failure' },
+  // locale: o app segue o idioma do navegador (V2 §11); o padrão do Playwright é en-US
+  use: { baseURL: 'http://localhost:8081', trace: 'retain-on-failure', locale: 'pt-BR' },
   projects: [
     { name: 'celular', use: { ...devices['Pixel 7'] } },
     {

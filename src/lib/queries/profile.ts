@@ -46,6 +46,7 @@ export function useUpdateProfile() {
       display_name?: string;
       timezone?: string;
       onboarded_at?: string;
+      locale?: string | null;
     }) => {
       const { data, error } = await supabase
         .from('profiles')
