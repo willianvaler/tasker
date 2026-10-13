@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mockup — Página em lista</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="stage">
+
+  <div class="desktop">
+    <div data-sidebar="mercado"></div>
+    <main class="main">
+      <div class="column">
+        <header class="header">
+          <div>
+            <div class="meta">PASTAS / MERCADO</div>
+            <h1 class="page-title">Lista da semana</h1>
+          </div>
+          <div class="actions">
+            <button class="btn"><span data-i="list"></span> Lista <span data-i="down"></span></button>
+            <button class="btn icon" title="Configurar (Ctrl E)"><span data-i="sliders"></span></button>
+            <button class="btn icon" title="Mais"><span data-i="more"></span></button>
+          </div>
+        </header>
+
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between"><span class="meta">7 de 12 itens</span><span class="meta">reinicia toda segunda</span></div>
+          <div class="rule"><i style="width:58%"></i></div>
+        </div>
+
+        <div class="capture"><span class="plus" data-i="plus"></span> Adicionar item… <span class="hint meta">cole várias linhas para criar em lote</span><span class="btn icon" title="Criação avançada (Ctrl Shift N)"><span data-i="sliders"></span></span></div>
+
+        <section class="group">
+          <div class="row"><span class="box"></span><span class="title">Leite (2 caixas)</span><span class="right"><span class="tag">frios</span></span></div>
+          <div class="row"><span class="box"></span><span class="title">Pão de forma integral</span></div>
+          <div class="row"><span data-i="down"></span><span class="box"></span><span class="title">Frutas</span><span class="right"><span class="meta">1/3</span></span></div>
+          <div class="row" style="padding-left:28px"><span class="box"></span><span class="title">Banana</span></div>
+          <div class="row done" style="padding-left:28px"><span class="box"></span><span class="title">Maçã</span></div>
+          <div class="row" style="padding-left:28px"><span class="box"></span><span class="title">Mamão</span></div>
+          <div class="row selected"><span class="box"></span><span class="title"><input value="Café em grão 500 g" style="font:inherit;color:inherit;background:none;border:0;outline:2px solid var(--accent);outline-offset:2px;border-radius:2px;width:220px"></span><span class="right"><span class="meta">F2 · Enter salva · Esc cancela</span></span></div>
+          <div class="row"><span class="box"></span><span class="title">Detergente</span><span class="right"><span class="tag">limpeza</span></span></div>
+        </section>
+
+        <section class="group">
+          <div class="label"><span>Feitos</span><span class="meta">7</span></div>
+          <div class="row done"><span class="box"></span><span class="title">Arroz 5 kg</span></div>
+          <div class="row done"><span class="box"></span><span class="title">Feijão</span></div>
+          <div class="row done"><span class="box"></span><span class="title">Ovos (dúzia)</span></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="phone">
+    <div class="status"></div>
+    <header class="m-head">
+      <button class="btn icon" style="margin-left:-12px"><span data-i="back" data-size="20"></span></button>
+      <div style="flex:1">
+        <div class="meta">MERCADO</div>
+        <h1 class="page-title">Lista da semana</h1>
+      </div>
+      <button class="btn icon"><span data-i="more" data-size="20"></span></button>
+    </header>
+    <div class="m-body">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span class="meta">7 de 12 itens</span>
+        <div class="rule"><i style="width:58%"></i></div>
+      </div>
+      <section class="group">
+        <div class="row"><span class="box"></span><span class="title">Leite (2 caixas)</span></div>
+        <div class="row"><span class="box"></span><span class="title">Pão de forma integral</span></div>
+        <div class="row"><span class="box"></span><span class="title">Frutas</span><span class="right"><span class="meta">1/3</span></span></div>
+        <div class="row"><span class="box"></span><span class="title">Café em grão 500 g</span></div>
+        <div class="row"><span class="box"></span><span class="title">Detergente</span></div>
+        <div class="row done"><span class="box"></span><span class="title">Arroz 5 kg</span></div>
+      </section>
+    </div>
+    <div class="m-capture"><div class="capture"><span class="plus" data-i="plus"></span> Adicionar item…</div></div>
+    <div data-tabbar="pastas"></div>
+  </div>
+
+</div>
+<script src="shell.js"></script>
+<script>shell({ title: 'Página em lista' });</script>
+</body>
+</html>
