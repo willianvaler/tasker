@@ -11,6 +11,9 @@ export async function signUp(page: Page, testInfo: TestInfo) {
   await page.getByRole('button', { name: 'Criar conta' }).click();
   // Conta nova abre a introdução (fase6.spec.ts testa ela); aqui, pula
   await page.getByRole('button', { name: 'Pular introdução' }).click();
+  // Abre no Início (D69); os testes começam na Hoje
+  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await openTab(page, 'Hoje');
   await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
   return email;
 }

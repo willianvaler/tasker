@@ -100,6 +100,9 @@ test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ 
   await expect(page.getByRole('heading', { name: 'Organize em pastas' })).toBeVisible();
   await page.getByRole('button', { name: 'Criar pasta Academia' }).click();
   await expect(page.getByText('🏋️ Academia ✓')).toBeVisible();
+  // Hábitos sugeridos não viram pasta: vão para a tela Hábitos (D68)
+  await page.getByRole('button', { name: 'Adicionar hábitos sugeridos' }).click();
+  await expect(page.getByText('🔥 Hábitos sugeridos ✓')).toBeVisible();
   await page.getByRole('button', { name: 'Próximo' }).click();
 
   // 3. Gamificação
@@ -111,7 +114,10 @@ test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ 
   await page.getByRole('button', { name: 'Começar' }).click();
   await saved;
 
-  await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await openTab(page, 'Hábitos');
+  await expect(page.getByLabel('0 de 8')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Hábito bom: Comer bem' })).toBeVisible();
   await openTab(page, 'Pastas');
   await expect(page.getByRole('link', { name: /🏋️ Academia/ }).first()).toBeVisible();
   // Vista uma vez, não volta

@@ -28,7 +28,8 @@ async function claimAndOpenMine(page: Page, pendingName: string) {
   await expect(page.getByRole('heading', { name: '🍖 Churrasco' })).toBeVisible();
   // O projeto abre por cima das abas; no celular, a barra de baixo volta com o "Voltar"
   await page.getByRole('button', { name: 'Voltar' }).click();
-  await openTab(page, 'Minhas tarefas');
+  // "Atribuídas a mim" não tem aba no celular (abre pelo Início); aqui vai direto
+  await page.goto('/mine');
 }
 
 test('critério de aceite: Churrasco por modelo, @nomes antes de convidar, 2 convidados e tempo real', async ({

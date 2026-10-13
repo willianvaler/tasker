@@ -79,7 +79,8 @@ test('clã: convite por link, boss da semana e destaques', async ({ page, browse
   await friend.getByRole('checkbox', { name: `Concluir ${title}` }).click();
   await expect(shown(friend, /Clã: /)).toBeVisible();
 
-  await expect(page.getByText('🏆 Destaque: Bia Amiga (10 de dano)')).toBeVisible();
+  // Sem classe: 4 de dano por tarefa (8 num crítico, D61)
+  await expect(page.getByText(/🏆 Destaque: Bia Amiga \((4|8) de dano\)/)).toBeVisible();
   await friend.context().close();
 });
 
