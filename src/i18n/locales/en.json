@@ -117,5 +117,30 @@
     "streak": "Streak of {{count}}",
     "streakShort": "{{count}} d",
     "last7": "Last 7 days"
+  },
+  "page": {
+    "fallbackTitle": "Page",
+    "missing": "This page no longer exists.",
+    "options": "Page options",
+    "settings": "Page settings",
+    "duplicate": "Duplicate page",
+    "duplicateConfirm": "Duplicate",
+    "copyName": "Name of the copy",
+    "copySuffix": "{{name}} (copy)",
+    "created": "Page \"{{name}}\" created",
+    "error": "Something went wrong: {{message}}",
+    "addMany": "Add several",
+    "addManyShort": "Several",
+    "progress": "{{done}} of {{total}} done",
+    "allDone": "All done!",
+    "reset": "Reset",
+    "resetDone": "Checks reset. The history was kept.",
+    "done": "Done",
+    "habitPlaceholder": "New habit… (e.g. Meditate /daily)",
+    "emptyList": "Nothing here yet. Type a task above, or paste a list.",
+    "emptyCards": "Build the routine: paste the items, one per line.",
+    "emptyCardsHint": "Tip: \"Bench press 4x12 20kg\".",
+    "emptyHabits": "Add habits like \"Drink water\" or \"Read 10 pages /mon,wed,fri\".",
+    "emptyKanban": "Empty board. Type a task above: it goes to \"To do\"."
   }
 }

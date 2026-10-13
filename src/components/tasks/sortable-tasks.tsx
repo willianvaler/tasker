@@ -1,9 +1,10 @@
+import { GripVertical } from 'lucide-react-native';
 import { createContext, useContext, type ReactNode } from 'react';
 import { Platform, View } from 'react-native';
 import type { AnimatedRef } from 'react-native-reanimated';
 import Sortable from 'react-native-sortables';
 
-import { Text } from '@/components/ui/text';
+import { Icon } from '@/components/ui/icon';
 import { positionAfterMove } from '@/lib/positions';
 import { useUpdateTask, type Task } from '@/lib/queries/tasks';
 import { useCanWrite } from '@/providers/write';
@@ -17,7 +18,7 @@ const MoveContext = createContext<((taskId: string, delta: -1 | 1) => void) | nu
 const InGrid = createContext(false);
 
 /**
- * Alça de arrastar (⠿). Só ela inicia o arrasto, para o toque no resto do item continuar funcionando.
+ * Alça de arrastar (ícone de pegador). Só ela inicia o arrasto, para o toque no resto do item continuar funcionando.
  * Sem arrastar também dá (ESCOPO 5, acessibilidade): na web, foco na alça e setas ↑ ↓; no celular,
  * as ações "mover para cima/baixo" do leitor de tela (TalkBack, VoiceOver).
  */
@@ -58,10 +59,10 @@ export function DragHandle({ label, taskId }: { label: string; taskId?: string }
         if (event.nativeEvent.actionName === 'decrement') move(taskId, -1);
         if (event.nativeEvent.actionName === 'increment') move(taskId, 1);
       }}
-      className="h-11 w-8 items-center justify-center rounded"
+      className="h-11 w-8 items-center justify-center rounded md:h-8 md:w-6"
       {...(keyboard as object)}
     >
-      <Text className="text-lg text-ink-muted">⠿</Text>
+      <Icon icon={GripVertical} tone="ink-muted" />
     </View>
   );
   return inGrid ? <Sortable.Handle>{handle}</Sortable.Handle> : handle;

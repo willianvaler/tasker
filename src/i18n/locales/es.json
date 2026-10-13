@@ -117,5 +117,30 @@
     "streak": "Racha de {{count}}",
     "streakShort": "{{count}} d",
     "last7": "Últimos 7 días"
+  },
+  "page": {
+    "fallbackTitle": "Página",
+    "missing": "Esta página ya no existe.",
+    "options": "Opciones de la página",
+    "settings": "Configurar página",
+    "duplicate": "Duplicar página",
+    "duplicateConfirm": "Duplicar",
+    "copyName": "Nombre de la copia",
+    "copySuffix": "{{name}} (copia)",
+    "created": "Página \"{{name}}\" creada",
+    "error": "Algo salió mal: {{message}}",
+    "addMany": "Agregar varias",
+    "addManyShort": "Varias",
+    "progress": "{{done}} de {{total}} hechos",
+    "allDone": "¡Todo hecho!",
+    "reset": "Reiniciar",
+    "resetDone": "Checks reiniciados. El historial quedó guardado.",
+    "done": "Completadas",
+    "habitPlaceholder": "Nuevo hábito… (ej.: Meditar /diaria)",
+    "emptyList": "Nada por aquí. Escribe una tarea arriba o pega una lista.",
+    "emptyCards": "Arma la rutina: pega los ítems, uno por línea.",
+    "emptyCardsHint": "Consejo: \"Press banca 4x12 20kg\".",
+    "emptyHabits": "Agrega hábitos, como \"Beber agua\" o \"Leer 10 páginas /lun,mié,vie\".",
+    "emptyKanban": "Tablero vacío. Escribe una tarea arriba: entra en \"Por hacer\"."
   }
 }

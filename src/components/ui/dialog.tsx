@@ -3,8 +3,8 @@ import { KeyboardAvoidingView, Modal, Platform, Pressable, View } from 'react-na
 
 import { Button } from './button';
 import { Input } from './input';
-
-import { Text } from '@/components/ui/text';
+import { MenuItem } from './popover';
+import { Text } from './text';
 
 // Diálogos próprios: o Alert do React Native não tem botões na web.
 
@@ -16,7 +16,9 @@ function Backdrop({ onClose, children }: { onClose: () => void; children: ReactN
         className="flex-1 items-center justify-center bg-scrim/40 px-6"
       >
         <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={onClose} />
-        <View className="w-full max-w-sm gap-3 rounded-lg bg-paper p-6">{children}</View>
+        <View className="w-full max-w-sm gap-4 rounded-lg border border-line bg-surface p-4">
+          {children}
+        </View>
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -102,7 +104,7 @@ export function ConfirmDialog({
 
 export type MenuAction = { label: string; onPress: () => void; destructive?: boolean };
 
-/** Menu de ações (o "⋯" das pastas e páginas). */
+/** Menu de ações (o "⋯" das pastas e páginas): título pequeno e itens de menu. */
 export function ActionMenu({
   title,
   actions,
@@ -114,24 +116,25 @@ export function ActionMenu({
 }) {
   return (
     <Backdrop onClose={onClose}>
-      <Text className="text-lg font-semibold text-ink" numberOfLines={1}>
+      <Text
+        className="text-xs font-semibold uppercase tracking-wide text-ink-muted"
+        numberOfLines={1}
+      >
         {title}
       </Text>
-      {actions.map((action) => (
-        <Pressable
-          key={action.label}
-          accessibilityRole="button"
-          className="min-h-11 justify-center rounded-lg px-2 active:bg-wash"
-          onPress={() => {
-            onClose();
-            action.onPress();
-          }}
-        >
-          <Text className={action.destructive ? 'text-base text-danger' : 'text-base text-ink'}>
-            {action.label}
-          </Text>
-        </Pressable>
-      ))}
+      <View>
+        {actions.map((action) => (
+          <MenuItem
+            key={action.label}
+            label={action.label}
+            danger={action.destructive}
+            onPress={() => {
+              onClose();
+              action.onPress();
+            }}
+          />
+        ))}
+      </View>
     </Backdrop>
   );
 }

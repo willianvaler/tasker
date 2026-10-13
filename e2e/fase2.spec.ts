@@ -26,7 +26,7 @@ test('critério de aceite: Treino A com 8 exercícios, marcar tudo e reset na se
   await page.getByRole('button', { name: 'Criar 8' }).click();
   await created;
 
-  await expect(shown(page, '0/8 feitos')).toBeVisible();
+  await expect(shown(page, '0 de 8 feitos')).toBeVisible();
   await expect(shown(page, '4x12 · 20kg')).toBeVisible();
   await expect(shown(page, 'Reinicia toda segunda')).toBeVisible();
 
@@ -37,21 +37,21 @@ test('critério de aceite: Treino A com 8 exercícios, marcar tudo e reset na se
     await page.getByRole('checkbox', { name, exact: true }).click();
     await done;
   }
-  await expect(shown(page, 'Tudo feito! 🎉')).toBeVisible();
+  await expect(shown(page, 'Tudo feito!')).toBeVisible();
 
   // Semana seguinte: ao abrir de novo, os checks voltaram
   await ageCycle(pageId);
   await page.reload();
-  await expect(shown(page, '0/8 feitos')).toBeVisible();
+  await expect(shown(page, '0 de 8 feitos')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Supino', exact: true })).not.toBeChecked();
 
   // Duplicar: Treino B nasce com os mesmos exercícios, todos abertos
   await page.getByRole('button', { name: 'Opções da página' }).click();
-  await shown(page, '📑 Duplicar página').click();
+  await shown(page, 'Duplicar página').click();
   await expect(page.getByPlaceholder('Nome da cópia')).toHaveValue('Treino B');
   await page.getByRole('button', { name: 'Duplicar' }).click();
   await expect(page.getByRole('heading', { name: 'Treino B' })).toBeVisible();
-  await expect(shown(page, '0/8 feitos')).toBeVisible();
+  await expect(shown(page, '0 de 8 feitos')).toBeVisible();
 });
 
 test('hábitos: sequência, dias da semana e seção na tela Hoje', async ({ page }, testInfo) => {

@@ -117,5 +117,30 @@
     "streak": "Sequência de {{count}}",
     "streakShort": "{{count}} d",
     "last7": "Últimos 7 dias"
+  },
+  "page": {
+    "fallbackTitle": "Página",
+    "missing": "Essa página não existe mais.",
+    "options": "Opções da página",
+    "settings": "Configurar página",
+    "duplicate": "Duplicar página",
+    "duplicateConfirm": "Duplicar",
+    "copyName": "Nome da cópia",
+    "copySuffix": "{{name}} (cópia)",
+    "created": "Página \"{{name}}\" criada",
+    "error": "Não deu certo: {{message}}",
+    "addMany": "Adicionar várias",
+    "addManyShort": "Várias",
+    "progress": "{{done}} de {{total}} feitos",
+    "allDone": "Tudo feito!",
+    "reset": "Reiniciar",
+    "resetDone": "Checks reiniciados. O histórico ficou guardado.",
+    "done": "Concluídas",
+    "habitPlaceholder": "Novo hábito… (ex.: Meditar /diaria)",
+    "emptyList": "Nada por aqui. Digite uma tarefa acima, ou cole uma lista.",
+    "emptyCards": "Monte a rotina: cole os itens, um por linha.",
+    "emptyCardsHint": "Dica: \"Supino 4x12 20kg\".",
+    "emptyHabits": "Adicione hábitos, como \"Beber água\" ou \"Ler 10 páginas /seg,qua,sex\".",
+    "emptyKanban": "Quadro vazio. Digite uma tarefa acima: ela entra em \"A fazer\"."
   }
 }

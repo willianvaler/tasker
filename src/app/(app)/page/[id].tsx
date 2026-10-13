@@ -1,15 +1,19 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import type { TFunction } from 'i18next';
+import { MoreHorizontal, SlidersHorizontal } from 'lucide-react-native';
 import { useEffect } from 'react';
-import { Pressable } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
+import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { PageView } from '@/components/tasks/page-view';
+import { IconButton } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
-import { Text } from '@/components/ui/text';
+import { EmptyState } from '@/components/ui/empty-state';
 import { setLastPageId } from '@/lib/prefs';
-import { pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
+import { findFolder, pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
@@ -22,6 +26,7 @@ export default function PageScreen() {
   const online = useIsOnline();
   const toast = useToast();
   const [dialog, setDialog, closeDialog] = useDialog<DialogState>();
+  const { t } = useTranslation();
   const page = tree.data?.pages.find((p) => p.id === id);
 
   // A captura rápida global usa a última página aberta como destino padrão
@@ -32,13 +37,18 @@ export default function PageScreen() {
   if (tree.data && !page) {
     return (
       <Screen>
-        <ScreenHeader title="Página" back />
-        <Text className="mt-6 text-ink-muted">Essa página não existe mais.</Text>
+        <ScreenHeader title={t('page.fallbackTitle')} back />
+        <EmptyState title={t('page.missing')} />
       </Screen>
     );
   }
 
-  const onError = (err: Error) => toast({ message: `Não deu certo: ${err.message}` });
+  const onError = (err: Error) => toast({ message: t('page.error', { message: err.message }) });
+  // Caminho acima do título: "MERCADO" ou "CASA / COZINHA"
+  const place = page ? findFolder(tree.data, page.folder_id) : null;
+  const eyebrow = place
+    ? [place.parent?.name, place.folder.name].filter(Boolean).join(' / ')
+    : undefined;
 
   // Cards e kanban aproveitam a tela toda; lista e hábitos ficam numa coluna de leitura
   const size = page?.view_type === 'cards' || page?.view_type === 'kanban' ? 'wide' : 'medium';
@@ -46,18 +56,26 @@ export default function PageScreen() {
     <Screen size={size}>
       <ScreenHeader
         title={page ? pageLabel(page) : ''}
+        eyebrow={page?.is_habits || page?.is_inbox ? undefined : eyebrow}
+        icon={
+          page ? <ItemIcon icon={page.icon} kind={page.view_type as ItemKind} size={20} /> : null
+        }
         back
         right={
           // Página de hábitos de sistema: sem configurar nem duplicar (D68)
           page && online && !page.is_habits ? (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Opções da página"
-              className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
-              onPress={() => setDialog('menu')}
-            >
-              <Text className="text-lg text-ink-muted">⋯</Text>
-            </Pressable>
+            <>
+              <IconButton
+                icon={SlidersHorizontal}
+                label={t('page.settings')}
+                onPress={() => setDialog('settings')}
+              />
+              <IconButton
+                icon={MoreHorizontal}
+                label={t('page.options')}
+                onPress={() => setDialog('menu')}
+              />
+            </>
           ) : null
         }
       />
@@ -68,14 +86,14 @@ export default function PageScreen() {
           title={pageLabel(page)}
           onClose={closeDialog}
           actions={[
-            { label: '⚙️ Configurar página', onPress: () => setDialog('settings') },
-            { label: '📑 Duplicar página', onPress: () => setDialog('duplicate') },
+            { label: t('page.settings'), onPress: () => setDialog('settings') },
+            { label: t('page.duplicate'), onPress: () => setDialog('duplicate') },
           ]}
         />
       )}
       {page && dialog === 'settings' && (
         <PageDialog
-          title="Configurar página"
+          title={t('page.settings')}
           initial={page}
           onClose={closeDialog}
           onConfirm={(settings) => {
@@ -86,9 +104,11 @@ export default function PageScreen() {
       )}
       {page && dialog === 'duplicate' && (
         <PromptDialog
-          title="Duplicar página"
-          confirmLabel="Duplicar"
-          fields={[{ key: 'name', placeholder: 'Nome da cópia', initial: nextName(page.name) }]}
+          title={t('page.duplicate')}
+          confirmLabel={t('page.duplicateConfirm')}
+          fields={[
+            { key: 'name', placeholder: t('page.copyName'), initial: nextName(page.name, t) },
+          ]}
           onClose={closeDialog}
           onConfirm={({ name }) => {
             closeDialog();
@@ -97,7 +117,7 @@ export default function PageScreen() {
               {
                 onError,
                 onSuccess: (newId) => {
-                  toast({ message: `Página "${name}" criada` });
+                  toast({ message: t('page.created', { name }) });
                   if (newId) router.replace({ pathname: '/page/[id]', params: { id: newId } });
                 },
               },
@@ -110,8 +130,8 @@ export default function PageScreen() {
 }
 
 /** "Treino A" → "Treino B"; o resto ganha " (cópia)". */
-function nextName(name: string) {
+function nextName(name: string, t: TFunction) {
   const letter = /^(.*\s)([A-Y])$/.exec(name);
   if (letter) return letter[1] + String.fromCharCode(letter[2].charCodeAt(0) + 1);
-  return `${name} (cópia)`;
+  return t('page.copySuffix', { name });
 }
