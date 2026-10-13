@@ -81,7 +81,9 @@ test('hábitos: sequência, dias da semana e seção na tela Hoje', async ({ pag
   await page.getByRole('button', { name: 'Voltar' }).click();
 
   await openTab(page, 'Hoje');
-  await expect(shown(page, /^Hábitos \(1\/\d\)$/)).toBeVisible();
+  await expect(
+    page.getByLabel(/^Hábitos 1\/\d$/).and(page.locator(':not([aria-hidden="true"] *)')),
+  ).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Desmarcar Beber água' })).toBeChecked();
 });
 

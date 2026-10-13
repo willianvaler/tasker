@@ -1,9 +1,12 @@
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Platform, TextInput } from 'react-native';
+import { Plus } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import { Platform, TextInput, useWindowDimensions, View } from 'react-native';
 
-import { Input } from '@/components/ui/input';
+import { Icon } from '@/components/ui/icon';
+import { Text, textClass } from '@/components/ui/text';
 import { setBatchDraft } from '@/lib/batch-draft';
 import { looksLikeBatch } from '@/lib/parser/batch';
 import { parseQuickInput } from '@/lib/parser/quick';
@@ -15,6 +18,7 @@ import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
+import { useColors } from '@/lib/tokens';
 
 /**
  * Campo de captura rápida (ESCOPO 4.1): digita e Enter cria; o foco fica no campo.
@@ -23,7 +27,7 @@ import { useCanWrite } from '@/providers/write';
 export function QuickAdd({
   pageId,
   defaultDueDate,
-  placeholder = 'Nova tarefa… (Enter para criar)',
+  placeholder,
   autoFocus,
   onCreated,
   parseMeta,
@@ -51,6 +55,11 @@ export function QuickAdd({
   const toast = useToast();
   const [text, setText] = useState('');
   const inputRef = useRef<TextInput>(null);
+  const { t } = useTranslation();
+  const colors = useColors();
+  const wide = useWindowDimensions().width >= 768;
+  // O react-native-web ainda só entende o antigo blurOnSubmit (o Input faz o mesmo)
+  const webSubmit = Platform.OS === 'web' ? ({ blurOnSubmit: false } as object) : {};
   const ready = !!pageId && writable;
 
   function openBatch(batchText: string) {
@@ -88,7 +97,7 @@ export function QuickAdd({
     const ambiguous = resolved.filter((r) => r.kind === 'ambiguous').map((r) => `@${r.name}`);
     if (ambiguous.length)
       toast({
-        message: `${ambiguous.join(', ')}: mais de uma pessoa com esse nome. Escolha nos detalhes da tarefa.`,
+        message: t('quickAdd.ambiguous', { names: ambiguous.join(', ') }),
       });
     setLastPageId(pageId);
     setText('');
@@ -112,30 +121,40 @@ export function QuickAdd({
   });
 
   return (
-    <Input
-      ref={inputRef}
-      placeholder={
-        !pageId
-          ? 'Carregando…'
-          : !writable
-            ? 'Só leitura: você é leitor deste projeto'
-            : online
-              ? placeholder
-              : 'Nova tarefa… (vai quando a conexão voltar)'
-      }
-      value={text}
-      editable={writable}
-      onChangeText={(value) => {
-        // No celular, colar várias linhas chega aqui com as quebras
-        if (/\r?\n/.test(value.trim())) openBatch(value);
-        else setText(value);
-      }}
-      onSubmitEditing={submit}
-      submitBehavior="submit"
-      returnKeyType="done"
-      autoFocus={autoFocus}
-      accessibilityLabel="Nova tarefa"
-      aria-disabled={!ready}
-    />
+    // Linha de captura (docs/mockups/hoje.html): "+" no acento, campo sem caixa, divisória fina
+    <View className="min-h-11 flex-row items-center gap-3 border-b border-line md:min-h-10">
+      <Icon icon={Plus} tone={ready ? 'accent' : 'ink-muted'} />
+      <TextInput
+        ref={inputRef}
+        placeholder={
+          !pageId
+            ? t('quickAdd.loading')
+            : !writable
+              ? t('quickAdd.readOnly')
+              : online
+                ? (placeholder ?? t('quickAdd.placeholder'))
+                : t('quickAdd.offline')
+        }
+        placeholderTextColor={colors['ink-muted']}
+        value={text}
+        editable={writable}
+        onChangeText={(value) => {
+          // No celular, colar várias linhas chega aqui com as quebras
+          if (/\r?\n/.test(value.trim())) openBatch(value);
+          else setText(value);
+        }}
+        onSubmitEditing={submit}
+        submitBehavior="submit"
+        {...webSubmit}
+        returnKeyType="done"
+        autoFocus={autoFocus}
+        accessibilityLabel={t('quickAdd.label')}
+        aria-disabled={!ready}
+        className={textClass('min-h-10 flex-1 text-base text-ink md:text-sm')}
+      />
+      {wide && ready && !text && (
+        <Text className="font-mono text-xs text-ink-muted">{t('quickAdd.hint')}</Text>
+      )}
+    </View>
   );
 }

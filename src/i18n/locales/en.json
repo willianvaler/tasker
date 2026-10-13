@@ -5,7 +5,9 @@
     "delete": "Delete",
     "undo": "Undo",
     "close": "Close",
-    "back": "Back"
+    "back": "Back",
+    "loading": "Loading…",
+    "loadError": "Could not load: {{message}}"
   },
   "language": {
     "label": "Language",
@@ -59,7 +61,46 @@
     "online": "Synced",
     "offline": "Offline: changes will sync when you reconnect",
     "level": "lv {{level}}",
-    "xp": "{{into}}/{{next}} xp",
+    "xp": "{{into}}/{{next}} XP",
     "characterSummary": "Character: level {{level}}, {{into}} of {{next}} XP"
+  },
+  "quickAdd": {
+    "label": "New task",
+    "placeholder": "New task… (Enter to create)",
+    "loading": "Loading…",
+    "readOnly": "Read only: you are a viewer in this project",
+    "offline": "New task… (sent when you are back online)",
+    "hint": "tomorrow · !! · #tag · @person",
+    "ambiguous": "{{names}}: more than one person with that name. Pick one in the task details."
+  },
+  "boss": {
+    "level": "lv {{level}}",
+    "hp": "{{hp}}/{{max}} HP",
+    "tasksLeft": "{{hp}} of {{max}} tasks left",
+    "until": "until {{when}}",
+    "escaped": "escaped",
+    "defeated": "{{name}} defeated!",
+    "defeatedUser": "The next one arrives on Monday.",
+    "defeatedClan": "The whole clan got the reward. The next one arrives on Monday.",
+    "defeatedFolder": "Project done before the deadline!",
+    "label": "Boss {{name}}: {{hp}} of {{max}} {{unit}}",
+    "clanPrefix": "Clan",
+    "weekly": "boss of the week",
+    "gameLink": "Character, level, XP and boss of the week",
+    "streak": "Days in a row: {{count}}",
+    "streakShort": "{{count}} d",
+    "pickClass": "Pick your class",
+    "gold": "{{gold}} gold",
+    "unitHp": "HP",
+    "unitTasks": "tasks"
+  },
+  "today": {
+    "title": "Today",
+    "overdue": "Overdue",
+    "dueToday": "Today",
+    "habits": "Habits",
+    "placeholder": "New task for today…",
+    "empty": "Nothing for today. Enjoy your coffee.",
+    "emptyHint": "Write \"tomorrow\", \"friday\" or \"10/15\" in the title to set a date."
   }
 }

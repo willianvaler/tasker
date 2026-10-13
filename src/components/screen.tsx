@@ -6,7 +6,7 @@ import { cn } from '@/lib/cn';
 
 /**
  * Área da tela. "narrow" (formulários, detalhes) fica numa coluna confortável de ler; "medium" (listas)
- * um pouco mais larga; "wide" (Hoje, pastas, cards, kanban, personagem, loja) usa a largura do
+ * na área de leitura de 760 px (docs/DESIGN.md); "wide" (Hoje, pastas, cards, kanban, personagem, loja) usa a largura do
  * computador para colunas e grades (D67).
  */
 export function Screen({
@@ -25,7 +25,7 @@ export function Screen({
           size === 'wide'
             ? 'max-w-7xl md:px-8'
             : size === 'medium'
-              ? 'max-w-4xl md:px-8'
+              ? 'max-w-[760px] md:px-6'
               : 'max-w-2xl',
         )}
       >

@@ -5,7 +5,9 @@
     "delete": "Eliminar",
     "undo": "Deshacer",
     "close": "Cerrar",
-    "back": "Volver"
+    "back": "Volver",
+    "loading": "Cargando…",
+    "loadError": "No se pudo cargar: {{message}}"
   },
   "language": {
     "label": "Idioma",
@@ -59,7 +61,46 @@
     "online": "Sincronizado",
     "offline": "Sin conexión: los cambios se enviarán al volver",
     "level": "nv {{level}}",
-    "xp": "{{into}}/{{next}} xp",
+    "xp": "{{into}}/{{next}} XP",
     "characterSummary": "Personaje: nivel {{level}}, {{into}} de {{next}} XP"
+  },
+  "quickAdd": {
+    "label": "Nueva tarea",
+    "placeholder": "Nueva tarea… (Enter para crear)",
+    "loading": "Cargando…",
+    "readOnly": "Solo lectura: eres lector en este proyecto",
+    "offline": "Nueva tarea… (se envía al volver la conexión)",
+    "hint": "mañana · !! · #etiqueta · @persona",
+    "ambiguous": "{{names}}: hay más de una persona con ese nombre. Elige en los detalles de la tarea."
+  },
+  "boss": {
+    "level": "nv {{level}}",
+    "hp": "{{hp}}/{{max}} HP",
+    "tasksLeft": "faltan {{hp}} de {{max}} tareas",
+    "until": "hasta {{when}}",
+    "escaped": "escapó",
+    "defeated": "¡{{name}} derrotado!",
+    "defeatedUser": "El próximo llega el lunes.",
+    "defeatedClan": "Todo el clan recibió la recompensa. El próximo llega el lunes.",
+    "defeatedFolder": "¡Proyecto terminado antes del plazo!",
+    "label": "Jefe {{name}}: {{hp}} de {{max}} {{unit}}",
+    "clanPrefix": "Clan",
+    "weekly": "jefe de la semana",
+    "gameLink": "Personaje, nivel, XP y jefe de la semana",
+    "streak": "Días seguidos: {{count}}",
+    "streakShort": "{{count}} d",
+    "pickClass": "Elige tu clase",
+    "gold": "{{gold}} de oro",
+    "unitHp": "HP",
+    "unitTasks": "tareas"
+  },
+  "today": {
+    "title": "Hoy",
+    "overdue": "Atrasadas",
+    "dueToday": "Hoy",
+    "habits": "Hábitos",
+    "placeholder": "Nueva tarea para hoy…",
+    "empty": "Nada para hoy. Disfruta el café.",
+    "emptyHint": "Escribe \"mañana\", \"viernes\" o \"15/10\" en el título para poner una fecha."
   }
 }

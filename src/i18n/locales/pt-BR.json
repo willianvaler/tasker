@@ -5,7 +5,9 @@
     "delete": "Apagar",
     "undo": "Desfazer",
     "close": "Fechar",
-    "back": "Voltar"
+    "back": "Voltar",
+    "loading": "Carregando…",
+    "loadError": "Não deu para carregar: {{message}}"
   },
   "language": {
     "label": "Idioma",
@@ -59,7 +61,46 @@
     "online": "Sincronizado",
     "offline": "Sem conexão: as mudanças vão quando voltar",
     "level": "nv {{level}}",
-    "xp": "{{into}}/{{next}} xp",
+    "xp": "{{into}}/{{next}} XP",
     "characterSummary": "Personagem: nível {{level}}, {{into}} de {{next}} XP"
+  },
+  "quickAdd": {
+    "label": "Nova tarefa",
+    "placeholder": "Nova tarefa… (Enter para criar)",
+    "loading": "Carregando…",
+    "readOnly": "Só leitura: você é leitor deste projeto",
+    "offline": "Nova tarefa… (vai quando a conexão voltar)",
+    "hint": "amanhã · !! · #etiqueta · @pessoa",
+    "ambiguous": "{{names}}: mais de uma pessoa com esse nome. Escolha nos detalhes da tarefa."
+  },
+  "boss": {
+    "level": "nv {{level}}",
+    "hp": "{{hp}}/{{max}} HP",
+    "tasksLeft": "faltam {{hp}} de {{max}} tarefas",
+    "until": "até {{when}}",
+    "escaped": "fugiu",
+    "defeated": "{{name}} derrotado!",
+    "defeatedUser": "O próximo chega na segunda.",
+    "defeatedClan": "O clã inteiro ganhou a recompensa. O próximo chega na segunda.",
+    "defeatedFolder": "Projeto concluído antes do prazo!",
+    "label": "Boss {{name}}: {{hp}} de {{max}} {{unit}}",
+    "clanPrefix": "Clã",
+    "weekly": "boss da semana",
+    "gameLink": "Personagem, nível, XP e boss da semana",
+    "streak": "Dias seguidos: {{count}}",
+    "streakShort": "{{count}} d",
+    "pickClass": "Escolha sua classe",
+    "gold": "{{gold}} de ouro",
+    "unitHp": "HP",
+    "unitTasks": "tarefas"
+  },
+  "today": {
+    "title": "Hoje",
+    "overdue": "Atrasadas",
+    "dueToday": "Hoje",
+    "habits": "Hábitos",
+    "placeholder": "Nova tarefa para hoje…",
+    "empty": "Nada para hoje. Aproveite o café.",
+    "emptyHint": "Escreva \"amanhã\", \"sexta\" ou \"15/10\" no título para dar uma data."
   }
 }

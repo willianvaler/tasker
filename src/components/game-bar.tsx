@@ -1,120 +1,136 @@
 import { Link } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 
-import { Avatar, classOf } from '@/components/character';
+import { Avatar } from '@/components/character';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
-import { CLASSES } from '@/lib/character';
 import { cn } from '@/lib/cn';
-import { useGameState, type Boss, type GameState } from '@/lib/queries/game';
+import { useGameState, type Boss } from '@/lib/queries/game';
+import { useColors } from '@/lib/tokens';
 
 export { ProgressBar };
 
-function LevelLine({ game }: { game: GameState }) {
+/** Arte única dos bosses (docs/DESIGN.md): um traço só, estilo carimbo, a mesma para todos. */
+export function BossArt({ size = 28 }: { size?: 28 | 48 }) {
+  const colors = useColors();
   return (
-    <View className="flex-row items-center gap-2">
-      <Text className="text-sm font-semibold text-ink">Nv {game.level}</Text>
-      <ProgressBar
-        className="flex-1"
-        value={game.into_level / game.for_next}
-        label={`Nível ${game.level}: ${game.into_level} de ${game.for_next} XP`}
+    <Svg width={size} height={size} viewBox="0 0 28 28" aria-hidden>
+      <Path
+        d="M5 22c0-6 3-10 9-10s9 4 9 10M9 12 7 5l5 4 2-5 2 5 5-4-2 7M11 17h.01M17 17h.01M11 21h6"
+        stroke={colors.ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
       />
-      <Text className="text-xs text-ink-muted">
-        {game.into_level}/{game.for_next} XP
-      </Text>
-      <Text
-        className={cn('text-sm', game.active_today ? 'text-ink' : 'text-ink-muted')}
-        accessibilityLabel={`Dias seguidos: ${game.streak}`}
-      >
-        🔥 {game.streak}
-      </Text>
-    </View>
+    </Svg>
   );
 }
 
-const WEEKDAY = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' });
-const DAY_MONTH = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' });
-
-const DEFEATED_TAIL = {
-  user: 'O próximo chega na segunda.',
-  clan: 'O clã inteiro ganhou a recompensa. O próximo chega na segunda.',
-  folder: 'Projeto concluído antes do prazo! 🎉',
-} as const;
-
-/** Barra do boss: solo e clã (semanais) ou de projeto (com prazo). */
+/**
+ * Faixa do boss (docs/mockups/hoje.html): nome serifado, nível em mono, linha de HP de 2 px e
+ * `120/120 HP`. Solo e clã são semanais; o de projeto tem prazo e conta tarefas.
+ */
 export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
+  const { t, i18n } = useTranslation();
   const scope = boss.scope ?? 'user';
+  const name = prefix ? `${prefix}: ${boss.name}` : boss.name;
   if (boss.status === 'defeated') {
+    const tail = {
+      user: 'boss.defeatedUser',
+      clan: 'boss.defeatedClan',
+      folder: 'boss.defeatedFolder',
+    } as const;
     return (
-      <Text className="text-sm text-ink">
-        ⚔️ {prefix}
-        {boss.icon} {boss.name} derrotado! {DEFEATED_TAIL[scope]}
-      </Text>
+      <View className="flex-row items-center gap-3">
+        <BossArt />
+        <Text className="flex-1 text-sm text-ink">
+          {t('boss.defeated', { name })} {t(tail[scope])}
+        </Text>
+      </View>
     );
   }
   // ends_at é o fim do último dia (00:00 do dia seguinte)
   const lastDay = new Date(new Date(boss.ends_at).getTime() - 1);
-  const until = scope === 'folder' ? DAY_MONTH.format(lastDay) : WEEKDAY.format(lastDay);
-  const escaped = boss.status === 'escaped';
-  const unit = scope === 'folder' ? 'tarefas' : 'HP';
+  const when = new Intl.DateTimeFormat(
+    i18n.language,
+    scope === 'folder' ? { day: '2-digit', month: '2-digit' } : { weekday: 'long' },
+  ).format(lastDay);
+  const unit = t(scope === 'folder' ? 'boss.unitTasks' : 'boss.unitHp');
   return (
-    <View className="gap-1">
-      <View className="flex-row items-center gap-2">
-        <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
-          {prefix}
-          {boss.icon} {boss.name}
+    <View className="flex-row items-center gap-3">
+      <BossArt />
+      <View className="flex-1 gap-1">
+        <View className="flex-row items-baseline gap-2">
+          <Text className="shrink font-serif text-base text-ink" numberOfLines={1}>
+            {name}
+          </Text>
           {scope !== 'folder' && boss.level ? (
-            <Text className="text-xs text-ink-muted"> · nv {boss.level}</Text>
+            <Text className="font-mono text-xs text-ink-muted">
+              {t('boss.level', { level: boss.level })}
+            </Text>
           ) : null}
-        </Text>
-        <Text className="text-xs text-ink-muted">
-          {scope === 'folder'
-            ? `faltam ${boss.hp} de ${boss.max_hp} ${unit}`
-            : `${boss.hp}/${boss.max_hp} HP`}
-          {escaped ? ' · fugiu' : ` · até ${until}`}
+          <Text className="ml-auto font-mono text-xs text-ink-muted">
+            {scope === 'folder'
+              ? t('boss.tasksLeft', { hp: boss.hp, max: boss.max_hp })
+              : t('boss.hp', { hp: boss.hp, max: boss.max_hp })}
+          </Text>
+        </View>
+        <ProgressBar
+          value={boss.hp / boss.max_hp}
+          label={t('boss.label', { name: boss.name, hp: boss.hp, max: boss.max_hp, unit })}
+        />
+        <Text className="font-mono text-xs text-ink-muted">
+          {boss.status === 'escaped' ? t('boss.escaped') : t('boss.until', { when })}
         </Text>
       </View>
-      <ProgressBar
-        value={boss.hp / boss.max_hp}
-        fillClassName="bg-danger"
-        label={`Boss ${boss.name}: ${boss.hp} de ${boss.max_hp} ${unit}`}
-      />
     </View>
   );
 }
 
-/** Topo da tela Hoje (celular e tela estreita): personagem, nível, ouro e os bosses. */
+/**
+ * Resumo do jogo no topo da Hoje e do Início: nível e XP em mono com o fio de 2 px, sequência, e a
+ * faixa do boss da semana (e do clã). Discreto: marcação, não um jogo por cima (V2 §12.2).
+ */
 export function GameHeader() {
+  const { t } = useTranslation();
   const { data: game } = useGameState();
   if (!game?.enabled) return null;
-  const cls = classOf(game);
   return (
     <Link href="/character" asChild>
       <Pressable
         accessibilityRole="link"
-        accessibilityLabel="Personagem, nível, XP e boss da semana"
-        className="mb-2 gap-2 rounded-lg border border-line bg-surface px-3 py-2 active:opacity-80"
+        accessibilityLabel={t('boss.gameLink')}
+        className="gap-3 border-y border-line py-3 hover:bg-wash active:bg-wash"
       >
         <View className="flex-row items-center gap-3">
-          <Avatar game={game} size="sm" />
-          <View className="flex-1 gap-1">
-            <LevelLine game={game} />
-            <Text className="text-xs text-ink-muted" numberOfLines={1}>
-              {cls ? `${CLASSES[cls].icon} ${CLASSES[cls].name}` : '🧭 Escolha sua classe →'} · 🪙{' '}
-              {game.gold}
-              {(game.points ?? 0) > 0 ? ` · ✨ ${game.points} ponto(s)` : ''}
-              {game.skill_active ? ' · ⚡ habilidade ativa' : ''}
-            </Text>
-          </View>
+          <Text className="font-mono text-xs text-ink">
+            {t('nav.level', { level: game.level })}
+          </Text>
+          <ProgressBar
+            className="flex-1"
+            value={game.into_level / game.for_next}
+            label={`${game.into_level}/${game.for_next} XP`}
+          />
+          <Text className="font-mono text-xs text-ink-muted">
+            {game.into_level}/{game.for_next} XP
+          </Text>
+          <Text
+            className={cn('font-mono text-xs', game.active_today ? 'text-ink' : 'text-ink-muted')}
+            accessibilityLabel={t('boss.streak', { count: game.streak })}
+          >
+            {t('boss.streakShort', { count: game.streak })}
+          </Text>
         </View>
         {game.boss && <BossLine boss={game.boss} />}
-        {game.clan_boss && <BossLine boss={game.clan_boss} prefix="Clã: " />}
+        {game.clan_boss && <BossLine boss={game.clan_boss} prefix={t('boss.clanPrefix')} />}
       </Pressable>
     </Link>
   );
 }
 
-/** Rodapé da barra lateral: personagem, nível, sequência e ouro. */
 export function SidebarGame() {
   const { data: game } = useGameState();
   if (!game?.enabled) return null;

@@ -35,9 +35,10 @@ export default function TabsLayout() {
         tabBar={wide ? () => null : undefined}
         screenOptions={{
           headerShown: false,
-          // Altura calculada pela barra (com a área segura); só a borda fina em cima
-          tabBarStyle: { borderTopWidth: 1 },
-          tabBarLabelStyle: { fontFamily: FONT_FAMILY.sans, fontSize: 12 },
+          // Cada aba tem 5 px de padding e ícone de 28 px: com 4 px na barra sobram 56 px, e o rótulo
+          // de 12/16 cabe (com 8 px ficava com 9 px de altura, cortado). Só a borda fina em cima.
+          tabBarStyle: { height: 64, paddingTop: 4, paddingBottom: 4, borderTopWidth: 1 },
+          tabBarLabelStyle: { fontFamily: FONT_FAMILY.sans, fontSize: 12, lineHeight: 16 },
           sceneStyle: { backgroundColor: 'transparent' },
         }}
       >

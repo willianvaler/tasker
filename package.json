@@ -89,7 +89,8 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/supabase/",
-      "/e2e/"
+      "/e2e/",
+      "/e2e-capturas/"
     ]
   }
 }
