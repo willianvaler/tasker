@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mockup — Painel da tarefa</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="stage">
+
+  <div class="desktop">
+    <div data-sidebar="hoje"></div>
+    <main class="main">
+      <div class="column" style="padding-right:24px">
+        <header class="header">
+          <div><div class="meta">TER, 13 OUT</div><h1 class="page-title">Hoje</h1></div>
+        </header>
+        <div class="capture"><span class="plus" data-i="plus"></span> Nova tarefa para hoje…</div>
+        <section class="group">
+          <div class="label"><span>Hoje</span><span class="meta">4</span></div>
+          <div class="row selected"><span class="box"></span><span class="title">Comprar carvão e gelo</span><span class="right"><span class="avatar">G</span><span class="prio">!2</span></span></div>
+          <div class="row"><span class="box"></span><span class="title">Treino A — peito e tríceps</span></div>
+          <div class="row done"><span class="box"></span><span class="title">Ligar para a mãe</span></div>
+        </section>
+      </div>
+    </main>
+
+    <aside class="panel">
+      <div class="panel-head">
+        <span class="meta">CHURRASCO DO GREG / COMPRAS</span>
+        <button class="btn icon" style="margin-left:auto" title="Mais"><span data-i="more"></span></button>
+        <button class="btn icon" title="Fechar (Esc)"><span data-i="x"></span></button>
+      </div>
+      <div class="panel-body">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span class="box" style="margin-top:6px"></span>
+          <div class="section">Comprar carvão e gelo</div>
+        </div>
+
+        <div class="fold">
+          <div class="field"><span class="k">Responsável</span><span><span class="chip"><span class="avatar" style="width:16px;height:16px;line-height:14px;font-size:9px">G</span> Greg</span></span></div>
+          <div class="field"><span class="k">Data</span><span class="meta" style="color:var(--ink)">hoje, 13 out</span></div>
+          <div class="field"><span class="k">Prioridade</span><span><span class="chip">!1</span> <span class="chip on">!2</span> <span class="chip">!3</span></span></div>
+          <div class="field"><span class="k">Etiquetas</span><span><span class="chip">#churrasco</span> <span class="chip">+</span></span></div>
+          <div class="field"><span class="k">Estimativa</span><span class="meta" style="color:var(--ink)">30 min</span></div>
+        </div>
+
+        <div class="fold">
+          <div class="label"><span data-i="down"></span> Depende de / libera</div>
+          <div class="row" style="height:32px"><span data-i="lock"></span><span class="title">Libera: <b>Acender o fogo</b></span><span class="right"><span class="avatar">W</span></span></div>
+        </div>
+
+        <div class="fold">
+          <div class="label"><span data-i="down"></span> Subtarefas <span class="meta">1/2</span></div>
+          <div class="row done" style="height:32px"><span class="box"></span><span class="title">Carvão 5 kg</span></div>
+          <div class="row" style="height:32px"><span class="box"></span><span class="title">Gelo 2 sacos</span></div>
+          <div class="muted" style="height:32px;display:flex;align-items:center;gap:8px"><span data-i="plus"></span> Subtarefa</div>
+        </div>
+
+        <div class="fold">
+          <div class="label"><span data-i="down"></span> Notas</div>
+          <p class="notes">Pegar no mercado do lado do posto, aceita cartão. Se não tiver carvão, levar lenha.</p>
+        </div>
+
+        <div class="fold">
+          <div class="label"><span data-i="chevron"></span> Repetição e descanso</div>
+          <div class="label"><span data-i="chevron"></span> Tempo</div>
+          <div class="label"><span data-i="chevron"></span> Histórico</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="phone">
+    <div class="status"></div>
+    <header class="m-head"><h1 class="page-title" style="flex:1">Hoje</h1></header>
+    <div class="m-body">
+      <section class="group">
+        <div class="row"><span class="box"></span><span class="title">Comprar carvão e gelo</span></div>
+        <div class="row"><span class="box"></span><span class="title">Treino A — peito e tríceps</span></div>
+      </section>
+    </div>
+    <div class="scrim"></div>
+    <div class="sheet" style="top:140px">
+      <div class="grab"></div>
+      <div style="display:flex;gap:12px;align-items:flex-start"><span class="box" style="margin-top:6px"></span><div class="section">Comprar carvão e gelo</div></div>
+      <div class="fold">
+        <div class="field"><span class="k">Responsável</span><span class="chip">Greg</span></div>
+        <div class="field"><span class="k">Data</span><span class="meta" style="color:var(--ink)">hoje</span></div>
+        <div class="field"><span class="k">Prioridade</span><span><span class="chip">!1</span> <span class="chip on">!2</span> <span class="chip">!3</span></span></div>
+      </div>
+      <div class="fold">
+        <div class="label">Subtarefas <span class="meta">1/2</span></div>
+        <div class="row done"><span class="box"></span><span class="title">Carvão 5 kg</span></div>
+        <div class="row"><span class="box"></span><span class="title">Gelo 2 sacos</span></div>
+      </div>
+      <div class="fold"><div class="label">Notas</div><p class="notes">Pegar no mercado do lado do posto…</p></div>
+    </div>
+  </div>
+
+</div>
+<script src="shell.js"></script>
+<script>shell({ title: 'Painel da tarefa' });</script>
+</body>
+</html>
