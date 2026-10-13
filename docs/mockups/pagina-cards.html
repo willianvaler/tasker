@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mockup — Página em cards (treino)</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="stage">
+
+  <div class="desktop">
+    <div data-sidebar="treino"></div>
+    <main class="main">
+      <div class="column" style="max-width:960px">
+        <header class="header">
+          <div>
+            <div class="meta">PASTAS / ACADEMIA</div>
+            <h1 class="page-title">Treino A</h1>
+          </div>
+          <div class="actions">
+            <button class="btn primary"><span data-i="play"></span> Iniciar treino</button>
+            <button class="btn icon"><span data-i="sliders"></span></button>
+            <button class="btn icon"><span data-i="more"></span></button>
+          </div>
+        </header>
+
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between"><span class="meta">2 de 6 exercícios · semana 3</span><span class="meta">reinicia toda segunda</span></div>
+          <div class="rule"><i style="width:33%"></i></div>
+        </div>
+
+        <div class="cards">
+          <div class="card done"><div class="card-top"><span class="card-title">Supino reto</span><span class="meta" style="margin-left:auto">4×10</span></div><div class="sets"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="meta">60 kg · desc. 90 s</span></div>
+          <div class="card done"><div class="card-top"><span class="card-title">Supino inclinado</span><span class="meta" style="margin-left:auto">3×12</span></div><div class="sets"><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="meta">22 kg halteres</span></div>
+          <div class="card"><div class="card-top"><span class="card-title">Crucifixo</span><span class="meta" style="margin-left:auto">3×12</span></div><div class="sets"><i class="on"></i><i></i><i></i></div><span class="meta">14 kg · descansando 0:48</span></div>
+          <div class="card"><div class="card-top"><span class="card-title">Tríceps corda</span><span class="meta" style="margin-left:auto">4×12</span></div><div class="sets"><i></i><i></i><i></i><i></i></div><span class="meta">25 kg</span></div>
+          <div class="card"><div class="card-top"><span class="card-title">Tríceps francês</span><span class="meta" style="margin-left:auto">3×10</span></div><div class="sets"><i></i><i></i><i></i></div><span class="meta">12 kg</span></div>
+          <div class="card"><div class="card-top"><span class="card-title">Abdominal</span><span class="meta" style="margin-left:auto">3×20</span></div><div class="sets"><i></i><i></i><i></i></div><span class="meta">peso do corpo</span></div>
+        </div>
+
+        <div class="capture"><span class="plus" data-i="plus"></span> Adicionar exercício… <span class="hint meta">ex.: Rosca direta 3x12</span></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="phone">
+    <div class="status"></div>
+    <header class="m-head">
+      <button class="btn icon" style="margin-left:-12px"><span data-i="back" data-size="20"></span></button>
+      <div style="flex:1">
+        <div class="meta">ACADEMIA</div>
+        <h1 class="page-title">Treino A</h1>
+      </div>
+      <button class="btn icon"><span data-i="more" data-size="20"></span></button>
+    </header>
+    <div class="m-body" style="gap:12px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span class="meta">2 de 6 exercícios</span>
+        <div class="rule"><i style="width:33%"></i></div>
+      </div>
+      <div class="card done"><div class="card-top"><span class="card-title">Supino reto</span><span class="meta" style="margin-left:auto">4×10</span></div><div class="sets"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+      <div class="card done"><div class="card-top"><span class="card-title">Supino inclinado</span><span class="meta" style="margin-left:auto">3×12</span></div><div class="sets"><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+      <div class="card"><div class="card-top"><span class="card-title">Crucifixo</span><span class="meta" style="margin-left:auto">3×12</span></div><div class="sets"><i class="on"></i><i></i><i></i></div><span class="meta">descansando 0:48</span></div>
+      <div class="card"><div class="card-top"><span class="card-title">Tríceps corda</span><span class="meta" style="margin-left:auto">4×12</span></div><div class="sets"><i></i><i></i><i></i><i></i></div></div>
+      <button class="btn primary" style="justify-content:center"><span data-i="play"></span> Iniciar treino</button>
+    </div>
+    <div data-tabbar="pastas"></div>
+  </div>
+
+</div>
+<script src="shell.js"></script>
+<script>shell({ title: 'Página em cards' });</script>
+</body>
+</html>
