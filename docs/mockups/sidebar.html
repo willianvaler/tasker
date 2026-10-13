@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mockup — Barra lateral e menu Novo</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="stage">
+
+  <!-- Desktop: menu "+ Novo" aberto e renomear com F2 + seletor de ícone -->
+  <div class="desktop" style="position:relative">
+    <div data-sidebar="churrasco"></div>
+    <main class="main">
+      <div class="column">
+        <header class="header">
+          <div>
+            <div class="meta">PROJETO · 3 PESSOAS · ATÉ SÁB, 18 OUT</div>
+            <h1 class="page-title">Churrasco do Greg</h1>
+          </div>
+        </header>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between"><span class="meta">9 de 14 tarefas</span><span class="meta">próximo marco: compras · qui</span></div>
+          <div class="rule"><i style="width:64%"></i></div>
+        </div>
+        <section class="group">
+          <div class="label"><span>Listas</span></div>
+          <div class="row"><span data-i="list"></span><span class="title">Compras</span><span class="right"><span class="meta">4/7</span></span></div>
+          <div class="row"><span data-i="list"></span><span class="title">No dia</span><span class="right"><span class="meta">0/5</span></span></div>
+          <div class="row done"><span data-i="list"></span><span class="title" style="text-decoration:none">Convites</span><span class="right"><span class="meta">2/2</span></span></div>
+        </section>
+        <section class="group">
+          <div class="label"><span>Pessoas</span></div>
+          <div class="row"><span class="avatar">W</span><span class="title">Willian</span><span class="right"><span class="meta">Gerente</span><span class="meta">4 tarefas</span></span></div>
+          <div class="row"><span class="avatar">G</span><span class="title">Greg</span><span class="right"><span class="meta">Editor</span><span class="meta">3 tarefas</span></span></div>
+          <div class="row"><span class="avatar">A</span><span class="title">Ana</span><span class="right"><span class="meta">Colaboradora</span><span class="meta">2 tarefas</span></span></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Menu Novo, aberto a partir do botão do rodapé -->
+    <div class="menu" style="position:absolute;left:12px;bottom:92px">
+      <div class="item">Tarefa <kbd>T</kbd></div>
+      <div class="item">Página <kbd>P</kbd></div>
+      <div class="item">Pasta <kbd>F</kbd></div>
+      <div class="item active">Projeto <kbd>J</kbd></div>
+      <div class="item">Hábito <kbd>H</kbd></div>
+      <div style="height:1px;background:var(--line);margin:4px 0"></div>
+      <div class="item"><span data-i="sliders"></span> Criação avançada <kbd>Ctrl ⇧ N</kbd></div>
+    </div>
+
+    <!-- F2 na pasta "Casa": nome editável + seletor de ícone -->
+    <div style="position:absolute;left:8px;top:406px;width:248px;height:32px;background:var(--surface);display:flex;align-items:center;gap:8px;padding:0 8px">
+      <span class="marker" style="width:3px;height:16px;border-radius:2px;background:#b07a4f"></span>
+      <span data-i="home"></span>
+      <input value="Casa" style="font:inherit;color:inherit;background:var(--paper);border:0;outline:2px solid var(--accent);outline-offset:1px;border-radius:2px;flex:1;padding:2px 4px">
+    </div>
+    <div class="menu" style="position:absolute;left:264px;top:398px;width:288px;padding:8px;display:flex;flex-direction:column;gap:8px">
+      <div class="search" style="height:28px">ícone: casa, home, casa…</div>
+      <div class="label">Recentes</div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;color:var(--ink)">
+        <span class="btn icon" style="background:var(--wash)"><span data-i="home"></span></span><span class="btn icon"><span data-i="dumbbell"></span></span><span class="btn icon"><span data-i="flame"></span></span><span class="btn icon"><span data-i="calendar"></span></span><span class="btn icon"><span data-i="users"></span></span><span class="btn icon"><span data-i="tag"></span></span><span class="btn icon"><span data-i="flag"></span></span><span class="btn icon">🍖</span>
+      </div>
+      <div class="label">Cor</div>
+      <div style="display:flex;gap:6px">
+        <span style="width:18px;height:18px;border-radius:50%;background:#a35d4a"></span><span style="width:18px;height:18px;border-radius:50%;background:#b07a4f;outline:2px solid var(--accent);outline-offset:2px"></span><span style="width:18px;height:18px;border-radius:50%;background:#8a7a4f"></span><span style="width:18px;height:18px;border-radius:50%;background:#7a8b5c"></span><span style="width:18px;height:18px;border-radius:50%;background:#4f7a6a"></span><span style="width:18px;height:18px;border-radius:50%;background:#5f7a8a"></span><span style="width:18px;height:18px;border-radius:50%;background:#5c5f8a"></span><span style="width:18px;height:18px;border-radius:50%;background:#7a5c7a"></span><span style="width:18px;height:18px;border-radius:50%;background:#6b655b"></span><span style="width:18px;height:18px;border-radius:50%;background:#9b8f7a"></span>
+      </div>
+      <div class="meta">Enter confirma · Esc cancela · Tab vai do nome ao ícone</div>
+    </div>
+  </div>
+
+  <!-- Celular: botão + abre o menu Novo como folha -->
+  <div class="phone">
+    <div class="status"></div>
+    <header class="m-head"><h1 class="page-title" style="flex:1">Pastas</h1></header>
+    <div class="m-body" style="gap:24px">
+      <section class="group">
+        <div class="label"><span>Pastas</span></div>
+        <div class="row"><span class="marker" style="width:3px;height:20px;border-radius:2px;background:#7a8b5c"></span><span data-i="dumbbell" data-size="20"></span><span class="title">Academia</span><span class="right"><span class="meta">2 páginas</span></span></div>
+        <div class="row"><span class="marker" style="width:3px;height:20px;border-radius:2px;background:#b07a4f"></span><span data-i="home" data-size="20"></span><span class="title">Casa</span><span class="right"><span class="meta">4 páginas</span></span></div>
+      </section>
+    </div>
+    <div class="scrim"></div>
+    <div class="sheet">
+      <div class="grab"></div>
+      <div class="label">Novo</div>
+      <div class="group">
+        <div class="row"><span data-i="check" data-size="20"></span><span class="title">Tarefa</span></div>
+        <div class="row"><span data-i="list" data-size="20"></span><span class="title">Página</span></div>
+        <div class="row"><span data-i="folder" data-size="20"></span><span class="title">Pasta</span></div>
+        <div class="row"><span data-i="users" data-size="20"></span><span class="title">Projeto</span></div>
+        <div class="row"><span data-i="repeat" data-size="20"></span><span class="title">Hábito</span></div>
+        <div class="row" style="border:0"><span data-i="sliders" data-size="20"></span><span class="title">Criação avançada</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="shell.js"></script>
+<script>shell({ title: 'Barra lateral, menu Novo e F2' });</script>
+</body>
+</html>
