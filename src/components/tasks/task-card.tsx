@@ -1,23 +1,31 @@
 import { memo } from 'react';
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
+import { ChevronRight } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import Animated, {
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withSequence,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 
+import { IconButton } from '@/components/ui/button';
+import { StampBox } from '@/components/ui/checkbox';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import type { Task } from '@/lib/queries/tasks';
+import { DURATION, useColors } from '@/lib/tokens';
 import { useCanWrite } from '@/providers/write';
 import { DragHandle } from './sortable-tasks';
 import { metaLabel } from './task-meta';
 import { useToggleWithUndo } from './task-row';
 
-/** Card grande (ESCOPO 4.3): o toque em qualquer parte marca/desmarca, com animação curta e vibração. */
+/**
+ * Card (ESCOPO 4.3, docs/mockups/pagina-cards.html): o toque em qualquer parte marca/desmarca, com
+ * o carimbo e um aperto curto. Borda fina, cantos de 8 px; feito, a borda vai para o acento.
+ */
 function TaskCardView({
   task,
   subtasks,
@@ -25,15 +33,15 @@ function TaskCardView({
   task: Task;
   subtasks?: { done: number; total: number };
 }) {
+  const { t } = useTranslation();
+  const colors = useColors();
   const writable = useCanWrite(task.folder_id, { offline: true });
   const toggle = useToggleWithUndo();
+  const reduced = useReducedMotion();
   const scale = useSharedValue(1);
   const animated = useAnimatedStyle(() => ({ transform: [{ scale: scale.get() }] }));
   const done = task.status === 'done';
-  const detail = [
-    metaLabel(task.meta),
-    subtasks?.total ? `☑ ${subtasks.done}/${subtasks.total}` : '',
-  ]
+  const detail = [metaLabel(task.meta), subtasks?.total ? `${subtasks.done}/${subtasks.total}` : '']
     .filter(Boolean)
     .join(' · ');
 
@@ -47,45 +55,40 @@ function TaskCardView({
         disabled={!writable}
         onPress={() => {
           // .set() em vez de "scale.value =": é o jeito compatível com o React Compiler
-          scale.set(
-            withSequence(withTiming(0.96, { duration: 70 }), withSpring(1, { damping: 12 })),
-          );
+          if (!reduced)
+            scale.set(
+              withSequence(
+                withTiming(0.97, { duration: DURATION.fast }),
+                withTiming(1, { duration: DURATION.base }),
+              ),
+            );
           toggle(task, !done);
         }}
         className={cn(
-          'min-h-24 flex-row items-center gap-2 rounded-lg border-2 p-3 pl-1',
-          done ? 'border-accent bg-accent/10' : 'border-line bg-surface',
+          'min-h-[72px] flex-row items-center gap-2 rounded-lg border bg-surface py-3 pl-1 pr-1 hover:border-ink-muted',
+          done ? 'border-accent' : 'border-line',
         )}
       >
         <DragHandle label={task.title} taskId={task.id} />
         <View className="flex-1 gap-1">
           <Text
             className={cn(
-              'text-lg font-semibold',
+              'text-base font-semibold',
               done ? 'text-ink-muted line-through' : 'text-ink',
             )}
+            style={done ? { textDecorationColor: colors.accent } : undefined}
             numberOfLines={3}
           >
             {task.title}
           </Text>
-          {detail ? <Text className="text-base text-ink-muted">{detail}</Text> : null}
+          {detail ? <Text className="font-mono text-xs text-ink-muted">{detail}</Text> : null}
         </View>
-        <View
-          className={cn(
-            'h-10 w-10 items-center justify-center rounded-full border-2',
-            done ? 'border-accent bg-accent' : 'border-ink-muted',
-          )}
-        >
-          {done && <Text className="text-lg font-semibold text-on-accent">✓</Text>}
-        </View>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`Detalhes de ${task.title}`}
-          className="h-11 w-8 items-center justify-center"
+        <StampBox checked={done} size={24} />
+        <IconButton
+          icon={ChevronRight}
+          label={t('task.details', { title: task.title })}
           onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
-        >
-          <Text className="text-lg text-ink-muted">›</Text>
-        </Pressable>
+        />
       </Pressable>
     </Animated.View>
   );

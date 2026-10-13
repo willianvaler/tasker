@@ -102,5 +102,20 @@
     "placeholder": "Nova tarefa para hoje…",
     "empty": "Nada para hoje. Aproveite o café.",
     "emptyHint": "Escreva \"amanhã\", \"sexta\" ou \"15/10\" no título para dar uma data."
+  },
+  "habit": {
+    "check": "Feito: {{title}}",
+    "uncheck": "Desmarcar {{title}}",
+    "good": "Hábito bom: {{title}}",
+    "bad": "Hábito ruim: {{title}}",
+    "more": "Mais um: {{title}}",
+    "less": "Menos um: {{title}}",
+    "progress": "{{count}} de {{target}}",
+    "plusminus": "Bom e ruim",
+    "daily": "Todo dia",
+    "todayCounts": "Hoje: {{up}} bons, {{down}} ruins",
+    "streak": "Sequência de {{count}}",
+    "streakShort": "{{count}} d",
+    "last7": "Últimos 7 dias"
   }
 }

@@ -1,9 +1,12 @@
 import * as Haptics from 'expo-haptics';
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
+import { Minus, Plus } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, View } from 'react-native';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { rewardMessage } from '@/lib/gamification';
@@ -86,7 +89,7 @@ export function useHabitTickWithToast() {
   };
 }
 
-/** Botão redondo de + / − (alvo de toque de 44px). */
+/** Botão quadrado de + / − (44 px no celular, 32 no computador). */
 function TickButton({
   sign,
   label,
@@ -106,14 +109,11 @@ function TickButton({
       disabled={disabled}
       onPress={onPress}
       className={cn(
-        'h-11 w-11 items-center justify-center rounded-full border active:opacity-70',
-        sign === '+' ? 'border-ok bg-ok/10' : 'border-danger bg-danger/10',
+        'h-11 w-11 items-center justify-center rounded border border-line hover:bg-wash active:bg-wash md:h-8 md:w-8',
         disabled && 'opacity-40',
       )}
     >
-      <Text className={cn('text-lg font-semibold', sign === '+' ? 'text-ok' : 'text-danger')}>
-        {sign}
-      </Text>
+      <Icon icon={sign === '+' ? Plus : Minus} tone={sign === '+' ? 'ok' : 'danger'} />
     </Pressable>
   );
 }
@@ -131,6 +131,7 @@ export function HabitRow({
   draggable?: boolean;
   pageLabel?: string;
 }) {
+  const { t } = useTranslation();
   const writable = useCanWrite(task.folder_id, { offline: true });
   const toggle = useToggleWithUndo();
   const tick = useHabitTickWithToast();
@@ -143,13 +144,13 @@ export function HabitRow({
   const week = Array.from({ length: 7 }, (_, i) => addDays(today, i - 6));
 
   return (
-    <View className="min-h-16 flex-row items-center border-b border-line bg-paper">
+    <View className="min-h-[52px] flex-row items-center border-b border-line md:min-h-10">
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
       {kind === 'check' && (
         <Checkbox
           checked={done}
           disabled={!writable}
-          label={done ? `Desmarcar ${task.title}` : `Feito: ${task.title}`}
+          label={t(done ? 'habit.uncheck' : 'habit.check', { title: task.title })}
           onChange={(checked) => toggle(task, checked)}
         />
       )}
@@ -157,7 +158,7 @@ export function HabitRow({
         <View className="px-1">
           <TickButton
             sign="+"
-            label={`Hábito bom: ${task.title}`}
+            label={t('habit.good', { title: task.title })}
             disabled={!writable}
             onPress={() => tick(task, 1)}
           />
@@ -167,23 +168,23 @@ export function HabitRow({
         <View className="flex-row items-center gap-1 px-1">
           <TickButton
             sign="−"
-            label={`Menos um: ${task.title}`}
+            label={t('habit.less', { title: task.title })}
             disabled={!writable || task.count_up === 0}
             onPress={() => tick(task, -1)}
           />
           <Text
             className={cn(
-              'min-w-12 text-center text-sm font-semibold',
+              'min-w-12 text-center font-mono text-xs',
               done ? 'text-accent' : 'text-ink',
             )}
-            accessibilityLabel={`${task.count_up} de ${target}`}
+            accessibilityLabel={t('habit.progress', { count: task.count_up, target })}
             accessibilityLiveRegion="polite"
           >
             {task.count_up}/{target}
           </Text>
           <TickButton
             sign="+"
-            label={`Mais um: ${task.title}`}
+            label={t('habit.more', { title: task.title })}
             disabled={!writable || task.count_up >= target}
             onPress={() => tick(task, 1)}
           />
@@ -191,49 +192,54 @@ export function HabitRow({
       )}
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`Detalhes de ${task.title}`}
-        className="flex-1 gap-1 py-2"
+        accessibilityLabel={t('task.details', { title: task.title })}
+        className="flex-1 justify-center gap-1 py-1 md:flex-row md:items-center md:gap-3"
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
       >
-        <Text className={cn('text-base', done ? 'text-ink-muted' : 'text-ink')}>{task.title}</Text>
-        <View className="flex-row flex-wrap items-center gap-x-3">
-          <Text className="text-xs text-ink-muted">
-            {kind === 'plusminus' ? 'Bom e ruim' : recurrenceLabel(r) || 'Todo dia'}
+        <Text className={cn('text-base md:text-sm', done ? 'text-ink-muted' : 'text-ink')}>
+          {task.title}
+        </Text>
+        <View className="flex-row flex-wrap items-center gap-x-3 md:ml-auto">
+          <Text className="font-mono text-xs text-ink-muted">
+            {kind === 'plusminus' ? t('habit.plusminus') : recurrenceLabel(r) || t('habit.daily')}
           </Text>
-          {pageLabel && <Text className="text-xs text-ink-muted">{pageLabel}</Text>}
+          {pageLabel && <Text className="font-mono text-xs text-ink-muted">{pageLabel}</Text>}
         </View>
       </Pressable>
       {kind === 'plusminus' ? (
         <View className="flex-row items-center gap-2 pr-1">
           <Text
-            className="text-right text-xs text-ink-muted"
-            accessibilityLabel={`Hoje: ${task.count_up} bons, ${task.count_down} ruins`}
+            className="text-right font-mono text-xs text-ink-muted"
+            accessibilityLabel={t('habit.todayCounts', {
+              up: task.count_up,
+              down: task.count_down,
+            })}
           >
-            <Text className="font-semibold text-ok">+{task.count_up}</Text>
+            <Text className="font-mono text-ok">+{task.count_up}</Text>
             {'  '}
-            <Text className="font-semibold text-danger">−{task.count_down}</Text>
+            <Text className="font-mono text-danger">−{task.count_down}</Text>
           </Text>
           <TickButton
             sign="−"
-            label={`Hábito ruim: ${task.title}`}
+            label={t('habit.bad', { title: task.title })}
             disabled={!writable}
             onPress={() => tick(task, -1)}
           />
         </View>
       ) : (
-        <View className="items-end gap-1 pr-2">
+        <View className="items-end gap-1 pr-2 md:flex-row-reverse md:items-center md:gap-3">
           <Text
-            className={cn('text-sm font-semibold', streak > 0 ? 'text-warn' : 'text-ink-muted')}
-            accessibilityLabel={`Sequência de ${streak}`}
+            className={cn('font-mono text-xs', streak > 0 ? 'text-ink' : 'text-ink-muted')}
+            accessibilityLabel={t('habit.streak', { count: streak })}
           >
-            🔥 {streak}
+            {t('habit.streakShort', { count: streak })}
           </Text>
-          <View className="flex-row gap-1" accessibilityLabel="Últimos 7 dias">
+          <View className="flex-row gap-1" accessibilityLabel={t('habit.last7')}>
             {week.map((day) => (
               <View
                 key={day}
                 className={cn(
-                  'h-2.5 w-2.5 rounded-full',
+                  'h-2 w-2 rounded-full',
                   doneSet.has(day)
                     ? 'bg-accent'
                     : isHabitDueOn(r, day)

@@ -102,5 +102,20 @@
     "placeholder": "New task for today…",
     "empty": "Nothing for today. Enjoy your coffee.",
     "emptyHint": "Write \"tomorrow\", \"friday\" or \"10/15\" in the title to set a date."
+  },
+  "habit": {
+    "check": "Done: {{title}}",
+    "uncheck": "Uncheck {{title}}",
+    "good": "Good habit: {{title}}",
+    "bad": "Bad habit: {{title}}",
+    "more": "One more: {{title}}",
+    "less": "One less: {{title}}",
+    "progress": "{{count}} of {{target}}",
+    "plusminus": "Good and bad",
+    "daily": "Every day",
+    "todayCounts": "Today: {{up}} good, {{down}} bad",
+    "streak": "Streak of {{count}}",
+    "streakShort": "{{count}} d",
+    "last7": "Last 7 days"
   }
 }

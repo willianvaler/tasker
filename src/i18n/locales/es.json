@@ -102,5 +102,20 @@
     "placeholder": "Nueva tarea para hoy…",
     "empty": "Nada para hoy. Disfruta el café.",
     "emptyHint": "Escribe \"mañana\", \"viernes\" o \"15/10\" en el título para poner una fecha."
+  },
+  "habit": {
+    "check": "Hecho: {{title}}",
+    "uncheck": "Desmarcar {{title}}",
+    "good": "Hábito bueno: {{title}}",
+    "bad": "Hábito malo: {{title}}",
+    "more": "Uno más: {{title}}",
+    "less": "Uno menos: {{title}}",
+    "progress": "{{count}} de {{target}}",
+    "plusminus": "Bueno y malo",
+    "daily": "Todos los días",
+    "todayCounts": "Hoy: {{up}} buenos, {{down}} malos",
+    "streak": "Racha de {{count}}",
+    "streakShort": "{{count}} d",
+    "last7": "Últimos 7 días"
   }
 }
