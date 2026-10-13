@@ -18,6 +18,7 @@ import { ScrollView, View } from 'react-native';
 
 import { Button, IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { COLORS, MARKER_COLORS, useColors, type ColorToken } from '@/lib/tokens';
@@ -42,6 +43,7 @@ export default function DesignScreen() {
         <Spacing />
         <Icons />
         <Buttons />
+        <Inputs />
       </View>
     </ScrollView>
   );
@@ -167,6 +169,18 @@ function Buttons() {
         <Button label="Desabilitado" disabled onPress={() => {}} />
         <IconButton icon={Search} label="Buscar" />
         <IconButton icon={Settings} label="Configurações" />
+      </View>
+    </Section>
+  );
+}
+
+function Inputs() {
+  return (
+    <Section title="Campos">
+      <View className="max-w-sm gap-2">
+        <Input placeholder="Nome (ex.: Academia)" />
+        <Input value="Treino A" onChangeText={() => {}} />
+        <Input placeholder="Desabilitado" editable={false} className="opacity-40" />
       </View>
     </Section>
   );

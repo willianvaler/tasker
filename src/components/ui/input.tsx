@@ -21,7 +21,9 @@ export const Input = forwardRef<TextInput, TextInputProps & { className?: string
       ref={ref}
       placeholderTextColor={colors['ink-muted']}
       className={cn(
-        'font-sans min-h-11 rounded border border-line bg-paper px-3 text-base text-ink',
+        // 44 px no celular, 32 no computador; 16 px de fonte no celular (o iOS dá zoom abaixo disso)
+        'min-h-11 rounded border border-line bg-surface px-3 font-sans text-base text-ink',
+        'hover:border-ink-muted focus:border-accent md:min-h-8 md:text-sm',
         className,
       )}
       {...webSubmit}
