@@ -34,10 +34,10 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
   return (
     <View className="gap-4">
       <ProjectBoss rootId={root.id} />
-      <View className="gap-2 rounded-xl border border-border bg-card p-3">
+      <View className="gap-2 rounded-xl border border-line bg-surface p-3">
         <View className="flex-row items-baseline justify-between">
-          <Text className="font-semibold text-foreground">Progresso</Text>
-          <Text className="text-sm text-muted-foreground" accessibilityLabel="Progresso do projeto">
+          <Text className="font-semibold text-ink">Progresso</Text>
+          <Text className="text-sm text-ink-muted" accessibilityLabel="Progresso do projeto">
             {progress.overall.done}/{progress.overall.total} · {pct(progress.overall)}%
           </Text>
         </View>
@@ -49,16 +49,16 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
           const p = progress.byUser.get(m.userId);
           return (
             <View key={m.userId} className="flex-row items-center gap-2">
-              <View className="h-6 w-6 items-center justify-center rounded-full bg-primary">
-                <Text className="text-[10px] font-bold text-primary-foreground">
+              <View className="h-6 w-6 items-center justify-center rounded-full bg-accent">
+                <Text className="text-[10px] font-bold text-on-accent">
                   {initials(m.displayName)}
                 </Text>
               </View>
-              <Text className="flex-1 text-sm text-foreground" numberOfLines={1}>
+              <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
                 {m.displayName}
               </Text>
               <Text
-                className="text-xs text-muted-foreground"
+                className="text-xs text-ink-muted"
                 accessibilityLabel={`${m.displayName}: ${p?.done ?? 0} de ${p?.total ?? 0}`}
               >
                 {p ? `${p.done}/${p.total}` : '—'}
@@ -70,11 +70,11 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
 
       {(activity.data?.length ?? 0) > 0 && (
         <View className="gap-1">
-          <Text className="font-semibold text-foreground">Atividade</Text>
+          <Text className="font-semibold text-ink">Atividade</Text>
           {activity.data?.map((a) => (
             <View key={a.id} className="flex-row gap-2 py-1">
-              <Text className="flex-1 text-sm text-foreground">{describeActivity(a)}</Text>
-              <Text className="text-xs text-muted-foreground">
+              <Text className="flex-1 text-sm text-ink">{describeActivity(a)}</Text>
+              <Text className="text-xs text-ink-muted">
                 {WHEN.format(new Date(a.created_at))}
               </Text>
             </View>

@@ -8,16 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Cores do app em variáveis CSS (definidas em src/global.css), para o tema claro/escuro
-        background: 'rgb(var(--background) / <alpha-value>)',
-        foreground: 'rgb(var(--foreground) / <alpha-value>)',
-        card: 'rgb(var(--card) / <alpha-value>)',
-        muted: 'rgb(var(--muted) / <alpha-value>)',
-        'muted-foreground': 'rgb(var(--muted-foreground) / <alpha-value>)',
-        border: 'rgb(var(--border) / <alpha-value>)',
-        primary: 'rgb(var(--primary) / <alpha-value>)',
-        'primary-foreground': 'rgb(var(--primary-foreground) / <alpha-value>)',
-        destructive: 'rgb(var(--destructive) / <alpha-value>)',
+        // Tokens do docs/DESIGN.md (variáveis em src/global.css)
+        'paper': 'rgb(var(--paper) / <alpha-value>)',
+        'surface': 'rgb(var(--surface) / <alpha-value>)',
+        'wash': 'rgb(var(--wash) / <alpha-value>)',
+        'ink': 'rgb(var(--ink) / <alpha-value>)',
+        'ink-muted': 'rgb(var(--ink-muted) / <alpha-value>)',
+        'line': 'rgb(var(--line) / <alpha-value>)',
+        'accent': 'rgb(var(--accent) / <alpha-value>)',
+        'accent-soft': 'rgb(var(--accent-soft) / <alpha-value>)',
+        'on-accent': 'rgb(var(--on-accent) / <alpha-value>)',
+        'ok': 'rgb(var(--ok) / <alpha-value>)',
+        'warn': 'rgb(var(--warn) / <alpha-value>)',
+        'danger': 'rgb(var(--danger) / <alpha-value>)',
+        'scrim': 'rgb(var(--scrim) / <alpha-value>)',
       },
     },
   },

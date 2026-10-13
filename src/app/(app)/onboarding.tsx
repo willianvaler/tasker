@@ -38,14 +38,14 @@ export default function OnboardingScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-paper">
       <View className="w-full max-w-lg flex-1 self-center px-5">
         <View className="flex-row items-center py-3">
           <View className="flex-1 flex-row gap-2" accessibilityLabel={`Passo ${step + 1} de 3`}>
             {STEPS.map((s, i) => (
               <View
                 key={s}
-                className={cn('h-1.5 flex-1 rounded-full', i <= step ? 'bg-primary' : 'bg-muted')}
+                className={cn('h-1.5 flex-1 rounded-full', i <= step ? 'bg-accent' : 'bg-wash')}
               />
             ))}
           </View>
@@ -54,7 +54,7 @@ export default function OnboardingScreen() {
             className="ml-3 min-h-11 justify-center px-2"
             onPress={finish}
           >
-            <Text className="text-sm text-muted-foreground">Pular introdução</Text>
+            <Text className="text-sm text-ink-muted">Pular introdução</Text>
           </Pressable>
         </View>
 
@@ -85,10 +85,10 @@ function Title({ emoji, title, children }: { emoji: string; title: string; child
   return (
     <View className="gap-2">
       <Text style={{ fontSize: 40, lineHeight: 48 }}>{emoji}</Text>
-      <Text accessibilityRole="header" className="text-2xl font-bold text-foreground">
+      <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
         {title}
       </Text>
-      <Text className="text-base text-muted-foreground">{children}</Text>
+      <Text className="text-base text-ink-muted">{children}</Text>
     </View>
   );
 }
@@ -110,15 +110,15 @@ function CaptureStep() {
         onCreated={() => setCreated((n) => n + 1)}
       />
       {created > 0 && (
-        <Text className="text-sm text-primary" accessibilityLiveRegion="polite">
+        <Text className="text-sm text-accent" accessibilityLiveRegion="polite">
           ✓ {created === 1 ? 'Tarefa criada' : `${created} tarefas criadas`} na Caixa de entrada.
         </Text>
       )}
-      <View className="gap-1 rounded-xl bg-muted p-3">
-        <Text className="text-sm text-foreground">amanhã, sexta, 15/10 → vencimento</Text>
-        <Text className="text-sm text-foreground">! !! !!! → prioridade</Text>
-        <Text className="text-sm text-foreground">#mercado → etiqueta</Text>
-        <Text className="text-sm text-foreground">/diaria, /seg,qua,sex → repete</Text>
+      <View className="gap-1 rounded-xl bg-wash p-3">
+        <Text className="text-sm text-ink">amanhã, sexta, 15/10 → vencimento</Text>
+        <Text className="text-sm text-ink">! !! !!! → prioridade</Text>
+        <Text className="text-sm text-ink">#mercado → etiqueta</Text>
+        <Text className="text-sm text-ink">/diaria, /seg,qua,sex → repete</Text>
       </View>
     </>
   );
@@ -177,14 +177,14 @@ function OrganizeStep() {
               disabled={created || createTasks.isPending || !tree.data?.habits}
               className={cn(
                 'gap-1 rounded-xl border p-4 active:opacity-70',
-                created ? 'border-primary bg-card' : 'border-border',
+                created ? 'border-accent bg-surface' : 'border-line',
               )}
               onPress={createHabits}
             >
-              <Text className="text-lg font-semibold text-foreground">
+              <Text className="text-lg font-semibold text-ink">
                 🔥 Hábitos sugeridos {created ? '✓' : ''}
               </Text>
-              <Text className="text-sm text-muted-foreground">
+              <Text className="text-sm text-ink-muted">
                 Água (contador, meta 8), meditar, ler e &quot;comer bem&quot; (bom e ruim). Ficam em
                 Hábitos, no menu.
               </Text>
@@ -200,7 +200,7 @@ function OrganizeStep() {
             disabled={created || m.createFrom.isPending}
             className={cn(
               'gap-1 rounded-xl border p-4 active:opacity-70',
-              created ? 'border-primary bg-card' : 'border-border',
+              created ? 'border-accent bg-surface' : 'border-line',
             )}
             onPress={() =>
               m.createFrom.mutate(
@@ -212,10 +212,10 @@ function OrganizeStep() {
               )
             }
           >
-            <Text className="text-lg font-semibold text-foreground">
+            <Text className="text-lg font-semibold text-ink">
               {t.icon} {t.name} {created ? '✓' : ''}
             </Text>
-            <Text className="text-sm text-muted-foreground">{t.description}</Text>
+            <Text className="text-sm text-ink-muted">{t.description}</Text>
           </Pressable>
         );
       })}
@@ -233,16 +233,16 @@ function GameStep() {
         Cada tarefa concluída vale XP e sobe seu nível. Dias seguidos viram sequência (um dia de
         folga por semana não quebra). Toda semana aparece um boss: seu XP é o dano nele.
       </Title>
-      <View className="gap-1 rounded-xl bg-muted p-3">
-        <Text className="text-sm text-foreground">
+      <View className="gap-1 rounded-xl bg-wash p-3">
+        <Text className="text-sm text-ink">
           Nada de punição: tarefa esquecida não tira XP.
         </Text>
-        <Text className="text-sm text-foreground">
+        <Text className="text-sm text-ink">
           Em projetos e clãs, o boss é de todo mundo, e quem ajudou ganha a recompensa.
         </Text>
       </View>
       <View className="flex-row items-center gap-3">
-        <Text className="flex-1 text-base text-foreground">
+        <Text className="flex-1 text-base text-ink">
           {enabled ? 'Gamificação ligada' : 'Gamificação desligada (dá para ligar no Perfil)'}
         </Text>
         <Switch

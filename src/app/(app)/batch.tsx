@@ -10,6 +10,7 @@ import { TaskMeta } from '@/components/tasks/task-meta';
 import { Button } from '@/components/ui/button';
 import { takeBatchDraft } from '@/lib/batch-draft';
 import { cn } from '@/lib/cn';
+import { useColors } from '@/lib/tokens';
 import { countBatch, parseBatchInput, type BatchChild } from '@/lib/parser/batch';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { setLastPageId } from '@/lib/prefs';
@@ -24,6 +25,7 @@ import { useCanWrite } from '@/providers/write';
 // Criação em lote (ESCOPO 4.1): cola o texto, confere a pré-visualização, edita ou tira itens e confirma.
 // O texto é a fonte; editar um item na prévia guarda só aquela linha (some se o texto mudar).
 export default function BatchScreen() {
+  const colors = useColors();
   const [draft] = useState(() => takeBatchDraft());
   const tree = useTree();
   const today = useToday();
@@ -114,7 +116,7 @@ export default function BatchScreen() {
     return (
       <Screen>
         <ScreenHeader title="Adicionar várias" back />
-        <Text className="mt-6 text-muted-foreground">
+        <Text className="mt-6 text-ink-muted">
           Abra pela página onde quer criar as tarefas.
         </Text>
       </Screen>
@@ -124,7 +126,7 @@ export default function BatchScreen() {
   return (
     <Screen>
       <ScreenHeader title="Adicionar várias" back />
-      <Text className="mb-2 text-sm text-muted-foreground">
+      <Text className="mb-2 text-sm text-ink-muted">
         Em {page ? pageLabel(page) : '…'} · uma por linha ou separadas por &quot;;&quot; · recuo =
         subtarefa · [x] = já feita
       </Text>
@@ -136,13 +138,13 @@ export default function BatchScreen() {
         placeholder={
           'Cole ou digite a lista, por exemplo:\ncarne; cerveja; carvão\ngelo !!\n- [x] convidar a galera'
         }
-        placeholderTextColor="#94a3b8"
+        placeholderTextColor={colors['ink-muted']}
         accessibilityLabel="Lista de tarefas"
         textAlignVertical="top"
-        className="max-h-48 min-h-28 rounded-lg border border-border bg-background p-3 text-base text-foreground"
+        className="max-h-48 min-h-28 rounded-lg border border-line bg-paper p-3 text-base text-ink"
       />
 
-      <Text className="mt-4 font-semibold text-foreground" accessibilityLiveRegion="polite">
+      <Text className="mt-4 font-semibold text-ink" accessibilityLiveRegion="polite">
         {total === 0
           ? 'Nenhuma tarefa ainda'
           : `${total} ${total === 1 ? 'tarefa será criada' : 'tarefas serão criadas'}`}
@@ -220,8 +222,8 @@ function PreviewRow({
   } as Task;
 
   return (
-    <View className={cn('min-h-12 flex-row items-center border-b border-border', child && 'pl-8')}>
-      <Text className="w-6 text-muted-foreground">{item.done ? '✓' : '•'}</Text>
+    <View className={cn('min-h-12 flex-row items-center border-b border-line', child && 'pl-8')}>
+      <Text className="w-6 text-ink-muted">{item.done ? '✓' : '•'}</Text>
       <View className="flex-1 py-1">
         {editing ? (
           <TextInput
@@ -231,7 +233,7 @@ function PreviewRow({
             onBlur={save}
             onSubmitEditing={save}
             accessibilityLabel="Editar item"
-            className="text-base text-foreground"
+            className="text-base text-ink"
           />
         ) : (
           <Pressable
@@ -241,8 +243,8 @@ function PreviewRow({
           >
             <Text
               className={cn(
-                'text-base text-foreground',
-                item.done && 'text-muted-foreground line-through',
+                'text-base text-ink',
+                item.done && 'text-ink-muted line-through',
               )}
             >
               {item.title}
@@ -255,10 +257,10 @@ function PreviewRow({
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`Tirar ${item.title}`}
-        className="h-11 w-11 items-center justify-center rounded-full active:bg-muted"
+        className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
         onPress={onRemove}
       >
-        <Text className="text-lg text-muted-foreground">✕</Text>
+        <Text className="text-lg text-ink-muted">✕</Text>
       </Pressable>
     </View>
   );

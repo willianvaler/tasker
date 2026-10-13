@@ -66,7 +66,7 @@ export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof ty
     <View
       accessibilityRole="image"
       accessibilityLabel={cls ? `Personagem: ${CLASSES[cls].name}` : 'Personagem sem classe'}
-      className={cn('items-center justify-center border border-border', s.box, aura ?? 'bg-muted')}
+      className={cn('items-center justify-center border border-line', s.box, aura ?? 'bg-wash')}
     >
       <Text style={emoji(s.figure)}>{cls ? CLASSES[cls].figure : '🧑'}</Text>
       {head && (
@@ -99,20 +99,20 @@ export function HeroCard({ game, name }: { game: GameState; name?: string }) {
   const cls = classOf(game);
   const title = useEquippedTitle(game);
   return (
-    <View className="gap-3 rounded-2xl border border-border bg-card p-4">
+    <View className="gap-3 rounded-2xl border border-line bg-surface p-4">
       <View className="flex-row items-center gap-4">
         <Avatar game={game} size="lg" />
         <View className="flex-1 gap-1">
           {name ? (
-            <Text className="text-xl font-bold text-foreground" numberOfLines={1}>
+            <Text className="text-xl font-bold text-ink" numberOfLines={1}>
               {name}
             </Text>
           ) : null}
-          {title && <Text className="text-sm italic text-primary">« {title} »</Text>}
-          <Text className="text-base text-foreground">
+          {title && <Text className="text-sm italic text-accent">« {title} »</Text>}
+          <Text className="text-base text-ink">
             {cls ? `${CLASSES[cls].icon} ${CLASSES[cls].name}` : 'Sem classe'} · Nível {game.level}
           </Text>
-          <Text className="text-sm text-muted-foreground">
+          <Text className="text-sm text-ink-muted">
             🪙 {game.gold} de ouro · 🔥 {game.streak} {game.streak === 1 ? 'dia' : 'dias'}
           </Text>
         </View>
@@ -122,7 +122,7 @@ export function HeroCard({ game, name }: { game: GameState; name?: string }) {
           value={game.into_level / game.for_next}
           label={`Nível ${game.level}: ${game.into_level} de ${game.for_next} XP`}
         />
-        <Text className="text-xs text-muted-foreground">
+        <Text className="text-xs text-ink-muted">
           {game.into_level}/{game.for_next} XP para o nível {game.level + 1}
           {(game.points ?? 0) > 0 ? ` · ✨ ${game.points} ponto(s) para distribuir` : ''}
         </Text>
@@ -154,29 +154,29 @@ export function ClassPicker({
               key={key}
               className={cn(
                 // Conteúdo em cima e botão no pé: os botões ficam alinhados na linha da grade
-                'flex-1 justify-between gap-3 rounded-2xl border bg-card p-4',
-                selected ? 'border-primary' : 'border-border',
+                'flex-1 justify-between gap-3 rounded-2xl border bg-surface p-4',
+                selected ? 'border-accent' : 'border-line',
               )}
             >
               <View className="gap-2">
                 <View className="flex-row items-center gap-3">
                   <Text style={{ fontSize: 40, lineHeight: 48 }}>{c.figure}</Text>
                   <View className="flex-1">
-                    <Text className="text-lg font-bold text-foreground">
+                    <Text className="text-lg font-bold text-ink">
                       {c.icon} {c.name}
                     </Text>
-                    <Text className="text-sm text-muted-foreground">{c.blurb}</Text>
+                    <Text className="text-sm text-ink-muted">{c.blurb}</Text>
                   </View>
                 </View>
-                <Text className="text-sm text-foreground">
+                <Text className="text-sm text-ink">
                   {ATTRIBUTES.filter((a) => bonus[a.key] > 0)
                     .map((a) => `+${bonus[a.key]} ${a.label}`)
                     .join(' · ')}
                 </Text>
-                <Text className="text-sm text-foreground">
+                <Text className="text-sm text-ink">
                   <Text className="font-semibold">Passiva: {c.passive.name}.</Text> {c.passive.text}
                 </Text>
-                <Text className="text-sm text-foreground">
+                <Text className="text-sm text-ink">
                   <Text className="font-semibold">Habilidade: {c.active.name}.</Text>{' '}
                   {c.active.text}
                 </Text>
@@ -220,7 +220,7 @@ export function AttributesPanel({ game }: { game: GameState }) {
       title="Atributos"
       right={
         <Text
-          className={cn('text-sm', points > 0 ? 'font-bold text-primary' : 'text-muted-foreground')}
+          className={cn('text-sm', points > 0 ? 'font-bold text-accent' : 'text-ink-muted')}
         >
           {points > 0 ? `✨ ${points} para distribuir` : 'Ganhe 1 ponto a cada nível'}
         </Text>
@@ -232,18 +232,18 @@ export function AttributesPanel({ game }: { game: GameState }) {
           <View key={a.key} className="flex-row items-center gap-3 py-1">
             <Text style={{ fontSize: 22, lineHeight: 28 }}>{a.icon}</Text>
             <View className="flex-1">
-              <Text className="font-semibold text-foreground">
+              <Text className="font-semibold text-ink">
                 {a.label}{' '}
-                <Text className="text-xs font-normal text-muted-foreground">
+                <Text className="text-xs font-normal text-ink-muted">
                   ({config.attributes.base} base
                   {classBonus ? ` + ${classBonus} da classe` : ''}
                   {game.allocated[a.key] ? ` + ${game.allocated[a.key]} seus` : ''})
                 </Text>
               </Text>
-              <Text className="text-xs text-muted-foreground">{a.effect}</Text>
+              <Text className="text-xs text-ink-muted">{a.effect}</Text>
             </View>
             <Text
-              className="w-8 text-center text-xl font-bold text-foreground"
+              className="w-8 text-center text-xl font-bold text-ink"
               accessibilityLabel={`${a.label}: ${game.attributes[a.key as AttrKey]}`}
             >
               {game.attributes[a.key as AttrKey]}
@@ -259,11 +259,11 @@ export function AttributesPanel({ game }: { game: GameState }) {
                 })
               }
               className={cn(
-                'h-11 w-11 items-center justify-center rounded-full border border-primary active:opacity-70',
+                'h-11 w-11 items-center justify-center rounded-full border border-accent active:opacity-70',
                 (points < 1 || !online) && 'opacity-30',
               )}
             >
-              <Text className="text-xl font-bold text-primary">+</Text>
+              <Text className="text-xl font-bold text-accent">+</Text>
             </Pressable>
           </View>
         );
@@ -292,17 +292,17 @@ export function SkillsPanel({ game }: { game: GameState }) {
   return (
     <Panel title="Habilidades">
       <View className="gap-1">
-        <Text className="font-semibold text-foreground">🌙 Passiva: {c.passive.name}</Text>
-        <Text className="text-sm text-muted-foreground">{c.passive.text}</Text>
+        <Text className="font-semibold text-ink">🌙 Passiva: {c.passive.name}</Text>
+        <Text className="text-sm text-ink-muted">{c.passive.text}</Text>
         {cls === 'lutador' && (
-          <Text className="text-xs text-muted-foreground">
+          <Text className="text-xs text-ink-muted">
             {game.first_strike_ready ? 'Pronta para o primeiro golpe de hoje.' : 'Já usada hoje.'}
           </Text>
         )}
       </View>
-      <View className="gap-2 rounded-xl border border-border p-3">
-        <Text className="font-semibold text-foreground">⚡ {c.active.name}</Text>
-        <Text className="text-sm text-muted-foreground">{c.active.text} Uma vez por dia.</Text>
+      <View className="gap-2 rounded-xl border border-line p-3">
+        <Text className="font-semibold text-ink">⚡ {c.active.name}</Text>
+        <Text className="text-sm text-ink-muted">{c.active.text} Uma vez por dia.</Text>
         <Button
           label={game.skill_active ? '✓ Ativa até o fim do dia' : `Usar ${c.active.name}`}
           variant={game.skill_active ? 'outline' : 'primary'}
@@ -341,20 +341,20 @@ export function DamagePanel({ game }: { game: GameState }) {
           const hit = hitDamage(r.base, r.category, cls, attrs, opts);
           return (
             <View key={r.label} className="flex-row items-center justify-between">
-              <Text className="text-sm text-foreground">{r.label}</Text>
-              <Text className="text-sm text-foreground">
+              <Text className="text-sm text-ink">{r.label}</Text>
+              <Text className="text-sm text-ink">
                 ⚔️ <Text className="font-bold">{hit.normal}</Text>
-                <Text className="text-muted-foreground"> · 💥 {hit.crit}</Text>
+                <Text className="text-ink-muted"> · 💥 {hit.crit}</Text>
               </Text>
             </View>
           );
         })}
         <View className="flex-row items-center justify-between">
-          <Text className="text-sm text-foreground">Hábito ruim (−)</Text>
-          <Text className="text-sm text-destructive">💚 cura {healAmount(cls, attrs)}</Text>
+          <Text className="text-sm text-ink">Hábito ruim (−)</Text>
+          <Text className="text-sm text-danger">💚 cura {healAmount(cls, attrs)}</Text>
         </View>
       </View>
-      <Text className="text-xs text-muted-foreground">
+      <Text className="text-xs text-ink-muted">
         Crítico: {Math.round(chance * 100)}% de chance. Ouro por tarefa: 🪙{' '}
         {goldFor(config.gold.task, cls, attrs)}.
         {cls === 'lutador' && game.first_strike_ready
@@ -381,7 +381,7 @@ export function EquipmentPanel({ game }: { game: GameState }) {
       right={
         <Link href="/shop" asChild>
           <Pressable accessibilityRole="link" className="min-h-11 justify-center px-2">
-            <Text className="text-sm font-semibold text-primary">🛒 Loja</Text>
+            <Text className="text-sm font-semibold text-accent">🛒 Loja</Text>
           </Pressable>
         </Link>
       }
@@ -390,11 +390,11 @@ export function EquipmentPanel({ game }: { game: GameState }) {
         const mine = owned.filter((i) => i.slot === slot.key);
         return (
           <View key={slot.key} className="gap-1">
-            <Text className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
               {slot.label}
             </Text>
             {mine.length === 0 ? (
-              <Text className="text-sm text-muted-foreground">Nada ainda.</Text>
+              <Text className="text-sm text-ink-muted">Nada ainda.</Text>
             ) : (
               <View className="flex-row flex-wrap gap-2">
                 {mine.map((item) => (
@@ -440,12 +440,12 @@ function ItemChip({
       onPress={onPress}
       className={cn(
         'min-h-11 flex-row items-center gap-2 rounded-full border px-3 active:opacity-70',
-        equipped ? 'border-primary bg-primary/10' : RARITY[item.rarity].border,
+        equipped ? 'border-accent bg-accent/10' : RARITY[item.rarity].border,
       )}
     >
       <Text style={{ fontSize: 18, lineHeight: 22 }}>{item.icon}</Text>
-      <Text className="text-sm text-foreground">{item.name}</Text>
-      {equipped && <Text className="text-xs text-primary">✓</Text>}
+      <Text className="text-sm text-ink">{item.name}</Text>
+      {equipped && <Text className="text-xs text-accent">✓</Text>}
     </Pressable>
   );
 }
@@ -463,9 +463,9 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <View className={cn('gap-3 rounded-2xl border border-border bg-card p-4', className)}>
+    <View className={cn('gap-3 rounded-2xl border border-line bg-surface p-4', className)}>
       <View className="flex-row items-center justify-between gap-2">
-        <Text className="text-base font-bold text-foreground" accessibilityRole="header">
+        <Text className="text-base font-bold text-ink" accessibilityRole="header">
           {title}
         </Text>
         {right}

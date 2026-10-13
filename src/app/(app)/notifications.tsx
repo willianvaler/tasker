@@ -32,7 +32,7 @@ export default function NotificationsScreen() {
       <ScreenHeader title="Notificações" back />
       <ScrollView contentContainerClassName="pb-12">
         {list.data?.length === 0 && (
-          <Text className="mt-8 text-center text-muted-foreground">
+          <Text className="mt-8 text-center text-ink-muted">
             Nada por aqui. Quando alguém te atribuir uma tarefa ou te mencionar, aparece aqui.
           </Text>
         )}
@@ -43,7 +43,7 @@ export default function NotificationsScreen() {
               key={n.id}
               accessibilityRole="button"
               disabled={!taskId && !folderId}
-              className="min-h-14 flex-row items-center gap-3 border-b border-border py-2 active:bg-muted"
+              className="min-h-14 flex-row items-center gap-3 border-b border-line py-2 active:bg-wash"
               onPress={() => {
                 if (taskId) router.push({ pathname: '/task/[id]', params: { id: taskId } });
                 else if (folderId)
@@ -51,11 +51,11 @@ export default function NotificationsScreen() {
               }}
             >
               <View
-                className={cn('h-2 w-2 rounded-full', n.read_at ? 'bg-transparent' : 'bg-primary')}
+                className={cn('h-2 w-2 rounded-full', n.read_at ? 'bg-transparent' : 'bg-accent')}
               />
               <View className="flex-1">
-                <Text className="text-base text-foreground">{text}</Text>
-                <Text className="text-xs text-muted-foreground">
+                <Text className="text-base text-ink">{text}</Text>
+                <Text className="text-xs text-ink-muted">
                   {WHEN.format(new Date(n.created_at))}
                 </Text>
               </View>

@@ -34,7 +34,7 @@ export default function FoldersScreen() {
         }
       />
       {tree.error && (
-        <Text className="text-destructive">Erro ao carregar: {tree.error.message}</Text>
+        <Text className="text-danger">Erro ao carregar: {tree.error.message}</Text>
       )}
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-28">
         <Grid>
@@ -50,7 +50,7 @@ export default function FoldersScreen() {
         {tree.data && folders.length === 0 && (
           <View className="mt-10 items-center gap-3">
             <Text className="text-4xl">📁</Text>
-            <Text className="text-center text-muted-foreground">
+            <Text className="text-center text-ink-muted">
               Crie pastas para separar os assuntos (Academia, Casa, Trabalho...) e páginas dentro
               delas.
             </Text>

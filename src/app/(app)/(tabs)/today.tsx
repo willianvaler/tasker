@@ -99,8 +99,8 @@ export default function TodayScreen() {
         tasks.isPending || habits.isPending ? null : (
           <View className="mt-10 items-center gap-1">
             <Text className="text-4xl">🎉</Text>
-            <Text className="text-center text-muted-foreground">Nada para hoje.</Text>
-            <Text className="text-center text-sm text-muted-foreground">
+            <Text className="text-center text-ink-muted">Nada para hoje.</Text>
+            <Text className="text-center text-sm text-ink-muted">
               Dica: escreva &quot;amanhã&quot;, &quot;sexta&quot; ou &quot;15/10&quot; no título
               para dar uma data.
             </Text>
@@ -131,14 +131,14 @@ export default function TodayScreen() {
               placeholder="Nova tarefa para hoje…"
             />
             {tasks.error && (
-              <Text className="mt-4 text-destructive">Erro ao carregar: {tasks.error.message}</Text>
+              <Text className="mt-4 text-danger">Erro ao carregar: {tasks.error.message}</Text>
             )}
             {list}
           </View>
           <ScrollView className="w-[420px] flex-none" contentContainerClassName="gap-4 pb-16">
             <HeroPanel />
             {todaysHabits.length > 0 && (
-              <View className="rounded-2xl border border-border bg-card px-3 pb-2">
+              <View className="rounded-2xl border border-line bg-surface px-3 pb-2">
                 <SectionTitle title={habitsTitle} />
                 {todaysHabits.map((task) => (
                   <View key={task.id}>{renderRow({ kind: 'habit', task })}</View>
@@ -156,7 +156,7 @@ export default function TodayScreen() {
             placeholder="Nova tarefa para hoje…"
           />
           {tasks.error && (
-            <Text className="mt-4 text-destructive">Erro ao carregar: {tasks.error.message}</Text>
+            <Text className="mt-4 text-danger">Erro ao carregar: {tasks.error.message}</Text>
           )}
           {list}
         </>
@@ -175,8 +175,8 @@ function SectionTitle({ title }: { title: string }) {
     <Text
       className={
         title.startsWith('Atrasadas')
-          ? 'mt-4 text-sm font-semibold text-destructive'
-          : 'mt-4 text-sm font-semibold text-muted-foreground'
+          ? 'mt-4 text-sm font-semibold text-danger'
+          : 'mt-4 text-sm font-semibold text-ink-muted'
       }
     >
       {title}

@@ -71,7 +71,7 @@ export default function HabitsScreen() {
           ))}
           {kind === 'counter' && (
             <View className="flex-row items-center gap-2">
-              <Text className="text-foreground">Meta por dia:</Text>
+              <Text className="text-ink">Meta por dia:</Text>
               <Input
                 value={target}
                 onChangeText={(t) => setTarget(t.replace(/\D/g, '').slice(0, 3))}
@@ -82,7 +82,7 @@ export default function HabitsScreen() {
             </View>
           )}
         </View>
-        <Text className="text-sm text-muted-foreground">{current.hint}</Text>
+        <Text className="text-sm text-ink-muted">{current.hint}</Text>
         <QuickAdd
           pageId={systemId}
           placeholder={`Novo hábito… (ex.: ${current.example})`}
@@ -91,7 +91,7 @@ export default function HabitsScreen() {
             target: kind === 'counter' ? Math.min(100, Math.max(1, Number(target) || 1)) : undefined,
           }}
         />
-        <Text className="text-xs text-muted-foreground">
+        <Text className="text-xs text-ink-muted">
           Repetição no texto: /seg,qua,sex, /semanal, /mensal (sem nada, é todo dia). Para mudar o
           tipo de um hábito depois, toque nele.
         </Text>
@@ -100,7 +100,7 @@ export default function HabitsScreen() {
       <ScrollView className="mt-2" keyboardShouldPersistTaps="handled">
         {groups.map((g) => (
           <View key={g.title}>
-            <Text className="mt-4 text-sm font-semibold text-muted-foreground">
+            <Text className="mt-4 text-sm font-semibold text-ink-muted">
               {g.title} ({g.data.length})
             </Text>
             {g.data.map((task) => (
@@ -118,7 +118,7 @@ export default function HabitsScreen() {
         {!habits.isPending && all.length === 0 && (
           <View className="mt-10 items-center gap-1">
             <Text className="text-4xl">🔥</Text>
-            <Text className="text-center text-muted-foreground">
+            <Text className="text-center text-ink-muted">
               Nenhum hábito ainda. Escolha o tipo acima e escreva o primeiro.
             </Text>
           </View>

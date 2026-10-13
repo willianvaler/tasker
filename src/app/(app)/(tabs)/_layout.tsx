@@ -16,7 +16,7 @@ export default function TabsLayout() {
   const wide = useIsWide();
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-paper">
       <Tabs
         tabBar={wide ? () => null : undefined}
         screenOptions={{
@@ -62,10 +62,10 @@ export default function TabsLayout() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Captura rápida"
-          className="absolute bottom-24 right-5 h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg active:opacity-80"
+          className="absolute bottom-24 right-5 h-14 w-14 items-center justify-center rounded-full bg-accent shadow-lg active:opacity-80"
           onPress={() => router.push('/capture')}
         >
-          <Text className="text-3xl text-primary-foreground">+</Text>
+          <Text className="text-3xl text-on-accent">+</Text>
         </Pressable>
       )}
     </View>

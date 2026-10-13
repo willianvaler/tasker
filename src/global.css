@@ -2,37 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Cores do tema em RGB (sem vírgulas), usadas pelo tailwind.config.js. O escuro vale com a classe
+/* Cores do tema (docs/DESIGN.md) em RGB sem vírgulas, usadas pelo tailwind.config.js. Os mesmos
+   valores estão em src/lib/tokens.ts (o teste design-tokens compara). O escuro vale com a classe
    "dark" (D55): no celular o NativeWind a aplica pelo Appearance; na web, providers/theme.tsx põe e
    tira a classe no <html> conforme a escolha (Sistema, Claro, Escuro). */
 @layer base {
   :root {
-    --background: 255 255 255;
-    --foreground: 15 23 42;
-    --card: 248 250 252;
-    --muted: 241 245 249;
-    --muted-foreground: 100 116 139;
-    --border: 226 232 240;
-    --primary: 109 40 217;
-    --primary-foreground: 255 255 255;
-    --destructive: 220 38 38;
+    --paper: 246 242 234;
+    --surface: 251 248 242;
+    --wash: 237 231 219;
+    --ink: 31 29 26;
+    --ink-muted: 107 101 91;
+    --line: 226 219 205;
+    --accent: 216 69 43;
+    --accent-soft: 246 217 210;
+    --on-accent: 251 248 242;
+    --ok: 63 125 78;
+    --warn: 197 138 18;
+    --danger: 179 38 30;
+    --scrim: 27 26 23;
   }
 
   .dark:root {
-    --background: 2 6 23;
-    --foreground: 241 245 249;
-    --card: 15 23 42;
-    --muted: 30 41 59;
-    --muted-foreground: 148 163 184;
-    --border: 51 65 85;
-    --primary: 167 139 250;
-    --primary-foreground: 2 6 23;
-    --destructive: 248 113 113;
+    --paper: 27 26 23;
+    --surface: 35 33 29;
+    --wash: 44 42 37;
+    --ink: 236 230 218;
+    --ink-muted: 155 148 135;
+    --line: 52 49 43;
+    --accent: 240 100 74;
+    --accent-soft: 58 36 32;
+    --on-accent: 27 26 23;
+    --ok: 109 178 125;
+    --warn: 224 169 58;
+    --danger: 242 118 107;
+    --scrim: 14 13 11;
   }
 }
 
 /* Foco visível para quem navega por teclado (web). O celular ignora este seletor. */
 :focus-visible {
-  outline: 2px solid rgb(var(--primary));
+  outline: 2px solid rgb(var(--accent));
   outline-offset: 2px;
 }

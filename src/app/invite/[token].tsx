@@ -41,12 +41,12 @@ export default function InviteScreen() {
 
   let body;
   if (preview.isPending) {
-    body = <Text className="text-center text-muted-foreground">Abrindo o convite…</Text>;
+    body = <Text className="text-center text-ink-muted">Abrindo o convite…</Text>;
   } else if (preview.error || !preview.data?.valid) {
     body = (
       <>
-        <Text className="text-center text-xl font-bold text-foreground">Convite inválido</Text>
-        <Text className="text-center text-muted-foreground">
+        <Text className="text-center text-xl font-bold text-ink">Convite inválido</Text>
+        <Text className="text-center text-ink-muted">
           {preview.data && !preview.data.valid
             ? preview.data.reason
             : 'Não deu para abrir o convite.'}{' '}
@@ -64,7 +64,7 @@ export default function InviteScreen() {
         <InviteCard invite={invite} />
         {!session ? (
           <>
-            <Text className="text-center text-sm text-muted-foreground">
+            <Text className="text-center text-sm text-ink-muted">
               Crie sua conta (ou entre) para participar.
             </Text>
             <SignInForm initialMode="sign-up" />
@@ -74,7 +74,7 @@ export default function InviteScreen() {
         ) : (
           <>
             {accept.error && (
-              <Text className="text-center text-destructive">{accept.error.message}</Text>
+              <Text className="text-center text-danger">{accept.error.message}</Text>
             )}
             <Button label="Participar" loading={accept.isPending} onPress={join} />
           </>
@@ -84,7 +84,7 @@ export default function InviteScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-paper">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
@@ -102,16 +102,16 @@ export default function InviteScreen() {
 
 function InviteCard({ invite }: { invite: Extract<InvitePreview, { valid: true }> }) {
   return (
-    <View className="items-center gap-1 rounded-2xl border border-border bg-card p-5">
+    <View className="items-center gap-1 rounded-2xl border border-line bg-surface p-5">
       <Text style={{ fontSize: 40, lineHeight: 48 }}>{invite.folder_icon || '📁'}</Text>
-      <Text accessibilityRole="header" className="text-center text-2xl font-bold text-foreground">
+      <Text accessibilityRole="header" className="text-center text-2xl font-bold text-ink">
         {invite.folder_name}
       </Text>
-      <Text className="text-center text-muted-foreground">
+      <Text className="text-center text-ink-muted">
         {invite.inviter ? `${invite.inviter} te convidou` : 'Você foi convidado'} para participar
         como {ROLE_LABEL[invite.role]}.
       </Text>
-      <Text className="text-xs text-muted-foreground">
+      <Text className="text-xs text-ink-muted">
         {invite.members === 1 ? '1 pessoa' : `${invite.members} pessoas`} no projeto
       </Text>
     </View>
@@ -131,14 +131,14 @@ function ClaimPending({
   const { claim } = useMemberMutations(folderId);
   return (
     <>
-      <Text accessibilityRole="header" className="text-center text-2xl font-bold text-foreground">
+      <Text accessibilityRole="header" className="text-center text-2xl font-bold text-ink">
         Você entrou! Quem é você na lista?
       </Text>
-      <Text className="text-center text-muted-foreground">
+      <Text className="text-center text-ink-muted">
         Algumas tarefas foram atribuídas antes de você chegar. Escolha o seu nome e elas passam a
         ser suas.
       </Text>
-      {claim.error && <Text className="text-center text-destructive">{claim.error.message}</Text>}
+      {claim.error && <Text className="text-center text-danger">{claim.error.message}</Text>}
       {names.map((name) => (
         <Button
           key={name}

@@ -60,11 +60,11 @@ export function PrivacySection() {
 
   return (
     <View className="gap-2">
-      <Text className="font-semibold text-foreground">Seus dados</Text>
-      <Link href="/privacidade" className="text-sm text-primary">
+      <Text className="font-semibold text-ink">Seus dados</Text>
+      <Link href="/privacidade" className="text-sm text-accent">
         Política de privacidade
       </Link>
-      <Text className="text-sm text-muted-foreground">
+      <Text className="text-sm text-ink-muted">
         Baixe tudo o que é seu: pastas, páginas, tarefas, histórico de XP, personagem e itens,
         conquistas e comentários.
       </Text>
@@ -104,7 +104,7 @@ export function PrivacySection() {
           }}
         />
       )}
-      <Text className="text-xs text-muted-foreground">
+      <Text className="text-xs text-ink-muted">
         Excluir apaga suas pastas e seu histórico. Projetos com outras pessoas continuam com elas
         (passam para o membro mais antigo), e as tarefas atribuídas a você voltam a ser só o seu
         nome.

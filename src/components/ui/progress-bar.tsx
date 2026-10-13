@@ -8,7 +8,7 @@ import { cn } from '@/lib/cn';
 export function ProgressBar({
   value,
   className,
-  fillClassName = 'bg-primary',
+  fillClassName = 'bg-accent',
   label,
 }: {
   value: number;
@@ -29,7 +29,7 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(ratio * 100)}
-      className={cn('h-2 overflow-hidden rounded-full bg-muted', className)}
+      className={cn('h-2 overflow-hidden rounded-full bg-wash', className)}
     >
       {/* A cor fica num View comum: o Animated.View não recebe as classes do NativeWind */}
       <Animated.View style={[{ height: '100%' }, style]}>

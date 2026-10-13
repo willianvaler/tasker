@@ -43,16 +43,16 @@ export function AssigneeChips({ taskId, folderId }: { taskId: string; folderId: 
         a.pending_name ? (
           <Text
             key={a.id}
-            className="rounded-full border border-dashed border-muted-foreground px-2 text-xs text-muted-foreground"
+            className="rounded-full border border-dashed border-ink-muted px-2 text-xs text-ink-muted"
           >
             @{a.pending_name}
           </Text>
         ) : (
           <View
             key={a.id}
-            className="h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1"
+            className="h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1"
           >
-            <Text className="text-[10px] font-bold text-primary-foreground">
+            <Text className="text-[10px] font-bold text-on-accent">
               {initials(assigneeName(a, members))}
             </Text>
           </View>
@@ -76,16 +76,16 @@ export function MentionChips({
       {mentions.map((m) =>
         m.kind === 'ambiguous' ? (
           <View key={m.name} className="flex-row flex-wrap items-center gap-1">
-            <Text className="text-xs text-destructive">@{m.name}: quem?</Text>
+            <Text className="text-xs text-danger">@{m.name}: quem?</Text>
             {m.candidates.map((c) => (
               <Pressable
                 key={c.userId}
                 accessibilityRole="button"
                 accessibilityLabel={`@${m.name} é ${c.displayName}`}
-                className="min-h-8 justify-center rounded-full border border-border px-2 active:bg-muted"
+                className="min-h-8 justify-center rounded-full border border-line px-2 active:bg-wash"
                 onPress={() => onChoose(m.name, c.userId)}
               >
-                <Text className="text-xs text-foreground">{c.displayName}</Text>
+                <Text className="text-xs text-ink">{c.displayName}</Text>
               </Pressable>
             ))}
           </View>
@@ -95,8 +95,8 @@ export function MentionChips({
             className={cn(
               'rounded-full border px-2 text-xs',
               m.kind === 'member'
-                ? 'border-primary text-primary'
-                : 'border-dashed border-muted-foreground text-muted-foreground',
+                ? 'border-accent text-accent'
+                : 'border-dashed border-ink-muted text-ink-muted',
             )}
           >
             @{m.name}

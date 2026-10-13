@@ -17,14 +17,14 @@ export function ScreenHeader({
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Voltar"
-          className="h-11 w-11 items-center justify-center rounded-full active:bg-muted"
+          className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         >
-          <Text className="text-2xl text-foreground">‹</Text>
+          <Text className="text-2xl text-ink">‹</Text>
         </Pressable>
       )}
       <Text
-        className="flex-1 text-2xl font-bold text-foreground"
+        className="flex-1 text-2xl font-bold text-ink"
         numberOfLines={1}
         accessibilityRole="header"
       >

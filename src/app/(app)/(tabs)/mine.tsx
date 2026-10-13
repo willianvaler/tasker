@@ -32,7 +32,7 @@ export default function MineScreen() {
     <Screen size="medium">
       <ScreenHeader title="🙋 Atribuídas a mim" back />
       {tasks.error && (
-        <Text className="text-destructive">Erro ao carregar: {tasks.error.message}</Text>
+        <Text className="text-danger">Erro ao carregar: {tasks.error.message}</Text>
       )}
       <SectionList
         sections={groups}
@@ -43,8 +43,8 @@ export default function MineScreen() {
           <Text
             className={
               section.title.startsWith('Atrasadas')
-                ? 'mt-4 text-sm font-semibold text-destructive'
-                : 'mt-4 text-sm font-semibold text-muted-foreground'
+                ? 'mt-4 text-sm font-semibold text-danger'
+                : 'mt-4 text-sm font-semibold text-ink-muted'
             }
           >
             {section.title}
@@ -61,10 +61,10 @@ export default function MineScreen() {
           tasks.isPending ? null : (
             <View className="mt-10 items-center gap-1">
               <Text className="text-4xl">🙌</Text>
-              <Text className="text-center text-muted-foreground">
+              <Text className="text-center text-ink-muted">
                 Nada atribuído a você agora.
               </Text>
-              <Text className="text-center text-sm text-muted-foreground">
+              <Text className="text-center text-sm text-ink-muted">
                 Em um projeto compartilhado, escreva @nome na tarefa para atribuir a alguém.
               </Text>
             </View>

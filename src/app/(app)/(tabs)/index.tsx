@@ -164,7 +164,7 @@ export default function HomeScreen() {
         }
       />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-28">
-        <Text className="text-muted-foreground">
+        <Text className="text-ink-muted">
           {formatShortDate(today)} ·{' '}
           {nothingPending ? 'nada pendente por enquanto' : 'o que está pendente'}
         </Text>
@@ -209,17 +209,17 @@ function Tile({
       <Pressable
         accessibilityRole="link"
         accessibilityLabel={`${label}: ${value}`}
-        className="gap-1 rounded-2xl border border-border bg-card p-3 active:opacity-80 md:p-4"
+        className="gap-1 rounded-2xl border border-line bg-surface p-3 active:opacity-80 md:p-4"
       >
         <Text
           className={cn(
             'text-xl font-bold md:text-2xl',
-            alert ? 'text-destructive' : 'text-foreground',
+            alert ? 'text-danger' : 'text-ink',
           )}
         >
           {value}
         </Text>
-        <Text className="text-xs text-muted-foreground md:text-sm" numberOfLines={1}>
+        <Text className="text-xs text-ink-muted md:text-sm" numberOfLines={1}>
           {label}
         </Text>
       </Pressable>
@@ -239,20 +239,20 @@ function Card({
   children?: ReactNode;
 }) {
   return (
-    <View className="rounded-2xl border border-border bg-card px-4 pb-3 pt-3">
+    <View className="rounded-2xl border border-line bg-surface px-4 pb-3 pt-3">
       <View className="min-h-11 flex-row items-center justify-between">
-        <Text className="text-base font-bold text-foreground" accessibilityRole="header">
+        <Text className="text-base font-bold text-ink" accessibilityRole="header">
           {title}
         </Text>
         {link && (
           <Link href={link.href} asChild>
             <Pressable accessibilityRole="link" className="min-h-11 justify-center px-1">
-              <Text className="text-sm font-semibold text-primary">{link.label} →</Text>
+              <Text className="text-sm font-semibold text-accent">{link.label} →</Text>
             </Pressable>
           </Link>
         )}
       </View>
-      {empty ? <Text className="pb-1 text-sm text-muted-foreground">{empty}</Text> : children}
+      {empty ? <Text className="pb-1 text-sm text-ink-muted">{empty}</Text> : children}
     </View>
   );
 }
@@ -260,5 +260,5 @@ function Card({
 /** "e mais N" quando o cartão cortou a lista. */
 function More({ count }: { count: number }) {
   if (count <= PREVIEW) return null;
-  return <Text className="pt-2 text-xs text-muted-foreground">e mais {count - PREVIEW}</Text>;
+  return <Text className="pt-2 text-xs text-ink-muted">e mais {count - PREVIEW}</Text>;
 }

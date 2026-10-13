@@ -11,10 +11,10 @@ function Backdrop({ onClose, children }: { onClose: () => void; children: ReactN
     <Modal transparent animationType="fade" onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className="flex-1 items-center justify-center bg-black/50 px-6"
+        className="flex-1 items-center justify-center bg-scrim/40 px-6"
       >
         <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={onClose} />
-        <View className="w-full max-w-sm gap-3 rounded-2xl bg-background p-5">{children}</View>
+        <View className="w-full max-w-sm gap-3 rounded-2xl bg-paper p-5">{children}</View>
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -53,7 +53,7 @@ export function PromptDialog({
 
   return (
     <Backdrop onClose={onClose}>
-      <Text className="text-lg font-bold text-foreground">{title}</Text>
+      <Text className="text-lg font-bold text-ink">{title}</Text>
       {fields.map((field, index) => (
         <Input
           key={field.key}
@@ -91,8 +91,8 @@ export function ConfirmDialog({
 }) {
   return (
     <Backdrop onClose={onClose}>
-      <Text className="text-lg font-bold text-foreground">{title}</Text>
-      {message && <Text className="text-muted-foreground">{message}</Text>}
+      <Text className="text-lg font-bold text-ink">{title}</Text>
+      {message && <Text className="text-ink-muted">{message}</Text>}
       <View className="flex-row justify-end gap-2">
         <Button variant="ghost" label="Cancelar" onPress={onClose} />
         <Button variant={variant} label={confirmLabel} onPress={onConfirm} />
@@ -115,14 +115,14 @@ export function ActionMenu({
 }) {
   return (
     <Backdrop onClose={onClose}>
-      <Text className="text-lg font-bold text-foreground" numberOfLines={1}>
+      <Text className="text-lg font-bold text-ink" numberOfLines={1}>
         {title}
       </Text>
       {actions.map((action) => (
         <Pressable
           key={action.label}
           accessibilityRole="button"
-          className="min-h-11 justify-center rounded-lg px-2 active:bg-muted"
+          className="min-h-11 justify-center rounded-lg px-2 active:bg-wash"
           onPress={() => {
             onClose();
             action.onPress();
@@ -130,7 +130,7 @@ export function ActionMenu({
         >
           <Text
             className={
-              action.destructive ? 'text-base text-destructive' : 'text-base text-foreground'
+              action.destructive ? 'text-base text-danger' : 'text-base text-ink'
             }
           >
             {action.label}

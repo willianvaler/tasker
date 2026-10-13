@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { COLORS } from '@/lib/tokens';
 import { QueryProvider } from '@/providers/query';
 import { SessionProvider, useSession } from '@/providers/session';
 import { ThemeProvider } from '@/providers/theme';
@@ -15,12 +16,17 @@ import { ToastProvider } from '@/providers/toast';
 
 SplashScreen.preventAutoHideAsync();
 
-// Cor de destaque da navegação (abas) = --primary do src/global.css
-const lightNavTheme = {
-  ...DefaultTheme,
-  colors: { ...DefaultTheme.colors, primary: 'rgb(109 40 217)' },
-};
-const darkNavTheme = { ...DarkTheme, colors: { ...DarkTheme.colors, primary: 'rgb(167 139 250)' } };
+// Navegação (abas, cabeçalhos) com as cores do tema (docs/DESIGN.md)
+const navColors = (c: (typeof COLORS)['light' | 'dark']) => ({
+  primary: c.ink,
+  background: c.paper,
+  card: c.surface,
+  text: c.ink,
+  border: c.line,
+  notification: c.accent,
+});
+const lightNavTheme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, ...navColors(COLORS.light) } };
+const darkNavTheme = { ...DarkTheme, colors: { ...DarkTheme.colors, ...navColors(COLORS.dark) } };
 
 export default function RootLayout() {
   return (

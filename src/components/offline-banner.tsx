@@ -23,8 +23,8 @@ export function OfflineBanner() {
         ? ' 1 alteração esperando.'
         : ` ${pending} alterações esperando.`;
   return (
-    <View accessibilityRole="alert" className="bg-muted px-4 py-2">
-      <Text className="text-center text-sm text-muted-foreground">
+    <View accessibilityRole="alert" className="bg-wash px-4 py-2">
+      <Text className="text-center text-sm text-ink-muted">
         {online
           ? `Enviando o que ficou guardado…${waiting}`
           : `Sem conexão. Dá para criar, marcar e reordenar tarefas: vão quando a internet voltar.${waiting}`}

@@ -73,7 +73,7 @@ export default function ShareScreen() {
     return (
       <Screen>
         <ScreenHeader title="Compartilhar" back />
-        <Text className="mt-6 text-muted-foreground">Só pastas raiz podem ser compartilhadas.</Text>
+        <Text className="mt-6 text-ink-muted">Só pastas raiz podem ser compartilhadas.</Text>
       </Screen>
     );
   }
@@ -84,8 +84,8 @@ export default function ShareScreen() {
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 pb-12">
         {canInvite && (
           <View className="gap-2">
-            <Text className="font-semibold text-foreground">Link de convite</Text>
-            <Text className="text-sm text-muted-foreground">
+            <Text className="font-semibold text-ink">Link de convite</Text>
+            <Text className="text-sm text-ink-muted">
               Quem abrir o link entra no projeto (cria a conta se precisar). Vale 14 dias.
             </Text>
             <View className="flex-row gap-2">
@@ -107,7 +107,7 @@ export default function ShareScreen() {
                 <Text
                   selectable
                   accessibilityLabel="Link de convite"
-                  className="rounded-lg border border-border bg-card p-3 text-sm text-foreground"
+                  className="rounded-lg border border-line bg-surface p-3 text-sm text-ink"
                 >
                   {link}
                 </Text>
@@ -150,22 +150,22 @@ export default function ShareScreen() {
         )}
 
         <View className="gap-2">
-          <Text className="font-semibold text-foreground">
+          <Text className="font-semibold text-ink">
             Pessoas ({members.data?.length ?? '…'})
           </Text>
           {members.data?.map((member) => {
             const me = member.userId === session?.user.id;
             return (
-              <View key={member.userId} className="gap-2 rounded-xl border border-border p-3">
+              <View key={member.userId} className="gap-2 rounded-xl border border-line p-3">
                 <View className="flex-row items-center gap-2">
-                  <Text className="flex-1 text-base text-foreground">
+                  <Text className="flex-1 text-base text-ink">
                     {member.displayName}
                     {me ? ' (você)' : ''}
                   </Text>
-                  <Text className="text-sm text-muted-foreground">{ROLE_LABEL[member.role]}</Text>
+                  <Text className="text-sm text-ink-muted">{ROLE_LABEL[member.role]}</Text>
                 </View>
                 {member.aliases.length > 0 && (
-                  <Text className="text-xs text-muted-foreground">
+                  <Text className="text-xs text-ink-muted">
                     Também é {member.aliases.map((a) => `@${a}`).join(', ')}
                   </Text>
                 )}
@@ -204,15 +204,15 @@ export default function ShareScreen() {
 
         {pending.length > 0 && (
           <View className="gap-2">
-            <Text className="font-semibold text-foreground">Nomes pendentes</Text>
-            <Text className="text-sm text-muted-foreground">
+            <Text className="font-semibold text-ink">Nomes pendentes</Text>
+            <Text className="text-sm text-ink-muted">
               Tarefas atribuídas a quem ainda não entrou. Quem entra pelo link escolhe o próprio
               nome; você também pode vincular agora.
             </Text>
             {pending.map((name) => (
-              <View key={name} className="gap-2 rounded-xl border border-dashed border-border p-3">
+              <View key={name} className="gap-2 rounded-xl border border-dashed border-line p-3">
                 <View className="flex-row items-center">
-                  <Text className="flex-1 text-base text-foreground">@{name}</Text>
+                  <Text className="flex-1 text-base text-ink">@{name}</Text>
                   {canInvite && online && (
                     <Button
                       variant="ghost"

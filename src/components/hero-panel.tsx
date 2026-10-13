@@ -17,7 +17,7 @@ export function HeroPanel() {
   const cls = classOf(game);
   return (
     <View aria-label="Personagem e boss da semana" className="gap-4">
-      <View className="gap-3 rounded-2xl border border-border bg-card p-4">
+      <View className="gap-3 rounded-2xl border border-line bg-surface p-4">
         <Link href="/character" asChild>
           <Pressable
             accessibilityRole="link"
@@ -26,7 +26,7 @@ export function HeroPanel() {
           >
             <Avatar game={game} size="md" />
             <View className="flex-1 gap-1">
-              <Text className="text-base font-bold text-foreground">
+              <Text className="text-base font-bold text-ink">
                 {cls ? `${CLASSES[cls].icon} ${CLASSES[cls].name}` : '🧭 Escolha sua classe'} · Nv{' '}
                 {game.level}
               </Text>
@@ -34,7 +34,7 @@ export function HeroPanel() {
                 value={game.into_level / game.for_next}
                 label={`Nível ${game.level}: ${game.into_level} de ${game.for_next} XP`}
               />
-              <Text className="text-xs text-muted-foreground">
+              <Text className="text-xs text-ink-muted">
                 {game.into_level}/{game.for_next} XP · 🔥 {game.streak} · 🪙 {game.gold}
                 {(game.points ?? 0) > 0 ? ` · ✨ ${game.points} ponto(s)` : ''}
               </Text>
@@ -44,9 +44,9 @@ export function HeroPanel() {
         {cls && <SkillButton game={game} />}
       </View>
       {game.boss && (
-        <View className="gap-2 rounded-2xl border border-border bg-card p-4">
+        <View className="gap-2 rounded-2xl border border-line bg-surface p-4">
           <BossLine boss={game.boss} />
-          <Text className="text-xs text-muted-foreground">
+          <Text className="text-xs text-ink-muted">
             ⚔️ {game.damage_today} de dano hoje · 💥 maior golpe: {game.best_hit}
           </Text>
           {game.clan_boss && <BossLine boss={game.clan_boss} prefix="Clã: " />}

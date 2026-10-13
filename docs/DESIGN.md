@@ -22,6 +22,7 @@ Definidas uma vez em `src/global.css` (variáveis RGB) e espelhadas em `src/lib/
 | `ok` | concluído, sincronizado | `#3F7D4E` | `#6DB27D` |
 | `warn` | atraso, atenção | `#C58A12` | `#E0A93A` |
 | `danger` | erro e ação destrutiva | `#B3261E` | `#F2766B` |
+| `scrim` | fundo escurecido atrás de diálogo e folha (com opacidade) | `#1B1A17` | `#0E0D0B` |
 
 - Fundo nunca branco puro nem preto puro; escuro é carvão quente, não azul-marinho.
 - **No máximo um acento por tela** em uso forte. `danger` só para erro e "apagar".

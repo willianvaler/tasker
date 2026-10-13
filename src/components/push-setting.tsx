@@ -25,8 +25,8 @@ export function PushSetting() {
     <View className="gap-1">
       <View className="flex-row items-center gap-3">
         <View className="flex-1">
-          <Text className="font-semibold text-foreground">Avisos no celular</Text>
-          <Text className="text-sm text-muted-foreground">
+          <Text className="font-semibold text-ink">Avisos no celular</Text>
+          <Text className="text-sm text-ink-muted">
             {pushSupported
               ? 'Quando alguém te atribuir uma tarefa, te mencionar ou entrar no seu projeto.'
               : 'No navegador, os avisos aparecem no sino 🔔 (em tempo real). No app do celular, dá para receber push.'}
@@ -42,7 +42,7 @@ export function PushSetting() {
           />
         )}
       </View>
-      {error && <Text className="text-sm text-destructive">{error}</Text>}
+      {error && <Text className="text-sm text-danger">{error}</Text>}
     </View>
   );
 }

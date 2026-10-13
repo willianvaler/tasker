@@ -34,8 +34,8 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
 
   return (
     <View className="w-full max-w-sm gap-3">
-      <Text className="mb-2 text-center text-3xl font-bold text-foreground">Questlist</Text>
-      <Text className="mb-4 text-center text-muted-foreground">
+      <Text className="mb-2 text-center text-3xl font-bold text-ink">Questlist</Text>
+      <Text className="mb-4 text-center text-ink-muted">
         {mode === 'sign-in' ? 'Entre na sua conta' : 'Crie sua conta'}
       </Text>
 
@@ -60,7 +60,7 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
         onSubmitEditing={submit}
       />
 
-      {error && <Text className="text-destructive">{error}</Text>}
+      {error && <Text className="text-danger">{error}</Text>}
 
       <Button
         label={mode === 'sign-in' ? 'Entrar' : 'Criar conta'}

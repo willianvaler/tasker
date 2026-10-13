@@ -6,7 +6,7 @@ import type { Task } from '@/lib/queries/tasks';
 import { asRecurrence, recurrenceLabel } from '@/lib/recurrence';
 
 const PRIORITY_LABEL = ['', '!', '!!', '!!!'];
-const PRIORITY_COLOR = ['', 'text-sky-600', 'text-amber-600', 'text-destructive'];
+const PRIORITY_COLOR = ['', 'text-ink-muted', 'text-warn', 'text-accent'];
 
 /** Linha de detalhes da tarefa: vencimento, prioridade, etiquetas, subtarefas e página. */
 export function TaskMeta({
@@ -32,7 +32,7 @@ export function TaskMeta({
         key="due"
         className={cn(
           'text-xs',
-          overdue ? 'font-semibold text-destructive' : 'text-muted-foreground',
+          overdue ? 'font-semibold text-danger' : 'text-ink-muted',
         )}
       >
         📅 {formatDueDate(task.due_date, today)}
@@ -44,27 +44,27 @@ export function TaskMeta({
       </Text>
     ),
     recurrence && (
-      <Text key="recurrence" className="text-xs text-muted-foreground">
+      <Text key="recurrence" className="text-xs text-ink-muted">
         🔁 {recurrence}
       </Text>
     ),
     detail && (
-      <Text key="detail" className="text-xs text-muted-foreground">
+      <Text key="detail" className="text-xs text-ink-muted">
         {detail}
       </Text>
     ),
     subtasks && subtasks.total > 0 && (
-      <Text key="subtasks" className="text-xs text-muted-foreground">
+      <Text key="subtasks" className="text-xs text-ink-muted">
         ☑ {subtasks.done}/{subtasks.total}
       </Text>
     ),
     ...task.labels.map((label) => (
-      <Text key={`label-${label}`} className="text-xs text-primary">
+      <Text key={`label-${label}`} className="text-xs text-accent">
         #{label}
       </Text>
     )),
     pageLabel && (
-      <Text key="page" className="text-xs text-muted-foreground" numberOfLines={1}>
+      <Text key="page" className="text-xs text-ink-muted" numberOfLines={1}>
         {pageLabel}
       </Text>
     ),

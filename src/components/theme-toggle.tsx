@@ -18,7 +18,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       accessibilityLabel={dark ? 'Usar tema claro' : 'Usar tema escuro'}
       onPress={() => setPreference(dark ? 'light' : 'dark')}
       className={cn(
-        'h-11 w-11 items-center justify-center rounded-full active:bg-muted',
+        'h-11 w-11 items-center justify-center rounded-full active:bg-wash',
         className,
       )}
     >

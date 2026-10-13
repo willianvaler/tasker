@@ -36,7 +36,7 @@ export default function ShopScreen() {
         back
         right={
           <Text
-            className="text-lg font-bold text-foreground"
+            className="text-lg font-bold text-ink"
             accessibilityLabel={`${gold} de ouro`}
           >
             🪙 {gold}
@@ -46,7 +46,7 @@ export default function ShopScreen() {
       <ScrollView contentContainerClassName="gap-4 pb-16">
         <View className="flex-row items-center gap-4">
           {game && <Avatar game={game} size="md" />}
-          <Text className="flex-1 text-sm text-muted-foreground">
+          <Text className="flex-1 text-sm text-ink-muted">
             Tudo aqui é só visual: não muda XP nem dano. Ganhe ouro concluindo tarefas e derrotando
             bosses; itens 🎁 só caem de boss (quanto maior o nível, mais chance de raro).
           </Text>
@@ -73,7 +73,7 @@ export default function ShopScreen() {
               <View
                 key={item.key}
                 className={cn(
-                  'flex-1 items-center justify-between gap-1 rounded-2xl border-2 bg-card p-3',
+                  'flex-1 items-center justify-between gap-1 rounded-2xl border-2 bg-surface p-3',
                   rarity.border,
                   !mine && item.price === null && 'opacity-60',
                 )}
@@ -81,7 +81,7 @@ export default function ShopScreen() {
                 <Text style={{ fontSize: 40, lineHeight: 48 }}>
                   {item.slot === 'title' ? '🏷️' : item.icon}
                 </Text>
-                <Text className="text-center font-semibold text-foreground" numberOfLines={2}>
+                <Text className="text-center font-semibold text-ink" numberOfLines={2}>
                   {item.slot === 'title' ? `${item.icon} ${item.name}` : item.name}
                 </Text>
                 <Text className={cn('text-xs font-semibold', rarity.text)}>{rarity.label}</Text>
@@ -96,7 +96,7 @@ export default function ShopScreen() {
                     }
                   />
                 ) : item.price === null ? (
-                  <Text className="mt-1 min-h-11 text-center text-xs text-muted-foreground">
+                  <Text className="mt-1 min-h-11 text-center text-xs text-ink-muted">
                     🎁 Só cai de boss
                   </Text>
                 ) : (
@@ -113,7 +113,7 @@ export default function ShopScreen() {
           })}
         </Grid>
         {items.error && (
-          <Text className="text-destructive">Erro ao carregar a loja: {items.error.message}</Text>
+          <Text className="text-danger">Erro ao carregar a loja: {items.error.message}</Text>
         )}
       </ScrollView>
 

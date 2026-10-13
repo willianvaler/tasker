@@ -83,7 +83,7 @@ export function PageView({ page }: { page: Page | undefined }) {
         />
       </View>
       {tasks.error && (
-        <Text className="mt-4 text-destructive">Erro ao carregar: {tasks.error.message}</Text>
+        <Text className="mt-4 text-danger">Erro ao carregar: {tasks.error.message}</Text>
       )}
 
       <Animated.ScrollView
@@ -110,7 +110,7 @@ export function PageView({ page }: { page: Page | undefined }) {
           </>
         )}
         {!tasks.isPending && all.length === 0 && (
-          <Text className="mt-8 text-center text-muted-foreground">{empty}</Text>
+          <Text className="mt-8 text-center text-ink-muted">{empty}</Text>
         )}
         <View className="h-28" />
       </Animated.ScrollView>
@@ -137,7 +137,7 @@ function DoneSection({
         className="min-h-11 justify-center"
         onPress={() => setShow(!show)}
       >
-        <Text className="text-sm font-semibold text-muted-foreground">
+        <Text className="text-sm font-semibold text-ink-muted">
           {show ? '▾' : '▸'} Concluídas ({tasks.length})
         </Text>
       </Pressable>
@@ -174,11 +174,11 @@ function CardsBody({
     <View className="gap-3 pt-2">
       <View className="gap-1">
         <View className="flex-row items-center justify-between">
-          <Text className="font-semibold text-foreground" accessibilityLiveRegion="polite">
+          <Text className="font-semibold text-ink" accessibilityLiveRegion="polite">
             {complete ? 'Tudo feito! 🎉' : `${doneCount}/${total} feitos`}
           </Text>
           <View className="flex-row items-center gap-2">
-            <Text className="text-xs text-muted-foreground">
+            <Text className="text-xs text-ink-muted">
               {resetCycleLabel(page.reset_cycle)}
             </Text>
             {page.reset_cycle === 'manual' && (
@@ -197,12 +197,12 @@ function CardsBody({
           </View>
         </View>
         <View
-          className="h-2 overflow-hidden rounded-full bg-muted"
+          className="h-2 overflow-hidden rounded-full bg-wash"
           accessibilityRole="progressbar"
           accessibilityValue={{ min: 0, max: total, now: doneCount }}
         >
           <View
-            className="h-full rounded-full bg-primary"
+            className="h-full rounded-full bg-accent"
             style={{ width: `${(doneCount / total) * 100}%` }}
           />
         </View>

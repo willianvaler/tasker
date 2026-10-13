@@ -32,9 +32,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         >
           <View
             accessibilityRole="alert"
-            className="w-full max-w-md flex-row items-center justify-between gap-3 rounded-xl bg-foreground px-4 py-2 shadow-lg"
+            className="w-full max-w-md flex-row items-center justify-between gap-3 rounded-xl bg-ink px-4 py-2 shadow-lg"
           >
-            <Text className="flex-1 text-background" numberOfLines={2}>
+            <Text className="flex-1 text-paper" numberOfLines={2}>
               {toast.message}
             </Text>
             {toast.action && (
@@ -46,7 +46,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   setToast(null);
                 }}
               >
-                <Text className="font-bold text-primary">{toast.action.label}</Text>
+                <Text className="font-bold text-accent">{toast.action.label}</Text>
               </Pressable>
             )}
           </View>

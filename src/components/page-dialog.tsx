@@ -77,12 +77,12 @@ export function PageDialog({
     <Modal transparent animationType="fade" onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className="flex-1 items-center justify-center bg-black/50 px-6"
+        className="flex-1 items-center justify-center bg-scrim/40 px-6"
       >
         <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={onClose} />
-        <View className="max-h-[90%] w-full max-w-md rounded-2xl bg-background">
+        <View className="max-h-[90%] w-full max-w-md rounded-2xl bg-paper">
           <ScrollView contentContainerClassName="gap-3 p-5" keyboardShouldPersistTaps="handled">
-            <Text className="text-lg font-bold text-foreground">{title}</Text>
+            <Text className="text-lg font-bold text-ink">{title}</Text>
             <Input
               placeholder="Nome (ex.: Treino A)"
               value={name}
@@ -97,7 +97,7 @@ export function PageDialog({
               maxLength={8}
             />
 
-            <Text className="font-semibold text-foreground">Tipo</Text>
+            <Text className="font-semibold text-ink">Tipo</Text>
             <View className="flex-row flex-wrap gap-2">
               {VIEW_TYPES.map((t) => (
                 <Chip
@@ -109,13 +109,13 @@ export function PageDialog({
                 />
               ))}
             </View>
-            <Text className="text-sm text-muted-foreground">
+            <Text className="text-sm text-ink-muted">
               {VIEW_TYPES.find((t) => t.value === viewType)?.hint}
             </Text>
 
             {viewType !== 'habits' && viewType !== 'kanban' && (
               <>
-                <Text className="font-semibold text-foreground">Reiniciar os checks</Text>
+                <Text className="font-semibold text-ink">Reiniciar os checks</Text>
                 <View className="flex-row flex-wrap gap-2">
                   {RESET_CYCLES.map((c) => (
                     <Chip
@@ -127,7 +127,7 @@ export function PageDialog({
                     />
                   ))}
                 </View>
-                <Text className="text-sm text-muted-foreground">
+                <Text className="text-sm text-ink-muted">
                   {effectiveReset === 'none'
                     ? 'O que for marcado fica marcado.'
                     : effectiveReset === 'manual'

@@ -109,7 +109,7 @@ export function MetaEditor({ task, onSave }: { task: Task; onSave: (meta: Json) 
         { label: 'Carga', value: weight, set: setWeight, numeric: false },
       ].map((field) => (
         <View key={field.label} className="flex-1 gap-1">
-          <Text className="text-xs text-muted-foreground">{field.label}</Text>
+          <Text className="text-xs text-ink-muted">{field.label}</Text>
           <Input
             value={field.value}
             onChangeText={field.set}
@@ -167,7 +167,7 @@ export function HabitHistory({
       <View className="gap-1 self-start" accessibilityLabel="Calendário das últimas 5 semanas">
         <View className="flex-row gap-1">
           {WEEK_ORDER.map((d) => (
-            <Text key={d} className="w-8 text-center text-xs text-muted-foreground">
+            <Text key={d} className="w-8 text-center text-xs text-ink-muted">
               {DAYS[d]}
             </Text>
           ))}
@@ -183,17 +183,17 @@ export function HabitHistory({
                   day > today
                     ? 'opacity-0'
                     : done.has(day)
-                      ? 'bg-primary'
+                      ? 'bg-accent'
                       : isHabitDueOn(r, day)
-                        ? 'border border-border'
-                        : 'bg-muted',
-                  day === today && !done.has(day) && 'border-2 border-primary',
+                        ? 'border border-line'
+                        : 'bg-wash',
+                  day === today && !done.has(day) && 'border-2 border-accent',
                 )}
               >
                 <Text
                   className={cn(
                     'text-xs',
-                    done.has(day) ? 'text-primary-foreground' : 'text-muted-foreground',
+                    done.has(day) ? 'text-on-accent' : 'text-ink-muted',
                   )}
                 >
                   {Number(day.slice(8))}
@@ -210,8 +210,8 @@ export function HabitHistory({
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <View>
-      <Text className="text-lg font-bold text-foreground">{value}</Text>
-      <Text className="text-xs text-muted-foreground">{label}</Text>
+      <Text className="text-lg font-bold text-ink">{value}</Text>
+      <Text className="text-xs text-ink-muted">{label}</Text>
     </View>
   );
 }
@@ -267,10 +267,10 @@ export function HabitKindEditor({
           />
         ))}
       </View>
-      <Text className="text-sm text-muted-foreground">{current.hint}</Text>
+      <Text className="text-sm text-ink-muted">{current.hint}</Text>
       {task.habit_kind === 'counter' && (
         <View className="flex-row items-center gap-2">
-          <Text className="text-foreground">Meta por período:</Text>
+          <Text className="text-ink">Meta por período:</Text>
           <Input
             value={target}
             onChangeText={(t) => setTarget(t.replace(/\D/g, ''))}

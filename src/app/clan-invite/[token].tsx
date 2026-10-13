@@ -16,12 +16,12 @@ export default function ClanInviteScreen() {
 
   let body;
   if (preview.isPending) {
-    body = <Text className="text-center text-muted-foreground">Abrindo o convite…</Text>;
+    body = <Text className="text-center text-ink-muted">Abrindo o convite…</Text>;
   } else if (preview.error || !preview.data?.valid) {
     body = (
       <>
-        <Text className="text-center text-xl font-bold text-foreground">Convite inválido</Text>
-        <Text className="text-center text-muted-foreground">
+        <Text className="text-center text-xl font-bold text-ink">Convite inválido</Text>
+        <Text className="text-center text-ink-muted">
           {preview.data && !preview.data.valid
             ? preview.data.reason
             : 'Não deu para abrir o convite.'}
@@ -34,15 +34,15 @@ export default function ClanInviteScreen() {
     const member = clan.my_clan === clan.clan_id;
     body = (
       <>
-        <View className="items-center gap-1 rounded-2xl border border-border bg-card p-5">
+        <View className="items-center gap-1 rounded-2xl border border-line bg-surface p-5">
           <Text style={{ fontSize: 40, lineHeight: 48 }}>{clan.icon || '🛡️'}</Text>
           <Text
             accessibilityRole="header"
-            className="text-center text-2xl font-bold text-foreground"
+            className="text-center text-2xl font-bold text-ink"
           >
             {clan.name}
           </Text>
-          <Text className="text-center text-muted-foreground">
+          <Text className="text-center text-ink-muted">
             {clan.inviter ? `${clan.inviter} te chamou` : 'Você foi chamado'} para o clã.{' '}
             {clan.members === 1 ? '1 pessoa' : `${clan.members} pessoas`} enfrentando o boss da
             semana juntas.
@@ -53,13 +53,13 @@ export default function ClanInviteScreen() {
         ) : member ? (
           <Button label="Abrir o clã" onPress={() => router.replace('/clan')} />
         ) : clan.my_clan ? (
-          <Text className="text-center text-muted-foreground">
+          <Text className="text-center text-ink-muted">
             Você já está em outro clã. Saia dele (Perfil → Clã) para entrar neste.
           </Text>
         ) : (
           <>
             {join.error && (
-              <Text className="text-center text-destructive">{join.error.message}</Text>
+              <Text className="text-center text-danger">{join.error.message}</Text>
             )}
             <Button
               label="Entrar no clã"
@@ -73,7 +73,7 @@ export default function ClanInviteScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-paper">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"

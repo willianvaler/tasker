@@ -54,7 +54,7 @@ export function AssigneesEditor({ task }: { task: Task }) {
   return (
     <View className="gap-2">
       {current.length === 0 && (
-        <Text className="text-sm text-muted-foreground">Ninguém ainda.</Text>
+        <Text className="text-sm text-ink-muted">Ninguém ainda.</Text>
       )}
       <View className="flex-row flex-wrap gap-2">
         {current.map((a) => (
@@ -130,7 +130,7 @@ export function Comments({ task }: { task: Task }) {
   return (
     <View className="gap-3">
       {comments.data?.length === 0 && (
-        <Text className="text-sm text-muted-foreground">Nenhum comentário.</Text>
+        <Text className="text-sm text-ink-muted">Nenhum comentário.</Text>
       )}
       {comments.data?.map((c) => {
         const author =
@@ -138,24 +138,24 @@ export function Comments({ task }: { task: Task }) {
           members?.find((mem) => mem.userId === c.author_id)?.displayName ??
           'Você';
         return (
-          <View key={c.id} className="gap-1 rounded-lg bg-muted p-3">
+          <View key={c.id} className="gap-1 rounded-lg bg-wash p-3">
             <View className="flex-row items-center gap-2">
-              <Text className="flex-1 text-sm font-semibold text-foreground">{author}</Text>
-              <Text className="text-xs text-muted-foreground">
+              <Text className="flex-1 text-sm font-semibold text-ink">{author}</Text>
+              <Text className="text-xs text-ink-muted">
                 {WHEN.format(new Date(c.created_at))}
               </Text>
               {c.author_id === session?.user.id && online && (
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="Apagar comentário"
-                  className="h-8 w-8 items-center justify-center rounded-full active:bg-background"
+                  className="h-8 w-8 items-center justify-center rounded-full active:bg-paper"
                   onPress={() => m.remove.mutate(c.id)}
                 >
-                  <Text className="text-muted-foreground">✕</Text>
+                  <Text className="text-ink-muted">✕</Text>
                 </Pressable>
               )}
             </View>
-            <Text className="text-base text-foreground">{c.body}</Text>
+            <Text className="text-base text-ink">{c.body}</Text>
           </View>
         );
       })}

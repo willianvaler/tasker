@@ -26,7 +26,7 @@ export default function FolderScreen() {
     return (
       <Screen>
         <ScreenHeader title="Pasta" back />
-        <Text className="mt-6 text-muted-foreground">Essa pasta não existe mais.</Text>
+        <Text className="mt-6 text-ink-muted">Essa pasta não existe mais.</Text>
       </Screen>
     );
   }
@@ -49,13 +49,13 @@ export default function FolderScreen() {
       {found?.parent && (
         <Link href={{ pathname: '/folder/[id]', params: { id: found.parent.id } }} asChild>
           <Pressable accessibilityRole="link" className="-mt-2 mb-2 self-start">
-            <Text className="text-sm text-muted-foreground">em {folderLabel(found.parent)}</Text>
+            <Text className="text-sm text-ink-muted">em {folderLabel(found.parent)}</Text>
           </Pressable>
         </Link>
       )}
       {folder && (
         <View className="mb-3 flex-row flex-wrap items-center gap-2">
-          <Text className="flex-1 text-sm text-muted-foreground">
+          <Text className="flex-1 text-sm text-ink-muted">
             {folder.is_shared ? '👥 Projeto · ' : ''}
             {folderSummary(folder)}
           </Text>
@@ -95,7 +95,7 @@ export default function FolderScreen() {
         </Grid>
         {empty && (
           <View className="mt-8 items-center gap-2">
-            <Text className="text-center text-muted-foreground">
+            <Text className="text-center text-ink-muted">
               Uma pasta guarda páginas: uma lista de compras, um treino em cards, seus hábitos.
             </Text>
             {writable && folder && (
@@ -104,7 +104,7 @@ export default function FolderScreen() {
                 className="min-h-11 justify-center px-3"
                 onPress={() => actions.newPage(folder.id)}
               >
-                <Text className="text-base text-primary">+ Criar a primeira página</Text>
+                <Text className="text-base text-accent">+ Criar a primeira página</Text>
               </Pressable>
             )}
           </View>
@@ -114,7 +114,7 @@ export default function FolderScreen() {
             <View className="flex-row items-center">
               <Link href={{ pathname: '/folder/[id]', params: { id: child.id } }} asChild>
                 <Pressable accessibilityRole="link" className="min-h-11 flex-1 justify-center">
-                  <Text className="text-base font-semibold text-foreground" numberOfLines={1}>
+                  <Text className="text-base font-semibold text-ink" numberOfLines={1}>
                     {folderLabel(child)}
                   </Text>
                 </Pressable>
@@ -138,7 +138,7 @@ export default function FolderScreen() {
                 className="min-h-11 justify-center"
                 onPress={() => actions.newPage(child.id)}
               >
-                <Text className="text-sm text-primary">+ Nova página em {child.name}</Text>
+                <Text className="text-sm text-accent">+ Nova página em {child.name}</Text>
               </Pressable>
             )}
           </View>

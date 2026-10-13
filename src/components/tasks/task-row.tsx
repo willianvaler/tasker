@@ -83,7 +83,7 @@ function TaskRowView({
   }
 
   return (
-    <View className="min-h-14 flex-row items-center border-b border-border bg-background">
+    <View className="min-h-14 flex-row items-center border-b border-line bg-paper">
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
       <Checkbox
         checked={done}
@@ -101,7 +101,7 @@ function TaskRowView({
             onBlur={saveTitle}
             maxLength={500}
             accessibilityLabel="Título da tarefa"
-            className="min-h-8 text-base text-foreground"
+            className="min-h-8 text-base text-ink"
           />
         ) : (
           <Pressable
@@ -116,7 +116,7 @@ function TaskRowView({
             <Text
               className={cn(
                 'text-base',
-                done ? 'text-muted-foreground line-through' : 'text-foreground',
+                done ? 'text-ink-muted line-through' : 'text-ink',
               )}
             >
               {task.title}
@@ -129,10 +129,10 @@ function TaskRowView({
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`Detalhes de ${task.title}`}
-        className="h-11 w-11 items-center justify-center rounded-full active:bg-muted"
+        className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
       >
-        <Text className="text-xl text-muted-foreground">›</Text>
+        <Text className="text-xl text-ink-muted">›</Text>
       </Pressable>
     </View>
   );

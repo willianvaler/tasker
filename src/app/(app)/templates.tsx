@@ -41,7 +41,7 @@ export default function TemplatesScreen() {
         ))}
 
         {(mine.data?.length ?? 0) > 0 && (
-          <Text className="mt-4 font-semibold text-foreground">Meus modelos</Text>
+          <Text className="mt-4 font-semibold text-ink">Meus modelos</Text>
         )}
         {mine.data?.map((t) => {
           const data = t.data as unknown as TemplateData;
@@ -102,7 +102,7 @@ function TemplateCard({
   onDelete?: () => void;
 }) {
   return (
-    <View className="flex-row items-center rounded-2xl border border-border bg-card">
+    <View className="flex-row items-center rounded-2xl border border-line bg-surface">
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`Modelo ${name}`}
@@ -110,20 +110,20 @@ function TemplateCard({
         className="flex-1 gap-1 p-4 active:opacity-70"
         onPress={onPress}
       >
-        <Text className="text-lg font-semibold text-foreground">
+        <Text className="text-lg font-semibold text-ink">
           {icon} {name}
         </Text>
-        {detail && <Text className="text-sm text-muted-foreground">{detail}</Text>}
-        <Text className="text-xs text-muted-foreground">Páginas: {pages.join(', ')}</Text>
+        {detail && <Text className="text-sm text-ink-muted">{detail}</Text>}
+        <Text className="text-xs text-ink-muted">Páginas: {pages.join(', ')}</Text>
       </Pressable>
       {onDelete && (
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={`Apagar modelo ${name}`}
-          className="h-11 w-11 items-center justify-center rounded-full active:bg-muted"
+          className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
           onPress={onDelete}
         >
-          <Text className="text-muted-foreground">✕</Text>
+          <Text className="text-ink-muted">✕</Text>
         </Pressable>
       )}
     </View>

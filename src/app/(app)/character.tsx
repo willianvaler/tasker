@@ -34,7 +34,7 @@ export default function CharacterScreen() {
     return (
       <Screen>
         <ScreenHeader title="Personagem" back />
-        <Text className="text-muted-foreground">
+        <Text className="text-ink-muted">
           A gamificação está desligada. Ligue no Perfil para ter personagem, boss e loja.
         </Text>
       </Screen>
@@ -46,7 +46,7 @@ export default function CharacterScreen() {
       <Screen size="wide">
         <ScreenHeader title={cls ? 'Trocar de classe' : 'Escolha sua classe'} back />
         <ScrollView contentContainerClassName="gap-4 pb-16">
-          <Text className="text-muted-foreground">
+          <Text className="text-ink-muted">
             A classe é o seu estilo: muda os atributos iniciais e dá uma passiva e uma habilidade
             por dia. Dá para trocar depois, sem custo.
           </Text>
@@ -87,7 +87,7 @@ export default function CharacterScreen() {
             {game.boss && (
               <Panel title={`Boss da semana · nível ${game.boss.level ?? 1}`}>
                 <BossLine boss={game.boss} />
-                <Text className="text-xs text-muted-foreground">
+                <Text className="text-xs text-ink-muted">
                   Cada vitória sobe o nível do próximo boss (nível {(game.boss.level ?? 1) + 1}:{' '}
                   {bossHpForLevel((game.boss.level ?? 1) + 1)} HP) e dá {config.boss.rewardXp} XP,
                   ouro e um item sorteado. Se ele fugir, o próximo vem sem punição. Hábitos ruins
@@ -110,9 +110,9 @@ export default function CharacterScreen() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <View className="flex-1 items-center rounded-xl border border-border bg-card py-2">
-      <Text className="text-lg font-bold text-foreground">{value}</Text>
-      <Text className="text-center text-xs text-muted-foreground">{label}</Text>
+    <View className="flex-1 items-center rounded-xl border border-line bg-surface py-2">
+      <Text className="text-lg font-bold text-ink">{value}</Text>
+      <Text className="text-center text-xs text-ink-muted">{label}</Text>
     </View>
   );
 }

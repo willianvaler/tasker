@@ -107,15 +107,15 @@ function TickButton({
       className={cn(
         'h-11 w-11 items-center justify-center rounded-full border active:opacity-70',
         sign === '+'
-          ? 'border-emerald-600 bg-emerald-600/10'
-          : 'border-destructive bg-destructive/10',
+          ? 'border-ok bg-ok/10'
+          : 'border-danger bg-danger/10',
         disabled && 'opacity-40',
       )}
     >
       <Text
         className={cn(
           'text-xl font-bold',
-          sign === '+' ? 'text-emerald-700 dark:text-emerald-400' : 'text-destructive',
+          sign === '+' ? 'text-ok' : 'text-danger',
         )}
       >
         {sign}
@@ -149,7 +149,7 @@ export function HabitRow({
   const week = Array.from({ length: 7 }, (_, i) => addDays(today, i - 6));
 
   return (
-    <View className="min-h-16 flex-row items-center border-b border-border bg-background">
+    <View className="min-h-16 flex-row items-center border-b border-line bg-paper">
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
       {kind === 'check' && (
         <Checkbox
@@ -180,7 +180,7 @@ export function HabitRow({
           <Text
             className={cn(
               'min-w-12 text-center text-sm font-bold',
-              done ? 'text-primary' : 'text-foreground',
+              done ? 'text-accent' : 'text-ink',
             )}
             accessibilityLabel={`${task.count_up} de ${target}`}
             accessibilityLiveRegion="polite"
@@ -201,27 +201,27 @@ export function HabitRow({
         className="flex-1 gap-1 py-2"
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
       >
-        <Text className={cn('text-base', done ? 'text-muted-foreground' : 'text-foreground')}>
+        <Text className={cn('text-base', done ? 'text-ink-muted' : 'text-ink')}>
           {task.title}
         </Text>
         <View className="flex-row flex-wrap items-center gap-x-3">
-          <Text className="text-xs text-muted-foreground">
+          <Text className="text-xs text-ink-muted">
             {kind === 'plusminus' ? 'Bom e ruim' : recurrenceLabel(r) || 'Todo dia'}
           </Text>
-          {pageLabel && <Text className="text-xs text-muted-foreground">{pageLabel}</Text>}
+          {pageLabel && <Text className="text-xs text-ink-muted">{pageLabel}</Text>}
         </View>
       </Pressable>
       {kind === 'plusminus' ? (
         <View className="flex-row items-center gap-2 pr-1">
           <Text
-            className="text-right text-xs text-muted-foreground"
+            className="text-right text-xs text-ink-muted"
             accessibilityLabel={`Hoje: ${task.count_up} bons, ${task.count_down} ruins`}
           >
-            <Text className="font-bold text-emerald-700 dark:text-emerald-400">
+            <Text className="font-bold text-ok">
               +{task.count_up}
             </Text>
             {'  '}
-            <Text className="font-bold text-destructive">−{task.count_down}</Text>
+            <Text className="font-bold text-danger">−{task.count_down}</Text>
           </Text>
           <TickButton
             sign="−"
@@ -235,7 +235,7 @@ export function HabitRow({
           <Text
             className={cn(
               'text-sm font-bold',
-              streak > 0 ? 'text-amber-600' : 'text-muted-foreground',
+              streak > 0 ? 'text-warn' : 'text-ink-muted',
             )}
             accessibilityLabel={`Sequência de ${streak}`}
           >
@@ -248,10 +248,10 @@ export function HabitRow({
                 className={cn(
                   'h-2.5 w-2.5 rounded-full',
                   doneSet.has(day)
-                    ? 'bg-primary'
+                    ? 'bg-accent'
                     : isHabitDueOn(r, day)
-                      ? 'border border-muted-foreground'
-                      : 'bg-muted',
+                      ? 'border border-ink-muted'
+                      : 'bg-wash',
                 )}
               />
             ))}

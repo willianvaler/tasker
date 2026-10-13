@@ -70,7 +70,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
           </View>
         </View>
         <View className="gap-4 lg:flex-[2]">
-          <Text className="text-muted-foreground">{session?.user.email}</Text>
+          <Text className="text-ink-muted">{session?.user.email}</Text>
 
           <ThemeChooser />
 
@@ -79,7 +79,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
           <PushSetting />
 
           <View className="gap-1">
-            <Text className="font-semibold text-foreground">Nome</Text>
+            <Text className="font-semibold text-ink">Nome</Text>
             <Input
               value={name}
               onChangeText={setName}
@@ -90,8 +90,8 @@ function ProfileForm({ profile }: { profile: Profile }) {
           </View>
 
           <View className="gap-1">
-            <Text className="font-semibold text-foreground">Fuso horário</Text>
-            <Text className="text-sm text-muted-foreground">
+            <Text className="font-semibold text-ink">Fuso horário</Text>
+            <Text className="text-sm text-ink-muted">
               Define quando o dia vira para &quot;Hoje&quot; e &quot;Atrasadas&quot;.
             </Text>
             <Input
@@ -102,7 +102,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
               accessibilityLabel="Fuso horário"
             />
             {!validTimezone && (
-              <Text className="text-sm text-destructive">
+              <Text className="text-sm text-danger">
                 Fuso desconhecido (ex.: America/Sao_Paulo).
               </Text>
             )}
@@ -116,7 +116,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
           </View>
 
           {update.error && (
-            <Text className="text-destructive">Não deu para salvar: {update.error.message}</Text>
+            <Text className="text-danger">Não deu para salvar: {update.error.message}</Text>
           )}
           <Button
             label="Salvar"
@@ -125,7 +125,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
             onPress={() => update.mutate({ display_name: name.trim(), timezone: timezone.trim() })}
           />
 
-          <View className="mt-6 gap-6 border-t border-border pt-4">
+          <View className="mt-6 gap-6 border-t border-line pt-4">
             <PrivacySection />
             <Button variant="outline" label="Sair da conta" onPress={signOut} />
           </View>
@@ -146,7 +146,7 @@ function ThemeChooser() {
   const { preference, setPreference } = useThemePreference();
   return (
     <View className="gap-1">
-      <Text className="font-semibold text-foreground">Aparência</Text>
+      <Text className="font-semibold text-ink">Aparência</Text>
       <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
         {THEMES.map((t) => (
           <Chip
@@ -170,7 +170,7 @@ function LanguageChooser() {
   const { preference, choose } = useLocalePreference();
   return (
     <View className="gap-1">
-      <Text className="font-semibold text-foreground">{t('language.label')}</Text>
+      <Text className="font-semibold text-ink">{t('language.label')}</Text>
       <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
         {LANGUAGE_OPTIONS.map((value) => (
           <Chip

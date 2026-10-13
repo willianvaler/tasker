@@ -209,28 +209,28 @@ export const SLOTS: { key: Slot; label: string }[] = [
 ];
 
 export const RARITY: Record<Rarity, { label: string; text: string; border: string }> = {
-  common: { label: 'Comum', text: 'text-muted-foreground', border: 'border-border' },
-  rare: { label: 'Raro', text: 'text-sky-600 dark:text-sky-400', border: 'border-sky-500/60' },
+  common: { label: 'Comum', text: 'text-ink-muted', border: 'border-line' },
+  rare: { label: 'Raro', text: 'text-ok', border: 'border-ok/60' },
   epic: {
     label: 'Épico',
-    text: 'text-violet-600 dark:text-violet-400',
-    border: 'border-violet-500/70',
+    text: 'text-warn',
+    border: 'border-warn/70',
   },
   legendary: {
     label: 'Lendário',
-    text: 'text-amber-600 dark:text-amber-400',
-    border: 'border-amber-500/80',
+    text: 'text-accent',
+    border: 'border-accent/80',
   },
 };
 
-/** Fundo do personagem para cada aura (com par claro/escuro, para os dois temas). */
+/** Fundo do personagem para cada aura, só com tokens do tema (docs/DESIGN.md). */
 export const AURA_BG: Record<string, string> = {
-  aura_sky: 'bg-sky-100 dark:bg-sky-950',
-  aura_forest: 'bg-emerald-100 dark:bg-emerald-950',
-  aura_sunset: 'bg-orange-100 dark:bg-orange-950',
-  aura_night: 'bg-indigo-200 dark:bg-indigo-950',
-  aura_gold: 'bg-amber-200 dark:bg-amber-900',
-  aura_void: 'bg-zinc-800 dark:bg-black',
+  aura_sky: 'bg-wash',
+  aura_forest: 'bg-ok/15',
+  aura_sunset: 'bg-accent-soft',
+  aura_night: 'bg-ink/10',
+  aura_gold: 'bg-warn/20',
+  aura_void: 'bg-ink/80',
 };
 
 // ------------------------------------------------------------

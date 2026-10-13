@@ -20,6 +20,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/cn';
+import { useColors } from '@/lib/tokens';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { useToday } from '@/lib/queries/profile';
@@ -55,7 +56,7 @@ export default function TaskScreen() {
     return (
       <Screen>
         <ScreenHeader title="Tarefa" back />
-        <Text className="mt-6 text-muted-foreground">Essa tarefa não existe mais.</Text>
+        <Text className="mt-6 text-ink-muted">Essa tarefa não existe mais.</Text>
       </Screen>
     );
   }
@@ -64,6 +65,7 @@ export default function TaskScreen() {
 }
 
 function TaskDetails({ task }: { task: Task }) {
+  const colors = useColors();
   const today = useToday();
   const writable = useCanWrite(task.folder_id);
   const tree = useTree();
@@ -120,7 +122,7 @@ function TaskDetails({ task }: { task: Task }) {
               maxLength={500}
               accessibilityLabel="Título"
               className={cn(
-                'flex-1 py-2 text-xl font-semibold text-foreground',
+                'flex-1 py-2 text-xl font-semibold text-ink',
                 done && 'line-through',
               )}
             />
@@ -134,10 +136,10 @@ function TaskDetails({ task }: { task: Task }) {
               editable={writable}
               multiline
               placeholder="Detalhes, links, o que precisar…"
-              placeholderTextColor="#94a3b8"
+              placeholderTextColor={colors['ink-muted']}
               accessibilityLabel="Notas"
               textAlignVertical="top"
-              className="min-h-20 rounded-lg border border-border p-3 text-base text-foreground"
+              className="min-h-20 rounded-lg border border-line p-3 text-base text-ink"
             />
           </Section>
 
@@ -183,7 +185,7 @@ function TaskDetails({ task }: { task: Task }) {
                 />
               </View>
               {task.due_date && (
-                <Text className="text-sm text-muted-foreground">
+                <Text className="text-sm text-ink-muted">
                   Vence: {formatDueDate(task.due_date, today)}
                 </Text>
               )}
@@ -207,7 +209,7 @@ function TaskDetails({ task }: { task: Task }) {
                 onChange={(r) => save({ recurrence: r as Json })}
               />
               {!isHabit && asRecurrence(task.recurrence) && (
-                <Text className="text-sm text-muted-foreground">
+                <Text className="text-sm text-ink-muted">
                   {page?.reset_cycle !== 'none'
                     ? 'Nesta página os checks reiniciam pelo ciclo da página.'
                     : task.due_date
@@ -265,7 +267,7 @@ function TaskDetails({ task }: { task: Task }) {
 
           {!task.parent_task_id && (
             <Section title="Página">
-              <Text className="text-foreground">{page ? pageLabel(page) : '…'}</Text>
+              <Text className="text-ink">{page ? pageLabel(page) : '…'}</Text>
               {writable && (
                 <Button
                   variant="outline"
@@ -293,7 +295,7 @@ function TaskDetails({ task }: { task: Task }) {
           )}
 
           {update.error && (
-            <Text className="text-destructive">Não deu para salvar: {update.error.message}</Text>
+            <Text className="text-danger">Não deu para salvar: {update.error.message}</Text>
           )}
 
           {writable && (
@@ -351,7 +353,7 @@ function Subtasks({ task }: { task: Task }) {
       title={`Subtarefas${subtasks.length ? ` (${subtasks.filter((s) => s.status === 'done').length}/${subtasks.length})` : ''}`}
     >
       {subtasks.map((s) => (
-        <View key={s.id} className="flex-row items-center border-b border-border">
+        <View key={s.id} className="flex-row items-center border-b border-line">
           <Checkbox
             checked={s.status === 'done'}
             disabled={!writable}
@@ -364,8 +366,8 @@ function Subtasks({ task }: { task: Task }) {
           >
             <Text
               className={cn(
-                'text-base text-foreground',
-                s.status === 'done' && 'text-muted-foreground line-through',
+                'text-base text-ink',
+                s.status === 'done' && 'text-ink-muted line-through',
               )}
             >
               {s.title}
@@ -382,7 +384,7 @@ function Subtasks({ task }: { task: Task }) {
         placeholder="Nova subtarefa… (Enter)"
         accessibilityLabel="Nova subtarefa"
       />
-      {create.error && <Text className="text-destructive">{create.error.message}</Text>}
+      {create.error && <Text className="text-danger">{create.error.message}</Text>}
     </Section>
   );
 }
@@ -390,7 +392,7 @@ function Subtasks({ task }: { task: Task }) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <View className="gap-2">
-      <Text className="text-sm font-semibold uppercase text-muted-foreground">{title}</Text>
+      <Text className="text-sm font-semibold uppercase text-ink-muted">{title}</Text>
       {children}
     </View>
   );
@@ -414,11 +416,11 @@ function Chip({
       onPress={onPress}
       className={cn(
         'min-h-11 justify-center rounded-full border px-3',
-        selected ? 'border-primary bg-primary' : 'border-border',
+        selected ? 'border-accent bg-accent' : 'border-line',
         !writable && 'opacity-50',
       )}
     >
-      <Text className={selected ? 'text-primary-foreground' : 'text-foreground'}>{label}</Text>
+      <Text className={selected ? 'text-on-accent' : 'text-ink'}>{label}</Text>
     </Pressable>
   );
 }

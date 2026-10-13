@@ -45,7 +45,7 @@ export default function ClanScreen() {
       <Screen>
         <ScreenHeader title="🛡️ Clã" back />
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
-          <Text className="text-muted-foreground">
+          <Text className="text-ink-muted">
             Junte os amigos num clã: toda semana aparece um boss do grupo, e cada XP que alguém
             ganha é um golpe nele. Quem ajudou ganha a recompensa. Sem ranking de quem ficou para
             trás.
@@ -70,7 +70,7 @@ export default function ClanScreen() {
             loading={m.create.isPending}
             onPress={() => m.create.mutate({ name: name.trim(), icon: icon.trim() }, { onError })}
           />
-          <Text className="text-sm text-muted-foreground">
+          <Text className="text-sm text-ink-muted">
             Recebeu um convite? Abra o link que te mandaram.
           </Text>
         </ScrollView>
@@ -86,27 +86,27 @@ export default function ClanScreen() {
       <ScreenHeader title={`${data.icon || '🛡️'} ${data.name}`} back />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-5 pb-12">
         {boss && game.data?.enabled !== false && (
-          <View className="gap-2 rounded-xl border border-border bg-card p-3">
-            <Text className="font-semibold text-foreground">Boss da semana do clã</Text>
+          <View className="gap-2 rounded-xl border border-line bg-surface p-3">
+            <Text className="font-semibold text-ink">Boss da semana do clã</Text>
             <BossLine boss={boss} />
             <BossBoard bossId={boss.id} />
           </View>
         )}
 
         <View className="gap-2">
-          <Text className="font-semibold text-foreground">Membros ({data.members.length})</Text>
+          <Text className="font-semibold text-ink">Membros ({data.members.length})</Text>
           {data.members.map((member) => (
             <View key={member.userId} className="flex-row items-center gap-2">
-              <View className="h-8 w-8 items-center justify-center rounded-full bg-primary">
-                <Text className="text-xs font-bold text-primary-foreground">
+              <View className="h-8 w-8 items-center justify-center rounded-full bg-accent">
+                <Text className="text-xs font-bold text-on-accent">
                   {initials(member.displayName)}
                 </Text>
               </View>
-              <Text className="flex-1 text-base text-foreground">
+              <Text className="flex-1 text-base text-ink">
                 {member.displayName}
                 {member.userId === session?.user.id ? ' (você)' : ''}
               </Text>
-              <Text className="text-sm text-muted-foreground">
+              <Text className="text-sm text-ink-muted">
                 Nv {member.level}
                 {member.role === 'owner' ? ' · criou o clã' : ''}
               </Text>
@@ -115,13 +115,13 @@ export default function ClanScreen() {
         </View>
 
         <View className="gap-2">
-          <Text className="font-semibold text-foreground">Convidar</Text>
+          <Text className="font-semibold text-ink">Convidar</Text>
           {link ? (
             <>
               <Text
                 selectable
                 accessibilityLabel="Link de convite do clã"
-                className="rounded-lg border border-border bg-card p-3 text-sm text-foreground"
+                className="rounded-lg border border-line bg-surface p-3 text-sm text-ink"
               >
                 {link}
               </Text>
@@ -152,14 +152,14 @@ export default function ClanScreen() {
         </View>
 
         <View className="gap-1">
-          <Text className="font-semibold text-foreground">Feed</Text>
+          <Text className="font-semibold text-ink">Feed</Text>
           {data.activity.length === 0 && (
-            <Text className="text-sm text-muted-foreground">Nada ainda.</Text>
+            <Text className="text-sm text-ink-muted">Nada ainda.</Text>
           )}
           {data.activity.map((a) => (
             <View key={a.id} className="flex-row gap-2 py-1">
-              <Text className="flex-1 text-sm text-foreground">{describeClanActivity(a)}</Text>
-              <Text className="text-xs text-muted-foreground">
+              <Text className="flex-1 text-sm text-ink">{describeClanActivity(a)}</Text>
+              <Text className="text-xs text-ink-muted">
                 {WHEN.format(new Date(a.created_at))}
               </Text>
             </View>

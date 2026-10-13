@@ -97,11 +97,11 @@ export function Sidebar() {
             {folder.pages.length === 0 && children.length === 0 && online && (
               <Pressable
                 accessibilityRole="button"
-                className="min-h-9 justify-center rounded-lg active:bg-muted"
+                className="min-h-9 justify-center rounded-lg active:bg-wash"
                 style={{ paddingLeft: 12 + (depth + 1) * 16 + 20 }}
                 onPress={() => actions.newPage(folder.id)}
               >
-                <Text className="text-sm text-primary">+ Nova página</Text>
+                <Text className="text-sm text-accent">+ Nova página</Text>
               </Pressable>
             )}
           </>
@@ -127,23 +127,23 @@ export function Sidebar() {
   return (
     <SafeAreaView
       edges={['top', 'left', 'bottom']}
-      className="w-64 border-r border-border bg-card"
+      className="w-64 border-r border-line bg-surface"
       role="navigation"
     >
       <View className="gap-1 px-3 pt-4">
         <View className="mb-2 flex-row items-center pl-2">
-          <Text className="flex-1 text-lg font-bold text-foreground">Questlist</Text>
+          <Text className="flex-1 text-lg font-bold text-ink">Questlist</Text>
           <ThemeToggle />
         </View>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Nova tarefa"
-          className="mb-2 min-h-10 flex-row items-center gap-2 rounded-lg border border-border bg-background px-3 active:bg-muted"
+          className="mb-2 min-h-10 flex-row items-center gap-2 rounded-lg border border-line bg-paper px-3 active:bg-wash"
           onPress={() => router.push('/capture')}
         >
-          <Text className="text-base text-primary">＋</Text>
-          <Text className="flex-1 text-sm font-medium text-foreground">Nova tarefa</Text>
-          <Text className="text-xs text-muted-foreground">N</Text>
+          <Text className="text-base text-accent">＋</Text>
+          <Text className="flex-1 text-sm font-medium text-ink">Nova tarefa</Text>
+          <Text className="text-xs text-ink-muted">N</Text>
         </Pressable>
         <View>
           {NAV.filter(
@@ -158,14 +158,14 @@ export function Sidebar() {
                   accessibilityRole="link"
                   aria-current={selected ? 'page' : undefined}
                   className={cn(
-                    'min-h-10 flex-row items-center gap-3 rounded-lg px-2 active:bg-muted',
-                    selected && 'bg-muted',
+                    'min-h-10 flex-row items-center gap-3 rounded-lg px-2 active:bg-wash',
+                    selected && 'bg-wash',
                   )}
                 >
                   <Text style={{ fontSize: 16, lineHeight: 20 }}>{item.icon}</Text>
                   <Text
                     className={cn(
-                      'text-sm text-foreground',
+                      'text-sm text-ink',
                       selected ? 'font-semibold' : 'font-normal',
                     )}
                   >
@@ -181,12 +181,12 @@ export function Sidebar() {
               aria-current={pathname === '/notifications' ? 'page' : undefined}
               accessibilityLabel={unread ? `Notificações: ${unread} novas` : 'Notificações'}
               className={cn(
-                'min-h-10 flex-row items-center gap-3 rounded-lg px-2 active:bg-muted',
-                pathname === '/notifications' && 'bg-muted',
+                'min-h-10 flex-row items-center gap-3 rounded-lg px-2 active:bg-wash',
+                pathname === '/notifications' && 'bg-wash',
               )}
             >
               <Text style={{ fontSize: 16, lineHeight: 20 }}>🔔</Text>
-              <Text className="flex-1 text-sm text-foreground">Notificações</Text>
+              <Text className="flex-1 text-sm text-ink">Notificações</Text>
               {unread > 0 && <Badge count={unread} />}
             </Pressable>
           </Link>
@@ -194,7 +194,7 @@ export function Sidebar() {
       </View>
 
       <View className="mt-5 flex-row items-center pl-5 pr-3">
-        <Text className="flex-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <Text className="flex-1 text-xs font-semibold uppercase tracking-wide text-ink-muted">
           Pastas
         </Text>
         <Pressable
@@ -203,12 +203,12 @@ export function Sidebar() {
           disabled={!online}
           aria-disabled={!online}
           className={cn(
-            'h-8 w-8 items-center justify-center rounded-lg active:bg-muted',
+            'h-8 w-8 items-center justify-center rounded-lg active:bg-wash',
             !online && 'opacity-50',
           )}
           onPress={() => actions.newFolder()}
         >
-          <Text className="text-lg text-muted-foreground">+</Text>
+          <Text className="text-lg text-ink-muted">+</Text>
         </Pressable>
       </View>
       <ScrollView className="flex-1" contentContainerClassName="px-3 pb-6">
@@ -217,10 +217,10 @@ export function Sidebar() {
           <Pressable
             accessibilityRole="button"
             disabled={!online}
-            className="mt-1 min-h-10 justify-center rounded-lg border border-dashed border-border px-3 active:bg-muted"
+            className="mt-1 min-h-10 justify-center rounded-lg border border-dashed border-line px-3 active:bg-wash"
             onPress={() => actions.newFolder()}
           >
-            <Text className="text-sm text-muted-foreground">+ Criar a primeira pasta</Text>
+            <Text className="text-sm text-ink-muted">+ Criar a primeira pasta</Text>
           </Pressable>
         )}
       </ScrollView>
@@ -249,7 +249,7 @@ function Row({
 }) {
   return (
     <View
-      className={cn('min-h-9 flex-row items-center rounded-lg', active && 'bg-muted')}
+      className={cn('min-h-9 flex-row items-center rounded-lg', active && 'bg-wash')}
       style={{ paddingLeft: depth * 16 }}
     >
       {onToggle ? (
@@ -257,10 +257,10 @@ function Row({
           accessibilityRole="button"
           accessibilityLabel={`${expanded ? 'Recolher' : 'Expandir'} ${label}`}
           aria-expanded={expanded}
-          className="h-9 w-7 items-center justify-center rounded active:bg-muted"
+          className="h-9 w-7 items-center justify-center rounded active:bg-wash"
           onPress={onToggle}
         >
-          <Text className="text-xs text-muted-foreground">{expanded ? '▾' : '▸'}</Text>
+          <Text className="text-xs text-ink-muted">{expanded ? '▾' : '▸'}</Text>
         </Pressable>
       ) : (
         <View className="w-7" />
@@ -272,7 +272,7 @@ function Row({
           className="min-h-9 flex-1 justify-center active:opacity-60"
         >
           <Text
-            className={cn('text-sm text-foreground', active && 'font-semibold')}
+            className={cn('text-sm text-ink', active && 'font-semibold')}
             numberOfLines={1}
           >
             {label}

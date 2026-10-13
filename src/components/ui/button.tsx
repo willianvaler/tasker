@@ -12,16 +12,16 @@ type ButtonProps = PressableProps & {
 };
 
 const container: Record<Variant, string> = {
-  primary: 'bg-primary active:opacity-80',
-  ghost: 'bg-transparent active:bg-muted',
-  outline: 'border border-border bg-background active:bg-muted',
-  destructive: 'bg-destructive active:opacity-80',
+  primary: 'bg-accent active:opacity-80',
+  ghost: 'bg-transparent active:bg-wash',
+  outline: 'border border-line bg-paper active:bg-wash',
+  destructive: 'bg-danger active:opacity-80',
 };
 const text: Record<Variant, string> = {
-  primary: 'text-primary-foreground',
-  ghost: 'text-primary',
-  outline: 'text-foreground',
-  destructive: 'text-white',
+  primary: 'text-on-accent',
+  ghost: 'text-accent',
+  outline: 'text-ink',
+  destructive: 'text-on-accent',
 };
 
 export function Button({

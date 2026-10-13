@@ -60,7 +60,7 @@ export function DragHandle({ label, taskId }: { label: string; taskId?: string }
       className="h-11 w-8 items-center justify-center rounded-md"
       {...(keyboard as object)}
     >
-      <Text className="text-lg text-muted-foreground">⠿</Text>
+      <Text className="text-lg text-ink-muted">⠿</Text>
     </View>
   );
   return inGrid ? <Sortable.Handle>{handle}</Sortable.Handle> : handle;

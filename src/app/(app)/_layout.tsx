@@ -19,7 +19,7 @@ export default function AppLayout() {
   const wide = useIsWide();
   return (
     // Em tela larga, a barra lateral fica ao lado da pilha e não some ao abrir uma página
-    <View className="flex-1 flex-row bg-background">
+    <View className="flex-1 flex-row bg-paper">
       {wide && !onboarding && <Sidebar />}
       <View className="flex-1">
         <OfflineBanner />

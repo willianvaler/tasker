@@ -18,7 +18,7 @@ export function Screen({
   size?: 'narrow' | 'medium' | 'wide';
 }) {
   return (
-    <SafeAreaView edges={['top', 'left', 'right']} className="flex-1 bg-background">
+    <SafeAreaView edges={['top', 'left', 'right']} className="flex-1 bg-paper">
       <View
         className={cn(
           'w-full flex-1 self-center px-4',

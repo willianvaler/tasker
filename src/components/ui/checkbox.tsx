@@ -59,8 +59,8 @@ function CheckCircle({ checked }: { checked: boolean }) {
       className={cn(
         'h-6 w-6 overflow-hidden rounded-full border-2 text-center text-xs font-bold leading-5',
         checked
-          ? 'border-primary bg-primary text-primary-foreground'
-          : 'border-muted-foreground text-transparent',
+          ? 'border-accent bg-accent text-on-accent'
+          : 'border-ink-muted text-transparent',
       )}
     >
       ✓

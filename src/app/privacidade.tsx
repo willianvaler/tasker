@@ -8,12 +8,12 @@ import { Button } from '@/components/ui/button';
 // Política de privacidade (ESCOPO 9). Pública (fora do login): as lojas pedem um endereço para ela.
 export default function PrivacyScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-paper">
       <ScrollView contentContainerClassName="w-full max-w-2xl self-center gap-4 px-5 py-8">
-        <Text accessibilityRole="header" className="text-3xl font-bold text-foreground">
+        <Text accessibilityRole="header" className="text-3xl font-bold text-ink">
           Política de privacidade
         </Text>
-        <Text className="text-sm text-muted-foreground">
+        <Text className="text-sm text-ink-muted">
           Questlist · atualizada em outubro de 2026
         </Text>
 
@@ -63,8 +63,8 @@ export default function PrivacyScreen() {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <View className="gap-1">
-      <Text className="text-lg font-semibold text-foreground">{title}</Text>
-      <Text className="text-base leading-6 text-foreground">{children}</Text>
+      <Text className="text-lg font-semibold text-ink">{title}</Text>
+      <Text className="text-base leading-6 text-ink">{children}</Text>
     </View>
   );
 }

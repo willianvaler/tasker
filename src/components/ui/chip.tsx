@@ -26,11 +26,11 @@ export function Chip({
       onPress={onPress}
       className={cn(
         'min-h-11 justify-center rounded-full border px-3',
-        selected ? 'border-primary bg-primary' : 'border-border',
+        selected ? 'border-accent bg-accent' : 'border-line',
         disabled && 'opacity-50',
       )}
     >
-      <Text className={selected ? 'text-primary-foreground' : 'text-foreground'}>{label}</Text>
+      <Text className={selected ? 'text-on-accent' : 'text-ink'}>{label}</Text>
     </Pressable>
   );
 }

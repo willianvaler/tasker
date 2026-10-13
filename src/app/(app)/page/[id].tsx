@@ -32,7 +32,7 @@ export default function PageScreen() {
     return (
       <Screen>
         <ScreenHeader title="Página" back />
-        <Text className="mt-6 text-muted-foreground">Essa página não existe mais.</Text>
+        <Text className="mt-6 text-ink-muted">Essa página não existe mais.</Text>
       </Screen>
     );
   }
@@ -52,10 +52,10 @@ export default function PageScreen() {
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Opções da página"
-              className="h-11 w-11 items-center justify-center rounded-full active:bg-muted"
+              className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
               onPress={() => setDialog('menu')}
             >
-              <Text className="text-xl text-muted-foreground">⋯</Text>
+              <Text className="text-xl text-ink-muted">⋯</Text>
             </Pressable>
           ) : null
         }

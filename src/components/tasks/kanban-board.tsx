@@ -63,10 +63,10 @@ export function KanbanBoard({
     <View
       key={column.status}
       accessibilityLabel={`Coluna ${column.title}`}
-      className={cn('gap-2 rounded-xl bg-muted p-2', wide ? 'flex-1' : '')}
+      className={cn('gap-2 rounded-xl bg-wash p-2', wide ? 'flex-1' : '')}
       style={wide ? undefined : { width: Math.min(320, width * 0.8) }}
     >
-      <Text className="px-1 text-sm font-semibold text-muted-foreground">
+      <Text className="px-1 text-sm font-semibold text-ink-muted">
         {column.title} ({column.tasks.length})
       </Text>
       {column.tasks.map((task) => (
@@ -82,7 +82,7 @@ export function KanbanBoard({
         />
       ))}
       {column.tasks.length === 0 && (
-        <Text className="px-1 py-3 text-xs text-muted-foreground">Nada aqui.</Text>
+        <Text className="px-1 py-3 text-xs text-ink-muted">Nada aqui.</Text>
       )}
     </View>
   ));
@@ -120,7 +120,7 @@ function KanbanCard({
   const writable = useCanWrite(folderId, { offline: true });
 
   return (
-    <View className="gap-1 rounded-lg border border-border bg-background p-2">
+    <View className="gap-1 rounded-lg border border-line bg-paper p-2">
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`Detalhes de ${task.title}`}
@@ -129,7 +129,7 @@ function KanbanCard({
         <Text
           className={cn(
             'text-base',
-            task.status === 'done' ? 'text-muted-foreground line-through' : 'text-foreground',
+            task.status === 'done' ? 'text-ink-muted line-through' : 'text-ink',
           )}
         >
           {task.title}
@@ -174,10 +174,10 @@ function MoveButton({
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={a11y}
-      className="min-h-11 justify-center rounded-md px-2 active:bg-muted"
+      className="min-h-11 justify-center rounded-md px-2 active:bg-wash"
       onPress={onPress}
     >
-      <Text className="text-xs font-semibold text-primary">{label}</Text>
+      <Text className="text-xs font-semibold text-accent">{label}</Text>
     </Pressable>
   );
 }

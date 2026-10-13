@@ -47,8 +47,8 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
   const typed = dateText.trim() ? parseQuickInput(`x ${dateText}`, { today }).dueDate : null;
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-3">
-      <Text className="font-semibold text-foreground">Boss do projeto</Text>
+    <View className="gap-2 rounded-xl border border-line bg-surface p-3">
+      <Text className="font-semibold text-ink">Boss do projeto</Text>
       {current ? (
         <>
           <BossLine boss={current} />
@@ -64,7 +64,7 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
         </>
       ) : choosing ? (
         <View className="gap-2">
-          <Text className="text-sm text-muted-foreground">
+          <Text className="text-sm text-ink-muted">
             Até quando a galera tem para concluir tudo?
           </Text>
           <View className="flex-row flex-wrap gap-2">
@@ -95,7 +95,7 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
         </View>
       ) : (
         <>
-          <Text className="text-sm text-muted-foreground">
+          <Text className="text-sm text-ink-muted">
             {boss.data?.status === 'defeated'
               ? `${boss.data.icon} ${boss.data.name} foi derrotado. Quer outro desafio?`
               : 'Chame um boss com prazo: cada tarefa concluída é um golpe, e todo mundo que ajudou ganha a recompensa.'}

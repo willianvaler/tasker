@@ -53,7 +53,7 @@ function TaskCardView({
         }}
         className={cn(
           'min-h-24 flex-row items-center gap-2 rounded-2xl border-2 p-3 pl-1',
-          done ? 'border-primary bg-primary/10' : 'border-border bg-card',
+          done ? 'border-accent bg-accent/10' : 'border-line bg-surface',
         )}
       >
         <DragHandle label={task.title} taskId={task.id} />
@@ -61,21 +61,21 @@ function TaskCardView({
           <Text
             className={cn(
               'text-lg font-semibold',
-              done ? 'text-muted-foreground line-through' : 'text-foreground',
+              done ? 'text-ink-muted line-through' : 'text-ink',
             )}
             numberOfLines={3}
           >
             {task.title}
           </Text>
-          {detail ? <Text className="text-base text-muted-foreground">{detail}</Text> : null}
+          {detail ? <Text className="text-base text-ink-muted">{detail}</Text> : null}
         </View>
         <View
           className={cn(
             'h-10 w-10 items-center justify-center rounded-full border-2',
-            done ? 'border-primary bg-primary' : 'border-muted-foreground',
+            done ? 'border-accent bg-accent' : 'border-ink-muted',
           )}
         >
-          {done && <Text className="text-lg font-bold text-primary-foreground">✓</Text>}
+          {done && <Text className="text-lg font-bold text-on-accent">✓</Text>}
         </View>
         <Pressable
           accessibilityRole="button"
@@ -83,7 +83,7 @@ function TaskCardView({
           className="h-11 w-8 items-center justify-center"
           onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
         >
-          <Text className="text-xl text-muted-foreground">›</Text>
+          <Text className="text-xl text-ink-muted">›</Text>
         </Pressable>
       </Pressable>
     </Animated.View>

@@ -50,14 +50,14 @@ export default function CaptureScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      className="flex-1 justify-start bg-black/50"
+      className="flex-1 justify-start bg-scrim/40"
     >
       <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={close} />
       <View
-        className="mx-auto w-full max-w-xl gap-3 rounded-b-2xl bg-background p-4 shadow-lg"
+        className="mx-auto w-full max-w-xl gap-3 rounded-b-2xl bg-paper p-4 shadow-lg"
         style={{ paddingTop: insets.top + 16 }}
       >
-        <Text className="text-lg font-bold text-foreground">Captura rápida</Text>
+        <Text className="text-lg font-bold text-ink">Captura rápida</Text>
         <QuickAdd
           pageId={target?.id}
           autoFocus
@@ -74,7 +74,7 @@ export default function CaptureScreen() {
           {groups.map((group) => (
             <View key={group.label || 'sistema'} className="gap-1">
               {group.label ? (
-                <Text className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                   {group.label}
                 </Text>
               ) : null}
@@ -87,12 +87,12 @@ export default function CaptureScreen() {
                     onPress={() => setChosen(page.id)}
                     className={cn(
                       'min-h-11 justify-center rounded-full border px-3',
-                      page.id === target?.id ? 'border-primary bg-primary' : 'border-border',
+                      page.id === target?.id ? 'border-accent bg-accent' : 'border-line',
                     )}
                   >
                     <Text
                       className={
-                        page.id === target?.id ? 'text-primary-foreground' : 'text-foreground'
+                        page.id === target?.id ? 'text-on-accent' : 'text-ink'
                       }
                     >
                       {pageLabel(page)}
@@ -103,7 +103,7 @@ export default function CaptureScreen() {
             </View>
           ))}
         </ScrollView>
-        <Text className="text-xs text-muted-foreground">
+        <Text className="text-xs text-ink-muted">
           Enter cria e continua aqui · Esc ou toque fora para fechar · Dica: !! prioridade,
           #etiqueta, amanhã
         </Text>
