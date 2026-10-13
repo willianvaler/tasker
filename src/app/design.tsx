@@ -20,6 +20,7 @@ import { Button, IconButton } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
+import { ProgressBar } from '@/components/ui/progress-bar';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -48,6 +49,7 @@ export default function DesignScreen() {
         <Inputs />
         <Checkboxes />
         <Chips />
+        <Rules />
       </View>
     </ScrollView>
   );
@@ -219,6 +221,27 @@ function Chips() {
         ))}
         <Chip label="#churrasco" onPress={() => {}} />
         <Chip label="desabilitado" disabled onPress={() => {}} />
+      </View>
+    </Section>
+  );
+}
+
+function Rules() {
+  return (
+    <Section title="Progresso (régua de 2 px)">
+      <View className="max-w-md gap-4">
+        <View className="gap-2">
+          <View className="flex-row justify-between">
+            <Text className="font-mono text-xs text-ink-muted">7 de 12 itens</Text>
+            <Text className="font-mono text-xs text-ink-muted">58%</Text>
+          </View>
+          <ProgressBar value={7 / 12} label="Progresso de exemplo" />
+        </View>
+        <View className="flex-row items-center gap-4 border-y border-line py-2">
+          <Text className="font-serif text-base text-ink">Golem da Procrastinação</Text>
+          <ProgressBar value={0.29} label="HP do boss" className="flex-1" />
+          <Text className="font-mono text-xs text-ink-muted">HP 640/900</Text>
+        </View>
       </View>
     </Section>
   );
