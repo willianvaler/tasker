@@ -20,6 +20,7 @@ import {
   type Member,
   type Role,
 } from '@/lib/queries/projects';
+import { roleCan } from '@/lib/permissions';
 import { findFolder, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
@@ -45,7 +46,9 @@ export default function ShareScreen() {
   const [linking, setLinking] = useState<string | null>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<{ member: Member; leaving: boolean }>();
 
-  const isOwner = role === 'owner';
+  // Mudar papéis e remover pessoas (V2 §4.3: member.manage). Convidar continua aberto ao editor
+  // até os cargos novos (Fase E)
+  const isOwner = roleCan(role, 'member.manage');
   const canInvite = role === 'owner' || role === 'editor';
   const folderIds = folder
     ? [folder.id, ...('children' in folder ? folder.children.map((c) => c.id) : [])]

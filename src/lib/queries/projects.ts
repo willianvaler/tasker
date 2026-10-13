@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import type { Json, Tables } from '../db';
 import type { MemberName } from '../members';
+import { roleCan } from '../permissions';
 import { supabase } from '../supabase';
 import { useSession } from '@/providers/session';
 import { keys } from './keys';
@@ -85,7 +86,8 @@ export function useFolderRole(folderId: string | null | undefined): Role | undef
   return members.data?.find((m) => m.userId === session?.user.id)?.role;
 }
 
-export const canEdit = (role: Role | undefined) => role === 'owner' || role === 'editor';
+/** Pode editar tarefas e páginas (dono e editor; leitor só vê e comenta). */
+export const canEdit = (role: Role | undefined) => roleCan(role, 'task.edit');
 
 export function useMemberMutations(rootId: string) {
   const queryClient = useQueryClient();

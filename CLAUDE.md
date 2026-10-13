@@ -119,6 +119,7 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 ## Regras do projeto
 
 - **Texto da interface vem do i18n** (V2 §11): `t('chave')` do `react-i18next`, com a chave nos três arquivos de `src/i18n/locales/` (pt-BR é a referência e tipa as chaves). O teste `parity.test.ts` falha se faltar chave ou variável num idioma. As telas antigas migram para o i18n quando forem redesenhadas (Fase B).
+- **Permissão passa por `can()`** (`src/lib/permissions.ts`, D74), nunca por `role === 'x'`. Mudou um preset? Mude também `public.permission_presets()` (migração nova); o teste `permissions.test.ts` acusa a diferença.
 - **Banco é a fonte de verdade.** Armazenamento local é só cache, fila offline e preferências de UI.
 - **Toda tabela nova tem RLS** e testes pgTAP cobrindo: dono acessa, estranho não vê nem grava, papel `viewer` não escreve. Policies de pasta usam `is_folder_member(folder_id, 'editor')` (ela resolve pela pasta raiz).
 - **Privilégio por coluna.** Depois de criar uma tabela, `revoke insert, update` de `anon, authenticated` e dê `grant` só nas colunas que o cliente pode escrever (veja D7 no `DECISIONS.md`). Colunas calculadas ou de servidor (XP, status de conclusão, `folder_id`) mudam só por trigger ou RPC `security definer`.
