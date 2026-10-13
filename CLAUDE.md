@@ -144,7 +144,7 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 - **Acessibilidade na web: use `aria-checked`, `aria-selected`, `aria-expanded`, `aria-disabled`**, não `accessibilityState` (o react-native-web não repassa este para o HTML).
 - **React Compiler está ligado.** Não use `x!.campo` dentro de handlers ou closures do render: o compilador pode ler o valor já no render, quando `x` ainda é `undefined` (quebrou a tela de página). Faça `if (!x) return;`. Valores do Reanimated: `.get()` / `.set()`, não `.value =`.
 - **Diálogos:** use os de `components/ui/dialog.tsx`. O `Alert` do React Native não tem botões na web.
-- **Atalhos de teclado na web:** escute `keydown` na fase de captura (`addEventListener(..., true)`); o `TextInput` do react-native-web para a propagação.
+- **Atalhos de teclado nascem no registro** `src/lib/shortcuts.ts` (id, combinações, descrição no i18n, escopo, permissão) e são ligados com `useShortcut(id, ação)`, que já escuta na fase de captura (o `TextInput` do react-native-web para a propagação) e ignora teclas sem Ctrl/⌘ enquanto se digita. Nada de `addEventListener('keydown')` solto nas telas.
 - **Depois de mudar o banco:** `npm run db:reset` (ou só aplicar a migração), `npm run db:test` e `npm run db:types`.
 - **Listas longas:** `TaskRow` e `TaskCard` são memoizadas; não passe objetos recriados a cada render como props delas (compare pelo conteúdo no `memo`). Acima de `SORTABLE_LIMIT` itens a lista não usa a grade de arrastar (D57).
 - **Classes do NativeWind não pegam em `Animated.View`**: ponha a classe num `View` comum dentro dele (ProgressBar, Checkbox).

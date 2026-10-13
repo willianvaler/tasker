@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { cn } from '@/lib/cn';
 import { getLastPageId } from '@/lib/prefs';
+import { useShortcut } from '@/lib/use-shortcut';
 import { folderLabel } from '@/components/folder-cards';
 import { pageLabel, useTree, type Page } from '@/lib/queries/tree';
 import { useToast } from '@/providers/toast';
@@ -26,7 +27,10 @@ export default function CaptureScreen() {
       { label: '', pages: system },
       ...tree.data.folders.flatMap((f) => [
         { label: folderLabel(f), pages: f.pages },
-        ...f.children.map((c) => ({ label: `${folderLabel(f)} › ${folderLabel(c)}`, pages: c.pages })),
+        ...f.children.map((c) => ({
+          label: `${folderLabel(f)} › ${folderLabel(c)}`,
+          pages: c.pages,
+        })),
       ]),
     ].filter((g) => g.pages.length > 0);
   }, [tree.data]);
@@ -41,13 +45,7 @@ export default function CaptureScreen() {
 
   const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
-  useEffect(() => {
-    if (Platform.OS !== 'web') return;
-    const onKeyDown = (event: KeyboardEvent) => event.key === 'Escape' && close();
-    // Fase de captura: o TextInput do react-native-web para a propagação do keydown
-    window.addEventListener('keydown', onKeyDown, true);
-    return () => window.removeEventListener('keydown', onKeyDown, true);
-  }, []);
+  useShortcut('capture.close', close);
 
   return (
     <KeyboardAvoidingView

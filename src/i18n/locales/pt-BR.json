@@ -13,5 +13,9 @@
     "pt-BR": "Português (Brasil)",
     "en": "English",
     "es": "Español"
+  },
+  "shortcuts": {
+    "captureOpen": "Abrir a captura rápida",
+    "captureClose": "Fechar a captura rápida"
   }
 }

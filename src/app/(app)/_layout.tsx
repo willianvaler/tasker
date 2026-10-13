@@ -1,11 +1,12 @@
 import { router, Stack, usePathname } from 'expo-router';
 import { useEffect } from 'react';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 
 import { OfflineBanner } from '@/components/offline-banner';
 import { Sidebar, useIsWide } from '@/components/sidebar';
 import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
+import { useShortcut } from '@/lib/use-shortcut';
 import { useProfile } from '@/lib/queries/profile';
 import { useRealtimeSync } from '@/providers/realtime';
 
@@ -59,27 +60,5 @@ function useOnboarding() {
 
 /** Na web: "N" ou Ctrl/Cmd+K abre a captura rápida de qualquer tela (ESCOPO 4.1). */
 function useCaptureShortcut() {
-  useEffect(() => {
-    if (Platform.OS !== 'web') return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      const typing =
-        !!target &&
-        (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
-      const ctrlK = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k';
-      const n =
-        !typing &&
-        !event.ctrlKey &&
-        !event.metaKey &&
-        !event.altKey &&
-        event.key.toLowerCase() === 'n';
-      if (ctrlK || n) {
-        event.preventDefault();
-        router.push('/capture');
-      }
-    };
-    // Fase de captura: o TextInput do react-native-web para a propagação do keydown
-    window.addEventListener('keydown', onKeyDown, true);
-    return () => window.removeEventListener('keydown', onKeyDown, true);
-  }, []);
+  useShortcut('capture.open', () => router.push('/capture'));
 }
