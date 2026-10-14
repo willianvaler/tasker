@@ -23,7 +23,7 @@ npm start             # Expo dev server (Expo Go / development build no celular)
 npm run lint && npm run typecheck && npm test   # rode antes de dar algo por pronto
 npm run db:test       # testes pgTAP de RLS (supabase/tests/)
 npm run e2e           # Playwright na web, perfis celular e desktop (precisa do db:start). Argumentos: npm run e2e -- e2e/x.spec.ts
-npm run db:reset      # recria o banco local a partir das migrações + seed
+npm run db:reset      # recria o banco do zero e APAGA as contas (inclusive as de quem testa pelo endereço remoto). Só com pedido explícito
 npm run db:types      # regenera src/lib/database.types.ts depois de mudar o banco
 npm run sync:start    # PowerSync local (container, porta 8095; serviço tasker-powersync). Sync no app só com EXPO_PUBLIC_POWERSYNC_URL
 npm run deploy        # publica a web para acesso remoto (dist-remote/ + reinicia tasker-web.service)
@@ -160,7 +160,7 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 - **React Compiler está ligado.** Não use `x!.campo` dentro de handlers ou closures do render: o compilador pode ler o valor já no render, quando `x` ainda é `undefined` (quebrou a tela de página). Faça `if (!x) return;`. Valores do Reanimated: `.get()` / `.set()`, não `.value =`.
 - **Diálogos:** use os de `components/ui/dialog.tsx`. O `Alert` do React Native não tem botões na web.
 - **Atalhos de teclado nascem no registro** `src/lib/shortcuts.ts` (id, combinações, descrição no i18n, escopo, permissão) e são ligados com `useShortcut(id, ação)`, que já escuta na fase de captura (o `TextInput` do react-native-web para a propagação) e ignora teclas sem Ctrl/⌘ enquanto se digita. Nada de `addEventListener('keydown')` solto nas telas.
-- **Depois de mudar o banco:** `npm run db:reset` (ou só aplicar a migração), `npm run db:test` e `npm run db:types`.
+- **Depois de mudar o banco:** `npx supabase migration up` (aplica só as migrações novas e mantém os dados), `npm run db:test` e `npm run db:types`. Nunca `db:reset` sem o usuário pedir: o banco local é o que ele usa pelo endereço remoto. Ver `docs/OPERACOES.md`.
 - **Listas longas:** `TaskRow` e `TaskCard` são memoizadas; não passe objetos recriados a cada render como props delas (compare pelo conteúdo no `memo`). Acima de `SORTABLE_LIMIT` itens a lista não usa a grade de arrastar (D57).
 - **Classes do NativeWind não pegam em `Animated.View`**: ponha a classe num `View` comum dentro dele (ProgressBar, Checkbox).
 - **`mutate(..., { onSuccess })` não dispara se o componente desmontar antes da resposta** (ex.: card que muda de coluna no kanban, tarefa concluída que sai da lista): use `mutateAsync(...).then(...)`, cuja promessa resolve mesmo assim.
