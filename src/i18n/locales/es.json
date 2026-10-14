@@ -777,8 +777,6 @@
     "down": "Mover hacia abajo"
   },
   "offline": {
-    "sending": "Enviando lo que quedó guardado…",
-    "offline": "Sin conexión. Puedes crear, marcar y reordenar tareas: se envían cuando vuelva internet.",
     "waiting_one": "{{count}} cambio esperando.",
     "waiting_other": "{{count}} cambios esperando."
   },

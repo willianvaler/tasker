@@ -14,12 +14,12 @@ test('fila offline: cria e marca sem internet, envia ao voltar', async ({
   await created;
 
   await context.setOffline(true);
-  await expect(page.getByText(/Sem conexão\. Dá para criar, marcar e reordenar/)).toBeVisible();
+  await expect(page.getByRole('link', { name: /^Sem conexão/ }).first()).toBeVisible();
   await input.fill('Feita offline');
   await input.press('Enter');
   await page.getByRole('checkbox', { name: 'Concluir Antes de cair' }).click();
   await expect(page.getByText('Feita offline', { exact: true })).toBeVisible();
-  await expect(page.getByText(/2 alterações esperando/)).toBeVisible();
+  await expect(page.getByRole('link', { name: /2 alterações esperando/ }).first()).toBeAttached();
 
   // O resto continua só leitura sem conexão
   await openTab(page, 'Pastas');
@@ -30,7 +30,7 @@ test('fila offline: cria e marca sem internet, envia ao voltar', async ({
   const sent = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await context.setOffline(false);
   await sent;
-  await expect(page.getByText(/alteraç(ão|ões) esperando/)).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /alteraç(ão|ões) esperando/ })).toHaveCount(0);
   await page.reload();
   await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
   await expect(page.getByText('Feita offline', { exact: true })).toBeVisible();

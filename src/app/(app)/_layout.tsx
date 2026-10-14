@@ -5,8 +5,8 @@ import { View } from 'react-native';
 import { CommandPaletteProvider } from '@/components/command-palette';
 import { ListKeys } from '@/components/list-keys';
 import { NewMenuProvider } from '@/components/new-menu';
-import { OfflineBanner } from '@/components/offline-banner';
 import { Sidebar, useIsWide } from '@/components/sidebar';
+import { SyncDot } from '@/components/sync-dot';
 import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
 import { useSidebarHidden } from '@/lib/ui-state';
@@ -27,7 +27,6 @@ export default function AppLayout() {
         <View className="flex-1 flex-row bg-paper">
           {wide && !onboarding && !sidebarHidden && <Sidebar />}
           <View className="flex-1">
-            <OfflineBanner />
             <ListKeys />
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="(tabs)" />
@@ -60,6 +59,7 @@ export default function AppLayout() {
               />
               <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
             </Stack>
+            {!wide && !onboarding && <SyncDot floating />}
           </View>
         </View>
       </NewMenuProvider>
