@@ -233,5 +233,23 @@
     "noDate": "No date",
     "empty": "Nothing assigned to you right now.",
     "emptyHint": "In a shared project, write @name in a task to assign it to someone."
+  },
+  "habits": {
+    "title": "Habits",
+    "kindCheck": "Check",
+    "kindCounter": "Counter",
+    "kindPlusminus": "Good and bad",
+    "hintCheck": "Done or not done for the day (or the week, the month).",
+    "hintCounter": "A goal per day: + adds, − undoes. Reaching the goal counts as done.",
+    "hintPlusminus": "No goal: + when you do the good one (XP and damage to the boss), − when you slip (the boss heals a little).",
+    "exampleCheck": "Meditate 5 minutes",
+    "exampleCounter": "Drink a glass of water",
+    "examplePlusminus": "Eat well",
+    "targetLabel": "Goal per day",
+    "placeholder": "New habit… (e.g. {{example}})",
+    "syntax": "Repeat in the text: /mon,wed,fri, /weekly, /monthly (nothing means every day). To change a habit's type later, open its details.",
+    "dueToday": "For today",
+    "otherDays": "On other days",
+    "empty": "No habits yet. Pick the type above and write the first one."
   }
 }

@@ -1,12 +1,16 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
+import { ItemIcon } from '@/components/item-icon';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { Chip } from '@/components/ui/chip';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Input } from '@/components/ui/input';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { useToday } from '@/lib/queries/profile';
 import { useHabits, type HabitTask } from '@/lib/queries/tasks';
@@ -15,30 +19,31 @@ import { asRecurrence, isHabitDueOn } from '@/lib/recurrence';
 
 type Kind = 'check' | 'counter' | 'plusminus';
 
-const KINDS: { value: Kind; label: string; hint: string; example: string }[] = [
+const KINDS = [
   {
     value: 'check',
-    label: '✔️ Marcar',
-    hint: 'Feito ou não feito no dia (ou na semana, no mês).',
-    example: 'Meditar 5 minutos',
+    label: 'habits.kindCheck',
+    hint: 'habits.hintCheck',
+    example: 'habits.exampleCheck',
   },
   {
     value: 'counter',
-    label: '🔢 Contador',
-    hint: 'Uma meta por dia: + soma, − desfaz. Bater a meta conta como feito.',
-    example: 'Beber um copo de água',
+    label: 'habits.kindCounter',
+    hint: 'habits.hintCounter',
+    example: 'habits.exampleCounter',
   },
   {
     value: 'plusminus',
-    label: '➕➖ Bom e ruim',
-    hint: 'Sem meta: + quando fizer o bom (XP e dano no boss), − quando escorregar (o boss se cura um pouco).',
-    example: 'Comer bem',
+    label: 'habits.kindPlusminus',
+    hint: 'habits.hintPlusminus',
+    example: 'habits.examplePlusminus',
   },
-];
+] as const satisfies readonly { value: Kind; label: string; hint: string; example: string }[];
 
 // Hábitos (D68): todos os hábitos num lugar só, sem precisar de pasta. Os novos vão para a página de
 // hábitos de sistema; os de páginas de hábitos em pastas aparecem junto, com o nome da página.
 export default function HabitsScreen() {
+  const { t } = useTranslation();
   const today = useToday();
   const tree = useTree();
   const habits = useHabits(today);
@@ -51,60 +56,55 @@ export default function HabitsScreen() {
   const dueToday = (h: HabitTask) =>
     h.habit_kind === 'plusminus' || isHabitDueOn(asRecurrence(h.recurrence), today);
   const groups = [
-    { title: 'Para hoje', data: all.filter(dueToday) },
-    { title: 'Em outros dias', data: all.filter((h) => !dueToday(h)) },
+    { title: t('habits.dueToday'), data: all.filter(dueToday) },
+    { title: t('habits.otherDays'), data: all.filter((h) => !dueToday(h)) },
   ].filter((g) => g.data.length > 0);
   const systemId = tree.data?.habits?.id;
 
   return (
     <Screen size="medium">
-      <ScreenHeader title="🔥 Hábitos" />
-      <View className="gap-2">
+      <ScreenHeader title={t('habits.title')} icon={<ItemIcon kind="habits" size={20} />} />
+      <View className="gap-3">
         <View className="flex-row flex-wrap items-center gap-2" accessibilityRole="radiogroup">
           {KINDS.map((k) => (
             <Chip
               key={k.value}
               role="radio"
-              label={k.label}
+              label={t(k.label)}
               selected={kind === k.value}
               onPress={() => setKind(k.value)}
             />
           ))}
           {kind === 'counter' && (
             <View className="flex-row items-center gap-2">
-              <Text className="text-ink">Meta por dia:</Text>
+              <Text className="text-sm text-ink-muted">{t('habits.targetLabel')}</Text>
               <Input
                 value={target}
-                onChangeText={(t) => setTarget(t.replace(/\D/g, '').slice(0, 3))}
+                onChangeText={(text) => setTarget(text.replace(/\D/g, '').slice(0, 3))}
                 keyboardType="number-pad"
-                className="w-16"
-                accessibilityLabel="Meta por dia"
+                className="w-16 font-mono"
+                accessibilityLabel={t('habits.targetLabel')}
               />
             </View>
           )}
         </View>
-        <Text className="text-sm text-ink-muted">{current.hint}</Text>
+        <Text className="text-sm text-ink-muted">{t(current.hint)}</Text>
         <QuickAdd
           pageId={systemId}
-          placeholder={`Novo hábito… (ex.: ${current.example})`}
+          placeholder={t('habits.placeholder', { example: t(current.example) })}
           habit={{
             kind,
             target:
               kind === 'counter' ? Math.min(100, Math.max(1, Number(target) || 1)) : undefined,
           }}
         />
-        <Text className="text-xs text-ink-muted">
-          Repetição no texto: /seg,qua,sex, /semanal, /mensal (sem nada, é todo dia). Para mudar o
-          tipo de um hábito depois, toque nele.
-        </Text>
+        <Text className="font-mono text-xs text-ink-muted">{t('habits.syntax')}</Text>
       </View>
 
-      <ScrollView className="mt-2" keyboardShouldPersistTaps="handled">
+      <ScrollView keyboardShouldPersistTaps="handled">
         {groups.map((g) => (
           <View key={g.title}>
-            <Text className="mt-4 text-sm font-semibold text-ink-muted">
-              {g.title} ({g.data.length})
-            </Text>
+            <SectionLabel title={g.title} count={g.data.length} />
             {g.data.map((task) => (
               <HabitRow
                 key={task.id}
@@ -117,14 +117,7 @@ export default function HabitsScreen() {
             ))}
           </View>
         ))}
-        {!habits.isPending && all.length === 0 && (
-          <View className="mt-12 items-center gap-1">
-            <Text className="text-xl">🔥</Text>
-            <Text className="text-center text-ink-muted">
-              Nenhum hábito ainda. Escolha o tipo acima e escreva o primeiro.
-            </Text>
-          </View>
-        )}
+        {!habits.isPending && all.length === 0 && <EmptyState title={t('habits.empty')} />}
         <View className="h-28" />
       </ScrollView>
     </Screen>

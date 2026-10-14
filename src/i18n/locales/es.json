@@ -233,5 +233,23 @@
     "noDate": "Sin fecha",
     "empty": "Nada asignado a ti ahora.",
     "emptyHint": "En un proyecto compartido, escribe @nombre en la tarea para asignarla a alguien."
+  },
+  "habits": {
+    "title": "Hábitos",
+    "kindCheck": "Marcar",
+    "kindCounter": "Contador",
+    "kindPlusminus": "Bueno y malo",
+    "hintCheck": "Hecho o no hecho en el día (o en la semana, el mes).",
+    "hintCounter": "Una meta por día: + suma, − deshace. Llegar a la meta cuenta como hecho.",
+    "hintPlusminus": "Sin meta: + cuando hagas lo bueno (XP y daño al jefe), − cuando resbales (el jefe se cura un poco).",
+    "exampleCheck": "Meditar 5 minutos",
+    "exampleCounter": "Tomar un vaso de agua",
+    "examplePlusminus": "Comer bien",
+    "targetLabel": "Meta por día",
+    "placeholder": "Nuevo hábito… (ej.: {{example}})",
+    "syntax": "Repetición en el texto: /lun,mié,vie, /semanal, /mensual (sin nada, es todos los días). Para cambiar el tipo de un hábito después, abre sus detalles.",
+    "dueToday": "Para hoy",
+    "otherDays": "Otros días",
+    "empty": "Aún no hay hábitos. Elige el tipo arriba y escribe el primero."
   }
 }
