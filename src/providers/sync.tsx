@@ -12,11 +12,12 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   tasks: [keys.tasks],
   task_completions: [keys.tasks],
   task_assignees: [keys.tasks, keys.assignees],
-  comments: [keys.tasks],
+  comments: [keys.tasks, ['comments']],
   conflict_copies: [keys.tasks],
   folders: [keys.tree],
   pages: [keys.tree, keys.tasks],
-  folder_members: [keys.tree],
+  folder_members: [keys.tree, ['members']],
+  people: [['members'], ['comments']],
 };
 
 // Banco local e cache pelo console (e pelos testes de dois aparelhos): são os dados de quem está
@@ -43,8 +44,8 @@ export function SyncProvider({ children }: { children: ReactNode }) {
       statusChanged: (status) => {
         if (status.hasSynced && !synced) {
           // Só o que passa a ler do aparelho (o resto continua no Supabase)
-          queryClient.invalidateQueries({ queryKey: keys.tasks });
-          queryClient.invalidateQueries({ queryKey: keys.tree });
+          for (const key of [keys.tasks, keys.tree, keys.assignees, ['members'], ['comments']])
+            queryClient.invalidateQueries({ queryKey: key });
         }
         synced = !!status.hasSynced;
       },

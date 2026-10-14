@@ -36,7 +36,7 @@ O npm desta máquina (v12) bloqueia scripts de instalação de pacotes sem aprov
 
 ## Acesso remoto (túnel da Cloudflare)
 
-`https://tasker.wavdev.org` → túnel `tasker-tunnel.service` (cloudflared em `~/.local/bin`, token em `~/.config/cloudflared/tasker.token`, **nunca no repositório**) → `tasker-web.service` (`scripts/serve.mjs`, porta 8787), que entrega `dist-remote/` e repassa `/supabase/*` (HTTP e websocket) para o Supabase local e `/powersync/*` para o PowerSync. O build remoto usa `EXPO_PUBLIC_SUPABASE_URL=/supabase` (relativo ao endereço do app). Serviços de usuário do systemd com linger: `systemctl --user status tasker-web tasker-tunnel tasker-quick tasker-powersync`. `tasker-quick` dá um endereço `*.trycloudflare.com` provisório (muda a cada reinício; `journalctl --user -u tasker-quick | grep trycloudflare`). Depois de mudar o app: `npm run deploy`.
+`https://tasker.wavdev.org` → túnel `tasker-tunnel.service` (cloudflared em `~/.local/bin`, token em `~/.config/cloudflared/tasker.token`, **nunca no repositório**) → `tasker-web.service` (`scripts/serve.mjs`, porta 8787), que entrega `dist-remote/` e repassa `/supabase/*` (HTTP e websocket) para o Supabase local e `/powersync/*` para o PowerSync. O build remoto usa `EXPO_PUBLIC_SUPABASE_URL=/supabase` (relativo ao endereço do app). Serviços de usuário do systemd com linger: `systemctl --user status tasker-web tasker-tunnel tasker-quick tasker-powersync`. `tasker-quick` dá um endereço `*.trycloudflare.com` provisório (muda a cada reinício; `npm run endereco` mostra o atual). Depois de mudar o app: `npm run deploy`.
 
 ## Estrutura
 

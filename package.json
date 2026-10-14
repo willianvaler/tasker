@@ -90,7 +90,8 @@
     "deploy": "bash scripts/deploy.sh",
     "sync:start": "bash scripts/powersync.sh",
     "sync:assets": "powersync-web copy-assets -o public",
-    "postinstall": "npm run sync:assets"
+    "postinstall": "npm run sync:assets",
+    "endereco": "bash scripts/endereco.sh"
   },
   "private": true,
   "jest": {

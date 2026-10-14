@@ -6,6 +6,8 @@ import type { Json, Tables } from '../db';
 import type { MemberName } from '../members';
 import { roleCan } from '../permissions';
 import { supabase } from '../supabase';
+import { db } from '../sync/db';
+import { isLocal, localInsert, TASK_WITH_PAGE_SQL, toTask, toTaskWithPage } from '../sync/local';
 import { useSession } from '@/providers/session';
 import { keys } from './keys';
 import type { TaskWithPage } from './tasks';
@@ -44,6 +46,24 @@ export function useMembers(rootId: string | undefined) {
     queryKey: keys.members(rootId ?? ''),
     enabled: !!rootId,
     queryFn: async (): Promise<Member[]> => {
+      if (isLocal()) {
+        const rows = await db.getAll<{
+          user_id: string;
+          role: Role;
+          aliases: string | null;
+          display_name: string | null;
+        }>(
+          `select m.user_id, m.role, m.aliases, p.display_name from folder_members m
+           left join people p on p.id = m.user_id where m.folder_id = ? order by m.joined_at`,
+          [rootId],
+        );
+        return rows.map((m) => ({
+          userId: m.user_id,
+          role: m.role,
+          aliases: m.aliases ? JSON.parse(m.aliases) : [],
+          displayName: m.display_name || 'Alguém',
+        }));
+      }
       const { data, error } = await supabase
         .from('folder_members')
         .select('user_id, role, aliases, joined_at, profile:profiles(display_name)')
@@ -231,6 +251,10 @@ export function useAssignees() {
     queryKey: keys.assignees,
     enabled: !!session,
     queryFn: async () => {
+      if (isLocal())
+        return (await db.getAll<Assignee>('select * from task_assignees order by created_at')).map(
+          (a) => ({ ...a, created_at: a.created_at.replace(' ', 'T') }),
+        );
       const { data, error } = await supabase.from('task_assignees').select('*').order('created_at');
       if (error) throw error;
       return data;
@@ -261,7 +285,23 @@ export function useAssigneeMutations() {
     queryClient.invalidateQueries({ queryKey: keys.mine });
   };
   const add = useMutation({
+    networkMode: isLocal() ? 'always' : 'online',
     mutationFn: async (input: { taskId: string; userId?: string; pendingName?: string }) => {
+      if (isLocal()) {
+        const task = await db.getOptional<{ folder_id: string }>(
+          'select folder_id from tasks where id = ?',
+          [input.taskId],
+        );
+        await localInsert('task_assignees', {
+          id: uuidv7(),
+          task_id: input.taskId,
+          folder_id: task?.folder_id ?? null,
+          user_id: input.userId ?? null,
+          pending_name: input.userId ? null : (input.pendingName ?? null),
+          created_at: new Date().toISOString(),
+        });
+        return;
+      }
       const { error } = await supabase.from('task_assignees').insert({
         id: uuidv7(),
         task_id: input.taskId,
@@ -273,7 +313,12 @@ export function useAssigneeMutations() {
     onSettled: settle,
   });
   const remove = useMutation({
+    networkMode: isLocal() ? 'always' : 'online',
     mutationFn: async (id: string) => {
+      if (isLocal()) {
+        await db.execute('delete from task_assignees where id = ?', [id]);
+        return;
+      }
       const { error } = await supabase.from('task_assignees').delete().eq('id', id);
       if (error) throw error;
     },
@@ -299,6 +344,15 @@ export function useMyTasks({ enabled = true }: { enabled?: boolean } = {}) {
     queryKey: keys.mine,
     enabled: !!session && enabled,
     queryFn: async () => {
+      if (isLocal()) {
+        const rows = await db.getAll<Record<string, unknown>>(
+          `${TASK_WITH_PAGE_SQL} where t.status != 'done' and exists (
+             select 1 from task_assignees a where a.task_id = t.id and a.user_id = ?)
+           order by t.due_date is null, t.due_date, t.priority desc, t.position`,
+          [session?.user.id],
+        );
+        return rows.map(toTaskWithPage) as TaskWithPage[];
+      }
       const { data, error } = await supabase
         .from('tasks')
         .select('*, page:pages(name, icon, view_type), task_assignees!inner(user_id)')
@@ -324,6 +378,18 @@ export function useComments(taskId: string | undefined) {
     queryKey: keys.comments(taskId ?? ''),
     enabled: !!taskId,
     queryFn: async () => {
+      if (isLocal()) {
+        const rows = await db.getAll<Tables<'comments'> & { author_name: string | null }>(
+          `select c.*, p.display_name as author_name from comments c
+           left join people p on p.id = c.author_id where c.task_id = ? order by c.created_at`,
+          [taskId],
+        );
+        return rows.map(({ author_name, ...c }) => ({
+          ...c,
+          created_at: c.created_at.replace(' ', 'T'),
+          author: author_name == null ? null : { display_name: author_name },
+        })) as Comment[];
+      }
       const { data, error } = await supabase
         .from('comments')
         .select('*, author:profiles(display_name)')
@@ -340,7 +406,23 @@ export function useCommentMutations(taskId: string) {
   const { session } = useSession();
   const key = keys.comments(taskId);
   const add = useMutation({
+    networkMode: isLocal() ? 'always' : 'online',
     mutationFn: async ({ id, body }: { id: string; body: string }) => {
+      if (isLocal()) {
+        const task = await db.getOptional<{ folder_id: string }>(
+          'select folder_id from tasks where id = ?',
+          [taskId],
+        );
+        await localInsert('comments', {
+          id,
+          task_id: taskId,
+          folder_id: task?.folder_id ?? null,
+          author_id: session?.user.id ?? null,
+          body,
+          created_at: new Date().toISOString(),
+        });
+        return;
+      }
       const { error } = await supabase.from('comments').insert({ id, task_id: taskId, body });
       if (error) throw error;
     },
@@ -363,7 +445,12 @@ export function useCommentMutations(taskId: string) {
     onSettled: () => queryClient.invalidateQueries({ queryKey: key }),
   });
   const remove = useMutation({
+    networkMode: isLocal() ? 'always' : 'online',
     mutationFn: async (id: string) => {
+      if (isLocal()) {
+        await db.execute('delete from comments where id = ?', [id]);
+        return;
+      }
       const { error } = await supabase.from('comments').delete().eq('id', id);
       if (error) throw error;
     },
@@ -510,6 +597,14 @@ export function useFolderTasks(root: { id: string; children: { id: string }[] } 
     queryKey: keys.folderTasks(root?.id ?? ''),
     enabled: !!root,
     queryFn: async () => {
+      if (isLocal())
+        return (
+          await db.getAll<Record<string, unknown>>(
+            `select * from tasks where parent_task_id is null
+             and folder_id in (select value from json_each(?))`,
+            [JSON.stringify(ids)],
+          )
+        ).map(toTask);
       const { data, error } = await supabase
         .from('tasks')
         .select('*')
