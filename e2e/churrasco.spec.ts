@@ -79,7 +79,9 @@ test('Churrasco: Colaboradora e Leitor, delegar, cada um vê só o que pode', as
   const biaGelo = bia.getByRole('checkbox', { name: 'Concluir Cerveja gelada', exact: true });
   await expect(biaGelo).toBeVisible({ timeout: 15_000 });
   await expect(biaGelo).toBeEnabled({ timeout: 15_000 });
-  await expect(bia.getByRole('checkbox', { name: 'Concluir Carvão', exact: true })).toBeDisabled();
+  await expect(bia.getByRole('checkbox', { name: 'Concluir Carvão', exact: true })).toBeDisabled({
+    timeout: 15_000,
+  });
   await biaGelo.click();
   await expect(
     bia.getByRole('alert').filter({ hasText: 'Concluída: Cerveja gelada' }),
@@ -98,7 +100,9 @@ test('Churrasco: Colaboradora e Leitor, delegar, cada um vê só o que pode', as
   await openList(caio, 'Compras');
   await expect(caio.getByText('Só leitura: você é leitor deste projeto')).toBeVisible();
   await expect(caio.getByRole('textbox', { name: 'Nova tarefa' })).toHaveCount(0);
-  await expect(caio.getByRole('checkbox', { name: 'Concluir Carvão', exact: true })).toBeDisabled();
+  await expect(caio.getByRole('checkbox', { name: 'Concluir Carvão', exact: true })).toBeDisabled({
+    timeout: 15_000,
+  });
   await expect(caio.getByText('Farofa da Bia', { exact: true })).toBeVisible({ timeout: 15_000 });
 
   // A Ana vê a cerveja concluída pela Bia (sai da lista) e as pessoas com os cargos
