@@ -51,11 +51,11 @@ const COLOR: Record<SyncState, string> = {
  */
 export function SyncDot({ floating }: { floating?: boolean }) {
   const { t } = useTranslation();
-  const state = useSyncState();
+  const syncState = useSyncState();
   const pending = usePendingChanges();
   const insets = useSafeAreaInsets();
   const label =
-    t(`sync.state_${state}`) +
+    t(`sync.state_${syncState}`) +
     (pending > 0 ? ` · ${t('offline.waiting', { count: pending })}` : '');
   return (
     <Pressable
@@ -68,14 +68,18 @@ export function SyncDot({ floating }: { floating?: boolean }) {
         floating && 'min-w-8 justify-center',
       )}
     >
-      {({ hovered, focused }: { hovered?: boolean; focused?: boolean }) => (
-        <>
-          {(hovered || focused) && !floating && (
-            <Text className="text-xs text-ink-muted">{label}</Text>
-          )}
-          <View className={cn('h-2 w-2 rounded-full', COLOR[state])} />
-        </>
-      )}
+      {(state) => {
+        // hovered e focused existem na web (react-native-web); o tipo do React Native não tem
+        const { hovered, focused } = state as { hovered?: boolean; focused?: boolean };
+        return (
+          <>
+            {(hovered || focused) && !floating && (
+              <Text className="text-xs text-ink-muted">{label}</Text>
+            )}
+            <View className={cn('h-2 w-2 rounded-full', COLOR[syncState])} />
+          </>
+        );
+      }}
     </Pressable>
   );
 }
