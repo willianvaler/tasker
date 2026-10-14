@@ -13,6 +13,9 @@ export const queryClient = new QueryClient({
       retry: 1,
       // Mantém o cache por 7 dias para o app abrir offline com os dados da última sessão
       gcTime: 7 * 24 * 60 * 60 * 1000,
+      // Roda a consulta mesmo sem rede: as que leem do banco do aparelho funcionam offline, e as do
+      // Supabase falham e ficam com o cache (no padrão "online", ficariam pausadas com dado velho)
+      networkMode: 'offlineFirst',
     },
   },
 });

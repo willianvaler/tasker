@@ -72,3 +72,15 @@ export function clearPrefs() {
   localStore.removeItem(LAST_PAGE_KEY);
   localStore.removeItem(OPEN_FOLDERS_KEY);
 }
+
+const SYNC_USER_KEY = 'questlist-sync-user';
+
+/** De quem é o banco do aparelho (troca de conta limpa antes de sincronizar a nova). */
+export function getSyncUser() {
+  return localStore.getItem(SYNC_USER_KEY);
+}
+
+export function setSyncUser(userId: string | null) {
+  if (userId) localStore.setItem(SYNC_USER_KEY, userId);
+  else localStore.removeItem(SYNC_USER_KEY);
+}

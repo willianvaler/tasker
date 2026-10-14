@@ -1,4 +1,5 @@
 import type { Transaction } from '@powersync/common';
+import { onlineManager } from '@tanstack/react-query';
 
 import type { Tables } from '@/lib/db';
 import { supabase } from '@/lib/supabase';
@@ -113,7 +114,9 @@ export async function runCommand(
       JSON.stringify(args),
     ]);
   });
-  const result = db.currentStatus.connected ? await commandResult(id, 3000) : null;
+  // O PowerSync leva alguns segundos para notar a queda; o navegador avisa na hora
+  const online = db.currentStatus.connected && onlineManager.isOnline();
+  const result = online ? await commandResult(id, 3000) : null;
   if (result == null) pendingXp.add(id, estimate);
   return result;
 }

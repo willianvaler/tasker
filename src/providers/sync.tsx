@@ -5,6 +5,8 @@ import { keys, taskMutationKey } from '@/lib/queries/keys';
 import { connector, POWERSYNC_URL, setOnCommandApplied } from '@/lib/sync/connector';
 import { db } from '@/lib/sync/db';
 import { pendingXp } from '@/lib/sync/pending-xp';
+import { supabase } from '@/lib/supabase';
+import { getSyncUser, setSyncUser } from '@/lib/prefs';
 import { queryClient } from '@/providers/query';
 import { useSession } from '@/providers/session';
 
@@ -26,18 +28,37 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
 if (typeof window !== 'undefined')
   Object.assign(window, { questlistDb: db, questlistQueries: queryClient });
 
+async function clearLocal() {
+  pendingXp.clear();
+  await db.disconnectAndClear();
+}
+
 export function SyncProvider({ children }: { children: ReactNode }) {
   const { session, isLoading } = useSession();
   const userId = session?.user.id;
 
   useEffect(() => {
-    if (isLoading || !POWERSYNC_URL) return;
-    // Saiu da conta: os dados de quem saiu não ficam no aparelho
-    if (!userId) {
-      pendingXp.clear();
-      db.disconnectAndClear();
-    } else db.connect(connector, { crudUploadThrottleMs: 0 });
+    if (isLoading || !POWERSYNC_URL || !userId) return;
+    (async () => {
+      // Outra conta neste aparelho: o banco de quem estava antes não fica
+      const previous = getSyncUser();
+      if (previous && previous !== userId) await clearLocal();
+      setSyncUser(userId);
+      await db.connect(connector, { crudUploadThrottleMs: 0 });
+    })();
   }, [isLoading, userId]);
+
+  useEffect(() => {
+    if (!POWERSYNC_URL) return;
+    // Só o "sair" de verdade limpa. Sessão nula por um instante (renovação do token sem rede) não
+    // pode apagar o banco do aparelho, que tem a fila do que ainda não subiu
+    const { data } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== 'SIGNED_OUT') return;
+      setSyncUser(null);
+      clearLocal();
+    });
+    return () => data.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     // Comando aplicado no servidor: XP, boss e quadro oficiais substituem a estimativa
@@ -57,6 +78,9 @@ export function SyncProvider({ children }: { children: ReactNode }) {
     if (!POWERSYNC_URL) return;
     // Na primeira sincronização completa as telas trocam o Supabase pelo banco do aparelho
     let synced = !!db.currentStatus.hasSynced;
+    let tasksStale = false;
+    const settle = new Set<string>();
+    let settleTimer: ReturnType<typeof setTimeout> | undefined;
     const stopStatus = db.registerListener({
       statusChanged: (status) => {
         if (status.hasSynced && !synced) {
@@ -71,25 +95,44 @@ export function SyncProvider({ children }: { children: ReactNode }) {
       {
         onChange: (event) => {
           const done = new Set<string>();
-          // Com mutação de tarefa em andamento, quem relê é o onSettled dela (invalidateWhenIdle):
-          // reler agora tiraria da tela a linha que acabou de ser marcada antes da resposta
-          if (queryClient.isMutating({ mutationKey: taskMutationKey }) > 0)
+          // Com mutação de tarefa em andamento, relê só quando ela terminar: reler agora tiraria da
+          // tela a linha que acabou de ser marcada antes da resposta
+          if (queryClient.isMutating({ mutationKey: taskMutationKey }) > 0) {
+            tasksStale = true;
             done.add(JSON.stringify(keys.tasks));
+          }
+          const changed: (readonly unknown[])[] = [];
           for (const table of event.changedTables) {
             for (const key of AFFECTS[table.replace(/^ps_data__/, '')] ?? []) {
               const id = JSON.stringify(key);
               if (done.has(id)) continue;
               done.add(id);
+              changed.push(key);
               queryClient.invalidateQueries({ queryKey: key });
             }
           }
+          // E de novo quando o banco assentar: ao trocar a linha criada no aparelho pela que veio
+          // do servidor, uma leitura no meio pode não achar nenhuma das duas
+          for (const key of changed) settle.add(JSON.stringify(key));
+          clearTimeout(settleTimer);
+          settleTimer = setTimeout(() => {
+            for (const id of settle) queryClient.invalidateQueries({ queryKey: JSON.parse(id) });
+            settle.clear();
+          }, 400);
         },
       },
       { tables: Object.keys(AFFECTS), throttleMs: 30 },
     );
+    const stopMutations = queryClient.getMutationCache().subscribe(() => {
+      if (!tasksStale || queryClient.isMutating({ mutationKey: taskMutationKey }) > 0) return;
+      tasksStale = false;
+      queryClient.invalidateQueries({ queryKey: keys.tasks });
+    });
     return () => {
+      clearTimeout(settleTimer);
       stopStatus();
       stopChanges();
+      stopMutations();
     };
   }, []);
 
