@@ -26,7 +26,7 @@ export function SectionLabel({
       className={cn('flex-row items-center gap-2 border-b border-line pb-2 pt-6', className)}
       // Um nome só ("Hábitos 1/3") para leitor de tela; não é cabeçalho, para não competir com o
       // título da tela
-      accessibilityLabel={count !== undefined && count !== '' ? `${title} ${count}` : title}
+      accessibilityLabel={count !== undefined && count !== '' ? `${title} ${count}` : undefined}
     >
       <Text
         className={cn(

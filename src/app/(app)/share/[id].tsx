@@ -1,6 +1,8 @@
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
+import { Copy, Link2, LogOut, Send, X } from 'lucide-react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, Share, View } from 'react-native';
 
 import { folderLabel } from '@/components/folder-cards';
@@ -9,6 +11,9 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Avatar } from '@/components/ui/person';
+import { SectionLabel } from '@/components/ui/section-label';
 import {
   inviteUrl,
   pendingNamesOf,
@@ -27,10 +32,15 @@ import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 
-const ROLE_LABEL: Record<Role, string> = { owner: 'Dono', editor: 'Editor', viewer: 'Leitor' };
+const ROLE_LABEL = {
+  owner: 'share.roleOwner',
+  editor: 'share.roleEditor',
+  viewer: 'share.roleViewer',
+} as const satisfies Record<Role, string>;
 
 // Compartilhar a pasta (vira projeto): link de convite, membros e papéis, nomes pendentes.
 export default function ShareScreen() {
+  const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const tree = useTree();
   const { session } = useSession();
@@ -55,7 +65,7 @@ export default function ShareScreen() {
     ? [folder.id, ...('children' in folder ? folder.children.map((c) => c.id) : [])]
     : [];
   const pending = pendingNamesOf(assignees.data, folderIds);
-  const onError = (err: Error) => toast({ message: `Não deu certo: ${err.message}` });
+  const onError = (err: Error) => toast({ message: t('share.error', { message: err.message }) });
 
   function generate(nextRole = inviteRole) {
     invites.create.mutate(nextRole, {
@@ -67,34 +77,36 @@ export default function ShareScreen() {
   async function copy() {
     if (!link) return;
     await Clipboard.setStringAsync(link);
-    toast({ message: 'Link copiado' });
+    toast({ message: t('share.copied') });
   }
 
   if (tree.data && (!folder || folder.parent_id || folder.is_inbox)) {
     return (
       <Screen>
-        <ScreenHeader title="Compartilhar" back />
-        <Text className="mt-6 text-ink-muted">Só pastas raiz podem ser compartilhadas.</Text>
+        <ScreenHeader title={t('share.title')} back />
+        <EmptyState title={t('share.rootOnly')} />
       </Screen>
     );
   }
 
   return (
     <Screen>
-      <ScreenHeader title={folder ? `Compartilhar ${folderLabel(folder)}` : 'Compartilhar'} back />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 pb-12">
+      <ScreenHeader
+        title={folder ? folderLabel(folder) : t('share.title')}
+        eyebrow={t('share.title')}
+        back
+      />
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
         {canInvite && (
-          <View className="gap-2">
-            <Text className="font-semibold text-ink">Link de convite</Text>
-            <Text className="text-sm text-ink-muted">
-              Quem abrir o link entra no projeto (cria a conta se precisar). Vale 14 dias.
-            </Text>
-            <View className="flex-row gap-2">
+          <View className="gap-3">
+            <SectionLabel title={t('share.link')} className="pt-0" />
+            <Text className="text-sm text-ink-muted">{t('share.linkHint')}</Text>
+            <View className="flex-row gap-2" accessibilityRole="radiogroup">
               {(['editor', 'viewer'] as const).map((r) => (
                 <Chip
                   key={r}
                   role="radio"
-                  label={r === 'editor' ? 'Pode editar' : 'Só vê e comenta'}
+                  label={t(r === 'editor' ? 'share.canEdit' : 'share.viewOnly')}
                   selected={inviteRole === r}
                   onPress={() => {
                     setInviteRole(r);
@@ -107,31 +119,35 @@ export default function ShareScreen() {
               <>
                 <Text
                   selectable
-                  accessibilityLabel="Link de convite"
-                  className="rounded-lg border border-line bg-surface p-3 text-sm text-ink"
+                  accessibilityLabel={t('share.link')}
+                  className="rounded border border-line bg-surface p-3 font-mono text-xs text-ink"
                 >
                   {link}
                 </Text>
                 <View className="flex-row flex-wrap gap-2">
-                  <Button label="Copiar link" onPress={copy} />
+                  <Button icon={Copy} label={t('share.copy')} onPress={copy} />
                   {Platform.OS !== 'web' && (
                     <Button
                       variant="ghost"
-                      label="Enviar…"
+                      icon={Send}
+                      label={t('share.send')}
                       onPress={() =>
-                        Share.share({ message: `Bora organizar ${folder?.name}? ${link}` })
+                        Share.share({
+                          message: t('share.sendMessage', { name: folder?.name ?? '', link }),
+                        })
                       }
                     />
                   )}
                   <Button
                     variant="ghost"
-                    label="Cancelar este link"
+                    icon={X}
+                    label={t('share.revoke')}
                     disabled={!online}
                     onPress={() =>
                       invites.revoke.mutate(undefined, {
                         onSuccess: () => {
                           setLink(null);
-                          toast({ message: 'Link cancelado. Gere outro quando quiser.' });
+                          toast({ message: t('share.revoked') });
                         },
                         onError,
                       })
@@ -141,7 +157,9 @@ export default function ShareScreen() {
               </>
             ) : (
               <Button
-                label="Gerar link de convite"
+                icon={Link2}
+                className="self-start"
+                label={t('share.generate')}
                 loading={invites.create.isPending}
                 disabled={!online}
                 onPress={() => generate()}
@@ -150,31 +168,38 @@ export default function ShareScreen() {
           </View>
         )}
 
-        <View className="gap-2">
-          <Text className="font-semibold text-ink">Pessoas ({members.data?.length ?? '…'})</Text>
+        <View>
+          <SectionLabel title={t('share.people')} count={members.data?.length} className="pt-0" />
           {members.data?.map((member) => {
             const me = member.userId === session?.user.id;
             return (
-              <View key={member.userId} className="gap-2 rounded-lg border border-line p-3">
-                <View className="flex-row items-center gap-2">
-                  <Text className="flex-1 text-base text-ink">
-                    {member.displayName}
-                    {me ? ' (você)' : ''}
+              <View key={member.userId} className="gap-2 border-b border-line py-3">
+                <View className="flex-row items-center gap-3">
+                  <Avatar name={member.displayName} size={32} />
+                  <View className="flex-1">
+                    <Text className="text-sm text-ink">
+                      {member.displayName}
+                      {me ? ` ${t('share.you')}` : ''}
+                    </Text>
+                    {member.aliases.length > 0 && (
+                      <Text className="text-xs text-ink-muted">
+                        {t('share.aliases', {
+                          names: member.aliases.map((a) => `@${a}`).join(', '),
+                        })}
+                      </Text>
+                    )}
+                  </View>
+                  <Text className="font-mono text-xs text-ink-muted">
+                    {t(ROLE_LABEL[member.role])}
                   </Text>
-                  <Text className="text-sm text-ink-muted">{ROLE_LABEL[member.role]}</Text>
                 </View>
-                {member.aliases.length > 0 && (
-                  <Text className="text-xs text-ink-muted">
-                    Também é {member.aliases.map((a) => `@${a}`).join(', ')}
-                  </Text>
-                )}
                 {isOwner && member.role !== 'owner' && online && (
                   <View className="flex-row flex-wrap gap-2">
                     {(['editor', 'viewer'] as const).map((r) => (
                       <Chip
                         key={r}
                         role="radio"
-                        label={ROLE_LABEL[r]}
+                        label={t(ROLE_LABEL[r])}
                         selected={member.role === r}
                         onPress={() =>
                           m.setRole.mutate({ userId: member.userId, role: r }, { onError })
@@ -183,7 +208,7 @@ export default function ShareScreen() {
                     ))}
                     <Button
                       variant="ghost"
-                      label="Tirar do projeto"
+                      label={t('share.remove')}
                       onPress={() => setConfirm({ member, leaving: false })}
                     />
                   </View>
@@ -192,7 +217,8 @@ export default function ShareScreen() {
                   <Button
                     variant="ghost"
                     className="self-start"
-                    label="Sair do projeto"
+                    icon={LogOut}
+                    label={t('share.leave')}
                     onPress={() => setConfirm({ member, leaving: true })}
                   />
                 )}
@@ -203,19 +229,16 @@ export default function ShareScreen() {
 
         {pending.length > 0 && (
           <View className="gap-2">
-            <Text className="font-semibold text-ink">Nomes pendentes</Text>
-            <Text className="text-sm text-ink-muted">
-              Tarefas atribuídas a quem ainda não entrou. Quem entra pelo link escolhe o próprio
-              nome; você também pode vincular agora.
-            </Text>
+            <SectionLabel title={t('share.pending')} count={pending.length} className="pt-0" />
+            <Text className="text-sm text-ink-muted">{t('share.pendingHint')}</Text>
             {pending.map((name) => (
-              <View key={name} className="gap-2 rounded-lg border border-dashed border-line p-3">
+              <View key={name} className="gap-2 border-b border-line py-2">
                 <View className="flex-row items-center">
-                  <Text className="flex-1 text-base text-ink">@{name}</Text>
+                  <Text className="flex-1 font-mono text-sm text-ink">@{name}</Text>
                   {canInvite && online && (
                     <Button
                       variant="ghost"
-                      label={linking === name ? 'Fechar' : 'Vincular a…'}
+                      label={linking === name ? t('common.close') : t('share.link_to')}
                       onPress={() => setLinking(linking === name ? null : name)}
                     />
                   )}
@@ -232,7 +255,9 @@ export default function ShareScreen() {
                             {
                               onSuccess: () => {
                                 setLinking(null);
-                                toast({ message: `@${name} agora é ${member.displayName}` });
+                                toast({
+                                  message: t('share.linked', { name, member: member.displayName }),
+                                });
                               },
                               onError,
                             },
@@ -252,11 +277,11 @@ export default function ShareScreen() {
         <ConfirmDialog
           title={
             confirm.leaving
-              ? `Sair de "${folder?.name}"?`
-              : `Tirar ${confirm.member.displayName} do projeto?`
+              ? t('share.leaveTitle', { name: folder?.name ?? '' })
+              : t('share.removeTitle', { name: confirm.member.displayName })
           }
-          message="As tarefas atribuídas voltam a ficar com o nome da pessoa, pendente."
-          confirmLabel={confirm.leaving ? 'Sair' : 'Tirar'}
+          message={t('share.removeMessage')}
+          confirmLabel={t(confirm.leaving ? 'share.leaveConfirm' : 'share.removeConfirm')}
           onClose={closeConfirm}
           onConfirm={() => {
             const { member, leaving } = confirm;
