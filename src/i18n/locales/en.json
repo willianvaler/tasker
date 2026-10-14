@@ -826,5 +826,17 @@
     "typingNote": "Shortcuts without Ctrl/⌘ don't work while you type in a field (Esc leaves the field).",
     "browserNote": "In the browser, Ctrl+N and Ctrl+Shift+N belong to the browser: use Alt+N and Alt+Shift+N.",
     "link": "Help"
+  },
+  "sync": {
+    "title": "Sync",
+    "disabled": "Local sync is off in this build (EXPO_PUBLIC_POWERSYNC_URL is missing).",
+    "connected": "Connected",
+    "offline": "Not connected to sync",
+    "lastSynced": "Last synced: {{when}}",
+    "never": "not synced yet",
+    "pending": "{{count}} changes waiting to upload",
+    "local": "On this device: {{folders}} folders, {{pages}} pages, {{tasks}} tasks",
+    "addPlaceholder": "New task in the Inbox",
+    "recent": "Open tasks on this device"
   }
 }

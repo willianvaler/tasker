@@ -49,6 +49,15 @@ Estimativa: com PowerSync, a Fase D cai de ~8 para ~6 dias. Com protocolo própr
 
 **Parte 2 (protótipo, ~1 dia, branch `spike/powersync`, não vai para a main):** subir o PowerSync local ligado ao Supabase local; sincronizar `folders`/`pages`/`tasks` com regra por membro; uma tela lendo do SQLite local na web e num development build; criar tarefa offline indo pela fila até a RPC; tirar um membro do projeto e ver os dados sumirem. O resultado (funcionou / não funcionou e por quê) entra aqui e na decisão do `DECISIONS.md`.
 
+## Resultado do protótipo (14/10/2026, D0)
+
+1. **Web:** funciona na web exportada, inclusive pelo túnel (`/powersync` repassado pelo `scripts/serve.mjs`). Precisou copiar os workers para `public/@powersync`.
+2. **op-sqlite:** instalado (v18) e com tipos ok; não testado em aparelho.
+3. **Pasta raiz:** coube nas regras sem desnormalizar, com duas consultas por tabela (raiz e subpastas).
+4. **RPCs na fila:** o `uploadData` traduz a operação de tabela (`status` → `complete_task`) e há a tabela local `commands` para o resto.
+
+Detalhes e escolhas na D82.
+
 ## Fontes
 
 - [PowerSync — React Native & Expo SDK](https://docs.powersync.com/client-sdks/reference/react-native-and-expo)

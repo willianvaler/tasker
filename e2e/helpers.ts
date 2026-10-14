@@ -99,3 +99,19 @@ export async function ageTask(title: string) {
   });
   if (!res.ok) throw new Error(`ageTask: ${res.status} ${await res.text()}`);
 }
+
+/** Chamada à API REST do Supabase local como administrador (ignora a RLS). */
+export async function adminRest(path: string, init: RequestInit = {}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...init,
+    headers: {
+      apikey: SECRET_KEY,
+      Authorization: `Bearer ${SECRET_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation',
+      ...init.headers,
+    },
+  });
+  if (!res.ok) throw new Error(`adminRest ${path}: ${res.status} ${await res.text()}`);
+  return res.json();
+}

@@ -1,5 +1,6 @@
 // Servidor da versão web para acesso remoto (túnel da Cloudflare): entrega o build em dist/ com
-// fallback de SPA e repassa /supabase/* (HTTP e websocket do Realtime) para o Supabase local.
+// fallback de SPA e repassa /supabase/* (HTTP e websocket do Realtime) para o Supabase local e
+// /powersync/* para o serviço de sync.
 //   npm run deploy (gera dist-remote/ e reinicia o serviço) · PORT=8787 node scripts/serve.mjs
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import http from 'node:http';
@@ -8,8 +9,14 @@ import { extname, join, normalize } from 'node:path';
 
 const PORT = Number(process.env.PORT ?? 8787);
 const DIST = process.env.DIST ?? join(import.meta.dirname, '..', 'dist-remote');
-const SUPABASE = { host: '127.0.0.1', port: 54321 };
-const PREFIX = '/supabase';
+const UPSTREAMS = {
+  '/supabase': { host: '127.0.0.1', port: 54321, down: 'Supabase local fora do ar (npm run db:start)' },
+  '/powersync': { host: '127.0.0.1', port: 8095, down: 'PowerSync fora do ar (npm run sync:start)' },
+};
+const upstreamFor = (url) => {
+  const prefix = Object.keys(UPSTREAMS).find((p) => url.startsWith(p + '/'));
+  return prefix && { prefix, ...UPSTREAMS[prefix] };
+};
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -20,6 +27,7 @@ const TYPES = {
   '.ico': 'image/x-icon',
   '.svg': 'image/svg+xml',
   '.ttf': 'font/ttf',
+  '.wasm': 'application/wasm',
   '.woff2': 'font/woff2',
 };
 
@@ -36,13 +44,14 @@ function serveFile(req, res) {
   createReadStream(file).pipe(res);
 }
 
-function proxy(req, res) {
+function proxy(target, req, res) {
   const upstream = http.request(
     {
-      ...SUPABASE,
+      host: target.host,
+      port: target.port,
       method: req.method,
-      path: req.url.slice(PREFIX.length) || '/',
-      headers: { ...req.headers, host: `${SUPABASE.host}:${SUPABASE.port}` },
+      path: req.url.slice(target.prefix.length) || '/',
+      headers: { ...req.headers, host: `${target.host}:${target.port}` },
     },
     (up) => {
       res.writeHead(up.statusCode ?? 502, up.headers);
@@ -50,24 +59,28 @@ function proxy(req, res) {
     },
   );
   upstream.on('error', () => {
-    res.writeHead(502);
-    res.end('Supabase local fora do ar (npm run db:start)');
+    if (!res.headersSent) res.writeHead(502);
+    res.end(target.down);
   });
   req.pipe(upstream);
 }
 
-const server = http.createServer((req, res) =>
-  req.url.startsWith(PREFIX + '/') ? proxy(req, res) : serveFile(req, res),
-);
+const server = http.createServer((req, res) => {
+  const target = upstreamFor(req.url);
+  if (target) proxy(target, req, res);
+  else serveFile(req, res);
+});
 
-// Websocket (Realtime): repassa o pedido de upgrade e depois só copia os bytes
+// Websocket (Realtime, sync): repassa o pedido de upgrade e depois só copia os bytes
 server.on('upgrade', (req, socket, head) => {
-  if (!req.url.startsWith(PREFIX + '/')) return socket.destroy();
-  const upstream = net.connect(SUPABASE.port, SUPABASE.host, () => {
-    const headers = Object.entries({ ...req.headers, host: `${SUPABASE.host}:${SUPABASE.port}` })
+  const target = upstreamFor(req.url);
+  if (!target) return socket.destroy();
+  const upstream = net.connect(target.port, target.host, () => {
+    const headers = Object.entries({ ...req.headers, host: `${target.host}:${target.port}` })
       .map(([k, v]) => `${k}: ${v}`)
       .join('\r\n');
-    upstream.write(`${req.method} ${req.url.slice(PREFIX.length)} HTTP/1.1\r\n${headers}\r\n\r\n`);
+    const path = req.url.slice(target.prefix.length);
+    upstream.write(`${req.method} ${path} HTTP/1.1\r\n${headers}\r\n\r\n`);
     upstream.write(head);
     socket.pipe(upstream).pipe(socket);
   });

@@ -826,5 +826,17 @@
     "typingNote": "Los atajos sin Ctrl/⌘ no funcionan mientras escribes en un campo (Esc sale del campo).",
     "browserNote": "En el navegador, Ctrl+N y Ctrl+Shift+N son del navegador: usa Alt+N y Alt+Shift+N.",
     "link": "Ayuda"
+  },
+  "sync": {
+    "title": "Sincronización",
+    "disabled": "La sincronización local está apagada en este build (falta EXPO_PUBLIC_POWERSYNC_URL).",
+    "connected": "Conectado",
+    "offline": "Sin conexión con el sync",
+    "lastSynced": "Última sincronización: {{when}}",
+    "never": "todavía no sincronizó",
+    "pending": "{{count}} cambios esperando envío",
+    "local": "En el dispositivo: {{folders}} carpetas, {{pages}} páginas, {{tasks}} tareas",
+    "addPlaceholder": "Nueva tarea en la Bandeja de entrada",
+    "recent": "Tareas abiertas en el dispositivo"
   }
 }

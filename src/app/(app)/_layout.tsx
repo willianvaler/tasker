@@ -39,6 +39,7 @@ export default function AppLayout() {
               <Stack.Screen name="character" />
               <Stack.Screen name="shop" />
               <Stack.Screen name="ajuda" />
+              <Stack.Screen name="sync" />
               <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
               <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
               {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}

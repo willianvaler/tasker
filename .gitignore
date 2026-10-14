@@ -53,3 +53,4 @@ supabase/.branches/
 # IDE (configuração pessoal)
 .idea/
 dist-remote/
+public/@powersync/

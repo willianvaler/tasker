@@ -42,7 +42,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## Fase D — Offline-first e sync (04/11 – 13/11)
 
-- [ ] **D0** Protótipo PowerSync (riscos do fim do `docs/SPIKE_SYNC.md`): serviço local, Sync Streams por membro, leitura local na web e no development build, escrita offline até a RPC, revogação
+- [x] **D0** Protótipo PowerSync: serviço local (`npm run sync:start`), Sync Streams por membro, banco local na web, escrita offline pela fila até as RPCs, revogação; tela `/sync` e `e2e/sync.spec.ts` (D82). Falta provar o op-sqlite num development build
 - [ ] **D1** Migração "sync-ready" em todas as tabelas sincronizáveis: `deleted_at`, `version`, `updated_by`, `change_seq` global; ids UUID v7 gerados no cliente
 - [ ] **D2** `LocalStore` (interface) + implementação `expo-sqlite` (nativo) e web (SQLite WASM ou IndexedDB)
 - [ ] **D3** Outbox de mutations com `mutation_id`, worker em lote, `sync/push` idempotente com checagem de permissão por mutation

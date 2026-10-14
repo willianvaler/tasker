@@ -826,5 +826,17 @@
     "typingNote": "Atalhos sem Ctrl/⌘ não valem enquanto você digita num campo (Esc sai do campo).",
     "browserNote": "No navegador, Ctrl+N e Ctrl+Shift+N são do próprio navegador: use Alt+N e Alt+Shift+N.",
     "link": "Ajuda"
+  },
+  "sync": {
+    "title": "Sincronização",
+    "disabled": "A sincronização local está desligada neste build (falta EXPO_PUBLIC_POWERSYNC_URL).",
+    "connected": "Conectado",
+    "offline": "Sem conexão com o sync",
+    "lastSynced": "Última sincronização: {{when}}",
+    "never": "ainda não sincronizou",
+    "pending": "{{count}} alterações esperando envio",
+    "local": "No aparelho: {{folders}} pastas, {{pages}} páginas, {{tasks}} tarefas",
+    "addPlaceholder": "Nova tarefa na Caixa de entrada",
+    "recent": "Tarefas abertas no aparelho"
   }
 }

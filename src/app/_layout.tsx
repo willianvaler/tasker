@@ -13,6 +13,7 @@ import { FONT_FAMILY, FONTS } from '@/lib/fonts';
 import { COLORS } from '@/lib/tokens';
 import { QueryProvider } from '@/providers/query';
 import { SessionProvider, useSession } from '@/providers/session';
+import { SyncProvider } from '@/providers/sync';
 import { ThemeProvider } from '@/providers/theme';
 import { ToastProvider } from '@/providers/toast';
 
@@ -61,12 +62,14 @@ function ThemedApp() {
   return (
     <NavThemeProvider value={colorScheme === 'dark' ? darkNavTheme : lightNavTheme}>
       <SessionProvider>
-        <QueryProvider>
-          <ToastProvider>
-            <StatusBar style="auto" />
-            <RootNavigator />
-          </ToastProvider>
-        </QueryProvider>
+        <SyncProvider>
+          <QueryProvider>
+            <ToastProvider>
+              <StatusBar style="auto" />
+              <RootNavigator />
+            </ToastProvider>
+          </QueryProvider>
+        </SyncProvider>
       </SessionProvider>
     </NavThemeProvider>
   );

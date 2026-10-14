@@ -25,6 +25,7 @@ npm run db:test       # testes pgTAP de RLS (supabase/tests/)
 npm run e2e           # Playwright na web, perfis celular e desktop (precisa do db:start). Argumentos: npm run e2e -- e2e/x.spec.ts
 npm run db:reset      # recria o banco local a partir das migrações + seed
 npm run db:types      # regenera src/lib/database.types.ts depois de mudar o banco
+npm run sync:start    # PowerSync local (container, porta 8095; serviço tasker-powersync). Sync no app só com EXPO_PUBLIC_POWERSYNC_URL
 npm run deploy        # publica a web para acesso remoto (dist-remote/ + reinicia tasker-web.service)
 npm run capturas      # capturas das telas-chave (1280/390, claro/escuro) em docs/screenshots/ (precisa do db:start)
 ```
@@ -35,7 +36,7 @@ O npm desta máquina (v12) bloqueia scripts de instalação de pacotes sem aprov
 
 ## Acesso remoto (túnel da Cloudflare)
 
-`https://tasker.wavdev.org` → túnel `tasker-tunnel.service` (cloudflared em `~/.local/bin`, token em `~/.config/cloudflared/tasker.token`, **nunca no repositório**) → `tasker-web.service` (`scripts/serve.mjs`, porta 8787), que entrega `dist-remote/` e repassa `/supabase/*` (HTTP e websocket) para o Supabase local. O build remoto usa `EXPO_PUBLIC_SUPABASE_URL=/supabase` (relativo ao endereço do app). Serviços de usuário do systemd com linger: `systemctl --user status tasker-web tasker-tunnel tasker-quick`. `tasker-quick` dá um endereço `*.trycloudflare.com` provisório (muda a cada reinício; `journalctl --user -u tasker-quick | grep trycloudflare`). Depois de mudar o app: `npm run deploy`.
+`https://tasker.wavdev.org` → túnel `tasker-tunnel.service` (cloudflared em `~/.local/bin`, token em `~/.config/cloudflared/tasker.token`, **nunca no repositório**) → `tasker-web.service` (`scripts/serve.mjs`, porta 8787), que entrega `dist-remote/` e repassa `/supabase/*` (HTTP e websocket) para o Supabase local e `/powersync/*` para o PowerSync. O build remoto usa `EXPO_PUBLIC_SUPABASE_URL=/supabase` (relativo ao endereço do app). Serviços de usuário do systemd com linger: `systemctl --user status tasker-web tasker-tunnel tasker-quick tasker-powersync`. `tasker-quick` dá um endereço `*.trycloudflare.com` provisório (muda a cada reinício; `journalctl --user -u tasker-quick | grep trycloudflare`). Depois de mudar o app: `npm run deploy`.
 
 ## Estrutura
 
@@ -127,7 +128,8 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 - `src/i18n/` (i18next; chaves tipadas pelo `pt-BR.json`), `lib/permissions.ts` (`can()`), `lib/tokens.ts` (cores, durações, medidas), `lib/fonts.ts`.
 - `lib/shortcuts.ts` (registro) + `lib/use-shortcut.ts`; os atalhos de lista e globais são tratados em `components/list-keys.tsx`; a seleção da lista mora em `lib/selection.ts` (store com assinatura por linha) e as telas registram a ordem com `useSelectableList`.
 - `components/new-menu.tsx` (menu Novo), `components/command-palette.tsx` (Ctrl+K), `components/icon-picker.tsx` + `lib/icon-names.ts`/`lib/icons.ts` (ícones `lucide:id`), `components/item-icon.tsx`, `components/ui/*` (Button/IconButton, Checkbox/StampBox, Sheet, Popover/MenuItem, SectionLabel, EmptyState, Avatar/PersonRow, ToggleRow, Text).
-- Rotas novas: `/task/new` (criação avançada), `/ajuda`, `/design` (só em desenvolvimento).
+- Rotas novas: `/task/new` (criação avançada), `/ajuda`, `/design` (só em desenvolvimento), `/sync` (estado da sincronização, lê só do banco local).
+- Sync (Fase D, D82): `lib/sync/` (schema do SQLite local, `db` por plataforma, `connector` com o `uploadData`), `providers/sync.tsx`, `powersync/` (config do serviço e Sync Streams). Tabela sincronizável nova: publicação `powersync` (migração), `sync-config.yaml` e `lib/sync/schema.ts`.
 
 ## Regras do projeto
 

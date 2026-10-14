@@ -1,0 +1,19 @@
+# O que cada pessoa recebe no aparelho: tudo das pastas de que é membro. A participação mora na
+# pasta raiz e as pastas só têm um nível de subpasta, então cada tabela tem duas consultas: a da
+# raiz e a das subpastas dela. Perder o acesso tira os dados do aparelho.
+config:
+  edition: 3
+
+streams:
+  folders:
+    auto_subscribe: true
+    with:
+      roots: SELECT folder_id FROM folder_members WHERE user_id = auth.user_id()
+    queries:
+      - SELECT * FROM folders WHERE id IN roots
+      - SELECT * FROM folders WHERE parent_id IN roots
+      - SELECT * FROM folder_members WHERE folder_id IN roots
+      - SELECT * FROM pages WHERE folder_id IN roots
+      - SELECT pages.* FROM pages INNER JOIN folders ON pages.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM tasks WHERE folder_id IN roots
+      - SELECT tasks.* FROM tasks INNER JOIN folders ON tasks.folder_id = folders.id WHERE folders.parent_id IN roots

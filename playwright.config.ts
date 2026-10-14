@@ -13,8 +13,9 @@ export default defineConfig({
     },
   ],
   webServer: {
+    // --clear: o Metro guarda os EXPO_PUBLIC_* já embutidos no cache, e o deploy usa outros valores
     // serve --single: rotas da SPA (/inbox, /page/...) caem no index.html, como a hospedagem real precisa fazer
-    command: 'npx expo export --platform web && npx serve --single --no-clipboard --listen 8081 dist',
+    command: 'npx expo export --platform web --clear && npx serve --single --no-clipboard --listen 8081 dist',
     url: 'http://localhost:8081',
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

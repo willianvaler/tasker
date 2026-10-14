@@ -6,6 +6,11 @@
     "@expo-google-fonts/fraunces": "^0.4.1",
     "@expo-google-fonts/instrument-sans": "^0.4.2",
     "@expo-google-fonts/jetbrains-mono": "^0.4.1",
+    "@journeyapps/wa-sqlite": "^2.0.7",
+    "@op-engineering/op-sqlite": "^18",
+    "@powersync/react": "^2.0.2",
+    "@powersync/react-native": "^2.3.1",
+    "@powersync/web": "^2.4.2",
     "@react-native-community/netinfo": "12.0.1",
     "@supabase/supabase-js": "^2.117.3",
     "@tanstack/query-sync-storage-persister": "^5.104.1",
@@ -82,7 +87,10 @@
     "export:web": "expo export --platform web",
     "e2e": "node scripts/e2e.mjs",
     "capturas": "node scripts/e2e.mjs -c playwright.capturas.config.ts",
-    "deploy": "bash scripts/deploy.sh"
+    "deploy": "bash scripts/deploy.sh",
+    "sync:start": "bash scripts/powersync.sh",
+    "sync:assets": "powersync-web copy-assets -o public",
+    "postinstall": "npm run sync:assets"
   },
   "private": true,
   "jest": {
