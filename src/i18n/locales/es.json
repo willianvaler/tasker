@@ -297,7 +297,10 @@
     "subfolders_other": "{{count}} subcarpetas",
     "newProject": "Nuevo proyecto",
     "projectPlaceholder": "Nombre (ej.: Asado del sábado)",
-    "projects": "Proyectos"
+    "projects": "Proyectos",
+    "moveTo": "Mover a…",
+    "moveTitle": "Mover \"{{name}}\" a",
+    "moved": "Movida a {{name}}"
   },
   "pageDialog": {
     "new": "Nueva página",

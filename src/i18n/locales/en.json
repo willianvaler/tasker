@@ -297,7 +297,10 @@
     "subfolders_other": "{{count}} subfolders",
     "newProject": "New project",
     "projectPlaceholder": "Name (e.g. Saturday barbecue)",
-    "projects": "Projects"
+    "projects": "Projects",
+    "moveTo": "Move to…",
+    "moveTitle": "Move \"{{name}}\" to",
+    "moved": "Moved to {{name}}"
   },
   "pageDialog": {
     "new": "New page",

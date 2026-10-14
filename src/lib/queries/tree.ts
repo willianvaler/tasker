@@ -159,6 +159,22 @@ export function useTreeMutations() {
     },
   });
 
+  /** Mover a página para outra pasta ou projeto (as tarefas vão junto: trigger no banco). */
+  const movePage = useMutation({
+    mutationFn: async ({ id, folderId }: { id: string; folderId: string }) => {
+      const siblings = findFolder(tree(), folderId)?.folder.pages ?? [];
+      const { error } = await supabase
+        .from('pages')
+        .update({ folder_id: folderId, position: nextPosition(siblings) })
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSettled: () => {
+      onSettled();
+      queryClient.invalidateQueries({ queryKey: keys.tasks });
+    },
+  });
+
   const duplicatePage = useMutation({
     mutationFn: async ({ id, name }: { id: string; name: string }) => {
       const { data, error } = await supabase.rpc('duplicate_page', { p_page_id: id, p_name: name });
@@ -193,6 +209,7 @@ export function useTreeMutations() {
     deleteFolder,
     createPage,
     updatePage,
+    movePage,
     deletePage,
     duplicatePage,
     resetPage,

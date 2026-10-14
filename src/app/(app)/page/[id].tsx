@@ -4,6 +4,7 @@ import { MoreHorizontal, SlidersHorizontal } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
@@ -26,6 +27,7 @@ export default function PageScreen() {
   const online = useIsOnline();
   const toast = useToast();
   const [dialog, setDialog, closeDialog] = useDialog<DialogState>();
+  const [folderActions, folderDialog] = useFolderActions();
   const { t } = useTranslation();
   const page = tree.data?.pages.find((p) => p.id === id);
 
@@ -80,6 +82,7 @@ export default function PageScreen() {
         }
       />
       <PageView page={page} />
+      {folderDialog}
 
       {page && dialog === 'menu' && (
         <ActionMenu
@@ -88,6 +91,7 @@ export default function PageScreen() {
           actions={[
             { label: t('page.settings'), onPress: () => setDialog('settings') },
             { label: t('page.duplicate'), onPress: () => setDialog('duplicate') },
+            { label: t('folder.moveTo'), onPress: () => folderActions.movePage(page) },
           ]}
         />
       )}

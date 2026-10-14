@@ -297,7 +297,10 @@
     "subfolders_other": "{{count}} subpastas",
     "newProject": "Novo projeto",
     "projectPlaceholder": "Nome (ex.: Churrasco do sábado)",
-    "projects": "Projetos"
+    "projects": "Projetos",
+    "moveTo": "Mover para…",
+    "moveTitle": "Mover \"{{name}}\" para",
+    "moved": "Movida para {{name}}"
   },
   "pageDialog": {
     "new": "Nova página",

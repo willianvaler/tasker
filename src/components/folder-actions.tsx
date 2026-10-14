@@ -17,6 +17,7 @@ import { useToast } from '@/providers/toast';
 type FolderDialog =
   | { kind: 'folder-menu'; folder: Folder }
   | { kind: 'page-menu'; page: Page }
+  | { kind: 'move-page'; page: Page }
   | { kind: 'new-folder'; parentId?: string; project?: boolean }
   | { kind: 'new-page'; folderId: string }
   | { kind: 'edit-folder'; folder: Folder }
@@ -46,6 +47,7 @@ export function useFolderActions() {
     newPage: (folderId: string) => setDialog({ kind: 'new-page', folderId }),
     folderMenu: (folder: Folder) => setDialog({ kind: 'folder-menu', folder }),
     pageMenu: (page: Page) => setDialog({ kind: 'page-menu', page }),
+    movePage: (page: Page) => setDialog({ kind: 'move-page', page }),
   };
 
   function folderMenu(folder: Folder): MenuAction[] {
@@ -84,6 +86,7 @@ export function useFolderActions() {
   function pageMenu(page: Page): MenuAction[] {
     return [
       { label: t('folder.configure'), onPress: () => setDialog({ kind: 'edit-page', page }) },
+      { label: t('folder.moveTo'), onPress: () => setDialog({ kind: 'move-page', page }) },
       {
         label: t('folder.deletePage'),
         destructive: true,
@@ -101,7 +104,33 @@ export function useFolderActions() {
     element = (
       <ActionMenu title={pageLabel(dialog.page)} actions={pageMenu(dialog.page)} onClose={close} />
     );
-  else if (dialog?.kind === 'new-folder' || dialog?.kind === 'edit-folder') {
+  else if (dialog?.kind === 'move-page') {
+    const page = dialog.page;
+    // Destinos: todas as pastas e projetos (e subpastas), menos a pasta atual
+    const targets = (tree.data?.folders ?? []).flatMap((root) => [
+      { id: root.id, label: root.name },
+      ...root.children.map((child) => ({ id: child.id, label: `${root.name} / ${child.name}` })),
+    ]);
+    element = (
+      <ActionMenu
+        title={t('folder.moveTitle', { name: page.name })}
+        actions={targets
+          .filter((target) => target.id !== page.folder_id)
+          .map((target) => ({
+            label: target.label,
+            onPress: () =>
+              m.movePage.mutate(
+                { id: page.id, folderId: target.id },
+                {
+                  onError,
+                  onSuccess: () => toast({ message: t('folder.moved', { name: target.label }) }),
+                },
+              ),
+          }))}
+        onClose={close}
+      />
+    );
+  } else if (dialog?.kind === 'new-folder' || dialog?.kind === 'edit-folder') {
     const editing = dialog.kind === 'edit-folder' ? dialog.folder : null;
     const parentId = dialog.kind === 'new-folder' ? dialog.parentId : undefined;
     const project = dialog.kind === 'new-folder' && !!dialog.project;
