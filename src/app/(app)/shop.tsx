@@ -1,4 +1,6 @@
+import { Check } from 'lucide-react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
 import { Avatar } from '@/components/character';
@@ -17,6 +19,7 @@ import { useToast } from '@/providers/toast';
 
 // Loja (D64): só visual. Itens comprados com ouro; os raros de verdade só caem de boss.
 export default function ShopScreen() {
+  const { t } = useTranslation();
   const { data: game } = useGameState();
   const items = useItems();
   const buy = useBuyItem();
@@ -33,24 +36,24 @@ export default function ShopScreen() {
   return (
     <Screen size="wide">
       <ScreenHeader
-        title="Loja"
+        title={t('shop.title')}
         back
         right={
-          <Text className="text-lg font-semibold text-ink" accessibilityLabel={`${gold} de ouro`}>
-            🪙 {gold}
+          <Text
+            className="font-mono text-sm text-ink"
+            accessibilityLabel={t('shop.gold', { gold })}
+          >
+            {t('shop.goldShort', { gold })}
           </Text>
         }
       />
       <ScrollView contentContainerClassName="gap-4 pb-12">
         <View className="flex-row items-center gap-4">
           {game && <Avatar game={game} size="md" />}
-          <Text className="flex-1 text-sm text-ink-muted">
-            Tudo aqui é só visual: não muda XP nem dano. Ganhe ouro concluindo tarefas e derrotando
-            bosses; itens 🎁 só caem de boss (quanto maior o nível, mais chance de raro).
-          </Text>
+          <Text className="max-w-[640px] flex-1 text-sm text-ink-muted">{t('shop.hint')}</Text>
         </View>
         <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-          <Chip role="radio" label="Tudo" selected={!slot} onPress={() => setSlot(null)} />
+          <Chip role="radio" label={t('shop.all')} selected={!slot} onPress={() => setSlot(null)} />
           {SLOTS.map((s) => (
             <Chip
               key={s.key}
@@ -71,37 +74,38 @@ export default function ShopScreen() {
               <View
                 key={item.key}
                 className={cn(
-                  'flex-1 items-center justify-between gap-1 rounded-lg border-2 bg-surface p-3',
+                  'flex-1 items-center justify-between gap-2 rounded-lg border bg-surface p-3',
                   rarity.border,
                   !mine && item.price === null && 'opacity-60',
                 )}
               >
-                <Text style={{ fontSize: 40, lineHeight: 48 }}>
-                  {item.slot === 'title' ? '🏷️' : item.icon}
+                {/* Ícone do item: conteúdo do jogo, como o personagem */}
+                <Text className="text-xl">{item.icon}</Text>
+                <Text className="text-center text-sm font-semibold text-ink" numberOfLines={2}>
+                  {item.name}
                 </Text>
-                <Text className="text-center font-semibold text-ink" numberOfLines={2}>
-                  {item.slot === 'title' ? `${item.icon} ${item.name}` : item.name}
-                </Text>
-                <Text className={cn('text-xs font-semibold', rarity.text)}>{rarity.label}</Text>
+                <Text className={cn('font-mono text-xs', rarity.text)}>{rarity.label}</Text>
                 {mine ? (
                   <Button
                     variant={equipped ? 'primary' : 'ghost'}
+                    icon={equipped ? Check : undefined}
                     className="mt-1 self-stretch"
-                    label={equipped ? '✓ Equipado' : 'Equipar'}
+                    label={t(equipped ? 'shop.equipped' : 'shop.equip')}
                     disabled={!online}
                     onPress={() =>
                       equip.mutate({ slot: item.slot, item: equipped ? null : item.key })
                     }
                   />
                 ) : item.price === null ? (
-                  <Text className="mt-1 min-h-11 text-center text-xs text-ink-muted">
-                    🎁 Só cai de boss
+                  <Text className="mt-1 min-h-11 text-center font-mono text-xs text-ink-muted md:min-h-8">
+                    {t('shop.bossOnly')}
                   </Text>
                 ) : (
                   <Button
+                    variant="ghost"
                     className="mt-1 self-stretch"
-                    label={`🪙 ${item.price}`}
-                    accessibilityLabel={`Comprar ${item.name} por ${item.price} de ouro`}
+                    label={t('shop.goldShort', { gold: item.price })}
+                    accessibilityLabel={t('shop.buyLabel', { name: item.name, price: item.price })}
                     disabled={!online || gold < item.price}
                     onPress={() => setConfirm(item)}
                   />
@@ -111,15 +115,20 @@ export default function ShopScreen() {
           })}
         </Grid>
         {items.error && (
-          <Text className="text-danger">Erro ao carregar a loja: {items.error.message}</Text>
+          <Text className="text-sm text-danger">
+            {t('shop.loadError', { message: items.error.message })}
+          </Text>
         )}
       </ScrollView>
 
       {confirm && (
         <ConfirmDialog
-          title={`Comprar ${confirm.name}?`}
-          message={`Custa 🪙 ${confirm.price}. Você fica com 🪙 ${gold - (confirm.price ?? 0)}.`}
-          confirmLabel="Comprar"
+          title={t('shop.buyTitle', { name: confirm.name })}
+          message={t('shop.buyMessage', {
+            price: confirm.price,
+            left: gold - (confirm.price ?? 0),
+          })}
+          confirmLabel={t('shop.buy')}
           onConfirm={() => {
             const item = confirm;
             closeConfirm();
@@ -127,14 +136,14 @@ export default function ShopScreen() {
               onSuccess: (achievements) => {
                 const extra = achievements.map((a) => ` · ${a.icon} ${a.name}`).join('');
                 toast({
-                  message: `${item.icon} ${item.name} é seu!${extra}`,
+                  message: t('shop.bought', { name: item.name, extra }),
                   action: {
-                    label: 'Equipar',
+                    label: t('shop.equip'),
                     onPress: () => equip.mutate({ slot: item.slot, item: item.key }),
                   },
                 });
               },
-              onError: (e) => toast({ message: `Não deu certo: ${e.message}` }),
+              onError: (e) => toast({ message: t('shop.error', { message: e.message }) }),
             });
           }}
           onClose={closeConfirm}

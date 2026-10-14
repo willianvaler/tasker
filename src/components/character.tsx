@@ -1,10 +1,14 @@
 import { Link } from 'expo-router';
+import { Check, Plus, RotateCcw, ShoppingBag, Zap } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { ProgressBar } from '@/components/ui/progress-bar';
 import { Button } from '@/components/ui/button';
 import { Grid } from '@/components/ui/grid';
+import { Icon } from '@/components/ui/icon';
+import { ProgressBar } from '@/components/ui/progress-bar';
+import { SectionLabel } from '@/components/ui/section-label';
 import {
   ATTRIBUTES,
   AURA_BG,
@@ -54,6 +58,7 @@ const AVATAR = {
 
 /** O personagem: figura da classe, aura de fundo e os itens equipados em volta (só visual, D64). */
 export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof typeof AVATAR }) {
+  const { t } = useTranslation();
   const items = useItemMap();
   const cls = classOf(game);
   const s = AVATAR[size];
@@ -66,7 +71,9 @@ export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof ty
   return (
     <View
       accessibilityRole="image"
-      accessibilityLabel={cls ? `Personagem: ${CLASSES[cls].name}` : 'Personagem sem classe'}
+      accessibilityLabel={
+        cls ? t('character.avatar', { name: CLASSES[cls].name }) : t('character.avatarNoClass')
+      }
       className={cn('items-center justify-center border border-line', s.box, aura ?? 'bg-wash')}
     >
       <Text style={emoji(s.figure)}>{cls ? CLASSES[cls].figure : '🧑'}</Text>
@@ -95,38 +102,50 @@ export function useEquippedTitle(game: GameState | undefined) {
   return game?.equipped.title ? items.get(game.equipped.title)?.name : undefined;
 }
 
-/** Cartão do herói: personagem, classe, nível, XP, ouro e pontos para distribuir. */
+/** O herói: personagem, nome, título, classe, nível, XP, ouro e pontos para distribuir. */
 export function HeroCard({ game, name }: { game: GameState; name?: string }) {
+  const { t } = useTranslation();
   const cls = classOf(game);
   const title = useEquippedTitle(game);
   return (
-    <View className="gap-3 rounded-lg border border-line bg-surface p-4">
+    <View className="gap-3">
       <View className="flex-row items-center gap-4">
         <Avatar game={game} size="lg" />
         <View className="flex-1 gap-1">
           {name ? (
-            <Text className="text-lg font-semibold text-ink" numberOfLines={1}>
+            <Text className="font-serif text-lg text-ink" numberOfLines={1}>
               {name}
             </Text>
           ) : null}
-          {title && <Text className="text-sm italic text-accent">« {title} »</Text>}
-          <Text className="text-base text-ink">
-            {cls ? `${CLASSES[cls].icon} ${CLASSES[cls].name}` : 'Sem classe'} · Nível {game.level}
+          {title && <Text className="text-sm text-accent">« {title} »</Text>}
+          <Text className="text-sm text-ink">
+            {t('character.classLevel', {
+              cls: cls ? CLASSES[cls].name : t('character.noClass'),
+              level: game.level,
+            })}
           </Text>
-          <Text className="text-sm text-ink-muted">
-            🪙 {game.gold} de ouro · 🔥 {game.streak} {game.streak === 1 ? 'dia' : 'dias'}
+          <Text className="font-mono text-xs text-ink-muted">
+            {t('character.goldStreak', { gold: game.gold, count: game.streak })}
           </Text>
         </View>
       </View>
       <View className="gap-1">
         <ProgressBar
           value={game.into_level / game.for_next}
-          label={`Nível ${game.level}: ${game.into_level} de ${game.for_next} XP`}
+          label={`${game.into_level}/${game.for_next} XP`}
         />
-        <Text className="text-xs text-ink-muted">
-          {game.into_level}/{game.for_next} XP para o nível {game.level + 1}
-          {(game.points ?? 0) > 0 ? ` · ✨ ${game.points} ponto(s) para distribuir` : ''}
+        <Text className="font-mono text-xs text-ink-muted">
+          {t('character.toNext', {
+            into: game.into_level,
+            next: game.for_next,
+            level: game.level + 1,
+          })}
         </Text>
+        {(game.points ?? 0) > 0 && (
+          <Text className="font-mono text-xs text-accent">
+            {t('character.points', { count: game.points ?? 0 })}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -140,6 +159,7 @@ export function ClassPicker({
   current: ClassKey | null;
   onDone?: () => void;
 }) {
+  const { t } = useTranslation();
   const setClass = useSetClass();
   const online = useIsOnline();
   const toast = useToast();
@@ -155,7 +175,7 @@ export function ClassPicker({
               key={key}
               className={cn(
                 // Conteúdo em cima e botão no pé: os botões ficam alinhados na linha da grade
-                'flex-1 justify-between gap-3 rounded-lg border bg-surface p-4',
+                'flex-1 justify-between gap-4 rounded-lg border bg-surface p-4',
                 selected ? 'border-accent' : 'border-line',
               )}
             >
@@ -163,28 +183,33 @@ export function ClassPicker({
                 <View className="flex-row items-center gap-3">
                   <Text style={{ fontSize: 40, lineHeight: 48 }}>{c.figure}</Text>
                   <View className="flex-1">
-                    <Text className="text-lg font-semibold text-ink">
-                      {c.icon} {c.name}
-                    </Text>
+                    <Text className="font-serif text-lg text-ink">{c.name}</Text>
                     <Text className="text-sm text-ink-muted">{c.blurb}</Text>
                   </View>
                 </View>
-                <Text className="text-sm text-ink">
+                <Text className="font-mono text-xs text-ink">
                   {ATTRIBUTES.filter((a) => bonus[a.key] > 0)
                     .map((a) => `+${bonus[a.key]} ${a.label}`)
                     .join(' · ')}
                 </Text>
                 <Text className="text-sm text-ink">
-                  <Text className="font-semibold">Passiva: {c.passive.name}.</Text> {c.passive.text}
+                  <Text className="font-semibold">
+                    {t('character.passive', { name: c.passive.name })}
+                  </Text>{' '}
+                  {c.passive.text}
                 </Text>
                 <Text className="text-sm text-ink">
-                  <Text className="font-semibold">Habilidade: {c.active.name}.</Text>{' '}
+                  <Text className="font-semibold">
+                    {t('character.active', { name: c.active.name })}
+                  </Text>{' '}
                   {c.active.text}
                 </Text>
               </View>
               <Button
                 label={
-                  selected ? 'Classe atual' : current ? `Virar ${c.name}` : `Escolher ${c.name}`
+                  selected
+                    ? t('character.current')
+                    : t(current ? 'character.become' : 'character.choose', { name: c.name })
                 }
                 variant={selected ? 'ghost' : 'primary'}
                 disabled={selected || !online}
@@ -192,10 +217,11 @@ export function ClassPicker({
                 onPress={() =>
                   setClass.mutate(key, {
                     onSuccess: () => {
-                      toast({ message: `${c.icon} Agora você é ${c.name}!` });
+                      toast({ message: t('character.becameToast', { name: c.name }) });
                       onDone?.();
                     },
-                    onError: (e) => toast({ message: `Não deu certo: ${e.message}` }),
+                    onError: (e) =>
+                      toast({ message: t('character.error', { message: e.message }) }),
                   })
                 }
               />
@@ -209,6 +235,7 @@ export function ClassPicker({
 
 /** Atributos com o efeito de cada um e o "+" para distribuir os pontos ganhos ao subir de nível. */
 export function AttributesPanel({ game }: { game: GameState }) {
+  const { t } = useTranslation();
   const allocate = useAllocateAttribute();
   const reset = useResetAttributes();
   const online = useIsOnline();
@@ -218,53 +245,59 @@ export function AttributesPanel({ game }: { game: GameState }) {
   const spent = Object.values(game.allocated).reduce((a, b) => a + b, 0);
   return (
     <Panel
-      title="Atributos"
+      title={t('character.attributes')}
       right={
-        <Text
-          className={cn('text-sm', points > 0 ? 'font-semibold text-accent' : 'text-ink-muted')}
-        >
-          {points > 0 ? `✨ ${points} para distribuir` : 'Ganhe 1 ponto a cada nível'}
+        <Text className={cn('font-mono text-xs', points > 0 ? 'text-accent' : 'text-ink-muted')}>
+          {points > 0 ? t('character.points', { count: points }) : t('character.perLevel')}
         </Text>
       }
     >
       {ATTRIBUTES.map((a) => {
         const classBonus = cls ? config.classes[cls][a.key] : 0;
         return (
-          <View key={a.key} className="flex-row items-center gap-3 py-1">
-            <Text style={{ fontSize: 22, lineHeight: 28 }}>{a.icon}</Text>
+          <View
+            key={a.key}
+            className="min-h-12 flex-row items-center gap-3 border-b border-line py-1"
+          >
             <View className="flex-1">
-              <Text className="font-semibold text-ink">
+              <Text className="text-sm font-semibold text-ink">
                 {a.label}{' '}
-                <Text className="text-xs font-normal text-ink-muted">
-                  ({config.attributes.base} base
-                  {classBonus ? ` + ${classBonus} da classe` : ''}
-                  {game.allocated[a.key] ? ` + ${game.allocated[a.key]} seus` : ''})
+                <Text className="font-mono text-xs text-ink-muted">
+                  ({t('character.attrBreakdown', { base: config.attributes.base })}
+                  {classBonus ? t('character.attrClass', { n: classBonus }) : ''}
+                  {game.allocated[a.key]
+                    ? t('character.attrMine', { n: game.allocated[a.key] })
+                    : ''}
+                  )
                 </Text>
               </Text>
               <Text className="text-xs text-ink-muted">{a.effect}</Text>
             </View>
             <Text
-              className="w-8 text-center text-lg font-semibold text-ink"
-              accessibilityLabel={`${a.label}: ${game.attributes[a.key as AttrKey]}`}
+              className="w-8 text-center font-mono text-base text-ink"
+              accessibilityLabel={t('character.attrValue', {
+                name: a.label,
+                value: game.attributes[a.key as AttrKey],
+              })}
             >
               {game.attributes[a.key as AttrKey]}
             </Text>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`Mais um ponto em ${a.label}`}
+              accessibilityLabel={t('character.addPoint', { name: a.label })}
               aria-disabled={points < 1 || !online}
               disabled={points < 1 || !online || allocate.isPending}
               onPress={() =>
                 allocate.mutate(a.key, {
-                  onError: (e) => toast({ message: `Não deu certo: ${e.message}` }),
+                  onError: (e) => toast({ message: t('character.error', { message: e.message }) }),
                 })
               }
               className={cn(
-                'h-11 w-11 items-center justify-center rounded-full border border-accent active:opacity-70',
-                (points < 1 || !online) && 'opacity-30',
+                'h-11 w-11 items-center justify-center rounded border border-line hover:bg-wash md:h-8 md:w-8',
+                (points < 1 || !online) && 'opacity-40',
               )}
             >
-              <Text className="text-lg font-semibold text-accent">+</Text>
+              <Icon icon={Plus} tone="accent" />
             </Pressable>
           </View>
         );
@@ -273,7 +306,8 @@ export function AttributesPanel({ game }: { game: GameState }) {
         <Button
           variant="ghost"
           className="self-start"
-          label="Redistribuir pontos"
+          icon={RotateCcw}
+          label={t('character.resetPoints')}
           disabled={!online}
           onPress={() => reset.mutate(undefined)}
         />
@@ -284,6 +318,7 @@ export function AttributesPanel({ game }: { game: GameState }) {
 
 /** Passiva e habilidade ativa da classe. */
 export function SkillsPanel({ game }: { game: GameState }) {
+  const { t } = useTranslation();
   const use = useUseSkill();
   const online = useIsOnline();
   const toast = useToast();
@@ -291,28 +326,41 @@ export function SkillsPanel({ game }: { game: GameState }) {
   if (!cls) return null;
   const c = CLASSES[cls];
   return (
-    <Panel title="Habilidades">
+    <Panel title={t('character.skills')}>
       <View className="gap-1">
-        <Text className="font-semibold text-ink">🌙 Passiva: {c.passive.name}</Text>
+        <Text className="text-sm font-semibold text-ink">
+          {t('character.passiveLabel', { name: c.passive.name })}
+        </Text>
         <Text className="text-sm text-ink-muted">{c.passive.text}</Text>
         {cls === 'lutador' && (
-          <Text className="text-xs text-ink-muted">
-            {game.first_strike_ready ? 'Pronta para o primeiro golpe de hoje.' : 'Já usada hoje.'}
+          <Text className="font-mono text-xs text-ink-muted">
+            {t(
+              game.first_strike_ready ? 'character.firstStrikeReady' : 'character.firstStrikeUsed',
+            )}
           </Text>
         )}
       </View>
-      <View className="gap-2 rounded-lg border border-line p-3">
-        <Text className="font-semibold text-ink">⚡ {c.active.name}</Text>
-        <Text className="text-sm text-ink-muted">{c.active.text} Uma vez por dia.</Text>
+      <View className="gap-2 border-t border-line pt-3">
+        <Text className="text-sm font-semibold text-ink">{c.active.name}</Text>
+        <Text className="text-sm text-ink-muted">
+          {t('character.oncePerDay', { text: c.active.text })}
+        </Text>
         <Button
-          label={game.skill_active ? '✓ Ativa até o fim do dia' : `Usar ${c.active.name}`}
+          icon={game.skill_active ? Check : Zap}
+          className="self-start"
+          label={
+            game.skill_active
+              ? t('character.activeUntil')
+              : t('character.use', { name: c.active.name })
+          }
           variant={game.skill_active ? 'ghost' : 'primary'}
           disabled={game.skill_active || !online}
           loading={use.isPending}
           onPress={() =>
             use.mutate(undefined, {
-              onSuccess: () => toast({ message: `⚡ ${c.active.name}! Vale até o fim do dia.` }),
-              onError: (e) => toast({ message: `Não deu certo: ${e.message}` }),
+              onSuccess: () =>
+                toast({ message: t('character.usedToast', { name: c.active.name }) }),
+              onError: (e) => toast({ message: t('character.error', { message: e.message }) }),
             })
           }
         />
@@ -323,48 +371,62 @@ export function SkillsPanel({ game }: { game: GameState }) {
 
 /** "Seu golpe agora": a conta do dano com os seus atributos (espelho do servidor, D61). */
 export function DamagePanel({ game }: { game: GameState }) {
+  const { t } = useTranslation();
   const cls = classOf(game);
   const attrs = game.attributes;
   const opts = { streak: game.streak, skillActive: game.skill_active };
   const d = config.damage;
   const rows: { label: string; base: number; category: 'task' | 'routine' }[] = [
-    { label: 'Tarefa', base: d.task, category: 'task' },
-    { label: 'Tarefa !!!', base: d.task * config.xp.priorityMultiplier[3], category: 'task' },
-    { label: 'Hábito ou recorrente', base: d.habit, category: 'routine' },
-    { label: 'Card ou subtarefa', base: d.checklistItem, category: 'routine' },
-    { label: 'Hábito bom (+)', base: d.habitPlus, category: 'routine' },
+    { label: t('character.rowTask'), base: d.task, category: 'task' },
+    {
+      label: t('character.rowTaskHigh'),
+      base: d.task * config.xp.priorityMultiplier[3],
+      category: 'task',
+    },
+    { label: t('character.rowHabit'), base: d.habit, category: 'routine' },
+    { label: t('character.rowCard'), base: d.checklistItem, category: 'routine' },
+    { label: t('character.rowGood'), base: d.habitPlus, category: 'routine' },
   ];
   const chance = critChance(cls, attrs, game.skill_active);
   return (
-    <Panel title="Seu golpe agora">
-      <View className="gap-1">
+    <Panel title={t('character.damage')}>
+      <View>
         {rows.map((r) => {
           const hit = hitDamage(r.base, r.category, cls, attrs, opts);
           return (
-            <View key={r.label} className="flex-row items-center justify-between">
+            <View
+              key={r.label}
+              className="min-h-8 flex-row items-center justify-between border-b border-line"
+            >
               <Text className="text-sm text-ink">{r.label}</Text>
-              <Text className="text-sm text-ink">
-                ⚔️ <Text className="font-semibold">{hit.normal}</Text>
-                <Text className="text-ink-muted"> · 💥 {hit.crit}</Text>
+              <Text className="font-mono text-xs text-ink">
+                {hit.normal}
+                <Text className="font-mono text-xs text-ink-muted">
+                  {' · '}
+                  {t('character.crit', { n: hit.crit })}
+                </Text>
               </Text>
             </View>
           );
         })}
-        <View className="flex-row items-center justify-between">
-          <Text className="text-sm text-ink">Hábito ruim (−)</Text>
-          <Text className="text-sm text-danger">💚 cura {healAmount(cls, attrs)}</Text>
+        <View className="min-h-8 flex-row items-center justify-between">
+          <Text className="text-sm text-ink">{t('character.rowBad')}</Text>
+          <Text className="font-mono text-xs text-danger">
+            {t('character.heals', { n: healAmount(cls, attrs) })}
+          </Text>
         </View>
       </View>
       <Text className="text-xs text-ink-muted">
-        Crítico: {Math.round(chance * 100)}% de chance. Ouro por tarefa: 🪙{' '}
-        {goldFor(config.gold.task, cls, attrs)}.
-        {cls === 'lutador' && game.first_strike_ready
-          ? ` O próximo golpe é o primeiro do dia: ×${config.skills.firstStrikeMultiplier}.`
-          : ''}{' '}
-        Dano = base × (1 + {Math.round(d.perPoint * 100)}% por ponto de Força nas tarefas ou de
-        Inteligência nas rotinas + passiva e habilidade) × crítico. Tarefa concluída logo depois de
-        criada não dá XP, mas o golpe vale (até {config.antiFarm.dailyQuickDamageCap} de dano por
-        dia).
+        {t('character.damageHint', {
+          chance: Math.round(chance * 100),
+          gold: goldFor(config.gold.task, cls, attrs),
+          first:
+            cls === 'lutador' && game.first_strike_ready
+              ? t('character.firstStrikeNext', { mult: config.skills.firstStrikeMultiplier })
+              : '',
+          perPoint: Math.round(d.perPoint * 100),
+          cap: config.antiFarm.dailyQuickDamageCap,
+        })}
       </Text>
     </Panel>
   );
@@ -372,17 +434,22 @@ export function DamagePanel({ game }: { game: GameState }) {
 
 /** Espaços do equipamento e o inventário (tocar equipa/tira). */
 export function EquipmentPanel({ game }: { game: GameState }) {
+  const { t } = useTranslation();
   const items = useItems();
   const equip = useEquipItem();
   const online = useIsOnline();
   const owned = (items.data ?? []).filter((i) => game.inventory.includes(i.key));
   return (
     <Panel
-      title="Equipamento"
+      title={t('character.equipment')}
       right={
         <Link href="/shop" asChild>
-          <Pressable accessibilityRole="link" className="min-h-11 justify-center px-2">
-            <Text className="text-sm font-semibold text-accent">🛒 Loja</Text>
+          <Pressable
+            accessibilityRole="link"
+            className="min-h-8 flex-row items-center gap-1 rounded px-2 hover:bg-wash"
+          >
+            <Icon icon={ShoppingBag} tone="ink" />
+            <Text className="text-xs font-semibold text-ink">{t('character.shop')}</Text>
           </Pressable>
         </Link>
       }
@@ -395,7 +462,7 @@ export function EquipmentPanel({ game }: { game: GameState }) {
               {slot.label}
             </Text>
             {mine.length === 0 ? (
-              <Text className="text-sm text-ink-muted">Nada ainda.</Text>
+              <Text className="text-sm text-ink-muted">{t('character.nothingYet')}</Text>
             ) : (
               <View className="flex-row flex-wrap gap-2">
                 {mine.map((item) => (
@@ -432,26 +499,31 @@ function ItemChip({
   disabled?: boolean;
   onPress: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <Pressable
       accessibilityRole="checkbox"
       aria-checked={equipped}
-      accessibilityLabel={`${item.name} (${RARITY[item.rarity].label})`}
+      accessibilityLabel={t('character.itemLabel', {
+        name: item.name,
+        rarity: RARITY[item.rarity].label,
+      })}
       disabled={disabled}
       onPress={onPress}
       className={cn(
-        'min-h-11 flex-row items-center gap-2 rounded-full border px-3 active:opacity-70',
-        equipped ? 'border-accent bg-accent/10' : RARITY[item.rarity].border,
+        'min-h-11 flex-row items-center gap-2 rounded border px-2 hover:bg-wash md:min-h-8',
+        equipped ? 'border-accent bg-accent-soft' : RARITY[item.rarity].border,
       )}
     >
-      <Text style={{ fontSize: 18, lineHeight: 22 }}>{item.icon}</Text>
+      {/* Ícone do item: conteúdo do jogo, como o personagem */}
+      <Text className="text-base">{item.icon}</Text>
       <Text className="text-sm text-ink">{item.name}</Text>
-      {equipped && <Text className="text-xs text-accent">✓</Text>}
+      {equipped && <Icon icon={Check} tone="accent" />}
     </Pressable>
   );
 }
 
-/** Painel com título (cartão das telas de personagem e loja). */
+/** Grupo com rótulo (telas de personagem e loja): sem caixa, só o rótulo e a divisória. */
 export function Panel({
   title,
   right,
@@ -464,13 +536,8 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <View className={cn('gap-3 rounded-lg border border-line bg-surface p-4', className)}>
-      <View className="flex-row items-center justify-between gap-2">
-        <Text className="text-base font-semibold text-ink" accessibilityRole="header">
-          {title}
-        </Text>
-        {right}
-      </View>
+    <View className={cn('gap-3', className)}>
+      <SectionLabel title={title} right={right} />
       {children}
     </View>
   );

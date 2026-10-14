@@ -76,4 +76,12 @@ test('telas-chave', async ({ page }, testInfo) => {
   await openTab(page, 'Perfil');
   await page.waitForTimeout(400);
   await shoot(page, 'perfil', project);
+
+  await page.goto('/character');
+  await page.getByRole('button', { name: 'Escolher Mago' }).click();
+  await expect(page.getByRole('heading', { name: 'Personagem' })).toBeVisible();
+  await shoot(page, 'personagem', project);
+  await page.goto('/shop');
+  await page.waitForTimeout(600);
+  await shoot(page, 'loja', project);
 });

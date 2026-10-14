@@ -23,7 +23,7 @@ test('personagem: escolher classe, ver o golpe e a habilidade do dia', async ({
   // Loja: sem ouro, nada à venda fica disponível; os de boss nem têm preço
   await page.goto('/shop');
   await expect(page.getByRole('button', { name: 'Comprar Boné por 40 de ouro' })).toBeDisabled();
-  await expect(shown(page, '🎁 Só cai de boss').first()).toBeVisible();
+  await expect(shown(page, 'Só cai de boss').first()).toBeVisible();
 });
 
 test('tarefa concluída na hora não dá XP, mas bate no boss', async ({ page }, testInfo) => {
