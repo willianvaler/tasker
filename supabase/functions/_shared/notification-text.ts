@@ -9,6 +9,7 @@ export function describeNotification(n: NotificationLike): {
   text: string;
   taskId?: string;
   folderId?: string;
+  teamId?: string;
 } {
   const p = (n.payload ?? {}) as Record<string, string | number | undefined>;
   const by = p.by ? String(p.by) : 'Alguém';
@@ -28,6 +29,14 @@ export function describeNotification(n: NotificationLike): {
         text: `${by} entrou${folder}`,
         folderId: p.folder_id ? String(p.folder_id) : undefined,
       };
+    case 'team_invited':
+      return { text: `${by} te convidou para o time ${p.team_name}`, teamId: String(p.team_id) };
+    case 'team_joined':
+      return { text: `${p.name ?? by} entrou no time ${p.team_name}`, teamId: String(p.team_id) };
+    case 'join_requested':
+      return { text: `${by} pediu para entrar no time ${p.team_name}`, teamId: String(p.team_id) };
+    case 'join_approved':
+      return { text: `Você entrou no time ${p.team_name}`, teamId: String(p.team_id) };
     default:
       return { text: 'Novidade' };
   }
@@ -35,8 +44,14 @@ export function describeNotification(n: NotificationLike): {
 
 /** Mensagem do push (formato da API da Expo) para os tokens do usuário. */
 export function pushMessages(n: NotificationLike, tokens: string[]) {
-  const { text, taskId, folderId } = describeNotification(n);
-  const url = taskId ? `/task/${taskId}` : folderId ? `/folder/${folderId}` : '/notifications';
+  const { text, taskId, folderId, teamId } = describeNotification(n);
+  const url = taskId
+    ? `/task/${taskId}`
+    : folderId
+      ? `/folder/${folderId}`
+      : teamId
+        ? `/team/${teamId}`
+        : '/notifications';
   return tokens.map((to) => ({
     to,
     title: 'Questlist',

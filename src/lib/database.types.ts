@@ -593,6 +593,96 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"team_audit": {
+                  Row: {
+                    "action": string,"actor_id": string | null,"created_at": string,"id": string,"payload": NonNullable<Json>,"target_user_id": string | null,"team_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "action": string,"actor_id"?: string | null,"created_at"?: string,"id"?: string,"payload"?: NonNullable<Json>,"target_user_id"?: string | null,"team_id": string
+                  }
+                  Update: {
+                    "action"?: string,"actor_id"?: string | null,"created_at"?: string,"id"?: string,"payload"?: NonNullable<Json>,"target_user_id"?: string | null,"team_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "team_audit_actor_id_fkey"
+      columns: ["actor_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "team_audit_target_user_id_fkey"
+      columns: ["target_user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "team_audit_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"team_invites": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"email": string | null,"expires_at": string,"id": string,"max_uses": number,"revoked_at": string | null,"role": Database["public"]['Enums']["team_role"],"team_id": string,"token": string,"uses": number,"_team_invite_problem": string | null
+                  }
+                  ComputedFields: "_team_invite_problem"
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"email"?: string | null,"expires_at": string,"id"?: string,"max_uses": number,"revoked_at"?: string | null,"role"?: Database["public"]['Enums']["team_role"],"team_id": string,"token"?: string,"uses"?: number
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"email"?: string | null,"expires_at"?: string,"id"?: string,"max_uses"?: number,"revoked_at"?: string | null,"role"?: Database["public"]['Enums']["team_role"],"team_id"?: string,"token"?: string,"uses"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "team_invites_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "team_invites_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"team_join_requests": {
+                  Row: {
+                    "created_at": string,"decided_at": string | null,"decided_by": string | null,"id": string,"role": Database["public"]['Enums']["team_role"],"status": string,"team_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"decided_at"?: string | null,"decided_by"?: string | null,"id"?: string,"role": Database["public"]['Enums']["team_role"],"status"?: string,"team_id": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"decided_at"?: string | null,"decided_by"?: string | null,"id"?: string,"role"?: Database["public"]['Enums']["team_role"],"status"?: string,"team_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "team_join_requests_decided_by_fkey"
+      columns: ["decided_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "team_join_requests_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "team_join_requests_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"team_members": {
                   Row: {
                     "joined_at": string,"role": Database["public"]['Enums']["team_role"],"team_id": string,"user_id": string
@@ -806,8 +896,14 @@ isOneToOne: false
 "_invite_problem":
 { Args: { "p_invite": Omit<Database["public"]['Tables']["invites"]['Row'], Database["public"]['Tables']["invites"]['ComputedFields']> }; Returns: string
                            },
+"_join_team":
+{ Args: { "p_role": Database["public"]['Enums']["team_role"],"p_team_id": string,"p_user_id": string }; Returns: undefined
+                           },
 "_log_activity":
 { Args: { "p_action": string,"p_folder_id": string,"p_payload": Json }; Returns: undefined
+                           },
+"_my_email":
+{ Args: Record<PropertyKey, never>; Returns: string
                            },
 "_notify":
 { Args: { "p_kind": string,"p_payload": Json,"p_user": string }; Returns: undefined
@@ -836,7 +932,16 @@ isOneToOne: false
 "_sync_team_access":
 { Args: { "p_folder_id"?: string,"p_team_id": string,"p_user_id": string }; Returns: undefined
                            },
+"_team_audit":
+{ Args: { "p_action": string,"p_payload"?: Json,"p_target"?: string,"p_team_id": string }; Returns: undefined
+                           },
+"_team_invite_problem":
+{ Args: { "p_invite": Omit<Database["public"]['Tables']["team_invites"]['Row'], Database["public"]['Tables']["team_invites"]['ComputedFields']> }; Returns: string
+                           },
 "accept_invite":
+{ Args: { "p_token": string }; Returns: Json
+                           },
+"accept_team_invite":
 { Args: { "p_token": string }; Returns: Json
                            },
 "allocate_attribute":
@@ -932,8 +1037,31 @@ isOneToOne: false
         isOneToOne: false
         isSetofReturn: true
       } },
+"create_team_invite":
+{ Args: { "p_days"?: number,"p_email"?: string,"p_max_uses"?: number,"p_role"?: Database["public"]['Enums']["team_role"],"p_team_id": string }; Returns: {
+              "created_at": string,
+"created_by": string | null,
+"email": string | null,
+"expires_at": string,
+"id": string,
+"max_uses": number,
+"revoked_at": string | null,
+"role": Database["public"]['Enums']["team_role"],
+"team_id": string,
+"token": string,
+"uses": number
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "team_invites"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "cycle_key_for":
 { Args: { "p_at": string,"p_kind": string,"p_manual": number,"p_timezone": string }; Returns: string
+                           },
+"decide_join_request":
+{ Args: { "p_approve": boolean,"p_request_id": string }; Returns: undefined
                            },
 "delete_my_account":
 { Args: Record<PropertyKey, never>; Returns: undefined
@@ -1089,6 +1217,9 @@ isOneToOne: false
 "revoke_invites":
 { Args: { "p_folder_id": string }; Returns: number
                            },
+"revoke_team_invite":
+{ Args: { "p_invite_id": string }; Returns: undefined
+                           },
 "run_once":
 { Args: { "p_args": Json,"p_key": string,"p_name": string }; Returns: Json
                            },
@@ -1138,6 +1269,9 @@ isOneToOne: false
                            },
 "task_cycle_kind":
 { Args: { "p_recurrence": Json,"p_reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"p_view_type": Database["public"]['Enums']["page_view_type"] }; Returns: string
+                           },
+"team_invite_preview":
+{ Args: { "p_token": string }; Returns: Json
                            },
 "team_role_preset":
 { Args: { "p_role": Database["public"]['Enums']["team_role"] }; Returns: Database["public"]['Enums']["folder_role"]
