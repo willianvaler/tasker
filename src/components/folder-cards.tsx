@@ -20,7 +20,8 @@ export function folderLabel(folder: { name: string }) {
 export function folderSummary(folder: FolderNode | SubFolder, t: TFunction) {
   const pages = folder.pages.length + ('children' in folder ? sum(folder.children) : 0);
   const subs = 'children' in folder ? folder.children.length : 0;
-  const parts = [t('folder.pages', { count: pages })];
+  const project = 'kind' in folder && folder.kind === 'project';
+  const parts = [t(project ? 'project.item.count' : 'folder.pages', { count: pages })];
   if (subs) parts.push(t('folder.subfolders', { count: subs }));
   return parts.join(' · ');
 }

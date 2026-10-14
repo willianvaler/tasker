@@ -551,7 +551,32 @@
     "progressLabel": "Progreso del proyecto",
     "projectPct": "Proyecto: {{pct}}% completado",
     "memberProgress": "{{name}}: {{done}} de {{total}}",
-    "activity": "Actividad"
+    "activity": "Actividad",
+    "item": {
+      "new": "Nueva lista",
+      "count_one": "{{count}} lista",
+      "count_other": "{{count}} listas"
+    },
+    "milestones": "Hitos",
+    "milestonesEmpty": "Todavía no hay hitos. Los hitos son las fechas clave del proyecto.",
+    "milestonePlaceholder": "Nuevo hito (ej.: Compras viernes)",
+    "milestoneEdit": "Editar hito",
+    "milestoneName": "Nombre del hito",
+    "milestoneDate": "Fecha (ej.: viernes, 25/10; vacío la quita)",
+    "milestoneDelete": "Borrar hito",
+    "milestoneOptions": "Opciones de {{name}}",
+    "milestoneComplete": "Completar {{name}}",
+    "milestoneReopen": "Reabrir {{name}}",
+    "late_one": "atrasado {{count}} día",
+    "late_other": "atrasado {{count}} días",
+    "dueToday": "hoy",
+    "inDays_one": "mañana",
+    "inDays_other": "en {{count}} días",
+    "undated": "sin fecha",
+    "done": "hecho",
+    "next": "Próximo: {{name}} · {{when}}",
+    "people": "Personas",
+    "team": "Equipo {{name}}"
   },
   "auth": {
     "signInTitle": "Entra en tu cuenta",

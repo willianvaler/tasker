@@ -58,6 +58,10 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
+  milestones: {
+    insert: ['folder_id', 'name', 'due_date', 'done_at', 'position'],
+    update: ['name', 'due_date', 'done_at', 'position'],
+  },
   task_assignees: { insert: ['task_id', 'user_id', 'pending_name'], update: [] },
   conflict_copies: { insert: [], update: [] },
 };

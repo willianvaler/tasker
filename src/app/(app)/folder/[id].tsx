@@ -104,7 +104,7 @@ export default function FolderScreen() {
           {writable && (
             <Button
               icon={Plus}
-              label={t('folder.newPage')}
+              label={t(project ? 'project.item.new' : 'folder.newPage')}
               className="ml-auto"
               onPress={() => actions.newPage(folder.id)}
             />

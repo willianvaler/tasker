@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { ProgressBar } from '@/components/game-bar';
 import { ProjectBoss } from '@/components/project-boss';
+import { ProjectMilestones } from '@/components/project-milestones';
 import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
@@ -14,7 +15,15 @@ import type { FolderNode } from '@/lib/queries/tree';
 const pct = (p: { done: number; total: number }) =>
   p.total ? Math.round((p.done / p.total) * 100) : 0;
 
-/** Visão geral do projeto: progresso geral e por pessoa, boss e atividade. */
+const ROLE_LABEL = {
+  owner: 'share.roleOwner',
+  manager: 'share.roleManager',
+  editor: 'share.roleEditor',
+  contributor: 'share.roleContributor',
+  viewer: 'share.roleViewer',
+} as const;
+
+/** Visão geral do projeto: progresso geral e por pessoa (com o cargo), marcos, boss e atividade. */
 export function ProjectOverview({ root }: { root: FolderNode }) {
   const { t, i18n } = useTranslation();
   const members = useMembers(root.id);
@@ -60,6 +69,10 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
                 <Avatar name={m.displayName} />
                 <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
                   {m.displayName}
+                  <Text className="font-mono text-xs text-ink-muted">
+                    {'  '}
+                    {m.customRole?.name ?? t(ROLE_LABEL[m.role])}
+                  </Text>
                 </Text>
                 <Text
                   className="font-mono text-xs text-ink-muted"
@@ -76,6 +89,8 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
           })}
         </View>
       </View>
+
+      <ProjectMilestones rootId={root.id} />
 
       <ProjectBoss rootId={root.id} />
 

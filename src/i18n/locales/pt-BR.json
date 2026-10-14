@@ -551,7 +551,32 @@
     "progressLabel": "Progresso do projeto",
     "projectPct": "Projeto: {{pct}}% concluído",
     "memberProgress": "{{name}}: {{done}} de {{total}}",
-    "activity": "Atividade"
+    "activity": "Atividade",
+    "item": {
+      "new": "Nova lista",
+      "count_one": "{{count}} lista",
+      "count_other": "{{count}} listas"
+    },
+    "milestones": "Marcos",
+    "milestonesEmpty": "Nenhum marco ainda. Marcos são as datas-chave do projeto.",
+    "milestonePlaceholder": "Novo marco (ex.: Compras sexta)",
+    "milestoneEdit": "Editar marco",
+    "milestoneName": "Nome do marco",
+    "milestoneDate": "Data (ex.: sexta, 25/10; vazio tira a data)",
+    "milestoneDelete": "Apagar marco",
+    "milestoneOptions": "Opções de {{name}}",
+    "milestoneComplete": "Concluir {{name}}",
+    "milestoneReopen": "Reabrir {{name}}",
+    "late_one": "atrasado {{count}} dia",
+    "late_other": "atrasado {{count}} dias",
+    "dueToday": "hoje",
+    "inDays_one": "amanhã",
+    "inDays_other": "em {{count}} dias",
+    "undated": "sem data",
+    "done": "feito",
+    "next": "Próximo: {{name}} · {{when}}",
+    "people": "Pessoas",
+    "team": "Time {{name}}"
   },
   "auth": {
     "signInTitle": "Entre na sua conta",

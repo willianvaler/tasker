@@ -56,7 +56,10 @@ export function useFolderActions() {
     const owner = rootFolder(tree.data, folder.id)?.owner_id ?? folder.owner_id;
     const isOwner = owner === session?.user.id;
     return [
-      { label: t('folder.newPage'), onPress: () => actions.newPage(folder.id) },
+      {
+        label: t(folder.kind === 'project' ? 'project.item.new' : 'folder.newPage'),
+        onPress: () => actions.newPage(folder.id),
+      },
       // Máximo de 2 níveis de pasta
       ...(folder.parent_id
         ? []
@@ -170,7 +173,13 @@ export function useFolderActions() {
     const folderId = dialog.kind === 'new-page' ? dialog.folderId : '';
     element = (
       <PageDialog
-        title={t(editing ? 'page.settings' : 'pageDialog.new')}
+        title={t(
+          editing
+            ? 'page.settings'
+            : rootFolder(tree.data, folderId)?.kind === 'project'
+              ? 'project.item.new'
+              : 'pageDialog.new',
+        )}
         initial={editing ?? undefined}
         onClose={close}
         onConfirm={(settings) => {

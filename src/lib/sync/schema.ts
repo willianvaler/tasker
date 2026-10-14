@@ -140,6 +140,22 @@ const conflict_copies = new Table(
 );
 
 // De quem divide pasta comigo, só nome e avatar
+const milestones = new Table(
+  {
+    folder_id: column.text,
+    name: column.text,
+    due_date: column.text,
+    done_at: column.text,
+    position: column.real,
+    created_by: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+    updated_by: column.text,
+    version: column.integer,
+  },
+  { indexes: { folder: ['folder_id'] } },
+);
+
 // Cargos personalizados em uso nos meus projetos (grants chega como texto JSON)
 const team_roles = new Table({ team_id: column.text, name: column.text, grants: column.text });
 
@@ -182,6 +198,7 @@ export const AppSchema = new Schema({
   comments,
   task_completions,
   conflict_copies,
+  milestones,
   team_roles,
   people,
   profiles,

@@ -411,6 +411,32 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"milestones": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"done_at": string | null,"due_date": string | null,"folder_id": string,"id": string,"name": string,"position": number,"updated_at": string,"updated_by": string | null,"version": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"done_at"?: string | null,"due_date"?: string | null,"folder_id": string,"id"?: string,"name": string,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"done_at"?: string | null,"due_date"?: string | null,"folder_id"?: string,"id"?: string,"name"?: string,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "milestones_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "milestones_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"notifications": {
                   Row: {
                     "created_at": string,"id": string,"kind": string,"payload": NonNullable<Json>,"read_at": string | null,"user_id": string

@@ -551,7 +551,32 @@
     "progressLabel": "Project progress",
     "projectPct": "Project: {{pct}}% done",
     "memberProgress": "{{name}}: {{done}} of {{total}}",
-    "activity": "Activity"
+    "activity": "Activity",
+    "item": {
+      "new": "New list",
+      "count_one": "{{count}} list",
+      "count_other": "{{count}} lists"
+    },
+    "milestones": "Milestones",
+    "milestonesEmpty": "No milestones yet. Milestones are the key dates of the project.",
+    "milestonePlaceholder": "New milestone (e.g. Groceries friday)",
+    "milestoneEdit": "Edit milestone",
+    "milestoneName": "Milestone name",
+    "milestoneDate": "Date (e.g. friday, 10/25; empty removes it)",
+    "milestoneDelete": "Delete milestone",
+    "milestoneOptions": "Options for {{name}}",
+    "milestoneComplete": "Complete {{name}}",
+    "milestoneReopen": "Reopen {{name}}",
+    "late_one": "{{count}} day late",
+    "late_other": "{{count}} days late",
+    "dueToday": "today",
+    "inDays_one": "tomorrow",
+    "inDays_other": "in {{count}} days",
+    "undated": "no date",
+    "done": "done",
+    "next": "Next: {{name}} · {{when}}",
+    "people": "People",
+    "team": "Team {{name}}"
   },
   "auth": {
     "signInTitle": "Sign in to your account",
