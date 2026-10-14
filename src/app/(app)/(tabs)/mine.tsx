@@ -13,7 +13,7 @@ import { useMyTasks } from '@/lib/queries/projects';
 import { pageLabel } from '@/lib/queries/tree';
 import { useSelectableList } from '@/lib/selection';
 
-// Atribuídas a mim (ESCOPO 4.5, D69): abertas e atribuídas a mim, de todos os projetos.
+// Atribuídas a mim: abertas e atribuídas a mim, de todos os projetos.
 export default function MineScreen() {
   const { t } = useTranslation();
   const today = useToday();

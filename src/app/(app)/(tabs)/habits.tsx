@@ -40,7 +40,7 @@ const KINDS = [
   },
 ] as const satisfies readonly { value: Kind; label: string; hint: string; example: string }[];
 
-// Hábitos (D68): todos os hábitos num lugar só, sem precisar de pasta. Os novos vão para a página de
+// Hábitos: todos os hábitos num lugar só, sem precisar de pasta. Os novos vão para a página de
 // hábitos de sistema; os de páginas de hábitos em pastas aparecem junto, com o nome da página.
 export default function HabitsScreen() {
   const { t } = useTranslation();

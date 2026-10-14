@@ -23,7 +23,7 @@ const fold = (text: string) =>
     .toLowerCase();
 
 /**
- * Ajuda (V2 §10). A tabela de atalhos sai do registro (lib/shortcuts.ts): nunca é escrita à mão.
+ * Ajuda. A tabela de atalhos sai do registro (lib/shortcuts.ts): nunca é escrita à mão.
  * Os artigos (começando, pastas e projetos, time, sem internet, gamificação) entram na Fase F.
  */
 export default function HelpScreen() {

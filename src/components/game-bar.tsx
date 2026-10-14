@@ -12,7 +12,7 @@ import { useColors } from '@/lib/tokens';
 
 export { ProgressBar };
 
-/** Arte única dos bosses (docs/DESIGN.md): um traço só, estilo carimbo, a mesma para todos. */
+/** Arte única dos bosses: um traço só, estilo carimbo, a mesma para todos. */
 export function BossArt({ size = 28 }: { size?: 28 | 48 }) {
   const colors = useColors();
   return (
@@ -30,7 +30,7 @@ export function BossArt({ size = 28 }: { size?: 28 | 48 }) {
 }
 
 /**
- * Faixa do boss (docs/mockups/hoje.html): nome serifado, nível em mono, linha de HP de 2 px e
+ * Faixa do boss: nome serifado, nível em mono, linha de HP de 2 px e
  * `120/120 HP`. Solo e clã são semanais; o de projeto tem prazo e conta tarefas.
  */
 export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
@@ -92,7 +92,7 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
 
 /**
  * Resumo do jogo no topo da Hoje e do Início: nível e XP em mono com o fio de 2 px, sequência, e a
- * faixa do boss da semana (e do clã). Discreto: marcação, não um jogo por cima (V2 §12.2).
+ * faixa do boss da semana (e do clã). Discreto: marcação, não um jogo por cima.
  */
 export function GameHeader() {
   const { t } = useTranslation();

@@ -23,7 +23,7 @@ import { useCanWrite } from '@/providers/write';
 import { useColors } from '@/lib/tokens';
 
 /**
- * Campo de captura rápida (ESCOPO 4.1): digita e Enter cria; o foco fica no campo.
+ * Campo de captura rápida: digita e Enter cria; o foco fica no campo.
  * Texto com várias linhas ou ";" (colado ou digitado) abre a pré-visualização do lote.
  */
 export function QuickAdd({
@@ -42,7 +42,7 @@ export function QuickAdd({
   onCreated?: () => void;
   /** Página de cards: "4x12" e "20kg" viram séries/repetições/carga */
   parseMeta?: boolean;
-  /** Hábito: tipo e meta escolhidos ao lado do campo (tela Hábitos, D68) */
+  /** Hábito: tipo e meta escolhidos ao lado do campo */
   habit?: { kind: 'check' | 'counter' | 'plusminus'; target?: number };
 }) {
   const online = useIsOnline();
@@ -95,7 +95,7 @@ export function QuickAdd({
         },
       ],
     });
-    // Mais de uma pessoa com esse nome: não atribui (ESCOPO 4.5) e avisa
+    // Mais de uma pessoa com esse nome: não atribui e avisa
     const ambiguous = resolved.filter((r) => r.kind === 'ambiguous').map((r) => `@${r.name}`);
     if (ambiguous.length)
       toast({
@@ -107,7 +107,7 @@ export function QuickAdd({
     onCreated?.();
   }
 
-  // Q/N põem o foco aqui quando esta é a tela em foco (V2 §9)
+  // Q/N põem o foco aqui quando esta é a tela em foco
   const focused = useIsFocused();
   useEffect(() => {
     if (!focused) return;
@@ -131,7 +131,7 @@ export function QuickAdd({
   });
 
   return (
-    // Linha de captura (docs/mockups/hoje.html): "+" no acento, campo sem caixa, divisória fina
+    // Linha de captura: "+" no acento, campo sem caixa, divisória fina
     <View className="min-h-11 flex-row items-center gap-3 border-b border-line md:min-h-10">
       <Icon icon={Plus} tone={ready ? 'accent' : 'ink-muted'} />
       <TextInput

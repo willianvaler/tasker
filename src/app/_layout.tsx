@@ -18,7 +18,7 @@ import { ToastProvider } from '@/providers/toast';
 
 SplashScreen.preventAutoHideAsync();
 
-// Navegação (abas, cabeçalhos) com as cores do tema (docs/DESIGN.md)
+// Navegação (abas, cabeçalhos) com as cores do tema
 const navColors = (c: (typeof COLORS)['light' | 'dark']) => ({
   primary: c.ink,
   background: c.paper,

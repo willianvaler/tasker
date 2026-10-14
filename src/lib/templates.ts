@@ -1,7 +1,7 @@
 import { parseBatchInput, type BatchChild } from './parser/batch';
 import type { Page } from './queries/tree';
 
-// Modelos de projeto prontos (ESCOPO 4.5). Cada página é escrita como no "Adicionar várias":
+// Modelos de projeto prontos. Cada página é escrita como no "Adicionar várias":
 // uma tarefa por linha, recuo = subtarefa, sintaxe rápida vale (#etiqueta, !, /semanal...).
 
 export type BuiltInTemplate = {

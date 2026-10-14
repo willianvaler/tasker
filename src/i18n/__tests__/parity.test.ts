@@ -4,7 +4,7 @@ import en from '../locales/en.json';
 import es from '../locales/es.json';
 import ptBR from '../locales/pt-BR.json';
 
-// V2 §11: uma chave que existe num idioma e falta em outro derruba o teste.
+// Uma chave que existe num idioma e falta em outro derruba o teste.
 type Tree = { [key: string]: string | Tree };
 
 function leaves(tree: Tree, prefix = ''): Map<string, string> {

@@ -9,7 +9,7 @@ import { supabase } from './supabase';
 
 const TOKEN_KEY = 'questlist:push-token';
 
-// Push no celular (D58). Precisa de development build (o Expo Go não recebe push no Android desde o
+// Push no celular. Precisa de development build (o Expo Go não recebe push no Android desde o
 // SDK 53) e do projectId do EAS em app.json (extra.eas.projectId).
 
 Notifications.setNotificationHandler({

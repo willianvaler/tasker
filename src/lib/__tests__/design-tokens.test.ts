@@ -2,7 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import { COLORS, hexToRgbTriplet } from '../tokens';
 
-// Guarda do docs/DESIGN.md: nada de valor solto em componente.
+// Nada de valor solto em componente.
 declare const require: (id: string) => unknown;
 const fs = require('fs') as {
   readFileSync: (p: string, e: string) => string;
@@ -50,7 +50,7 @@ describe('cores', () => {
   });
 });
 
-describe('escalas (V3 §0.3)', () => {
+describe('escalas', () => {
   const prefix = String.raw`(?<![\w-])(?:[a-z]+:)*`;
   test.each([
     ['tamanho de fonte fora dos 5', String.raw`text-(?:[2-9]xl|\[\d+px\])`],

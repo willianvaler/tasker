@@ -1,4 +1,4 @@
-// Na web não há push (D58): os avisos ficam no sino 🔔, que atualiza em tempo real.
+// Na web não há push: os avisos ficam no sino 🔔, que atualiza em tempo real.
 export const pushSupported = false;
 
 export type PushResult = { ok: true } | { ok: false; reason: string };

@@ -76,7 +76,7 @@ export default function PageScreen() {
         }
         back
         right={
-          // Página de hábitos de sistema: sem configurar nem duplicar (D68)
+          // Página de hábitos de sistema: sem configurar nem duplicar
           page && online && !page.is_habits ? (
             <>
               <IconButton

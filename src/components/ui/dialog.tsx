@@ -112,7 +112,6 @@ export function ConfirmDialog({
 
 export type MenuAction = { label: string; onPress: () => void; destructive?: boolean };
 
-/** Menu de ações (o "⋯" das pastas e páginas): título pequeno e itens de menu. */
 export function ActionMenu({
   title,
   actions,
@@ -147,13 +146,11 @@ export function ActionMenu({
   );
 }
 
-/** Estado de um diálogo aberto por vez; `null` fecha. */
 export function useDialog<T>() {
   const [dialog, setDialog] = useState<T | null>(null);
   return [dialog, setDialog, () => setDialog(null)] as const;
 }
 
-/** Fecha o diálogo quando `when` passa a ser verdadeiro (ex.: depois de salvar). */
 export function useCloseWhen(when: boolean, close: () => void) {
   useEffect(() => {
     if (when) close();

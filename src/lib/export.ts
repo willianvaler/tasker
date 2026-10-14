@@ -1,4 +1,4 @@
-// Exportação dos dados (ESCOPO 9): JSON completo e CSV das tarefas (abre no Excel/Planilhas).
+// Exportação dos dados: JSON completo e CSV das tarefas (abre no Excel/Planilhas).
 
 type ExportTask = {
   title?: string;

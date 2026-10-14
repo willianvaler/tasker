@@ -17,7 +17,7 @@ export type PageSettings = {
 
 export type SubFolder = Folder & { pages: Page[] };
 export type FolderNode = SubFolder & { children: SubFolder[] };
-/** inbox e habits: as páginas de sistema (ficam na pasta escondida da Caixa de entrada, D8 e D68) */
+/** inbox e habits: as páginas de sistema */
 export type Tree = {
   inbox: Page | null;
   habits: Page | null;
@@ -86,7 +86,7 @@ export function useTreeMutations() {
       icon?: string | null;
       color?: string | null;
       parentId?: string;
-      /** Projeto só na raiz (V2 §5) */
+      /** Projeto só na raiz */
       kind?: 'folder' | 'project';
     }) => {
       const siblings = parentId

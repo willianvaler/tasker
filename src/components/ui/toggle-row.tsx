@@ -3,7 +3,6 @@ import { Switch, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { useColors } from '@/lib/tokens';
 
-/** Linha de configuração com interruptor: título, explicação curta e o liga/desliga no acento. */
 export function ToggleRow({
   title,
   hint,

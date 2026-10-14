@@ -1,6 +1,6 @@
 import { parseQuickInput, type ParsedTask, type QuickParseOptions } from './quick';
 
-// Criação em lote (ESCOPO 4.1 e 8): texto colado vira várias tarefas.
+// Criação em lote: texto colado vira várias tarefas.
 //   - Separadores: quebra de linha e ";" (um ";" dentro de aspas não separa)
 //   - Marcadores no início saem: "-", "*", "•", "1.", "1)", "[ ]", "[x]" ("*" nunca é recorrência)
 //   - "[x]" cria a tarefa já concluída

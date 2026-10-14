@@ -12,7 +12,7 @@ import { describeNotification } from '@/lib/notifications';
 import { useMarkNotificationsRead, useNotifications } from '@/lib/queries/projects';
 import { useIsOnline } from '@/providers/online';
 
-// Notificações in-app (ESCOPO 4.5). Abrir a tela marca todas como lidas.
+// Notificações in-app. Abrir a tela marca todas como lidas.
 export default function NotificationsScreen() {
   const { t, i18n } = useTranslation();
   const when = new Intl.DateTimeFormat(i18n.language, {

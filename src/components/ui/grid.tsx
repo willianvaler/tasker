@@ -1,10 +1,7 @@
 import { Children, type ReactNode } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
-/**
- * Grade que acompanha a largura da janela (D67): 1 coluna no celular, mais no computador.
- * `breakpoints`: largura mínima para cada coluna a mais (ex.: [640, 1100] = 2 colunas a partir de 640).
- */
+/** `breakpoints`: largura a partir da qual entra cada coluna a mais. */
 export function Grid({
   children,
   breakpoints = [640, 1100],

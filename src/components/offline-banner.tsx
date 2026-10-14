@@ -6,7 +6,7 @@ import { Text } from '@/components/ui/text';
 import { taskMutationKey } from '@/lib/queries/keys';
 import { useIsOnline } from '@/providers/online';
 
-/** Alterações de tarefa esperando a conexão (fila offline, D52). */
+/** Alterações de tarefa esperando a conexão (fila offline). */
 export function usePendingChanges() {
   return useMutationState({
     filters: { mutationKey: taskMutationKey, status: 'pending' },

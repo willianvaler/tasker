@@ -56,7 +56,7 @@ const AVATAR = {
   lg: { box: 'h-36 w-36 rounded-lg', figure: 72, extra: 34 },
 } as const;
 
-/** O personagem: figura da classe, aura de fundo e os itens equipados em volta (só visual, D64). */
+/** O personagem: figura da classe, aura de fundo e os itens equipados em volta (só visual). */
 export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof typeof AVATAR }) {
   const { t } = useTranslation();
   const items = useItemMap();
@@ -369,7 +369,7 @@ export function SkillsPanel({ game }: { game: GameState }) {
   );
 }
 
-/** "Seu golpe agora": a conta do dano com os seus atributos (espelho do servidor, D61). */
+/** "Seu golpe agora": a conta do dano com os seus atributos (espelho do servidor). */
 export function DamagePanel({ game }: { game: GameState }) {
   const { t } = useTranslation();
   const cls = classOf(game);

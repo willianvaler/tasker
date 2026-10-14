@@ -11,15 +11,14 @@ export function WriteScope({ folderId, children }: { folderId?: string; children
 }
 
 /**
- * Pode escrever? Precisa de papel de dono ou editor no projeto (leitor só vê e comenta, ESCOPO
- * 4.5) e de conexão, a não ser que a ação vá para a fila offline (`offline: true`). Sem pasta
+ * Pode escrever? Precisa de papel de dono ou editor no projeto (leitor só vê e comenta) e de conexão, a não ser que a ação vá para a fila offline (`offline: true`). Sem pasta
  * conhecida, vale só a conexão (o servidor confere de novo).
  */
 export function useCanWrite(folderId?: string | null, options?: { offline?: boolean }) {
   const scoped = useContext(FolderScope);
   const online = useIsOnline();
   const role = useFolderRole(folderId ?? scoped);
-  // Criar, marcar e reordenar tarefas entram na fila offline (D52); o resto precisa de conexão
+  // Criar, marcar e reordenar tarefas entram na fila offline; o resto precisa de conexão
   if (!online && !options?.offline) return false;
   if (!(folderId ?? scoped)) return true;
   return role === undefined ? true : canEdit(role);

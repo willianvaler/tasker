@@ -28,7 +28,7 @@ import { useShortcut } from '@/lib/use-shortcut';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
-// Criação em lote (ESCOPO 4.1): cola o texto, confere a pré-visualização, edita ou tira itens e confirma.
+// Criação em lote: cola o texto, confere a pré-visualização, edita ou tira itens e confirma.
 // O texto é a fonte; editar um item na prévia guarda só aquela linha (some se o texto mudar).
 export default function BatchScreen() {
   const { t } = useTranslation();
@@ -49,7 +49,7 @@ export default function BatchScreen() {
   // Em cards, "4x12" e "20kg" viram séries/repetições/carga
   const isCards = page?.view_type === 'cards';
   const mentions = useMentions(page?.id);
-  // Criar vai para a fila offline (D52)
+  // Criar vai para a fila offline
   const writable = useCanWrite(page?.folder_id, { offline: true });
 
   // Cada item tem uma chave "posição do item.posição da subtarefa" ("3" ou "3.1")

@@ -3,19 +3,15 @@ import { useEffect, useSyncExternalStore } from 'react';
 
 import type { Task } from '@/lib/queries/tasks';
 
-// Seleção da lista (V2 §8 e §9): qual tarefa está selecionada, a lista visível em ordem (para
-// J/K e setas) e os pedidos de edição (F2). Um store fora do React, com assinatura por seletor:
-// mudar a seleção re-renderiza só as duas linhas que mudaram, não a lista inteira (D57).
+// Fora do React, com assinatura por seletor: mudar a seleção re-renderiza só as duas linhas
+// envolvidas, não a lista inteira.
 
 type RenameTarget = { kind: 'page' | 'folder'; id: string };
 
 type State = {
   selectedId: string | null;
-  /** Tarefas da lista que está na tela, na ordem em que aparecem */
   list: Task[];
-  /** Tarefa com o título em edição (F2) */
   editId: string | null;
-  /** Página ou pasta com o nome em edição (F2 sem tarefa selecionada) */
   rename: RenameTarget | null;
 };
 
@@ -40,7 +36,6 @@ export const selection = {
     const keep = state.selectedId && list.some((t) => t.id === state.selectedId);
     set({ list, selectedId: keep ? state.selectedId : null });
   },
-  /** Seleciona a próxima (1) ou a anterior (-1); sem seleção, a primeira (ou a última). */
   move: (delta: 1 | -1) => {
     const { list, selectedId } = state;
     if (list.length === 0) return;
@@ -58,7 +53,6 @@ export const selection = {
   rename: (target: RenameTarget | null) => set({ rename: target }),
 };
 
-/** Lê um pedaço do estado; o componente só re-renderiza quando esse pedaço muda. */
 export function useSelection<T>(pick: (s: State) => T): T {
   return useSyncExternalStore(
     subscribe,
@@ -67,7 +61,6 @@ export function useSelection<T>(pick: (s: State) => T): T {
   );
 }
 
-/** A tela em foco informa a ordem das tarefas que mostra (J/K, setas e os outros atalhos). */
 export function useSelectableList(tasks: Task[]) {
   const focused = useIsFocused();
   useEffect(() => {

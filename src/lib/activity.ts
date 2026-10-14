@@ -1,6 +1,6 @@
 import type { Activity } from './queries/projects';
 
-/** "Cris concluiu Comprar cerveja" (ESCOPO 4.5). */
+/** "Cris concluiu Comprar cerveja". */
 export function describeActivity(a: Pick<Activity, 'action' | 'payload' | 'actor'>) {
   const p = (a.payload ?? {}) as Record<string, string | number | undefined>;
   const who = a.actor?.display_name || 'Alguém';

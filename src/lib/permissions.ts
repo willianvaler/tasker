@@ -1,6 +1,6 @@
 import type { Role } from './queries/projects';
 
-// Permissões como dados (ESCOPO_V2 §4.3, ESCOPO_V3 §8). Um cargo é só um conjunto de permissões
+// Permissões como dados. Um cargo é só um conjunto de permissões
 // atômicas; nada de `if (role === 'x')` espalhado. O banco tem o mesmo catálogo em
 // public.permission_presets() (o teste compara) e é a autoridade; no app, can() só esconde e
 // desabilita controles.
@@ -53,7 +53,7 @@ const without = (...excluded: Permission[]) => ALL.filter((p) => !excluded.inclu
 export const PRESETS = {
   /** Dono: tudo, inclusive excluir o projeto. */
   owner: ALL,
-  /** Gerente (V2 §4.3): tudo menos excluir o projeto (só o Dono). */
+  /** Gerente: tudo menos excluir o projeto (só o Dono). */
   manager: without('project.delete'),
   /** Editor: trabalha em tudo, mas não mexe em pessoas, automações nem no limite de níveis. */
   editor: without('project.delete', 'member.manage', 'automation.manage', 'settings.max_depth'),
@@ -71,7 +71,7 @@ export const PRESETS = {
   ],
   /** Leitor: vê e comenta. */
   viewer: ['project.view', 'comment.create'],
-  /** Executor (V3 §3.3, página enviada): marca, registra e usa timers na própria página. */
+  /** Executor: marca, registra e usa timers na própria página. */
   executor: ['project.view', 'comment.create', 'item.check', 'item.log', 'timer.use'],
 } as const satisfies Record<string, readonly Grant[]>;
 export type Preset = keyof typeof PRESETS;
@@ -88,7 +88,7 @@ export type Resource = { createdBy?: string | null; assigneeIds?: readonly strin
 
 export type Actor = { userId?: string; preset: Preset };
 
-/** A função única de permissão (V2 §4.3). */
+/** A função única de permissão. */
 export function can(actor: Actor, permission: Permission, resource?: Resource): boolean {
   const grants: readonly Grant[] = PRESETS[actor.preset];
   if (grants.includes(permission)) return true;

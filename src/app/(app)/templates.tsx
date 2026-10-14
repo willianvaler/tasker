@@ -18,7 +18,7 @@ import { useToast } from '@/providers/toast';
 
 type Chosen = { name: string; icon: string; data: TemplateData; shared: boolean };
 
-// Criar projeto a partir de modelo (ESCOPO 4.5): os prontos (no app) e os salvos pelo usuário.
+// Criar projeto a partir de modelo: os prontos (no app) e os salvos pelo usuário.
 export default function TemplatesScreen() {
   const { t } = useTranslation();
   const today = useToday();

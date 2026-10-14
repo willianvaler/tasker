@@ -6,8 +6,6 @@ import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { useColors } from '@/lib/tokens';
 
-// Só duas variantes (V3 §0.3): primário (fundo do acento) e fantasma (sem fundo, hover sutil).
-// "Apagar" é um primário dentro do diálogo de confirmação, que já diz o que vai acontecer.
 type Variant = 'primary' | 'ghost';
 
 type ButtonProps = PressableProps & {
@@ -34,7 +32,6 @@ export function Button({
       accessibilityRole="button"
       disabled={disabled || loading}
       className={cn(
-        // 44 px no celular (alvo de toque), 32 px no computador
         'min-h-11 flex-row items-center justify-center gap-2 rounded px-3 md:min-h-8',
         primary ? 'bg-accent hover:opacity-90 active:opacity-80' : 'hover:bg-wash active:bg-wash',
         (disabled || loading) && 'opacity-40',
@@ -56,7 +53,6 @@ export function Button({
   );
 }
 
-/** Botão só de ícone (32 px no computador, 44 no celular), sempre com rótulo acessível. */
 export function IconButton({
   icon,
   label,

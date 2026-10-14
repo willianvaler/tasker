@@ -24,7 +24,7 @@ const tabIcon = (Glyph: LucideIcon) =>
     return <Glyph size={20} color={String(color)} strokeWidth={1.5} absoluteStrokeWidth />;
   };
 
-// Abas embaixo no celular (D69, D76). Em tela larga, quem navega é a barra lateral
+// Abas embaixo no celular. Em tela larga, quem navega é a barra lateral
 // (components/sidebar.tsx), que fica no layout de cima para continuar visível dentro das páginas.
 export default function TabsLayout() {
   const wide = useIsWide();
@@ -97,7 +97,7 @@ export default function TabsLayout() {
         />
       </Tabs>
       {!wide && (
-        // "+" abre o menu Novo (V2 §12.3), como folha de baixo para cima
+        // "+" abre o menu Novo, como folha de baixo para cima
         <View ref={fab} collapsable={false} className="absolute bottom-24 right-4">
           <Pressable
             accessibilityRole="button"

@@ -30,12 +30,6 @@ const PRIORITIES = [
   { value: 3, label: 'taskDetail.priorityHigh' },
 ] as const;
 
-/**
- * Criação avançada (V2 §7): todos os campos antes de criar, no mesmo painel da tarefa (lateral no
- * computador, folha no celular). Só o título é obrigatório; Ctrl+Enter cria; Esc fecha (pergunta
- * antes se algo foi escrito). Depois de criada, a tarefa abre no painel normal, onde ficam
- * subtarefas, responsáveis e comentários: não há "modo separado" de dados.
- */
 export default function NewTaskScreen() {
   const { t } = useTranslation();
   const colors = useColors();

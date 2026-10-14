@@ -12,11 +12,6 @@ import Svg, { Path, Rect } from 'react-native-svg';
 import { cn } from '@/lib/cn';
 import { DURATION, useColors } from '@/lib/tokens';
 
-/**
- * Caixa de marcar "carimbo" (docs/DESIGN.md): marcada, vira um X traçado à mão no acento, que
- * aparece com um "carimbar" curto. A caixa visível tem 18 px; a área de toque, 44 px no celular e
- * 32 px no computador. Com "reduzir movimento", aparece direto.
- */
 export function Checkbox({
   checked,
   onChange,
@@ -48,10 +43,7 @@ export function Checkbox({
   );
 }
 
-/**
- * O desenho da caixa (18 px) com o X de caneta que aparece "carimbando". Sozinho, serve onde o
- * elemento inteiro já é a caixa de marcar (o card da página de cards).
- */
+/** Só o desenho, para quando o elemento inteiro já é a caixa (card). */
 export function StampBox({ checked, size = 18 }: { checked: boolean; size?: 18 | 24 }) {
   const colors = useColors();
   const reduced = useReducedMotion();

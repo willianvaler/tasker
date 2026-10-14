@@ -23,7 +23,7 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
 };
 
 /**
- * Tempo real (ESCOPO 4.5): o que outra pessoa muda no projeto aparece sem recarregar. A RLS vale
+ * Tempo real: o que outra pessoa muda no projeto aparece sem recarregar. A RLS vale
  * para quem assina, então chegam só as mudanças que o usuário pode ver. Os eventos de uma mesma
  * leva (ex.: colar 10 tarefas) viram uma recarga só.
  */

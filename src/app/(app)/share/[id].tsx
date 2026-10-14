@@ -57,7 +57,7 @@ export default function ShareScreen() {
   const [linking, setLinking] = useState<string | null>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<{ member: Member; leaving: boolean }>();
 
-  // Mudar papéis e remover pessoas (V2 §4.3: member.manage). Convidar continua aberto ao editor
+  // Mudar papéis e remover pessoas. Convidar continua aberto ao editor
   // até os cargos novos (Fase E)
   const isOwner = roleCan(role, 'member.manage');
   const canInvite = role === 'owner' || role === 'editor';

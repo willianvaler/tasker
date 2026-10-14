@@ -20,7 +20,7 @@ import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
 /**
- * Boss de projeto com prazo (ESCOPO 4.6): "o churrasco é sábado: derrote o boss até lá".
+ * Boss de projeto com prazo: "o churrasco é sábado: derrote o boss até lá".
  * HP = tarefas principais do projeto; cada uma concluída é 1 de dano.
  */
 export function ProjectBoss({ rootId }: { rootId: string }) {

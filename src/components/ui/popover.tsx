@@ -10,7 +10,6 @@ import { useShortcut } from '@/lib/use-shortcut';
 
 type Rect = { x: number; y: number; width: number; height: number };
 
-/** Mede onde o elemento âncora está na janela (para abrir o popover colado nele). */
 function useAnchorRect(anchor: RefObject<View | null>, open: boolean) {
   const [rect, setRect] = useState<Rect | null>(null);
   useEffect(() => {
@@ -20,11 +19,7 @@ function useAnchorRect(anchor: RefObject<View | null>, open: boolean) {
   return open ? rect : null;
 }
 
-/**
- * Menu ou seletor preso a um botão (menu "+ Novo", ícones, "⋯"). No computador abre colado na
- * âncora (embaixo, ou em cima se não couber), com borda e uma sombra mínima, a única do app; no
- * celular vira folha de baixo para cima. Esc ou tocar fora fecha.
- */
+/** Colado na âncora no computador; folha de baixo para cima no celular. */
 export function Popover({
   anchor,
   open,
@@ -76,7 +71,6 @@ export function Popover({
       </Modal>
     );
 
-  // Posição: embaixo, em cima ou à direita da âncora, sem sair da janela
   const left = !rect
     ? 0
     : placement === 'right'
@@ -115,7 +109,6 @@ export function Popover({
   );
 }
 
-/** Item de menu: 32 px no computador, 44 no celular, com atalho à direita (em mono). */
 export function MenuItem({
   label,
   icon,

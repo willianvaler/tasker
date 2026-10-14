@@ -3,7 +3,7 @@ import { InstrumentSans_400Regular } from '@expo-google-fonts/instrument-sans/40
 import { InstrumentSans_600SemiBold } from '@expo-google-fonts/instrument-sans/600SemiBold';
 import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono/400Regular';
 
-// Fontes do docs/DESIGN.md, embutidas no app (sem CDN). Os nomes são as famílias usadas no
+// Fontes embutidas no app (sem CDN). Os nomes são as famílias usadas no
 // tailwind.config.js (fontFamily) e no components/ui/text.tsx. Só os pesos usados, um arquivo cada.
 export const FONTS = {
   Fraunces_500Medium,

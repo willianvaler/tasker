@@ -111,7 +111,7 @@ export function AssigneesEditor({ task }: { task: Task }) {
   );
 }
 
-/** Comentários em ordem cronológica; @nome avisa o membro (ESCOPO 4.5). Leitor também comenta. */
+/** Comentários em ordem cronológica; @nome avisa o membro. Leitor também comenta. */
 export function Comments({ task }: { task: Task }) {
   const { t, i18n } = useTranslation();
   const when = new Intl.DateTimeFormat(i18n.language, {

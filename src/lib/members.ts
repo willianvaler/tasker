@@ -1,4 +1,4 @@
-// Casar "@nome" com membros do projeto (ESCOPO 4.5). Espelho de public.name_key e
+// Casar "@nome" com membros do projeto. Espelho de public.name_key e
 // public.members_matching (migração da Fase 4), com os mesmos casos de teste.
 
 /** "Ana Lima" → "analima"; "@Grégory" → "gregory". */

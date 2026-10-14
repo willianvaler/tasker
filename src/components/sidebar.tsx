@@ -39,7 +39,7 @@ import { useGameState } from '@/lib/queries/game';
 import { useTree, type Page, type SubFolder } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 
-/** Largura a partir da qual as abas viram barra lateral (ESCOPO 5). */
+/** Largura a partir da qual as abas viram barra lateral. */
 export const WIDE = 768;
 
 export function useIsWide() {
@@ -53,13 +53,13 @@ const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; projectsOnly?: 
   { href: '/today', key: 'today', icon: Sun },
   { href: '/inbox', key: 'inbox', icon: Inbox },
   { href: '/habits', key: 'habits', icon: Repeat },
-  // Só para quem participa de algum projeto (D69)
+  // Só para quem participa de algum projeto
   { href: '/mine', key: 'mine', icon: UserCheck, projectsOnly: true },
   { href: '/folders', key: 'folders', icon: LayoutGrid },
 ];
 
 /**
- * Barra lateral em tela larga (docs/mockups/sidebar.html): 256 px, atalhos, Pastas e Projetos como
+ * Barra lateral em tela larga: 256 px, atalhos, Pastas e Projetos como
  * seções separadas e recolhíveis, e no rodapé o nível, os atalhos do jogo e o estado da conexão.
  * Fica fora da pilha de telas, então continua visível dentro das páginas.
  */

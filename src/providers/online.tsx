@@ -10,7 +10,7 @@ if (Platform.OS !== 'web') {
   );
 }
 
-/** Está com internet? Sem conexão, o app fica só para leitura (ESCOPO 9, v1). */
+/** Está com internet? Sem conexão, o app fica só para leitura. */
 export function useIsOnline() {
   return useSyncExternalStore(
     (onChange) => onlineManager.subscribe(onChange),

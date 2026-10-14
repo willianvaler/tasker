@@ -9,7 +9,7 @@ const ThemeContext = createContext<{
   setPreference: (preference: ThemePreference) => void;
 }>({ preference: 'system', setPreference: () => {} });
 
-/** Na web o NativeWind não resolve "Sistema" sozinho (D21): olhamos o prefers-color-scheme. */
+/** Na web o NativeWind não resolve "Sistema" sozinho: olhamos o prefers-color-scheme. */
 function applyTheme(preference: ThemePreference) {
   if (Platform.OS !== 'web') {
     colorScheme.set(preference);

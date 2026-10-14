@@ -43,8 +43,8 @@ export default function ProfileScreen() {
   );
 }
 
-// Configurações (V2 §12.3): conta, aparência, idioma, avisos e dados à esquerda; o jogo à direita
-// no computador (D67). Grupos separados por espaço e rótulo, sem caixas.
+// Configurações: conta, aparência, idioma, avisos e dados à esquerda; o jogo à direita
+// no computador. Grupos separados por espaço e rótulo, sem caixas.
 function ProfileForm({ profile }: { profile: Profile }) {
   const { t } = useTranslation();
   const update = useUpdateProfile();
@@ -190,7 +190,7 @@ const THEMES = [
   { value: 'dark', label: 'profile.themeDark' },
 ] as const satisfies readonly { value: ThemePreference; label: string }[];
 
-/** Tema do aparelho (D55): "Sistema" segue o claro/escuro do celular ou do computador. */
+/** Tema do aparelho: "Sistema" segue o claro/escuro do celular ou do computador. */
 function ThemeChooser() {
   const { t } = useTranslation();
   const { preference, setPreference } = useThemePreference();
@@ -213,7 +213,7 @@ function ThemeChooser() {
 
 const LANGUAGE_OPTIONS: LocalePreference[] = ['system', ...LOCALES];
 
-/** Idioma (V2 §11): muda na hora e vai para o perfil, valendo nos outros aparelhos. */
+/** Idioma: muda na hora e vai para o perfil, valendo nos outros aparelhos. */
 function LanguageChooser() {
   const { t } = useTranslation();
   const { preference, choose } = useLocalePreference();

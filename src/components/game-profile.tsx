@@ -9,7 +9,7 @@ import { cn } from '@/lib/cn';
 import { useGameState, useSetGamification } from '@/lib/queries/game';
 import { useIsOnline } from '@/providers/online';
 
-/** Perfil: liga/desliga, números do jogo em mono, boss e conquistas (ESCOPO 4.6). */
+/** Perfil: liga/desliga, números do jogo em mono, boss e conquistas. */
 export function GameProfile() {
   const { t } = useTranslation();
   const { data: game } = useGameState();

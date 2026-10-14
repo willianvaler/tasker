@@ -238,7 +238,7 @@ const HABIT_KINDS = [
   { value: 'plusminus', label: 'extras.kindPlusminus', hint: 'extras.hintPlusminus' },
 ] as const satisfies readonly { value: Task['habit_kind']; label: string; hint: string }[];
 
-/** Tipo do hábito (D63): marcar, contador com meta ou bom/ruim (+/−). */
+/** Tipo do hábito: marcar, contador com meta ou bom/ruim (+/−). */
 export function HabitKindEditor({
   task,
   onSave,

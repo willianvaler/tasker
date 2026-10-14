@@ -57,7 +57,7 @@ export function useFolderActions() {
     const isOwner = owner === session?.user.id;
     return [
       { label: t('folder.newPage'), onPress: () => actions.newPage(folder.id) },
-      // Máximo de 2 níveis de pasta (ESCOPO 1.2)
+      // Máximo de 2 níveis de pasta
       ...(folder.parent_id
         ? []
         : [

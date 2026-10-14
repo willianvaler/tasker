@@ -105,7 +105,7 @@ export function useGameState() {
   });
 }
 
-/** Liga/desliga a gamificação (ESCOPO 4.6). O XP continua no ledger; só some da tela. */
+/** Liga/desliga a gamificação. O XP continua no ledger; só some da tela. */
 export function useSetGamification() {
   const queryClient = useQueryClient();
   const { session } = useSession();
@@ -133,7 +133,7 @@ export function useSetGamification() {
 }
 
 // ============================================================
-// Personagem, loja e itens (D60 a D64). Tudo passa por funções do servidor.
+// Personagem, loja e itens. Tudo passa por funções do servidor.
 // ============================================================
 
 const itemSchema = z.object({

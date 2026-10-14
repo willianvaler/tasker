@@ -17,7 +17,7 @@ import { useBuyItem, useEquipItem, useGameState, useItems, type Item } from '@/l
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
-// Loja (D64): só visual. Itens comprados com ouro; os raros de verdade só caem de boss.
+// Loja: só visual. Itens comprados com ouro; os raros de verdade só caem de boss.
 export default function ShopScreen() {
   const { t } = useTranslation();
   const { data: game } = useGameState();

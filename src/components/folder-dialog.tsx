@@ -10,7 +10,7 @@ import { Text } from '@/components/ui/text';
 export type FolderSettings = { name: string; icon: string | null; color: string | null };
 
 /**
- * Criar ou renomear pasta/projeto: só o nome é obrigatório (V2 §5.3); ícone e cor do marcador
+ * Criar ou renomear pasta/projeto: só o nome é obrigatório; ícone e cor do marcador
  * ficam logo abaixo, já no seletor (sem campo de emoji para digitar).
  */
 export function FolderDialog({

@@ -4,10 +4,6 @@ import Svg, { Path } from 'react-native-svg';
 import { Text } from '@/components/ui/text';
 import { useColors } from '@/lib/tokens';
 
-/**
- * Estado vazio (docs/DESIGN.md): um traço simples (página de caderno com um check) e uma frase com
- * humor leve. Nunca "Sem dados". O texto vem do i18n de quem chama.
- */
 export function EmptyState({ title, hint }: { title: string; hint?: string }) {
   const colors = useColors();
   return (

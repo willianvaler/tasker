@@ -22,7 +22,7 @@ import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 
-// Clã (ESCOPO 4.6): grupo de amigos sem projeto em comum. Boss semanal cooperativo e feed, sem chat.
+// Clã: grupo de amigos sem projeto em comum. Boss semanal cooperativo e feed, sem chat.
 export default function ClanScreen() {
   const { t, i18n } = useTranslation();
   const when = new Intl.DateTimeFormat(i18n.language, {

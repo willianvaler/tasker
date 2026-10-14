@@ -16,7 +16,7 @@ import type { ColorToken } from '@/lib/tokens';
 
 export type ItemKind = 'folder' | 'project' | 'inbox' | 'list' | 'cards' | 'habits' | 'kanban';
 
-/** Ícone padrão de cada tipo (V2 §8.1: nada fica "sem cara"). */
+/** Ícone padrão de cada tipo. */
 export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
   folder: Folder,
   project: Users,
@@ -29,7 +29,7 @@ export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
 
 /**
  * Ícone de pasta, projeto ou página: o que o usuário escolheu (ícone Lucide guardado como
- * "lucide:id", ou um emoji) ou, sem escolha, o ícone do tipo. Emoji só aparece quando é escolha do usuário (docs/DESIGN.md).
+ * "lucide:id", ou um emoji) ou, sem escolha, o ícone do tipo. Emoji só aparece quando é escolha do usuário.
  */
 export function ItemIcon({
   icon,

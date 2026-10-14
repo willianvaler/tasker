@@ -27,7 +27,7 @@ export function useNewMenu() {
 }
 
 /**
- * Menu "+ Novo" (V2 §5.3): Tarefa · Página · Pasta · Projeto · Hábito, com letras de atalho.
+ * Menu "+ Novo": Tarefa · Página · Pasta · Projeto · Hábito, com letras de atalho.
  * O contexto decide o destino: dentro de uma pasta ou projeto, "Página" cria nele.
  */
 export function NewMenuProvider({ children }: { children: ReactNode }) {

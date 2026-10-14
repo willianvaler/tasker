@@ -30,7 +30,7 @@ export function useTaskMembers(folderId: string | undefined) {
 
 /**
  * Responsáveis na linha da tarefa: iniciais do membro; nome pendente tracejado até alguém
- * reivindicar (ESCOPO 4.5).
+ * reivindicar.
  */
 export function AssigneeChips({ taskId, folderId }: { taskId: string; folderId: string }) {
   const all = useAssignees();

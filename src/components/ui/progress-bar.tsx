@@ -10,10 +10,6 @@ import Animated, {
 import { cn } from '@/lib/cn';
 import { DURATION } from '@/lib/tokens';
 
-/**
- * Progresso como régua (docs/DESIGN.md): fio de 2 px em `line` com o trecho feito no acento, sem
- * cantos arredondados. Anda suave quando o valor muda (ESCOPO 4.6); sem animação se o sistema pede.
- */
 export function ProgressBar({
   value,
   className,

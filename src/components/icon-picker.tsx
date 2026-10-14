@@ -14,7 +14,7 @@ import { getRecentIcons, pushRecentIcon } from '@/lib/prefs';
 import { MARKER_COLORS } from '@/lib/tokens';
 
 /**
- * Seletor de ícone (V2 §8.1): busca por nome em pt/en/es, recentes no topo, emoji (digite ou cole
+ * Seletor de ícone: busca por nome em pt/en/es, recentes no topo, emoji (digite ou cole
  * um na busca) e, para pastas e projetos, a cor do marcador. `null` volta ao ícone do tipo.
  */
 export function IconPicker({

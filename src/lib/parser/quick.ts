@@ -1,6 +1,6 @@
 import { addDays, makeDate, nextDayMonth, nextWeekday, type IsoDate } from './dates';
 
-// Sintaxe rápida do título (ESCOPO 4.1). Nada é obrigatório: o que não for reconhecido fica no título.
+// Sintaxe rápida do título. Nada é obrigatório: o que não for reconhecido fica no título.
 //   !, !!, !!!            prioridade baixa / média / alta
 //   #etiqueta              etiqueta
 //   @nome                  responsável (só quando `mentions` está ligado, em páginas de projeto)
@@ -18,7 +18,7 @@ export type Recurrence =
 
 export type Priority = 0 | 1 | 2 | 3;
 
-/** Detalhe de exercício dos cards (ESCOPO 4.3); genérico o bastante para "3x" de qualquer coisa. */
+/** Detalhe de exercício dos cards; genérico o bastante para "3x" de qualquer coisa. */
 export type TaskMeta = { sets?: number; reps?: number; weight?: string };
 
 export type ParsedTask = {

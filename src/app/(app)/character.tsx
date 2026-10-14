@@ -23,7 +23,7 @@ import { gamificationConfig as config } from '@/lib/gamification.config';
 import { useGameState } from '@/lib/queries/game';
 import { useProfile } from '@/lib/queries/profile';
 
-// Ficha do personagem (D60 a D64): classe, atributos, habilidades, conta do dano, boss e equipamento.
+// Ficha do personagem: classe, atributos, habilidades, conta do dano, boss e equipamento.
 // Em tela larga, três colunas; no celular, uma embaixo da outra.
 export default function CharacterScreen() {
   const { t } = useTranslation();

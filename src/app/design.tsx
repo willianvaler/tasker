@@ -31,7 +31,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { useToast } from '@/providers/toast';
 import { COLORS, MARKER_COLORS, useColors, type ColorToken } from '@/lib/tokens';
 
-// Referência visual dos tokens e componentes (V3 §0.1). Só em desenvolvimento: em produção a
+// Referência visual dos tokens e componentes. Só em desenvolvimento: em produção a
 // rota volta para o início. Cada componente novo ganha uma seção aqui antes de ir para as telas.
 
 export default function DesignScreen() {

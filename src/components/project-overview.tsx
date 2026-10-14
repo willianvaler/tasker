@@ -14,7 +14,7 @@ import type { FolderNode } from '@/lib/queries/tree';
 const pct = (p: { done: number; total: number }) =>
   p.total ? Math.round((p.done / p.total) * 100) : 0;
 
-/** Visão geral do projeto (ESCOPO 5, tela 6): progresso geral e por pessoa, boss e atividade. */
+/** Visão geral do projeto: progresso geral e por pessoa, boss e atividade. */
 export function ProjectOverview({ root }: { root: FolderNode }) {
   const { t, i18n } = useTranslation();
   const members = useMembers(root.id);

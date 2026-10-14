@@ -1,6 +1,6 @@
 import { gamificationConfig as config } from './gamification.config';
 
-// Personagem (D60, D61): classes, atributos e a conta do dano. Quem calcula de verdade é o banco
+// Personagem: classes, atributos e a conta do dano. Quem calcula de verdade é o banco
 // (public._attack, _gold_for, habit_tick); estas funções são o espelho para a ficha mostrar os
 // números, com os mesmos casos de teste do pgTAP fase7_rpg.
 
@@ -223,7 +223,7 @@ export const RARITY: Record<Rarity, { label: string; text: string; border: strin
   },
 };
 
-/** Fundo do personagem para cada aura, só com tokens do tema (docs/DESIGN.md). */
+/** Fundo do personagem para cada aura, só com tokens do tema. */
 export const AURA_BG: Record<string, string> = {
   aura_sky: 'bg-wash',
   aura_forest: 'bg-ok/15',

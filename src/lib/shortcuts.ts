@@ -1,6 +1,6 @@
 import type { Permission } from './permissions';
 
-// Registro central de atalhos (ESCOPO_V2 §9). Toda tecla do app nasce aqui: a tabela da Ajuda e a
+// Registro central de atalhos. Toda tecla do app nasce aqui: a tabela da Ajuda e a
 // paleta de comandos leem esta lista, nunca uma cópia à mão. As descrições são chaves do i18n.
 
 /** Onde o atalho vale. `global`: qualquer tela logada; os outros, só com aquela área ativa. */
@@ -163,7 +163,7 @@ export function matchesCombo(combo: Combo, event: KeyLike, isMac: boolean): bool
 }
 
 /**
- * Dentro de um campo de texto só valem os atalhos com Ctrl/⌘ e o Esc (V2 §9: atalho não pode
+ * Dentro de um campo de texto só valem os atalhos com Ctrl/⌘ e o Esc (atalho não pode
  * brigar com a digitação).
  */
 export function allowedWhileTyping(combo: Combo): boolean {

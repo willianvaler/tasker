@@ -16,7 +16,7 @@ import { useIsOnline } from '@/providers/online';
 import { clearQueryCache } from '@/providers/query';
 import { useToast } from '@/providers/toast';
 
-/** Seus dados (ESCOPO 9): exportar (JSON completo ou CSV das tarefas) e excluir a conta. */
+/** Seus dados: exportar (JSON completo ou CSV das tarefas) e excluir a conta. */
 export function PrivacySection() {
   const { t } = useTranslation();
   const online = useIsOnline();

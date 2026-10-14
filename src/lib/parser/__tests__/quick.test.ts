@@ -24,7 +24,7 @@ describe('datas', () => {
     ['amanhã', '2026-10-09'],
     ['amanha', '2026-10-09'],
     ['depois de amanhã', '2026-10-10'],
-    ['quinta', '2026-10-08'], // o próprio dia conta (D15)
+    ['quinta', '2026-10-08'], // o próprio dia conta
     ['sexta', '2026-10-09'],
     ['sexta-feira', '2026-10-09'],
     ['sábado', '2026-10-10'],

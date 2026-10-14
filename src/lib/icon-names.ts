@@ -1,4 +1,4 @@
-// Nomes dos ícones curados (V2 §8.1) para a busca, em pt, en e es juntos e sem acento. Só dados:
+// Nomes dos ícones curados para a busca, em pt, en e es juntos e sem acento. Só dados:
 // o componente de cada um está em lib/icons.ts. O ícone é guardado como identificador estável
 // ("lucide:dumbbell"), nunca como SVG; emoji continua valendo (guardado como o próprio emoji).
 

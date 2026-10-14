@@ -14,7 +14,7 @@ import { Text } from '@/components/ui/text';
 import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 
-// Todas as pastas, como linhas (docs/mockups/sidebar.html): cada pasta com as páginas logo abaixo.
+// Todas as pastas, como linhas: cada pasta com as páginas logo abaixo.
 export default function FoldersScreen() {
   const { t } = useTranslation();
   const tree = useTree();

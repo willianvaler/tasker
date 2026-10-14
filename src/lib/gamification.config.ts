@@ -1,4 +1,4 @@
-// Valores da gamificação (ESCOPO 4.6, D60 a D67). Quem concede XP, dano e ouro é o banco: o mesmo JSON
+// Valores da gamificação. Quem concede XP, dano e ouro é o banco: o mesmo JSON
 // está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261017000000_rpg.sql) e o teste
 // gamification.test.ts falha se os dois divergirem. Mudou aqui? Mude lá numa migração nova.
 export const gamificationConfig = {

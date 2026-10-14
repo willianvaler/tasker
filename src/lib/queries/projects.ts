@@ -29,7 +29,7 @@ export function rootFolder(tree: Tree | undefined, folderId: string | null | und
   return undefined;
 }
 
-/** Página de projeto (pasta raiz compartilhada): aqui o @nome vira responsável (ESCOPO 4.1). */
+/** Página de projeto (pasta raiz compartilhada): aqui o @nome vira responsável. */
 export function isProjectPage(tree: Tree | undefined, pageId: string | undefined) {
   const page = tree?.pages.find((p) => p.id === pageId);
   return !!rootFolder(tree, page?.folder_id)?.is_shared;
@@ -291,8 +291,8 @@ export function useAssigneeMutations() {
   return { add, remove };
 }
 
-/** Minhas tarefas: abertas e atribuídas a mim, de todos os projetos (ESCOPO 4.5). */
-/** `enabled: false` evita a busca para quem não participa de projeto (Início, D69). */
+/** Minhas tarefas: abertas e atribuídas a mim, de todos os projetos. */
+/** `enabled: false` evita a busca para quem não participa de projeto. */
 export function useMyTasks({ enabled = true }: { enabled?: boolean } = {}) {
   const { session } = useSession();
   return useQuery({

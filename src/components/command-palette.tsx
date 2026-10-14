@@ -41,17 +41,14 @@ import { useThemePreference } from '@/providers/theme';
 type Command = {
   id: string;
   label: string;
-  /** Texto pequeno à direita: caminho, atalho */
   hint?: string;
   icon: ReactNode;
   run: () => void;
-  /** Ordem dos grupos: ações e telas primeiro, depois pastas e páginas, por fim tarefas */
   group: 0 | 1 | 2;
 };
 
 const PaletteContext = createContext<() => void>(() => {});
 
-/** Abre a paleta de comandos (Ctrl/⌘+K, "/", ou a busca da barra lateral). */
 export function useCommandPalette() {
   return useContext(PaletteContext);
 }
@@ -62,10 +59,6 @@ const fold = (text: string) =>
     .replace(/\p{Diacritic}/gu, '')
     .toLowerCase();
 
-/**
- * Paleta de comandos (V2 §9): buscar, ir para e executar. Telas, pastas, projetos, páginas, ações
- * do menu Novo e as tarefas já carregadas, com ↑↓ e Enter.
- */
 export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   // Os diálogos (nova pasta, novo projeto) ficam aqui: a paleta fecha antes de abri-los
@@ -101,7 +94,6 @@ function Palette({
   const icon = (glyph: LucideIcon) => <Icon icon={glyph} tone="ink-muted" />;
 
   const commands: Command[] = [
-    // Ações
     {
       id: 'new-task',
       label: t('palette.newTask'),
@@ -166,7 +158,6 @@ function Palette({
       group: 0,
       run: go('/ajuda'),
     },
-    // Telas
     { id: 'go-home', label: t('nav.home'), icon: icon(House), group: 0, run: go('/') },
     {
       id: 'go-today',
@@ -210,7 +201,6 @@ function Palette({
     },
     { id: 'go-shop', label: t('nav.shop'), icon: icon(ShoppingBag), group: 0, run: go('/shop') },
     { id: 'go-clan', label: t('nav.clan'), icon: icon(Shield), group: 0, run: go('/clan') },
-    // Pastas, projetos e páginas
     ...(tree.data?.folders ?? []).flatMap((root) => [
       {
         id: `folder-${root.id}`,
@@ -241,7 +231,7 @@ function Palette({
     ]),
   ];
 
-  // Tarefas: as que já estão no cache (Hoje, páginas abertas, Caixa de entrada), sem ir ao servidor
+  // Tarefas: só as que já estão no cache
   const q = fold(query.trim());
   const tasks = new Map<string, Task>();
   if (q.length >= 2)

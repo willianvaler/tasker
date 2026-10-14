@@ -17,26 +17,15 @@ import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
 import { useShortcut } from '@/lib/use-shortcut';
 import { undoLast, useToast } from '@/providers/toast';
 
-/** Tempo para desfazer o "apagar" antes de ir de vez para o servidor. */
 const DELETE_DELAY_MS = 5000;
 
-/**
- * Tarefas apagadas esperando os 5 s do "Desfazer". Uma recarga da lista nesse meio tempo traria a
- * tarefa de volta (ela ainda está no servidor); o filtro abaixo a tira de toda lista que chega.
- */
+// Apagadas ainda dentro do prazo do "Desfazer": um refetch nesse meio tempo as traria de volta
 const pendingDeletes = new Set<string>();
 const withoutPending = (list: unknown) =>
   Array.isArray(list) && list.some((t: Task) => pendingDeletes.has(t.id))
     ? (list as Task[]).filter((t) => !pendingDeletes.has(t.id))
     : list;
 
-/**
- * Atalhos da lista na tela em foco (V2 §8, §9): J/K e setas andam; Espaço/X conclui; 1/2/3
- * prioridade; D data; A responsável; Ctrl+↑↓ move; Delete apaga (com desfazer); Ctrl+D duplica;
- * F2 edita o título da tarefa selecionada, ou o nome da página/pasta aberta sem seleção;
- * Shift+F2/Enter abre os detalhes; Esc tira a seleção. E os globais: Q/N captura, G H/I/M,
- * Ctrl+B barra lateral, Ctrl+Z desfazer. Montado uma vez, no layout logado.
- */
 export function ListKeys() {
   const { t } = useTranslation();
   const pathname = usePathname();
@@ -88,7 +77,6 @@ export function ListKeys() {
     onSelected((task) => router.push({ pathname: '/task/[id]', params: { id: task.id } })),
   );
   useShortcut('task.advanced', () => {
-    // A página da tela vira o destino padrão
     const page = /^\/page\/([^/]+)/.exec(pathname)?.[1];
     router.push({ pathname: '/task/new', params: page ? { page } : {} });
   });
@@ -143,7 +131,6 @@ export function ListKeys() {
   useShortcut(
     'task.delete',
     onSelected((task) => {
-      // Some da tela na hora; vai para o servidor depois de 5 s, se ninguém desfizer
       selection.move(1);
       if (selection.get().selectedId === task.id) selection.select(null);
       pendingDeletes.add(task.id);

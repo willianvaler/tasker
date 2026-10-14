@@ -24,7 +24,7 @@ const COLUMNS = [
 type Column = (typeof COLUMNS)[number];
 
 /**
- * Kanban (ESCOPO 3): A fazer / Fazendo / Feito. Mover é por botões (setas), que funcionam com
+ * Kanban: A fazer / Fazendo / Feito. Mover é por botões (setas), que funcionam com
  * toque, teclado e leitor de tela; levar para Feito conclui a tarefa (XP, bosses).
  */
 export function KanbanBoard({

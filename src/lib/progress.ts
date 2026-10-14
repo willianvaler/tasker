@@ -1,8 +1,8 @@
-// Progresso do projeto (ESCOPO 4.5): geral e por pessoa. Função pura, com teste.
+// Progresso do projeto: geral e por pessoa. Função pura, com teste.
 
 export type Progress = { done: number; total: number };
 
-/** Progresso geral e por pessoa (ESCOPO 4.5). Pendentes contam pelo nome. */
+/** Progresso geral e por pessoa. Pendentes contam pelo nome. */
 export function projectProgress(
   tasks: { id: string; status: string }[],
   assignees: { task_id: string; user_id: string | null; pending_name: string | null }[],

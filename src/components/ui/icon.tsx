@@ -2,10 +2,6 @@ import type { LucideIcon } from 'lucide-react-native';
 
 import { useColors, type ColorToken } from '@/lib/tokens';
 
-/**
- * Ícone do conjunto único (Lucide, traço de 1,5 px; docs/DESIGN.md). 16 px dentro do texto, 20 px
- * na navegação e em botões. A cor vem de um token do tema, nunca de um valor solto.
- */
 export function Icon({
   icon: Glyph,
   size = 16,
@@ -15,7 +11,6 @@ export function Icon({
   icon: LucideIcon;
   size?: 16 | 20 | 24;
   tone?: ColorToken;
-  /** Só quando o ícone é a única informação (sem texto do lado) */
   label?: string;
 }) {
   const colors = useColors();

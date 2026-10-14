@@ -21,7 +21,7 @@ export const Input = forwardRef<TextInput, TextInputProps & { className?: string
       ref={ref}
       placeholderTextColor={colors['ink-muted']}
       className={cn(
-        // 44 px no celular, 32 no computador; 16 px de fonte no celular (o iOS dá zoom abaixo disso)
+        // 16 px no celular: abaixo disso o iOS dá zoom no campo
         'min-h-11 rounded border border-line bg-surface px-3 font-sans text-base text-ink',
         'hover:border-ink-muted focus:border-accent md:min-h-8 md:text-sm',
         className,

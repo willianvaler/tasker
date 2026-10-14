@@ -51,7 +51,7 @@ const PRIORITIES = [
 
 const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
-// Painel da tarefa (docs/mockups/painel-tarefa.html): à direita no computador, sem travar a lista
+// Painel da tarefa: à direita no computador, sem travar a lista
 // ao lado; folha de baixo para cima no celular. Nunca obrigatório: notas, prioridade, data,
 // etiquetas, subtarefas, mover de página e apagar. Cada campo salva sozinho ao sair dele.
 export default function TaskScreen() {

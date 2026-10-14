@@ -23,7 +23,7 @@ import { metaLabel } from './task-meta';
 import { useToggleWithUndo } from './task-row';
 
 /**
- * Card (ESCOPO 4.3, docs/mockups/pagina-cards.html): o toque em qualquer parte marca/desmarca, com
+ * Card: o toque em qualquer parte marca/desmarca, com
  * o carimbo e um aperto curto. Borda fina, cantos de 8 px; feito, a borda vai para o acento.
  */
 function TaskCardView({
@@ -94,7 +94,7 @@ function TaskCardView({
   );
 }
 
-/** Card memoizado, pelo mesmo motivo da TaskRow (D57). */
+/** Card memoizado, pelo mesmo motivo da TaskRow. */
 export const TaskCard = memo(
   TaskCardView,
   (a, b) =>

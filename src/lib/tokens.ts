@@ -1,6 +1,6 @@
 import { useColorScheme } from 'nativewind';
 
-// Tokens do design "Caderno de bolso" (docs/DESIGN.md). As cores valem também como variáveis em
+// Tokens do design "Caderno de bolso". As cores valem também como variáveis em
 // src/global.css (o teste design-tokens compara); aqui ficam para o que não aceita classe: tema da
 // navegação, placeholder, traço de SVG.
 

@@ -1,4 +1,4 @@
-// Idiomas do app (ESCOPO_V2 §11). pt-BR é o padrão e a referência das chaves.
+// Idiomas do app. pt-BR é o padrão e a referência das chaves.
 export const LOCALES = ['pt-BR', 'en', 'es'] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'pt-BR';

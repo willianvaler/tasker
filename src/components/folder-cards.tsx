@@ -36,8 +36,8 @@ export function MenuButton({ label, onPress }: { label: string; onPress: () => v
 }
 
 /**
- * Pasta na aba Pastas (docs/mockups/sidebar.html): uma linha com o marcador de cor, o ícone e o
- * resumo em mono, e as páginas logo abaixo, para chegar a qualquer uma em 2 toques (ESCOPO 5).
+ * Pasta na aba Pastas: uma linha com o marcador de cor, o ícone e o
+ * resumo em mono, e as páginas logo abaixo, para chegar a qualquer uma em 2 toques.
  * Linhas, não cartões.
  */
 export function FolderSection({

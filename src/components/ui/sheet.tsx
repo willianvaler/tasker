@@ -12,11 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { DURATION, SIZE } from '@/lib/tokens';
 import { useShortcut } from '@/lib/use-shortcut';
 
-/**
- * Painel de detalhes (docs/DESIGN.md): no computador, 400 px à direita, deslizando em 150 ms e sem
- * bloquear a lista atrás (V2 §7: nunca um modal que trava tudo); no celular, folha de baixo para
- * cima com fundo escurecido. Esc fecha. Use dentro de uma rota `transparentModal`.
- */
+/** Painel à direita no computador (sem travar a lista), folha no celular. Rota `transparentModal`. */
 export function Sheet({
   onClose,
   header,

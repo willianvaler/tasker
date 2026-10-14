@@ -5,7 +5,6 @@ import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { initials } from '@/lib/members';
 
-/** Avatar com as iniciais (20 px nas linhas, 32 px em listas de pessoas). */
 export function Avatar({ name, size = 20 }: { name: string; size?: 20 | 32 }) {
   return (
     <View
@@ -24,7 +23,6 @@ export function Avatar({ name, size = 20 }: { name: string; size?: 20 | 32 }) {
   );
 }
 
-/** Linha de pessoa: avatar, nome e, à direita, papel ou números (em mono). */
 export function PersonRow({
   name,
   detail,

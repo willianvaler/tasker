@@ -7,7 +7,7 @@ import { cn } from '@/lib/cn';
 import { useThemePreference } from '@/providers/theme';
 
 /**
- * Atalho de claro/escuro (D55, D67): troca para o oposto do que está na tela. A opção "Sistema"
+ * Atalho de claro/escuro: troca para o oposto do que está na tela. A opção "Sistema"
  * continua no Perfil.
  */
 export function ThemeToggle({ className }: { className?: string }) {

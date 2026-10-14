@@ -30,8 +30,8 @@ import { DragHandle } from './sortable-tasks';
 import { TaskMeta } from './task-meta';
 
 /**
- * Marcar/desmarcar com aviso de "Desfazer" (o mesmo uncomplete_task, ESCOPO 4.6 item 5) e vibração leve.
- * Recorrente comum só avança a data (D25); o aviso mostra a próxima.
+ * Marcar/desmarcar com aviso de "Desfazer" e vibração leve.
+ * Recorrente comum só avança a data; o aviso mostra a próxima.
  */
 export function useToggleWithUndo() {
   const toggle = useToggleTask();
@@ -114,7 +114,7 @@ function TaskRowView({
   }
 
   return (
-    // 52 px no celular, 40 no computador (docs/DESIGN.md); só a divisória fina, sem caixa
+    // 52 px no celular, 40 no computador; só a divisória fina, sem caixa
     <Pressable
       // Toque/clique na linha (fora do título e dos botões) seleciona, para os atalhos de teclado
       accessible={false}
@@ -183,7 +183,7 @@ function TaskRowView({
 }
 
 /**
- * Risco de caneta sobre o título ao concluir (docs/DESIGN.md): uma linha no acento que atravessa
+ * Risco de caneta sobre o título ao concluir: uma linha no acento que atravessa
  * o texto em 180 ms. Já concluída ao abrir a tela, aparece pronta; com "reduzir movimento", direto.
  */
 function PenStrike({ done }: { done: boolean }) {
@@ -208,7 +208,7 @@ type Subtasks = { done: number; total: number } | undefined;
 const sameSubtasks = (a: Subtasks, b: Subtasks) => a?.done === b?.done && a?.total === b?.total;
 
 /**
- * Linha de tarefa memoizada (D57): numa lista de 500, marcar uma não re-renderiza as outras 499.
+ * Linha de tarefa memoizada: numa lista de 500, marcar uma não re-renderiza as outras 499.
  * As tarefas que não mudaram mantêm o mesmo objeto (patchTaskLists); `subtasks` é recriado a cada
  * mudança, então compara pelo conteúdo.
  */

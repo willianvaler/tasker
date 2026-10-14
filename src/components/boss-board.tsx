@@ -6,7 +6,7 @@ import { boardHighlights } from '@/lib/board';
 import { useBossBoard } from '@/lib/queries/clan';
 
 /**
- * Quadro de contribuição (ESCOPO 4.6): o destaque e quem também ajudou, sem ranking nem
+ * Quadro de contribuição: o destaque e quem também ajudou, sem ranking nem
  * "último lugar". Quem não contribuiu não aparece.
  */
 export function BossBoard({

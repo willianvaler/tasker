@@ -8,7 +8,7 @@ import { bossSchema } from './game';
 import { keys } from './keys';
 
 // ============================================================
-// Clã (ESCOPO 4.6): grupo de amigos com boss semanal e feed, sem chat
+// Clã: grupo de amigos com boss semanal e feed, sem chat
 // ============================================================
 
 export type ClanActivity = Tables<'clan_activity'> & { actor: { display_name: string } | null };
@@ -190,7 +190,7 @@ export function useBossBoard(bossId: string | undefined) {
 }
 
 // ============================================================
-// Privacidade: exportar e excluir conta (ESCOPO 9)
+// Privacidade: exportar e excluir conta
 // ============================================================
 
 export async function exportMyData() {

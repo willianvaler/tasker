@@ -21,7 +21,7 @@ export type HeaderRename = {
 };
 
 /**
- * Cabeçalho de tela (docs/mockups): linha de contexto pequena em mono e caixa-alta (data, caminho,
+ * Cabeçalho de tela: linha de contexto pequena em mono e caixa-alta (data, caminho,
  * resumo), título serifado de 28 px e as ações à direita.
  */
 export function ScreenHeader({
@@ -93,7 +93,7 @@ export function ScreenHeader({
 
 /**
  * Nome editável no lugar do título: o texto vem selecionado, Enter salva, Esc cancela, Tab vai
- * para o ícone (V2 §8), que abre o seletor num popover.
+ * para o ícone, que abre o seletor num popover.
  */
 function RenameField({ title, rename }: { title: string; rename: HeaderRename }) {
   const { t } = useTranslation();

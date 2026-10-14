@@ -27,7 +27,7 @@ import { useToast } from '@/providers/toast';
 const STEPS = 3;
 
 /**
- * Onboarding guiado em 3 passos (ESCOPO 12, Fase 6): capturar rápido, organizar em pastas,
+ * Onboarding guiado em 3 passos: capturar rápido, organizar em pastas,
  * entender a gamificação. Aparece uma vez por conta; dá para pular a qualquer momento.
  */
 export default function OnboardingScreen() {
@@ -176,7 +176,7 @@ function CaptureStep() {
   );
 }
 
-/** Hábitos sugeridos: vão para a página de Hábitos (D68), não viram pasta. */
+/** Hábitos sugeridos: vão para a página de Hábitos, não viram pasta. */
 // A repetição vai na sintaxe que o parser entende (português, por enquanto: F3 traduz o parser)
 const STARTER_HABITS = [
   { title: 'onboarding.habitWater', kind: 'counter', target: 8 },

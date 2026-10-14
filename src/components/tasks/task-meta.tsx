@@ -31,7 +31,7 @@ export function TaskMeta({
   const recurrence = hideRecurrence ? '' : recurrenceLabel(asRecurrence(task.recurrence));
   const detail = metaLabel(task.meta);
   const overdue = !!task.due_date && task.due_date < today && task.status !== 'done';
-  // Metadados em mono, pequenos, sem emoji (docs/DESIGN.md); atraso em `warn`
+  // Metadados em mono, pequenos, sem emoji; atraso em `warn`
   const meta = 'font-mono text-xs text-ink-muted';
   const parts = [
     task.due_date && (

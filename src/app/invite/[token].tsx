@@ -23,7 +23,7 @@ const ROLE_LABEL = {
 } as const;
 
 /**
- * Link de convite (fora do login, ESCOPO 4.5): mostra o projeto, deixa criar a conta ali mesmo,
+ * Link de convite: mostra o projeto, deixa criar a conta ali mesmo,
  * entra e pergunta "Você é o @gregory?" antes de abrir o projeto.
  */
 export default function InviteScreen() {

@@ -1,4 +1,4 @@
-// Quadro de contribuição (ESCOPO 4.6): destaques em tom amistoso, sem "último lugar".
+// Quadro de contribuição: destaques em tom amistoso, sem "último lugar".
 // Mostra quem mais causou dano e, em ordem alfabética e sem números, quem também ajudou.
 
 export type BoardEntry = { user_id: string; name: string; damage: number };

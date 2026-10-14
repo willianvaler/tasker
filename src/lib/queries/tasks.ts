@@ -203,7 +203,7 @@ export type NewAssignee = { user_id: string } | { pending_name: string };
 
 type NewTask = ParsedTask & {
   done?: boolean;
-  /** Hábito: tipo e meta já na criação (D68) */
+  /** Hábito: tipo e meta já na criação */
   habitKind?: Task['habit_kind'];
   habitTarget?: number | null;
   assignees?: NewAssignee[];
@@ -381,7 +381,7 @@ export function useToggleTask() {
       const now = new Date().toISOString();
       patchTaskLists(queryClient, (t) => {
         if (t.id !== id) return t;
-        // Recorrente comum: o servidor avança a data e a tarefa continua aberta (D25)
+        // Recorrente comum: o servidor avança a data e a tarefa continua aberta
         if (done && nextDue) return { ...t, due_date: nextDue };
         return { ...t, status: done ? 'done' : 'todo', completed_at: done ? now : null };
       });
@@ -469,7 +469,7 @@ export function advanceOnComplete(
 }
 
 // ============================================================
-// Fila offline (ESCOPO 9, Fase 5; D52): criar, marcar/desmarcar e editar/reordenar funcionam sem
+// Fila offline: criar, marcar/desmarcar e editar/reordenar funcionam sem
 // internet. O TanStack Query pausa a mutação, o cache persistido guarda a fila e, com a conexão
 // de volta, reenvia na ordem (o scope único garante uma de cada vez). Depois de fechar e abrir o
 // app, quem sabe executar é o setMutationDefaults (providers/query.tsx), com as funções abaixo.
@@ -533,7 +533,7 @@ export async function setTaskStatusFn({
   return completionSummarySchema.safeParse(data).data ?? null;
 }
 
-/** Um toque no + ou − de um hábito contador ou bom/ruim (D63). */
+/** Um toque no + ou − de um hábito contador ou bom/ruim. */
 export async function habitTickFn({
   taskId,
   delta,

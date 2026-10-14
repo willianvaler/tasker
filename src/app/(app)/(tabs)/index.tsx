@@ -30,9 +30,9 @@ import { asRecurrence, isHabitDueOn } from '@/lib/recurrence';
 /** Quantos itens cada seção mostra antes do "ver tudo". */
 const PREVIEW = 6;
 
-// Início (D69): visão geral do que está pendente — atrasadas e de hoje, hábitos do dia, próximos
+// Início: visão geral do que está pendente — atrasadas e de hoje, hábitos do dia, próximos
 // 7 dias, Caixa de entrada e (em projetos) o que foi atribuído a você. Sem cartões de número em
-// grade (V2 §12.1): o resumo é uma linha em mono, e as seções são listas com rótulo, sem caixa.
+// grade: o resumo é uma linha em mono, e as seções são listas com rótulo, sem caixa.
 // No computador, o personagem e o boss ficam numa coluna à direita.
 export default function HomeScreen() {
   const { t } = useTranslation();

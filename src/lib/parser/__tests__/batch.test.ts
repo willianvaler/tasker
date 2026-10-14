@@ -7,7 +7,7 @@ const today = '2026-10-08';
 const parse = (text: string, mentions = false) => parseBatchInput(text, { today, mentions });
 const titles = (text: string) => parse(text).map((i) => i.title);
 
-// Casos da seção 8 do ESCOPO.md
+// Casos da seção 8 do ESCOPO
 describe('parseBatchInput: casos do escopo', () => {
   it('quebra de linha', () => expect(titles('a\nb\nc')).toEqual(['a', 'b', 'c']));
   it('ponto e vírgula', () => expect(titles('a; b; c')).toEqual(['a', 'b', 'c']));

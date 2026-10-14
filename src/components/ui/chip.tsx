@@ -3,7 +3,6 @@ import { Pressable } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 
-/** Opção selecionável (etiqueta, filtro, escolha): fundo sutil, ativa no `accent-soft`. */
 export function Chip({
   label,
   selected,
@@ -26,7 +25,6 @@ export function Chip({
       disabled={disabled}
       onPress={onPress}
       className={cn(
-        // 44 px de toque no celular, 28 no computador; cantos de 4 px, sem borda (fundo `wash`)
         'min-h-11 justify-center rounded px-3 md:min-h-7 md:px-2',
         selected ? 'bg-accent-soft' : 'bg-wash hover:bg-line',
         disabled && 'opacity-40',

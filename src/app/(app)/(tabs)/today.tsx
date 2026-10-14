@@ -23,7 +23,7 @@ import { useSelectableList } from '@/lib/selection';
 type Row = { kind: 'task'; task: TaskWithPage } | { kind: 'habit'; task: HabitTask };
 type Section = { title: string; count: string; tone?: 'warn'; data: Row[] };
 
-// Hoje (docs/mockups/hoje.html): atrasadas + as que vencem hoje, de todas as páginas, e os hábitos
+// Hoje: atrasadas + as que vencem hoje, de todas as páginas, e os hábitos
 // do dia, numa coluna de leitura. O jogo aparece como marcação discreta no topo (nível, XP, boss).
 // A captura daqui vai para a Caixa de entrada com vencimento hoje (a não ser que o texto traga
 // outra data).

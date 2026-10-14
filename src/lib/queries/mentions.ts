@@ -3,7 +3,7 @@ import { isProjectPage, memberNames, rootFolder, useMembers } from './projects';
 import { useTree } from './tree';
 
 /**
- * @nome da página: só em página de projeto (ESCOPO 4.1). Resolve contra os membros do projeto;
+ * @nome da página: só em página de projeto. Resolve contra os membros do projeto;
  * quem não é membro vira responsável pendente.
  */
 export function useMentions(pageId: string | undefined) {

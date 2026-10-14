@@ -191,7 +191,7 @@ function CardsBody({
 }
 
 /**
- * Progresso da página (docs/mockups): "7 de 12 feitos" e o reinício em mono, com a régua de 2 px.
+ * Progresso da página: "7 de 12 feitos" e o reinício em mono, com a régua de 2 px.
  * No reinício manual, o botão de reiniciar fica ao lado.
  */
 function PageProgress({ page, done, total }: { page: Page; done: number; total: number }) {

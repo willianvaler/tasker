@@ -61,7 +61,7 @@ export function useHabitDates(tasks: Task[]) {
 }
 
 /**
- * + e − dos hábitos contador e bom/ruim (D63), com aviso da recompensa. No bom/ruim o aviso tem
+ * + e − dos hábitos contador e bom/ruim, com aviso da recompensa. No bom/ruim o aviso tem
  * "Desfazer" (o + e o − são registros, não o contrário um do outro); no contador o − já desfaz.
  */
 export function useHabitTickWithToast() {

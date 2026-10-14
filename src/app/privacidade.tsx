@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
-// Política de privacidade (ESCOPO 9). Pública (fora do login): as lojas pedem um endereço para ela.
+// Política de privacidade. Pública (fora do login): as lojas pedem um endereço para ela.
 export default function PrivacyScreen() {
   return (
     <SafeAreaView className="flex-1 bg-paper">

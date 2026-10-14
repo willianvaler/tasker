@@ -6,8 +6,8 @@ import { cn } from '@/lib/cn';
 
 /**
  * Área da tela. "narrow" (formulários, detalhes) fica numa coluna confortável de ler; "medium" (listas)
- * na área de leitura de 760 px (docs/DESIGN.md); "wide" (Hoje, pastas, cards, kanban, personagem, loja) usa a largura do
- * computador para colunas e grades (D67).
+ * na área de leitura de 760 px; "wide" (Hoje, pastas, cards, kanban, personagem, loja) usa a largura do
+ * computador para colunas e grades.
  */
 export function Screen({
   children,

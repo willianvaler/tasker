@@ -10,7 +10,7 @@ import { positionAfterMove } from '@/lib/positions';
 import { useUpdateTask, type Task } from '@/lib/queries/tasks';
 import { useCanWrite } from '@/providers/write';
 
-/** Acima disto, a lista não usa a grade de arrastar (performance, D57). */
+/** Acima disto, a lista não usa a grade de arrastar. */
 export const SORTABLE_LIMIT = 100;
 
 /** Move a tarefa uma casa para cima (-1) ou para baixo (+1), sem arrastar. */
@@ -20,7 +20,7 @@ const InGrid = createContext(false);
 
 /**
  * Alça de arrastar (ícone de pegador). Só ela inicia o arrasto, para o toque no resto do item continuar funcionando.
- * Sem arrastar também dá (ESCOPO 5, acessibilidade): na web, foco na alça e setas ↑ ↓; no celular,
+ * Sem arrastar também dá: na web, foco na alça e setas ↑ ↓; no celular,
  * as ações "mover para cima/baixo" do leitor de tela (TalkBack, VoiceOver).
  */
 export function DragHandle({ label, taskId }: { label: string; taskId?: string }) {

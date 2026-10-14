@@ -34,7 +34,7 @@ export function weekdayOf(date: IsoDate): number {
   return toUtc(date).getUTCDay();
 }
 
-/** Próxima ocorrência do dia da semana, contando hoje (D15). */
+/** Próxima ocorrência do dia da semana, contando hoje. */
 export function nextWeekday(today: IsoDate, weekday: number): IsoDate {
   return addDays(today, (weekday - weekdayOf(today) + 7) % 7);
 }
