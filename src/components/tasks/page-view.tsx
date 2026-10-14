@@ -203,7 +203,7 @@ function PageProgress({ page, done, total }: { page: Page; done: number; total: 
         </Text>
         <View className="flex-row items-center gap-2">
           <Text className="font-mono text-xs text-ink-muted">
-            {resetCycleLabel(page.reset_cycle)}
+            {resetCycleLabel(page.reset_cycle, t)}
           </Text>
           {page.reset_cycle === 'manual' && (
             <Button

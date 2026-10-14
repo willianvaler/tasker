@@ -1,4 +1,6 @@
+import type { TFunction } from 'i18next';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
@@ -7,31 +9,19 @@ import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import type { Page, PageSettings } from '@/lib/queries/tree';
 
-const VIEW_TYPES: { value: Page['view_type']; label: string; hint: string }[] = [
-  { value: 'list', label: '📄 Lista', hint: 'Uma tarefa por linha.' },
-  {
-    value: 'cards',
-    label: '🃏 Cards',
-    hint: 'Cards grandes para marcar rápido (treino, rotina). Toque no card inteiro.',
-  },
-  {
-    value: 'habits',
-    label: '🔥 Hábitos',
-    hint: 'Itens que se repetem, com sequência e histórico.',
-  },
-  {
-    value: 'kanban',
-    label: '📋 Kanban',
-    hint: 'Colunas A fazer, Fazendo e Feito. Bom para projetos com etapas.',
-  },
-];
+const VIEW_TYPES = [
+  { value: 'list', label: 'pageDialog.list', hint: 'pageDialog.listHint' },
+  { value: 'cards', label: 'pageDialog.cards', hint: 'pageDialog.cardsHint' },
+  { value: 'habits', label: 'pageDialog.habits', hint: 'pageDialog.habitsHint' },
+  { value: 'kanban', label: 'pageDialog.kanban', hint: 'pageDialog.kanbanHint' },
+] as const satisfies readonly { value: Page['view_type']; label: string; hint: string }[];
 
-const RESET_CYCLES: { value: Page['reset_cycle']; label: string }[] = [
-  { value: 'none', label: 'Nunca' },
-  { value: 'daily', label: 'Todo dia' },
-  { value: 'weekly', label: 'Toda segunda' },
-  { value: 'manual', label: 'Manual' },
-];
+const RESET_CYCLES = [
+  { value: 'none', label: 'pageDialog.never' },
+  { value: 'daily', label: 'pageDialog.daily' },
+  { value: 'weekly', label: 'pageDialog.weekly' },
+  { value: 'manual', label: 'pageDialog.manual' },
+] as const satisfies readonly { value: Page['reset_cycle']; label: string }[];
 
 /** Criar ou configurar uma página: nome, ícone, tipo de visualização e quando os checks reiniciam. */
 export function PageDialog({
@@ -45,6 +35,7 @@ export function PageDialog({
   onConfirm: (settings: PageSettings) => void;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   const [name, setName] = useState(initial?.name ?? '');
   const [icon, setIcon] = useState(initial?.icon ?? '');
   const [viewType, setViewType] = useState<Page['view_type']>(initial?.view_type ?? 'list');
@@ -72,67 +63,73 @@ export function PageDialog({
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1 items-center justify-center bg-scrim/40 px-6"
       >
-        <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={onClose} />
-        <View className="max-h-[90%] w-full max-w-md rounded-lg bg-paper">
-          <ScrollView contentContainerClassName="gap-3 p-6" keyboardShouldPersistTaps="handled">
+        <Pressable
+          accessibilityLabel={t('common.close')}
+          className="absolute inset-0"
+          onPress={onClose}
+        />
+        <View className="max-h-[90%] w-full max-w-md rounded-lg border border-line bg-surface">
+          <ScrollView contentContainerClassName="gap-4 p-4" keyboardShouldPersistTaps="handled">
             <Text className="text-lg font-semibold text-ink">{title}</Text>
             <Input
-              placeholder="Nome (ex.: Treino A)"
+              placeholder={t('pageDialog.namePlaceholder')}
               value={name}
               onChangeText={setName}
               autoFocus
               maxLength={100}
             />
             <Input
-              placeholder="Emoji (opcional)"
+              placeholder={t('pageDialog.emojiPlaceholder')}
               value={icon}
               onChangeText={setIcon}
               maxLength={8}
             />
 
-            <Text className="font-semibold text-ink">Tipo</Text>
-            <View className="flex-row flex-wrap gap-2">
-              {VIEW_TYPES.map((t) => (
+            <Label>{t('pageDialog.type')}</Label>
+            <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+              {VIEW_TYPES.map((v) => (
                 <Chip
-                  key={t.value}
+                  key={v.value}
                   role="radio"
-                  label={t.label}
-                  selected={viewType === t.value}
-                  onPress={() => setViewType(t.value)}
+                  label={t(v.label)}
+                  selected={viewType === v.value}
+                  onPress={() => setViewType(v.value)}
                 />
               ))}
             </View>
             <Text className="text-sm text-ink-muted">
-              {VIEW_TYPES.find((t) => t.value === viewType)?.hint}
+              {t(VIEW_TYPES.find((v) => v.value === viewType)?.hint ?? 'pageDialog.listHint')}
             </Text>
 
             {viewType !== 'habits' && viewType !== 'kanban' && (
               <>
-                <Text className="font-semibold text-ink">Reiniciar os checks</Text>
-                <View className="flex-row flex-wrap gap-2">
+                <Label>{t('pageDialog.reset')}</Label>
+                <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
                   {RESET_CYCLES.map((c) => (
                     <Chip
                       key={c.value}
                       role="radio"
-                      label={c.label}
+                      label={t(c.label)}
                       selected={effectiveReset === c.value}
                       onPress={() => setResetCycle(c.value)}
                     />
                   ))}
                 </View>
                 <Text className="text-sm text-ink-muted">
-                  {effectiveReset === 'none'
-                    ? 'O que for marcado fica marcado.'
-                    : effectiveReset === 'manual'
-                      ? 'Os checks voltam quando você tocar em "Reiniciar". O histórico fica guardado.'
-                      : 'Os checks voltam sozinhos; o histórico fica guardado.'}
+                  {t(
+                    effectiveReset === 'none'
+                      ? 'pageDialog.resetNone'
+                      : effectiveReset === 'manual'
+                        ? 'pageDialog.resetManual'
+                        : 'pageDialog.resetAuto',
+                  )}
                 </Text>
               </>
             )}
 
             <View className="mt-2 flex-row justify-end gap-2">
-              <Button variant="ghost" label="Cancelar" onPress={onClose} />
-              <Button label="Salvar" onPress={confirm} disabled={!name.trim()} />
+              <Button variant="ghost" label={t('common.cancel')} onPress={onClose} />
+              <Button label={t('common.save')} onPress={confirm} disabled={!name.trim()} />
             </View>
           </ScrollView>
         </View>
@@ -141,11 +138,18 @@ export function PageDialog({
   );
 }
 
-export function resetCycleLabel(cycle: Page['reset_cycle']) {
+function Label({ children }: { children: string }) {
+  return (
+    <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">{children}</Text>
+  );
+}
+
+/** "Reinicia toda segunda" (vazio quando a página não reinicia). */
+export function resetCycleLabel(cycle: Page['reset_cycle'], t: TFunction) {
   return {
     none: '',
-    daily: 'Reinicia todo dia',
-    weekly: 'Reinicia toda segunda',
-    manual: 'Reinício manual',
+    daily: t('pageDialog.labelDaily'),
+    weekly: t('pageDialog.labelWeekly'),
+    manual: t('pageDialog.labelManual'),
   }[cycle];
 }

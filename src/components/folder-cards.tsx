@@ -1,23 +1,15 @@
+import type { TFunction } from 'i18next';
 import { Link } from 'expo-router';
-import { MoreHorizontal } from 'lucide-react-native';
+import { MoreHorizontal, Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
+import { ItemIcon, type ItemKind } from '@/components/item-icon';
+import { resetCycleLabel } from '@/components/page-dialog';
 import { IconButton } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { pageLabel, type FolderNode, type Page, type SubFolder } from '@/lib/queries/tree';
-
-const VIEW_LABEL: Record<string, string> = {
-  list: 'Lista',
-  cards: 'Cards',
-  habits: 'Hábitos',
-  kanban: 'Kanban',
-};
-const RESET_LABEL: Record<string, string> = {
-  daily: 'reinicia todo dia',
-  weekly: 'reinicia toda segunda',
-  manual: 'reinício manual',
-};
 
 /** Nome da pasta para texto (o ícone é desenhado à parte, pelo components/item-icon.tsx). */
 export function folderLabel(folder: { name: string }) {
@@ -25,11 +17,11 @@ export function folderLabel(folder: { name: string }) {
 }
 
 /** "3 páginas · 1 subpasta" */
-export function folderSummary(folder: FolderNode | SubFolder) {
+export function folderSummary(folder: FolderNode | SubFolder, t: TFunction) {
   const pages = folder.pages.length + ('children' in folder ? sum(folder.children) : 0);
   const subs = 'children' in folder ? folder.children.length : 0;
-  const parts = [pages === 1 ? '1 página' : `${pages} páginas`];
-  if (subs) parts.push(subs === 1 ? '1 subpasta' : `${subs} subpastas`);
+  const parts = [t('folder.pages', { count: pages })];
+  if (subs) parts.push(t('folder.subfolders', { count: subs }));
   return parts.join(' · ');
 }
 
@@ -44,10 +36,11 @@ export function MenuButton({ label, onPress }: { label: string; onPress: () => v
 }
 
 /**
- * Card de pasta na aba Pastas: o topo abre a pasta, e as páginas aparecem logo abaixo para
- * chegar a qualquer uma em 2 toques (ESCOPO 5).
+ * Pasta na aba Pastas (docs/mockups/sidebar.html): uma linha com o marcador de cor, o ícone e o
+ * resumo em mono, e as páginas logo abaixo, para chegar a qualquer uma em 2 toques (ESCOPO 5).
+ * Linhas, não cartões.
  */
-export function FolderCard({
+export function FolderSection({
   folder,
   onMenu,
   onNewPage,
@@ -56,82 +49,98 @@ export function FolderCard({
   onMenu?: () => void;
   onNewPage?: () => void;
 }) {
-  const label = folderLabel(folder);
+  const { t } = useTranslation();
   const empty = folder.pages.length === 0 && folder.children.length === 0;
   return (
-    <View className="gap-1 rounded-lg border border-line bg-surface p-3">
-      <View className="flex-row items-center">
+    <View>
+      <View className="min-h-12 flex-row items-center gap-2 border-b border-line">
         <Link href={{ pathname: '/folder/[id]', params: { id: folder.id } }} asChild>
-          <Pressable accessibilityRole="link" className="min-h-11 flex-1 justify-center">
-            <Text className="text-lg font-semibold text-ink" numberOfLines={1}>
-              {label}
+          <Pressable
+            accessibilityRole="link"
+            className="min-h-12 flex-1 flex-row items-center gap-3 rounded hover:bg-wash"
+          >
+            {folder.color && (
+              <View className="h-5 w-1 rounded" style={{ backgroundColor: folder.color }} />
+            )}
+            <ItemIcon
+              icon={folder.icon}
+              kind={folder.is_shared ? 'project' : 'folder'}
+              size={20}
+              tone="ink"
+            />
+            <Text className="flex-1 font-serif text-lg text-ink" numberOfLines={1}>
+              {folder.name}
             </Text>
-            <Text className="text-xs text-ink-muted">
-              {folder.is_shared ? '👥 Projeto · ' : ''}
-              {folderSummary(folder)}
+            <Text className="font-mono text-xs text-ink-muted">
+              {folder.is_shared ? `${t('folder.project')} · ` : ''}
+              {folderSummary(folder, t)}
             </Text>
           </Pressable>
         </Link>
-        {onMenu && <MenuButton label={label} onPress={onMenu} />}
+        {onMenu && <MenuButton label={folder.name} onPress={onMenu} />}
       </View>
       {folder.pages.map((page) => (
-        <PageLink key={page.id} page={page} />
+        <PageRow key={page.id} page={page} indent />
       ))}
       {folder.children.map((child) => (
         <Link key={child.id} href={{ pathname: '/folder/[id]', params: { id: child.id } }} asChild>
           <Pressable
             accessibilityRole="link"
-            className="min-h-11 flex-row items-center rounded-lg px-2 active:bg-wash"
+            className="min-h-11 flex-row items-center gap-3 border-b border-line pl-8 hover:bg-wash md:min-h-10"
           >
-            <Text className="flex-1 text-base text-ink" numberOfLines={1}>
-              {folderLabel(child)}
+            <ItemIcon icon={child.icon} kind="folder" />
+            <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
+              {child.name}
             </Text>
-            <Text className="text-xs text-ink-muted">{folderSummary(child)}</Text>
+            <Text className="font-mono text-xs text-ink-muted">{folderSummary(child, t)}</Text>
           </Pressable>
         </Link>
       ))}
       {empty && onNewPage && (
         <Pressable
           accessibilityRole="button"
-          className="min-h-11 justify-center rounded-lg px-2 active:bg-wash"
+          className="min-h-11 flex-row items-center gap-3 pl-8 hover:bg-wash md:min-h-10"
           onPress={onNewPage}
         >
-          <Text className="text-sm text-accent">+ Criar a primeira página</Text>
+          <Icon icon={Plus} tone="accent" />
+          <Text className="text-sm text-ink">{t('folder.firstPage')}</Text>
         </Pressable>
       )}
     </View>
   );
 }
 
-function PageLink({ page }: { page: Page }) {
-  return (
-    <Link href={{ pathname: '/page/[id]', params: { id: page.id } }} asChild>
-      <Pressable
-        accessibilityRole="link"
-        className="min-h-11 justify-center rounded-lg px-2 active:bg-wash"
-      >
-        <Text className="text-base text-ink" numberOfLines={1}>
-          {pageLabel(page)}
-        </Text>
-      </Pressable>
-    </Link>
-  );
-}
-
-/** Página na tela da pasta: nome, tipo e reinício. */
-export function PageTile({ page, onMenu }: { page: Page; onMenu?: () => void }) {
+/** Página numa lista: ícone do tipo, nome e, em mono, o tipo e o reinício. */
+export function PageRow({
+  page,
+  onMenu,
+  indent,
+}: {
+  page: Page;
+  onMenu?: () => void;
+  indent?: boolean;
+}) {
+  const { t } = useTranslation();
   const label = pageLabel(page);
-  const reset = RESET_LABEL[page.reset_cycle];
+  const reset = resetCycleLabel(page.reset_cycle, t);
+  const type = t(`pageDialog.${(page.view_type as 'list') ?? 'list'}`);
   return (
-    <View className="flex-row items-center rounded-lg border border-line bg-surface pl-3">
+    <View className="flex-row items-center border-b border-line">
       <Link href={{ pathname: '/page/[id]', params: { id: page.id } }} asChild>
-        <Pressable accessibilityRole="link" className="min-h-14 flex-1 justify-center py-2">
-          <Text className="text-base font-normal text-ink" numberOfLines={1}>
+        <Pressable
+          accessibilityRole="link"
+          className={
+            indent
+              ? 'min-h-11 flex-1 flex-row items-center gap-3 pl-8 hover:bg-wash md:min-h-10'
+              : 'min-h-11 flex-1 flex-row items-center gap-3 hover:bg-wash md:min-h-10'
+          }
+        >
+          <ItemIcon icon={page.icon} kind={page.view_type as ItemKind} />
+          <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
             {label}
           </Text>
-          <Text className="text-xs text-ink-muted">
-            {VIEW_LABEL[page.view_type] ?? 'Lista'}
-            {reset ? ` · ${reset}` : ''}
+          <Text className="font-mono text-xs text-ink-muted" numberOfLines={1}>
+            {reset ? `${type} · ${reset.toLowerCase()}` : type}
           </Text>
         </Pressable>
       </Link>

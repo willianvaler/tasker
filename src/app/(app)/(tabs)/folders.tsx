@@ -1,61 +1,69 @@
 import { router } from 'expo-router';
+import { LayoutTemplate, Plus } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
-import { FolderCard } from '@/components/folder-cards';
+import { FolderSection } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
 import { Screen } from '@/components/screen';
-import { Grid } from '@/components/ui/grid';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
 import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 
-// Todas as pastas em cards (como os Projetos do Claude). Cada card abre a pasta e mostra as páginas.
+// Todas as pastas, como linhas (docs/mockups/sidebar.html): cada pasta com as páginas logo abaixo.
 export default function FoldersScreen() {
+  const { t } = useTranslation();
   const tree = useTree();
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
   const folders = tree.data?.folders ?? [];
 
   return (
-    <Screen size="wide">
+    <Screen size="medium">
       <ScreenHeader
-        title="Pastas"
+        title={t('folder.title')}
         right={
-          <View className="flex-row gap-2">
+          <>
             <Button
               variant="ghost"
-              label="Usar modelo"
+              icon={LayoutTemplate}
+              label={t('folder.useTemplate')}
               disabled={!online}
               onPress={() => router.push('/templates')}
             />
-            <Button label="+ Nova pasta" disabled={!online} onPress={() => actions.newFolder()} />
-          </View>
+            <Button
+              icon={Plus}
+              label={t('folder.newFolder')}
+              disabled={!online}
+              onPress={() => actions.newFolder()}
+            />
+          </>
         }
       />
-      {tree.error && <Text className="text-danger">Erro ao carregar: {tree.error.message}</Text>}
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-        <Grid>
-          {folders.map((folder) => (
-            <FolderCard
-              key={folder.id}
-              folder={folder}
-              onMenu={online ? () => actions.folderMenu(folder) : undefined}
-              onNewPage={online ? () => actions.newPage(folder.id) : undefined}
-            />
-          ))}
-        </Grid>
+      {tree.error && (
+        <Text className="text-sm text-danger">
+          {t('common.loadError', { message: tree.error.message })}
+        </Text>
+      )}
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 pb-clear">
+        {folders.map((folder) => (
+          <FolderSection
+            key={folder.id}
+            folder={folder}
+            onMenu={online ? () => actions.folderMenu(folder) : undefined}
+            onNewPage={online ? () => actions.newPage(folder.id) : undefined}
+          />
+        ))}
         {tree.data && folders.length === 0 && (
-          <View className="mt-12 items-center gap-3">
-            <Text className="text-xl">📁</Text>
-            <Text className="text-center text-ink-muted">
-              Crie pastas para separar os assuntos (Academia, Casa, Trabalho...) e páginas dentro
-              delas.
-            </Text>
+          <View className="items-center">
+            <EmptyState title={t('folder.emptyFolders')} />
             <Button
               variant="ghost"
-              label="Criar a primeira pasta"
+              icon={Plus}
+              label={t('folder.firstFolder')}
               disabled={!online}
               onPress={() => actions.newFolder()}
             />

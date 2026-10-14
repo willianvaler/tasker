@@ -23,7 +23,7 @@ test('fila offline: cria e marca sem internet, envia ao voltar', async ({
 
   // O resto continua só leitura sem conexão
   await openTab(page, 'Pastas');
-  await expect(page.getByRole('button', { name: '+ Nova pasta' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Nova pasta' }).last()).toBeDisabled();
   await openTab(page, 'Hoje');
 
   // Volta a internet: a fila vai na ordem, e o servidor confirma depois de recarregar

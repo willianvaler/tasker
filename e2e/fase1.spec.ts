@@ -82,14 +82,14 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
   await openTab(page, 'Pastas');
 
-  await page.getByRole('button', { name: '+ Nova pasta' }).click();
+  await page.getByRole('button', { name: 'Nova pasta' }).last().click();
   await page.getByPlaceholder('Nome (ex.: Academia)').fill('Academia');
   await page.getByPlaceholder('Emoji (opcional, ex.: 🏋️)').fill('🏋️');
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A pasta nova abre sozinha, vazia
   await expect(page.getByRole('heading', { name: 'Academia' })).toBeVisible();
 
-  await page.getByRole('button', { name: '+ Criar a primeira página' }).click();
+  await page.getByRole('button', { name: 'Criar a primeira página' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Treino A');
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A página nova abre sozinha
@@ -118,7 +118,7 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
   await page.getByRole('button', { name: 'Voltar' }).click();
   await expect(page.getByRole('heading', { name: 'Academia' })).toBeVisible();
   await page.getByRole('button', { name: 'Opções de Treino A' }).click();
-  await page.getByText('⚙️ Configurar').click();
+  await page.getByRole('menuitem', { name: 'Configurar', exact: true }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Treino B');
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('link', { name: /Treino B/ }).first()).toBeVisible();

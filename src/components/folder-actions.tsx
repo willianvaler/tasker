@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { PageDialog } from '@/components/page-dialog';
 import {
@@ -35,8 +36,9 @@ export function useFolderActions() {
   const tree = useTree();
   const toast = useToast();
   const [dialog, setDialog, close] = useDialog<FolderDialog>();
+  const { t } = useTranslation();
 
-  const onError = (err: Error) => toast({ message: `Não deu certo: ${err.message}` });
+  const onError = (err: Error) => toast({ message: t('page.error', { message: err.message }) });
 
   const actions = {
     newFolder: (parentId?: string) => setDialog({ kind: 'new-folder', parentId }),
@@ -50,26 +52,26 @@ export function useFolderActions() {
     const owner = rootFolder(tree.data, folder.id)?.owner_id ?? folder.owner_id;
     const isOwner = owner === session?.user.id;
     return [
-      { label: '📄 Nova página', onPress: () => actions.newPage(folder.id) },
+      { label: t('folder.newPage'), onPress: () => actions.newPage(folder.id) },
       // Máximo de 2 níveis de pasta (ESCOPO 1.2)
       ...(folder.parent_id
         ? []
         : [
-            { label: '📁 Nova subpasta', onPress: () => actions.newFolder(folder.id) },
+            { label: t('folder.newSubfolder'), onPress: () => actions.newFolder(folder.id) },
             {
-              label: folder.is_shared ? '👥 Pessoas e convite' : '👥 Compartilhar',
+              label: folder.is_shared ? t('folder.peopleInvite') : t('folder.share'),
               onPress: () => router.push({ pathname: '/share/[id]', params: { id: folder.id } }),
             },
             {
-              label: '💾 Salvar como modelo',
+              label: t('folder.saveTemplate'),
               onPress: () => setDialog({ kind: 'save-template', folder }),
             },
           ]),
-      { label: '✏️ Renomear', onPress: () => setDialog({ kind: 'edit-folder', folder }) },
+      { label: t('folder.rename'), onPress: () => setDialog({ kind: 'edit-folder', folder }) },
       ...(isOwner
         ? [
             {
-              label: '🗑️ Apagar pasta',
+              label: t('folder.delete'),
               destructive: true,
               onPress: () => setDialog({ kind: 'delete-folder', folder }),
             },
@@ -80,9 +82,9 @@ export function useFolderActions() {
 
   function pageMenu(page: Page): MenuAction[] {
     return [
-      { label: '⚙️ Configurar', onPress: () => setDialog({ kind: 'edit-page', page }) },
+      { label: t('folder.configure'), onPress: () => setDialog({ kind: 'edit-page', page }) },
       {
-        label: '🗑️ Apagar página',
+        label: t('folder.deletePage'),
         destructive: true,
         onPress: () => setDialog({ kind: 'delete-page', page }),
       },
@@ -92,11 +94,7 @@ export function useFolderActions() {
   let element = null;
   if (dialog?.kind === 'folder-menu')
     element = (
-      <ActionMenu
-        title={`${dialog.folder.icon || '📁'} ${dialog.folder.name}`}
-        actions={folderMenu(dialog.folder)}
-        onClose={close}
-      />
+      <ActionMenu title={dialog.folder.name} actions={folderMenu(dialog.folder)} onClose={close} />
     );
   else if (dialog?.kind === 'page-menu')
     element = (
@@ -107,12 +105,14 @@ export function useFolderActions() {
     const parentId = dialog.kind === 'new-folder' ? dialog.parentId : undefined;
     element = (
       <PromptDialog
-        title={editing ? 'Renomear pasta' : parentId ? 'Nova subpasta' : 'Nova pasta'}
+        title={t(
+          editing ? 'folder.renameTitle' : parentId ? 'folder.newSubfolder' : 'folder.newFolder',
+        )}
         fields={[
-          { key: 'name', placeholder: 'Nome (ex.: Academia)', initial: editing?.name ?? '' },
+          { key: 'name', placeholder: t('folder.namePlaceholder'), initial: editing?.name ?? '' },
           {
             key: 'icon',
-            placeholder: 'Emoji (opcional, ex.: 🏋️)',
+            placeholder: t('folder.emojiPlaceholder'),
             maxLength: 8,
             initial: editing?.icon ?? '',
           },
@@ -138,7 +138,7 @@ export function useFolderActions() {
     const folderId = dialog.kind === 'new-page' ? dialog.folderId : '';
     element = (
       <PageDialog
-        title={editing ? 'Configurar página' : 'Nova página'}
+        title={t(editing ? 'page.settings' : 'pageDialog.new')}
         initial={editing ?? undefined}
         onClose={close}
         onConfirm={(settings) => {
@@ -160,9 +160,9 @@ export function useFolderActions() {
     const folder = dialog.folder;
     element = (
       <ConfirmDialog
-        title={`Apagar "${folder.name}"?`}
-        message="As subpastas, páginas e tarefas dentro dela também serão apagadas."
-        confirmLabel="Apagar"
+        title={t('folder.deleteTitle', { name: folder.name })}
+        message={t('folder.deleteMessage')}
+        confirmLabel={t('folder.deleteConfirm')}
         onClose={close}
         onConfirm={() => {
           m.deleteFolder.mutate(folder.id, { onError });
@@ -174,16 +174,15 @@ export function useFolderActions() {
     const folder = dialog.folder;
     element = (
       <PromptDialog
-        title="Salvar como modelo"
-        fields={[{ key: 'name', placeholder: 'Nome do modelo', initial: folder.name }]}
+        title={t('folder.saveTemplate')}
+        fields={[{ key: 'name', placeholder: t('folder.templateName'), initial: folder.name }]}
         onClose={close}
         onConfirm={({ name }) => {
           templates.saveFolder.mutate(
             { folder, name },
             {
               onError,
-              onSuccess: () =>
-                toast({ message: `Modelo "${name}" salvo. Use em Pastas → Usar modelo.` }),
+              onSuccess: () => toast({ message: t('folder.templateSaved', { name }) }),
             },
           );
           close();
@@ -194,9 +193,9 @@ export function useFolderActions() {
     const page = dialog.page;
     element = (
       <ConfirmDialog
-        title={`Apagar "${page.name}"?`}
-        message="As tarefas da página também serão apagadas."
-        confirmLabel="Apagar"
+        title={t('folder.deleteTitle', { name: page.name })}
+        message={t('folder.deletePageMessage')}
+        confirmLabel={t('folder.deleteConfirm')}
         onClose={close}
         onConfirm={() => {
           m.deletePage.mutate(page.id, { onError });

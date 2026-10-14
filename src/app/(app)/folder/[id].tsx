@@ -1,20 +1,26 @@
 import { Link, router, useLocalSearchParams } from 'expo-router';
+import { ArrowUpRight as ItemArrow, FolderPlus, Plus, Users } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { useFolderActions } from '@/components/folder-actions';
-import { folderLabel, folderSummary, MenuButton, PageTile } from '@/components/folder-cards';
+import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
+import { ItemIcon } from '@/components/item-icon';
 import { ProjectOverview } from '@/components/project-overview';
 import { Screen } from '@/components/screen';
-import { Grid } from '@/components/ui/grid';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Icon } from '@/components/ui/icon';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { findFolder, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useCanWrite } from '@/providers/write';
 
-// Visão geral da pasta (como a página de um projeto no Claude): páginas e subpastas.
+// Pasta ou projeto: páginas em linhas, subpastas como seções e, no projeto, o progresso e a atividade.
 export default function FolderScreen() {
+  const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const tree = useTree();
   const online = useIsOnline();
@@ -26,8 +32,8 @@ export default function FolderScreen() {
   if (tree.data && !found) {
     return (
       <Screen>
-        <ScreenHeader title="Pasta" back />
-        <Text className="mt-6 text-ink-muted">Essa pasta não existe mais.</Text>
+        <ScreenHeader title={t('folder.fallbackTitle')} back />
+        <EmptyState title={t('folder.missing')} />
       </Screen>
     );
   }
@@ -35,35 +41,41 @@ export default function FolderScreen() {
   const folder = found?.folder;
   const children = folder && 'children' in folder ? folder.children : [];
   const empty = !!folder && folder.pages.length === 0 && children.length === 0;
+  const project = !!folder && 'children' in folder && folder.is_shared;
+  const eyebrow = folder
+    ? [
+        found?.parent ? t('folder.in', { name: found.parent.name }) : null,
+        project ? t('folder.project') : null,
+        folderSummary(folder, t),
+      ]
+        .filter(Boolean)
+        .join(' · ')
+    : undefined;
 
   return (
-    <Screen size="wide">
+    <Screen size="medium">
       <ScreenHeader
-        title={folder ? folderLabel(folder) : ''}
+        title={folder?.name ?? ''}
+        eyebrow={eyebrow}
+        icon={
+          folder ? (
+            <ItemIcon icon={folder.icon} kind={project ? 'project' : 'folder'} size={20} />
+          ) : null
+        }
         back
         right={
           folder && online ? (
-            <MenuButton label={folderLabel(folder)} onPress={() => actions.folderMenu(folder)} />
+            <MenuButton label={folder.name} onPress={() => actions.folderMenu(folder)} />
           ) : null
         }
       />
-      {found?.parent && (
-        <Link href={{ pathname: '/folder/[id]', params: { id: found.parent.id } }} asChild>
-          <Pressable accessibilityRole="link" className="-mt-2 mb-2 self-start">
-            <Text className="text-sm text-ink-muted">em {folderLabel(found.parent)}</Text>
-          </Pressable>
-        </Link>
-      )}
       {folder && (
-        <View className="mb-3 flex-row flex-wrap items-center gap-2">
-          <Text className="flex-1 text-sm text-ink-muted">
-            {folder.is_shared ? '👥 Projeto · ' : ''}
-            {folderSummary(folder)}
-          </Text>
+        <View className="flex-row flex-wrap items-center gap-2 pb-2">
           {!folder.parent_id && (
             <Button
               variant="ghost"
-              label={folder.is_shared ? '👥 Pessoas' : '👥 Compartilhar'}
+              icon={Users}
+              label={folder.is_shared ? t('folder.people') : t('folder.share')}
               disabled={!online}
               onPress={() => router.push({ pathname: '/share/[id]', params: { id: folder.id } })}
             />
@@ -71,75 +83,89 @@ export default function FolderScreen() {
           {!folder.parent_id && writable && (
             <Button
               variant="ghost"
-              label="+ Subpasta"
+              icon={FolderPlus}
+              label={t('folder.subfolder')}
               onPress={() => actions.newFolder(folder.id)}
             />
           )}
-          {writable && <Button label="+ Nova página" onPress={() => actions.newPage(folder.id)} />}
+          {writable && (
+            <Button
+              icon={Plus}
+              label={t('folder.newPage')}
+              className="ml-auto"
+              onPress={() => actions.newPage(folder.id)}
+            />
+          )}
         </View>
       )}
 
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-2 pb-clear">
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
         {folder && 'children' in folder && folder.is_shared && (
-          <View className="mb-2">
+          <View className="mb-4">
             <ProjectOverview root={folder} />
           </View>
         )}
-        <Grid gap={8}>
+        <View className="border-t border-line">
           {folder?.pages.map((page) => (
-            <PageTile
+            <PageRow
               key={page.id}
               page={page}
               onMenu={writable ? () => actions.pageMenu(page) : undefined}
             />
           ))}
-        </Grid>
+        </View>
         {empty && (
-          <View className="mt-8 items-center gap-2">
-            <Text className="text-center text-ink-muted">
-              Uma pasta guarda páginas: uma lista de compras, um treino em cards, seus hábitos.
-            </Text>
+          <View className="items-center">
+            <EmptyState title={t('folder.emptyFolder')} />
             {writable && folder && (
-              <Pressable
-                accessibilityRole="button"
-                className="min-h-11 justify-center px-3"
+              <Button
+                variant="ghost"
+                icon={Plus}
+                label={t('folder.firstPage')}
                 onPress={() => actions.newPage(folder.id)}
-              >
-                <Text className="text-base text-accent">+ Criar a primeira página</Text>
-              </Pressable>
+              />
             )}
           </View>
         )}
         {children.map((child) => (
-          <View key={child.id} className="mt-4 gap-2">
-            <View className="flex-row items-center">
-              <Link href={{ pathname: '/folder/[id]', params: { id: child.id } }} asChild>
-                <Pressable accessibilityRole="link" className="min-h-11 flex-1 justify-center">
-                  <Text className="text-base font-semibold text-ink" numberOfLines={1}>
-                    {folderLabel(child)}
-                  </Text>
-                </Pressable>
-              </Link>
-              {online && (
-                <MenuButton label={folderLabel(child)} onPress={() => actions.folderMenu(child)} />
-              )}
-            </View>
-            <Grid gap={8}>
-              {child.pages.map((page) => (
-                <PageTile
-                  key={page.id}
-                  page={page}
-                  onMenu={writable ? () => actions.pageMenu(page) : undefined}
-                />
-              ))}
-            </Grid>
+          <View key={child.id}>
+            <SectionLabel
+              title={child.name}
+              count={child.pages.length}
+              right={
+                <View className="flex-row items-center">
+                  <Link href={{ pathname: '/folder/[id]', params: { id: child.id } }} asChild>
+                    <Pressable
+                      accessibilityRole="link"
+                      accessibilityLabel={child.name}
+                      className="h-8 justify-center px-2"
+                    >
+                      <Icon icon={ItemArrow} tone="ink-muted" />
+                    </Pressable>
+                  </Link>
+                  {online && (
+                    <MenuButton label={child.name} onPress={() => actions.folderMenu(child)} />
+                  )}
+                </View>
+              }
+            />
+            {child.pages.map((page) => (
+              <PageRow
+                key={page.id}
+                page={page}
+                onMenu={writable ? () => actions.pageMenu(page) : undefined}
+              />
+            ))}
             {child.pages.length === 0 && online && (
               <Pressable
                 accessibilityRole="button"
-                className="min-h-11 justify-center"
+                className="min-h-11 flex-row items-center gap-3 hover:bg-wash md:min-h-10"
                 onPress={() => actions.newPage(child.id)}
               >
-                <Text className="text-sm text-accent">+ Nova página em {child.name}</Text>
+                <Icon icon={Plus} tone="accent" />
+                <Text className="text-sm text-ink">
+                  {t('folder.newPageIn', { name: child.name })}
+                </Text>
               </Pressable>
             )}
           </View>

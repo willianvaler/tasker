@@ -10,10 +10,10 @@ test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page 
     .first()
     .click();
   if (testInfo.project.name === 'celular')
-    await page.getByRole('button', { name: '+ Nova pasta' }).click();
+    await page.getByRole('button', { name: 'Nova pasta' }).click();
   await page.getByPlaceholder('Nome (ex.: Academia)').fill('Trabalho');
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await page.getByRole('button', { name: '+ Criar a primeira página' }).click();
+  await page.getByRole('button', { name: 'Criar a primeira página' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Quadro');
   await page.getByRole('radio', { name: /Kanban/ }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();

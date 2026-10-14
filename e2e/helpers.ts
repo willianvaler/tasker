@@ -64,12 +64,12 @@ export async function createPage(
   { folder, name, type }: { folder: string; name: string; type: 'Lista' | 'Cards' | 'Hábitos' },
 ) {
   await openTab(page, 'Pastas');
-  await page.getByRole('button', { name: '+ Nova pasta' }).click();
+  await page.getByRole('button', { name: 'Nova pasta' }).last().click();
   await page.getByPlaceholder('Nome (ex.: Academia)').fill(folder);
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A pasta nova abre sozinha
   await expect(page.getByRole('heading', { name: folder })).toBeVisible();
-  await page.getByRole('button', { name: '+ Criar a primeira página' }).click();
+  await page.getByRole('button', { name: 'Criar a primeira página' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill(name);
   await page.getByRole('radio', { name: new RegExp(type) }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();

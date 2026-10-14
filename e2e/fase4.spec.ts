@@ -49,7 +49,7 @@ test('critério de aceite: Churrasco por modelo, @nomes antes de convidar, 2 con
   await page.getByRole('button', { name: 'Modelo Churrasco' }).click();
   await page.getByRole('button', { name: 'Criar', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
-  await expect(page.getByText('👥 Projeto ·').last()).toBeVisible();
+  await expect(page.getByText('Projeto ·').last()).toBeVisible();
 
   // Cola a lista com @nomes de quem ainda não está no app
   await page.getByRole('link', { name: 'Compras' }).first().click();
