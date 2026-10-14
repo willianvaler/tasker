@@ -1,4 +1,6 @@
+import type { TFunction } from 'i18next';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
@@ -10,6 +12,7 @@ type Mode = 'sign-in' | 'sign-up';
 
 /** Entrar ou criar conta. Com sessão, quem mostra o formulário decide para onde ir. */
 export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<Mode>(initialMode);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -30,21 +33,29 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
           });
     setLoading(false);
     // Com sessão, a tela de fora reage (login: o Stack.Protected; convite: mostra "Participar")
-    if (error) setError(translateAuthError(error.message));
+    if (error) setError(translateAuthError(error.message, t));
   }
 
   return (
     <View className="w-full max-w-sm gap-3">
-      <Text className="mb-2 text-center text-xl font-semibold text-ink">Questlist</Text>
-      <Text className="mb-4 text-center text-ink-muted">
-        {mode === 'sign-in' ? 'Entre na sua conta' : 'Crie sua conta'}
+      <View className="mb-6 gap-1">
+        <Text className="font-serif text-xl text-ink">Questlist</Text>
+        <Text className="text-sm text-ink-muted">{t('auth.tagline')}</Text>
+      </View>
+      <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        {t(mode === 'sign-in' ? 'auth.signInTitle' : 'auth.signUpTitle')}
       </Text>
 
       {mode === 'sign-up' && (
-        <Input placeholder="Seu nome" value={name} onChangeText={setName} autoComplete="name" />
+        <Input
+          placeholder={t('auth.name')}
+          value={name}
+          onChangeText={setName}
+          autoComplete="name"
+        />
       )}
       <Input
-        placeholder="E-mail"
+        placeholder={t('auth.email')}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -53,7 +64,7 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
         inputMode="email"
       />
       <Input
-        placeholder="Senha"
+        placeholder={t('auth.password')}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -61,17 +72,17 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
         onSubmitEditing={submit}
       />
 
-      {error && <Text className="text-danger">{error}</Text>}
+      {error && <Text className="text-sm text-danger">{error}</Text>}
 
       <Button
-        label={mode === 'sign-in' ? 'Entrar' : 'Criar conta'}
+        label={t(mode === 'sign-in' ? 'auth.signIn' : 'auth.signUp')}
         onPress={submit}
         loading={loading}
         disabled={!email || password.length < 6}
       />
       <Button
         variant="ghost"
-        label={mode === 'sign-in' ? 'Não tenho conta' : 'Já tenho conta'}
+        label={t(mode === 'sign-in' ? 'auth.noAccount' : 'auth.haveAccount')}
         onPress={() => {
           setMode(mode === 'sign-in' ? 'sign-up' : 'sign-in');
           setError(null);
@@ -81,10 +92,9 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
   );
 }
 
-function translateAuthError(message: string) {
-  if (/invalid login credentials/i.test(message)) return 'E-mail ou senha incorretos.';
-  if (/already registered/i.test(message)) return 'Esse e-mail já tem conta. Tente entrar.';
-  if (/password should be at least/i.test(message))
-    return 'A senha precisa de pelo menos 6 caracteres.';
+function translateAuthError(message: string, t: TFunction) {
+  if (/invalid login credentials/i.test(message)) return t('auth.wrong');
+  if (/already registered/i.test(message)) return t('auth.taken');
+  if (/password should be at least/i.test(message)) return t('auth.short');
   return message;
 }

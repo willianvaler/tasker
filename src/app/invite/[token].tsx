@@ -1,8 +1,10 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { ItemIcon } from '@/components/item-icon';
 import { SignInForm } from '@/components/sign-in-form';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,13 +16,18 @@ import {
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/providers/session';
 
-const ROLE_LABEL = { owner: 'dono', editor: 'editor', viewer: 'leitor' } as const;
+const ROLE_LABEL = {
+  owner: 'invite.roleOwner',
+  editor: 'invite.roleEditor',
+  viewer: 'invite.roleViewer',
+} as const;
 
 /**
  * Link de convite (fora do login, ESCOPO 4.5): mostra o projeto, deixa criar a conta ali mesmo,
  * entra e pergunta "Você é o @gregory?" antes de abrir o projeto.
  */
 export default function InviteScreen() {
+  const { t } = useTranslation();
   const { token } = useLocalSearchParams<{ token: string }>();
   const { session } = useSession();
   const preview = useInvitePreview(token, !!session);
@@ -42,18 +49,16 @@ export default function InviteScreen() {
 
   let body;
   if (preview.isPending) {
-    body = <Text className="text-center text-ink-muted">Abrindo o convite…</Text>;
+    body = <Text className="text-center text-sm text-ink-muted">{t('invite.opening')}</Text>;
   } else if (preview.error || !preview.data?.valid) {
     body = (
       <>
-        <Text className="text-center text-lg font-semibold text-ink">Convite inválido</Text>
-        <Text className="text-center text-ink-muted">
-          {preview.data && !preview.data.valid
-            ? preview.data.reason
-            : 'Não deu para abrir o convite.'}{' '}
-          Peça um link novo para quem te convidou.
+        <Text className="font-serif text-xl text-ink">{t('invite.invalid')}</Text>
+        <Text className="text-sm text-ink-muted">
+          {preview.data && !preview.data.valid ? preview.data.reason : t('invite.openError')}{' '}
+          {t('invite.askNew')}
         </Text>
-        <Button variant="ghost" label="Ir para o Questlist" onPress={() => router.replace('/')} />
+        <Button variant="ghost" label={t('invite.goHome')} onPress={() => router.replace('/')} />
       </>
     );
   } else if (joined) {
@@ -65,19 +70,15 @@ export default function InviteScreen() {
         <InviteCard invite={invite} />
         {!session ? (
           <>
-            <Text className="text-center text-sm text-ink-muted">
-              Crie sua conta (ou entre) para participar.
-            </Text>
+            <Text className="text-sm text-ink-muted">{t('invite.createToJoin')}</Text>
             <SignInForm initialMode="sign-up" />
           </>
         ) : invite.already_member ? (
-          <Button label="Abrir o projeto" onPress={() => openFolder(invite.folder_id)} />
+          <Button label={t('invite.openProject')} onPress={() => openFolder(invite.folder_id)} />
         ) : (
           <>
-            {accept.error && (
-              <Text className="text-center text-danger">{accept.error.message}</Text>
-            )}
-            <Button label="Participar" loading={accept.isPending} onPress={join} />
+            {accept.error && <Text className="text-sm text-danger">{accept.error.message}</Text>}
+            <Button label={t('invite.join')} loading={accept.isPending} onPress={join} />
           </>
         )}
       </>
@@ -102,18 +103,21 @@ export default function InviteScreen() {
 }
 
 function InviteCard({ invite }: { invite: Extract<InvitePreview, { valid: true }> }) {
+  const { t } = useTranslation();
+  const role = t(ROLE_LABEL[invite.role]);
   return (
-    <View className="items-center gap-1 rounded-lg border border-line bg-surface p-6">
-      <Text style={{ fontSize: 40, lineHeight: 48 }}>{invite.folder_icon || '📁'}</Text>
-      <Text accessibilityRole="header" className="text-center text-xl font-semibold text-ink">
+    <View className="gap-2 border-b border-line pb-6">
+      <ItemIcon icon={invite.folder_icon} kind="project" size={20} />
+      <Text accessibilityRole="header" className="font-serif text-xl text-ink">
         {invite.folder_name}
       </Text>
-      <Text className="text-center text-ink-muted">
-        {invite.inviter ? `${invite.inviter} te convidou` : 'Você foi convidado'} para participar
-        como {ROLE_LABEL[invite.role]}.
+      <Text className="text-sm text-ink-muted">
+        {invite.inviter
+          ? t('invite.invitedBy', { name: invite.inviter, role })
+          : t('invite.invited', { role })}
       </Text>
-      <Text className="text-xs text-ink-muted">
-        {invite.members === 1 ? '1 pessoa' : `${invite.members} pessoas`} no projeto
+      <Text className="font-mono text-xs text-ink-muted">
+        {t('invite.members', { count: invite.members })}
       </Text>
     </View>
   );
@@ -129,27 +133,25 @@ function ClaimPending({
   names: string[];
   onDone: (folderId: string) => void;
 }) {
+  const { t } = useTranslation();
   const { claim } = useMemberMutations(folderId);
   return (
     <>
-      <Text accessibilityRole="header" className="text-center text-xl font-semibold text-ink">
-        Você entrou! Quem é você na lista?
+      <Text accessibilityRole="header" className="font-serif text-xl text-ink">
+        {t('invite.claimTitle')}
       </Text>
-      <Text className="text-center text-ink-muted">
-        Algumas tarefas foram atribuídas antes de você chegar. Escolha o seu nome e elas passam a
-        ser suas.
-      </Text>
-      {claim.error && <Text className="text-center text-danger">{claim.error.message}</Text>}
+      <Text className="text-sm text-ink-muted">{t('invite.claimHint')}</Text>
+      {claim.error && <Text className="text-sm text-danger">{claim.error.message}</Text>}
       {names.map((name) => (
         <Button
           key={name}
           variant="ghost"
-          label={`Sou @${name}`}
+          label={t('invite.iAm', { name })}
           disabled={claim.isPending}
           onPress={() => claim.mutate({ name }, { onSuccess: () => onDone(folderId) })}
         />
       ))}
-      <Button variant="ghost" label="Nenhum desses" onPress={() => onDone(folderId)} />
+      <Button variant="ghost" label={t('invite.none')} onPress={() => onDone(folderId)} />
     </>
   );
 }

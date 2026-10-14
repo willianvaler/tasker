@@ -1,15 +1,19 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { Shield } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SignInForm } from '@/components/sign-in-form';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useClanInvitePreview, useClanMutations } from '@/lib/queries/clan';
 import { useSession } from '@/providers/session';
 
 // Convite do clã: abre com ou sem login (cria a conta ali mesmo), como o convite de projeto.
 export default function ClanInviteScreen() {
+  const { t } = useTranslation();
   const { token } = useLocalSearchParams<{ token: string }>();
   const { session } = useSession();
   const preview = useClanInvitePreview(token, !!session);
@@ -17,17 +21,15 @@ export default function ClanInviteScreen() {
 
   let body;
   if (preview.isPending) {
-    body = <Text className="text-center text-ink-muted">Abrindo o convite…</Text>;
+    body = <Text className="text-center text-sm text-ink-muted">{t('invite.opening')}</Text>;
   } else if (preview.error || !preview.data?.valid) {
     body = (
       <>
-        <Text className="text-center text-lg font-semibold text-ink">Convite inválido</Text>
-        <Text className="text-center text-ink-muted">
-          {preview.data && !preview.data.valid
-            ? preview.data.reason
-            : 'Não deu para abrir o convite.'}
+        <Text className="font-serif text-xl text-ink">{t('invite.invalid')}</Text>
+        <Text className="text-sm text-ink-muted">
+          {preview.data && !preview.data.valid ? preview.data.reason : t('invite.openError')}
         </Text>
-        <Button variant="ghost" label="Ir para o Questlist" onPress={() => router.replace('/')} />
+        <Button variant="ghost" label={t('invite.goHome')} onPress={() => router.replace('/')} />
       </>
     );
   } else {
@@ -35,30 +37,33 @@ export default function ClanInviteScreen() {
     const member = clan.my_clan === clan.clan_id;
     body = (
       <>
-        <View className="items-center gap-1 rounded-lg border border-line bg-surface p-6">
-          <Text style={{ fontSize: 40, lineHeight: 48 }}>{clan.icon || '🛡️'}</Text>
-          <Text accessibilityRole="header" className="text-center text-xl font-semibold text-ink">
+        <View className="gap-2 border-b border-line pb-6">
+          {clan.icon ? (
+            <Text className="text-lg">{clan.icon}</Text>
+          ) : (
+            <Icon icon={Shield} size={20} tone="ink-muted" />
+          )}
+          <Text accessibilityRole="header" className="font-serif text-xl text-ink">
             {clan.name}
           </Text>
-          <Text className="text-center text-ink-muted">
-            {clan.inviter ? `${clan.inviter} te chamou` : 'Você foi chamado'} para o clã.{' '}
-            {clan.members === 1 ? '1 pessoa' : `${clan.members} pessoas`} enfrentando o boss da
-            semana juntas.
+          <Text className="text-sm text-ink-muted">
+            {clan.inviter
+              ? t('invite.clanCalledBy', { name: clan.inviter })
+              : t('invite.clanCalled')}{' '}
+            {t('invite.clanMembers', { count: clan.members })}
           </Text>
         </View>
         {!session ? (
           <SignInForm initialMode="sign-up" />
         ) : member ? (
-          <Button label="Abrir o clã" onPress={() => router.replace('/clan')} />
+          <Button label={t('invite.openClan')} onPress={() => router.replace('/clan')} />
         ) : clan.my_clan ? (
-          <Text className="text-center text-ink-muted">
-            Você já está em outro clã. Saia dele (Perfil → Clã) para entrar neste.
-          </Text>
+          <Text className="text-sm text-ink-muted">{t('invite.otherClan')}</Text>
         ) : (
           <>
-            {join.error && <Text className="text-center text-danger">{join.error.message}</Text>}
+            {join.error && <Text className="text-sm text-danger">{join.error.message}</Text>}
             <Button
-              label="Entrar no clã"
+              label={t('invite.joinClan')}
               loading={join.isPending}
               onPress={() => join.mutate(token, { onSuccess: () => router.replace('/clan') })}
             />
