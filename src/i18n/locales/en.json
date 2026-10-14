@@ -19,7 +19,13 @@
   "shortcuts": {
     "captureOpen": "Open quick capture",
     "captureClose": "Close quick capture",
-    "overlayClose": "Close the panel or menu"
+    "overlayClose": "Close the panel or menu",
+    "newOpen": "Open the New menu",
+    "newTask": "New task (in the New menu)",
+    "newPage": "New page (in the New menu)",
+    "newFolder": "New folder (in the New menu)",
+    "newProject": "New project (in the New menu)",
+    "newHabit": "New habit (in the New menu)"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -726,5 +732,14 @@
     "offline": "Offline. You can create, check and reorder tasks: they go out when the internet is back.",
     "waiting_one": "{{count}} change waiting.",
     "waiting_other": "{{count}} changes waiting."
+  },
+  "newMenu": {
+    "title": "New",
+    "task": "Task",
+    "page": "Page",
+    "folder": "Folder",
+    "project": "Project",
+    "habit": "Habit",
+    "button": "New"
   }
 }

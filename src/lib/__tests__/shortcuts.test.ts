@@ -84,3 +84,10 @@ describe('registro', () => {
     for (const s of SHORTCUTS) expect(texts[s.description.replace('shortcuts.', '')]).toBeTruthy();
   });
 });
+
+test('letra com Alt/⌘ vale pela tecla física (no Mac, Option+N gera "˜")', () => {
+  expect(matchesCombo('alt+n', key('˜', { altKey: true, code: 'KeyN' }), true)).toBe(true);
+  expect(matchesCombo('alt+n', key('˜', { altKey: true, code: 'KeyM' }), true)).toBe(false);
+  // Sem modificador, vale o caractere (layouts diferentes do QWERTY)
+  expect(matchesCombo('n', key('j', { code: 'KeyN' }), false)).toBe(false);
+});

@@ -15,7 +15,7 @@ import {
   UserCheck,
   type LucideIcon,
 } from 'lucide-react-native';
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,6 +23,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFolderActions } from '@/components/folder-actions';
 import { MenuButton } from '@/components/folder-cards';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
+import { useNewMenu } from '@/components/new-menu';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { IconButton } from '@/components/ui/button';
@@ -234,11 +235,25 @@ export function Sidebar() {
 /** Rodapé: nível e XP (fio de 2 px), atalhos do jogo e da conta, e o ponto de sincronização. */
 function SidebarFooter({ online }: { online: boolean }) {
   const { t } = useTranslation();
+  const newMenu = useNewMenu();
+  const anchor = useRef<View>(null);
   const pathname = usePathname();
   const unread = useUnreadCount();
   const { data: game } = useGameState();
   return (
     <View className="gap-2 border-t border-line px-2 py-2">
+      <View ref={anchor} collapsable={false}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('newMenu.button')}
+          className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+          onPress={() => newMenu.open(anchor)}
+        >
+          <Icon icon={Plus} tone="ink" />
+          <Text className="flex-1 text-sm font-semibold text-ink">{t('newMenu.button')}</Text>
+          <Kbd>Alt N</Kbd>
+        </Pressable>
+      </View>
       {game?.enabled && (
         <Link href="/character" asChild>
           <Pressable

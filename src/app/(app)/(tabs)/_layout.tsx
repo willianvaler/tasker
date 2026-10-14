@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { Tabs } from 'expo-router/js-tabs';
 import {
   House,
@@ -10,9 +9,11 @@ import {
   User,
   type LucideIcon,
 } from 'lucide-react-native';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View, type ColorValue } from 'react-native';
 
+import { useNewMenu } from '@/components/new-menu';
 import { useIsWide } from '@/components/sidebar';
 import { Icon } from '@/components/ui/icon';
 import { FONT_FAMILY } from '@/lib/fonts';
@@ -28,6 +29,8 @@ const tabIcon = (Glyph: LucideIcon) =>
 export default function TabsLayout() {
   const wide = useIsWide();
   const { t } = useTranslation();
+  const newMenu = useNewMenu();
+  const fab = useRef<View>(null);
 
   return (
     <View className="flex-1 bg-paper">
@@ -94,14 +97,17 @@ export default function TabsLayout() {
         />
       </Tabs>
       {!wide && (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t('nav.quickCapture')}
-          className="absolute bottom-24 right-4 h-12 w-12 items-center justify-center rounded bg-accent active:opacity-80"
-          onPress={() => router.push('/capture')}
-        >
-          <Icon icon={Plus} size={24} tone="on-accent" />
-        </Pressable>
+        // "+" abre o menu Novo (V2 §12.3), como folha de baixo para cima
+        <View ref={fab} collapsable={false} className="absolute bottom-24 right-4">
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('newMenu.button')}
+            className="h-12 w-12 items-center justify-center rounded bg-accent active:opacity-80"
+            onPress={() => newMenu.open(fab)}
+          >
+            <Icon icon={Plus} size={24} tone="on-accent" />
+          </Pressable>
+        </View>
       )}
     </View>
   );

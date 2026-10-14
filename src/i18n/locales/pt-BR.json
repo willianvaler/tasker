@@ -19,7 +19,13 @@
   "shortcuts": {
     "captureOpen": "Abrir a captura rápida",
     "captureClose": "Fechar a captura rápida",
-    "overlayClose": "Fechar o painel ou menu"
+    "overlayClose": "Fechar o painel ou menu",
+    "newOpen": "Abrir o menu Novo",
+    "newTask": "Nova tarefa (no menu Novo)",
+    "newPage": "Nova página (no menu Novo)",
+    "newFolder": "Nova pasta (no menu Novo)",
+    "newProject": "Novo projeto (no menu Novo)",
+    "newHabit": "Novo hábito (no menu Novo)"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -726,5 +732,14 @@
     "offline": "Sem conexão. Dá para criar, marcar e reordenar tarefas: vão quando a internet voltar.",
     "waiting_one": "{{count}} alteração esperando.",
     "waiting_other": "{{count}} alterações esperando."
+  },
+  "newMenu": {
+    "title": "Novo",
+    "task": "Tarefa",
+    "page": "Página",
+    "folder": "Pasta",
+    "project": "Projeto",
+    "habit": "Hábito",
+    "button": "Novo"
   }
 }

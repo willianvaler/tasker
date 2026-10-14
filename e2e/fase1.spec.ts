@@ -174,10 +174,11 @@ test('captura rápida com Ctrl+K vai para a última página usada', async ({ pag
   await expect(page.getByText('Ideia solta', { exact: true })).toBeVisible();
 });
 
-test('botão + abre a captura no celular', async ({ page }, testInfo) => {
+test('botão + abre o menu Novo e a captura no celular', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'celular', 'O botão flutuante só aparece em tela estreita');
   await signUp(page, testInfo);
-  await page.getByRole('button', { name: 'Captura rápida' }).click();
+  await page.getByRole('button', { name: 'Novo', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Tarefa' }).click();
   await expect(page.getByText('Captura rápida', { exact: true })).toBeVisible();
 });
 

@@ -2,6 +2,7 @@ import { router, Stack, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
+import { NewMenuProvider } from '@/components/new-menu';
 import { OfflineBanner } from '@/components/offline-banner';
 import { Sidebar, useIsWide } from '@/components/sidebar';
 import { useLocaleSync } from '@/i18n/use-locale';
@@ -19,34 +20,36 @@ export default function AppLayout() {
   const wide = useIsWide();
   return (
     // Em tela larga, a barra lateral fica ao lado da pilha e não some ao abrir uma página
-    <View className="flex-1 flex-row bg-paper">
-      {wide && !onboarding && <Sidebar />}
-      <View className="flex-1">
-        <OfflineBanner />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="page/[id]" />
-          <Stack.Screen name="folder/[id]" />
-          <Stack.Screen name="share/[id]" />
-          <Stack.Screen name="notifications" />
-          <Stack.Screen name="clan" />
-          <Stack.Screen name="character" />
-          <Stack.Screen name="shop" />
-          <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
-          <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
-          {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}
-          <Stack.Screen
-            name="task/[id]"
-            options={{ presentation: 'transparentModal', animation: 'none' }}
-          />
-          <Stack.Screen
-            name="capture"
-            options={{ presentation: 'transparentModal', animation: 'fade' }}
-          />
-          <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
-        </Stack>
+    <NewMenuProvider>
+      <View className="flex-1 flex-row bg-paper">
+        {wide && !onboarding && <Sidebar />}
+        <View className="flex-1">
+          <OfflineBanner />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="page/[id]" />
+            <Stack.Screen name="folder/[id]" />
+            <Stack.Screen name="share/[id]" />
+            <Stack.Screen name="notifications" />
+            <Stack.Screen name="clan" />
+            <Stack.Screen name="character" />
+            <Stack.Screen name="shop" />
+            <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
+            {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}
+            <Stack.Screen
+              name="task/[id]"
+              options={{ presentation: 'transparentModal', animation: 'none' }}
+            />
+            <Stack.Screen
+              name="capture"
+              options={{ presentation: 'transparentModal', animation: 'fade' }}
+            />
+            <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
+          </Stack>
+        </View>
       </View>
-    </View>
+    </NewMenuProvider>
   );
 }
 

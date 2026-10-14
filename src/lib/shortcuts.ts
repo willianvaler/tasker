@@ -4,7 +4,7 @@ import type { Permission } from './permissions';
 // paleta de comandos leem esta lista, nunca uma cópia à mão. As descrições são chaves do i18n.
 
 /** Onde o atalho vale. `global`: qualquer tela logada; os outros, só com aquela área ativa. */
-export type ShortcutScope = 'global' | 'list' | 'editor' | 'capture';
+export type ShortcutScope = 'global' | 'list' | 'editor' | 'capture' | 'menu';
 
 /**
  * Uma combinação: teclas separadas por "+", modificadores antes (`mod` = Ctrl, ou ⌘ no Mac).
@@ -36,6 +36,18 @@ export const SHORTCUTS = [
     scope: 'capture',
   },
   {
+    // Ctrl+N é reservado pelo navegador (nova janela): Alt+N funciona em qualquer lugar
+    id: 'new.open',
+    combos: ['mod+n', 'alt+n'],
+    description: 'shortcuts.newOpen',
+    scope: 'global',
+  },
+  { id: 'new.task', combos: ['t'], description: 'shortcuts.newTask', scope: 'menu' },
+  { id: 'new.page', combos: ['p'], description: 'shortcuts.newPage', scope: 'menu' },
+  { id: 'new.folder', combos: ['f'], description: 'shortcuts.newFolder', scope: 'menu' },
+  { id: 'new.project', combos: ['j'], description: 'shortcuts.newProject', scope: 'menu' },
+  { id: 'new.habit', combos: ['h'], description: 'shortcuts.newHabit', scope: 'menu' },
+  {
     id: 'overlay.close',
     combos: ['escape'],
     description: 'shortcuts.overlayClose',
@@ -52,6 +64,8 @@ export function findShortcut(id: ShortcutId): Shortcut {
 /** O pedaço do KeyboardEvent que interessa (para testar sem DOM). */
 export type KeyLike = {
   key: string;
+  /** Tecla física ("KeyN"): no Mac, Option+N gera "˜" no `key` */
+  code?: string;
   ctrlKey: boolean;
   metaKey: boolean;
   altKey: boolean;
@@ -72,7 +86,10 @@ function parse(combo: Combo) {
  */
 export function matchesCombo(combo: Combo, event: KeyLike, isMac: boolean): boolean {
   const { key, mods } = parse(combo);
-  if (event.key.toLowerCase() !== key) return false;
+  const physical =
+    key.length === 1 && /[a-z]/.test(key) && event.code === `Key${key.toUpperCase()}`;
+  if (event.key.toLowerCase() !== key && !(physical && (event.altKey || event.metaKey)))
+    return false;
   const wantCtrl = mods.has('ctrl') || (mods.has('mod') && !isMac);
   const wantMeta = mods.has('meta') || (mods.has('mod') && isMac);
   return (
