@@ -1181,5 +1181,19 @@
     "flow": "Flow",
     "people": "People",
     "timeline": "Timeline"
+  },
+  "peopleView": {
+    "empty": "No one in the project yet",
+    "card": "{{name}}: {{open}} open, {{done}} completed",
+    "counts": "{{open}} open · {{done}} done",
+    "doing": "Doing now",
+    "ready": "Ready to do",
+    "blocked": "Waiting",
+    "done": "Completed",
+    "nothing": "Nothing assigned.",
+    "moreDone_one": "and {{count}} more completed",
+    "moreDone_other": "and {{count}} more completed",
+    "moreReady_one": "and {{count}} more ready",
+    "moreReady_other": "and {{count}} more ready"
   }
 }

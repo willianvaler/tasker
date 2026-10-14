@@ -8,6 +8,7 @@ import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
 import { ItemIcon } from '@/components/item-icon';
 import { ProjectOverview } from '@/components/project-overview';
 import { FlowView } from '@/components/project/flow-view';
+import { PeopleView } from '@/components/project/people-view';
 import { Tabs } from '@/components/ui/tabs';
 import { useShortcut } from '@/lib/use-shortcut';
 import { Screen } from '@/components/screen';
@@ -49,6 +50,7 @@ export default function FolderScreen() {
   const views: { value: ProjectView; label: string }[] = [
     { value: 'list', label: t('projectTabs.list') },
     { value: 'flow', label: t('projectTabs.flow') },
+    { value: 'people', label: t('projectTabs.people') },
   ];
   const view: ProjectView =
     tabbed && views.some((v) => v.value === viewParam) ? (viewParam as ProjectView) : 'list';
@@ -143,6 +145,10 @@ export default function FolderScreen() {
       {folder && 'children' in folder && view === 'flow' ? (
         <ScrollView contentContainerClassName="flex-grow pb-clear">
           <FlowView root={folder} />
+        </ScrollView>
+      ) : folder && 'children' in folder && view === 'people' ? (
+        <ScrollView contentContainerClassName="pb-clear">
+          <PeopleView root={folder} />
         </ScrollView>
       ) : (
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">

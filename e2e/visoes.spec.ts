@@ -21,7 +21,9 @@ async function churrasco(page: Page) {
     .getByRole('textbox', { name: 'Lista de tarefas' })
     .fill('Comprar carvão\nAcender o fogo ^1\nAssar a carne ^2');
   await page.getByRole('button', { name: 'Criar 3' }).click();
-  await expect(page.getByText('Aguardando: Acender o fogo').last()).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText('Aguardando: Acender o fogo').last()).toBeVisible({
+    timeout: 15_000,
+  });
   await page.goto(project);
   await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
 }
@@ -39,7 +41,9 @@ test('Fluxo: grafo da esquerda para a direita, "você está aqui" e lista acess�
 
   if (testInfo.project.name !== 'celular') {
     await expect(page.getByLabel(/^Comprar carvão · Pronta/)).toBeVisible();
-    await expect(page.getByLabel(/^Assar a carne · Bloqueada · Aguardando: Acender o fogo/)).toBeVisible();
+    await expect(
+      page.getByLabel(/^Assar a carne · Bloqueada · Aguardando: Acender o fogo/),
+    ).toBeVisible();
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/fluxo-${testInfo.project.name}.png` });
     await page.getByRole('button', { name: 'Raias por pessoa' }).click();
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/fluxo-raias.png` });
@@ -54,4 +58,27 @@ test('Fluxo: grafo da esquerda para a direita, "você está aqui" e lista acess�
   await expect(page.getByText('Etapa 3')).toBeVisible();
   await expect(page.getByRole('button', { name: /^Assar a carne · Bloqueada/ })).toBeVisible();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/fluxo-lista-${testInfo.project.name}.png` });
+});
+
+test('Pessoas: quem está fazendo o quê', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await churrasco(page);
+
+  await page.getByRole('tab', { name: 'Pessoas' }).click();
+  const loose = page.getByRole('group', { name: /^Sem responsável: \d+ abertas/ });
+  await expect(loose).toBeVisible();
+  await expect(
+    loose.getByRole('button', { name: 'Comprar carvão · Pronta para fazer' }),
+  ).toBeVisible();
+  await expect(loose.getByRole('button', { name: 'Assar a carne · Esperando' })).toBeVisible();
+
+  // Iniciar pelo painel: vai para "Fazendo agora"
+  await loose.getByRole('button', { name: 'Comprar carvão · Pronta para fazer' }).click();
+  await page.getByRole('button', { name: 'Iniciar' }).click();
+  await page.getByRole('button', { name: 'Voltar' }).click();
+  await expect(loose.getByRole('button', { name: 'Comprar carvão · Fazendo agora' })).toBeVisible({
+    timeout: 15_000,
+  });
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/pessoas-${testInfo.project.name}.png` });
 });

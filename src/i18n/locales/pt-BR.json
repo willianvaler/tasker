@@ -1181,5 +1181,19 @@
     "flow": "Fluxo",
     "people": "Pessoas",
     "timeline": "Linha do tempo"
+  },
+  "peopleView": {
+    "empty": "Ninguém no projeto ainda",
+    "card": "{{name}}: {{open}} abertas, {{done}} concluídas",
+    "counts": "{{open}} abertas · {{done}} feitas",
+    "doing": "Fazendo agora",
+    "ready": "Pronta para fazer",
+    "blocked": "Esperando",
+    "done": "Concluídas",
+    "nothing": "Nada atribuído.",
+    "moreDone_one": "e mais {{count}} concluída",
+    "moreDone_other": "e mais {{count}} concluídas",
+    "moreReady_one": "e mais {{count}} pronta",
+    "moreReady_other": "e mais {{count}} prontas"
   }
 }
