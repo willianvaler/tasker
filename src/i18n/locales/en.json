@@ -605,5 +605,11 @@
     "name": "Name",
     "emoji": "Emoji",
     "error": "Something went wrong: {{message}}"
+  },
+  "capture": {
+    "title": "Quick capture",
+    "where": "Where to create",
+    "created": "Created in {{page}}",
+    "help": "Enter creates and stays here · Esc or tap outside to close · !! priority, #tag, tomorrow"
   }
 }

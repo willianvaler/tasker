@@ -605,5 +605,11 @@
     "name": "Nome",
     "emoji": "Emoji",
     "error": "Não deu certo: {{message}}"
+  },
+  "capture": {
+    "title": "Captura rápida",
+    "where": "Onde criar",
+    "created": "Criada em {{page}}",
+    "help": "Enter cria e continua aqui · Esc ou toque fora para fechar · !! prioridade, #etiqueta, amanhã"
   }
 }
