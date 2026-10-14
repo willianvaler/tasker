@@ -78,6 +78,7 @@ export default function NewTaskScreen() {
           recurrence,
           meta: null,
           mentions: [],
+          prereqs: [],
         },
       ],
     });

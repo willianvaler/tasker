@@ -63,9 +63,10 @@ export function initials(name: string) {
   ).toUpperCase();
 }
 
-/** O "@algo" que está sendo digitado antes do cursor, ou null. */
-export function mentionQuery(text: string, caret: number) {
-  const m = /(^|\s)@([\p{L}\p{N}._-]*)$/u.exec(text.slice(0, caret));
+/** O "@algo" (ou "^algo") que está sendo digitado antes do cursor, ou null. */
+export function mentionQuery(text: string, caret: number, trigger: '@' | '^' = '@') {
+  const re = trigger === '@' ? /(^|\s)@([\p{L}\p{N}._-]*)$/u : /(^|\s)\^([\p{L}\p{N}._-]*)$/u;
+  const m = re.exec(text.slice(0, caret));
   if (!m) return null;
   return { start: caret - m[2].length - 1, query: m[2] };
 }
@@ -91,8 +92,14 @@ export function mentionToken(member: MemberName, members: readonly MemberName[])
 }
 
 /** Troca o "@algo" em digitação pelo @nome escolhido, com um espaço depois. */
-export function applyMention(text: string, start: number, caret: number, token: string) {
-  const before = `${text.slice(0, start)}@${token} `;
+export function applyMention(
+  text: string,
+  start: number,
+  caret: number,
+  token: string,
+  trigger: '@' | '^' = '@',
+) {
+  const before = `${text.slice(0, start)}${trigger}${token} `;
   const after = text.slice(caret).replace(/^\s+/, '');
   return { text: before + after, caret: before.length };
 }

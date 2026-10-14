@@ -246,6 +246,7 @@ export function ListKeys() {
             recurrence: task.recurrence as Recurrence | null,
             meta: task.meta as TaskMeta | null,
             mentions: [],
+            prereqs: [],
           },
         ],
       });

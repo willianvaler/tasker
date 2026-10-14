@@ -121,7 +121,10 @@
     "hint": "tomorrow · !! · #tag · @person",
     "ambiguous": "{{names}}: more than one person with that name. Pick one in the task details.",
     "mentionList": "Project people",
-    "mentionPick": "Assign to {{name}}"
+    "mentionPick": "Assign to {{name}}",
+    "prereqList": "Project tasks",
+    "prereqPick": "Depend on {{name}}",
+    "prereqUnresolved": "Did not link {{names}}: no task or more than one with that name."
   },
   "boss": {
     "level": "lv {{level}}",
@@ -736,7 +739,10 @@
     "editHint": "Tap to edit",
     "remove": "Remove {{title}}",
     "flattened_one": "{{count}} item would go past {{max}} levels and stayed at the last level.",
-    "flattened_other": "{{count}} items would go past {{max}} levels and stayed at the last level."
+    "flattened_other": "{{count}} items would go past {{max}} levels and stayed at the last level.",
+    "dependsOn": "depends on: {{title}}",
+    "prereqAmbiguous": "^{{term}}: more than one task, not linked",
+    "prereqNone": "^{{term}}: no task, not linked"
   },
   "onboarding": {
     "step": "Step {{n}} of 3",

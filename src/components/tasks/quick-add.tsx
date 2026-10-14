@@ -22,6 +22,9 @@ import { setCaptureFocus } from '@/lib/ui-state';
 import { useCanWrite } from '@/providers/write';
 import { useColors } from '@/lib/tokens';
 import { useMentionAutocomplete } from './mention-autocomplete';
+import { resolvePrereq } from '@/lib/prereqs';
+import { useDependencyMutations, useProjectTaskOptions } from '@/lib/queries/dependencies';
+import { rootFolder } from '@/lib/queries/projects';
 
 /**
  * Campo de captura rápida: digita e Enter cria; o foco fica no campo.
@@ -59,9 +62,14 @@ export function QuickAdd({
   const [text, setText] = useState('');
   const inputRef = useRef<TextInput>(null);
   // @nome em digitação: sugere os membros do projeto
+  // ^pré-requisito: tarefas do projeto (só em página de projeto, como o @)
+  const root = rootFolder(tree.data, tree.data?.pages.find((p) => p.id === pageId)?.folder_id);
+  const taskOptions = useProjectTaskOptions(root?.id, mentions.enabled);
+  const deps = useDependencyMutations(root?.id);
   const autocomplete = useMentionAutocomplete({
     enabled: mentions.enabled,
     members: mentions.members,
+    tasks: taskOptions.data,
     text,
     setText,
     inputRef,
@@ -92,20 +100,36 @@ export function QuickAdd({
       today,
       meta: parseMeta,
       mentions: mentions.enabled,
+      prereqs: mentions.enabled,
     });
     const resolved = mentions.resolve(parsed.mentions);
-    create.mutate({
-      pageId,
-      items: [
-        {
-          ...parsed,
-          dueDate: parsed.dueDate ?? defaultDueDate ?? null,
-          assignees: mentions.toAssignees(resolved),
-          id: uuidv7(),
-          ...(habit ? { habitKind: habit.kind, habitTarget: habit.target ?? null } : {}),
+    const id = uuidv7();
+    const prereqs = parsed.prereqs.map((term) => resolvePrereq(term, taskOptions.data ?? []));
+    create
+      .mutateAsync({
+        pageId,
+        items: [
+          {
+            ...parsed,
+            dueDate: parsed.dueDate ?? defaultDueDate ?? null,
+            assignees: mentions.toAssignees(resolved),
+            id,
+            ...(habit ? { habitKind: habit.kind, habitTarget: habit.target ?? null } : {}),
+          },
+        ],
+      })
+      .then(
+        () => {
+          // Depois da tarefa existir (no servidor ou na fila): liga os pré-requisitos achados
+          for (const p of prereqs)
+            if (p.kind === 'task') deps.add.mutate({ taskId: id, dependsOn: p.id });
         },
-      ],
-    });
+        () => undefined,
+      );
+    // ^ que não achou uma tarefa só: avisa (a tarefa é criada sem a ligação)
+    const unresolved = prereqs.filter((p) => p.kind !== 'task').map((p) => `^${p.term}`);
+    if (unresolved.length)
+      toast({ message: t('quickAdd.prereqUnresolved', { names: unresolved.join(', ') }) });
     // Mais de uma pessoa com esse nome: não atribui e avisa
     const ambiguous = resolved.filter((r) => r.kind === 'ambiguous').map((r) => `@${r.name}`);
     if (ambiguous.length)

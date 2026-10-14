@@ -23,6 +23,8 @@ import { parseQuickInput } from '@/lib/parser/quick';
 import { setLastPageId } from '@/lib/prefs';
 import type { MentionResolution } from '@/lib/members';
 import { useMentions } from '@/lib/queries/mentions';
+import { resolveBatchPrereq, type PrereqResolution } from '@/lib/prereqs';
+import { useDependencyMutations, useProjectTaskOptions } from '@/lib/queries/dependencies';
 import { useMentionAutocomplete } from '@/components/tasks/mention-autocomplete';
 import { useToday } from '@/lib/queries/profile';
 import { useCreateTasks, type Task } from '@/lib/queries/tasks';
@@ -64,13 +66,19 @@ export default function BatchScreen() {
 
   // Cada item tem uma chave pelo caminho na árvore ("3", "3.1", "3.1.2")
   const items = useMemo(() => {
-    const parseOptions = { today, meta: isCards, mentions: mentions.enabled };
+    const parseOptions = {
+      today,
+      meta: isCards,
+      mentions: mentions.enabled,
+      prereqs: mentions.enabled,
+    };
     const decorate = (item: BatchItem, key: string): KeyedItem => ({
       ...item,
       ...(key in edits
         ? { ...parseQuickInput(edits[key], parseOptions), raw: edits[key], done: item.done }
         : {}),
       key,
+      id: uuidv7(),
       children: item.children
         .map((c, j) => decorate(c, `${key}.${j}`))
         .filter((c) => !removed.has(c.key)),
@@ -80,6 +88,18 @@ export default function BatchScreen() {
       .filter((item) => !removed.has(item.key));
   }, [text, edits, removed, today, isCards, mentions.enabled, maxDepth]);
   const flattened = countFlattened(items);
+
+  // ^pré-requisitos: cada item já tem id na prévia ("^2" aponta para o item 2 do lote); a
+  // prévia e a criação usam os mesmos itens, então os ids batem
+  const idOf = (key: string) => flat(items).find(({ item }) => item.key === key)?.item.id ?? '';
+  const root = rootFolder(tree.data, page?.folder_id);
+  const taskOptions = useProjectTaskOptions(root?.id, mentions.enabled);
+  const deps = useDependencyMutations(root?.id);
+  const batchList = flat(items).map(({ item }) => ({ id: idOf(item.key), title: item.title }));
+  const prereqsOf = (item: KeyedItem) =>
+    item.prereqs.map((term) =>
+      resolveBatchPrereq(term, idOf(item.key), batchList, taskOptions.data ?? []),
+    );
 
   /** Resolução dos @nomes do item, com as escolhas feitas na prévia. */
   function resolutionsOf(key: string, names: string[]): MentionResolution[] {
@@ -105,6 +125,7 @@ export default function BatchScreen() {
   const autocomplete = useMentionAutocomplete({
     enabled: mentions.enabled,
     members: mentions.members,
+    tasks: taskOptions.data,
     text,
     setText: (value) => changeText(value),
     inputRef,
@@ -121,12 +142,15 @@ export default function BatchScreen() {
 
   function confirm() {
     if (!page || total === 0) return;
-    create.mutate(
-      {
-        pageId: page.id,
-        items: items.map((item) => ({ ...withAssignees(item), id: uuidv7() })),
-      },
-      { onError: (err) => toast({ message: t('batch.error', { message: err.message }) }) },
+    const links = flat(items).flatMap(({ item }) =>
+      prereqsOf(item).flatMap((p) =>
+        p.kind === 'task' ? [{ taskId: idOf(item.key), dependsOn: p.id }] : [],
+      ),
+    );
+    create.mutateAsync({ pageId: page.id, items: items.map(withAssignees) }).then(
+      // As tarefas já existem: liga os pré-requisitos
+      () => links.forEach((link) => deps.add.mutate(link)),
+      (err: Error) => toast({ message: t('batch.error', { message: err.message }) }),
     );
     setLastPageId(page.id);
     toast({ message: t('batch.created', { count: total, page: pageLabel(page) }) });
@@ -198,6 +222,7 @@ export default function BatchScreen() {
             onChoose={choose(item.key)}
             onEdit={(raw) => setEdits((e) => ({ ...e, [item.key]: raw }))}
             onRemove={() => setRemoved((r) => new Set(r).add(item.key))}
+            prereqs={prereqsOf(item)}
           />
         ))}
       </ScrollView>
@@ -214,7 +239,7 @@ export default function BatchScreen() {
   );
 }
 
-type KeyedItem = BatchItem & { key: string; children: KeyedItem[] };
+type KeyedItem = BatchItem & { key: string; id: string; children: KeyedItem[] };
 type NewBatchItem = KeyedItem & {
   assignees: ReturnType<ReturnType<typeof useMentions>['toAssignees']>;
   children: NewBatchItem[];
@@ -228,6 +253,7 @@ function PreviewRow({
   item,
   today,
   level,
+  prereqs,
   mentions,
   onChoose,
   onEdit,
@@ -236,6 +262,7 @@ function PreviewRow({
   item: BatchItem;
   today: string;
   level: number;
+  prereqs: PrereqResolution[];
   mentions: MentionResolution[];
   onChoose: (name: string, userId: string) => void;
   onEdit: (raw: string) => void;
@@ -293,6 +320,25 @@ function PreviewRow({
         )}
         <TaskMeta task={asTask} today={today} />
         <MentionChips mentions={mentions} onChoose={onChoose} />
+        {prereqs.length > 0 && (
+          <View className="flex-row flex-wrap gap-2">
+            {prereqs.map((p) => (
+              <Text
+                key={p.term}
+                className={cn(
+                  'font-mono text-xs',
+                  p.kind === 'task' ? 'text-ink-muted' : 'text-warn',
+                )}
+              >
+                {p.kind === 'task'
+                  ? t('batch.dependsOn', { title: p.title })
+                  : p.kind === 'ambiguous'
+                    ? t('batch.prereqAmbiguous', { term: p.term })
+                    : t('batch.prereqNone', { term: p.term })}
+              </Text>
+            ))}
+          </View>
+        )}
       </View>
       <IconButton icon={X} label={t('batch.remove', { title: item.title })} onPress={onRemove} />
     </View>

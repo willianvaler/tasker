@@ -12,7 +12,7 @@ import { useSession } from '@/providers/session';
 
 // Tabela local que mudou → consultas que releem
 const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
-  tasks: [keys.tasks],
+  tasks: [keys.tasks, ['project-task-options'], ['dependencies']],
   task_completions: [keys.tasks],
   task_assignees: [keys.tasks, keys.assignees],
   comments: [keys.tasks, ['comments']],

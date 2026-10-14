@@ -121,7 +121,10 @@
     "hint": "mañana · !! · #etiqueta · @persona",
     "ambiguous": "{{names}}: hay más de una persona con ese nombre. Elige en los detalles de la tarea.",
     "mentionList": "Personas del proyecto",
-    "mentionPick": "Asignar a {{name}}"
+    "mentionPick": "Asignar a {{name}}",
+    "prereqList": "Tareas del proyecto",
+    "prereqPick": "Depender de {{name}}",
+    "prereqUnresolved": "No vinculé {{names}}: ninguna tarea o más de una con ese nombre."
   },
   "boss": {
     "level": "nv {{level}}",
@@ -736,7 +739,10 @@
     "editHint": "Toca para editar",
     "remove": "Quitar {{title}}",
     "flattened_one": "{{count}} ítem pasaría de {{max}} niveles y quedó en el último nivel.",
-    "flattened_other": "{{count}} ítems pasarían de {{max}} niveles y quedaron en el último nivel."
+    "flattened_other": "{{count}} ítems pasarían de {{max}} niveles y quedaron en el último nivel.",
+    "dependsOn": "depende de: {{title}}",
+    "prereqAmbiguous": "^{{term}}: más de una tarea, no se vincula",
+    "prereqNone": "^{{term}}: ninguna tarea, no se vincula"
   },
   "onboarding": {
     "step": "Paso {{n}} de 3",

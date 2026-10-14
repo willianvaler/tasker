@@ -122,6 +122,7 @@ describe('título', () => {
       dueDate: '2026-10-09',
       labels: ['casa'],
       mentions: [],
+      prereqs: [],
       recurrence: { type: 'monthly' },
     }));
 });

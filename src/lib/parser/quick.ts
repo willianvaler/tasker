@@ -4,6 +4,7 @@ import { addDays, makeDate, nextDayMonth, nextWeekday, type IsoDate } from './da
 //   !, !!, !!!            prioridade baixa / média / alta
 //   #etiqueta              etiqueta
 //   @nome                  responsável (só quando `mentions` está ligado, em páginas de projeto)
+//   ^trecho, ^2            pré-requisito: tarefa pelo título, ou o item 2 do lote (só com `prereqs`)
 //   hoje, amanhã, depois de amanhã, sexta, sexta-feira, 15/10, 15/10/2026   vencimento
 //   /diaria /semanal /mensal /seg,qua,sex   recorrência
 //   4x12, 20kg             séries x repetições e carga (só com `meta`, nas páginas de cards)
@@ -29,6 +30,8 @@ export type ParsedTask = {
   dueDate: IsoDate | null;
   labels: string[];
   mentions: string[];
+  /** "^carvão" / "^2": de quem esta tarefa depende (resolvido depois, lib/prereqs.ts) */
+  prereqs: string[];
   recurrence: Recurrence | null;
 };
 
@@ -37,6 +40,8 @@ export type QuickParseOptions = {
   today: IsoDate;
   /** Reconhecer @nome (páginas de projeto). Desligado, o @nome fica no título. */
   mentions?: boolean;
+  /** Reconhecer ^pré-requisito (páginas de projeto). Desligado, fica no título. */
+  prereqs?: boolean;
   /** Reconhecer "4x12" (séries x repetições) e "20kg" / "12,5 kg" (carga). Usado nas páginas de cards. */
   meta?: boolean;
 };
@@ -68,6 +73,7 @@ const DATE_PREPOSITIONS = new Set(['na', 'no', 'ate', 'em', 'dia', 'para', 'pra'
 const PRIORITY_RE = /^!{1,3}$/;
 const LABEL_RE = /^#([\p{L}\p{N}_-]+)$/u;
 const MENTION_RE = /^@([\p{L}\p{N}._-]+)$/u;
+const PREREQ_RE = /^\^([\p{L}\p{N}._-]+)$/u;
 const DATE_RE = /^(\d{1,2})\/(\d{1,2})(?:\/(\d{2}|\d{4}))?$/;
 const SETS_RE = /^(\d{1,3})x(\d{1,4})$/i;
 const WEIGHT_RE = /^(\d{1,4}(?:[.,]\d{1,2})?)(kg|lb|lbs)$/i;
@@ -130,6 +136,7 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
     dueDate: null,
     labels: [],
     mentions: [],
+    prereqs: [],
     recurrence: null,
   };
 
@@ -149,6 +156,11 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
     const mention = options.mentions ? MENTION_RE.exec(token) : null;
     if (mention) {
       if (!result.mentions.includes(mention[1])) result.mentions.push(mention[1]);
+      continue;
+    }
+    const prereq = options.prereqs ? PREREQ_RE.exec(token) : null;
+    if (prereq) {
+      if (!result.prereqs.includes(prereq[1])) result.prereqs.push(prereq[1]);
       continue;
     }
     if (options.meta) {
@@ -194,6 +206,7 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
       dueDate: null,
       labels: [],
       mentions: [],
+      prereqs: [],
       recurrence: null,
     };
   }

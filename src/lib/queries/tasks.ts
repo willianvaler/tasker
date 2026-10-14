@@ -274,6 +274,8 @@ type NewTask = ParsedTask & {
 };
 /** Subtarefa do lote: pode ter subtarefas também (árvore, V3 §1). */
 type NewSubtask = ParsedTask & {
+  /** Id do aparelho (o lote gera antes, para ligar pré-requisitos "^2" entre itens) */
+  id?: string;
   done?: boolean;
   assignees?: NewAssignee[];
   children?: NewSubtask[];
@@ -305,7 +307,7 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     meta: item.meta,
     done: item.done ?? false,
     assignees: item.assignees ?? [],
-    children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: uuidv7() })),
+    children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: c.id ?? uuidv7() })),
     ...(item.habitKind
       ? { habit_kind: item.habitKind, habit_target: item.habitTarget ?? null }
       : {}),
@@ -1004,7 +1006,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
       const insertChildren = async (parentId: string, depth: number, children: NewSubtask[]) => {
         let childPosition = 0;
         for (const child of children) {
-          const childId = uuidv7();
+          const childId = child.id ?? uuidv7();
           await insertLocalTask(
             tx,
             {
