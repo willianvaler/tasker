@@ -130,6 +130,7 @@ export const SHORTCUTS = [
   { id: 'go.today', combos: ['g h'], description: 'shortcuts.goToday', scope: 'global' },
   { id: 'go.inbox', combos: ['g i'], description: 'shortcuts.goInbox', scope: 'global' },
   { id: 'go.mine', combos: ['g m'], description: 'shortcuts.goMine', scope: 'global' },
+  { id: 'go.flow', combos: ['g f'], description: 'shortcuts.goFlow', scope: 'global' },
   {
     id: 'item.open',
     combos: ['shift+f2', 'enter'],

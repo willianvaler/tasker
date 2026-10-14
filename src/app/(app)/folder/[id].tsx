@@ -1,4 +1,4 @@
-import { Link, router, useLocalSearchParams } from 'expo-router';
+import { Link, router, useIsFocused, useLocalSearchParams } from 'expo-router';
 import { ArrowUpRight as ItemArrow, FolderPlus, Plus, Users } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -7,6 +7,9 @@ import { useFolderActions } from '@/components/folder-actions';
 import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
 import { ItemIcon } from '@/components/item-icon';
 import { ProjectOverview } from '@/components/project-overview';
+import { FlowView } from '@/components/project/flow-view';
+import { Tabs } from '@/components/ui/tabs';
+import { useShortcut } from '@/lib/use-shortcut';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -20,10 +23,13 @@ import { actorCan } from '@/lib/permissions';
 import { useFolderActor } from '@/lib/queries/projects';
 import { useCanWrite } from '@/providers/write';
 
+type ProjectView = 'list' | 'flow' | 'people' | 'timeline';
+
 // Pasta ou projeto: páginas em linhas, subpastas como seções e, no projeto, o progresso e a atividade.
 export default function FolderScreen() {
   const { t } = useTranslation();
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, view: viewParam } = useLocalSearchParams<{ id: string; view?: string }>();
+  const focused = useIsFocused();
   const tree = useTree();
   const treeMutations = useTreeMutations();
   const online = useIsOnline();
@@ -34,6 +40,22 @@ export default function FolderScreen() {
   const actor = useFolderActor(id);
   const writable = useCanWrite(id) && actorCan(actor, 'page.manage');
 
+  const folder = found?.folder;
+  const children = folder && 'children' in folder ? folder.children : [];
+  const empty = !!folder && folder.pages.length === 0 && children.length === 0;
+  const project = !!folder && 'children' in folder && folder.kind === 'project';
+  // Abas do projeto (V3 §2.6, D114): Lista · Fluxo · Pessoas · Linha do tempo
+  const tabbed = project && !folder.parent_id;
+  const views: { value: ProjectView; label: string }[] = [
+    { value: 'list', label: t('projectTabs.list') },
+    { value: 'flow', label: t('projectTabs.flow') },
+  ];
+  const view: ProjectView =
+    tabbed && views.some((v) => v.value === viewParam) ? (viewParam as ProjectView) : 'list';
+  const setView = (value: ProjectView) =>
+    router.setParams({ view: value === 'list' ? undefined : value });
+  useShortcut('go.flow', () => (tabbed ? setView('flow') : false), focused);
+
   if (tree.data && !found) {
     return (
       <Screen>
@@ -43,10 +65,6 @@ export default function FolderScreen() {
     );
   }
 
-  const folder = found?.folder;
-  const children = folder && 'children' in folder ? folder.children : [];
-  const empty = !!folder && folder.pages.length === 0 && children.length === 0;
-  const project = !!folder && 'children' in folder && folder.kind === 'project';
   const eyebrow = folder
     ? [
         found?.parent ? t('folder.in', { name: found.parent.name }) : null,
@@ -116,78 +134,90 @@ export default function FolderScreen() {
         </View>
       )}
 
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-        {folder && 'children' in folder && project && (
-          <View className="mb-4">
-            <ProjectOverview root={folder} />
-          </View>
-        )}
-        <View className="border-t border-line">
-          {folder?.pages.map((page) => (
-            <PageRow
-              key={page.id}
-              page={page}
-              onMenu={writable ? () => actions.pageMenu(page) : undefined}
-            />
-          ))}
+      {tabbed && (
+        <View className="pb-3">
+          <Tabs tabs={views} value={view} onChange={setView} label={t('projectTabs.label')} />
         </View>
-        {empty && (
-          <View className="items-center">
-            <EmptyState title={t('folder.emptyFolder')} />
-            {writable && folder && (
-              <Button
-                variant="ghost"
-                icon={Plus}
-                label={t('folder.firstPage')}
-                onPress={() => actions.newPage(folder.id)}
-              />
-            )}
-          </View>
-        )}
-        {children.map((child) => (
-          <View key={child.id}>
-            <SectionLabel
-              title={child.name}
-              count={child.pages.length}
-              right={
-                <View className="flex-row items-center">
-                  <Link href={{ pathname: '/folder/[id]', params: { id: child.id } }} asChild>
-                    <Pressable
-                      accessibilityRole="link"
-                      accessibilityLabel={child.name}
-                      className="h-8 justify-center px-2"
-                    >
-                      <Icon icon={ItemArrow} tone="ink-muted" />
-                    </Pressable>
-                  </Link>
-                  {online && (
-                    <MenuButton label={child.name} onPress={() => actions.folderMenu(child)} />
-                  )}
-                </View>
-              }
-            />
-            {child.pages.map((page) => (
+      )}
+
+      {folder && 'children' in folder && view === 'flow' ? (
+        <ScrollView contentContainerClassName="flex-grow pb-clear">
+          <FlowView root={folder} />
+        </ScrollView>
+      ) : (
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
+          {folder && 'children' in folder && project && (
+            <View className="mb-4">
+              <ProjectOverview root={folder} />
+            </View>
+          )}
+          <View className="border-t border-line">
+            {folder?.pages.map((page) => (
               <PageRow
                 key={page.id}
                 page={page}
                 onMenu={writable ? () => actions.pageMenu(page) : undefined}
               />
             ))}
-            {child.pages.length === 0 && online && (
-              <Pressable
-                accessibilityRole="button"
-                className="min-h-11 flex-row items-center gap-3 hover:bg-wash md:min-h-10"
-                onPress={() => actions.newPage(child.id)}
-              >
-                <Icon icon={Plus} tone="accent" />
-                <Text className="text-sm text-ink">
-                  {t('folder.newPageIn', { name: child.name })}
-                </Text>
-              </Pressable>
-            )}
           </View>
-        ))}
-      </ScrollView>
+          {empty && (
+            <View className="items-center">
+              <EmptyState title={t('folder.emptyFolder')} />
+              {writable && folder && (
+                <Button
+                  variant="ghost"
+                  icon={Plus}
+                  label={t('folder.firstPage')}
+                  onPress={() => actions.newPage(folder.id)}
+                />
+              )}
+            </View>
+          )}
+          {children.map((child) => (
+            <View key={child.id}>
+              <SectionLabel
+                title={child.name}
+                count={child.pages.length}
+                right={
+                  <View className="flex-row items-center">
+                    <Link href={{ pathname: '/folder/[id]', params: { id: child.id } }} asChild>
+                      <Pressable
+                        accessibilityRole="link"
+                        accessibilityLabel={child.name}
+                        className="h-8 justify-center px-2"
+                      >
+                        <Icon icon={ItemArrow} tone="ink-muted" />
+                      </Pressable>
+                    </Link>
+                    {online && (
+                      <MenuButton label={child.name} onPress={() => actions.folderMenu(child)} />
+                    )}
+                  </View>
+                }
+              />
+              {child.pages.map((page) => (
+                <PageRow
+                  key={page.id}
+                  page={page}
+                  onMenu={writable ? () => actions.pageMenu(page) : undefined}
+                />
+              ))}
+              {child.pages.length === 0 && online && (
+                <Pressable
+                  accessibilityRole="button"
+                  className="min-h-11 flex-row items-center gap-3 hover:bg-wash md:min-h-10"
+                  onPress={() => actions.newPage(child.id)}
+                >
+                  <Icon icon={Plus} tone="accent" />
+                  <Text className="text-sm text-ink">
+                    {t('folder.newPageIn', { name: child.name })}
+                  </Text>
+                </Pressable>
+              )}
+            </View>
+          ))}
+        </ScrollView>
+      )}
       {dialog}
     </Screen>
   );
