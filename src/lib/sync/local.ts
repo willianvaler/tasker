@@ -50,6 +50,8 @@ export function toFolder(row: Row): Tables<'folders'> {
     is_shared: !!row.is_shared,
     is_inbox: !!row.is_inbox,
     archived: !!row.archived,
+    // Linha que chegou antes da coluna existir: vale o padrão do banco (ligado)
+    auto_complete_parent: row.auto_complete_parent == null ? true : !!row.auto_complete_parent,
     created_at: iso(row.created_at)!,
     updated_at: iso(row.updated_at)!,
   };

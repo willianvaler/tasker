@@ -68,7 +68,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## Fase G — Subtarefas e WBS (23/11 – 25/11)
 
 - [x] **G1** `config/limits.ts`; `tasks.depth`, `max_depth` em página/projeto; trigger de profundidade e de ciclo na árvore
-- [ ] **G2** Só folhas geram XP; progresso do pai por folhas (régua fina); concluir pai automaticamente (config)
+- [x] **G2** Só folhas geram XP; progresso do pai por folhas (régua fina); concluir pai automaticamente (config)
 - [ ] **G3** Herança de responsável/etiquetas; aviso de data do filho > pai; rollup de estimativa
 - [ ] **G4** Teclado: Tab/Shift+Tab, Ctrl+↑↓, →/← respeitando o limite
 - [ ] **G5** Códigos WBS (toggle `W`) e visão "Estrutura"

@@ -21,6 +21,7 @@ import { useToast } from '@/providers/toast';
 import { HabitRow, useHabitDates } from './habit-row';
 import { KanbanBoard } from './kanban-board';
 import { QuickAdd } from './quick-add';
+import { leafProgress } from '@/lib/task-tree';
 import { SortableTasks } from './sortable-tasks';
 import { TaskCard } from './task-card';
 import { TaskRow } from './task-row';
@@ -40,14 +41,8 @@ export function PageView({ page }: { page: Page | undefined }) {
   const viewType = page?.view_type ?? 'list';
 
   const { open, done, all, subtaskCount } = useMemo(() => {
-    const count: Counts = new Map();
-    for (const t of tasks.data ?? []) {
-      if (!t.parent_task_id) continue;
-      const c = count.get(t.parent_task_id) ?? { done: 0, total: 0 };
-      c.total++;
-      if (t.status === 'done') c.done++;
-      count.set(t.parent_task_id, c);
-    }
+    // Progresso da mãe = folhas do galho inteiro concluídas (V3 §1.2)
+    const count: Counts = leafProgress(tasks.data ?? []);
     const top = (tasks.data ?? []).filter((t) => !t.parent_task_id).sort(byPosition);
     return {
       all: top,

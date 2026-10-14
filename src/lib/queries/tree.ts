@@ -179,6 +179,16 @@ export function useTreeMutations() {
     onSettled,
   });
 
+  /** Configurações do projeto que não são nome/ícone (ex.: concluir a mãe sozinha). */
+  const setFolderSettings = useMutation({
+    mutationFn: async ({ id, ...patch }: { id: string; auto_complete_parent?: boolean }) => {
+      if (isLocal()) return localUpdate('folders', id, patch);
+      const { error } = await supabase.from('folders').update(patch).eq('id', id);
+      if (error) throw error;
+    },
+    onSettled,
+  });
+
   const deleteFolder = useMutation({
     mutationFn: async (id: string) => {
       if (isLocal()) {
@@ -314,6 +324,7 @@ export function useTreeMutations() {
   return {
     createFolder,
     updateFolder,
+    setFolderSettings,
     deleteFolder,
     createPage,
     updatePage,

@@ -1024,3 +1024,33 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
     for (const id of done) await completeInTx(tx, id);
   });
 }
+
+/** "Concluir tudo": a tarefa e o galho inteiro (as folhas abertas; as mães fecham junto). */
+export function useCompleteTree() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: taskMutationKey,
+    networkMode: isLocal() ? 'always' : 'online',
+    mutationFn: async (id: string) => {
+      if (isLocal()) {
+        await runCommand('complete_tree', { p_task_id: id }, (tx) =>
+          tx.execute(
+            `with recursive galho(id) as (
+               select ? union all select t.id from tasks t join galho g on t.parent_task_id = g.id
+             )
+             update tasks set status = 'done', completed_at = ? where id in (select id from galho)
+               and status <> 'done'`,
+            [id, new Date().toISOString()],
+          ),
+        );
+        return;
+      }
+      const { error } = await supabase.rpc('complete_tree', { p_task_id: id });
+      if (error) throw error;
+    },
+    onSettled: () => {
+      invalidateWhenIdle(queryClient);
+      queryClient.invalidateQueries({ queryKey: keys.game });
+    },
+  });
+}

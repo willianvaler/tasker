@@ -17,6 +17,7 @@ const folders = new Table(
     kind: column.text,
     team_id: column.text,
     max_depth: column.integer,
+    auto_complete_parent: column.integer,
     updated_at: column.text,
     updated_by: column.text,
     version: column.integer,

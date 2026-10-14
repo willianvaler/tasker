@@ -99,7 +99,7 @@ test('Churrasco: Colaboradora e Leitor, delegar, cada um vê só o que pode', as
   await expect(caio.getByText('Só leitura: você é leitor deste projeto')).toBeVisible();
   await expect(caio.getByRole('textbox', { name: 'Nova tarefa' })).toHaveCount(0);
   await expect(caio.getByRole('checkbox', { name: 'Concluir Carvão', exact: true })).toBeDisabled();
-  await expect(caio.getByText('Farofa da Bia')).toBeVisible({ timeout: 15_000 });
+  await expect(caio.getByText('Farofa da Bia', { exact: true })).toBeVisible({ timeout: 15_000 });
 
   // A Ana vê a cerveja concluída pela Bia (sai da lista) e as pessoas com os cargos
   await expect(

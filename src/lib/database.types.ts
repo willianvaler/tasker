@@ -341,14 +341,14 @@ isOneToOne: false
                   ]
                 },"folders": {
                   Row: {
-                    "archived": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"max_depth": number | null,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
+                    "archived": boolean,"auto_complete_parent": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"max_depth": number | null,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -924,6 +924,9 @@ isOneToOne: false
 "_award_completion":
 { Args: { "p_completion_id": string,"p_created_done": boolean,"p_cycle_kind": string,"p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
                            },
+"_award_leaf_completion":
+{ Args: { "p_completion_id": string,"p_created_done": boolean,"p_cycle_kind": string,"p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
+                           },
 "_boss_json":
 { Args: { "p_boss": Omit<Database["public"]['Tables']["bosses"]['Row'], Database["public"]['Tables']["bosses"]['ComputedFields']> }; Returns: Json
                            },
@@ -1034,6 +1037,9 @@ isOneToOne: false
                            },
 "complete_task":
 { Args: { "p_task_id": string }; Returns: Json
+                           },
+"complete_tree":
+{ Args: { "p_task_id": string }; Returns: number
                            },
 "create_clan":
 { Args: { "p_icon"?: string,"p_name": string }; Returns: string

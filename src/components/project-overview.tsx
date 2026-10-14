@@ -4,12 +4,21 @@ import { View } from 'react-native';
 import { ProgressBar } from '@/components/game-bar';
 import { ProjectBoss } from '@/components/project-boss';
 import { ProjectMilestones } from '@/components/project-milestones';
+import { ToggleRow } from '@/components/ui/toggle-row';
+import { actorCan } from '@/lib/permissions';
 import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { describeActivity } from '@/lib/activity';
 import { projectProgress } from '@/lib/progress';
-import { useActivity, useAssignees, useFolderTasks, useMembers } from '@/lib/queries/projects';
+import {
+  useActivity,
+  useAssignees,
+  useFolderActor,
+  useFolderTasks,
+  useMembers,
+} from '@/lib/queries/projects';
+import { useTreeMutations } from '@/lib/queries/tree';
 import type { FolderNode } from '@/lib/queries/tree';
 
 const pct = (p: { done: number; total: number }) =>
@@ -30,6 +39,8 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
   const assignees = useAssignees();
   const tasks = useFolderTasks(root);
   const activity = useActivity(root.id);
+  const actor = useFolderActor(root.id);
+  const treeMutations = useTreeMutations();
   const when = new Intl.DateTimeFormat(i18n.language, {
     day: 'numeric',
     month: 'short',
@@ -93,6 +104,17 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
       <ProjectMilestones rootId={root.id} />
 
       <ProjectBoss rootId={root.id} />
+
+      {actorCan(actor, 'page.manage') && (
+        <ToggleRow
+          title={t('project.autoCompleteParent')}
+          hint={t('project.autoCompleteParentHint')}
+          value={root.auto_complete_parent}
+          onChange={(value) =>
+            treeMutations.setFolderSettings.mutate({ id: root.id, auto_complete_parent: value })
+          }
+        />
+      )}
 
       {(activity.data?.length ?? 0) > 0 && (
         <View>

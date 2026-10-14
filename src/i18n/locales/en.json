@@ -68,7 +68,11 @@
     "deleted": "Deleted: {{title}}",
     "duplicated": "Duplicated: {{title}}",
     "dateTitle": "Date for \"{{title}}\"",
-    "nextWeek": "Next week"
+    "nextWeek": "Next week",
+    "completeAllTitle": "Complete \"{{title}}\" and everything inside?",
+    "completeAllMessage_one": "{{count}} open subtask will be completed too.",
+    "completeAllMessage_other": "{{count}} open subtasks will be completed too.",
+    "completeAll": "Complete all"
   },
   "nav": {
     "home": "Home",
@@ -578,7 +582,9 @@
     "done": "done",
     "next": "Next: {{name}} · {{when}}",
     "people": "People",
-    "team": "Team {{name}}"
+    "team": "Team {{name}}",
+    "autoCompleteParent": "Complete the parent task automatically",
+    "autoCompleteParentHint": "When the last subtask is done, the parent is completed too."
   },
   "auth": {
     "signInTitle": "Sign in to your account",

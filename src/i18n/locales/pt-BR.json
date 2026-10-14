@@ -68,7 +68,11 @@
     "deleted": "Apagada: {{title}}",
     "duplicated": "Duplicada: {{title}}",
     "dateTitle": "Data de \"{{title}}\"",
-    "nextWeek": "Próxima semana"
+    "nextWeek": "Próxima semana",
+    "completeAllTitle": "Concluir \"{{title}}\" e tudo dentro dela?",
+    "completeAllMessage_one": "{{count}} subtarefa aberta também será concluída.",
+    "completeAllMessage_other": "{{count}} subtarefas abertas também serão concluídas.",
+    "completeAll": "Concluir tudo"
   },
   "nav": {
     "home": "Início",
@@ -578,7 +582,9 @@
     "done": "feito",
     "next": "Próximo: {{name}} · {{when}}",
     "people": "Pessoas",
-    "team": "Time {{name}}"
+    "team": "Time {{name}}",
+    "autoCompleteParent": "Concluir a tarefa-mãe sozinha",
+    "autoCompleteParentHint": "Quando a última subtarefa termina, a mãe também é concluída."
   },
   "auth": {
     "signInTitle": "Entre na sua conta",

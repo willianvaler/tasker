@@ -64,9 +64,22 @@ export function TaskMeta({
       </Text>
     ),
     subtasks && subtasks.total > 0 && (
-      <Text key="subtasks" className={meta} accessibilityLabel={t('task.subtasks', subtasks)}>
-        {subtasks.done}/{subtasks.total}
-      </Text>
+      // Régua fina: o progresso da mãe pelas folhas do galho
+      <View
+        key="subtasks"
+        className="flex-row items-center gap-1"
+        accessibilityLabel={t('task.subtasks', subtasks)}
+      >
+        <View className="h-1 w-8 overflow-hidden rounded-full bg-line">
+          <View
+            className="h-1 bg-accent"
+            style={{ width: `${Math.round((subtasks.done / subtasks.total) * 100)}%` }}
+          />
+        </View>
+        <Text className={meta}>
+          {subtasks.done}/{subtasks.total}
+        </Text>
+      </View>
     ),
     ...task.labels.map((label) => (
       <Text key={`label-${label}`} className="text-xs text-ink-muted">

@@ -19,7 +19,14 @@ import { rewardMessage } from '@/lib/gamification';
 import { useGameState } from '@/lib/queries/game';
 import { formatDueDate } from '@/lib/parser/dates';
 import { useToday } from '@/lib/queries/profile';
-import { advanceOnComplete, useToggleTask, useUpdateTask, type Task } from '@/lib/queries/tasks';
+import {
+  advanceOnComplete,
+  useCompleteTree,
+  useToggleTask,
+  useUpdateTask,
+  type Task,
+} from '@/lib/queries/tasks';
+import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { useTree } from '@/lib/queries/tree';
 import { useSelection, selection } from '@/lib/selection';
 import { DURATION } from '@/lib/tokens';
@@ -84,6 +91,9 @@ function TaskRowView({
 }) {
   const allowed = useTaskCan(task);
   const toggle = useToggleWithUndo();
+  const completeTree = useCompleteTree();
+  const [confirmAll, setConfirmAll, closeConfirmAll] = useDialog<true>();
+  const openLeaves = subtasks ? subtasks.total - subtasks.done : 0;
   const update = useUpdateTask();
   const { t } = useTranslation();
   const [localEditing, setEditing] = useState(false);
@@ -129,8 +139,23 @@ function TaskRowView({
         checked={done}
         disabled={!allowed.complete}
         label={t(done ? 'task.reopen' : 'task.complete', { title: task.title })}
-        onChange={(checked) => toggle(task, checked)}
+        // Mãe com filhas abertas: pergunta antes de concluir o galho inteiro
+        onChange={(checked) =>
+          checked && openLeaves > 0 ? setConfirmAll(true) : toggle(task, checked)
+        }
       />
+      {confirmAll && (
+        <ConfirmDialog
+          title={t('task.completeAllTitle', { title: task.title })}
+          message={t('task.completeAllMessage', { count: openLeaves })}
+          confirmLabel={t('task.completeAll')}
+          onClose={closeConfirmAll}
+          onConfirm={() => {
+            closeConfirmAll();
+            completeTree.mutate(task.id);
+          }}
+        />
+      )}
       <View className="flex-1 justify-center gap-1 py-1 md:flex-row md:items-center md:gap-3">
         <View className="flex-1 md:flex-initial md:shrink">
           {editing ? (

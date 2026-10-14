@@ -29,7 +29,9 @@ import { useColors } from '@/lib/tokens';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { useToday } from '@/lib/queries/profile';
+import { leafProgress } from '@/lib/task-tree';
 import {
+  useCompleteTree,
   useCreateSubtask,
   useDeleteTask,
   usePageTasks,
@@ -96,7 +98,12 @@ function TaskDetails({ task }: { task: Task }) {
   const update = useUpdateTask();
   const remove = useDeleteTask();
   const toggle = useToggleWithUndo();
+  const completeTree = useCompleteTree();
   const [confirmDelete, setConfirmDelete, closeConfirm] = useDialog<true>();
+  const [confirmAll, setConfirmAll, closeConfirmAll] = useDialog<true>();
+  const siblings = usePageTasks(task.page_id);
+  const leaves = leafProgress(siblings.data ?? []).get(task.id);
+  const openLeaves = leaves ? leaves.total - leaves.done : 0;
 
   const [title, setTitle] = useState(task.title);
   const [notes, setNotes] = useState(task.notes ?? '');
@@ -144,7 +151,9 @@ function TaskDetails({ task }: { task: Task }) {
               checked={done}
               disabled={!allowed.complete}
               label={t(done ? 'taskDetail.reopen' : 'taskDetail.complete')}
-              onChange={(checked) => toggle(task, checked)}
+              onChange={(checked) =>
+                checked && openLeaves > 0 ? setConfirmAll(true) : toggle(task, checked)
+              }
             />
           )}
           <TextInput
@@ -363,6 +372,18 @@ function TaskDetails({ task }: { task: Task }) {
           />
         )}
 
+        {confirmAll && (
+          <ConfirmDialog
+            title={t('task.completeAllTitle', { title: task.title })}
+            message={t('task.completeAllMessage', { count: openLeaves })}
+            confirmLabel={t('task.completeAll')}
+            onClose={closeConfirmAll}
+            onConfirm={() => {
+              closeConfirmAll();
+              completeTree.mutate(task.id);
+            }}
+          />
+        )}
         {confirmDelete && (
           <ConfirmDialog
             title={t('taskDetail.deleteTitle')}
