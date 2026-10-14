@@ -288,7 +288,10 @@
     "pages_one": "{{count}} página",
     "pages_other": "{{count}} páginas",
     "subfolders_one": "{{count}} subcarpeta",
-    "subfolders_other": "{{count}} subcarpetas"
+    "subfolders_other": "{{count}} subcarpetas",
+    "newProject": "Nuevo proyecto",
+    "projectPlaceholder": "Nombre (ej.: Asado del sábado)",
+    "projects": "Proyectos"
   },
   "pageDialog": {
     "new": "Nueva página",

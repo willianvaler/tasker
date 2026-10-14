@@ -281,14 +281,14 @@ isOneToOne: false
                   ]
                 },"folders": {
                   Row: {
-                    "archived": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"name": string,"owner_id": string,"parent_id": string | null,"position": number
+                    "archived": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"name": string,"owner_id": string,"parent_id": string | null,"position": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number
+                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number
                   }
                   Update: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number
+                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number
                   }
                   Relationships: [
                     {
@@ -894,6 +894,9 @@ isOneToOne: false
 "habit_tick":
 { Args: { "p_delta": number,"p_id"?: string,"p_task_id": string }; Returns: Json
                            },
+"has_permission":
+{ Args: { "p_folder_id": string,"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
+                           },
 "invite_preview":
 { Args: { "p_token": string }; Returns: Json
                            },
@@ -926,6 +929,12 @@ isOneToOne: false
                            },
 "pending_names":
 { Args: { "p_folder_id": string }; Returns: (string)[]
+                           },
+"permission_presets":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"preset_can":
+{ Args: { "p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string,"p_preset": string }; Returns: boolean
                            },
 "refresh_cycles":
 { Args: { "p_page_id"?: string }; Returns: number

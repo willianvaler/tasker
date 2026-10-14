@@ -64,7 +64,7 @@ export function FolderSection({
             )}
             <ItemIcon
               icon={folder.icon}
-              kind={folder.is_shared ? 'project' : 'folder'}
+              kind={folder.kind === 'project' ? 'project' : 'folder'}
               size={20}
               tone="ink"
             />
@@ -72,7 +72,7 @@ export function FolderSection({
               {folder.name}
             </Text>
             <Text className="font-mono text-xs text-ink-muted">
-              {folder.is_shared ? `${t('folder.project')} · ` : ''}
+              {folder.kind === 'project' ? `${t('folder.project')} · ` : ''}
               {folderSummary(folder, t)}
             </Text>
           </Pressable>

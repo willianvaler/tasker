@@ -288,7 +288,10 @@
     "pages_one": "{{count}} página",
     "pages_other": "{{count}} páginas",
     "subfolders_one": "{{count}} subpasta",
-    "subfolders_other": "{{count}} subpastas"
+    "subfolders_other": "{{count}} subpastas",
+    "newProject": "Novo projeto",
+    "projectPlaceholder": "Nome (ex.: Churrasco do sábado)",
+    "projects": "Projetos"
   },
   "pageDialog": {
     "new": "Nova página",

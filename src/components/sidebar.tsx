@@ -105,7 +105,9 @@ export function Sidebar() {
           depth={depth}
           href={`/folder/${folder.id}`}
           label={folder.name}
-          icon={<ItemIcon icon={folder.icon} kind={folder.is_shared ? 'project' : 'folder'} />}
+          icon={
+            <ItemIcon icon={folder.icon} kind={folder.kind === 'project' ? 'project' : 'folder'} />
+          }
           marker={folder.color}
           active={pathname === `/folder/${folder.id}`}
           expanded={expanded}
@@ -147,8 +149,8 @@ export function Sidebar() {
   }
 
   const folders = tree.data?.folders ?? [];
-  const personal = folders.filter((f) => !f.is_shared);
-  const projects = folders.filter((f) => f.is_shared);
+  const personal = folders.filter((f) => f.kind !== 'project');
+  const projects = folders.filter((f) => f.kind === 'project');
   const inProject = projects.length > 0;
 
   return (

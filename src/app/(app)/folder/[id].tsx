@@ -41,7 +41,7 @@ export default function FolderScreen() {
   const folder = found?.folder;
   const children = folder && 'children' in folder ? folder.children : [];
   const empty = !!folder && folder.pages.length === 0 && children.length === 0;
-  const project = !!folder && 'children' in folder && folder.is_shared;
+  const project = !!folder && 'children' in folder && folder.kind === 'project';
   const eyebrow = folder
     ? [
         found?.parent ? t('folder.in', { name: found.parent.name }) : null,
@@ -100,7 +100,7 @@ export default function FolderScreen() {
       )}
 
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-        {folder && 'children' in folder && folder.is_shared && (
+        {folder && 'children' in folder && project && (
           <View className="mb-4">
             <ProjectOverview root={folder} />
           </View>

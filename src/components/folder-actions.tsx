@@ -17,7 +17,7 @@ import { useToast } from '@/providers/toast';
 type FolderDialog =
   | { kind: 'folder-menu'; folder: Folder }
   | { kind: 'page-menu'; page: Page }
-  | { kind: 'new-folder'; parentId?: string }
+  | { kind: 'new-folder'; parentId?: string; project?: boolean }
   | { kind: 'new-page'; folderId: string }
   | { kind: 'edit-folder'; folder: Folder }
   | { kind: 'edit-page'; page: Page }
@@ -42,6 +42,7 @@ export function useFolderActions() {
 
   const actions = {
     newFolder: (parentId?: string) => setDialog({ kind: 'new-folder', parentId }),
+    newProject: () => setDialog({ kind: 'new-folder', project: true }),
     newPage: (folderId: string) => setDialog({ kind: 'new-page', folderId }),
     folderMenu: (folder: Folder) => setDialog({ kind: 'folder-menu', folder }),
     pageMenu: (page: Page) => setDialog({ kind: 'page-menu', page }),
@@ -103,13 +104,24 @@ export function useFolderActions() {
   else if (dialog?.kind === 'new-folder' || dialog?.kind === 'edit-folder') {
     const editing = dialog.kind === 'edit-folder' ? dialog.folder : null;
     const parentId = dialog.kind === 'new-folder' ? dialog.parentId : undefined;
+    const project = dialog.kind === 'new-folder' && !!dialog.project;
     element = (
       <PromptDialog
         title={t(
-          editing ? 'folder.renameTitle' : parentId ? 'folder.newSubfolder' : 'folder.newFolder',
+          editing
+            ? 'folder.renameTitle'
+            : parentId
+              ? 'folder.newSubfolder'
+              : project
+                ? 'folder.newProject'
+                : 'folder.newFolder',
         )}
         fields={[
-          { key: 'name', placeholder: t('folder.namePlaceholder'), initial: editing?.name ?? '' },
+          {
+            key: 'name',
+            placeholder: t(project ? 'folder.projectPlaceholder' : 'folder.namePlaceholder'),
+            initial: editing?.name ?? '',
+          },
           {
             key: 'icon',
             placeholder: t('folder.emojiPlaceholder'),
@@ -122,7 +134,7 @@ export function useFolderActions() {
           if (editing) m.updateFolder.mutate({ id: editing.id, name, icon }, { onError });
           else
             m.createFolder.mutate(
-              { name, icon, parentId },
+              { name, icon, parentId, kind: project ? 'project' : 'folder' },
               // Abre a pasta nova: o próximo passo é criar páginas nela
               {
                 onError,

@@ -79,10 +79,13 @@ export function useTreeMutations() {
       name,
       icon,
       parentId,
+      kind = 'folder',
     }: {
       name: string;
       icon?: string;
       parentId?: string;
+      /** Projeto só na raiz (V2 §5) */
+      kind?: 'folder' | 'project';
     }) => {
       const siblings = parentId
         ? (tree()?.folders.find((f) => f.id === parentId)?.children ?? [])
@@ -93,6 +96,7 @@ export function useTreeMutations() {
         name,
         icon: icon || null,
         parent_id: parentId ?? null,
+        kind: parentId ? 'folder' : kind,
         position: nextPosition(siblings),
       });
       if (error) throw error;

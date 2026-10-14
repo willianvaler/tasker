@@ -288,7 +288,10 @@
     "pages_one": "{{count}} page",
     "pages_other": "{{count}} pages",
     "subfolders_one": "{{count}} subfolder",
-    "subfolders_other": "{{count}} subfolders"
+    "subfolders_other": "{{count}} subfolders",
+    "newProject": "New project",
+    "projectPlaceholder": "Name (e.g. Saturday barbecue)",
+    "projects": "Projects"
   },
   "pageDialog": {
     "new": "New page",
