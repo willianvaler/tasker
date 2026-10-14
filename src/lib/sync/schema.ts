@@ -66,6 +66,7 @@ const tasks = new Table(
     depth: column.integer,
     estimate_minutes: column.integer,
     deps_mode: column.text,
+    started_at: column.text,
     title: column.text,
     notes: column.text,
     status: column.text,
