@@ -1,4 +1,4 @@
-import { Link, router, usePathname, type Href } from 'expo-router';
+import { Link, usePathname, type Href } from 'expo-router';
 import {
   Bell,
   ChevronDown,
@@ -8,6 +8,7 @@ import {
   LayoutGrid,
   Plus,
   Repeat,
+  Search,
   Shield,
   ShoppingBag,
   Sun,
@@ -20,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useCommandPalette } from '@/components/command-palette';
 import { useFolderActions } from '@/components/folder-actions';
 import { MenuButton } from '@/components/folder-cards';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
@@ -67,6 +69,7 @@ export function Sidebar() {
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
   const [open, setOpen] = useState(() => new Set(getOpenFolders()));
+  const openPalette = useCommandPalette();
 
   // Pasta da tela atual (a própria pasta, ou a pasta da página aberta)
   const routeId = /^\/(?:folder|page)\/([^/]+)/.exec(pathname)?.[1];
@@ -168,13 +171,13 @@ export function Sidebar() {
         <View>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={t('nav.newTask')}
-            className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
-            onPress={() => router.push('/capture')}
+            accessibilityLabel={t('palette.open')}
+            className="mb-2 min-h-8 flex-row items-center gap-2 rounded border border-line px-2 hover:bg-wash active:bg-wash"
+            onPress={openPalette}
           >
-            <Icon icon={Plus} tone="accent" />
-            <Text className="flex-1 text-sm font-semibold text-ink">{t('nav.newTask')}</Text>
-            <Kbd>N</Kbd>
+            <Icon icon={Search} tone="ink-muted" />
+            <Text className="flex-1 text-sm text-ink-muted">{t('palette.open')}</Text>
+            <Kbd>Ctrl K</Kbd>
           </Pressable>
           {NAV.filter((item) => !item.projectsOnly || inProject).map((item) => (
             <NavRow

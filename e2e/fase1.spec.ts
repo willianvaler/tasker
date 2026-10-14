@@ -164,11 +164,15 @@ test('barra lateral: criar pasta, ver a árvore e abrir a página', async ({ pag
   await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
 });
 
-test('captura rápida com Ctrl+K vai para a última página usada', async ({ page }, testInfo) => {
+test('captura rápida pela paleta (Ctrl+K) vai para a última página usada', async ({
+  page,
+}, testInfo) => {
   test.skip(testInfo.project.name === 'celular', 'Atalho de teclado é só na web com teclado');
   await signUp(page, testInfo);
 
   await page.keyboard.press('Control+k');
+  await page.getByRole('textbox', { name: 'Buscar ou executar' }).fill('nova tarefa');
+  await page.keyboard.press('Enter');
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   await expect(page.getByText('Captura rápida')).toBeVisible();
   await input.fill('Ideia solta');

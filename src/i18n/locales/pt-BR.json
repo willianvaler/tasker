@@ -17,7 +17,6 @@
     "es": "Español"
   },
   "shortcuts": {
-    "captureOpen": "Abrir a captura rápida",
     "captureClose": "Fechar a captura rápida",
     "overlayClose": "Fechar o painel ou menu",
     "newOpen": "Abrir o menu Novo",
@@ -46,7 +45,8 @@
     "goToday": "Ir para Hoje",
     "goInbox": "Ir para a Caixa de entrada",
     "goMine": "Ir para Atribuídas a mim",
-    "captureFocus": "Ir para o campo de nova tarefa"
+    "captureFocus": "Ir para o campo de nova tarefa",
+    "paletteOpen": "Buscar ou executar (paleta de comandos)"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -784,5 +784,15 @@
     "name": "Nome",
     "save": "Salvar nome",
     "icon": "Trocar ícone"
+  },
+  "palette": {
+    "placeholder": "Buscar páginas, pastas, tarefas ou ações…",
+    "label": "Buscar ou executar",
+    "none": "Nada encontrado.",
+    "newTask": "Nova tarefa (captura rápida)",
+    "theme": "Alternar claro e escuro",
+    "sidebar": "Mostrar ou esconder a barra lateral",
+    "help": "Ajuda e atalhos",
+    "open": "Buscar ou executar"
   }
 }

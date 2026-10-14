@@ -137,3 +137,30 @@ test('atalhos de lista: prioridade, concluir, apagar e desfazer, navegar', async
   await page.keyboard.press('Control+b');
   await expect(page.getByRole('navigation')).toBeVisible();
 });
+
+test('paleta de comandos: Ctrl+K busca página e tarefa e abre', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Atalhos de teclado são do computador');
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Viagem', name: 'Roteiro de Lisboa', type: 'Lista' });
+  await page.getByRole('textbox', { name: 'Nova tarefa' }).fill('Comprar passagem');
+  await page.getByRole('textbox', { name: 'Nova tarefa' }).press('Enter');
+  await expect(page.getByText('Comprar passagem', { exact: true })).toBeVisible();
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+
+  // Ir para a página, sem acento e com ↓ Enter
+  await page.keyboard.press('Control+k');
+  const search = page.getByRole('textbox', { name: 'Buscar ou executar' });
+  await search.fill('lisboa');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('heading', { name: 'Roteiro de Lisboa' })).toBeVisible();
+
+  // "/" também abre; tarefa já carregada abre os detalhes
+  await page.locator('body').click({ position: { x: 5, y: 500 } });
+  await page.keyboard.press('/');
+  await search.fill('passagem');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveValue(
+    'Comprar passagem',
+  );
+});

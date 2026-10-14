@@ -2,6 +2,7 @@ import { router, Stack, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
+import { CommandPaletteProvider } from '@/components/command-palette';
 import { ListKeys } from '@/components/list-keys';
 import { NewMenuProvider } from '@/components/new-menu';
 import { OfflineBanner } from '@/components/offline-banner';
@@ -9,12 +10,10 @@ import { Sidebar, useIsWide } from '@/components/sidebar';
 import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
 import { useSidebarHidden } from '@/lib/ui-state';
-import { useShortcut } from '@/lib/use-shortcut';
 import { useProfile } from '@/lib/queries/profile';
 import { useRealtimeSync } from '@/providers/realtime';
 
 export default function AppLayout() {
-  useCaptureShortcut();
   useRealtimeSync();
   usePushTapHandler();
   useLocaleSync();
@@ -23,37 +22,39 @@ export default function AppLayout() {
   const sidebarHidden = useSidebarHidden();
   return (
     // Em tela larga, a barra lateral fica ao lado da pilha e não some ao abrir uma página
-    <NewMenuProvider>
-      <View className="flex-1 flex-row bg-paper">
-        {wide && !onboarding && !sidebarHidden && <Sidebar />}
-        <View className="flex-1">
-          <OfflineBanner />
-          <ListKeys />
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="page/[id]" />
-            <Stack.Screen name="folder/[id]" />
-            <Stack.Screen name="share/[id]" />
-            <Stack.Screen name="notifications" />
-            <Stack.Screen name="clan" />
-            <Stack.Screen name="character" />
-            <Stack.Screen name="shop" />
-            <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
-            {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}
-            <Stack.Screen
-              name="task/[id]"
-              options={{ presentation: 'transparentModal', animation: 'none' }}
-            />
-            <Stack.Screen
-              name="capture"
-              options={{ presentation: 'transparentModal', animation: 'fade' }}
-            />
-            <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
-          </Stack>
+    <CommandPaletteProvider>
+      <NewMenuProvider>
+        <View className="flex-1 flex-row bg-paper">
+          {wide && !onboarding && !sidebarHidden && <Sidebar />}
+          <View className="flex-1">
+            <OfflineBanner />
+            <ListKeys />
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="page/[id]" />
+              <Stack.Screen name="folder/[id]" />
+              <Stack.Screen name="share/[id]" />
+              <Stack.Screen name="notifications" />
+              <Stack.Screen name="clan" />
+              <Stack.Screen name="character" />
+              <Stack.Screen name="shop" />
+              <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
+              {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}
+              <Stack.Screen
+                name="task/[id]"
+                options={{ presentation: 'transparentModal', animation: 'none' }}
+              />
+              <Stack.Screen
+                name="capture"
+                options={{ presentation: 'transparentModal', animation: 'fade' }}
+              />
+              <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
+            </Stack>
+          </View>
         </View>
-      </View>
-    </NewMenuProvider>
+      </NewMenuProvider>
+    </CommandPaletteProvider>
   );
 }
 
@@ -67,9 +68,4 @@ function useOnboarding() {
     if (pending && pathname !== '/onboarding') router.replace('/onboarding');
   }, [pending, pathname]);
   return pathname === '/onboarding';
-}
-
-/** Na web: "N" ou Ctrl/Cmd+K abre a captura rápida de qualquer tela (ESCOPO 4.1). */
-function useCaptureShortcut() {
-  useShortcut('capture.open', () => router.push('/capture'));
 }

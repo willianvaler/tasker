@@ -23,11 +23,10 @@ export type Shortcut = {
 
 export const SHORTCUTS = [
   {
-    id: 'capture.open',
-    combos: ['mod+k'],
-    description: 'shortcuts.captureOpen',
+    id: 'palette.open',
+    combos: ['mod+k', '/'],
+    description: 'shortcuts.paletteOpen',
     scope: 'global',
-    permission: 'task.create',
   },
   {
     id: 'capture.focus',

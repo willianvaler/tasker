@@ -17,7 +17,6 @@
     "es": "Español"
   },
   "shortcuts": {
-    "captureOpen": "Open quick capture",
     "captureClose": "Close quick capture",
     "overlayClose": "Close the panel or menu",
     "newOpen": "Open the New menu",
@@ -46,7 +45,8 @@
     "goToday": "Go to Today",
     "goInbox": "Go to the Inbox",
     "goMine": "Go to Assigned to me",
-    "captureFocus": "Go to the new task field"
+    "captureFocus": "Go to the new task field",
+    "paletteOpen": "Search or run (command palette)"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -784,5 +784,15 @@
     "name": "Name",
     "save": "Save name",
     "icon": "Change icon"
+  },
+  "palette": {
+    "placeholder": "Search pages, folders, tasks or actions…",
+    "label": "Search or run",
+    "none": "Nothing found.",
+    "newTask": "New task (quick capture)",
+    "theme": "Toggle light and dark",
+    "sidebar": "Show or hide the sidebar",
+    "help": "Help and shortcuts",
+    "open": "Search or run"
   }
 }
