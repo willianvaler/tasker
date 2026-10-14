@@ -593,7 +593,9 @@
     "clanMembers_other": "{{count}} personas enfrentando juntas al jefe de la semana.",
     "openClan": "Abrir el clan",
     "otherClan": "Ya estás en otro clan. Sal de él (Perfil → Clan) para entrar en este.",
-    "joinClan": "Entrar al clan"
+    "joinClan": "Entrar al clan",
+    "roleManager": "gerente",
+    "roleContributor": "colaborador"
   },
   "share": {
     "title": "Compartir",
@@ -603,8 +605,6 @@
     "copied": "Enlace copiado",
     "link": "Enlace de invitación",
     "linkHint": "Quien abra el enlace entra al proyecto (y crea la cuenta si hace falta). Vale 14 días.",
-    "canEdit": "Puede editar",
-    "viewOnly": "Solo ve y comenta",
     "copy": "Copiar enlace",
     "send": "Enviar…",
     "sendMessage": "¿Organizamos {{name}}? {{link}}",
@@ -627,7 +627,12 @@
     "removeTitle": "¿Quitar a {{name}} del proyecto?",
     "removeMessage": "Las tareas asignadas vuelven al nombre pendiente de la persona.",
     "leaveConfirm": "Salir",
-    "removeConfirm": "Quitar"
+    "removeConfirm": "Quitar",
+    "roleManager": "Gerente",
+    "roleContributor": "Colaborador",
+    "fromTeam": "por el equipo",
+    "useTeamRole": "Usar el cargo del equipo",
+    "inviteAs": "Entra como"
   },
   "notifications": {
     "title": "Notificaciones",

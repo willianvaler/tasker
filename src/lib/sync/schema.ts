@@ -15,6 +15,7 @@ const folders = new Table(
     archived: column.integer,
     created_at: column.text,
     kind: column.text,
+    team_id: column.text,
     updated_at: column.text,
     updated_by: column.text,
     version: column.integer,
@@ -29,6 +30,7 @@ const folder_members = new Table(
     role: column.text,
     joined_at: column.text,
     aliases: column.text,
+    source: column.text,
   },
   { indexes: { folder: ['folder_id'] } },
 );

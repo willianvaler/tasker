@@ -13,7 +13,7 @@ streams:
       - SELECT * FROM folders WHERE id IN roots
       - SELECT * FROM folders WHERE parent_id IN roots
       # folder_members não tem coluna id: o id local é "pasta:pessoa"
-      - SELECT folder_id || ':' || user_id AS id, folder_id, user_id, role, joined_at, aliases FROM folder_members WHERE folder_id IN roots
+      - SELECT folder_id || ':' || user_id AS id, folder_id, user_id, role, joined_at, aliases, source FROM folder_members WHERE folder_id IN roots
       - SELECT * FROM pages WHERE folder_id IN roots
       - SELECT pages.* FROM pages INNER JOIN folders ON pages.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM tasks WHERE folder_id IN roots

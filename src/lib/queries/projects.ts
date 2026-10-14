@@ -13,11 +13,16 @@ import { keys } from './keys';
 import type { TaskWithPage } from './tasks';
 import { useTree, type Folder, type Tree } from './tree';
 
-export type Role = 'owner' | 'editor' | 'viewer';
+export type Role = 'owner' | 'manager' | 'editor' | 'contributor' | 'viewer';
+/** Cargos que se dão a alguém (Dono vem de criar o projeto ou do time). */
+export const ASSIGNABLE_ROLES = ['manager', 'editor', 'contributor', 'viewer'] as const;
+export type AssignableRole = (typeof ASSIGNABLE_ROLES)[number];
 export type Assignee = Tables<'task_assignees'>;
 export type Member = {
   userId: string;
   role: Role;
+  /** 'team': o cargo vem do cargo no time; 'direct': dado no próprio projeto. */
+  source: 'direct' | 'team';
   aliases: string[];
   displayName: string;
 };
@@ -50,29 +55,32 @@ export function useMembers(rootId: string | undefined) {
         const rows = await db.getAll<{
           user_id: string;
           role: Role;
+          source: string | null;
           aliases: string | null;
           display_name: string | null;
         }>(
-          `select m.user_id, m.role, m.aliases, p.display_name from folder_members m
+          `select m.user_id, m.role, m.source, m.aliases, p.display_name from folder_members m
            left join people p on p.id = m.user_id where m.folder_id = ? order by m.joined_at`,
           [rootId],
         );
         return rows.map((m) => ({
           userId: m.user_id,
           role: m.role,
+          source: m.source === 'team' ? 'team' : 'direct',
           aliases: m.aliases ? JSON.parse(m.aliases) : [],
           displayName: m.display_name || 'Alguém',
         }));
       }
       const { data, error } = await supabase
         .from('folder_members')
-        .select('user_id, role, aliases, joined_at, profile:profiles(display_name)')
+        .select('user_id, role, source, aliases, joined_at, profile:profiles(display_name)')
         .eq('folder_id', rootId ?? '')
         .order('joined_at');
       if (error) throw error;
       return data.map((m) => ({
         userId: m.user_id,
         role: m.role,
+        source: m.source === 'team' ? 'team' : 'direct',
         aliases: m.aliases,
         displayName: m.profile?.display_name || 'Alguém',
       }));
@@ -97,7 +105,8 @@ export function useFolderRole(folderId: string | null | undefined): Role | undef
   const { session } = useSession();
   const tree = useTree();
   const root = rootFolder(tree.data, folderId);
-  const shared = !!root && root.owner_id !== session?.user.id;
+  // Projeto de time: quem criou pode não ser o Dono
+  const shared = !!root && (root.owner_id !== session?.user.id || !!root.team_id);
   const members = useMembers(shared ? root?.id : undefined);
   // Caixa de entrada (fora da árvore) e pastas próprias: dono
   if (folderId && tree.data?.inbox?.folder_id === folderId) return 'owner';
@@ -106,8 +115,11 @@ export function useFolderRole(folderId: string | null | undefined): Role | undef
   return members.data?.find((m) => m.userId === session?.user.id)?.role;
 }
 
-/** Pode editar tarefas e páginas (dono e editor; leitor só vê e comenta). */
-export const canEdit = (role: Role | undefined) => roleCan(role, 'task.edit');
+/**
+ * Pode trabalhar no projeto (criar, marcar). O Colaborador passa: o que ele não pode mexer nas
+ * tarefas dos outros o servidor recusa. Leitor só vê e comenta.
+ */
+export const canEdit = (role: Role | undefined) => roleCan(role, 'task.create');
 
 export function useMemberMutations(rootId: string) {
   const queryClient = useQueryClient();
@@ -116,7 +128,15 @@ export function useMemberMutations(rootId: string) {
     queryClient.invalidateQueries({ queryKey: keys.assignees });
   };
   const setRole = useMutation({
-    mutationFn: async ({ userId, role }: { userId: string; role: Exclude<Role, 'owner'> }) => {
+    mutationFn: async ({ userId, role }: { userId: string; role: AssignableRole | 'team' }) => {
+      if (role === 'team') {
+        const { error } = await supabase.rpc('reset_member_role', {
+          p_folder_id: rootId,
+          p_user_id: userId,
+        });
+        if (error) throw error;
+        return;
+      }
       const { error } = await supabase.rpc('set_member_role', {
         p_folder_id: rootId,
         p_user_id: userId,
@@ -164,7 +184,7 @@ export function useMemberMutations(rootId: string) {
 export function useInviteMutations(folderId: string) {
   const queryClient = useQueryClient();
   const create = useMutation({
-    mutationFn: async (role: Exclude<Role, 'owner'>) => {
+    mutationFn: async (role: AssignableRole) => {
       const { data, error } = await supabase.rpc('create_invite', {
         p_folder_id: folderId,
         p_role: role,
@@ -191,7 +211,7 @@ const previewSchema = z.discriminatedUnion('valid', [
     folder_id: z.string(),
     folder_name: z.string(),
     folder_icon: z.string().nullable(),
-    role: z.enum(['owner', 'editor', 'viewer']),
+    role: z.enum(['owner', 'manager', 'editor', 'contributor', 'viewer']),
     inviter: z.string().nullable(),
     members: z.number(),
     already_member: z.boolean(),

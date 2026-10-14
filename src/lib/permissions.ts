@@ -79,7 +79,9 @@ export type Preset = keyof typeof PRESETS;
 /** Papéis que existem hoje no banco (folder_role) → preset. */
 export const ROLE_PRESET: Record<Role, Preset> = {
   owner: 'owner',
+  manager: 'manager',
   editor: 'editor',
+  contributor: 'contributor',
   viewer: 'viewer',
 };
 

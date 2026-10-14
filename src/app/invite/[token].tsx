@@ -18,7 +18,9 @@ import { useSession } from '@/providers/session';
 
 const ROLE_LABEL = {
   owner: 'invite.roleOwner',
+  manager: 'invite.roleManager',
   editor: 'invite.roleEditor',
+  contributor: 'invite.roleContributor',
   viewer: 'invite.roleViewer',
 } as const;
 

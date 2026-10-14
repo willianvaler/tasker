@@ -309,14 +309,14 @@ isOneToOne: false
                   ]
                 },"folder_members": {
                   Row: {
-                    "aliases": (string)[],"folder_id": string,"joined_at": string,"role": Database["public"]['Enums']["folder_role"],"user_id": string
+                    "aliases": (string)[],"folder_id": string,"joined_at": string,"role": Database["public"]['Enums']["folder_role"],"source": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "aliases"?: (string)[],"folder_id": string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"user_id": string
+                    "aliases"?: (string)[],"folder_id": string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"source"?: string,"user_id": string
                   }
                   Update: {
-                    "aliases"?: (string)[],"folder_id"?: string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"user_id"?: string
+                    "aliases"?: (string)[],"folder_id"?: string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"source"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -335,14 +335,14 @@ isOneToOne: false
                   ]
                 },"folders": {
                   Row: {
-                    "archived": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"updated_at": string,"updated_by": string | null,"version": number
+                    "archived": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -356,6 +356,12 @@ isOneToOne: false
       columns: ["parent_id"]
 isOneToOne: false
       referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "folders_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
       referencedColumns: ["id"]
     }
                   ]
@@ -761,7 +767,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "_attack":
+            "_app_caller":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
+"_attack":
 { Args: { "p_base": number,"p_category": string,"p_overdue": boolean,"p_user": string }; Returns: Record<string, unknown>
                            },
 "_award_completion":
@@ -778,6 +787,9 @@ isOneToOne: false
                            },
 "_clan_log":
 { Args: { "p_action": string,"p_clan_id": string,"p_payload": Json,"p_user": string }; Returns: undefined
+                           },
+"_detach_member":
+{ Args: { "p_root": string,"p_user_id": string }; Returns: undefined
                            },
 "_game_summary":
 { Args: { "p_boss_defeated": boolean,"p_level_before": number,"p_user": string,"p_xp": number }; Returns: Json
@@ -820,6 +832,9 @@ isOneToOne: false
                            },
 "_sync_boss_rewards":
 { Args: { "p_boss": Omit<Database["public"]['Tables']["bosses"]['Row'], Database["public"]['Tables']["bosses"]['ComputedFields']> }; Returns: undefined
+                           },
+"_sync_team_access":
+{ Args: { "p_folder_id"?: string,"p_team_id": string,"p_user_id": string }; Returns: undefined
                            },
 "accept_invite":
 { Args: { "p_token": string }; Returns: Json
@@ -978,6 +993,9 @@ isOneToOne: false
 "export_my_data":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
+"folder_role_rank":
+{ Args: { "p_role": Database["public"]['Enums']["folder_role"] }; Returns: number
+                           },
 "folder_root":
 { Args: { "p_folder_id": string }; Returns: string
                            },
@@ -1004,6 +1022,9 @@ isOneToOne: false
                            },
 "is_folder_member":
 { Args: { "p_folder_id": string,"p_min_role"?: Database["public"]['Enums']["folder_role"] }; Returns: boolean
+                           },
+"is_task_assignee":
+{ Args: { "p_task_id": string,"p_user_id": string }; Returns: boolean
                            },
 "is_team_member":
 { Args: { "p_min_role"?: Database["public"]['Enums']["team_role"],"p_team_id": string }; Returns: boolean
@@ -1056,6 +1077,9 @@ isOneToOne: false
 "reset_attributes":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"reset_member_role":
+{ Args: { "p_folder_id": string,"p_user_id": string }; Returns: undefined
+                           },
 "reset_page":
 { Args: { "p_page_id": string }; Returns: number
                            },
@@ -1076,6 +1100,9 @@ isOneToOne: false
                            },
 "set_member_role":
 { Args: { "p_folder_id": string,"p_role": Database["public"]['Enums']["folder_role"],"p_user_id": string }; Returns: undefined
+                           },
+"set_project_team":
+{ Args: { "p_folder_id": string,"p_team_id": string }; Returns: undefined
                            },
 "set_task_notes":
 { Args: { "p_base": string,"p_notes": string,"p_task_id": string }; Returns: undefined
@@ -1112,6 +1139,9 @@ isOneToOne: false
 "task_cycle_kind":
 { Args: { "p_recurrence": Json,"p_reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"p_view_type": Database["public"]['Enums']["page_view_type"] }; Returns: string
                            },
+"team_role_preset":
+{ Args: { "p_role": Database["public"]['Enums']["team_role"] }; Returns: Database["public"]['Enums']["folder_role"]
+                           },
 "team_role_rank":
 { Args: { "p_role": Database["public"]['Enums']["team_role"] }; Returns: number
                            },
@@ -1140,7 +1170,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "folder_role": "owner"|"editor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
+            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -1260,7 +1290,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "folder_role": ["owner", "editor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
+            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
           }
         }
 } as const

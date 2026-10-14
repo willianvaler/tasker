@@ -121,7 +121,7 @@ select lives_ok($$ insert into public.comments (task_id, body) values ('cccccccc
 select throws_ok($$ insert into public.task_assignees (task_id, pending_name) values ('cccccccc-0000-0000-0000-000000000001', 'zé') $$,
   '42501', null, 'leitor não atribui');
 select throws_ok($$ select public.complete_task('cccccccc-0000-0000-0000-000000000001') $$, 'P0002', null, 'leitor não conclui');
-select throws_ok($$ select public.create_invite('aaaaaaaa-0000-0000-0000-000000000001') $$, 'P0002', null, 'leitor não convida');
+select throws_ok($$ select public.create_invite('aaaaaaaa-0000-0000-0000-000000000001') $$, '42501', null, 'leitor não convida');
 select throws_ok($$ select public.claim_pending_assignee('aaaaaaaa-0000-0000-0000-000000000001', 'Cris', '22222222-2222-2222-2222-222222222222') $$,
   '42501', null, 'leitor não vincula outra pessoa');
 

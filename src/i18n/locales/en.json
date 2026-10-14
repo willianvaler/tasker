@@ -593,7 +593,9 @@
     "clanMembers_other": "{{count}} people facing the boss of the week together.",
     "openClan": "Open the clan",
     "otherClan": "You are already in another clan. Leave it (Profile → Clan) to join this one.",
-    "joinClan": "Join the clan"
+    "joinClan": "Join the clan",
+    "roleManager": "manager",
+    "roleContributor": "contributor"
   },
   "share": {
     "title": "Share",
@@ -603,8 +605,6 @@
     "copied": "Link copied",
     "link": "Invite link",
     "linkHint": "Whoever opens the link joins the project (and creates an account if needed). Valid for 14 days.",
-    "canEdit": "Can edit",
-    "viewOnly": "Can view and comment",
     "copy": "Copy link",
     "send": "Send…",
     "sendMessage": "Let's organize {{name}}? {{link}}",
@@ -627,7 +627,12 @@
     "removeTitle": "Remove {{name}} from the project?",
     "removeMessage": "Their assigned tasks go back to their pending name.",
     "leaveConfirm": "Leave",
-    "removeConfirm": "Remove"
+    "removeConfirm": "Remove",
+    "roleManager": "Manager",
+    "roleContributor": "Contributor",
+    "fromTeam": "from the team",
+    "useTeamRole": "Use team role",
+    "inviteAs": "Joins as"
   },
   "notifications": {
     "title": "Notifications",

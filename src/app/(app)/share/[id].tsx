@@ -15,6 +15,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
 import {
+  ASSIGNABLE_ROLES,
   inviteUrl,
   pendingNamesOf,
   useAssignees,
@@ -22,6 +23,7 @@ import {
   useInviteMutations,
   useMemberMutations,
   useMembers,
+  type AssignableRole,
   type Member,
   type Role,
 } from '@/lib/queries/projects';
@@ -34,7 +36,9 @@ import { useToast } from '@/providers/toast';
 
 const ROLE_LABEL = {
   owner: 'share.roleOwner',
+  manager: 'share.roleManager',
   editor: 'share.roleEditor',
+  contributor: 'share.roleContributor',
   viewer: 'share.roleViewer',
 } as const satisfies Record<Role, string>;
 
@@ -52,15 +56,14 @@ export default function ShareScreen() {
   const assignees = useAssignees();
   const invites = useInviteMutations(id);
   const m = useMemberMutations(id);
-  const [inviteRole, setInviteRole] = useState<Exclude<Role, 'owner'>>('editor');
+  const [inviteRole, setInviteRole] = useState<AssignableRole>('editor');
   const [link, setLink] = useState<string | null>(null);
   const [linking, setLinking] = useState<string | null>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<{ member: Member; leaving: boolean }>();
 
-  // Mudar papéis e remover pessoas. Convidar continua aberto ao editor
-  // até os cargos novos (Fase E)
-  const isOwner = roleCan(role, 'member.manage');
-  const canInvite = role === 'owner' || role === 'editor';
+  const canManage = roleCan(role, 'member.manage');
+  const canInvite = canManage;
+  const teamProject = !!folder && 'team_id' in folder && !!folder.team_id;
   const folderIds = folder
     ? [folder.id, ...('children' in folder ? folder.children.map((c) => c.id) : [])]
     : [];
@@ -101,12 +104,13 @@ export default function ShareScreen() {
           <View className="gap-3">
             <SectionLabel title={t('share.link')} className="pt-0" />
             <Text className="text-sm text-ink-muted">{t('share.linkHint')}</Text>
-            <View className="flex-row gap-2" accessibilityRole="radiogroup">
-              {(['editor', 'viewer'] as const).map((r) => (
+            <Text className="text-xs text-ink-muted">{t('share.inviteAs')}</Text>
+            <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+              {ASSIGNABLE_ROLES.map((r) => (
                 <Chip
                   key={r}
                   role="radio"
-                  label={t(r === 'editor' ? 'share.canEdit' : 'share.viewOnly')}
+                  label={t(ROLE_LABEL[r])}
                   selected={inviteRole === r}
                   onPress={() => {
                     setInviteRole(r);
@@ -191,11 +195,12 @@ export default function ShareScreen() {
                   </View>
                   <Text className="font-mono text-xs text-ink-muted">
                     {t(ROLE_LABEL[member.role])}
+                    {member.source === 'team' ? ` · ${t('share.fromTeam')}` : ''}
                   </Text>
                 </View>
-                {isOwner && member.role !== 'owner' && online && (
+                {canManage && member.role !== 'owner' && online && (
                   <View className="flex-row flex-wrap gap-2">
-                    {(['editor', 'viewer'] as const).map((r) => (
+                    {ASSIGNABLE_ROLES.map((r) => (
                       <Chip
                         key={r}
                         role="radio"
@@ -206,14 +211,25 @@ export default function ShareScreen() {
                         }
                       />
                     ))}
-                    <Button
-                      variant="ghost"
-                      label={t('share.remove')}
-                      onPress={() => setConfirm({ member, leaving: false })}
-                    />
+                    {teamProject && member.source === 'direct' && (
+                      <Button
+                        variant="ghost"
+                        label={t('share.useTeamRole')}
+                        onPress={() =>
+                          m.setRole.mutate({ userId: member.userId, role: 'team' }, { onError })
+                        }
+                      />
+                    )}
+                    {member.source === 'direct' && (
+                      <Button
+                        variant="ghost"
+                        label={t('share.remove')}
+                        onPress={() => setConfirm({ member, leaving: false })}
+                      />
+                    )}
                   </View>
                 )}
-                {me && member.role !== 'owner' && online && (
+                {me && member.role !== 'owner' && member.source === 'direct' && online && (
                   <Button
                     variant="ghost"
                     className="self-start"

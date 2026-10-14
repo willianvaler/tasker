@@ -120,7 +120,7 @@ test('leitor só vê e comenta; @menção avisa', async ({ page, browser }, test
   await page.getByRole('button', { name: 'Modelo Churrasco' }).click();
   await page.getByRole('button', { name: 'Criar', exact: true }).click();
   await page.getByRole('button', { name: 'Pessoas' }).click();
-  await page.getByRole('radio', { name: 'Só vê e comenta' }).click();
+  await page.getByRole('radio', { name: 'Leitor' }).click();
   await page.getByRole('button', { name: 'Gerar link de convite' }).click();
   const link = (await page.getByLabel('Link de convite').textContent()) ?? '';
 
