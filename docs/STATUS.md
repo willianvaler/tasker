@@ -83,7 +83,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **H4** Notificação de desbloqueio e de reabertura de pré-requisito
 - [x] **H5** Campo "Depende de / Libera" no painel e atalho L
 - [x] **H6** Sintaxe `^` na captura e no lote (`^2` por linha)
-- [ ] **H7** E2E "carvão → fogo", inclusive após sync offline
+- [x] **H7** E2E "carvão → fogo", inclusive após sync offline
 
 ## Fase I — Fluxo, pessoas e auditoria (02/12 – 08/12)
 
