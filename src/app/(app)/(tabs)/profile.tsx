@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { LogOut, Shield, ShoppingBag, Swords } from 'lucide-react-native';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
@@ -11,6 +12,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { LOCALES, type LocalePreference } from '@/i18n/locale';
 import { useLocalePreference } from '@/i18n/use-locale';
@@ -26,17 +28,25 @@ import { useThemePreference } from '@/providers/theme';
 const deviceTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export default function ProfileScreen() {
+  const { t } = useTranslation();
+  const { session } = useSession();
   const profile = useProfile();
   return (
     <Screen size="wide">
-      <ScreenHeader title="Perfil" />
-      {profile.data ? <ProfileForm key={profile.data.id} profile={profile.data} /> : null}
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
+        <View className="w-full max-w-[1120px] self-center">
+          <ScreenHeader title={t('profile.title')} eyebrow={session?.user.email} />
+          {profile.data ? <ProfileForm key={profile.data.id} profile={profile.data} /> : null}
+        </View>
+      </ScrollView>
     </Screen>
   );
 }
 
+// Configurações (V2 §12.3): conta, aparência, idioma, avisos e dados à esquerda; o jogo à direita
+// no computador (D67). Grupos separados por espaço e rótulo, sem caixas.
 function ProfileForm({ profile }: { profile: Profile }) {
-  const { session } = useSession();
+  const { t } = useTranslation();
   const update = useUpdateProfile();
   const online = useIsOnline();
   const [name, setName] = useState(profile.display_name);
@@ -55,111 +65,149 @@ function ProfileForm({ profile }: { profile: Profile }) {
   }
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-      {/* Computador: conta à esquerda, jogo e conquistas à direita (D67) */}
-      <View className="gap-8 lg:flex-row-reverse lg:items-start">
-        <View className="gap-4 lg:flex-[3]">
-          <GameProfile />
-          <View className="flex-row flex-wrap gap-2">
-            <Button
-              variant="ghost"
-              label="🧙 Personagem"
-              onPress={() => router.push('/character')}
-            />
-            <Button variant="ghost" label="🛒 Loja" onPress={() => router.push('/shop')} />
-            <Button variant="ghost" label="🛡️ Clã" onPress={() => router.push('/clan')} />
-          </View>
-        </View>
-        <View className="gap-4 lg:flex-[2]">
-          <Text className="text-ink-muted">{session?.user.email}</Text>
-
-          <ThemeChooser />
-
-          <LanguageChooser />
-
-          <PushSetting />
-
-          <View className="gap-1">
-            <Text className="font-semibold text-ink">Nome</Text>
+    <View className="gap-8 lg:flex-row lg:items-start lg:gap-12">
+      <View className="gap-2 lg:flex-1">
+        <Group title={t('profile.account')}>
+          <Field label={t('profile.name')}>
             <Input
               value={name}
               onChangeText={setName}
               maxLength={50}
               editable={online}
-              accessibilityLabel="Nome"
+              accessibilityLabel={t('profile.name')}
             />
-          </View>
-
-          <View className="gap-1">
-            <Text className="font-semibold text-ink">Fuso horário</Text>
-            <Text className="text-sm text-ink-muted">
-              Define quando o dia vira para &quot;Hoje&quot; e &quot;Atrasadas&quot;.
-            </Text>
+          </Field>
+          <Field label={t('profile.timezone')} hint={t('profile.timezoneHint')}>
             <Input
               value={timezone}
               onChangeText={setTimezone}
               autoCapitalize="none"
               editable={online}
-              accessibilityLabel="Fuso horário"
+              accessibilityLabel={t('profile.timezone')}
+              className="font-mono"
             />
             {!validTimezone && (
-              <Text className="text-sm text-danger">
-                Fuso desconhecido (ex.: America/Sao_Paulo).
-              </Text>
+              <Text className="text-sm text-danger">{t('profile.timezoneInvalid')}</Text>
             )}
             {deviceTimezone && deviceTimezone !== timezone && (
               <Button
                 variant="ghost"
-                label={`Usar o do aparelho (${deviceTimezone})`}
+                className="self-start"
+                label={t('profile.useDeviceTimezone', { tz: deviceTimezone })}
                 onPress={() => setTimezone(deviceTimezone)}
               />
             )}
-          </View>
-
+          </Field>
           {update.error && (
-            <Text className="text-danger">Não deu para salvar: {update.error.message}</Text>
+            <Text className="text-sm text-danger">
+              {t('profile.saveError', { message: update.error.message })}
+            </Text>
           )}
           <Button
-            label="Salvar"
+            label={t('common.save')}
+            className="self-start"
             disabled={!changed || !validTimezone || !name.trim() || !online}
             loading={update.isPending}
             onPress={() => update.mutate({ display_name: name.trim(), timezone: timezone.trim() })}
           />
+        </Group>
 
-          <View className="mt-6 gap-6 border-t border-line pt-4">
-            <PrivacySection />
-            <Button variant="ghost" label="Sair da conta" onPress={signOut} />
-          </View>
+        <Group title={t('profile.appearance')}>
+          <ThemeChooser />
+          <LanguageChooser />
+        </Group>
+
+        <Group title={t('profile.notifications')}>
+          <PushSetting />
+        </Group>
+
+        <Group title={t('privacy.title')}>
+          <PrivacySection />
+        </Group>
+
+        <View className="pt-6">
+          <Button
+            variant="ghost"
+            icon={LogOut}
+            className="self-start"
+            label={t('profile.signOut')}
+            onPress={signOut}
+          />
         </View>
       </View>
-    </ScrollView>
+
+      <View className="gap-2 lg:flex-1">
+        <Group title={t('profile.game')}>
+          <View className="flex-row flex-wrap gap-1">
+            <Button
+              variant="ghost"
+              icon={Swords}
+              label={t('nav.character')}
+              onPress={() => router.push('/character')}
+            />
+            <Button
+              variant="ghost"
+              icon={ShoppingBag}
+              label={t('nav.shop')}
+              onPress={() => router.push('/shop')}
+            />
+            <Button
+              variant="ghost"
+              icon={Shield}
+              label={t('nav.clan')}
+              onPress={() => router.push('/clan')}
+            />
+          </View>
+          <GameProfile />
+        </Group>
+      </View>
+    </View>
   );
 }
 
-const THEMES: { value: ThemePreference; label: string }[] = [
-  { value: 'system', label: 'Sistema' },
-  { value: 'light', label: '☀️ Claro' },
-  { value: 'dark', label: '🌙 Escuro' },
-];
+function Group({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <View className="gap-4">
+      <SectionLabel title={title} />
+      {children}
+    </View>
+  );
+}
+
+function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
+  return (
+    <View className="gap-1">
+      <Text className="text-sm font-semibold text-ink">{label}</Text>
+      {hint && <Text className="text-sm text-ink-muted">{hint}</Text>}
+      {children}
+    </View>
+  );
+}
+
+const THEMES = [
+  { value: 'system', label: 'profile.themeSystem' },
+  { value: 'light', label: 'profile.themeLight' },
+  { value: 'dark', label: 'profile.themeDark' },
+] as const satisfies readonly { value: ThemePreference; label: string }[];
 
 /** Tema do aparelho (D55): "Sistema" segue o claro/escuro do celular ou do computador. */
 function ThemeChooser() {
+  const { t } = useTranslation();
   const { preference, setPreference } = useThemePreference();
   return (
-    <View className="gap-1">
-      <Text className="font-semibold text-ink">Aparência</Text>
+    <Field label={t('profile.theme')}>
       <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-        {THEMES.map((t) => (
+        {THEMES.map((theme) => (
           <Chip
-            key={t.value}
+            key={theme.value}
             role="radio"
-            label={t.label}
-            selected={preference === t.value}
-            onPress={() => setPreference(t.value)}
+            label={t(theme.label)}
+            selected={preference === theme.value}
+            onPress={() => setPreference(theme.value)}
           />
         ))}
       </View>
-    </View>
+    </Field>
   );
 }
 
@@ -170,8 +218,7 @@ function LanguageChooser() {
   const { t } = useTranslation();
   const { preference, choose } = useLocalePreference();
   return (
-    <View className="gap-1">
-      <Text className="font-semibold text-ink">{t('language.label')}</Text>
+    <Field label={t('language.label')}>
       <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
         {LANGUAGE_OPTIONS.map((value) => (
           <Chip
@@ -183,7 +230,7 @@ function LanguageChooser() {
           />
         ))}
       </View>
-    </View>
+    </Field>
   );
 }
 

@@ -1,6 +1,8 @@
 import { Link } from 'expo-router';
+import { Download, Sheet, Trash2 } from 'lucide-react-native';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Pressable, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
@@ -16,6 +18,7 @@ import { useToast } from '@/providers/toast';
 
 /** Seus dados (ESCOPO 9): exportar (JSON completo ou CSV das tarefas) e excluir a conta. */
 export function PrivacySection() {
+  const { t } = useTranslation();
   const online = useIsOnline();
   const toast = useToast();
   const [busy, setBusy] = useState<'json' | 'csv' | 'delete' | null>(null);
@@ -34,12 +37,12 @@ export function PrivacySection() {
         );
       else
         await saveTextFile(
-          `questlist-tarefas-${date}.csv`,
+          `questlist-${t('privacy.csvName')}-${date}.csv`,
           tasksToCsv((data.tasks as Parameters<typeof tasksToCsv>[0]) ?? []),
           'text/csv',
         );
     } catch (err) {
-      toast({ message: `Não deu para exportar: ${(err as Error).message}` });
+      toast({ message: t('privacy.exportError', { message: (err as Error).message }) });
     } finally {
       setBusy(null);
     }
@@ -54,32 +57,27 @@ export function PrivacySection() {
       clearQueryCache();
       clearPrefs();
     } catch (err) {
-      toast({ message: `Não deu para excluir: ${(err as Error).message}` });
+      toast({ message: t('privacy.deleteError', { message: (err as Error).message }) });
       setBusy(null);
     }
   }
 
   return (
-    <View className="gap-2">
-      <Text className="font-semibold text-ink">Seus dados</Text>
-      <Link href="/privacidade" className="text-sm text-accent">
-        Política de privacidade
-      </Link>
-      <Text className="text-sm text-ink-muted">
-        Baixe tudo o que é seu: pastas, páginas, tarefas, histórico de XP, personagem e itens,
-        conquistas e comentários.
-      </Text>
+    <View className="gap-3">
+      <Text className="text-sm text-ink-muted">{t('privacy.exportHint')}</Text>
       <View className="flex-row flex-wrap gap-2">
         <Button
           variant="ghost"
-          label="Exportar (JSON)"
+          icon={Download}
+          label={t('privacy.exportJson')}
           disabled={!online || !!busy}
           loading={busy === 'json'}
           onPress={() => download('json')}
         />
         <Button
           variant="ghost"
-          label="Tarefas em planilha (CSV)"
+          icon={Sheet}
+          label={t('privacy.exportCsv')}
           disabled={!online || !!busy}
           loading={busy === 'csv'}
           onPress={() => download('csv')}
@@ -88,28 +86,30 @@ export function PrivacySection() {
       <Button
         variant="ghost"
         className="self-start"
-        label="Excluir minha conta"
+        icon={Trash2}
+        label={t('privacy.delete')}
         disabled={!online || !!busy}
         loading={busy === 'delete'}
         onPress={() => setConfirm(true)}
       />
       {confirm && (
         <PromptDialog
-          title="Excluir a conta?"
-          confirmLabel="Excluir para sempre"
-          fields={[{ key: 'confirm', placeholder: 'Digite EXCLUIR para confirmar' }]}
+          title={t('privacy.deleteTitle')}
+          confirmLabel={t('privacy.deleteConfirm')}
+          fields={[{ key: 'confirm', placeholder: t('privacy.deletePlaceholder') }]}
           onClose={close}
           onConfirm={({ confirm: typed }) => {
-            if (typed.toUpperCase() === 'EXCLUIR') remove();
-            else toast({ message: 'Digite EXCLUIR para confirmar.' });
+            if (typed.toUpperCase() === t('privacy.deleteWord')) remove();
+            else toast({ message: t('privacy.deleteType') });
           }}
         />
       )}
-      <Text className="text-xs text-ink-muted">
-        Excluir apaga suas pastas e seu histórico. Projetos com outras pessoas continuam com elas
-        (passam para o membro mais antigo), e as tarefas atribuídas a você voltam a ser só o seu
-        nome.
-      </Text>
+      <Text className="text-xs text-ink-muted">{t('privacy.deleteHint')}</Text>
+      <Link href="/privacidade" asChild>
+        <Pressable accessibilityRole="link" className="min-h-8 justify-center self-start">
+          <Text className="text-sm text-ink underline">{t('privacy.policy')}</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }

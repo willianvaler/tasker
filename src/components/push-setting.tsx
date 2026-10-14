@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { Switch, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 
 import { Text } from '@/components/ui/text';
+import { ToggleRow } from '@/components/ui/toggle-row';
 import { disablePush, enablePush, hasPushToken, pushSupported } from '@/lib/push';
 import { useIsOnline } from '@/providers/online';
 
-/** Perfil: avisos no celular (push). Na web, explica que os avisos ficam no 🔔. */
+/** Perfil: avisos no celular (push). Na web, explica que os avisos ficam no sino. */
 export function PushSetting() {
+  const { t } = useTranslation();
   const online = useIsOnline();
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -24,25 +27,20 @@ export function PushSetting() {
 
   return (
     <View className="gap-1">
-      <View className="flex-row items-center gap-3">
-        <View className="flex-1">
-          <Text className="font-semibold text-ink">Avisos no celular</Text>
-          <Text className="text-sm text-ink-muted">
-            {pushSupported
-              ? 'Quando alguém te atribuir uma tarefa, te mencionar ou entrar no seu projeto.'
-              : 'No navegador, os avisos aparecem no sino 🔔 (em tempo real). No app do celular, dá para receber push.'}
-          </Text>
+      {pushSupported ? (
+        <ToggleRow
+          title={t('push.title')}
+          hint={t('push.hint')}
+          value={enabled}
+          disabled={!online || busy}
+          onChange={toggle}
+        />
+      ) : (
+        <View className="gap-1">
+          <Text className="text-sm font-semibold text-ink">{t('push.title')}</Text>
+          <Text className="text-sm text-ink-muted">{t('push.webHint')}</Text>
         </View>
-        {pushSupported && (
-          <Switch
-            accessibilityLabel="Avisos no celular"
-            aria-checked={enabled}
-            value={enabled}
-            disabled={!online || busy}
-            onValueChange={toggle}
-          />
-        )}
-      </View>
+      )}
       {error && <Text className="text-sm text-danger">{error}</Text>}
     </View>
   );

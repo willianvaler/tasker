@@ -72,4 +72,8 @@ test('telas-chave', async ({ page }, testInfo) => {
   await page.goto('/');
   await openTab(page, 'Pastas');
   await shoot(page, 'pastas', project);
+
+  await openTab(page, 'Perfil');
+  await page.waitForTimeout(400);
+  await shoot(page, 'perfil', project);
 });
