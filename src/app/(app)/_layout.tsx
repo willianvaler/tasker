@@ -36,6 +36,8 @@ export default function AppLayout() {
               <Stack.Screen name="share/[id]" />
               <Stack.Screen name="notifications" />
               <Stack.Screen name="clan" />
+              <Stack.Screen name="teams" />
+              <Stack.Screen name="team/[id]" />
               <Stack.Screen name="character" />
               <Stack.Screen name="shop" />
               <Stack.Screen name="ajuda" />

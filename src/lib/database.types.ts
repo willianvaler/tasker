@@ -1202,6 +1202,9 @@ isOneToOne: false
 "remove_member":
 { Args: { "p_folder_id": string,"p_user_id": string }; Returns: undefined
                            },
+"remove_team_member":
+{ Args: { "p_team_id": string,"p_user_id": string }; Returns: undefined
+                           },
 "reset_attributes":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
@@ -1240,6 +1243,9 @@ isOneToOne: false
                            },
 "set_task_status":
 { Args: { "p_status": Database["public"]['Enums']["task_status"],"p_task_id": string }; Returns: Json
+                           },
+"set_team_member_role":
+{ Args: { "p_role": Database["public"]['Enums']["team_role"],"p_team_id": string,"p_user_id": string }; Returns: undefined
                            },
 "start_project_boss":
 { Args: { "p_deadline": string,"p_folder_id": string }; Returns: {

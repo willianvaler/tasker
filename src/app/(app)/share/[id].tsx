@@ -1,6 +1,6 @@
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Copy, Link2, LogOut, Send, X } from 'lucide-react-native';
+import { Copy, Link2, LogOut, Send, Users, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, Share, View } from 'react-native';
@@ -10,7 +10,7 @@ import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
+import { ActionMenu, ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
@@ -29,6 +29,7 @@ import {
 } from '@/lib/queries/projects';
 import { Text } from '@/components/ui/text';
 import { roleCan } from '@/lib/permissions';
+import { teamRoleAtLeast, useTeamMutations, useTeams } from '@/lib/queries/teams';
 import { findFolder, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
@@ -60,10 +61,21 @@ export default function ShareScreen() {
   const [link, setLink] = useState<string | null>(null);
   const [linking, setLinking] = useState<string | null>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<{ member: Member; leaving: boolean }>();
+  const [pickingTeam, setPickingTeam] = useState(false);
+  const teams = useTeams();
+  const teamMutations = useTeamMutations();
 
   const canManage = roleCan(role, 'member.manage');
   const canInvite = canManage;
-  const teamProject = !!folder && 'team_id' in folder && !!folder.team_id;
+  const teamId = folder && 'team_id' in folder ? folder.team_id : null;
+  const teamProject = !!teamId;
+  const team = teams.data?.find((x) => x.id === teamId);
+  const canMoveTeam = roleCan(role, 'project.delete');
+  const targetTeams = (teams.data ?? []).filter(
+    (x) => x.id !== teamId && teamRoleAtLeast(x.myRole, 'admin'),
+  );
+  const moveTo = (next: string | null) =>
+    teamMutations.setProjectTeam.mutate({ folderId: id, team: next }, { onError });
   const folderIds = folder
     ? [folder.id, ...('children' in folder ? folder.children.map((c) => c.id) : [])]
     : [];
@@ -168,6 +180,34 @@ export default function ShareScreen() {
                 disabled={!online}
                 onPress={() => generate()}
               />
+            )}
+          </View>
+        )}
+
+        {(teamProject || (canMoveTeam && targetTeams.length > 0)) && (
+          <View className="gap-2">
+            <SectionLabel title={t('team.eyebrow')} className="pt-0" />
+            <Text className="text-sm text-ink">
+              {team ? t('team.teamOf', { name: team.name }) : t('team.noTeam')}
+            </Text>
+            {canMoveTeam && online && (
+              <View className="flex-row flex-wrap gap-2">
+                {targetTeams.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    icon={Users}
+                    label={t('team.moveToTeam')}
+                    onPress={() => setPickingTeam(true)}
+                  />
+                )}
+                {teamProject && (
+                  <Button
+                    variant="ghost"
+                    label={t('team.removeFromTeam')}
+                    onPress={() => moveTo(null)}
+                  />
+                )}
+              </View>
             )}
           </View>
         )}
@@ -289,6 +329,13 @@ export default function ShareScreen() {
         )}
       </ScrollView>
 
+      {pickingTeam && (
+        <ActionMenu
+          title={t('team.moveTitle')}
+          actions={targetTeams.map((x) => ({ label: x.name, onPress: () => moveTo(x.id) }))}
+          onClose={() => setPickingTeam(false)}
+        />
+      )}
       {confirm && (
         <ConfirmDialog
           title={

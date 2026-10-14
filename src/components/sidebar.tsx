@@ -13,9 +13,10 @@ import {
   Shield,
   ShoppingBag,
   Sun,
+  type LucideIcon,
   User,
   UserCheck,
-  type LucideIcon,
+  Users,
 } from 'lucide-react-native';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -297,6 +298,12 @@ function SidebarFooter({ online }: { online: boolean }) {
           label={unread ? t('nav.notificationsUnread', { count: unread }) : t('nav.notifications')}
           active={pathname === '/notifications'}
           badge={unread > 0 ? <Badge count={unread} /> : null}
+        />
+        <FooterLink
+          href="/teams"
+          icon={Users}
+          label={t('nav.teams')}
+          active={pathname === '/teams' || pathname.startsWith('/team/')}
         />
         <FooterLink
           href="/clan"

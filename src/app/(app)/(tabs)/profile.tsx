@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { LogOut, RefreshCw, Shield, ShoppingBag, Swords, Trash2 } from 'lucide-react-native';
+import { LogOut, RefreshCw, Shield, ShoppingBag, Swords, Trash2, Users } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -164,6 +164,12 @@ function ProfileForm({ profile }: { profile: Profile }) {
               icon={ShoppingBag}
               label={t('nav.shop')}
               onPress={() => router.push('/shop')}
+            />
+            <Button
+              variant="ghost"
+              icon={Users}
+              label={t('nav.teams')}
+              onPress={() => router.push('/teams')}
             />
             <Button
               variant="ghost"

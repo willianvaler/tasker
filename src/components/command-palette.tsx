@@ -18,9 +18,9 @@ import {
   SunMoon,
   Swords,
   Trash2,
+  type LucideIcon,
   User,
   Users,
-  type LucideIcon,
 } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { createContext, useContext, useState, type ReactNode } from 'react';
@@ -202,6 +202,7 @@ function Palette({
       run: go('/character'),
     },
     { id: 'go-shop', label: t('nav.shop'), icon: icon(ShoppingBag), group: 0, run: go('/shop') },
+    { id: 'go-teams', label: t('nav.teams'), icon: icon(Users), group: 0, run: go('/teams') },
     { id: 'go-clan', label: t('nav.clan'), icon: icon(Shield), group: 0, run: go('/clan') },
     { id: 'go-trash', label: t('trash.title'), icon: icon(Trash2), group: 0, run: go('/lixeira') },
     { id: 'go-sync', label: t('sync.title'), icon: icon(RefreshCw), group: 0, run: go('/sync') },

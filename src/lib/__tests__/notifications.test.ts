@@ -42,11 +42,11 @@ describe('textos das notificações (tela 🔔 e push)', () => {
   test('time: convite, pedido e entrada abrem o time', () => {
     const invited = {
       kind: 'team_invited',
-      payload: { by: 'Ana', team_id: 'tm1', team_name: 'Família' },
+      payload: { by: 'Ana', team_id: 'tm1', team_name: 'Família', token: 'tok' },
     };
     expect(describeNotification(invited)).toEqual({
       text: 'Ana te convidou para o time Família',
-      teamId: 'tm1',
+      teamInvite: 'tok',
     });
     expect(
       describeNotification({
@@ -54,6 +54,11 @@ describe('textos das notificações (tela 🔔 e push)', () => {
         payload: { by: 'Caio', team_id: 'tm1', team_name: 'Família' },
       }).text,
     ).toBe('Caio pediu para entrar no time Família');
-    expect(pushMessages(invited, ['a'])[0].data.url).toBe('/team/tm1');
+    expect(pushMessages(invited, ['a'])[0].data.url).toBe('/team-invite/tok');
+    expect(
+      pushMessages({ kind: 'join_approved', payload: { team_id: 'tm1', team_name: 'Família' } }, [
+        'a',
+      ])[0].data.url,
+    ).toBe('/team/tm1');
   });
 });

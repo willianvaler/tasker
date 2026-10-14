@@ -18,6 +18,10 @@ export const keys = {
   notifications: ['notifications'] as const,
   templates: ['templates'] as const,
   clan: ['clan'] as const,
+  teams: ['teams'] as const,
+  team: (teamId: string) => ['team', teamId] as const,
+  teamAdmin: (teamId: string) => ['team-admin', teamId] as const,
+  myTeamInvites: ['team-invites', 'mine'] as const,
   projectBoss: (rootId: string) => ['project-boss', rootId] as const,
   board: (bossId: string) => ['board', bossId] as const,
 };

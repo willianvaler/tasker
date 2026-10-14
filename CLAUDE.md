@@ -128,7 +128,7 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 - `src/i18n/` (i18next; chaves tipadas pelo `pt-BR.json`), `lib/permissions.ts` (`can()`), `lib/tokens.ts` (cores, durações, medidas), `lib/fonts.ts`.
 - `lib/shortcuts.ts` (registro) + `lib/use-shortcut.ts`; os atalhos de lista e globais são tratados em `components/list-keys.tsx`; a seleção da lista mora em `lib/selection.ts` (store com assinatura por linha) e as telas registram a ordem com `useSelectableList`.
 - `components/new-menu.tsx` (menu Novo), `components/command-palette.tsx` (Ctrl+K), `components/icon-picker.tsx` + `lib/icon-names.ts`/`lib/icons.ts` (ícones `lucide:id`), `components/item-icon.tsx`, `components/ui/*` (Button/IconButton, Checkbox/StampBox, Sheet, Popover/MenuItem, SectionLabel, EmptyState, Avatar/PersonRow, ToggleRow, Text).
-- Rotas novas: `/task/new` (criação avançada), `/ajuda`, `/design` (só em desenvolvimento), `/sync` (estado da sincronização, lê só do banco local), `/lixeira`.
+- Rotas novas: `/task/new` (criação avançada), `/ajuda`, `/design` (só em desenvolvimento), `/sync` (estado da sincronização, lê só do banco local), `/lixeira`, `/teams` e `/team/[id]` (times: pessoas, convites, pedidos, projetos, configurações, histórico; `lib/queries/teams.ts`), `/team-invite/[token]` (fora do login).
 - Sync (Fase D, D82): `lib/sync/` (schema do SQLite local, `db` por plataforma, `connector` com o `uploadData`), `providers/sync.tsx`, `powersync/` (config do serviço e Sync Streams). Tabela sincronizável nova: publicação `powersync` (migração), `sync-config.yaml`, `lib/sync/schema.ts` e `WRITABLE` no `connector.ts`. Operação, backup e lixeira: `docs/OPERACOES.md`.
 
 ## Regras do projeto

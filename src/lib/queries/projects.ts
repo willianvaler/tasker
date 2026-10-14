@@ -252,12 +252,12 @@ export function useAcceptInvite() {
 }
 
 /** Link do convite. Na web, o endereço atual; no app, EXPO_PUBLIC_WEB_URL (cai na web sem o app). */
-export function inviteUrl(token: string) {
+export function inviteUrl(token: string, route: 'invite' | 'team-invite' = 'invite') {
   const base =
     process.env.EXPO_PUBLIC_WEB_URL ||
     (typeof window !== 'undefined' && window.location?.origin) ||
     'http://localhost:8081';
-  return `${base.replace(/\/$/, '')}/invite/${token}`;
+  return `${base.replace(/\/$/, '')}/${route}/${token}`;
 }
 
 // ============================================================
