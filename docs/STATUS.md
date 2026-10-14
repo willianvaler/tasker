@@ -56,7 +56,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## Fase E — Times, cargos e projetos (16/11 – 20/11)
 
-- [ ] **E1** Tabelas `teams`, `team_members` (Dono/Admin/Membro/Convidado), RLS + pgTAP de isolamento entre times
+- [x] **E1** Tabelas `teams`, `team_members` (Dono/Admin/Membro/Convidado), RLS + pgTAP de isolamento entre times
 - [ ] **E2** Cargo no projeto sobrescrevendo o do time; presets via permissões atômicas; `can()` no banco usado pelas policies
 - [ ] **E3** Convite com validade/limite de usos e por e-mail; pedido de entrada com aprovação opcional
 - [ ] **E4** Tela Time e cargos; sempre 1 Dono; log de auditoria do time

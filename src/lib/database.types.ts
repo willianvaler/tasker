@@ -587,6 +587,52 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"team_members": {
+                  Row: {
+                    "joined_at": string,"role": Database["public"]['Enums']["team_role"],"team_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "joined_at"?: string,"role"?: Database["public"]['Enums']["team_role"],"team_id": string,"user_id": string
+                  }
+                  Update: {
+                    "joined_at"?: string,"role"?: Database["public"]['Enums']["team_role"],"team_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "team_members_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "team_members_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"teams": {
+                  Row: {
+                    "created_at": string,"created_by": string,"icon": string | null,"id": string,"join_approval": boolean,"name": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string,"icon"?: string | null,"id"?: string,"join_approval"?: boolean,"name": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string,"icon"?: string | null,"id"?: string,"join_approval"?: boolean,"name"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "teams_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"user_achievements": {
                   Row: {
                     "achievement_key": string,"unlocked_at": string,"user_id": string
@@ -959,6 +1005,9 @@ isOneToOne: false
 "is_folder_member":
 { Args: { "p_folder_id": string,"p_min_role"?: Database["public"]['Enums']["folder_role"] }; Returns: boolean
                            },
+"is_team_member":
+{ Args: { "p_min_role"?: Database["public"]['Enums']["team_role"],"p_team_id": string }; Returns: boolean
+                           },
 "join_clan":
 { Args: { "p_token": string }; Returns: string
                            },
@@ -1063,6 +1112,9 @@ isOneToOne: false
 "task_cycle_kind":
 { Args: { "p_recurrence": Json,"p_reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"p_view_type": Database["public"]['Enums']["page_view_type"] }; Returns: string
                            },
+"team_role_rank":
+{ Args: { "p_role": Database["public"]['Enums']["team_role"] }; Returns: number
+                           },
 "trash_list":
 { Args: Record<PropertyKey, never>; Returns: {
               "deleted_at": string,"id": string,"items": number,"kind": string,"title": string
@@ -1088,7 +1140,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "folder_role": "owner"|"editor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban","task_status": "todo"|"doing"|"done"
+            "folder_role": "owner"|"editor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -1208,7 +1260,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "folder_role": ["owner", "editor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban"],"task_status": ["todo", "doing", "done"]
+            "folder_role": ["owner", "editor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
           }
         }
 } as const
