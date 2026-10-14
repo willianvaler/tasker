@@ -49,7 +49,8 @@
     "paletteOpen": "Search or run (command palette)",
     "taskAdvanced": "Advanced creation (all fields)",
     "taskEdit": "Edit the selected task (panel)",
-    "formSave": "Save the advanced form"
+    "formSave": "Save the advanced form",
+    "helpOpen": "Open help and the shortcut list"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -810,5 +811,20 @@
     "discardMessage": "What you wrote here won't be saved.",
     "discard": "Discard",
     "created": "Task created in {{page}}"
+  },
+  "help": {
+    "title": "Help",
+    "intro": "The essentials fit in one sentence: type and press Enter. The rest is here, in plain words. Full articles are coming soon; for now, the shortcuts.",
+    "shortcuts": "Keyboard shortcuts",
+    "search": "Search shortcuts (e.g. date, rename)",
+    "none": "No shortcut with that name.",
+    "scope_global": "Anywhere",
+    "scope_list": "In a list (with a task selected)",
+    "scope_editor": "In panels and forms",
+    "scope_capture": "In quick capture",
+    "scope_menu": "Inside the New menu",
+    "typingNote": "Shortcuts without Ctrl/⌘ don't work while you type in a field (Esc leaves the field).",
+    "browserNote": "In the browser, Ctrl+N and Ctrl+Shift+N belong to the browser: use Alt+N and Alt+Shift+N.",
+    "link": "Help"
   }
 }

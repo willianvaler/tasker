@@ -31,6 +31,7 @@ export const SHORTCUTS = [
   },
   { id: 'task.edit', combos: ['mod+e'], description: 'shortcuts.taskEdit', scope: 'list' },
   { id: 'form.save', combos: ['mod+enter'], description: 'shortcuts.formSave', scope: 'editor' },
+  { id: 'help.open', combos: ['?'], description: 'shortcuts.helpOpen', scope: 'global' },
   {
     id: 'palette.open',
     combos: ['mod+k', '/'],

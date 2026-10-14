@@ -49,7 +49,8 @@
     "paletteOpen": "Buscar o ejecutar (paleta de comandos)",
     "taskAdvanced": "Creación avanzada (todos los campos)",
     "taskEdit": "Editar la tarea seleccionada (panel)",
-    "formSave": "Guardar el formulario avanzado"
+    "formSave": "Guardar el formulario avanzado",
+    "helpOpen": "Abrir la ayuda y la lista de atajos"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -810,5 +811,20 @@
     "discardMessage": "Lo que escribiste aquí no se guardará.",
     "discard": "Descartar",
     "created": "Tarea creada en {{page}}"
+  },
+  "help": {
+    "title": "Ayuda",
+    "intro": "Lo esencial cabe en una frase: escribe y presiona Enter. El resto está aquí, en palabras simples. Los artículos completos llegan pronto; por ahora, los atajos.",
+    "shortcuts": "Atajos de teclado",
+    "search": "Buscar atajo (ej.: fecha, renombrar)",
+    "none": "Ningún atajo con ese nombre.",
+    "scope_global": "En cualquier pantalla",
+    "scope_list": "En la lista (con una tarea seleccionada)",
+    "scope_editor": "En paneles y formularios",
+    "scope_capture": "En la captura rápida",
+    "scope_menu": "Dentro del menú Nuevo",
+    "typingNote": "Los atajos sin Ctrl/⌘ no funcionan mientras escribes en un campo (Esc sale del campo).",
+    "browserNote": "En el navegador, Ctrl+N y Ctrl+Shift+N son del navegador: usa Alt+N y Alt+Shift+N.",
+    "link": "Ayuda"
   }
 }

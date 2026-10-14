@@ -198,6 +198,7 @@ export function ListKeys() {
     return undoLast();
   });
   useShortcut('app.sidebar', () => toggleSidebar());
+  useShortcut('help.open', () => router.navigate('/ajuda'));
   useShortcut('go.today', () => router.navigate('/today'));
   useShortcut('go.inbox', () => router.navigate('/inbox'));
   useShortcut('go.mine', () => router.navigate('/mine'));

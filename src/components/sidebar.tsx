@@ -3,6 +3,7 @@ import {
   Bell,
   ChevronDown,
   ChevronRight,
+  CircleHelp,
   House,
   Inbox,
   LayoutGrid,
@@ -305,6 +306,12 @@ function SidebarFooter({ online }: { online: boolean }) {
           icon={ShoppingBag}
           label={t('nav.shop')}
           active={pathname === '/shop'}
+        />
+        <FooterLink
+          href="/ajuda"
+          icon={CircleHelp}
+          label={t('help.link')}
+          active={pathname === '/ajuda'}
         />
         <View
           accessibilityLabel={online ? t('nav.online') : t('nav.offline')}

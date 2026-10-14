@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import {
   CheckSquare,
+  CircleHelp,
   Folder,
   House,
   Inbox,
@@ -156,6 +157,14 @@ function Palette({
       icon: icon(PanelLeft),
       group: 0,
       run: toggleSidebar,
+    },
+    {
+      id: 'help',
+      label: t('palette.help'),
+      hint: '?',
+      icon: icon(CircleHelp),
+      group: 0,
+      run: go('/ajuda'),
     },
     // Telas
     { id: 'go-home', label: t('nav.home'), icon: icon(House), group: 0, run: go('/') },

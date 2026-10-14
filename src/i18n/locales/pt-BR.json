@@ -49,7 +49,8 @@
     "paletteOpen": "Buscar ou executar (paleta de comandos)",
     "taskAdvanced": "Criação avançada (todos os campos)",
     "taskEdit": "Editar a tarefa selecionada (painel)",
-    "formSave": "Salvar o formulário avançado"
+    "formSave": "Salvar o formulário avançado",
+    "helpOpen": "Abrir a ajuda e a lista de atalhos"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -810,5 +811,20 @@
     "discardMessage": "O que você escreveu aqui não vai ser salvo.",
     "discard": "Descartar",
     "created": "Tarefa criada em {{page}}"
+  },
+  "help": {
+    "title": "Ajuda",
+    "intro": "O essencial cabe numa frase: digite e aperte Enter. O resto está aqui, em linguagem simples. Os artigos completos chegam em breve; por enquanto, os atalhos.",
+    "shortcuts": "Atalhos de teclado",
+    "search": "Buscar atalho (ex.: data, renomear)",
+    "none": "Nenhum atalho com esse nome.",
+    "scope_global": "Em qualquer tela",
+    "scope_list": "Na lista (com uma tarefa selecionada)",
+    "scope_editor": "Em painéis e formulários",
+    "scope_capture": "Na captura rápida",
+    "scope_menu": "Dentro do menu Novo",
+    "typingNote": "Atalhos sem Ctrl/⌘ não valem enquanto você digita num campo (Esc sai do campo).",
+    "browserNote": "No navegador, Ctrl+N e Ctrl+Shift+N são do próprio navegador: use Alt+N e Alt+Shift+N.",
+    "link": "Ajuda"
   }
 }

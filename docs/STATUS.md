@@ -37,7 +37,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **C6** Atalhos da V2 §9 no registro (seleção, J/K, Space/X, 1-2-3, D, A, G+H/I/M, Ctrl+D, Ctrl+B, Delete com desfazer) — feitos: Espaço/X, 1-2-3, D, A, Ctrl+↑↓, Delete com desfazer, Ctrl+D, Ctrl+Z, Ctrl+B, G H/I/M, Q/N. Pendentes: →← (expandir/recolher, junto da árvore WBS na G), Shift+Z (refazer), remapear atalhos
 - [x] **C7** Paleta de comandos (Ctrl+K) lendo o registro
 - [x] **C8** Criação/edição avançada: painel lateral (desktop) / tela deslizante (celular), seções recolhíveis, Ctrl+Shift+N, Ctrl+E, Ctrl+Enter
-- [ ] **C9** Rota `/ajuda` com a tabela de atalhos gerada do registro e o atalho `?`
+- [x] **C9** Rota `/ajuda` com a tabela de atalhos gerada do registro e o atalho `?`
 - [ ] **C10** E2E do aceite
 
 ## Fase D — Offline-first e sync (04/11 – 13/11)
