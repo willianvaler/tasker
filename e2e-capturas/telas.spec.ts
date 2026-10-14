@@ -38,6 +38,9 @@ test('telas-chave', async ({ page }, testInfo) => {
   await page.getByRole('checkbox', { name: 'Concluir Ligar para a mãe' }).first().click();
   await page.waitForTimeout(500);
   await shoot(page, 'hoje', project);
+  await openTab(page, 'Início');
+  await page.waitForTimeout(400);
+  await shoot(page, 'inicio', project);
 
   // Página em lista
   await createPage(page, { folder: 'Mercado', name: 'Lista da semana', type: 'Lista' });

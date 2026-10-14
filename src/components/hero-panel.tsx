@@ -1,4 +1,6 @@
 import { Link } from 'expo-router';
+import { Zap } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { Avatar, classOf } from '@/components/character';
@@ -11,46 +13,55 @@ import { useGameState, useUseSkill, type GameState } from '@/lib/queries/game';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
-/** Painel do personagem (Hoje e Início no computador): nível, habilidade do dia e os bosses. */
+/**
+ * Personagem e bosses na coluna da direita do Início (computador): nível, XP e ouro em mono, a
+ * habilidade do dia e as faixas dos bosses. Sem caixas: só divisórias finas.
+ */
 export function HeroPanel() {
+  const { t } = useTranslation();
   const { data: game } = useGameState();
   if (!game?.enabled) return null;
   const cls = classOf(game);
   return (
-    <View aria-label="Personagem e boss da semana" className="gap-4">
-      <View className="gap-3 rounded-lg border border-line bg-surface p-4">
+    <View aria-label={t('hero.label')} className="gap-6">
+      <View className="gap-3">
         <Link href="/character" asChild>
           <Pressable
             accessibilityRole="link"
-            accessibilityLabel="Abrir personagem"
-            className="flex-row items-center gap-3 active:opacity-80"
+            accessibilityLabel={t('hero.open')}
+            className="flex-row items-center gap-3 rounded hover:bg-wash"
           >
             <Avatar game={game} size="md" />
             <View className="flex-1 gap-1">
-              <Text className="text-base font-semibold text-ink">
-                {cls ? `${CLASSES[cls].icon} ${CLASSES[cls].name}` : '🧭 Escolha sua classe'} · Nv{' '}
-                {game.level}
+              <Text className="font-serif text-base text-ink">
+                {cls ? CLASSES[cls].name : t('hero.pickClass')}
               </Text>
-              <ProgressBar
-                value={game.into_level / game.for_next}
-                label={`Nível ${game.level}: ${game.into_level} de ${game.for_next} XP`}
-              />
-              <Text className="text-xs text-ink-muted">
-                {game.into_level}/{game.for_next} XP · 🔥 {game.streak} · 🪙 {game.gold}
-                {(game.points ?? 0) > 0 ? ` · ✨ ${game.points} ponto(s)` : ''}
+              <Text className="font-mono text-xs text-ink-muted">
+                {t('nav.level', { level: game.level })} ·{' '}
+                {t('nav.xp', { into: game.into_level, next: game.for_next })} ·{' '}
+                {t('hero.gold', { gold: game.gold })}
               </Text>
             </View>
           </Pressable>
         </Link>
+        <ProgressBar
+          value={game.into_level / game.for_next}
+          label={t('nav.xp', { into: game.into_level, next: game.for_next })}
+        />
+        {(game.points ?? 0) > 0 && (
+          <Text className="font-mono text-xs text-accent">
+            {t('hero.points', { count: game.points ?? 0 })}
+          </Text>
+        )}
         {cls && <SkillButton game={game} />}
       </View>
       {game.boss && (
-        <View className="gap-2 rounded-lg border border-line bg-surface p-4">
+        <View className="gap-3 border-t border-line pt-4">
           <BossLine boss={game.boss} />
-          <Text className="text-xs text-ink-muted">
-            ⚔️ {game.damage_today} de dano hoje · 💥 maior golpe: {game.best_hit}
+          <Text className="font-mono text-xs text-ink-muted">
+            {t('hero.damageToday', { damage: game.damage_today, best: game.best_hit })}
           </Text>
-          {game.clan_boss && <BossLine boss={game.clan_boss} prefix="Clã: " />}
+          {game.clan_boss && <BossLine boss={game.clan_boss} prefix={t('boss.clanPrefix')} />}
         </View>
       )}
     </View>
@@ -58,6 +69,7 @@ export function HeroPanel() {
 }
 
 function SkillButton({ game }: { game: GameState }) {
+  const { t } = useTranslation();
   const use = useUseSkill();
   const online = useIsOnline();
   const toast = useToast();
@@ -67,14 +79,17 @@ function SkillButton({ game }: { game: GameState }) {
   return (
     <Button
       variant={game.skill_active ? 'ghost' : 'primary'}
-      label={game.skill_active ? `⚡ ${skill.name} ativa hoje` : `⚡ Usar ${skill.name}`}
+      icon={Zap}
+      label={t(game.skill_active ? 'hero.skillActive' : 'hero.useSkill', { skill: skill.name })}
       accessibilityHint={skill.text}
       disabled={game.skill_active || !online}
       loading={use.isPending}
+      className="self-start"
       onPress={() =>
         use.mutate(undefined, {
-          onSuccess: () => toast({ message: `⚡ ${skill.name}! ${skill.text}` }),
-          onError: (e) => toast({ message: `Não deu certo: ${e.message}` }),
+          onSuccess: () =>
+            toast({ message: t('hero.skillUsed', { skill: skill.name, text: skill.text }) }),
+          onError: (e) => toast({ message: t('hero.error', { message: e.message }) }),
         })
       }
     />

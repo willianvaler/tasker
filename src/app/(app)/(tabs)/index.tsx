@@ -1,5 +1,6 @@
 import { Link, useIsFocused, type Href } from 'expo-router';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { GameHeader } from '@/components/game-bar';
@@ -10,7 +11,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { TaskRow } from '@/components/tasks/task-row';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Grid } from '@/components/ui/grid';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { addDays, formatShortDate } from '@/lib/parser/dates';
@@ -26,12 +27,15 @@ import {
 import { pageLabel, useTree } from '@/lib/queries/tree';
 import { asRecurrence, isHabitDueOn } from '@/lib/recurrence';
 
-/** Quantos itens cada cartão mostra antes do "ver tudo". */
+/** Quantos itens cada seção mostra antes do "ver tudo". */
 const PREVIEW = 6;
 
 // Início (D69): visão geral do que está pendente — atrasadas e de hoje, hábitos do dia, próximos
-// 7 dias, Caixa de entrada e (em projetos) o que foi atribuído a você — e o personagem com o boss.
+// 7 dias, Caixa de entrada e (em projetos) o que foi atribuído a você. Sem cartões de número em
+// grade (V2 §12.1): o resumo é uma linha em mono, e as seções são listas com rótulo, sem caixa.
+// No computador, o personagem e o boss ficam numa coluna à direita.
 export default function HomeScreen() {
+  const { t } = useTranslation();
   const today = useToday();
   const profile = useProfile();
   const tree = useTree();
@@ -47,11 +51,11 @@ export default function HomeScreen() {
   const inProject = !!tree.data?.folders.some((f) => f.is_shared);
   const mine = useMyTasks({ enabled: inProject });
 
-  const overdue = (todayTasks.data ?? []).filter((t) => t.due_date! < today);
-  const dueToday = (todayTasks.data ?? []).filter((t) => t.due_date === today);
+  const overdue = (todayTasks.data ?? []).filter((task) => task.due_date! < today);
+  const dueToday = (todayTasks.data ?? []).filter((task) => task.due_date === today);
   // Da Caixa de entrada, só o que ainda não tem data (o que tem já aparece em "agora" ou nos próximos dias)
   const inboxOpen = (inbox.data ?? []).filter(
-    (t) => !t.parent_task_id && t.status !== 'done' && !t.due_date,
+    (task) => !task.parent_task_id && task.status !== 'done' && !task.due_date,
   );
   const todaysHabits = (habits.data ?? []).filter(
     (h) => h.habit_kind === 'plusminus' || isHabitDueOn(asRecurrence(h.recurrence), today),
@@ -70,193 +74,189 @@ export default function HomeScreen() {
   const nothingPending =
     !todayTasks.isPending &&
     overdue.length + dueToday.length + pendingHabits.length + inboxOpen.length === 0;
+  const labelOf = (task: TaskWithPage) => (task.page ? pageLabel(task.page) : undefined);
 
-  const tiles = (
-    <Grid breakpoints={[300, 300, 300]} gap={10}>
-      <Tile href="/today" label="Atrasadas" value={overdue.length} alert={overdue.length > 0} />
-      <Tile href="/today" label="Hoje" value={dueToday.length} />
-      <Tile
-        href="/habits"
-        label="Hábitos"
-        value={withGoal.length ? `${habitsDone}/${withGoal.length}` : todaysHabits.length}
-      />
-      <Tile href="/inbox" label="Sem data" value={inboxOpen.length} />
-    </Grid>
+  // Resumo em uma linha: cada número leva para a tela dele
+  const summary = (
+    <View className="flex-row flex-wrap items-center gap-x-3 gap-y-1">
+      <Stat href="/today" warn={overdue.length > 0}>
+        {t('home.overdue', { count: overdue.length })}
+      </Stat>
+      <Stat href="/today">{t('home.today', { count: dueToday.length })}</Stat>
+      <Stat href="/habits">
+        {withGoal.length
+          ? t('home.habits', { done: habitsDone, total: withGoal.length })
+          : t('home.habitsCount', { count: todaysHabits.length })}
+      </Stat>
+      <Stat href="/inbox">{t('home.noDate', { count: inboxOpen.length })}</Stat>
+    </View>
   );
 
-  const left = (
-    <View className="gap-4">
-      <Card
-        title="Para fazer agora"
-        link={{ href: '/today', label: 'Abrir Hoje' }}
-        empty={
-          overdue.length + dueToday.length === 0 ? 'Nada atrasado nem para hoje. 🎉' : undefined
-        }
+  const lists = (
+    <View>
+      <Section
+        title={t('home.now')}
+        count={overdue.length + dueToday.length}
+        link={{ href: '/today', label: t('home.openToday') }}
+        empty={overdue.length + dueToday.length === 0 ? t('home.nowEmpty') : undefined}
       >
-        {[...overdue, ...dueToday].slice(0, PREVIEW).map((t) => (
-          <TaskRow key={t.id} task={t} today={today} pageLabel={labelOf(t)} />
+        {[...overdue, ...dueToday].slice(0, PREVIEW).map((task) => (
+          <TaskRow key={task.id} task={task} today={today} pageLabel={labelOf(task)} />
         ))}
         <More count={overdue.length + dueToday.length} />
-      </Card>
+      </Section>
 
-      <Card
-        title="Próximos 7 dias"
-        empty={(upcoming.data ?? []).length === 0 ? 'Nada marcado para a semana.' : undefined}
+      <Section
+        title={t('home.upcoming')}
+        count={(upcoming.data ?? []).length}
+        empty={(upcoming.data ?? []).length === 0 ? t('home.upcomingEmpty') : undefined}
       >
-        {(upcoming.data ?? []).slice(0, PREVIEW).map((t) => (
-          <TaskRow key={t.id} task={t} today={today} pageLabel={labelOf(t)} />
+        {(upcoming.data ?? []).slice(0, PREVIEW).map((task) => (
+          <TaskRow key={task.id} task={task} today={today} pageLabel={labelOf(task)} />
         ))}
         <More count={(upcoming.data ?? []).length} />
-      </Card>
+      </Section>
 
-      <Card
-        title="Caixa de entrada, sem data"
-        link={{ href: '/inbox', label: 'Abrir' }}
-        empty={inboxOpen.length === 0 ? 'Nada solto: tudo tem data ou pasta.' : undefined}
+      <Section
+        title={t('home.inbox')}
+        count={inboxOpen.length}
+        link={{ href: '/inbox', label: t('home.open') }}
+        empty={inboxOpen.length === 0 ? t('home.inboxEmpty') : undefined}
       >
-        {inboxOpen.slice(0, PREVIEW).map((t) => (
-          <TaskRow key={t.id} task={t} today={today} />
+        {inboxOpen.slice(0, PREVIEW).map((task) => (
+          <TaskRow key={task.id} task={task} today={today} />
         ))}
         <More count={inboxOpen.length} />
-      </Card>
+      </Section>
 
       {assigned.length > 0 && (
-        <Card title="Atribuídas a mim" link={{ href: '/mine', label: 'Ver todas' }}>
-          {assigned.slice(0, PREVIEW).map((t) => (
-            <TaskRow key={t.id} task={t} today={today} pageLabel={labelOf(t)} />
+        <Section
+          title={t('home.mine')}
+          count={assigned.length}
+          link={{ href: '/mine', label: t('home.seeAll') }}
+        >
+          {assigned.slice(0, PREVIEW).map((task) => (
+            <TaskRow key={task.id} task={task} today={today} pageLabel={labelOf(task)} />
           ))}
           <More count={assigned.length} />
-        </Card>
+        </Section>
       )}
     </View>
   );
 
-  const habitsCard = (
-    <Card
-      title={
-        withGoal.length ? `Hábitos de hoje (${habitsDone}/${withGoal.length})` : 'Hábitos de hoje'
-      }
-      link={{ href: '/habits', label: 'Todos os hábitos' }}
+  const habitsSection = (
+    <Section
+      title={t('home.habitsToday')}
+      count={withGoal.length ? `${habitsDone}/${withGoal.length}` : undefined}
+      link={{ href: '/habits', label: t('home.allHabits') }}
       empty={
         todaysHabits.length === 0
-          ? 'Nenhum hábito ainda.'
+          ? t('home.habitsNone')
           : pendingHabits.length === 0
-            ? 'Todos feitos hoje! 🔥'
+            ? t('home.habitsAllDone')
             : undefined
       }
     >
       {pendingHabits.map((h) => (
         <HabitRow key={h.id} task={h} dates={habitDates.datesOf(h)} today={today} />
       ))}
-    </Card>
+    </Section>
   );
 
   if (!focused) return <Screen size="wide">{null}</Screen>;
 
   return (
     <Screen size="wide">
-      <ScreenHeader
-        title={firstName ? `Olá, ${firstName}` : 'Início'}
-        right={
-          <View className="flex-row items-center">
-            {width < 768 && <ThemeToggle />}
-            <NotificationsBell />
-          </View>
-        }
-      />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-clear">
-        <Text className="text-ink-muted">
-          {formatShortDate(today)} ·{' '}
-          {nothingPending ? 'nada pendente por enquanto' : 'o que está pendente'}
-        </Text>
-        {!wide && <GameHeader />}
-        {tiles}
-        {wide ? (
-          <View className="flex-row items-start gap-6">
-            <View className="flex-1">{left}</View>
-            <View className="w-[420px] gap-4">
-              <HeroPanel />
-              {habitsCard}
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
+        <View className="w-full max-w-[1120px] self-center">
+          <ScreenHeader
+            eyebrow={`${formatShortDate(today)} · ${t(nothingPending ? 'home.nothing' : 'home.pending')}`}
+            title={firstName ? t('home.hello', { name: firstName }) : t('home.title')}
+            right={
+              width < 768 && (
+                <>
+                  <ThemeToggle />
+                  <NotificationsBell />
+                </>
+              )
+            }
+          />
+          {summary}
+          {wide ? (
+            <View className="mt-4 flex-row items-start gap-12">
+              <View className="flex-1">
+                {habitsSection}
+                {lists}
+              </View>
+              <View className="w-80 pt-6">
+                <HeroPanel />
+              </View>
             </View>
-          </View>
-        ) : (
-          <>
-            {habitsCard}
-            {left}
-          </>
-        )}
+          ) : (
+            <View className="mt-4">
+              <GameHeader />
+              {habitsSection}
+              {lists}
+            </View>
+          )}
+        </View>
       </ScrollView>
     </Screen>
   );
-
-  function labelOf(t: TaskWithPage) {
-    return t.page ? pageLabel(t.page) : undefined;
-  }
 }
 
-function Tile({
-  href,
-  label,
-  value,
-  alert,
-}: {
-  href: Href;
-  label: string;
-  value: number | string;
-  alert?: boolean;
-}) {
+function Stat({ href, warn, children }: { href: Href; warn?: boolean; children: string }) {
   return (
     <Link href={href} asChild>
-      <Pressable
-        accessibilityRole="link"
-        accessibilityLabel={`${label}: ${value}`}
-        className="gap-1 rounded-lg border border-line bg-surface p-3 active:opacity-80 md:p-4"
-      >
-        <Text
-          className={cn('text-lg font-semibold md:text-xl', alert ? 'text-danger' : 'text-ink')}
-        >
-          {value}
-        </Text>
-        <Text className="text-xs text-ink-muted md:text-sm" numberOfLines={1}>
-          {label}
+      <Pressable accessibilityRole="link" className="min-h-8 justify-center rounded hover:bg-wash">
+        <Text className={cn('font-mono text-xs', warn ? 'text-warn' : 'text-ink-muted')}>
+          {children}
         </Text>
       </Pressable>
     </Link>
   );
 }
 
-function Card({
+function Section({
   title,
+  count,
   link,
   empty,
   children,
 }: {
   title: string;
+  count?: number | string;
   link?: { href: Href; label: string };
   empty?: string;
   children?: ReactNode;
 }) {
   return (
-    <View className="rounded-lg border border-line bg-surface px-4 pb-3 pt-3">
-      <View className="min-h-11 flex-row items-center justify-between">
-        <Text className="text-base font-semibold text-ink" accessibilityRole="header">
-          {title}
-        </Text>
-        {link && (
-          <Link href={link.href} asChild>
-            <Pressable accessibilityRole="link" className="min-h-11 justify-center px-1">
-              <Text className="text-sm font-semibold text-accent">{link.label} →</Text>
-            </Pressable>
-          </Link>
-        )}
-      </View>
-      {empty ? <Text className="pb-1 text-sm text-ink-muted">{empty}</Text> : children}
+    <View>
+      <SectionLabel
+        title={title}
+        count={count === 0 ? undefined : count}
+        right={
+          link && (
+            <Link href={link.href} asChild>
+              <Pressable accessibilityRole="link" className="min-h-8 justify-center px-1">
+                <Text className="text-xs font-semibold text-ink">{link.label}</Text>
+              </Pressable>
+            </Link>
+          )
+        }
+      />
+      {empty ? <Text className="py-3 text-sm text-ink-muted">{empty}</Text> : children}
     </View>
   );
 }
 
-/** "e mais N" quando o cartão cortou a lista. */
+/** "e mais N" quando a seção cortou a lista. */
 function More({ count }: { count: number }) {
+  const { t } = useTranslation();
   if (count <= PREVIEW) return null;
-  return <Text className="pt-2 text-xs text-ink-muted">e mais {count - PREVIEW}</Text>;
+  return (
+    <Text className="pt-2 font-mono text-xs text-ink-muted">
+      {t('home.more', { count: count - PREVIEW })}
+    </Text>
+  );
 }
