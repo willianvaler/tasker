@@ -3,6 +3,8 @@ import { defineConfig, devices } from '@playwright/test';
 // E2E da web: exporta a SPA e serve na 8081 (precisa do Supabase local rodando: npm run db:start)
 export default defineConfig({
   testDir: './e2e',
+  // Cada página roda o SQLite do sync em WASM; com mais workers, envios e sync passam do tempo
+  workers: 4,
   // locale: o app segue o idioma do navegador (V2 §11); o padrão do Playwright é en-US
   use: { baseURL: 'http://localhost:8081', trace: 'retain-on-failure', locale: 'pt-BR' },
   projects: [

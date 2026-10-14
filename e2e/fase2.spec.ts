@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ageCycle, createPage, openTab, paste, shown, signUp, isRpc } from './helpers';
+import { ageCycle, createPage, isRpc, openTab, paste, shown, signUp, waitForSync } from './helpers';
 
 const TREINO = [
   'Supino 4x12 20kg',
@@ -133,6 +133,8 @@ test('arrastar para reordenar (lista)', async ({ page }, testInfo) => {
   await page.getByRole('button', { name: 'Criar 3' }).click();
   await created;
   await expect(shown(page, 'Terceira', { exact: true })).toBeVisible();
+  // As linhas do servidor chegando pelo sync re-renderizam a lista e cancelam um arrasto no meio
+  await waitForSync(page);
 
   const handle = page.getByLabel('Arrastar Terceira');
   const target = page.getByLabel('Arrastar Primeira');

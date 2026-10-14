@@ -30,6 +30,7 @@ import { useNewMenu } from '@/components/new-menu';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { IconButton } from '@/components/ui/button';
+import { SyncDot } from '@/components/sync-dot';
 import { Icon } from '@/components/ui/icon';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
@@ -313,11 +314,8 @@ function SidebarFooter({ online }: { online: boolean }) {
           label={t('help.link')}
           active={pathname === '/ajuda'}
         />
-        <View
-          accessibilityLabel={online ? t('nav.online') : t('nav.offline')}
-          className="ml-auto mr-2 flex-row items-center"
-        >
-          <View className={cn('h-2 w-2 rounded-full', online ? 'bg-ok' : 'bg-warn')} />
+        <View className="ml-auto">
+          <SyncDot />
         </View>
       </View>
     </View>

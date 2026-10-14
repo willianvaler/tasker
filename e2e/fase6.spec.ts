@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ageTask, openTab, paste, shown, signUp, isRpc } from './helpers';
+import { ageTask, openTab, paste, shown, signUp, isRpc, waitForSync } from './helpers';
 
 test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page }, testInfo) => {
   test.setTimeout(60_000);
@@ -170,6 +170,8 @@ test('performance: lista com 500 tarefas, marcar responde rápido', async ({ pag
   await created;
   await page.reload();
   await expect(page.getByText('Item 500', { exact: true })).toBeAttached({ timeout: 30_000 });
+  // Mede o clique, não a chegada das 500 linhas pelo sync
+  await waitForSync(page);
 
   // Medido dentro da página: do clique até a tarefa sair da lista (o Playwright em si é lento
   // para consultar 500 linhas). Meta do ESCOPO 9: < 100 ms; aqui com folga para máquina lenta.

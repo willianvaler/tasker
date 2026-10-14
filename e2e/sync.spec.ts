@@ -47,6 +47,11 @@ test('sync: offline, fila, servidor e revogação', async ({ page, context }, te
   await expect(page.getByRole('checkbox', { name: title })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByText(/^[1-9]\d* alterações esperando envio/)).toBeVisible();
   expect((await serverTask(title)).status).toBe('todo');
+  await expect(page.getByText('Ação: complete_task')).toBeVisible();
+  if (testInfo.project.name === 'desktop')
+    await expect(
+      page.getByRole('navigation').getByRole('link', { name: /^Sem conexão/ }),
+    ).toBeVisible();
   await context.setOffline(false);
   await expect
     .poll(async () => (await serverTask(title))?.status, { timeout: 30_000 })
@@ -186,4 +191,23 @@ test('sync: dois aparelhos offline na mesma tarefa chegam ao mesmo estado', asyn
   await page.getByRole('button', { name: 'Descartar' }).click();
   await expect(page.getByRole('button', { name: 'Ver versão anterior' })).toHaveCount(0);
   await other.close();
+});
+
+test('sync: descartar mudanças locais', async ({ page, context }, testInfo) => {
+  await signUp(page, testInfo);
+  await openSync(page);
+  await context.setOffline(true);
+  const title = `Descartada ${testInfo.project.name} ${Date.now()}`;
+  const field = page.getByPlaceholder('Nova tarefa na Caixa de entrada');
+  await field.fill(title);
+  await field.press('Enter');
+  await expect(page.getByText('Tarefa: criar')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Descartar mudanças locais' }).click();
+  await page.getByRole('button', { name: 'Descartar', exact: true }).click();
+  await expect(page.getByText(title)).toHaveCount(0);
+  await expect(page.getByText('Nada esperando envio.')).toBeVisible();
+  await context.setOffline(false);
+  await openSync(page);
+  expect(await serverTask(title)).toBeUndefined();
 });

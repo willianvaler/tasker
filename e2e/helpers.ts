@@ -131,3 +131,19 @@ export function isRpc(response: Response, name: string) {
     return false;
   }
 }
+
+/** Espera a fila do sync esvaziar e o download parar (sem sync configurado, volta na hora). */
+export async function waitForSync(page: Page) {
+  await expect
+    .poll(
+      () =>
+        page.evaluate(async () => {
+          const db = (window as unknown as { questlistDb?: any }).questlistDb;
+          if (!db) return true;
+          const { n } = await db.get('select count(*) as n from ps_crud');
+          return n === 0 && !db.currentStatus.dataFlowStatus.downloading;
+        }),
+      { timeout: 20_000 },
+    )
+    .toBe(true);
+}
