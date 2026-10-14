@@ -80,7 +80,7 @@ test('clã: convite por link, boss da semana e destaques', async ({ page, browse
   await expect(shown(friend, /Clã: /)).toBeVisible();
 
   // Sem classe: 4 de dano por tarefa (8 num crítico, D61)
-  await expect(page.getByText(/🏆 Destaque: Bia Amiga \((4|8) de dano\)/)).toBeVisible();
+  await expect(page.getByText(/Destaque: Bia Amiga \((4|8) de dano\)/)).toBeVisible();
   await friend.context().close();
 });
 
@@ -102,7 +102,7 @@ test('boss de projeto com prazo: cada tarefa é um golpe', async ({ page }, test
   await done;
   await page.getByRole('button', { name: 'Voltar' }).click();
   await expect(page.getByText(/faltam 11 de 12 tarefas/)).toBeVisible();
-  await expect(page.getByText(/🏆 Destaque: .+ \(1 tarefa\)$/)).toBeVisible();
+  await expect(page.getByText(/Destaque: .+ \(1 tarefa\)$/)).toBeVisible();
 });
 
 test('exportar os dados em JSON', async ({ page }, testInfo) => {

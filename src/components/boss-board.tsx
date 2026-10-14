@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Text } from '@/components/ui/text';
@@ -10,27 +11,31 @@ import { useBossBoard } from '@/lib/queries/clan';
  */
 export function BossBoard({
   bossId,
-  unit = ['de dano', 'de dano'],
+  unit = 'damage',
 }: {
   bossId: string;
-  /** Singular e plural ("tarefa", "tarefas") */
-  unit?: [string, string];
+  /** Dano (boss solo e de clã) ou tarefas (boss de projeto) */
+  unit?: 'damage' | 'tasks';
 }) {
+  const { t } = useTranslation();
   const board = useBossBoard(bossId);
   const { top, helpers } = boardHighlights(board.data ?? []);
   if (top.length === 0) {
-    return board.data ? (
-      <Text className="text-xs text-ink-muted">Ninguém atacou ainda. Seja o primeiro!</Text>
-    ) : null;
+    return board.data ? <Text className="text-xs text-ink-muted">{t('board.nobody')}</Text> : null;
   }
+  const names = top
+    .map(
+      (p) =>
+        `${p.name} (${t(unit === 'tasks' ? 'board.tasks' : 'board.damage', { count: p.damage })})`,
+    )
+    .join(', ');
   return (
-    <View className="gap-1" accessibilityLabel="Destaques do boss">
-      <Text className="text-sm text-ink">
-        🏆 {top.length > 1 ? 'Destaques' : 'Destaque'}:{' '}
-        {top.map((t) => `${t.name} (${t.damage} ${unit[t.damage === 1 ? 0 : 1]})`).join(', ')}
-      </Text>
+    <View className="gap-1" accessibilityLabel={t('board.label')}>
+      <Text className="text-sm text-ink">{t('board.top', { count: top.length, names })}</Text>
       {helpers.length > 0 && (
-        <Text className="text-xs text-ink-muted">Também ajudaram: {helpers.join(', ')}</Text>
+        <Text className="text-xs text-ink-muted">
+          {t('board.helpers', { names: helpers.join(', ') })}
+        </Text>
       )}
     </View>
   );

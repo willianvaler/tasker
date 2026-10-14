@@ -1,4 +1,6 @@
+import { Swords } from 'lucide-react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { BossBoard } from '@/components/boss-board';
@@ -7,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { addDays, formatShortDate, nextWeekday } from '@/lib/parser/dates';
 import { parseQuickInput } from '@/lib/parser/quick';
@@ -21,6 +24,7 @@ import { useCanWrite } from '@/providers/write';
  * HP = tarefas principais do projeto; cada uma concluída é 1 de dano.
  */
 export function ProjectBoss({ rootId }: { rootId: string }) {
+  const { t } = useTranslation();
   const boss = useProjectBoss(rootId);
   const game = useGameState();
   const m = useProjectBossMutations(rootId);
@@ -41,56 +45,57 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
     setChoosing(false);
     setDateText('');
     m.start.mutate(deadline, {
-      onError: (err) => toast({ message: `Não deu certo: ${err.message}` }),
+      onError: (err) => toast({ message: t('clan.error', { message: err.message }) }),
     });
   }
 
   const typed = dateText.trim() ? parseQuickInput(`x ${dateText}`, { today }).dueDate : null;
 
   return (
-    <View className="gap-2 rounded-lg border border-line bg-surface p-3">
-      <Text className="font-semibold text-ink">Boss do projeto</Text>
+    <View className="gap-3">
+      <SectionLabel title={t('projectBoss.title')} className="pt-0" />
       {current ? (
         <>
           <BossLine boss={current} />
-          <BossBoard bossId={current.id} unit={['tarefa', 'tarefas']} />
+          <BossBoard bossId={current.id} unit="tasks" />
           {writable && current.status === 'active' && (
             <Button
               variant="ghost"
               className="self-start"
-              label="Desistir do boss"
+              label={t('projectBoss.giveUp')}
               onPress={() => setConfirmCancel(true)}
             />
           )}
         </>
       ) : choosing ? (
         <View className="gap-2">
-          <Text className="text-sm text-ink-muted">
-            Até quando a galera tem para concluir tudo?
-          </Text>
+          <Text className="text-sm text-ink-muted">{t('projectBoss.until')}</Text>
           <View className="flex-row flex-wrap gap-2">
             <Chip
-              label={`Sábado (${formatShortDate(nextWeekday(today, 6))})`}
+              label={t('projectBoss.saturday', { date: formatShortDate(nextWeekday(today, 6)) })}
               onPress={() => start(nextWeekday(today, 6))}
             />
-            <Chip label="Em 1 semana" onPress={() => start(addDays(today, 7))} />
-            <Chip label="Em 1 mês" onPress={() => start(addDays(today, 30))} />
+            <Chip label={t('projectBoss.week')} onPress={() => start(addDays(today, 7))} />
+            <Chip label={t('projectBoss.month')} onPress={() => start(addDays(today, 30))} />
           </View>
           <Input
             value={dateText}
             onChangeText={setDateText}
             onSubmitEditing={() => typed && start(typed)}
             submitBehavior="submit"
-            placeholder="Outra data: 15/10, sexta…"
-            accessibilityLabel="Prazo do boss"
+            placeholder={t('projectBoss.otherDate')}
+            accessibilityLabel={t('projectBoss.deadline')}
           />
           {typed && (
-            <Button label={`Prazo: ${formatShortDate(typed)}`} onPress={() => start(typed)} />
+            <Button
+              label={t('projectBoss.deadlineButton', { date: formatShortDate(typed) })}
+              onPress={() => start(typed)}
+            />
           )}
           <Button
             variant="ghost"
             className="self-start"
-            label="Cancelar"
+            label={t('common.cancel')}
             onPress={() => setChoosing(false)}
           />
         </View>
@@ -98,14 +103,15 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
         <>
           <Text className="text-sm text-ink-muted">
             {boss.data?.status === 'defeated'
-              ? `${boss.data.icon} ${boss.data.name} foi derrotado. Quer outro desafio?`
-              : 'Chame um boss com prazo: cada tarefa concluída é um golpe, e todo mundo que ajudou ganha a recompensa.'}
+              ? t('projectBoss.defeated', { name: boss.data.name })
+              : t('projectBoss.intro')}
           </Text>
           {writable && (
             <Button
               variant="ghost"
               className="self-start"
-              label="⚔️ Chamar boss com prazo"
+              icon={Swords}
+              label={t('projectBoss.call')}
               loading={m.start.isPending}
               onPress={() => setChoosing(true)}
             />
@@ -114,9 +120,9 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
       )}
       {confirmCancel && (
         <ConfirmDialog
-          title="Desistir do boss?"
-          message="Ele foge sem punição. Dá para chamar outro depois."
-          confirmLabel="Desistir"
+          title={t('projectBoss.giveUpTitle')}
+          message={t('projectBoss.giveUpMessage')}
+          confirmLabel={t('projectBoss.giveUpConfirm')}
           onClose={closeCancel}
           onConfirm={() => {
             closeCancel();

@@ -1,5 +1,7 @@
 import * as Clipboard from 'expo-clipboard';
+import { Copy, Link2, LogOut, Shield } from 'lucide-react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
 import { BossBoard } from '@/components/boss-board';
@@ -8,25 +10,27 @@ import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
+import { PersonRow } from '@/components/ui/person';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { describeClanActivity } from '@/lib/activity';
-import { initials } from '@/lib/members';
 import { clanInviteUrl, useClan, useClanMutations } from '@/lib/queries/clan';
 import { useGameState } from '@/lib/queries/game';
 import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 
-const WHEN = new Intl.DateTimeFormat('pt-BR', {
-  day: 'numeric',
-  month: 'short',
-  hour: '2-digit',
-  minute: '2-digit',
-});
-
 // Clã (ESCOPO 4.6): grupo de amigos sem projeto em comum. Boss semanal cooperativo e feed, sem chat.
 export default function ClanScreen() {
+  const { t, i18n } = useTranslation();
+  const when = new Intl.DateTimeFormat(i18n.language, {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
   const clan = useClan();
   const game = useGameState();
   const { session } = useSession();
@@ -37,43 +41,38 @@ export default function ClanScreen() {
   const [icon, setIcon] = useState('');
   const [link, setLink] = useState<string | null>(null);
   const [confirmLeave, setConfirmLeave, closeLeave] = useDialog<true>();
-  const onError = (err: Error) => toast({ message: `Não deu certo: ${err.message}` });
+  const onError = (err: Error) => toast({ message: t('clan.error', { message: err.message }) });
 
   if (clan.isPending) return <Screen>{null}</Screen>;
 
   if (!clan.data) {
     return (
       <Screen>
-        <ScreenHeader title="🛡️ Clã" back />
+        <ScreenHeader title={t('clan.title')} back />
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
-          <Text className="text-ink-muted">
-            Junte os amigos num clã: toda semana aparece um boss do grupo, e cada XP que alguém
-            ganha é um golpe nele. Quem ajudou ganha a recompensa. Sem ranking de quem ficou para
-            trás.
-          </Text>
+          <Text className="text-sm text-ink-muted">{t('clan.intro')}</Text>
           <Input
             value={name}
             onChangeText={setName}
             maxLength={60}
-            placeholder="Nome do clã (ex.: Os Produtivos)"
-            accessibilityLabel="Nome do clã"
+            placeholder={t('clan.namePlaceholder')}
+            accessibilityLabel={t('clan.name')}
           />
           <Input
             value={icon}
             onChangeText={setIcon}
             maxLength={8}
-            placeholder="Emoji (opcional, ex.: 🛡️)"
-            accessibilityLabel="Emoji do clã"
+            placeholder={t('clan.emojiPlaceholder')}
+            accessibilityLabel={t('clan.emoji')}
           />
           <Button
-            label="Criar clã"
+            className="self-start"
+            label={t('clan.create')}
             disabled={!name.trim() || !online}
             loading={m.create.isPending}
             onPress={() => m.create.mutate({ name: name.trim(), icon: icon.trim() }, { onError })}
           />
-          <Text className="text-sm text-ink-muted">
-            Recebeu um convite? Abra o link que te mandaram.
-          </Text>
+          <Text className="text-sm text-ink-muted">{t('clan.gotInvite')}</Text>
         </ScrollView>
       </Screen>
     );
@@ -84,54 +83,60 @@ export default function ClanScreen() {
 
   return (
     <Screen size="medium">
-      <ScreenHeader title={`${data.icon || '🛡️'} ${data.name}`} back />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 pb-12">
+      <ScreenHeader
+        title={data.name}
+        icon={
+          data.icon ? (
+            <Text className="text-lg">{data.icon}</Text>
+          ) : (
+            <Icon icon={Shield} size={20} tone="ink-muted" />
+          )
+        }
+        back
+      />
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
         {boss && game.data?.enabled !== false && (
-          <View className="gap-2 rounded-lg border border-line bg-surface p-3">
-            <Text className="font-semibold text-ink">Boss da semana do clã</Text>
+          <View className="gap-3">
+            <SectionLabel title={t('clan.weeklyBoss')} className="pt-0" />
             <BossLine boss={boss} />
             <BossBoard bossId={boss.id} />
           </View>
         )}
 
-        <View className="gap-2">
-          <Text className="font-semibold text-ink">Membros ({data.members.length})</Text>
+        <View>
+          <SectionLabel title={t('clan.members')} count={data.members.length} className="pt-0" />
           {data.members.map((member) => (
-            <View key={member.userId} className="flex-row items-center gap-2">
-              <View className="h-8 w-8 items-center justify-center rounded-full bg-accent">
-                <Text className="text-xs font-semibold text-on-accent">
-                  {initials(member.displayName)}
+            <PersonRow
+              key={member.userId}
+              name={`${member.displayName}${member.userId === session?.user.id ? ` ${t('clan.you')}` : ''}`}
+              detail={member.role === 'owner' ? t('clan.founder') : undefined}
+              right={
+                <Text className="font-mono text-xs text-ink-muted">
+                  {t('clan.level', { level: member.level })}
                 </Text>
-              </View>
-              <Text className="flex-1 text-base text-ink">
-                {member.displayName}
-                {member.userId === session?.user.id ? ' (você)' : ''}
-              </Text>
-              <Text className="text-sm text-ink-muted">
-                Nv {member.level}
-                {member.role === 'owner' ? ' · criou o clã' : ''}
-              </Text>
-            </View>
+              }
+            />
           ))}
         </View>
 
-        <View className="gap-2">
-          <Text className="font-semibold text-ink">Convidar</Text>
+        <View className="gap-3">
+          <SectionLabel title={t('clan.invite')} className="pt-0" />
           {link ? (
             <>
               <Text
                 selectable
-                accessibilityLabel="Link de convite do clã"
-                className="rounded-lg border border-line bg-surface p-3 text-sm text-ink"
+                accessibilityLabel={t('clan.inviteLink')}
+                className="rounded border border-line bg-surface p-3 font-mono text-xs text-ink"
               >
                 {link}
               </Text>
               <Button
                 className="self-start"
-                label="Copiar link"
+                icon={Copy}
+                label={t('clan.copy')}
                 onPress={async () => {
                   await Clipboard.setStringAsync(link);
-                  toast({ message: 'Link copiado' });
+                  toast({ message: t('clan.copied') });
                 }}
               />
             </>
@@ -139,7 +144,8 @@ export default function ClanScreen() {
             <Button
               variant="ghost"
               className="self-start"
-              label="Gerar link de convite"
+              icon={Link2}
+              label={t('clan.generate')}
               disabled={!online}
               loading={m.invite.isPending}
               onPress={() =>
@@ -152,15 +158,20 @@ export default function ClanScreen() {
           )}
         </View>
 
-        <View className="gap-1">
-          <Text className="font-semibold text-ink">Feed</Text>
+        <View>
+          <SectionLabel title={t('clan.feed')} className="pt-0" />
           {data.activity.length === 0 && (
-            <Text className="text-sm text-ink-muted">Nada ainda.</Text>
+            <Text className="py-3 text-sm text-ink-muted">{t('clan.nothing')}</Text>
           )}
           {data.activity.map((a) => (
-            <View key={a.id} className="flex-row gap-2 py-1">
+            <View
+              key={a.id}
+              className="min-h-10 flex-row items-center gap-3 border-b border-line py-1"
+            >
               <Text className="flex-1 text-sm text-ink">{describeClanActivity(a)}</Text>
-              <Text className="text-xs text-ink-muted">{WHEN.format(new Date(a.created_at))}</Text>
+              <Text className="font-mono text-xs text-ink-muted">
+                {when.format(new Date(a.created_at))}
+              </Text>
             </View>
           ))}
         </View>
@@ -168,7 +179,8 @@ export default function ClanScreen() {
         <Button
           variant="ghost"
           className="self-start"
-          label="Sair do clã"
+          icon={LogOut}
+          label={t('clan.leave')}
           disabled={!online}
           onPress={() => setConfirmLeave(true)}
         />
@@ -176,9 +188,9 @@ export default function ClanScreen() {
 
       {confirmLeave && (
         <ConfirmDialog
-          title={`Sair de "${data.name}"?`}
-          message="Seu XP e suas conquistas continuam com você. Dá para entrar de novo com um convite."
-          confirmLabel="Sair"
+          title={t('clan.leaveTitle', { name: data.name })}
+          message={t('clan.leaveMessage')}
+          confirmLabel={t('clan.leaveConfirm')}
           onClose={closeLeave}
           onConfirm={() => {
             closeLeave();

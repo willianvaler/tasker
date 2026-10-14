@@ -1,30 +1,32 @@
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { ProgressBar } from '@/components/game-bar';
 import { ProjectBoss } from '@/components/project-boss';
+import { Avatar } from '@/components/ui/person';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { describeActivity } from '@/lib/activity';
-import { initials } from '@/lib/members';
 import { projectProgress } from '@/lib/progress';
 import { useActivity, useAssignees, useFolderTasks, useMembers } from '@/lib/queries/projects';
 import type { FolderNode } from '@/lib/queries/tree';
 
-const WHEN = new Intl.DateTimeFormat('pt-BR', {
-  day: 'numeric',
-  month: 'short',
-  hour: '2-digit',
-  minute: '2-digit',
-});
-
 const pct = (p: { done: number; total: number }) =>
   p.total ? Math.round((p.done / p.total) * 100) : 0;
 
-/** Visão geral do projeto (ESCOPO 5, tela 6): pessoas, progresso e atividade. */
+/** Visão geral do projeto (ESCOPO 5, tela 6): progresso geral e por pessoa, boss e atividade. */
 export function ProjectOverview({ root }: { root: FolderNode }) {
+  const { t, i18n } = useTranslation();
   const members = useMembers(root.id);
   const assignees = useAssignees();
   const tasks = useFolderTasks(root);
   const activity = useActivity(root.id);
+  const when = new Intl.DateTimeFormat(i18n.language, {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 
   const folderIds = [root.id, ...root.children.map((c) => c.id)];
   const progress = projectProgress(
@@ -33,49 +35,62 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
   );
 
   return (
-    <View className="gap-4">
-      <ProjectBoss rootId={root.id} />
-      <View className="gap-2 rounded-lg border border-line bg-surface p-3">
+    <View className="gap-8">
+      <View className="gap-2">
         <View className="flex-row items-baseline justify-between">
-          <Text className="font-semibold text-ink">Progresso</Text>
-          <Text className="text-sm text-ink-muted" accessibilityLabel="Progresso do projeto">
+          <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            {t('project.progress')}
+          </Text>
+          <Text
+            className="font-mono text-xs text-ink-muted"
+            accessibilityLabel={t('project.progressLabel')}
+          >
             {progress.overall.done}/{progress.overall.total} · {pct(progress.overall)}%
           </Text>
         </View>
         <ProgressBar
           value={progress.overall.total ? progress.overall.done / progress.overall.total : 0}
-          label={`Projeto: ${pct(progress.overall)}% concluído`}
+          label={t('project.projectPct', { pct: pct(progress.overall) })}
         />
-        {members.data?.map((m) => {
-          const p = progress.byUser.get(m.userId);
-          return (
-            <View key={m.userId} className="flex-row items-center gap-2">
-              <View className="h-6 w-6 items-center justify-center rounded-full bg-accent">
-                <Text className="text-xs font-semibold text-on-accent">
-                  {initials(m.displayName)}
+        <View className="pt-1">
+          {members.data?.map((m) => {
+            const p = progress.byUser.get(m.userId);
+            return (
+              <View key={m.userId} className="min-h-8 flex-row items-center gap-2">
+                <Avatar name={m.displayName} />
+                <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
+                  {m.displayName}
+                </Text>
+                <Text
+                  className="font-mono text-xs text-ink-muted"
+                  accessibilityLabel={t('project.memberProgress', {
+                    name: m.displayName,
+                    done: p?.done ?? 0,
+                    total: p?.total ?? 0,
+                  })}
+                >
+                  {p ? `${p.done}/${p.total}` : '—'}
                 </Text>
               </View>
-              <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
-                {m.displayName}
-              </Text>
-              <Text
-                className="text-xs text-ink-muted"
-                accessibilityLabel={`${m.displayName}: ${p?.done ?? 0} de ${p?.total ?? 0}`}
-              >
-                {p ? `${p.done}/${p.total}` : '—'}
-              </Text>
-            </View>
-          );
-        })}
+            );
+          })}
+        </View>
       </View>
 
+      <ProjectBoss rootId={root.id} />
+
       {(activity.data?.length ?? 0) > 0 && (
-        <View className="gap-1">
-          <Text className="font-semibold text-ink">Atividade</Text>
+        <View>
+          <SectionLabel title={t('project.activity')} className="pt-0" />
           {activity.data?.map((a) => (
-            <View key={a.id} className="flex-row gap-2 py-1">
+            <View
+              key={a.id}
+              className="min-h-10 flex-row items-center gap-3 border-b border-line py-1"
+            >
               <Text className="flex-1 text-sm text-ink">{describeActivity(a)}</Text>
-              <Text className="text-xs text-ink-muted">{WHEN.format(new Date(a.created_at))}</Text>
+              <Text className="font-mono text-xs text-ink-muted">
+                {when.format(new Date(a.created_at))}
+              </Text>
             </View>
           ))}
         </View>
