@@ -1216,5 +1216,16 @@
     "colKind": "Tipo",
     "colTask": "Tarefa",
     "colText": "O que aconteceu"
+  },
+  "indicators": {
+    "title": "Como o fluxo está indo",
+    "holding": "Segurando mais tarefas:",
+    "holds_one": "{{title}} segura {{count}} tarefa",
+    "holds_other": "{{title}} segura {{count}} tarefas",
+    "late": "Atrasadas:",
+    "average": "Nos últimos 90 dias, em média:",
+    "waiting": "esperam {{time}} por um pré-requisito",
+    "to_start": "começam {{time}} depois de liberadas",
+    "doing": "ficam {{time}} em andamento"
   }
 }

@@ -1216,5 +1216,16 @@
     "colKind": "Type",
     "colTask": "Task",
     "colText": "What happened"
+  },
+  "indicators": {
+    "title": "How the flow is going",
+    "holding": "Holding up the most tasks:",
+    "holds_one": "{{title}} holds {{count}} task",
+    "holds_other": "{{title}} holds {{count}} tasks",
+    "late": "Overdue:",
+    "average": "In the last 90 days, on average:",
+    "waiting": "tasks wait {{time}} for a prerequisite",
+    "to_start": "start {{time}} after being unblocked",
+    "doing": "stay {{time}} in progress"
   }
 }

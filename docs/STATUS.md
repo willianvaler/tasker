@@ -92,7 +92,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **I3** Visão Fluxo (grafo com layout automático, raias, "você está aqui", caminho crítico); alternativa em lista acessível
 - [x] **I4** Visão Pessoas (fazendo / pronta / bloqueada / concluída)
 - [x] **I5** Linha do tempo filtrável + exportação CSV; permissão `workflow.view_audit`
-- [ ] **I6** Indicadores (tempo por estado, espera, gargalos, atrasos)
+- [x] **I6** Indicadores (tempo por estado, espera, gargalos, atrasos)
 - [ ] **I7** Dependência entre páginas (X%) e vínculos "Relacionados"
 
 ## Fase J — Repetições, descanso e Modo Treino (09/12 – 15/12)

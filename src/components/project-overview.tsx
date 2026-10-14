@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { ProgressBar } from '@/components/game-bar';
 import { ProjectBoss } from '@/components/project-boss';
 import { ProjectMilestones } from '@/components/project-milestones';
+import { FlowIndicators } from '@/components/project/flow-indicators';
 import { DepthPicker } from '@/components/depth-picker';
 import { ToggleRow } from '@/components/ui/toggle-row';
 import { DEFAULT_MAX_DEPTH } from '@/config/limits';
@@ -104,6 +105,8 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
           })}
         </View>
       </View>
+
+      <FlowIndicators root={root} />
 
       <ProjectMilestones rootId={root.id} />
 

@@ -67,6 +67,9 @@ test('Pessoas: quem está fazendo o quê', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
   await churrasco(page);
 
+  // Na aba Lista, os indicadores: o carvão segura o fogo e a carne
+  await expect(page.getByRole('button', { name: 'Comprar carvão segura 2 tarefas' })).toBeVisible();
+
   await page.getByRole('tab', { name: 'Pessoas' }).click();
   const loose = page.getByRole('group', { name: /^Sem responsável: \d+ abertas/ });
   await expect(loose).toBeVisible();

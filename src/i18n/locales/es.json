@@ -1216,5 +1216,16 @@
     "colKind": "Tipo",
     "colTask": "Tarea",
     "colText": "Qué pasó"
+  },
+  "indicators": {
+    "title": "Cómo va el flujo",
+    "holding": "Lo que más frena:",
+    "holds_one": "{{title}} frena {{count}} tarea",
+    "holds_other": "{{title}} frena {{count}} tareas",
+    "late": "Atrasadas:",
+    "average": "En los últimos 90 días, en promedio:",
+    "waiting": "esperan {{time}} por un requisito",
+    "to_start": "empiezan {{time}} después de liberarse",
+    "doing": "pasan {{time}} en curso"
   }
 }

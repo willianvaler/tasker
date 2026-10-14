@@ -1355,6 +1355,9 @@ isOneToOne: false
 "preset_can":
 { Args: { "p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string,"p_preset": string }; Returns: boolean
                            },
+"project_flow_stats":
+{ Args: { "p_root": string }; Returns: Json
+                           },
 "refresh_cycles":
 { Args: { "p_page_id"?: string }; Returns: number
                            },
