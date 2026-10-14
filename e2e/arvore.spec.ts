@@ -156,3 +156,31 @@ test('lote: recuo além do limite da página sobe para o último nível, com avi
   await expect(page.getByRole('button', { name: '1.1 Cozinha' })).toBeVisible();
   await expect(page.getByRole('button', { name: '1.2 Louça' })).toBeVisible();
 });
+
+test('limite: baixar abaixo do que já existe é recusado e diz quais tarefas passam', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Obra', name: 'Etapas', type: 'Lista' });
+  await page.getByRole('button', { name: 'Adicionar várias' }).click();
+  await page
+    .getByRole('textbox', { name: 'Lista de tarefas' })
+    .fill('Banheiro\n  Piso\n    Rejunte');
+  await page.getByRole('button', { name: 'Criar 3' }).click();
+  await expect(page.getByLabel('0 de 1 subtarefas').first()).toBeVisible();
+  await waitForSync(page);
+
+  await page.getByRole('button', { name: 'Configurar página' }).click();
+  await page
+    .getByRole('radiogroup', { name: 'Níveis de subtarefa' })
+    .getByRole('radio', { name: '2', exact: true })
+    .click();
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.getByText(/"Rejunte" \(nível 3\)/)).toBeVisible({ timeout: 15_000 });
+
+  // A árvore continua inteira
+  await page.reload();
+  await page.getByRole('button', { name: 'Estrutura' }).click();
+  await expect(page.getByRole('button', { name: '1.1.1 Rejunte' })).toBeVisible();
+});

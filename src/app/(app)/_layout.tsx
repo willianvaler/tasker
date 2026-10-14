@@ -7,6 +7,7 @@ import { ListKeys } from '@/components/list-keys';
 import { NewMenuProvider } from '@/components/new-menu';
 import { Sidebar, useIsWide } from '@/components/sidebar';
 import { SyncDot } from '@/components/sync-dot';
+import { SyncRejections } from '@/components/sync-rejections';
 import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
 import { useSidebarHidden } from '@/lib/ui-state';
@@ -28,6 +29,7 @@ export default function AppLayout() {
           {wide && !onboarding && !sidebarHidden && <Sidebar />}
           <View className="flex-1">
             <ListKeys />
+            <SyncRejections />
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="page/[id]" />

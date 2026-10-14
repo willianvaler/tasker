@@ -920,7 +920,8 @@
     "table_task_assignees": "Responsable",
     "table_commands": "Acción",
     "table_conflict_copies": "Versión anterior",
-    "table_folder_members": "Participación"
+    "table_folder_members": "Participación",
+    "rejected": "El servidor rechazó un cambio: {{message}}"
   },
   "conflict": {
     "notice": "Esta nota se editó en dos lugares a la vez. Quedó la última; la otra versión está guardada.",

@@ -73,7 +73,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **G4** Teclado: Tab/Shift+Tab, Ctrl+↑↓, →/← respeitando o limite
 - [x] **G5** Códigos WBS (toggle `W`) e visão "Estrutura"
 - [x] **G6** Lote achatando indentação além do limite, com aviso na pré-visualização
-- [ ] **G7** Testes: criar/mover/lote/redução de limite, cliente e servidor
+- [x] **G7** Testes: criar/mover/lote/redução de limite, cliente e servidor
 
 ## Fase H — Dependências e estados (26/11 – 01/12)
 

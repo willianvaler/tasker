@@ -110,6 +110,11 @@ function commandDone(id: string, result: unknown) {
 }
 
 let onCommandApplied: (() => void) | null = null;
+let onRejected: ((message: string) => void) | null = null;
+/** Chamado quando o servidor recusa uma mudança do aparelho (ela é descartada). */
+export function setOnRejected(fn: ((message: string) => void) | null) {
+  onRejected = fn;
+}
 /** Chamado depois de cada comando aplicado no servidor (o app relê XP e boss). */
 export function setOnCommandApplied(fn: () => void) {
   onCommandApplied = fn;
@@ -281,6 +286,8 @@ export const connector: PowerSyncBackendConnector = {
       // Sem conexão ou erro passageiro: lança e o SDK tenta de novo mais tarde, na mesma ordem
       if (!isFatal(error.code)) throw new Error(error.message);
       console.warn('[sync] recusado pelo servidor, descartado:', op.table, op.op, error.message);
+      // Quem fez a mudança precisa saber: a tela volta ao que o servidor tem
+      onRejected?.(error.message);
     }
     await transaction.complete();
   },

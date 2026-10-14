@@ -920,7 +920,8 @@
     "table_task_assignees": "Assignee",
     "table_commands": "Action",
     "table_conflict_copies": "Previous version",
-    "table_folder_members": "Membership"
+    "table_folder_members": "Membership",
+    "rejected": "The server rejected a change: {{message}}"
   },
   "conflict": {
     "notice": "This note was edited in two places at once. The latest one was kept; the other version is saved.",
