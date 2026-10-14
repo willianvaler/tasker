@@ -242,3 +242,93 @@ test('sync: XP pendente offline, trocado pelo oficial ao voltar', async ({
   if (testInfo.project.name === 'desktop')
     await expect(page.getByRole('navigation').getByText(/^10\/\d+ XP$/)).toBeVisible();
 });
+
+test('sync: criar, editar e apagar sem conexão, depois sincronizar', async ({
+  page,
+  context,
+}, testInfo) => {
+  await signUp(page, testInfo);
+  await openSync(page);
+  await context.setOffline(true);
+  const title = `Efêmera ${testInfo.project.name} ${Date.now()}`;
+  const field = page.getByPlaceholder('Nova tarefa na Caixa de entrada');
+  await field.fill(title);
+  await field.press('Enter');
+  await expect(page.getByText(title)).toBeVisible();
+  const local = (sql: string, params: unknown[] = []) =>
+    page.evaluate(([q, args]) => (window as any).questlistDb.execute(q, args), [
+      sql,
+      params,
+    ] as const);
+  await local('update tasks set title = ?, priority = 2 where title = ?', [
+    `${title} editada`,
+    title,
+  ]);
+  await expect(page.getByText(`${title} editada`)).toBeVisible();
+  await local('delete from tasks where title = ?', [`${title} editada`]);
+  await expect(page.getByText(`${title} editada`)).toHaveCount(0);
+
+  await context.setOffline(false);
+  await expect(page.getByText('Nada esperando envio.')).toBeVisible({ timeout: 30_000 });
+  expect(await serverTask(title)).toBeUndefined();
+  expect(await serverTask(`${title} editada`)).toBeUndefined();
+});
+
+test('sync: removido do projeto com mudanças na fila', async ({ browser, page }, testInfo) => {
+  test.setTimeout(120_000);
+  // Dono: pasta com uma tarefa
+  await signUp(page, testInfo);
+  await openSync(page);
+  const folderName = `Projeto ${testInfo.project.name} ${Date.now()}`;
+  const ownerId = (
+    await page.evaluate(() => (window as any).questlistDb.get('select id from profiles'))
+  ).id as string;
+  const [folder] = await adminRest('folders', {
+    method: 'POST',
+    body: JSON.stringify({ name: folderName, owner_id: ownerId }),
+  });
+  const [pageRow] = await adminRest('pages', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Tarefas', folder_id: folder.id }),
+  });
+  const title = `Compartilhada ${Date.now()}`;
+  await adminRest('tasks', {
+    method: 'POST',
+    body: JSON.stringify({ title, page_id: pageRow.id, created_by: ownerId }),
+  });
+
+  // Membro, em outro "aparelho"
+  const other = await browser.newContext({ ...testInfo.project.use, locale: 'pt-BR' });
+  const member = await other.newPage();
+  await signUp(member, testInfo);
+  await openSync(member);
+  const memberId = (
+    await member.evaluate(() => (window as any).questlistDb.get('select id from profiles'))
+  ).id as string;
+  await adminRest('folder_members', {
+    method: 'POST',
+    body: JSON.stringify({ folder_id: folder.id, user_id: memberId, role: 'editor' }),
+  });
+  await expect(member.getByText(title)).toBeVisible({ timeout: 20_000 });
+
+  // Sem conexão, o membro edita; enquanto isso, o dono o tira do projeto
+  await other.setOffline(true);
+  await member.evaluate(
+    ([t]) =>
+      (window as any).questlistDb.execute('update tasks set title = ? where title = ?', [
+        `${t} (membro)`,
+        t,
+      ]),
+    [title],
+  );
+  await adminRest(`folder_members?folder_id=eq.${folder.id}&user_id=eq.${memberId}`, {
+    method: 'DELETE',
+  });
+  await other.setOffline(false);
+
+  // A edição é recusada, a fila esvazia e os dados do projeto saem do aparelho
+  await expect(member.getByText('Nada esperando envio.')).toBeVisible({ timeout: 30_000 });
+  await expect(member.getByText(title, { exact: false })).toHaveCount(0, { timeout: 20_000 });
+  expect((await adminRest(`tasks?page_id=eq.${pageRow.id}&select=title`))[0].title).toBe(title);
+  await other.close();
+});
