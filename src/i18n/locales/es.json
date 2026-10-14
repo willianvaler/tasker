@@ -744,5 +744,15 @@
     "project": "Proyecto",
     "habit": "Hábito",
     "button": "Nuevo"
+  },
+  "iconPicker": {
+    "search": "Buscar ícono (casa, entrenamiento, 🔥…)",
+    "recent": "Recientes",
+    "default": "Ícono del tipo",
+    "none": "Ningún ícono con ese nombre. Puedes pegar un emoji.",
+    "color": "Color",
+    "noColor": "Sin color",
+    "label": "Ícono",
+    "change": "Cambiar ícono"
   }
 }

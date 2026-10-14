@@ -10,7 +10,7 @@ export type Page = Tables<'pages'>;
 
 export type PageSettings = {
   name: string;
-  icon?: string;
+  icon?: string | null;
   view_type?: Page['view_type'];
   reset_cycle?: Page['reset_cycle'];
 };
@@ -80,9 +80,11 @@ export function useTreeMutations() {
       icon,
       parentId,
       kind = 'folder',
+      color,
     }: {
       name: string;
-      icon?: string;
+      icon?: string | null;
+      color?: string | null;
       parentId?: string;
       /** Projeto só na raiz (V2 §5) */
       kind?: 'folder' | 'project';
@@ -97,6 +99,7 @@ export function useTreeMutations() {
         icon: icon || null,
         parent_id: parentId ?? null,
         kind: parentId ? 'folder' : kind,
+        color: color ?? null,
         position: nextPosition(siblings),
       });
       if (error) throw error;
@@ -106,10 +109,21 @@ export function useTreeMutations() {
   });
 
   const updateFolder = useMutation({
-    mutationFn: async ({ id, name, icon }: { id: string; name: string; icon?: string }) => {
+    mutationFn: async ({
+      id,
+      name,
+      icon,
+      color,
+    }: {
+      id: string;
+      name: string;
+      icon?: string | null;
+      /** undefined = não mexe; null = sem cor */
+      color?: string | null;
+    }) => {
       const { error } = await supabase
         .from('folders')
-        .update({ name, icon: icon || null })
+        .update({ name, icon: icon || null, ...(color === undefined ? {} : { color }) })
         .eq('id', id);
       if (error) throw error;
     },

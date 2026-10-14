@@ -16,6 +16,7 @@ import {
 import { useRef, useState, type ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 
+import { IconPicker } from '@/components/icon-picker';
 import { Button, IconButton } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip } from '@/components/ui/chip';
@@ -57,6 +58,7 @@ export default function DesignScreen() {
         <People />
         <Feedback />
         <Menus />
+        <Icons2 />
       </View>
     </ScrollView>
   );
@@ -317,6 +319,24 @@ function Menus() {
         <MenuItem label="Projeto" shortcut="J" icon={<Icon icon={Users} />} onPress={close} />
         <MenuItem label="Apagar" danger onPress={close} />
       </Popover>
+    </Section>
+  );
+}
+
+function Icons2() {
+  const [icon, setIcon] = useState<string | null>('lucide:dumbbell');
+  const [color, setColor] = useState<string | null>(null);
+  return (
+    <Section title="Seletor de ícone e cor">
+      <View className="max-w-sm">
+        <IconPicker
+          value={icon}
+          kind="folder"
+          onChange={setIcon}
+          color={color}
+          onColor={setColor}
+        />
+      </View>
     </Section>
   );
 }

@@ -7,6 +7,7 @@ const LAST_PAGE_KEY = 'questlist:last-page';
 const OPEN_FOLDERS_KEY = 'questlist:open-folders';
 const THEME_KEY = 'questlist:theme';
 const LOCALE_KEY = 'questlist:locale';
+const RECENT_ICONS_KEY = 'questlist:recent-icons';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -28,6 +29,21 @@ export function getLocalePreference(): LocalePreference {
 
 export function setLocalePreference(value: LocalePreference) {
   localStore.setItem(LOCALE_KEY, value);
+}
+
+/** Ícones usados por último (no topo do seletor), do mais novo para o mais antigo. */
+export function getRecentIcons(): string[] {
+  try {
+    const list: unknown = JSON.parse(localStore.getItem(RECENT_ICONS_KEY) ?? '[]');
+    return Array.isArray(list) ? list.filter((v) => typeof v === 'string').slice(0, 8) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function pushRecentIcon(value: string) {
+  const next = [value, ...getRecentIcons().filter((v) => v !== value)].slice(0, 8);
+  localStore.setItem(RECENT_ICONS_KEY, JSON.stringify(next));
 }
 
 export function getLastPageId(): string | null {

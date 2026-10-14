@@ -84,7 +84,14 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
 
   await page.getByRole('button', { name: 'Nova pasta' }).last().click();
   await page.getByPlaceholder('Nome (ex.: Academia)').fill('Academia');
-  await page.getByPlaceholder('Emoji (opcional, ex.: 🏋️)').fill('🏋️');
+  // Ícone pela busca do seletor (em português) e a cor do marcador
+  await page.getByRole('textbox', { name: /Buscar ícone/ }).fill('academia');
+  await page.getByRole('radio', { name: 'dumbbell' }).click();
+  await expect(page.getByRole('radio', { name: 'dumbbell' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+  await page.getByRole('radio', { name: '#7A8B5C' }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A pasta nova abre sozinha, vazia
   await expect(page.getByRole('heading', { name: 'Academia' })).toBeVisible();

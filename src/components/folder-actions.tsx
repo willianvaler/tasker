@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { FolderDialog as FolderForm } from '@/components/folder-dialog';
 import { PageDialog } from '@/components/page-dialog';
 import {
   ActionMenu,
@@ -133,9 +134,9 @@ export function useFolderActions() {
   } else if (dialog?.kind === 'new-folder' || dialog?.kind === 'edit-folder') {
     const editing = dialog.kind === 'edit-folder' ? dialog.folder : null;
     const parentId = dialog.kind === 'new-folder' ? dialog.parentId : undefined;
-    const project = dialog.kind === 'new-folder' && !!dialog.project;
+    const project = dialog.kind === 'new-folder' ? !!dialog.project : editing?.kind === 'project';
     element = (
-      <PromptDialog
+      <FolderForm
         title={t(
           editing
             ? 'folder.renameTitle'
@@ -145,25 +146,15 @@ export function useFolderActions() {
                 ? 'folder.newProject'
                 : 'folder.newFolder',
         )}
-        fields={[
-          {
-            key: 'name',
-            placeholder: t(project ? 'folder.projectPlaceholder' : 'folder.namePlaceholder'),
-            initial: editing?.name ?? '',
-          },
-          {
-            key: 'icon',
-            placeholder: t('folder.emojiPlaceholder'),
-            maxLength: 8,
-            initial: editing?.icon ?? '',
-          },
-        ]}
+        placeholder={t(project ? 'folder.projectPlaceholder' : 'folder.namePlaceholder')}
+        project={project}
+        initial={editing ?? undefined}
         onClose={close}
-        onConfirm={({ name, icon }) => {
-          if (editing) m.updateFolder.mutate({ id: editing.id, name, icon }, { onError });
+        onConfirm={({ name, icon, color }) => {
+          if (editing) m.updateFolder.mutate({ id: editing.id, name, icon, color }, { onError });
           else
             m.createFolder.mutate(
-              { name, icon, parentId, kind: project ? 'project' : 'folder' },
+              { name, icon, color, parentId, kind: project ? 'project' : 'folder' },
               // Abre a pasta nova: o próximo passo é criar páginas nela
               {
                 onError,

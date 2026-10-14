@@ -11,6 +11,7 @@ import {
 
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { lucideOf } from '@/lib/icons';
 import type { ColorToken } from '@/lib/tokens';
 
 export type ItemKind = 'folder' | 'project' | 'inbox' | 'list' | 'cards' | 'habits' | 'kanban';
@@ -27,8 +28,8 @@ export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
 };
 
 /**
- * Ícone de pasta, projeto ou página: o emoji que o usuário escolheu ou, sem escolha, o ícone do
- * tipo (Lucide). Emoji só aparece quando é escolha do usuário (docs/DESIGN.md).
+ * Ícone de pasta, projeto ou página: o que o usuário escolheu (ícone Lucide guardado como
+ * "lucide:id", ou um emoji) ou, sem escolha, o ícone do tipo. Emoji só aparece quando é escolha do usuário (docs/DESIGN.md).
  */
 export function ItemIcon({
   icon,
@@ -41,6 +42,8 @@ export function ItemIcon({
   size?: 16 | 20;
   tone?: ColorToken;
 }) {
+  const chosen = lucideOf(icon);
+  if (chosen) return <Icon icon={chosen} size={size} tone={tone} />;
   if (icon && /\p{Extended_Pictographic}/u.test(icon))
     return (
       <Text aria-hidden className={size === 16 ? 'text-sm' : 'text-base'}>

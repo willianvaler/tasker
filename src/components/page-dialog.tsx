@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
 
+import { IconPicker } from '@/components/icon-picker';
+import type { ItemKind } from '@/components/item-icon';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
@@ -78,11 +80,11 @@ export function PageDialog({
               autoFocus
               maxLength={100}
             />
-            <Input
-              placeholder={t('pageDialog.emojiPlaceholder')}
-              value={icon}
-              onChangeText={setIcon}
-              maxLength={8}
+            <Label>{t('iconPicker.label')}</Label>
+            <IconPicker
+              value={icon || null}
+              kind={viewType as ItemKind}
+              onChange={(value) => setIcon(value ?? '')}
             />
 
             <Label>{t('pageDialog.type')}</Label>
