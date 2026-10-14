@@ -25,6 +25,7 @@ npm run db:test       # testes pgTAP de RLS (supabase/tests/)
 npm run e2e           # Playwright na web, perfis celular e desktop (precisa do db:start). Argumentos: npm run e2e -- e2e/x.spec.ts
 npm run db:reset      # recria o banco local a partir das migrações + seed
 npm run db:types      # regenera src/lib/database.types.ts depois de mudar o banco
+npm run capturas      # capturas das telas-chave (1280/390, claro/escuro) em docs/screenshots/ (precisa do db:start)
 ```
 
 Nesta máquina o "Docker" é o **Podman**: o socket precisa estar ativo (`systemctl --user start podman.socket`) e o `DOCKER_HOST` já aponta para ele. O `.env.local` (copiado do `.env.example`) tem as chaves padrão do Supabase local, que não são segredo.
