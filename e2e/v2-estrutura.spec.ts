@@ -154,6 +154,9 @@ test('paleta de comandos: Ctrl+K busca página e tarefa e abre', async ({ page }
   await page.keyboard.press('Control+k');
   const search = page.getByRole('textbox', { name: 'Buscar ou executar' });
   await search.fill('lisboa');
+  await expect(
+    page.getByRole('search').getByRole('button', { name: /Roteiro de Lisboa/ }),
+  ).toBeVisible();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { name: 'Roteiro de Lisboa' })).toBeVisible();
 
@@ -161,6 +164,9 @@ test('paleta de comandos: Ctrl+K busca página e tarefa e abre', async ({ page }
   await page.locator('body').click({ position: { x: 5, y: 500 } });
   await page.keyboard.press('/');
   await search.fill('passagem');
+  await expect(
+    page.getByRole('search').getByRole('button', { name: /Comprar passagem/ }),
+  ).toBeVisible();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveValue(
     'Comprar passagem',

@@ -300,11 +300,11 @@ function Palette({
               placeholder={t('palette.placeholder')}
               placeholderTextColor={colors['ink-muted']}
               accessibilityLabel={t('palette.label')}
-              onSubmitEditing={() => run(results[selected])}
               onKeyPress={(event) => {
                 const key = event.nativeEvent.key;
                 if (key === 'ArrowDown') setIndex(Math.min(selected + 1, results.length - 1));
                 else if (key === 'ArrowUp') setIndex(Math.max(selected - 1, 0));
+                else if (key === 'Enter') run(results[selected]);
                 else if (key === 'Escape') onClose();
                 else return;
                 event.preventDefault();
