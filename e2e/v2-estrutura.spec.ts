@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { createPage, signUp } from './helpers';
+import { createPage, paste, signUp } from './helpers';
 
 // Fase C (V2 §5–9): estrutura e velocidade, de preferência sem mouse.
 
@@ -83,4 +83,57 @@ test('F2: renomeia a tarefa selecionada e, sem seleção, a página (com o ícon
   await name.press('Enter');
   await expect(page.getByRole('heading', { name: 'Reparos' })).toBeVisible();
   await expect(page.getByRole('navigation').getByRole('link', { name: 'Reparos' })).toBeVisible();
+});
+
+test('atalhos de lista: prioridade, concluir, apagar e desfazer, navegar', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Atalhos de teclado são do computador');
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Casa', name: 'Faxina', type: 'Lista' });
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.click();
+  await paste(page, 'Lavar louça\nVarrer\nTirar o lixo');
+  await page.getByRole('button', { name: 'Criar 3' }).click();
+  await expect(page.getByText('Tirar o lixo', { exact: true })).toBeVisible();
+
+  // N põe o foco no campo da tela; Esc sai dele
+  await page.locator('body').click({ position: { x: 5, y: 500 } });
+  await page.keyboard.press('n');
+  await expect(input).toBeFocused();
+  await input.press('Escape');
+  await page.locator('body').click({ position: { x: 5, y: 500 } });
+
+  // J seleciona a primeira; 3 dá prioridade !!!
+  await page.keyboard.press('j');
+  await page.keyboard.press('3');
+  await expect(page.getByText('!!!', { exact: true })).toBeVisible();
+
+  // X conclui, Ctrl+Z desfaz
+  const done = page.waitForResponse((r) => r.url().includes('/complete_task'));
+  await page.keyboard.press('x');
+  await done;
+  await expect(page.getByRole('checkbox', { name: 'Reabrir Lavar louça' })).toHaveCount(0);
+  const undone = page.waitForResponse((r) => r.url().includes('/uncomplete_task'));
+  await page.keyboard.press('Control+z');
+  await undone;
+  await expect(page.getByRole('checkbox', { name: 'Concluir Lavar louça' })).toBeVisible();
+
+  // Delete apaga (some na hora) e Ctrl+Z traz de volta
+  await page.keyboard.press('j');
+  await page.keyboard.press('Delete');
+  await expect(page.getByText(/^Apagada: /)).toBeVisible();
+  const gone = (await page.getByText(/^Apagada: /).textContent())!.replace('Apagada: ', '');
+  await expect(page.getByText(gone, { exact: true })).toHaveCount(0);
+  await page.keyboard.press('Control+z');
+  await expect(page.getByText(gone, { exact: true })).toBeVisible();
+
+  // G depois H vai para a Hoje; Ctrl+B esconde a barra lateral
+  await page.keyboard.press('g');
+  await page.keyboard.press('h');
+  await expect(page.getByRole('heading', { name: 'Hoje' })).toBeVisible();
+  await page.keyboard.press('Control+b');
+  await expect(page.getByRole('navigation')).toHaveCount(0);
+  await page.keyboard.press('Control+b');
+  await expect(page.getByRole('navigation')).toBeVisible();
 });

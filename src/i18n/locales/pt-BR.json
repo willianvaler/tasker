@@ -30,7 +30,23 @@
     "itemOpen": "Abrir os detalhes da tarefa selecionada",
     "listDeselect": "Tirar a seleção",
     "listNext": "Próxima tarefa da lista",
-    "listPrev": "Tarefa anterior da lista"
+    "listPrev": "Tarefa anterior da lista",
+    "taskToggle": "Concluir ou reabrir a tarefa selecionada",
+    "taskPriority1": "Prioridade !",
+    "taskPriority2": "Prioridade !!",
+    "taskPriority3": "Prioridade !!!",
+    "taskDate": "Data rápida: hoje, amanhã, próxima semana",
+    "taskAssign": "Atribuir responsável (abre os detalhes)",
+    "taskMoveUp": "Subir a tarefa na lista",
+    "taskMoveDown": "Descer a tarefa na lista",
+    "taskDelete": "Apagar a tarefa (com desfazer)",
+    "taskDuplicate": "Duplicar a tarefa",
+    "appUndo": "Desfazer a última ação",
+    "appSidebar": "Mostrar ou esconder a barra lateral",
+    "goToday": "Ir para Hoje",
+    "goInbox": "Ir para a Caixa de entrada",
+    "goMine": "Ir para Atribuídas a mim",
+    "captureFocus": "Ir para o campo de nova tarefa"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -44,7 +60,11 @@
     "pending": "@{{name}} (pendente)",
     "subtasks": "{{done}} de {{total}} subtarefas",
     "recurrence": "Repete: {{rule}}",
-    "due": "Data: {{date}}"
+    "due": "Data: {{date}}",
+    "deleted": "Apagada: {{title}}",
+    "duplicated": "Duplicada: {{title}}",
+    "dateTitle": "Data de \"{{title}}\"",
+    "nextWeek": "Próxima semana"
   },
   "nav": {
     "home": "Início",

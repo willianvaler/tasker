@@ -1,5 +1,5 @@
 import { randomUUID } from 'expo-crypto';
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ import { useCreateTasks } from '@/lib/queries/tasks';
 import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
+import { setCaptureFocus } from '@/lib/ui-state';
 import { useCanWrite } from '@/providers/write';
 import { useColors } from '@/lib/tokens';
 
@@ -104,6 +105,14 @@ export function QuickAdd({
     inputRef.current?.focus();
     onCreated?.();
   }
+
+  // Q/N põem o foco aqui quando esta é a tela em foco (V2 §9)
+  const focused = useIsFocused();
+  useEffect(() => {
+    if (!focused) return;
+    setCaptureFocus(() => inputRef.current?.focus());
+    return () => setCaptureFocus(null);
+  }, [focused]);
 
   // Na web, o <input> de uma linha troca as quebras de linha por espaço ao colar; intercepta antes
   useEffect(() => {

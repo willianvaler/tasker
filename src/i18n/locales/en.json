@@ -30,7 +30,23 @@
     "itemOpen": "Open the selected task's details",
     "listDeselect": "Clear the selection",
     "listNext": "Next task in the list",
-    "listPrev": "Previous task in the list"
+    "listPrev": "Previous task in the list",
+    "taskToggle": "Complete or reopen the selected task",
+    "taskPriority1": "Priority !",
+    "taskPriority2": "Priority !!",
+    "taskPriority3": "Priority !!!",
+    "taskDate": "Quick date: today, tomorrow, next week",
+    "taskAssign": "Assign someone (opens the details)",
+    "taskMoveUp": "Move the task up",
+    "taskMoveDown": "Move the task down",
+    "taskDelete": "Delete the task (with undo)",
+    "taskDuplicate": "Duplicate the task",
+    "appUndo": "Undo the last action",
+    "appSidebar": "Show or hide the sidebar",
+    "goToday": "Go to Today",
+    "goInbox": "Go to the Inbox",
+    "goMine": "Go to Assigned to me",
+    "captureFocus": "Go to the new task field"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -44,7 +60,11 @@
     "pending": "@{{name}} (pending)",
     "subtasks": "{{done}} of {{total}} subtasks",
     "recurrence": "Repeats: {{rule}}",
-    "due": "Date: {{date}}"
+    "due": "Date: {{date}}",
+    "deleted": "Deleted: {{title}}",
+    "duplicated": "Duplicated: {{title}}",
+    "dateTitle": "Date for \"{{title}}\"",
+    "nextWeek": "Next week"
   },
   "nav": {
     "home": "Home",

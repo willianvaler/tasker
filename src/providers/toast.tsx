@@ -12,6 +12,16 @@ const ToastContext = createContext<(toast: Omit<Toast, 'id'>) => void>(() => {})
 
 const DURATION_MS = 5000;
 
+/** Ação do aviso na tela (o "Desfazer"), para o Ctrl+Z. */
+let visibleAction: (() => void) | null = null;
+
+/** Roda o "Desfazer" do aviso que está na tela; devolve false se não há o que desfazer. */
+export function undoLast() {
+  if (!visibleAction) return false;
+  visibleAction();
+  return true;
+}
+
 /** Aviso curto no rodapé, com ação opcional (ex.: "Desfazer"). Um por vez; o novo substitui o anterior. */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toast, setToast] = useState<Toast | null>(null);
@@ -25,7 +35,17 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     if (timer.current) clearTimeout(timer.current);
     const id = Date.now();
     setToast({ ...next, id });
-    timer.current = setTimeout(() => setToast((t) => (t?.id === id ? null : t)), DURATION_MS);
+    visibleAction = next.action
+      ? () => {
+          next.action?.onPress();
+          visibleAction = null;
+          setToast((t) => (t?.id === id ? null : t));
+        }
+      : null;
+    timer.current = setTimeout(() => {
+      setToast((t) => (t?.id === id ? null : t));
+      if (visibleAction && next.action) visibleAction = null;
+    }, DURATION_MS);
   }, []);
 
   return (

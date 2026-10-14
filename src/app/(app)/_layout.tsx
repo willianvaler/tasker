@@ -8,6 +8,7 @@ import { OfflineBanner } from '@/components/offline-banner';
 import { Sidebar, useIsWide } from '@/components/sidebar';
 import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
+import { useSidebarHidden } from '@/lib/ui-state';
 import { useShortcut } from '@/lib/use-shortcut';
 import { useProfile } from '@/lib/queries/profile';
 import { useRealtimeSync } from '@/providers/realtime';
@@ -19,11 +20,12 @@ export default function AppLayout() {
   useLocaleSync();
   const onboarding = useOnboarding();
   const wide = useIsWide();
+  const sidebarHidden = useSidebarHidden();
   return (
     // Em tela larga, a barra lateral fica ao lado da pilha e não some ao abrir uma página
     <NewMenuProvider>
       <View className="flex-1 flex-row bg-paper">
-        {wide && !onboarding && <Sidebar />}
+        {wide && !onboarding && !sidebarHidden && <Sidebar />}
         <View className="flex-1">
           <OfflineBanner />
           <ListKeys />

@@ -30,6 +30,30 @@ function onControl(target: EventTarget | null, event: KeyboardEvent) {
   );
 }
 
+// Sequências ("g h"): a primeira tecla fica guardada por 1 segundo
+const SEQUENCE_MS = 1000;
+let lastKey: { key: string; at: number } | null = null;
+if (Platform.OS === 'web' && typeof window !== 'undefined') {
+  // Fase de bolha, depois dos atalhos (que escutam na captura): a tecla de agora não conta como a
+  // anterior de si mesma
+  window.addEventListener('keydown', (event) => {
+    if (isTyping(event.target) || event.ctrlKey || event.metaKey || event.altKey) lastKey = null;
+    else lastKey = { key: event.key.toLowerCase(), at: Date.now() };
+  });
+}
+
+function matches(combo: string, event: KeyboardEvent) {
+  const steps = combo.split(' ');
+  if (steps.length === 1) return matchesCombo(combo, event, isMac);
+  const [first, second] = steps;
+  return (
+    !!lastKey &&
+    lastKey.key === first &&
+    Date.now() - lastKey.at < SEQUENCE_MS &&
+    matchesCombo(second, event, isMac)
+  );
+}
+
 /**
  * Liga um atalho do registro (lib/shortcuts.ts) a uma ação, na web. Quem chama decide se vale
  * agora (`enabled`), inclusive pela permissão do atalho. Se a ação devolver `false` (não havia o
@@ -44,11 +68,12 @@ export function useShortcut(id: ShortcutId, onTrigger: () => void | boolean, ena
       const typing = isTyping(event.target);
       if (onControl(event.target, event)) return;
       const hit = combos.some(
-        (combo) => (!typing || allowedWhileTyping(combo)) && matchesCombo(combo, event, isMac),
+        (combo) => (!typing || allowedWhileTyping(combo)) && matches(combo, event),
       );
       if (!hit) return;
       if (trigger() === false) return;
       event.preventDefault();
+      lastKey = null;
     };
     // Fase de captura: o TextInput do react-native-web para a propagação do keydown
     window.addEventListener('keydown', onKeyDown, true);
