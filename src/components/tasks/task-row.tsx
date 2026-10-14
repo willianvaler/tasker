@@ -84,6 +84,7 @@ function TaskRowView({
   draggable,
   level = 1,
   gutter,
+  code,
 }: {
   task: Task;
   today: string;
@@ -95,6 +96,8 @@ function TaskRowView({
   level?: number;
   /** Lista com árvore: reserva o lugar da seta mesmo sem filhas, para alinhar */
   gutter?: boolean;
+  /** Código WBS ("1.2"), mostrado quando os códigos estão ligados */
+  code?: string;
 }) {
   const allowed = useTaskCan(task);
   const expanded = useIsExpanded(task.id);
@@ -207,6 +210,7 @@ function TaskRowView({
                 numberOfLines={2}
                 className={cn('text-base md:text-sm', done ? 'text-ink-muted' : 'text-ink')}
               >
+                {code ? <Text className="font-mono text-xs text-ink-muted">{code} </Text> : null}
                 {task.title}
               </Text>
               <PenStrike done={done} />
@@ -266,5 +270,6 @@ export const TaskRow = memo(
     a.draggable === b.draggable &&
     a.level === b.level &&
     a.gutter === b.gutter &&
+    a.code === b.code &&
     sameSubtasks(a.subtasks, b.subtasks),
 );

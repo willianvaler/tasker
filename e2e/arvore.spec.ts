@@ -103,3 +103,29 @@ test('teclado: Tab e Shift+Tab mudam o nível, ← e → fecham e abrem', async 
   await expect(page.getByRole('checkbox', { name: 'Concluir Cozinha' })).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Concluir Louça' })).toBeVisible();
 });
+
+test('estrutura: abre a árvore inteira com os códigos WBS; W liga e desliga', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Teclado: desktop');
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  await page.getByRole('button', { name: 'Adicionar várias' }).click();
+  await page
+    .getByRole('textbox', { name: 'Lista de tarefas' })
+    .fill('Mudar\n  Cozinha\n    Louça\n  Sala\nFesta');
+  await page.getByRole('button', { name: /^Criar \d+$/ }).click();
+  await expect(page.getByRole('checkbox', { name: 'Concluir Festa' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Estrutura' }).click();
+  await expect(page.getByRole('checkbox', { name: 'Concluir Louça' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '1.1 Cozinha' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '1.3 Sala' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '2 Festa' })).toBeVisible();
+
+  await page.getByRole('textbox', { name: 'Nova tarefa' }).press('Escape');
+  await page.keyboard.press('w');
+  await expect(page.getByRole('button', { name: 'Cozinha', exact: true })).toBeVisible();
+  await page.keyboard.press('w');
+  await expect(page.getByRole('button', { name: '1.1 Cozinha' })).toBeVisible();
+});

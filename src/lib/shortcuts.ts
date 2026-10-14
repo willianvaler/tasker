@@ -91,6 +91,7 @@ export const SHORTCUTS = [
     description: 'shortcuts.taskOutdent',
     scope: 'list',
   },
+  { id: 'tree.codes', combos: ['w'], description: 'shortcuts.treeCodes', scope: 'list' },
   { id: 'tree.expand', combos: ['arrowright'], description: 'shortcuts.treeExpand', scope: 'list' },
   {
     id: 'tree.collapse',

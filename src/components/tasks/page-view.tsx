@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { ChevronDown, ChevronRight, ListPlus, RotateCcw } from 'lucide-react-native';
+import { ChevronDown, ChevronRight, ListPlus, ListTree, RotateCcw } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, useWindowDimensions, View } from 'react-native';
@@ -21,8 +21,8 @@ import { useToast } from '@/providers/toast';
 import { HabitRow, useHabitDates } from './habit-row';
 import { KanbanBoard } from './kanban-board';
 import { QuickAdd } from './quick-add';
-import { branchRows, childrenMap, leafProgress } from '@/lib/task-tree';
-import { useExpanded } from '@/lib/tree-state';
+import { branchRows, childrenMap, leafProgress, parentIds, wbsCodes } from '@/lib/task-tree';
+import { treeState, useExpanded, useShowCodes } from '@/lib/tree-state';
 import { SortableTasks } from './sortable-tasks';
 import { TaskCard } from './task-card';
 import { TaskRow } from './task-row';
@@ -59,6 +59,23 @@ export function PageView({ page }: { page: Page | undefined }) {
   }, [tasks.data]);
   // Lista com árvore: as linhas abaixo de cada raiz, só nas mães abertas
   const gutter = kids.size > 0;
+  const showCodes = useShowCodes();
+  const codes = useMemo(
+    () => (showCodes ? wbsCodes(tasks.data ?? []) : null),
+    [showCodes, tasks.data],
+  );
+  const parents = useMemo(() => parentIds(tasks.data ?? []), [tasks.data]);
+  // Estrutura: a árvore inteira aberta, com os códigos
+  const structure = showCodes && parents.length > 0 && parents.every((id) => expanded.has(id));
+  function toggleStructure() {
+    if (structure) {
+      treeState.collapseAll(parents);
+      treeState.setCodes(false);
+    } else {
+      treeState.expandAll(parents);
+      treeState.setCodes(true);
+    }
+  }
   const branch = (root: Task) => branchRows(root, kids, expanded);
 
   // Ordem do teclado: as abertas (com os galhos abertos), depois as concluídas
@@ -93,6 +110,15 @@ export function PageView({ page }: { page: Page | undefined }) {
             autoFocus={viewType === 'list'}
           />
         </View>
+        {viewType === 'list' && gutter && (
+          <Button
+            variant="ghost"
+            icon={ListTree}
+            label={t('tree.structure')}
+            aria-pressed={structure}
+            onPress={toggleStructure}
+          />
+        )}
         <Button
           variant="ghost"
           icon={ListPlus}
@@ -133,6 +159,7 @@ export function PageView({ page }: { page: Page | undefined }) {
                     subtasks={subtaskCount.get(t.id)}
                     draggable
                     gutter={gutter}
+                    code={codes?.get(t.id)}
                   />
                   {branch(t).map((row) => (
                     <TaskRow
@@ -142,6 +169,7 @@ export function PageView({ page }: { page: Page | undefined }) {
                       subtasks={subtaskCount.get(row.task.id)}
                       level={row.level}
                       gutter
+                      code={codes?.get(row.task.id)}
                     />
                   ))}
                 </View>

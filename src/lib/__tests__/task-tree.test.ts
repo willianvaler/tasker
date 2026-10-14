@@ -11,7 +11,10 @@ import {
   formatDuration,
   leafEstimates,
   leafProgress,
+  parentIds,
   parseDuration,
+  wbsCodes,
+  wbsOutline,
 } from '../task-tree';
 
 const task = (id: string, parent: string | null, done = false) => ({
@@ -133,5 +136,36 @@ describe('teclado na árvore', () => {
     expect(levelOf(tasks[2], byId)).toBe(3);
     expect(branchHeight('a', childrenMap(tasks))).toBe(3);
     expect(branchHeight('e', childrenMap(tasks))).toBe(1);
+  });
+});
+
+describe('códigos WBS', () => {
+  const t = (id: string, parent: string | null, position: number, title = id, done = false) => ({
+    ...task(id, parent, done),
+    position,
+    title,
+  });
+  const tasks = [
+    t('b', null, 2, 'Festa'),
+    t('a', null, 1, 'Mudar'),
+    t('a2', 'a', 2, 'Sala', true),
+    t('a1', 'a', 1, 'Cozinha'),
+    t('a1x', 'a1', 1, 'Louça'),
+  ];
+
+  test('numeração pela posição, em qualquer nível', () => {
+    const codes = wbsCodes(tasks);
+    expect(codes.get('a')).toBe('1');
+    expect(codes.get('a1')).toBe('1.1');
+    expect(codes.get('a1x')).toBe('1.1.1');
+    expect(codes.get('a2')).toBe('1.2');
+    expect(codes.get('b')).toBe('2');
+  });
+
+  test('texto exportado com recuo e concluídas marcadas', () => {
+    expect(wbsOutline(tasks)).toBe(
+      '1 Mudar\n  1.1 Cozinha\n    1.1.1 Louça\n  1.2 Sala [x]\n2 Festa',
+    );
+    expect(parentIds(tasks).sort()).toEqual(['a', 'a1']);
   });
 });

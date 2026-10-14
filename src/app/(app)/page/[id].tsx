@@ -13,7 +13,10 @@ import { PageView } from '@/components/tasks/page-view';
 import { IconButton } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
+import { saveTextFile } from '@/lib/download';
 import { setLastPageId } from '@/lib/prefs';
+import { usePageTasks } from '@/lib/queries/tasks';
+import { wbsOutline } from '@/lib/task-tree';
 import { findFolder, pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
@@ -30,6 +33,7 @@ export default function PageScreen() {
   const [folderActions, folderDialog] = useFolderActions();
   const { t } = useTranslation();
   const page = tree.data?.pages.find((p) => p.id === id);
+  const pageTasks = usePageTasks(id);
 
   // A captura rápida global usa a última página aberta como destino padrão
   useEffect(() => {
@@ -104,6 +108,19 @@ export default function PageScreen() {
             { label: t('page.settings'), onPress: () => setDialog('settings') },
             { label: t('page.duplicate'), onPress: () => setDialog('duplicate') },
             { label: t('folder.moveTo'), onPress: () => folderActions.movePage(page) },
+            ...(pageTasks.data?.some((task) => task.parent_task_id)
+              ? [
+                  {
+                    label: t('tree.export'),
+                    onPress: () =>
+                      saveTextFile(
+                        `${page.name}.txt`,
+                        wbsOutline(pageTasks.data ?? []),
+                        'text/plain',
+                      ),
+                  },
+                ]
+              : []),
           ]}
         />
       )}

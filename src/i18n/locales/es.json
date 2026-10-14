@@ -54,7 +54,8 @@
     "taskIndent": "Convertir en subtarea de la tarea de arriba",
     "taskOutdent": "Subir un nivel",
     "treeExpand": "Abrir las subtareas",
-    "treeCollapse": "Cerrar las subtareas (o ir a la madre)"
+    "treeCollapse": "Cerrar las subtareas (o ir a la madre)",
+    "treeCodes": "Mostrar u ocultar los códigos WBS (1.2.1)"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -1077,6 +1078,8 @@
     "collapse": "Cerrar subtareas de {{title}}",
     "limit": "Pasaría de {{max}} niveles. Sube un nivel o aumenta el límite del proyecto.",
     "full": "Esa tarea ya tiene 50 subtareas.",
-    "first": "No hay una tarea arriba para ser la madre."
+    "first": "No hay una tarea arriba para ser la madre.",
+    "structure": "Estructura",
+    "export": "Exportar estructura (texto)"
   }
 }

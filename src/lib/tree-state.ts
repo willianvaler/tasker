@@ -4,6 +4,7 @@ import { useSyncExternalStore } from 'react';
 // re-renderiza só quem olha para ela.
 
 let expanded = new Set<string>();
+let showCodes = false;
 const listeners = new Set<() => void>();
 
 function set(next: Set<string>) {
@@ -27,6 +28,18 @@ export const treeState = {
     set(next);
   },
   toggle: (id: string) => (expanded.has(id) ? treeState.collapse(id) : treeState.expand(id)),
+  /** Abre várias de uma vez (visão Estrutura) */
+  expandAll: (ids: readonly string[]) => set(new Set([...expanded, ...ids])),
+  collapseAll: (ids: readonly string[]) => {
+    const next = new Set(expanded);
+    for (const id of ids) next.delete(id);
+    set(next);
+  },
+  codes: () => showCodes,
+  setCodes: (value: boolean) => {
+    showCodes = value;
+    for (const listener of listeners) listener();
+  },
 };
 
 /** O conjunto inteiro (para montar as linhas visíveis). */
@@ -41,4 +54,9 @@ export function useIsExpanded(id: string) {
     () => expanded.has(id),
     () => expanded.has(id),
   );
+}
+
+/** Códigos WBS visíveis ("1.2.1" antes do título; tecla W). */
+export function useShowCodes() {
+  return useSyncExternalStore(subscribe, treeState.codes, treeState.codes);
 }

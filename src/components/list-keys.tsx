@@ -169,6 +169,7 @@ export function ListKeys() {
     'task.outdent',
     onSelected((task) => applyPlan(task, planOutdent(task, pageTasks(task)), maxDepthFor(task))),
   );
+  useShortcut('tree.codes', () => treeState.setCodes(!treeState.codes()));
   useShortcut(
     'tree.expand',
     onSelected((task) => {

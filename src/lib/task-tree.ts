@@ -182,3 +182,39 @@ export function planOutdent(task: TreeTask, tasks: readonly TreeTask[]): MovePla
     position: next ? (parent.position + next.position) / 2 : parent.position + 1,
   };
 }
+
+/** Códigos WBS: raízes "1", "2"…; filhas "1.1", "1.2"…, na ordem de posição (concluídas contam). */
+export function wbsCodes<T extends TreeTask>(tasks: readonly T[]): Map<string, string> {
+  const children = childrenMap(tasks);
+  const codes = new Map<string, string>();
+  const walk = (list: T[], prefix: string, seen: Set<string>) =>
+    list.forEach((task, i) => {
+      if (seen.has(task.id)) return;
+      const code = prefix ? `${prefix}.${i + 1}` : `${i + 1}`;
+      codes.set(task.id, code);
+      walk(children.get(task.id) ?? [], code, new Set(seen).add(task.id));
+    });
+  walk(
+    tasks.filter((t) => !t.parent_task_id).sort((a, b) => a.position - b.position),
+    '',
+    new Set(),
+  );
+  return codes;
+}
+
+/** Todas as mães (para abrir a árvore inteira na visão Estrutura). */
+export function parentIds(tasks: readonly Node[]) {
+  return [...new Set(tasks.flatMap((t) => (t.parent_task_id ? [t.parent_task_id] : [])))];
+}
+
+/** Estrutura em texto, uma linha por tarefa com recuo e código ("1.2 Cozinha [x]"). */
+export function wbsOutline<T extends TreeTask & { title: string }>(tasks: readonly T[]) {
+  const codes = wbsCodes(tasks);
+  return [...codes.entries()]
+    .map(([id, code]) => {
+      const task = tasks.find((t) => t.id === id);
+      const indent = '  '.repeat(code.split('.').length - 1);
+      return `${indent}${code} ${task?.title ?? ''}${task?.status === 'done' ? ' [x]' : ''}`;
+    })
+    .join('\n');
+}
