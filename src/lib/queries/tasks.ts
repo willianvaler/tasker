@@ -317,6 +317,7 @@ function optimisticTask(
     page_id: pageId,
     folder_id: '',
     parent_task_id: null,
+    depth: 1,
     title: item.title,
     notes: null,
     status: item.done ? 'done' : 'todo',
@@ -429,6 +430,7 @@ export function useCreateSubtask() {
               page_id: parent.page_id,
               folder_id: parent.folder_id,
               parent_task_id: parent.id,
+              depth: (parent.depth ?? 1) + 1,
               title,
               position: Date.now(),
             },
@@ -896,6 +898,7 @@ type LocalTaskInsert = {
   title: string;
   position: number;
   parent_task_id?: string | null;
+  depth?: number;
   priority?: number;
   due_date?: string | null;
   labels?: string[];
@@ -910,15 +913,17 @@ type Tx = { execute: (sql: string, params?: unknown[]) => Promise<unknown> };
 async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | null) {
   const now = new Date().toISOString();
   await tx.execute(
-    `insert into tasks (id, page_id, folder_id, parent_task_id, title, status, priority, due_date,
+    `insert into tasks (id, page_id, folder_id, parent_task_id, depth, title, status, priority, due_date,
        labels, recurrence, meta, position, habit_kind, habit_target, count_up, count_down,
        created_by, created_at, updated_at, version)
-     values (?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1)`,
+     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1)`,
     [
       task.id,
       task.page_id,
       task.folder_id,
       task.parent_task_id ?? null,
+      // O servidor recalcula; aqui é para a árvore já aparecer certa offline
+      task.depth ?? (task.parent_task_id ? 2 : 1),
       task.title,
       task.priority ?? 0,
       task.due_date ?? null,

@@ -341,14 +341,14 @@ isOneToOne: false
                   ]
                 },"folders": {
                   Row: {
-                    "archived": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
+                    "archived": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"max_depth": number | null,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -459,14 +459,14 @@ isOneToOne: false
                   ]
                 },"pages": {
                   Row: {
-                    "created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"]
+                    "created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"]
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"name": string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Update: {
-                    "created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"name"?: string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name"?: string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Relationships: [
                     {
@@ -583,14 +583,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"done_cycle_key": string | null,"due_date": string | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number
+                    "completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -936,6 +936,9 @@ isOneToOne: false
 "_clan_log":
 { Args: { "p_action": string,"p_clan_id": string,"p_payload": Json,"p_user": string }; Returns: undefined
                            },
+"_depth_overflow":
+{ Args: { "p_limit": number,"p_page_ids": (string)[] }; Returns: string
+                           },
 "_detach_member":
 { Args: { "p_root": string,"p_user_id": string }; Returns: undefined
                            },
@@ -1069,6 +1072,7 @@ isOneToOne: false
 "count_up": number,
 "created_at": string,
 "created_by": string,
+"depth": number,
 "done_cycle_key": string | null,
 "due_date": string | null,
 "folder_id": string,
@@ -1245,6 +1249,9 @@ isOneToOne: false
 "normalize_labels":
 { Args: { "p_labels": (string)[] }; Returns: (string)[]
                            },
+"page_max_depth":
+{ Args: { "p_page_id": string }; Returns: number
+                           },
 "patch_task_labels":
 { Args: { "p_add": (string)[],"p_remove": (string)[],"p_task_id": string }; Returns: undefined
                            },
@@ -1340,6 +1347,9 @@ isOneToOne: false
 "streak_stats":
 { Args: { "p_today": string,"p_user": string }; Returns: Record<string, unknown>
                            },
+"subtree_height":
+{ Args: { "p_task_id": string }; Returns: number
+                           },
 "task_cycle_kind":
 { Args: { "p_recurrence": Json,"p_reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"p_view_type": Database["public"]['Enums']["page_view_type"] }; Returns: string
                            },
@@ -1356,6 +1366,9 @@ isOneToOne: false
 { Args: Record<PropertyKey, never>; Returns: {
               "deleted_at": string,"id": string,"items": number,"kind": string,"title": string
             }[]
+                           },
+"tree_limits":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "uncomplete_task":
 { Args: { "p_task_id": string }; Returns: Json

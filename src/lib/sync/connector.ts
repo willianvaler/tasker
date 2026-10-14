@@ -21,11 +21,11 @@ export const POWERSYNC_URL = envUrl?.startsWith('/')
 const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   folders: {
     insert: ['name', 'parent_id', 'icon', 'color', 'position', 'kind'],
-    update: ['name', 'icon', 'color', 'position', 'archived', 'kind'],
+    update: ['name', 'icon', 'color', 'position', 'archived', 'kind', 'max_depth'],
   },
   pages: {
     insert: ['folder_id', 'name', 'icon', 'view_type', 'reset_cycle', 'position'],
-    update: ['folder_id', 'name', 'icon', 'view_type', 'reset_cycle', 'position'],
+    update: ['folder_id', 'name', 'icon', 'view_type', 'reset_cycle', 'position', 'max_depth'],
   },
   tasks: {
     insert: [
