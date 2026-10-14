@@ -8,7 +8,7 @@
 
 ## Estado atual
 
-**V2/V3 em andamento:** veja `docs/STATUS.md`. Antes disso, **Fases 0 a 6 concluídas** (todas as do ESCOPO), mais a **Fase 7** (RPG leve e redesign para tela larga, D60 a D67; Início, tela Hábitos e página de hábitos de sistema, D68 a D70). Falta só o que depende do dono do projeto (contas das lojas e do EAS, nome/ícone, domínio, e-mail, teste em aparelho): veja `PUBLICACAO.md`. Barra lateral e telas de pasta em D32; gamificação em D33 a D39; projetos em D40 a D48; clã, bosses cooperativos, fila offline e privacidade em D49 a D53; Fase 6 (kanban, tema, onboarding, acessibilidade/performance, push, publicação) em D54 a D59; Fase 7 (dano separado do XP, classes, atributos, níveis de boss, ouro, loja e drops, hábitos contador e bom/ruim, conquistas, telas largas) em D60 a D67.
+**V2/V3 em andamento:** veja `docs/STATUS.md`. Fases A (fundação: i18n, `can()`, atalhos, decisão de sync D75), B (visual "Caderno de bolso", `docs/DESIGN.md`) e C (pasta × projeto, menu Novo, F2, seletor de ícone, atalhos, paleta, criação avançada, `/ajuda`) concluídas, D71 a D81. Antes disso, **Fases 0 a 6 concluídas** (todas as do ESCOPO), mais a **Fase 7** (RPG leve e redesign para tela larga, D60 a D67; Início, tela Hábitos e página de hábitos de sistema, D68 a D70). Falta só o que depende do dono do projeto (contas das lojas e do EAS, nome/ícone, domínio, e-mail, teste em aparelho): veja `PUBLICACAO.md`. Barra lateral e telas de pasta em D32; gamificação em D33 a D39; projetos em D40 a D48; clã, bosses cooperativos, fila offline e privacidade em D49 a D53; Fase 6 (kanban, tema, onboarding, acessibilidade/performance, push, publicação) em D54 a D59; Fase 7 (dano separado do XP, classes, atributos, níveis de boss, ouro, loja e drops, hábitos contador e bom/ruim, conquistas, telas largas) em D60 a D67.
 
 ## Stack
 
@@ -116,6 +116,13 @@ supabase/
   tests/                      # pgTAP (*.test.sql)
 e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, shown, createPage, ageCycle, ageTask)
 ```
+
+## Peças da V2 (Fases A a C)
+
+- `src/i18n/` (i18next; chaves tipadas pelo `pt-BR.json`), `lib/permissions.ts` (`can()`), `lib/tokens.ts` (cores, durações, medidas), `lib/fonts.ts`.
+- `lib/shortcuts.ts` (registro) + `lib/use-shortcut.ts`; os atalhos de lista e globais são tratados em `components/list-keys.tsx`; a seleção da lista mora em `lib/selection.ts` (store com assinatura por linha) e as telas registram a ordem com `useSelectableList`.
+- `components/new-menu.tsx` (menu Novo), `components/command-palette.tsx` (Ctrl+K), `components/icon-picker.tsx` + `lib/icon-names.ts`/`lib/icons.ts` (ícones `lucide:id`), `components/item-icon.tsx`, `components/ui/*` (Button/IconButton, Checkbox/StampBox, Sheet, Popover/MenuItem, SectionLabel, EmptyState, Avatar/PersonRow, ToggleRow, Text).
+- Rotas novas: `/task/new` (criação avançada), `/ajuda`, `/design` (só em desenvolvimento).
 
 ## Regras do projeto
 
