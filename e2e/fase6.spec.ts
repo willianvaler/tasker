@@ -93,16 +93,22 @@ test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ 
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   await input.fill('Comprar pão amanhã !!');
   await input.press('Enter');
-  await expect(page.getByText('✓ Tarefa criada na Caixa de entrada.')).toBeVisible();
+  await expect(page.getByText('1 tarefa criada na Caixa de entrada.')).toBeVisible();
   await page.getByRole('button', { name: 'Próximo' }).click();
 
   // 2. Organizar: cria a pasta de treino pronta
   await expect(page.getByRole('heading', { name: 'Organize em pastas' })).toBeVisible();
   await page.getByRole('button', { name: 'Criar pasta Academia' }).click();
-  await expect(page.getByText('🏋️ Academia ✓')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Criar pasta Academia' })).toHaveAttribute(
+    'aria-disabled',
+    'true',
+  );
   // Hábitos sugeridos não viram pasta: vão para a tela Hábitos (D68)
   await page.getByRole('button', { name: 'Adicionar hábitos sugeridos' }).click();
-  await expect(page.getByText('🔥 Hábitos sugeridos ✓')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Adicionar hábitos sugeridos' })).toHaveAttribute(
+    'aria-disabled',
+    'true',
+  );
   await page.getByRole('button', { name: 'Próximo' }).click();
 
   // 3. Gamificação

@@ -1,14 +1,19 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, ScrollView, Switch, View } from 'react-native';
+import { Check, Folder, Swords, Zap, type LucideIcon } from 'lucide-react-native';
+import { useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { ItemIcon } from '@/components/item-icon';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
+import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
-import { cn } from '@/lib/cn';
+import { ToggleRow } from '@/components/ui/toggle-row';
 import { useGameState, useSetGamification } from '@/lib/queries/game';
 import { keys } from '@/lib/queries/keys';
 import { useToday, useUpdateProfile, type Profile } from '@/lib/queries/profile';
@@ -19,13 +24,14 @@ import { parseQuickInput } from '@/lib/parser/quick';
 import { STARTER_TEMPLATES, templateData } from '@/lib/templates';
 import { useToast } from '@/providers/toast';
 
-const STEPS = ['Capturar', 'Organizar', 'Jogar'] as const;
+const STEPS = 3;
 
 /**
  * Onboarding guiado em 3 passos (ESCOPO 12, Fase 6): capturar rápido, organizar em pastas,
  * entender a gamificação. Aparece uma vez por conta; dá para pular a qualquer momento.
  */
 export default function OnboardingScreen() {
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const update = useUpdateProfile();
   const queryClient = useQueryClient();
@@ -42,21 +48,14 @@ export default function OnboardingScreen() {
     <SafeAreaView className="flex-1 bg-paper">
       <View className="w-full max-w-lg flex-1 self-center px-6">
         <View className="flex-row items-center py-3">
-          <View className="flex-1 flex-row gap-2" accessibilityLabel={`Passo ${step + 1} de 3`}>
-            {STEPS.map((s, i) => (
-              <View
-                key={s}
-                className={cn('h-1.5 flex-1 rounded-full', i <= step ? 'bg-accent' : 'bg-wash')}
-              />
-            ))}
-          </View>
-          <Pressable
-            accessibilityRole="button"
-            className="ml-3 min-h-11 justify-center px-2"
-            onPress={finish}
+          <View
+            className="flex-1 flex-row items-center gap-3"
+            accessibilityLabel={t('onboarding.step', { n: step + 1 })}
           >
-            <Text className="text-sm text-ink-muted">Pular introdução</Text>
-          </Pressable>
+            <Text className="font-mono text-xs text-ink-muted">{step + 1}/3</Text>
+            <ProgressBar className="flex-1" value={(step + 1) / STEPS} label="" />
+          </View>
+          <Button variant="ghost" className="ml-3" label={t('onboarding.skip')} onPress={finish} />
         </View>
 
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-8 pt-4">
@@ -67,14 +66,14 @@ export default function OnboardingScreen() {
 
         <View className="flex-row justify-between py-4">
           {step > 0 ? (
-            <Button variant="ghost" label="Voltar" onPress={() => setStep(step - 1)} />
+            <Button variant="ghost" label={t('common.back')} onPress={() => setStep(step - 1)} />
           ) : (
             <View />
           )}
-          {step < STEPS.length - 1 ? (
-            <Button label="Próximo" onPress={() => setStep(step + 1)} />
+          {step < STEPS - 1 ? (
+            <Button label={t('onboarding.next')} onPress={() => setStep(step + 1)} />
           ) : (
-            <Button label="Começar" onPress={finish} />
+            <Button label={t('onboarding.start')} onPress={finish} />
           )}
         </View>
       </View>
@@ -82,11 +81,11 @@ export default function OnboardingScreen() {
   );
 }
 
-function Title({ emoji, title, children }: { emoji: string; title: string; children: string }) {
+function Title({ icon, title, children }: { icon: LucideIcon; title: string; children: string }) {
   return (
-    <View className="gap-2">
-      <Text style={{ fontSize: 40, lineHeight: 48 }}>{emoji}</Text>
-      <Text accessibilityRole="header" className="text-xl font-semibold text-ink">
+    <View className="gap-3">
+      <Icon icon={icon} size={24} tone="accent" />
+      <Text accessibilityRole="header" className="font-serif text-xl text-ink">
         {title}
       </Text>
       <Text className="text-base text-ink-muted">{children}</Text>
@@ -94,46 +93,105 @@ function Title({ emoji, title, children }: { emoji: string; title: string; child
   );
 }
 
+/** Lista curta de exemplos em mono, sem caixa. */
+function Hints({ lines }: { lines: string[] }) {
+  return (
+    <View className="gap-1 border-l-2 border-line pl-3">
+      {lines.map((line) => (
+        <Text key={line} className="font-mono text-xs text-ink-muted">
+          {line}
+        </Text>
+      ))}
+    </View>
+  );
+}
+
+/** Opção de começar com algo pronto: linha com ícone e o "feito" no acento. */
+function StarterRow({
+  label,
+  title,
+  text,
+  icon,
+  created,
+  disabled,
+  onPress,
+}: {
+  label: string;
+  title: string;
+  text: string;
+  icon: ReactNode;
+  created: boolean;
+  disabled: boolean;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      aria-disabled={created}
+      disabled={disabled}
+      className="flex-row items-start gap-3 border-b border-line py-3 hover:bg-wash active:bg-wash"
+      onPress={onPress}
+    >
+      <View className="pt-1">{icon}</View>
+      <View className="flex-1 gap-1">
+        <Text className="text-sm font-semibold text-ink">{title}</Text>
+        <Text className="text-sm text-ink-muted">{text}</Text>
+      </View>
+      {created && <Icon icon={Check} tone="accent" />}
+    </Pressable>
+  );
+}
+
 function CaptureStep() {
+  const { t } = useTranslation();
   const tree = useTree();
   const today = useToday();
   const [created, setCreated] = useState(0);
   return (
     <>
-      <Title emoji="⚡" title="Anote em 2 segundos">
-        Digite e aperte Enter. Data, prioridade e etiqueta saem do próprio texto. Colar uma lista
-        cria várias de uma vez.
+      <Title icon={Zap} title={t('onboarding.captureTitle')}>
+        {t('onboarding.captureText')}
       </Title>
       <QuickAdd
         pageId={tree.data?.inbox?.id}
         defaultDueDate={today}
-        placeholder="Experimente: Comprar pão amanhã !! #casa"
+        placeholder={t('onboarding.capturePlaceholder')}
         onCreated={() => setCreated((n) => n + 1)}
       />
       {created > 0 && (
         <Text className="text-sm text-accent" accessibilityLiveRegion="polite">
-          ✓ {created === 1 ? 'Tarefa criada' : `${created} tarefas criadas`} na Caixa de entrada.
+          {t('onboarding.created', { count: created })}
         </Text>
       )}
-      <View className="gap-1 rounded-lg bg-wash p-3">
-        <Text className="text-sm text-ink">amanhã, sexta, 15/10 → vencimento</Text>
-        <Text className="text-sm text-ink">! !! !!! → prioridade</Text>
-        <Text className="text-sm text-ink">#mercado → etiqueta</Text>
-        <Text className="text-sm text-ink">/diaria, /seg,qua,sex → repete</Text>
-      </View>
+      <Hints
+        lines={[
+          t('onboarding.syntaxDate'),
+          t('onboarding.syntaxPriority'),
+          t('onboarding.syntaxLabel'),
+          t('onboarding.syntaxRepeat'),
+        ]}
+      />
     </>
   );
 }
 
 /** Hábitos sugeridos: vão para a página de Hábitos (D68), não viram pasta. */
-const STARTER_HABITS: { title: string; kind: Task['habit_kind']; target?: number }[] = [
-  { title: 'Beber um copo de água', kind: 'counter', target: 8 },
-  { title: 'Meditar 5 minutos', kind: 'check' },
-  { title: 'Ler 10 páginas /seg,qua,sex', kind: 'check' },
-  { title: 'Comer bem', kind: 'plusminus' },
-];
+// A repetição vai na sintaxe que o parser entende (português, por enquanto: F3 traduz o parser)
+const STARTER_HABITS = [
+  { title: 'onboarding.habitWater', kind: 'counter', target: 8 },
+  { title: 'onboarding.habitMeditate', kind: 'check' },
+  { title: 'onboarding.habitRead', kind: 'check', repeat: '/seg,qua,sex' },
+  { title: 'onboarding.habitEat', kind: 'plusminus' },
+] as const satisfies readonly {
+  title: string;
+  kind: Task['habit_kind'];
+  target?: number;
+  repeat?: string;
+}[];
 
 function OrganizeStep() {
+  const { t } = useTranslation();
   const today = useToday();
   const tree = useTree();
   const m = useTemplateMutations();
@@ -148,109 +206,83 @@ function OrganizeStep() {
       {
         pageId,
         items: STARTER_HABITS.map((h) => ({
-          ...parseQuickInput(h.title, { today }),
+          ...parseQuickInput(`${t(h.title)}${'repeat' in h ? ` ${h.repeat}` : ''}`, { today }),
           habitKind: h.kind,
-          habitTarget: h.target ?? null,
+          habitTarget: 'target' in h ? h.target : null,
           id: randomUUID(),
         })),
       },
       {
         onSuccess: () => setDone((d) => [...d, 'habitos']),
-        onError: (err) => toast({ message: `Não deu certo: ${err.message}` }),
+        onError: (err) => toast({ message: t('onboarding.error', { message: err.message }) }),
       },
     );
   }
   return (
     <>
-      <Title emoji="📁" title="Organize em pastas">
-        Pastas guardam páginas: uma lista, um treino em cards. Os hábitos têm lugar próprio, no menu
-        Hábitos. Quer começar com algo pronto? Dá para mudar tudo depois.
+      <Title icon={Folder} title={t('onboarding.organizeTitle')}>
+        {t('onboarding.organizeText')}
       </Title>
-      {STARTER_TEMPLATES.map((t) => {
-        const created = done.includes(t.key);
-        if (t.key === 'habitos') {
+      <View className="border-t border-line">
+        {STARTER_TEMPLATES.map((tpl) => {
+          const created = done.includes(tpl.key);
+          if (tpl.key === 'habitos')
+            return (
+              <StarterRow
+                key={tpl.key}
+                label={t('onboarding.habitsLabel')}
+                title={t('onboarding.habitsTitle')}
+                text={t('onboarding.habitsText')}
+                icon={<ItemIcon kind="habits" size={20} />}
+                created={created}
+                disabled={created || createTasks.isPending || !tree.data?.habits}
+                onPress={createHabits}
+              />
+            );
           return (
-            <Pressable
-              key={t.key}
-              accessibilityRole="button"
-              accessibilityLabel="Adicionar hábitos sugeridos"
-              aria-disabled={created}
-              disabled={created || createTasks.isPending || !tree.data?.habits}
-              className={cn(
-                'gap-1 rounded-lg border p-4 active:opacity-70',
-                created ? 'border-accent bg-surface' : 'border-line',
-              )}
-              onPress={createHabits}
-            >
-              <Text className="text-lg font-semibold text-ink">
-                🔥 Hábitos sugeridos {created ? '✓' : ''}
-              </Text>
-              <Text className="text-sm text-ink-muted">
-                Água (contador, meta 8), meditar, ler e &quot;comer bem&quot; (bom e ruim). Ficam em
-                Hábitos, no menu.
-              </Text>
-            </Pressable>
+            <StarterRow
+              key={tpl.key}
+              label={t('onboarding.createFolder', { name: tpl.name })}
+              title={tpl.name}
+              text={tpl.description}
+              icon={<ItemIcon icon={tpl.icon} kind="folder" size={20} />}
+              created={created}
+              disabled={created || m.createFrom.isPending}
+              onPress={() =>
+                m.createFrom.mutate(
+                  { name: tpl.name, icon: tpl.icon, data: templateData(tpl, today), shared: false },
+                  {
+                    onSuccess: () => setDone((d) => [...d, tpl.key]),
+                    onError: (err) =>
+                      toast({ message: t('onboarding.error', { message: err.message }) }),
+                  },
+                )
+              }
+            />
           );
-        }
-        return (
-          <Pressable
-            key={t.key}
-            accessibilityRole="button"
-            accessibilityLabel={`Criar pasta ${t.name}`}
-            aria-disabled={created}
-            disabled={created || m.createFrom.isPending}
-            className={cn(
-              'gap-1 rounded-lg border p-4 active:opacity-70',
-              created ? 'border-accent bg-surface' : 'border-line',
-            )}
-            onPress={() =>
-              m.createFrom.mutate(
-                { name: t.name, icon: t.icon, data: templateData(t, today), shared: false },
-                {
-                  onSuccess: () => setDone((d) => [...d, t.key]),
-                  onError: (err) => toast({ message: `Não deu certo: ${err.message}` }),
-                },
-              )
-            }
-          >
-            <Text className="text-lg font-semibold text-ink">
-              {t.icon} {t.name} {created ? '✓' : ''}
-            </Text>
-            <Text className="text-sm text-ink-muted">{t.description}</Text>
-          </Pressable>
-        );
-      })}
+        })}
+      </View>
     </>
   );
 }
 
 function GameStep() {
+  const { t } = useTranslation();
   const game = useGameState();
   const setEnabled = useSetGamification();
   const enabled = game.data?.enabled ?? true;
   return (
     <>
-      <Title emoji="⚔️" title="Ganhe XP fazendo">
-        Cada tarefa concluída vale XP e sobe seu nível. Dias seguidos viram sequência (um dia de
-        folga por semana não quebra). Toda semana aparece um boss: seu XP é o dano nele.
+      <Title icon={Swords} title={t('onboarding.gameTitle')}>
+        {t('onboarding.gameText')}
       </Title>
-      <View className="gap-1 rounded-lg bg-wash p-3">
-        <Text className="text-sm text-ink">Nada de punição: tarefa esquecida não tira XP.</Text>
-        <Text className="text-sm text-ink">
-          Em projetos e clãs, o boss é de todo mundo, e quem ajudou ganha a recompensa.
-        </Text>
-      </View>
-      <View className="flex-row items-center gap-3">
-        <Text className="flex-1 text-base text-ink">
-          {enabled ? 'Gamificação ligada' : 'Gamificação desligada (dá para ligar no Perfil)'}
-        </Text>
-        <Switch
-          accessibilityLabel="Gamificação"
-          aria-checked={enabled}
-          value={enabled}
-          onValueChange={(value) => setEnabled.mutate(value)}
-        />
-      </View>
+      <Hints lines={[t('onboarding.noPunish'), t('onboarding.shared')]} />
+      <ToggleRow
+        title={t('gameProfile.toggle')}
+        hint={t(enabled ? 'onboarding.gameOn' : 'onboarding.gameOff')}
+        value={enabled}
+        onChange={(value) => setEnabled.mutate(value)}
+      />
     </>
   );
 }
