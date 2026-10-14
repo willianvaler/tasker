@@ -44,9 +44,9 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 - [x] **D0** Protótipo PowerSync: serviço local (`npm run sync:start`), Sync Streams por membro, banco local na web, escrita offline pela fila até as RPCs, revogação; tela `/sync` e `e2e/sync.spec.ts` (D82). Falta provar o op-sqlite num development build
 - [x] **D1** Ids UUID v7 no app (`lib/uuid.ts`), `version`/`updated_by`/`updated_at` em pastas, páginas e tarefas; `change_seq` e `deleted_at` não entram com PowerSync, a lixeira vira tabela própria na D7 (D83)
-- [ ] **D2** `LocalStore` (interface) + implementação `expo-sqlite` (nativo) e web (SQLite WASM ou IndexedDB)
-- [ ] **D3** Outbox de mutations com `mutation_id`, worker em lote, `sync/push` idempotente com checagem de permissão por mutation
-- [ ] **D4** `sync/pull` por cursor, snapshot inicial paginado, Realtime só como aviso, evento de revogação apagando dados locais
+- [x] **D2** Banco local: é o SQLite do PowerSync (`lib/sync/db.ts` nativo com op-sqlite, `db.web.ts` com wa-sqlite em worker), feito na D0; não há `LocalStore` próprio (D84)
+- [x] **D3** Fila: a do PowerSync; o `uploadData` manda só as colunas com grant, cria tarefa pelo `create_tasks_batch` e as ações de RPC pela tabela local `commands` → `run_once` (chave de idempotência, tabela `applied_ops`); erro definitivo descarta, erro de rede repete (D84)
+- [x] **D4** Leitura: Sync Streams com responsáveis, comentários, conclusões, perfis (o meu inteiro; dos outros, nome e avatar); revogação e reenvio cobertos no `e2e/sync.spec.ts`
 - [ ] **D5** Conflitos: LWW por campo (HLC), conclusão como evento, conjuntos para etiquetas/subtarefas, `conflict_copies` nas notas
 - [ ] **D6** Telas lendo do `LocalStore` (troca do TanStack Query por leitura local, tela por tela — um commit por tela)
 - [ ] **D7** Lixeira 30 dias + rotina de retenção de tombstones; `docs/OPERACOES.md` (backup/restauração)

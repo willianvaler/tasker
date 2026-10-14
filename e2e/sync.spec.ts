@@ -36,7 +36,7 @@ test('sync: offline, fila, servidor e revogação', async ({ page, context }, te
   await context.setOffline(true);
   await page.getByRole('checkbox', { name: title }).click();
   await expect(page.getByRole('checkbox', { name: title })).toHaveAttribute('aria-checked', 'true');
-  await expect(page.getByText('1 alterações esperando envio')).toBeVisible();
+  await expect(page.getByText(/^[1-9]\d* alterações esperando envio/)).toBeVisible();
   expect((await serverTask(title)).status).toBe('todo');
   await context.setOffline(false);
   await expect
@@ -55,4 +55,42 @@ test('sync: offline, fila, servidor e revogação', async ({ page, context }, te
   // Sem a participação na pasta, os dados dela somem do aparelho
   await adminRest(`folder_members?folder_id=eq.${folder_id}`, { method: 'DELETE' });
   await expect(page.getByText(`${title} (servidor)`)).toHaveCount(0, { timeout: 15_000 });
+});
+
+test('sync: reenvio depois de resposta perdida não duplica', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await page.goto('/sync');
+  await expect(page.getByText('Conectado', { exact: true })).toBeVisible({ timeout: 20_000 });
+
+  const title = `Recorrente ${testInfo.project.name} ${Date.now()}`;
+  const field = page.getByPlaceholder('Nova tarefa na Caixa de entrada');
+  await field.fill(title);
+  await field.press('Enter');
+  await expect.poll(async () => (await serverTask(title))?.status).toBe('todo');
+  const { id } = await serverTask(title);
+  await adminRest(`tasks?id=eq.${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ due_date: '2026-10-15', recurrence: { type: 'monthly' } }),
+  });
+
+  // A primeira chamada chega ao servidor, mas a resposta não volta: o app vai reenviar
+  let lost = false;
+  await page.route('**/rest/v1/rpc/run_once', async (route) => {
+    if (lost) return route.continue();
+    lost = true;
+    await route.fetch();
+    await route.abort('connectionreset');
+  });
+  await page.getByRole('checkbox', { name: title }).click();
+  await expect.poll(() => lost).toBe(true);
+  await expect
+    .poll(async () => (await adminRest(`tasks?id=eq.${id}&select=due_date`))[0].due_date)
+    .toBe('2026-11-15');
+  await expect(page.getByText('0 alterações esperando envio')).toBeVisible({ timeout: 30_000 });
+
+  const [task] = await adminRest(`tasks?id=eq.${id}&select=due_date`);
+  expect(task.due_date).toBe('2026-11-15');
+  const completions = await adminRest(`task_completions?task_id=eq.${id}&select=id`);
+  expect(completions).toHaveLength(1);
 });

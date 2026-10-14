@@ -14,62 +14,116 @@ export const POWERSYNC_URL = envUrl?.startsWith('/')
   ? `${globalThis.location?.origin ?? ''}${envUrl}`
   : (envUrl ?? null);
 
-// Erros do Postgres que não somem tentando de novo: dado inválido (22), restrição (23) e permissão
-// (42501). A operação é descartada e o próximo sync devolve o estado do servidor.
-const FATAL = [/^22...$/, /^23...$/, /^42501$/];
+// O que o cliente pode gravar em cada tabela (os mesmos grants do banco). O resto do que muda no
+// aparelho (status, contagens, XP) é efeito de uma RPC da tabela `commands` e volta pelo sync.
+const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
+  folders: {
+    insert: ['name', 'parent_id', 'icon', 'color', 'position', 'kind'],
+    update: ['name', 'icon', 'color', 'position', 'archived', 'kind'],
+  },
+  pages: {
+    insert: ['folder_id', 'name', 'icon', 'view_type', 'reset_cycle', 'position'],
+    update: ['folder_id', 'name', 'icon', 'view_type', 'reset_cycle', 'position'],
+  },
+  tasks: {
+    insert: [
+      'page_id',
+      'parent_task_id',
+      'title',
+      'notes',
+      'priority',
+      'due_date',
+      'labels',
+      'meta',
+      'recurrence',
+      'position',
+      'habit_kind',
+      'habit_target',
+    ],
+    update: [
+      'page_id',
+      'parent_task_id',
+      'title',
+      'notes',
+      'priority',
+      'due_date',
+      'labels',
+      'meta',
+      'recurrence',
+      'position',
+      'habit_kind',
+      'habit_target',
+    ],
+  },
+  comments: { insert: ['task_id', 'body'], update: [] },
+  task_assignees: { insert: ['task_id', 'user_id', 'pending_name'], update: [] },
+};
+
+// No SQLite, jsonb e arrays são texto
+const JSON_COLUMNS = new Set(['labels', 'meta', 'recurrence', 'args']);
+
+function pick(data: Record<string, unknown>, columns: string[]) {
+  const out: Record<string, unknown> = {};
+  for (const column of columns) {
+    if (!(column in data)) continue;
+    const value = data[column];
+    out[column] = JSON_COLUMNS.has(column) && typeof value === 'string' ? JSON.parse(value) : value;
+  }
+  return out;
+}
+
+// Erros do Postgres que não somem tentando de novo: dado inválido (22), restrição (23), sem
+// permissão (42501) e "não encontrado" das RPCs (P0002). A operação é descartada e o próximo sync
+// devolve o estado do servidor.
+const FATAL = [/^22...$/, /^23...$/, /^42501$/, /^P0002$/];
 const isFatal = (code?: string) => !!code && FATAL.some((re) => re.test(code));
 
 type PgError = { code?: string; message: string };
 
 async function apply(op: CrudEntry): Promise<PgError | null> {
   const data = op.opData ?? {};
+
   if (op.table === 'commands') {
-    const { error } = await supabase.rpc(
-      data.name as never,
-      JSON.parse(String(data.args ?? '{}')) as never,
-    );
-    return error;
-  }
-  if (op.table === 'tasks' && op.op === UpdateType.PUT) {
-    const { error } = await supabase.rpc('create_tasks_batch', {
-      p_page_id: String(data.page_id),
-      p_items: [
-        {
-          id: op.id,
-          title: data.title,
-          priority: data.priority ?? 0,
-          due_date: data.due_date ?? null,
-          labels: data.labels ? JSON.parse(String(data.labels)) : [],
-          recurrence: data.recurrence ? JSON.parse(String(data.recurrence)) : null,
-          meta: data.meta ? JSON.parse(String(data.meta)) : null,
-          done: false,
-          assignees: [],
-          children: [],
-        },
-      ] as Json,
+    const { error } = await supabase.rpc('run_once', {
+      p_key: op.id,
+      p_name: String(data.name),
+      p_args: JSON.parse(String(data.args ?? '{}')) as Json,
     });
     return error;
   }
+
+  const columns = WRITABLE[op.table];
+  if (!columns) return { message: `Tabela sem envio: ${op.table}` };
+  // Tipos do supabase-js por tabela não ajudam aqui: as colunas já vêm filtradas pelos grants
   const table = supabase.from(op.table as 'tasks');
-  // Concluir e desfazer passam pelas RPCs (XP, ciclo, recorrência); o resto do PATCH é update comum
-  if (op.table === 'tasks' && op.op === UpdateType.PATCH && 'status' in data) {
-    const { status, ...rest } = data;
-    const { error } = await supabase.rpc(status === 'done' ? 'complete_task' : 'uncomplete_task', {
-      p_task_id: op.id,
-    });
-    if (error || Object.keys(rest).length === 0) return error;
-    const { error: restError } = await table.update(rest as never).eq('id', op.id);
-    return restError;
+
+  if (op.op === UpdateType.PUT) {
+    const row = pick(data, columns.insert);
+    // Tarefa de primeiro nível nasce pela RPC (posição, responsáveis, XP de quem já cria concluída)
+    if (op.table === 'tasks' && !row.parent_task_id) {
+      const { page_id, notes, ...item } = row;
+      const { error } = await supabase.rpc('create_tasks_batch', {
+        p_page_id: String(page_id),
+        p_items: [{ id: op.id, ...item }] as Json,
+      });
+      // O create_tasks_batch não recebe notas
+      if (error || !notes) return error;
+      const { error: notesError } = await table.update({ notes } as never).eq('id', op.id);
+      return notesError;
+    }
+    const { error } = await table.insert({ id: op.id, ...row } as never);
+    return error;
   }
+
   if (op.op === UpdateType.PATCH) {
-    const { error } = await table.update(data as never).eq('id', op.id);
+    const patch = pick(data, columns.update);
+    if (Object.keys(patch).length === 0) return null;
+    const { error } = await table.update(patch as never).eq('id', op.id);
     return error;
   }
-  if (op.op === UpdateType.DELETE) {
-    const { error } = await table.delete().eq('id', op.id);
-    return error;
-  }
-  return { message: `Operação sem tradução: ${op.op} em ${op.table}` };
+
+  const { error } = await table.delete().eq('id', op.id);
+  return error;
 }
 
 export const connector: PowerSyncBackendConnector = {
@@ -89,6 +143,8 @@ export const connector: PowerSyncBackendConnector = {
     for (const op of transaction.crud) {
       const error = await apply(op);
       if (!error) continue;
+      // Reenvio de algo que já entrou (id repetido): o servidor já tem, segue
+      if (error.code === '23505' && op.op === UpdateType.PUT) continue;
       // Sem conexão ou erro passageiro: lança e o SDK tenta de novo mais tarde, na mesma ordem
       if (!isFatal(error.code)) throw new Error(error.message);
       console.warn('[sync] recusado pelo servidor, descartado:', op.table, op.op, error.message);

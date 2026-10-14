@@ -77,6 +77,20 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"applied_ops": {
+                  Row: {
+                    "created_at": string,"key": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"key": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"key"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"boss_damage": {
                   Row: {
                     "amount": number,"boss_id": string,"created_at": string,"id": string,"user_id": string,"xp_event_id": string
@@ -955,6 +969,9 @@ isOneToOne: false
                            },
 "revoke_invites":
 { Args: { "p_folder_id": string }; Returns: number
+                           },
+"run_once":
+{ Args: { "p_args": Json,"p_key": string,"p_name": string }; Returns: Json
                            },
 "save_folder_as_template":
 { Args: { "p_folder_id": string,"p_name": string }; Returns: string

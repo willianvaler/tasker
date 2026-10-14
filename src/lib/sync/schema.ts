@@ -83,9 +83,82 @@ const tasks = new Table(
   { indexes: { page: ['page_id'], due: ['due_date'] } },
 );
 
-// Chamadas de RPC feitas offline (concluir, habit_tick...): não ficam no SQLite, só na fila, e o
-// uploadData as executa na ordem
+const task_assignees = new Table(
+  {
+    task_id: column.text,
+    folder_id: column.text,
+    user_id: column.text,
+    pending_name: column.text,
+    created_by: column.text,
+    created_at: column.text,
+  },
+  { indexes: { task: ['task_id'], user: ['user_id'] } },
+);
+
+const comments = new Table(
+  {
+    task_id: column.text,
+    folder_id: column.text,
+    author_id: column.text,
+    body: column.text,
+    created_at: column.text,
+  },
+  { indexes: { task: ['task_id'] } },
+);
+
+const task_completions = new Table(
+  {
+    task_id: column.text,
+    folder_id: column.text,
+    user_id: column.text,
+    completed_at: column.text,
+    cycle_key: column.text,
+    prev_due_date: column.text,
+  },
+  { indexes: { task: ['task_id', 'completed_at'] } },
+);
+
+// De quem divide pasta comigo, só nome e avatar
+const people = new Table({ display_name: column.text, avatar_url: column.text });
+
+// O meu perfil inteiro (fuso, idioma, gamificação)
+const profiles = new Table({
+  display_name: column.text,
+  avatar_url: column.text,
+  timezone: column.text,
+  gamification_enabled: column.integer,
+  xp: column.integer,
+  level: column.integer,
+  coins: column.integer,
+  streak: column.integer,
+  streak_best: column.integer,
+  last_active_date: column.text,
+  created_at: column.text,
+  onboarded_at: column.text,
+  class: column.text,
+  attr_str: column.integer,
+  attr_agi: column.integer,
+  attr_int: column.integer,
+  attr_con: column.integer,
+  skill_day: column.text,
+  equipped: column.text,
+  locale: column.text,
+});
+
+// Ações que viram RPC (concluir, habit_tick...): não ficam no SQLite, só na fila; o uploadData as
+// executa na ordem pelo run_once, com o id da linha como chave de idempotência
 const commands = new Table({ name: column.text, args: column.text }, { insertOnly: true });
 
-export const AppSchema = new Schema({ folders, folder_members, pages, tasks, commands });
+export const AppSchema = new Schema({
+  folders,
+  folder_members,
+  pages,
+  tasks,
+  task_assignees,
+  comments,
+  task_completions,
+  people,
+  profiles,
+  commands,
+});
 export type LocalDatabase = (typeof AppSchema)['types'];

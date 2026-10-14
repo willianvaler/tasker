@@ -12,6 +12,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { POWERSYNC_URL } from '@/lib/sync/connector';
 import { db } from '@/lib/sync/db';
+import { setTaskDone } from '@/lib/sync/write';
 import { useSession } from '@/providers/session';
 
 type Row = { id: string; title: string; status: string };
@@ -43,25 +44,12 @@ export default function SyncScreen() {
       `insert into tasks (id, page_id, folder_id, title, status, priority, position, labels,
          created_by, created_at, updated_at, habit_kind, count_up, count_down)
        values (?, ?, ?, ?, 'todo', 0, ?, '[]', ?, ?, ?, 'check', 0, 0)`,
-      [
-        uuidv7(),
-        inbox.id,
-        inbox.folder_id,
-        title.trim(),
-        Date.now(),
-        session.user.id,
-        now,
-        now,
-      ],
+      [uuidv7(), inbox.id, inbox.folder_id, title.trim(), Date.now(), session.user.id, now, now],
     );
     setTitle('');
   }
 
-  const toggle = (task: Row) =>
-    db.execute('update tasks set status = ? where id = ?', [
-      task.status === 'done' ? 'todo' : 'done',
-      task.id,
-    ]);
+  const toggle = (task: Row) => setTaskDone(task.id, task.status !== 'done');
 
   const last = status.lastSyncedAt;
   return (

@@ -17,3 +17,20 @@ streams:
       - SELECT pages.* FROM pages INNER JOIN folders ON pages.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM tasks WHERE folder_id IN roots
       - SELECT tasks.* FROM tasks INNER JOIN folders ON tasks.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM task_assignees WHERE folder_id IN roots
+      - SELECT task_assignees.* FROM task_assignees INNER JOIN folders ON task_assignees.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM comments WHERE folder_id IN roots
+      - SELECT comments.* FROM comments INNER JOIN folders ON comments.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM task_completions WHERE folder_id IN roots
+      - SELECT task_completions.* FROM task_completions INNER JOIN folders ON task_completions.folder_id = folders.id WHERE folders.parent_id IN roots
+
+  # Nome e avatar de quem divide pasta comigo (responsáveis, comentários, @nome)
+  people:
+    auto_subscribe: true
+    with:
+      roots: SELECT folder_id FROM folder_members WHERE user_id = auth.user_id()
+    query: SELECT people.id, people.display_name, people.avatar_url FROM profiles AS people INNER JOIN folder_members ON folder_members.user_id = people.id WHERE folder_members.folder_id IN roots
+
+  me:
+    auto_subscribe: true
+    query: SELECT * FROM profiles WHERE id = auth.user_id()
