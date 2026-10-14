@@ -27,16 +27,16 @@ test('idioma: escolher no Perfil vale na hora e continua depois de recarregar', 
 test('idioma: o do navegador vale para conta nova', async ({ browser }, testInfo) => {
   const context = await browser.newContext({ ...testInfo.project.use, locale: 'es-AR' });
   const page = await context.newPage();
-  // Cadastro à mão: o signUp() navega pelos rótulos em português
+  // Cadastro à mão, já em espanhol: o signUp() navega pelos rótulos em português
   await page.goto('/');
-  await page.getByText('Não tenho conta').click();
-  await page.getByPlaceholder('Seu nome').fill('Teste E2E');
+  await page.getByText('No tengo cuenta').click();
+  await page.getByPlaceholder('Tu nombre').fill('Teste E2E');
   await page
-    .getByPlaceholder('E-mail')
+    .getByPlaceholder('Correo')
     .fill(`e2e-es-${Date.now()}-${testInfo.project.name}@teste.local`);
-  await page.getByPlaceholder('Senha').fill('senha-forte-123');
-  await page.getByRole('button', { name: 'Criar conta' }).click();
-  await page.getByRole('button', { name: 'Pular introdução' }).click();
+  await page.getByPlaceholder('Contraseña').fill('senha-forte-123');
+  await page.getByRole('button', { name: 'Crear cuenta' }).click();
+  await page.getByRole('button', { name: 'Saltar introducción' }).click();
   // A navegação já está traduzida: aba (celular) ou link da barra lateral (computador)
   await expect(
     page

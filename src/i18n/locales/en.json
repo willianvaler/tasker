@@ -709,5 +709,19 @@
     "empty": "Nothing here.",
     "move": "Move {{title}} to {{column}}",
     "doneToast": "Done: {{title}} · {{reward}}"
+  },
+  "drag": {
+    "drag": "Drag {{name}}",
+    "move": "Move {{name}}",
+    "hintWeb": "Hold and drag, or use the up and down arrows",
+    "hint": "Hold and drag to change the order",
+    "up": "Move up",
+    "down": "Move down"
+  },
+  "offline": {
+    "sending": "Sending what was saved…",
+    "offline": "Offline. You can create, check and reorder tasks: they go out when the internet is back.",
+    "waiting_one": "{{count}} change waiting.",
+    "waiting_other": "{{count}} changes waiting."
   }
 }

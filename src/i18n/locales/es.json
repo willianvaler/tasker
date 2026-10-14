@@ -709,5 +709,19 @@
     "empty": "Nada aquí.",
     "move": "Mover {{title}} a {{column}}",
     "doneToast": "Hecho: {{title}} · {{reward}}"
+  },
+  "drag": {
+    "drag": "Arrastrar {{name}}",
+    "move": "Mover {{name}}",
+    "hintWeb": "Mantén y arrastra, o usa las flechas arriba y abajo",
+    "hint": "Mantén y arrastra para cambiar el orden",
+    "up": "Mover hacia arriba",
+    "down": "Mover hacia abajo"
+  },
+  "offline": {
+    "sending": "Enviando lo que quedó guardado…",
+    "offline": "Sin conexión. Puedes crear, marcar y reordenar tareas: se envían cuando vuelva internet.",
+    "waiting_one": "{{count}} cambio esperando.",
+    "waiting_other": "{{count}} cambios esperando."
   }
 }

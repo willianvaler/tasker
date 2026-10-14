@@ -1,4 +1,5 @@
 import { GripVertical } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { createContext, useContext, type ReactNode } from 'react';
 import { Platform, View } from 'react-native';
 import type { AnimatedRef } from 'react-native-reanimated';
@@ -23,6 +24,7 @@ const InGrid = createContext(false);
  * as ações "mover para cima/baixo" do leitor de tela (TalkBack, VoiceOver).
  */
 export function DragHandle({ label, taskId }: { label: string; taskId?: string }) {
+  const { t } = useTranslation();
   const move = useContext(MoveContext);
   const inGrid = useContext(InGrid);
   const canMove = !!move && !!taskId;
@@ -39,18 +41,14 @@ export function DragHandle({ label, taskId }: { label: string; taskId?: string }
       : {};
   const handle = (
     <View
-      accessibilityLabel={inGrid ? `Arrastar ${label}` : `Mover ${label}`}
-      accessibilityHint={
-        Platform.OS === 'web'
-          ? 'Segure e arraste, ou use as setas para cima e para baixo'
-          : 'Segure e arraste para mudar a ordem'
-      }
+      accessibilityLabel={t(inGrid ? 'drag.drag' : 'drag.move', { name: label })}
+      accessibilityHint={t(Platform.OS === 'web' ? 'drag.hintWeb' : 'drag.hint')}
       accessibilityRole={Platform.OS === 'web' ? 'button' : 'adjustable'}
       accessibilityActions={
         canMove
           ? [
-              { name: 'decrement', label: 'Mover para cima' },
-              { name: 'increment', label: 'Mover para baixo' },
+              { name: 'decrement', label: t('drag.up') },
+              { name: 'increment', label: t('drag.down') },
             ]
           : undefined
       }

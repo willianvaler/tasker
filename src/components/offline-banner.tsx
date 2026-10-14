@@ -1,4 +1,5 @@
 import { useMutationState } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Text } from '@/components/ui/text';
@@ -13,22 +14,22 @@ export function usePendingChanges() {
   }).filter(Boolean).length;
 }
 
+/** Faixa fina no topo quando não há conexão ou há alterações na fila (sem banner gritante). */
 export function OfflineBanner() {
+  const { t } = useTranslation();
   const online = useIsOnline();
   const pending = usePendingChanges();
   if (online && pending === 0) return null;
-  const waiting =
-    pending === 0
-      ? ''
-      : pending === 1
-        ? ' 1 alteração esperando.'
-        : ` ${pending} alterações esperando.`;
+  const waiting = pending === 0 ? '' : ` ${t('offline.waiting', { count: pending })}`;
   return (
-    <View accessibilityRole="alert" className="bg-wash px-4 py-2">
-      <Text className="text-center text-sm text-ink-muted">
-        {online
-          ? `Enviando o que ficou guardado…${waiting}`
-          : `Sem conexão. Dá para criar, marcar e reordenar tarefas: vão quando a internet voltar.${waiting}`}
+    <View
+      accessibilityRole="alert"
+      className="flex-row items-center justify-center gap-2 border-b border-line bg-surface px-4 py-2"
+    >
+      <View className={online ? 'h-2 w-2 rounded-full bg-ok' : 'h-2 w-2 rounded-full bg-warn'} />
+      <Text className="text-center text-xs text-ink-muted">
+        {t(online ? 'offline.sending' : 'offline.offline')}
+        {waiting}
       </Text>
     </View>
   );

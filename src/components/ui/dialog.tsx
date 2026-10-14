@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, View } from 'react-native';
 
 import { Button } from './button';
@@ -9,13 +10,18 @@ import { Text } from './text';
 // Diálogos próprios: o Alert do React Native não tem botões na web.
 
 function Backdrop({ onClose, children }: { onClose: () => void; children: ReactNode }) {
+  const { t } = useTranslation();
   return (
     <Modal transparent animationType="fade" onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1 items-center justify-center bg-scrim/40 px-6"
       >
-        <Pressable accessibilityLabel="Fechar" className="absolute inset-0" onPress={onClose} />
+        <Pressable
+          accessibilityLabel={t('common.close')}
+          className="absolute inset-0"
+          onPress={onClose}
+        />
         <View className="w-full max-w-sm gap-4 rounded-lg border border-line bg-surface p-4">
           {children}
         </View>
@@ -34,7 +40,7 @@ export type PromptField = {
 export function PromptDialog({
   title,
   fields,
-  confirmLabel = 'Salvar',
+  confirmLabel,
   onConfirm,
   onClose,
 }: {
@@ -44,6 +50,7 @@ export function PromptDialog({
   onConfirm: (values: Record<string, string>) => void;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   const [values, setValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(fields.map((f) => [f.key, f.initial ?? ''])),
   );
@@ -70,8 +77,8 @@ export function PromptDialog({
         />
       ))}
       <View className="flex-row justify-end gap-2">
-        <Button variant="ghost" label="Cancelar" onPress={onClose} />
-        <Button label={confirmLabel} onPress={confirm} disabled={!valid} />
+        <Button variant="ghost" label={t('common.cancel')} onPress={onClose} />
+        <Button label={confirmLabel ?? t('common.save')} onPress={confirm} disabled={!valid} />
       </View>
     </Backdrop>
   );
@@ -90,12 +97,13 @@ export function ConfirmDialog({
   onConfirm: () => void;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <Backdrop onClose={onClose}>
       <Text className="text-lg font-semibold text-ink">{title}</Text>
       {message && <Text className="text-ink-muted">{message}</Text>}
       <View className="flex-row justify-end gap-2">
-        <Button variant="ghost" label="Cancelar" onPress={onClose} />
+        <Button variant="ghost" label={t('common.cancel')} onPress={onClose} />
         <Button label={confirmLabel} onPress={onConfirm} />
       </View>
     </Backdrop>

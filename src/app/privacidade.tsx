@@ -11,7 +11,7 @@ export default function PrivacyScreen() {
   return (
     <SafeAreaView className="flex-1 bg-paper">
       <ScrollView contentContainerClassName="w-full max-w-2xl self-center gap-4 px-6 py-8">
-        <Text accessibilityRole="header" className="text-xl font-semibold text-ink">
+        <Text accessibilityRole="header" className="font-serif text-xl text-ink">
           Política de privacidade
         </Text>
         <Text className="text-sm text-ink-muted">Questlist · atualizada em outubro de 2026</Text>
