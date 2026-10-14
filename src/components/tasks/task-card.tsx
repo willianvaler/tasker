@@ -17,7 +17,7 @@ import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import type { Task } from '@/lib/queries/tasks';
 import { DURATION, useColors } from '@/lib/tokens';
-import { useCanWrite } from '@/providers/write';
+import { useTaskCan } from '@/providers/write';
 import { DragHandle } from './sortable-tasks';
 import { metaLabel } from './task-meta';
 import { useToggleWithUndo } from './task-row';
@@ -35,7 +35,7 @@ function TaskCardView({
 }) {
   const { t } = useTranslation();
   const colors = useColors();
-  const writable = useCanWrite(task.folder_id, { offline: true });
+  const writable = useTaskCan(task).complete;
   const toggle = useToggleWithUndo();
   const reduced = useReducedMotion();
   const scale = useSharedValue(1);

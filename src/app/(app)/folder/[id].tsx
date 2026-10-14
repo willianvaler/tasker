@@ -16,6 +16,8 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { findFolder, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
+import { actorCan } from '@/lib/permissions';
+import { useFolderActor } from '@/lib/queries/projects';
 import { useCanWrite } from '@/providers/write';
 
 // Pasta ou projeto: páginas em linhas, subpastas como seções e, no projeto, o progresso e a atividade.
@@ -28,7 +30,9 @@ export default function FolderScreen() {
   const [actions, dialog] = useFolderActions();
   const found = findFolder(tree.data, id);
   // Leitor do projeto só vê (e comenta nas tarefas)
-  const writable = useCanWrite(id);
+  // Listas, subpastas e nome mexem na estrutura: pedem page.manage (o Colaborador não tem)
+  const actor = useFolderActor(id);
+  const writable = useCanWrite(id) && actorCan(actor, 'page.manage');
 
   if (tree.data && !found) {
     return (

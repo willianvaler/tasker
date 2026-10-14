@@ -41,7 +41,7 @@ import {
 import { findFolder, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { rootFolder } from '@/lib/queries/projects';
-import { useCanWrite, WriteScope } from '@/providers/write';
+import { useCanWrite, useTaskCan, WriteScope } from '@/providers/write';
 
 const PRIORITIES = [
   { value: 0, label: 'taskDetail.priorityNone' },
@@ -89,7 +89,9 @@ function TaskDetails({ task }: { task: Task }) {
   const { t } = useTranslation();
   const colors = useColors();
   const today = useToday();
-  const writable = useCanWrite(task.folder_id);
+  const allowed = useTaskCan(task);
+  // Colaborador: só mexe no que criou ou no que é dele (o resto fica só de leitura)
+  const writable = useCanWrite(task.folder_id) && allowed.edit;
   const tree = useTree();
   const update = useUpdateTask();
   const remove = useDeleteTask();
@@ -120,7 +122,7 @@ function TaskDetails({ task }: { task: Task }) {
   }
 
   return (
-    <WriteScope folderId={task.folder_id}>
+    <WriteScope folderId={task.folder_id} readOnly={!allowed.edit}>
       <Sheet
         onClose={close}
         header={
@@ -140,7 +142,7 @@ function TaskDetails({ task }: { task: Task }) {
           {(!isHabit || task.habit_kind === 'check') && (
             <Checkbox
               checked={done}
-              disabled={!writable}
+              disabled={!allowed.complete}
               label={t(done ? 'taskDetail.reopen' : 'taskDetail.complete')}
               onChange={(checked) => toggle(task, checked)}
             />
@@ -351,7 +353,7 @@ function TaskDetails({ task }: { task: Task }) {
           </Text>
         )}
 
-        {writable && (
+        {allowed.delete && (
           <Button
             variant="ghost"
             icon={Trash2}

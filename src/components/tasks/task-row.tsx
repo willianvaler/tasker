@@ -23,7 +23,7 @@ import { advanceOnComplete, useToggleTask, useUpdateTask, type Task } from '@/li
 import { useTree } from '@/lib/queries/tree';
 import { useSelection, selection } from '@/lib/selection';
 import { DURATION } from '@/lib/tokens';
-import { useCanWrite } from '@/providers/write';
+import { useTaskCan } from '@/providers/write';
 import { useToast } from '@/providers/toast';
 import { AssigneeChips } from './assignee-chips';
 import { DragHandle } from './sortable-tasks';
@@ -82,7 +82,7 @@ function TaskRowView({
   /** Mostra a alça de arrastar (só dentro de SortableTasks) */
   draggable?: boolean;
 }) {
-  const writable = useCanWrite(task.folder_id, { offline: true });
+  const allowed = useTaskCan(task);
   const toggle = useToggleWithUndo();
   const update = useUpdateTask();
   const { t } = useTranslation();
@@ -127,7 +127,7 @@ function TaskRowView({
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
       <Checkbox
         checked={done}
-        disabled={!writable}
+        disabled={!allowed.complete}
         label={t(done ? 'task.reopen' : 'task.complete', { title: task.title })}
         onChange={(checked) => toggle(task, checked)}
       />
@@ -150,7 +150,7 @@ function TaskRowView({
             <Pressable
               accessibilityRole="button"
               accessibilityHint={t('task.editHint')}
-              disabled={!writable}
+              disabled={!allowed.edit}
               className="self-start"
               onPress={() => {
                 setTitle(task.title);
