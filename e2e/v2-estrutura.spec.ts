@@ -142,8 +142,10 @@ test('paleta de comandos: Ctrl+K busca página e tarefa e abre', async ({ page }
   test.skip(testInfo.project.name === 'celular', 'Atalhos de teclado são do computador');
   await signUp(page, testInfo);
   await createPage(page, { folder: 'Viagem', name: 'Roteiro de Lisboa', type: 'Lista' });
+  const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
   await page.getByRole('textbox', { name: 'Nova tarefa' }).fill('Comprar passagem');
   await page.getByRole('textbox', { name: 'Nova tarefa' }).press('Enter');
+  await created;
   await expect(page.getByText('Comprar passagem', { exact: true })).toBeVisible();
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
@@ -163,4 +165,32 @@ test('paleta de comandos: Ctrl+K busca página e tarefa e abre', async ({ page }
   await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveValue(
     'Comprar passagem',
   );
+});
+
+test('criação avançada: todos os campos e Ctrl+Enter', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  const pageId = await createPage(page, { folder: 'Casa', name: 'Reforma', type: 'Lista' });
+  // Pelo botão ao lado da captura (no computador também há Alt+Shift+N)
+  await page.getByRole('button', { name: 'Criação avançada' }).click();
+  await page.getByRole('textbox', { name: 'Título', exact: true }).fill('Orçamento do pintor');
+  await page.getByRole('textbox', { name: 'Notas' }).fill('Pedir 3 orçamentos');
+  await page.getByRole('radio', { name: '!!! Alta' }).click();
+  await page.getByRole('button', { name: 'Amanhã' }).click();
+  const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
+  const noted = page.waitForResponse(
+    (r) => r.url().includes('/rest/v1/tasks') && r.request().method() === 'PATCH' && r.ok(),
+  );
+  if (testInfo.project.name === 'desktop') await page.keyboard.press('Control+Enter');
+  else await page.getByRole('button', { name: 'Criar tarefa' }).click();
+
+  // Abre a tarefa criada, no painel de sempre, com o que foi preenchido
+  await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveValue(
+    'Orçamento do pintor',
+  );
+  await expect(page.getByRole('textbox', { name: 'Notas' })).toHaveValue('Pedir 3 orçamentos');
+  await created;
+  await noted;
+  await page.goto(`/page/${pageId}`);
+  await expect(page.getByText('Orçamento do pintor', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Data: Amanhã')).toBeVisible();
 });

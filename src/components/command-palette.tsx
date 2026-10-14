@@ -12,6 +12,7 @@ import {
   Search,
   Shield,
   ShoppingBag,
+  SlidersHorizontal,
   SunMoon,
   Swords,
   User,
@@ -107,6 +108,14 @@ function Palette({
       icon: icon(Plus),
       group: 0,
       run: () => router.push('/capture'),
+    },
+    {
+      id: 'new-advanced',
+      label: t('newMenu.advanced'),
+      hint: 'Alt ⇧ N',
+      icon: icon(SlidersHorizontal),
+      group: 0,
+      run: () => router.push('/task/new'),
     },
     {
       id: 'new-page',

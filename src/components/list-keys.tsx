@@ -84,6 +84,15 @@ export function ListKeys() {
     onSelected((task) => router.push({ pathname: '/task/[id]', params: { id: task.id } })),
   );
   useShortcut(
+    'task.edit',
+    onSelected((task) => router.push({ pathname: '/task/[id]', params: { id: task.id } })),
+  );
+  useShortcut('task.advanced', () => {
+    // A página da tela vira o destino padrão
+    const page = /^\/page\/([^/]+)/.exec(pathname)?.[1];
+    router.push({ pathname: '/task/new', params: page ? { page } : {} });
+  });
+  useShortcut(
     'task.assign',
     onSelected((task) => router.push({ pathname: '/task/[id]', params: { id: task.id } })),
   );

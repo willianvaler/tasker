@@ -46,6 +46,10 @@ export default function AppLayout() {
                 options={{ presentation: 'transparentModal', animation: 'none' }}
               />
               <Stack.Screen
+                name="task/new"
+                options={{ presentation: 'transparentModal', animation: 'none' }}
+              />
+              <Stack.Screen
                 name="capture"
                 options={{ presentation: 'transparentModal', animation: 'fade' }}
               />

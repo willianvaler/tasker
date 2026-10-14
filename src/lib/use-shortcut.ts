@@ -17,6 +17,7 @@ function isTyping(target: EventTarget | null) {
 function onControl(target: EventTarget | null, event: KeyboardEvent) {
   const el = target as HTMLElement | null;
   if (!el || (event.key !== 'Enter' && event.key !== ' ')) return false;
+  if (event.ctrlKey || event.metaKey || event.altKey) return false;
   const role = el.getAttribute?.('role');
   return (
     el.tagName === 'BUTTON' ||

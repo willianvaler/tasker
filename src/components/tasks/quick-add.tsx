@@ -1,10 +1,11 @@
 import { randomUUID } from 'expo-crypto';
 import { router, useIsFocused } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Plus } from 'lucide-react-native';
+import { Plus, SlidersHorizontal } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Platform, TextInput, useWindowDimensions, View } from 'react-native';
 
+import { IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import { setBatchDraft } from '@/lib/batch-draft';
@@ -163,6 +164,15 @@ export function QuickAdd({
       />
       {wide && ready && !text && (
         <Text className="font-mono text-xs text-ink-muted">{t('quickAdd.hint')}</Text>
+      )}
+      {ready && !habit && (
+        <IconButton
+          icon={SlidersHorizontal}
+          label={t('newMenu.advanced')}
+          onPress={() =>
+            router.push({ pathname: '/task/new', params: pageId ? { page: pageId } : {} })
+          }
+        />
       )}
     </View>
   );

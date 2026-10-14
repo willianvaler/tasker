@@ -23,6 +23,15 @@ export type Shortcut = {
 
 export const SHORTCUTS = [
   {
+    id: 'task.advanced',
+    combos: ['mod+shift+n', 'alt+shift+n'],
+    description: 'shortcuts.taskAdvanced',
+    scope: 'global',
+    permission: 'task.create',
+  },
+  { id: 'task.edit', combos: ['mod+e'], description: 'shortcuts.taskEdit', scope: 'list' },
+  { id: 'form.save', combos: ['mod+enter'], description: 'shortcuts.formSave', scope: 'editor' },
+  {
     id: 'palette.open',
     combos: ['mod+k', '/'],
     description: 'shortcuts.paletteOpen',

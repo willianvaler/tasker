@@ -46,7 +46,10 @@
     "goInbox": "Ir a la Bandeja de entrada",
     "goMine": "Ir a Asignadas a mí",
     "captureFocus": "Ir al campo de nueva tarea",
-    "paletteOpen": "Buscar o ejecutar (paleta de comandos)"
+    "paletteOpen": "Buscar o ejecutar (paleta de comandos)",
+    "taskAdvanced": "Creación avanzada (todos los campos)",
+    "taskEdit": "Editar la tarea seleccionada (panel)",
+    "formSave": "Guardar el formulario avanzado"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -768,7 +771,8 @@
     "folder": "Carpeta",
     "project": "Proyecto",
     "habit": "Hábito",
-    "button": "Nuevo"
+    "button": "Nuevo",
+    "advanced": "Creación avanzada"
   },
   "iconPicker": {
     "search": "Buscar ícono (casa, entrenamiento, 🔥…)",
@@ -794,5 +798,17 @@
     "sidebar": "Mostrar u ocultar la barra lateral",
     "help": "Ayuda y atajos",
     "open": "Buscar o ejecutar"
+  },
+  "advanced": {
+    "title": "Creación avanzada",
+    "newTask": "Nueva tarea",
+    "page": "Página",
+    "dueDate": "Vencimiento",
+    "save": "Crear tarea",
+    "saveHint": "Ctrl Enter crea · Esc cierra",
+    "discardTitle": "¿Descartar la tarea?",
+    "discardMessage": "Lo que escribiste aquí no se guardará.",
+    "discard": "Descartar",
+    "created": "Tarea creada en {{page}}"
   }
 }

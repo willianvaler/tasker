@@ -46,7 +46,10 @@
     "goInbox": "Go to the Inbox",
     "goMine": "Go to Assigned to me",
     "captureFocus": "Go to the new task field",
-    "paletteOpen": "Search or run (command palette)"
+    "paletteOpen": "Search or run (command palette)",
+    "taskAdvanced": "Advanced creation (all fields)",
+    "taskEdit": "Edit the selected task (panel)",
+    "formSave": "Save the advanced form"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -768,7 +771,8 @@
     "folder": "Folder",
     "project": "Project",
     "habit": "Habit",
-    "button": "New"
+    "button": "New",
+    "advanced": "Advanced creation"
   },
   "iconPicker": {
     "search": "Search icon (home, workout, 🔥…)",
@@ -794,5 +798,17 @@
     "sidebar": "Show or hide the sidebar",
     "help": "Help and shortcuts",
     "open": "Search or run"
+  },
+  "advanced": {
+    "title": "Advanced creation",
+    "newTask": "New task",
+    "page": "Page",
+    "dueDate": "Due date",
+    "save": "Create task",
+    "saveHint": "Ctrl Enter creates · Esc closes",
+    "discardTitle": "Discard the task?",
+    "discardMessage": "What you wrote here won't be saved.",
+    "discard": "Discard",
+    "created": "Task created in {{page}}"
   }
 }

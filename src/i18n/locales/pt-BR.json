@@ -46,7 +46,10 @@
     "goInbox": "Ir para a Caixa de entrada",
     "goMine": "Ir para Atribuídas a mim",
     "captureFocus": "Ir para o campo de nova tarefa",
-    "paletteOpen": "Buscar ou executar (paleta de comandos)"
+    "paletteOpen": "Buscar ou executar (paleta de comandos)",
+    "taskAdvanced": "Criação avançada (todos os campos)",
+    "taskEdit": "Editar a tarefa selecionada (painel)",
+    "formSave": "Salvar o formulário avançado"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -768,7 +771,8 @@
     "folder": "Pasta",
     "project": "Projeto",
     "habit": "Hábito",
-    "button": "Novo"
+    "button": "Novo",
+    "advanced": "Criação avançada"
   },
   "iconPicker": {
     "search": "Buscar ícone (casa, treino, 🔥…)",
@@ -794,5 +798,17 @@
     "sidebar": "Mostrar ou esconder a barra lateral",
     "help": "Ajuda e atalhos",
     "open": "Buscar ou executar"
+  },
+  "advanced": {
+    "title": "Criação avançada",
+    "newTask": "Nova tarefa",
+    "page": "Página",
+    "dueDate": "Vencimento",
+    "save": "Criar tarefa",
+    "saveHint": "Ctrl Enter cria · Esc fecha",
+    "discardTitle": "Descartar a tarefa?",
+    "discardMessage": "O que você escreveu aqui não vai ser salvo.",
+    "discard": "Descartar",
+    "created": "Tarefa criada em {{page}}"
   }
 }
