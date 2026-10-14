@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { countBatch, looksLikeBatch, parseBatchInput } from '../batch';
+import { countBatch, countFlattened, looksLikeBatch, parseBatchInput } from '../batch';
 
 // Quinta-feira, 8 de outubro de 2026
 const today = '2026-10-08';
@@ -98,4 +98,37 @@ describe('looksLikeBatch', () => {
   it('um item', () => expect(looksLikeBatch('comprar pão')).toBe(false));
   it('; dentro de aspas', () => expect(looksLikeBatch('"a;b"')).toBe(false));
   it('quebra só no fim', () => expect(looksLikeBatch('a\n')).toBe(false));
+});
+
+describe('árvore no lote (V3 §1.1)', () => {
+  const today = '2026-10-14';
+  const titles = (items: ReturnType<typeof parseBatchInput>): unknown =>
+    items.map((i) => (i.children.length ? [i.title, titles(i.children)] : i.title));
+
+  it('recuo em vários níveis', () => {
+    const items = parseBatchInput('Mudar\n  Cozinha\n    Louça\n    Copos\n  Sala\nFesta', {
+      today,
+    });
+    expect(titles(items)).toEqual([['Mudar', [['Cozinha', ['Louça', 'Copos']], 'Sala']], 'Festa']);
+    expect(countBatch(items)).toBe(6);
+  });
+
+  it('tab conta como um nível; recuo que pula níveis desce só um', () => {
+    const items = parseBatchInput('A\n\t\t\tB\n\t\tC', { today });
+    expect(titles(items)).toEqual([['A', [['B', ['C']]]]]);
+  });
+
+  it('acima do limite fica no último nível permitido, marcado', () => {
+    const items = parseBatchInput('1\n  2\n    3\n      4\n        5', { today, maxDepth: 3 });
+    expect(titles(items)).toEqual([['1', [['2', ['3', '4', '5']]]]]);
+    expect(countFlattened(items)).toBe(2);
+    expect(items[0].children[0].children[1].flattened).toBe(true);
+    expect(items[0].children[0].children[0].flattened).toBeUndefined();
+  });
+
+  it('limite 1 (só raízes) achata tudo', () => {
+    const items = parseBatchInput('A\n  B', { today, maxDepth: 1 });
+    expect(titles(items)).toEqual(['A', 'B']);
+    expect(countFlattened(items)).toBe(1);
+  });
 });

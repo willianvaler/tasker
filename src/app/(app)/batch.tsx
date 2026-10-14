@@ -16,7 +16,9 @@ import { Text, textClass } from '@/components/ui/text';
 import { takeBatchDraft } from '@/lib/batch-draft';
 import { cn } from '@/lib/cn';
 import { useColors } from '@/lib/tokens';
-import { countBatch, parseBatchInput, type BatchChild } from '@/lib/parser/batch';
+import { effectiveMaxDepth } from '@/config/limits';
+import { countBatch, countFlattened, parseBatchInput, type BatchItem } from '@/lib/parser/batch';
+import { rootFolder } from '@/lib/queries/projects';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { setLastPageId } from '@/lib/prefs';
 import type { MentionResolution } from '@/lib/members';
@@ -54,27 +56,30 @@ export default function BatchScreen() {
   // Criar vai para a fila offline
   const writable = useCanWrite(page?.folder_id, { offline: true });
 
-  // Cada item tem uma chave "posição do item.posição da subtarefa" ("3" ou "3.1")
+  // Limite de níveis da página: o que passar, sobe para o último nível (com aviso)
+  const maxDepth = effectiveMaxDepth(
+    page?.max_depth,
+    rootFolder(tree.data, page?.folder_id)?.max_depth,
+  );
+
+  // Cada item tem uma chave pelo caminho na árvore ("3", "3.1", "3.1.2")
   const items = useMemo(() => {
     const parseOptions = { today, meta: isCards, mentions: mentions.enabled };
-    const reparse = (key: string, item: BatchChild): BatchChild =>
-      key in edits
-        ? {
-            ...parseQuickInput(edits[key], parseOptions),
-            raw: edits[key],
-            done: item.done,
-          }
-        : item;
-    return parseBatchInput(text, parseOptions)
-      .map((item, i) => ({
-        ...reparse(`${i}`, item),
-        key: `${i}`,
-        children: item.children
-          .map((c, j) => ({ ...reparse(`${i}.${j}`, c), key: `${i}.${j}` }))
-          .filter((c) => !removed.has(c.key)),
-      }))
+    const decorate = (item: BatchItem, key: string): KeyedItem => ({
+      ...item,
+      ...(key in edits
+        ? { ...parseQuickInput(edits[key], parseOptions), raw: edits[key], done: item.done }
+        : {}),
+      key,
+      children: item.children
+        .map((c, j) => decorate(c, `${key}.${j}`))
+        .filter((c) => !removed.has(c.key)),
+    });
+    return parseBatchInput(text, { ...parseOptions, maxDepth })
+      .map((item, i) => decorate(item, `${i}`))
       .filter((item) => !removed.has(item.key));
-  }, [text, edits, removed, today, isCards, mentions.enabled]);
+  }, [text, edits, removed, today, isCards, mentions.enabled, maxDepth]);
+  const flattened = countFlattened(items);
 
   /** Resolução dos @nomes do item, com as escolhas feitas na prévia. */
   function resolutionsOf(key: string, names: string[]): MentionResolution[] {
@@ -91,6 +96,11 @@ export default function BatchScreen() {
     setChoices((c) => ({ ...c, [`${key}|${name}`]: userId }));
 
   const total = countBatch(items);
+  const withAssignees = (item: KeyedItem): NewBatchItem => ({
+    ...item,
+    assignees: assigneesOf(item.key, item.mentions),
+    children: item.children.map(withAssignees),
+  });
 
   const autocomplete = useMentionAutocomplete({
     enabled: mentions.enabled,
@@ -114,12 +124,7 @@ export default function BatchScreen() {
     create.mutate(
       {
         pageId: page.id,
-        items: items.map((item) => ({
-          ...item,
-          assignees: assigneesOf(item.key, item.mentions),
-          children: item.children.map((c) => ({ ...c, assignees: assigneesOf(c.key, c.mentions) })),
-          id: uuidv7(),
-        })),
+        items: items.map((item) => ({ ...withAssignees(item), id: uuidv7() })),
       },
       { onError: (err) => toast({ message: t('batch.error', { message: err.message }) }) },
     );
@@ -178,29 +183,22 @@ export default function BatchScreen() {
         {total === 0 ? t('batch.none') : t('batch.willCreate', { count: total })}
       </Text>
       <ScrollView className="mt-1 flex-1" keyboardShouldPersistTaps="handled">
-        {items.map((item) => (
-          <View key={item.key}>
-            <PreviewRow
-              item={item}
-              today={today}
-              mentions={resolutionsOf(item.key, item.mentions)}
-              onChoose={choose(item.key)}
-              onEdit={(raw) => setEdits((e) => ({ ...e, [item.key]: raw }))}
-              onRemove={() => setRemoved((r) => new Set(r).add(item.key))}
-            />
-            {item.children.map((child) => (
-              <PreviewRow
-                key={child.key}
-                child
-                item={child}
-                today={today}
-                mentions={resolutionsOf(child.key, child.mentions)}
-                onChoose={choose(child.key)}
-                onEdit={(raw) => setEdits((e) => ({ ...e, [child.key]: raw }))}
-                onRemove={() => setRemoved((r) => new Set(r).add(child.key))}
-              />
-            ))}
-          </View>
+        {flattened > 0 && (
+          <Text className="py-2 text-sm text-warn" accessibilityLiveRegion="polite">
+            {t('batch.flattened', { count: flattened, max: maxDepth })}
+          </Text>
+        )}
+        {flat(items).map(({ item, level }) => (
+          <PreviewRow
+            key={item.key}
+            level={level}
+            item={item}
+            today={today}
+            mentions={resolutionsOf(item.key, item.mentions)}
+            onChoose={choose(item.key)}
+            onEdit={(raw) => setEdits((e) => ({ ...e, [item.key]: raw }))}
+            onRemove={() => setRemoved((r) => new Set(r).add(item.key))}
+          />
         ))}
       </ScrollView>
 
@@ -216,18 +214,28 @@ export default function BatchScreen() {
   );
 }
 
+type KeyedItem = BatchItem & { key: string; children: KeyedItem[] };
+type NewBatchItem = KeyedItem & {
+  assignees: ReturnType<ReturnType<typeof useMentions>['toAssignees']>;
+  children: NewBatchItem[];
+};
+
+/** A árvore em linhas, com o nível de cada uma (0 = raiz). */
+const flat = (items: KeyedItem[], level = 0): { item: KeyedItem; level: number }[] =>
+  items.flatMap((item) => [{ item, level }, ...flat(item.children, level + 1)]);
+
 function PreviewRow({
   item,
   today,
-  child,
+  level,
   mentions,
   onChoose,
   onEdit,
   onRemove,
 }: {
-  item: BatchChild;
+  item: BatchItem;
   today: string;
-  child?: boolean;
+  level: number;
   mentions: MentionResolution[];
   onChoose: (name: string, userId: string) => void;
   onEdit: (raw: string) => void;
@@ -252,10 +260,8 @@ function PreviewRow({
 
   return (
     <View
-      className={cn(
-        'min-h-12 flex-row items-center gap-2 border-b border-line md:min-h-10',
-        child && 'pl-8',
-      )}
+      className="min-h-12 flex-row items-center gap-2 border-b border-line md:min-h-10"
+      style={level ? { paddingLeft: level * 24 } : undefined}
     >
       <Icon icon={item.done ? Check : Dot} tone={item.done ? 'accent' : 'ink-muted'} />
       <View className="flex-1 py-1">

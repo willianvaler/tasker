@@ -13,6 +13,8 @@ import { PageView } from '@/components/tasks/page-view';
 import { IconButton } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
+import { effectiveMaxDepth } from '@/config/limits';
+import { rootFolder } from '@/lib/queries/projects';
 import { saveTextFile } from '@/lib/download';
 import { setLastPageId } from '@/lib/prefs';
 import { usePageTasks } from '@/lib/queries/tasks';
@@ -128,6 +130,7 @@ export default function PageScreen() {
         <PageDialog
           title={t('page.settings')}
           initial={page}
+          inheritedDepth={effectiveMaxDepth(null, rootFolder(tree.data, page.folder_id)?.max_depth)}
           onClose={closeDialog}
           onConfirm={(settings) => {
             m.updatePage.mutate({ id: page.id, ...settings }, { onError });

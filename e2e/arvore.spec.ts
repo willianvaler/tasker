@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, signUp, waitForSync } from './helpers';
+import { createPage, openTab, signUp, waitForSync } from './helpers';
 
 test('árvore: progresso pelas folhas, "Concluir tudo" e mãe que fecha sozinha', async ({
   page,
@@ -120,7 +120,8 @@ test('estrutura: abre a árvore inteira com os códigos WBS; W liga e desliga', 
   await page.getByRole('button', { name: 'Estrutura' }).click();
   await expect(page.getByRole('checkbox', { name: 'Concluir Louça' })).toBeVisible();
   await expect(page.getByRole('button', { name: '1.1 Cozinha' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '1.3 Sala' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '1.1.1 Louça' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '1.2 Sala' })).toBeVisible();
   await expect(page.getByRole('button', { name: '2 Festa' })).toBeVisible();
 
   await page.getByRole('textbox', { name: 'Nova tarefa' }).press('Escape');
@@ -128,4 +129,30 @@ test('estrutura: abre a árvore inteira com os códigos WBS; W liga e desliga', 
   await expect(page.getByRole('button', { name: 'Cozinha', exact: true })).toBeVisible();
   await page.keyboard.press('w');
   await expect(page.getByRole('button', { name: '1.1 Cozinha' })).toBeVisible();
+});
+
+test('lote: recuo além do limite da página sobe para o último nível, com aviso', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Casa', name: 'Curta', type: 'Lista' });
+  // Página com limite de 2 níveis
+  await page.getByRole('button', { name: 'Configurar página' }).click();
+  await page
+    .getByRole('radiogroup', { name: 'Níveis de subtarefa' })
+    .getByRole('radio', { name: '2', exact: true })
+    .click();
+  await page.getByRole('button', { name: 'Salvar' }).click();
+
+  await page.getByRole('button', { name: 'Adicionar várias' }).click();
+  await page.getByRole('textbox', { name: 'Lista de tarefas' }).fill('Mudar\n  Cozinha\n    Louça');
+  await expect(
+    page.getByText('1 item passaria de 2 níveis e ficou no último nível.'),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Criar 3' }).click();
+
+  await page.getByRole('button', { name: 'Estrutura' }).click();
+  await expect(page.getByRole('button', { name: '1.1 Cozinha' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '1.2 Louça' })).toBeVisible();
 });

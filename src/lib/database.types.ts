@@ -954,6 +954,9 @@ isOneToOne: false
 "_grant_event":
 { Args: { "p_amount": number,"p_completion_id": string,"p_crit": boolean,"p_cycle_key": string,"p_damage": number,"p_gold": number,"p_id"?: string,"p_kind": string,"p_page_id": string,"p_quick": boolean,"p_task_id": string,"p_user": string }; Returns: Record<string, unknown>
                            },
+"_insert_batch_branch":
+{ Args: { "p_item": Json,"p_page_id": string,"p_parent_id": string,"p_position": number }; Returns: string[]
+                           },
 "_insert_batch_task":
 { Args: { "p_item": Json,"p_page_id": string,"p_parent_id": string,"p_position": number }; Returns: string
                            },

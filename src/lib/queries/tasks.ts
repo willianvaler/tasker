@@ -270,7 +270,13 @@ type NewTask = ParsedTask & {
   habitKind?: Task['habit_kind'];
   habitTarget?: number | null;
   assignees?: NewAssignee[];
-  children?: (ParsedTask & { done?: boolean; assignees?: NewAssignee[] })[];
+  children?: NewSubtask[];
+};
+/** Subtarefa do lote: pode ter subtarefas também (árvore, V3 §1). */
+type NewSubtask = ParsedTask & {
+  done?: boolean;
+  assignees?: NewAssignee[];
+  children?: NewSubtask[];
 };
 
 type RpcItem = {
@@ -991,26 +997,32 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
         },
         userId,
       );
-      let childPosition = 0;
-      for (const child of item.children ?? []) {
-        const childId = uuidv7();
-        await insertLocalTask(
-          tx,
-          {
-            id: childId,
-            page_id: pageId,
-            folder_id: page.folder_id,
-            parent_task_id: item.id,
-            title: child.title,
-            position: ++childPosition,
-            priority: child.priority,
-            due_date: child.dueDate,
-            labels: child.labels,
-          },
-          userId,
-        );
-        if (child.done) done.push(childId);
-      }
+      // Subtarefas em quantos níveis vierem (o limite já foi aplicado na prévia)
+      const insertChildren = async (parentId: string, depth: number, children: NewSubtask[]) => {
+        let childPosition = 0;
+        for (const child of children) {
+          const childId = uuidv7();
+          await insertLocalTask(
+            tx,
+            {
+              id: childId,
+              page_id: pageId,
+              folder_id: page.folder_id,
+              parent_task_id: parentId,
+              depth,
+              title: child.title,
+              position: ++childPosition,
+              priority: child.priority,
+              due_date: child.dueDate,
+              labels: child.labels,
+            },
+            userId,
+          );
+          await insertChildren(childId, depth + 1, child.children ?? []);
+          if (child.done) done.push(childId);
+        }
+      };
+      await insertChildren(item.id, 2, item.children ?? []);
       for (const assignee of item.assignees ?? []) {
         await tx.execute(
           'insert into task_assignees (id, task_id, folder_id, user_id, pending_name) values (?, ?, ?, ?, ?)',

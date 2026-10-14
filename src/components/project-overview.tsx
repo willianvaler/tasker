@@ -4,7 +4,10 @@ import { View } from 'react-native';
 import { ProgressBar } from '@/components/game-bar';
 import { ProjectBoss } from '@/components/project-boss';
 import { ProjectMilestones } from '@/components/project-milestones';
+import { DepthPicker } from '@/components/depth-picker';
 import { ToggleRow } from '@/components/ui/toggle-row';
+import { DEFAULT_MAX_DEPTH } from '@/config/limits';
+import { useToast } from '@/providers/toast';
 import { actorCan } from '@/lib/permissions';
 import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
@@ -41,6 +44,7 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
   const activity = useActivity(root.id);
   const actor = useFolderActor(root.id);
   const treeMutations = useTreeMutations();
+  const toast = useToast();
   const when = new Intl.DateTimeFormat(i18n.language, {
     day: 'numeric',
     month: 'short',
@@ -104,6 +108,23 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
       <ProjectMilestones rootId={root.id} />
 
       <ProjectBoss rootId={root.id} />
+
+      {actorCan(actor, 'settings.max_depth') && (
+        <View className="gap-2">
+          <Text className="text-sm font-semibold text-ink">{t('tree.depthLimit')}</Text>
+          <DepthPicker
+            value={root.max_depth}
+            inherited={DEFAULT_MAX_DEPTH}
+            onChange={(value) =>
+              treeMutations.setFolderSettings.mutate(
+                { id: root.id, max_depth: value },
+                { onError: (err) => toast({ message: err.message }) },
+              )
+            }
+          />
+          <Text className="text-sm text-ink-muted">{t('tree.depthHintProject')}</Text>
+        </View>
+      )}
 
       {actorCan(actor, 'page.manage') && (
         <ToggleRow

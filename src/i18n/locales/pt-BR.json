@@ -729,7 +729,9 @@
     "createN": "Criar {{count}}",
     "edit": "Editar item",
     "editHint": "Toque para editar",
-    "remove": "Tirar {{title}}"
+    "remove": "Tirar {{title}}",
+    "flattened_one": "{{count}} item passaria de {{max}} níveis e ficou no último nível.",
+    "flattened_other": "{{count}} itens passariam de {{max}} níveis e ficaram no último nível."
   },
   "onboarding": {
     "step": "Passo {{n}} de 3",
@@ -1080,6 +1082,10 @@
     "full": "Essa tarefa já tem 50 subtarefas.",
     "first": "Não há tarefa acima para virar mãe.",
     "structure": "Estrutura",
-    "export": "Exportar estrutura (texto)"
+    "export": "Exportar estrutura (texto)",
+    "depthLimit": "Níveis de subtarefa",
+    "depthDefault": "Padrão ({{count}})",
+    "depthHint": "Até quantos níveis as tarefas desta página podem ter (a tarefa conta como o primeiro).",
+    "depthHintProject": "Vale para as listas do projeto que não têm limite próprio. Baixar abaixo do que já existe não é permitido."
   }
 }

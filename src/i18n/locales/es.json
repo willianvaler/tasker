@@ -729,7 +729,9 @@
     "createN": "Crear {{count}}",
     "edit": "Editar ítem",
     "editHint": "Toca para editar",
-    "remove": "Quitar {{title}}"
+    "remove": "Quitar {{title}}",
+    "flattened_one": "{{count}} ítem pasaría de {{max}} niveles y quedó en el último nivel.",
+    "flattened_other": "{{count}} ítems pasarían de {{max}} niveles y quedaron en el último nivel."
   },
   "onboarding": {
     "step": "Paso {{n}} de 3",
@@ -1080,6 +1082,10 @@
     "full": "Esa tarea ya tiene 50 subtareas.",
     "first": "No hay una tarea arriba para ser la madre.",
     "structure": "Estructura",
-    "export": "Exportar estructura (texto)"
+    "export": "Exportar estructura (texto)",
+    "depthLimit": "Niveles de subtarea",
+    "depthDefault": "Predeterminado ({{count}})",
+    "depthHint": "Cuántos niveles pueden tener las tareas de esta página (la tarea cuenta como el primero).",
+    "depthHintProject": "Vale para las listas del proyecto sin límite propio. No se puede bajar por debajo de lo que ya existe."
   }
 }

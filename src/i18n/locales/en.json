@@ -729,7 +729,9 @@
     "createN": "Create {{count}}",
     "edit": "Edit item",
     "editHint": "Tap to edit",
-    "remove": "Remove {{title}}"
+    "remove": "Remove {{title}}",
+    "flattened_one": "{{count}} item would go past {{max}} levels and stayed at the last level.",
+    "flattened_other": "{{count}} items would go past {{max}} levels and stayed at the last level."
   },
   "onboarding": {
     "step": "Step {{n}} of 3",
@@ -1080,6 +1082,10 @@
     "full": "That task already has 50 subtasks.",
     "first": "There is no task above to become the parent.",
     "structure": "Structure",
-    "export": "Export structure (text)"
+    "export": "Export structure (text)",
+    "depthLimit": "Subtask levels",
+    "depthDefault": "Default ({{count}})",
+    "depthHint": "How many levels the tasks on this page can have (the task counts as the first).",
+    "depthHintProject": "Applies to project lists without their own limit. Lowering it below what already exists is not allowed."
   }
 }

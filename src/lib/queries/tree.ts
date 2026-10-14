@@ -23,6 +23,8 @@ export type PageSettings = {
   icon?: string | null;
   view_type?: Page['view_type'];
   reset_cycle?: Page['reset_cycle'];
+  /** Limite de níveis de subtarefa da página; null = o do projeto (ou o padrão) */
+  max_depth?: number | null;
 };
 
 export type SubFolder = Folder & { pages: Page[] };
@@ -181,7 +183,14 @@ export function useTreeMutations() {
 
   /** Configurações do projeto que não são nome/ícone (ex.: concluir a mãe sozinha). */
   const setFolderSettings = useMutation({
-    mutationFn: async ({ id, ...patch }: { id: string; auto_complete_parent?: boolean }) => {
+    mutationFn: async ({
+      id,
+      ...patch
+    }: {
+      id: string;
+      auto_complete_parent?: boolean;
+      max_depth?: number | null;
+    }) => {
       if (isLocal()) return localUpdate('folders', id, patch);
       const { error } = await supabase.from('folders').update(patch).eq('id', id);
       if (error) throw error;

@@ -1,6 +1,9 @@
 import type { TFunction } from 'i18next';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { DepthPicker } from '@/components/depth-picker';
+import { DEFAULT_MAX_DEPTH } from '@/config/limits';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { IconPicker } from '@/components/icon-picker';
@@ -29,11 +32,14 @@ const RESET_CYCLES = [
 export function PageDialog({
   title,
   initial,
+  inheritedDepth = DEFAULT_MAX_DEPTH,
   onConfirm,
   onClose,
 }: {
   title: string;
   initial?: Partial<Page>;
+  /** O limite que vale se a página ficar no padrão (o do projeto) */
+  inheritedDepth?: number;
   onConfirm: (settings: PageSettings) => void;
   onClose: () => void;
 }) {
@@ -46,6 +52,7 @@ export function PageDialog({
     initial?.reset_cycle ?? null,
   );
   const effectiveReset = resetCycle ?? (viewType === 'cards' ? 'weekly' : 'none');
+  const [maxDepth, setMaxDepth] = useState<number | null>(initial?.max_depth ?? null);
 
   function confirm() {
     if (!name.trim()) return;
@@ -56,6 +63,7 @@ export function PageDialog({
       // Hábitos reiniciam pela recorrência de cada item; o ciclo da página não se aplica
       // Hábitos têm o ciclo de cada item; kanban é fluxo, não rotina: nunca reiniciam
       reset_cycle: viewType === 'habits' || viewType === 'kanban' ? 'none' : effectiveReset,
+      max_depth: maxDepth,
     });
   }
 
@@ -127,6 +135,14 @@ export function PageDialog({
                         : 'pageDialog.resetAuto',
                   )}
                 </Text>
+              </>
+            )}
+
+            {viewType !== 'habits' && (
+              <>
+                <Label>{t('tree.depthLimit')}</Label>
+                <DepthPicker value={maxDepth} inherited={inheritedDepth} onChange={setMaxDepth} />
+                <Text className="text-sm text-ink-muted">{t('tree.depthHint')}</Text>
               </>
             )}
 

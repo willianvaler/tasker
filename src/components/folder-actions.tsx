@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { FolderDialog as FolderForm } from '@/components/folder-dialog';
 import { PageDialog } from '@/components/page-dialog';
+import { effectiveMaxDepth } from '@/config/limits';
 import {
   ActionMenu,
   ConfirmDialog,
@@ -181,6 +182,10 @@ export function useFolderActions() {
               : 'pageDialog.new',
         )}
         initial={editing ?? undefined}
+        inheritedDepth={effectiveMaxDepth(
+          null,
+          rootFolder(tree.data, editing?.folder_id ?? folderId)?.max_depth,
+        )}
         onClose={close}
         onConfirm={(settings) => {
           if (editing) m.updatePage.mutate({ id: editing.id, ...settings }, { onError });
