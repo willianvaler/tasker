@@ -61,4 +61,24 @@ describe('textos das notificações (tela 🔔 e push)', () => {
       ])[0].data.url,
     ).toBe('/team/tm1');
   });
+  test('fluxo: desbloqueio (com e sem atraso) e pré-requisito reaberto abrem a tarefa', () => {
+    expect(
+      describeNotification({
+        kind: 'task_ready',
+        payload: { task_id: 't2', title: 'Acender o fogo', prereq: 'Comprar carvão', lag: 0 },
+      }),
+    ).toEqual({ text: '"Comprar carvão" foi concluída: já pode "Acender o fogo"', taskId: 't2' });
+    expect(
+      describeNotification({
+        kind: 'task_ready',
+        payload: { task_id: 't3', title: 'Assar a carne', prereq: 'Acender o fogo', lag: 30 },
+      }).text,
+    ).toBe('"Acender o fogo" foi concluída: em 30 min já pode "Assar a carne"');
+    expect(
+      describeNotification({
+        kind: 'prereq_reopened',
+        payload: { task_id: 't3', title: 'Assar a carne', prereq: 'Acender o fogo' },
+      }).text,
+    ).toBe('"Acender o fogo" foi reaberta: "Assar a carne" voltou a esperar');
+  });
 });

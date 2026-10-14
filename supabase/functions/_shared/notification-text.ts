@@ -39,6 +39,18 @@ export function describeNotification(n: NotificationLike): {
       return { text: `${by} pediu para entrar no time ${p.team_name}`, teamId: String(p.team_id) };
     case 'join_approved':
       return { text: `Você entrou no time ${p.team_name}`, teamId: String(p.team_id) };
+    case 'task_ready':
+      return {
+        text: Number(p.lag)
+          ? `"${p.prereq}" foi concluída: em ${p.lag} min já pode "${p.title}"`
+          : `"${p.prereq}" foi concluída: já pode "${p.title}"`,
+        taskId: String(p.task_id),
+      };
+    case 'prereq_reopened':
+      return {
+        text: `"${p.prereq}" foi reaberta: "${p.title}" voltou a esperar`,
+        taskId: String(p.task_id),
+      };
     default:
       return { text: 'Novidade' };
   }
