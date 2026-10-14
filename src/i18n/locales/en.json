@@ -611,5 +611,23 @@
     "where": "Where to create",
     "created": "Created in {{page}}",
     "help": "Enter creates and stays here · Esc or tap outside to close · !! priority, #tag, tomorrow"
+  },
+  "batch": {
+    "title": "Add several",
+    "noDraft": "Open it from the page where you want to create the tasks.",
+    "where": "In {{page}} · one per line or separated by \";\" · indent = subtask · [x] = already done",
+    "placeholder": "Paste or type the list, for example:\nmeat; beer; charcoal\nice !!\n- [x] invite everyone",
+    "list": "Task list",
+    "none": "No tasks yet",
+    "willCreate_one": "{{count}} task will be created",
+    "willCreate_other": "{{count}} tasks will be created",
+    "created_one": "{{count}} task created in {{page}}",
+    "created_other": "{{count}} tasks created in {{page}}",
+    "error": "Could not create: {{message}}",
+    "create": "Create",
+    "createN": "Create {{count}}",
+    "edit": "Edit item",
+    "editHint": "Tap to edit",
+    "remove": "Remove {{title}}"
   }
 }

@@ -611,5 +611,23 @@
     "where": "Dónde crear",
     "created": "Creada en {{page}}",
     "help": "Enter crea y sigue aquí · Esc o toca fuera para cerrar · !! prioridad, #etiqueta, mañana"
+  },
+  "batch": {
+    "title": "Agregar varias",
+    "noDraft": "Ábrelo desde la página donde quieres crear las tareas.",
+    "where": "En {{page}} · una por línea o separadas por \";\" · sangría = subtarea · [x] = ya hecha",
+    "placeholder": "Pega o escribe la lista, por ejemplo:\ncarne; cerveza; carbón\nhielo !!\n- [x] invitar a todos",
+    "list": "Lista de tareas",
+    "none": "Ninguna tarea todavía",
+    "willCreate_one": "Se creará {{count}} tarea",
+    "willCreate_other": "Se crearán {{count}} tareas",
+    "created_one": "{{count}} tarea creada en {{page}}",
+    "created_other": "{{count}} tareas creadas en {{page}}",
+    "error": "No se pudo crear: {{message}}",
+    "create": "Crear",
+    "createN": "Crear {{count}}",
+    "edit": "Editar ítem",
+    "editHint": "Toca para editar",
+    "remove": "Quitar {{title}}"
   }
 }

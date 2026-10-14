@@ -1,13 +1,17 @@
 import { randomUUID } from 'expo-crypto';
 import { router } from 'expo-router';
+import { Check, Dot, X } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { MentionChips } from '@/components/tasks/assignee-chips';
 import { TaskMeta } from '@/components/tasks/task-meta';
-import { Button } from '@/components/ui/button';
+import { Button, IconButton } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import { takeBatchDraft } from '@/lib/batch-draft';
 import { cn } from '@/lib/cn';
@@ -26,6 +30,7 @@ import { useCanWrite } from '@/providers/write';
 // Criação em lote (ESCOPO 4.1): cola o texto, confere a pré-visualização, edita ou tira itens e confirma.
 // O texto é a fonte; editar um item na prévia guarda só aquela linha (some se o texto mudar).
 export default function BatchScreen() {
+  const { t } = useTranslation();
   const colors = useColors();
   const [draft] = useState(() => takeBatchDraft());
   const tree = useTree();
@@ -104,51 +109,47 @@ export default function BatchScreen() {
           id: randomUUID(),
         })),
       },
-      { onError: (err) => toast({ message: `Não deu para criar: ${err.message}` }) },
+      { onError: (err) => toast({ message: t('batch.error', { message: err.message }) }) },
     );
     setLastPageId(page.id);
-    toast({
-      message: `${total} ${total === 1 ? 'tarefa criada' : 'tarefas criadas'} em ${pageLabel(page)}`,
-    });
+    toast({ message: t('batch.created', { count: total, page: pageLabel(page) }) });
     router.back();
   }
 
   if (!draft) {
     return (
       <Screen>
-        <ScreenHeader title="Adicionar várias" back />
-        <Text className="mt-6 text-ink-muted">Abra pela página onde quer criar as tarefas.</Text>
+        <ScreenHeader title={t('batch.title')} back />
+        <EmptyState title={t('batch.noDraft')} />
       </Screen>
     );
   }
 
   return (
     <Screen>
-      <ScreenHeader title="Adicionar várias" back />
-      <Text className="mb-2 text-sm text-ink-muted">
-        Em {page ? pageLabel(page) : '…'} · uma por linha ou separadas por &quot;;&quot; · recuo =
-        subtarefa · [x] = já feita
+      <ScreenHeader title={t('batch.title')} back />
+      <Text className="mb-2 font-mono text-xs text-ink-muted">
+        {t('batch.where', { page: page ? pageLabel(page) : '…' })}
       </Text>
       <TextInput
         multiline
         autoFocus={!draft.text}
         value={text}
         onChangeText={changeText}
-        placeholder={
-          'Cole ou digite a lista, por exemplo:\ncarne; cerveja; carvão\ngelo !!\n- [x] convidar a galera'
-        }
+        placeholder={t('batch.placeholder')}
         placeholderTextColor={colors['ink-muted']}
-        accessibilityLabel="Lista de tarefas"
+        accessibilityLabel={t('batch.list')}
         textAlignVertical="top"
         className={textClass(
-          'max-h-48 min-h-28 rounded-lg border border-line bg-paper p-3 text-base text-ink',
+          'max-h-48 min-h-28 rounded border border-line bg-surface p-3 text-base text-ink focus:border-accent md:text-sm',
         )}
       />
 
-      <Text className="mt-4 font-semibold text-ink" accessibilityLiveRegion="polite">
-        {total === 0
-          ? 'Nenhuma tarefa ainda'
-          : `${total} ${total === 1 ? 'tarefa será criada' : 'tarefas serão criadas'}`}
+      <Text
+        className="mt-6 border-b border-line pb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted"
+        accessibilityLiveRegion="polite"
+      >
+        {total === 0 ? t('batch.none') : t('batch.willCreate', { count: total })}
       </Text>
       <ScrollView className="mt-1 flex-1" keyboardShouldPersistTaps="handled">
         {items.map((item) => (
@@ -178,9 +179,9 @@ export default function BatchScreen() {
       </ScrollView>
 
       <View className="flex-row justify-end gap-2 py-3">
-        <Button variant="ghost" label="Cancelar" onPress={() => router.back()} />
+        <Button variant="ghost" label={t('common.cancel')} onPress={() => router.back()} />
         <Button
-          label={total > 0 ? `Criar ${total}` : 'Criar'}
+          label={total > 0 ? t('batch.createN', { count: total }) : t('batch.create')}
           disabled={total === 0 || !page || !writable}
           onPress={confirm}
         />
@@ -206,6 +207,7 @@ function PreviewRow({
   onEdit: (raw: string) => void;
   onRemove: () => void;
 }) {
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
   const [raw, setRaw] = useState(item.raw);
 
@@ -223,8 +225,13 @@ function PreviewRow({
   } as Task;
 
   return (
-    <View className={cn('min-h-12 flex-row items-center border-b border-line', child && 'pl-8')}>
-      <Text className="w-6 text-ink-muted">{item.done ? '✓' : '•'}</Text>
+    <View
+      className={cn(
+        'min-h-12 flex-row items-center gap-2 border-b border-line md:min-h-10',
+        child && 'pl-8',
+      )}
+    >
+      <Icon icon={item.done ? Check : Dot} tone={item.done ? 'accent' : 'ink-muted'} />
       <View className="flex-1 py-1">
         {editing ? (
           <TextInput
@@ -233,16 +240,21 @@ function PreviewRow({
             onChangeText={setRaw}
             onBlur={save}
             onSubmitEditing={save}
-            accessibilityLabel="Editar item"
-            className={textClass('text-base text-ink')}
+            accessibilityLabel={t('batch.edit')}
+            className={textClass('text-base text-ink md:text-sm')}
           />
         ) : (
           <Pressable
             accessibilityRole="button"
-            accessibilityHint="Toque para editar"
+            accessibilityHint={t('batch.editHint')}
             onPress={() => setEditing(true)}
           >
-            <Text className={cn('text-base text-ink', item.done && 'text-ink-muted line-through')}>
+            <Text
+              className={cn(
+                'text-base text-ink md:text-sm',
+                item.done && 'text-ink-muted line-through',
+              )}
+            >
               {item.title}
             </Text>
           </Pressable>
@@ -250,14 +262,7 @@ function PreviewRow({
         <TaskMeta task={asTask} today={today} />
         <MentionChips mentions={mentions} onChoose={onChoose} />
       </View>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={`Tirar ${item.title}`}
-        className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
-        onPress={onRemove}
-      >
-        <Text className="text-lg text-ink-muted">✕</Text>
-      </Pressable>
+      <IconButton icon={X} label={t('batch.remove', { title: item.title })} onPress={onRemove} />
     </View>
   );
 }
