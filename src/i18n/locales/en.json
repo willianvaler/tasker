@@ -661,5 +661,53 @@
     "habitMeditate": "Meditate 5 minutes",
     "habitRead": "Read 10 pages",
     "habitEat": "Eat well"
+  },
+  "extras": {
+    "noRepeat": "Does not repeat",
+    "daily": "Every day",
+    "weekly": "Every week",
+    "monthly": "Every month",
+    "weekdays": "Days of the week",
+    "sets": "Sets",
+    "reps": "Reps",
+    "weight": "Weight",
+    "streakWeeks": "weeks in a row",
+    "streakMonths": "months in a row",
+    "streakDays": "in a row",
+    "last30": "times in 30 days",
+    "frequency": "frequency",
+    "calendar": "Calendar of the last 5 weeks",
+    "dayDone": "{{day}}: done",
+    "dayNotDone": "{{day}}: not done",
+    "kindCheck": "Check",
+    "kindCounter": "Counter",
+    "kindPlusminus": "Good and bad",
+    "hintCheck": "Done or not done for the period.",
+    "hintCounter": "A goal per period (e.g. 8 glasses of water). + adds, − undoes; reaching the goal completes it.",
+    "hintPlusminus": "No goal: + when you do the good one (XP and damage to the boss), − when you slip (the boss heals a little).",
+    "target": "Goal per period"
+  },
+  "collab": {
+    "nobody": "Nobody yet.",
+    "pending": "(pending)",
+    "remove": "Remove {{name}}",
+    "newPlaceholder": "Another name (stays pending until the person joins)",
+    "newLabel": "New assignee",
+    "error": "Something went wrong: {{message}}",
+    "commentError": "Could not comment: {{message}}",
+    "noComments": "No comments.",
+    "you": "You",
+    "deleteComment": "Delete comment",
+    "commentPlaceholder": "Comment… (@name notifies the person)",
+    "newComment": "New comment"
+  },
+  "kanban": {
+    "todo": "To do",
+    "doing": "Doing",
+    "done": "Done",
+    "column": "Column {{title}}",
+    "empty": "Nothing here.",
+    "move": "Move {{title}} to {{column}}",
+    "doneToast": "Done: {{title}} · {{reward}}"
   }
 }

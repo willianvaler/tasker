@@ -661,5 +661,53 @@
     "habitMeditate": "Meditar 5 minutos",
     "habitRead": "Leer 10 páginas",
     "habitEat": "Comer bien"
+  },
+  "extras": {
+    "noRepeat": "No se repite",
+    "daily": "Todos los días",
+    "weekly": "Todas las semanas",
+    "monthly": "Todos los meses",
+    "weekdays": "Días de la semana",
+    "sets": "Series",
+    "reps": "Repeticiones",
+    "weight": "Carga",
+    "streakWeeks": "semanas seguidas",
+    "streakMonths": "meses seguidos",
+    "streakDays": "seguidos",
+    "last30": "veces en 30 días",
+    "frequency": "frecuencia",
+    "calendar": "Calendario de las últimas 5 semanas",
+    "dayDone": "{{day}}: hecho",
+    "dayNotDone": "{{day}}: no hecho",
+    "kindCheck": "Marcar",
+    "kindCounter": "Contador",
+    "kindPlusminus": "Bueno y malo",
+    "hintCheck": "Hecho o no hecho en el período.",
+    "hintCounter": "Una meta por período (ej.: 8 vasos de agua). + suma, − deshace; llegar a la meta lo completa.",
+    "hintPlusminus": "Sin meta: + cuando hagas lo bueno (XP y daño al jefe), − cuando resbales (el jefe se cura un poco).",
+    "target": "Meta por período"
+  },
+  "collab": {
+    "nobody": "Nadie todavía.",
+    "pending": "(pendiente)",
+    "remove": "Quitar a {{name}}",
+    "newPlaceholder": "Otro nombre (queda pendiente hasta que la persona entre)",
+    "newLabel": "Nuevo responsable",
+    "error": "Algo salió mal: {{message}}",
+    "commentError": "No se pudo comentar: {{message}}",
+    "noComments": "Sin comentarios.",
+    "you": "Tú",
+    "deleteComment": "Eliminar comentario",
+    "commentPlaceholder": "Comentar… (@nombre avisa a la persona)",
+    "newComment": "Nuevo comentario"
+  },
+  "kanban": {
+    "todo": "Por hacer",
+    "doing": "Haciendo",
+    "done": "Hecho",
+    "column": "Columna {{title}}",
+    "empty": "Nada aquí.",
+    "move": "Mover {{title}} a {{column}}",
+    "doneToast": "Hecho: {{title}} · {{reward}}"
   }
 }

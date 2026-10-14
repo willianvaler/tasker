@@ -1,10 +1,14 @@
 import { randomUUID } from 'expo-crypto';
+import { X } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 
 import { assigneeName, useTaskMembers } from '@/components/tasks/assignee-chips';
+import { IconButton } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { Avatar } from '@/components/ui/person';
 import { Text } from '@/components/ui/text';
 import { nameKey } from '@/lib/members';
 import {
@@ -25,6 +29,7 @@ import { useCanWrite } from '@/providers/write';
 
 /** Responsáveis da tarefa: membros, nomes pendentes do projeto ou um nome novo (pendente). */
 export function AssigneesEditor({ task }: { task: Task }) {
+  const { t } = useTranslation();
   const writable = useCanWrite(task.folder_id);
   const tree = useTree();
   const all = useAssignees();
@@ -36,7 +41,7 @@ export function AssigneesEditor({ task }: { task: Task }) {
   const root = rootFolder(tree.data, task.folder_id);
   const folderIds = root ? [root.id, ...root.children.map((c) => c.id)] : [];
   const current = assigneesOf(all.data, task.id);
-  const onError = (err: Error) => toast({ message: `Não deu certo: ${err.message}` });
+  const onError = (err: Error) => toast({ message: t('collab.error', { message: err.message }) });
 
   const freeMembers = (members ?? []).filter(
     (mem) => !current.some((a) => a.user_id === mem.userId),
@@ -54,16 +59,23 @@ export function AssigneesEditor({ task }: { task: Task }) {
 
   return (
     <View className="gap-2">
-      {current.length === 0 && <Text className="text-sm text-ink-muted">Ninguém ainda.</Text>}
-      <View className="flex-row flex-wrap gap-2">
+      {current.length === 0 && <Text className="text-sm text-ink-muted">{t('collab.nobody')}</Text>}
+      <View>
         {current.map((a) => (
-          <Chip
-            key={a.id}
-            selected
-            disabled={!writable}
-            label={`${assigneeName(a, members)}${a.pending_name ? ' (pendente)' : ''}  ✕`}
-            onPress={() => m.remove.mutate(a.id, { onError })}
-          />
+          <View key={a.id} className="min-h-10 flex-row items-center gap-2 border-b border-line">
+            <Avatar name={assigneeName(a, members)} />
+            <Text className="flex-1 text-sm text-ink">
+              {assigneeName(a, members)}
+              {a.pending_name ? ` ${t('collab.pending')}` : ''}
+            </Text>
+            {writable && (
+              <IconButton
+                icon={X}
+                label={t('collab.remove', { name: assigneeName(a, members) })}
+                onPress={() => m.remove.mutate(a.id, { onError })}
+              />
+            )}
+          </View>
         ))}
       </View>
       {writable && (freeMembers.length > 0 || freePending.length > 0) && (
@@ -91,23 +103,23 @@ export function AssigneesEditor({ task }: { task: Task }) {
           onSubmitEditing={addPending}
           submitBehavior="submit"
           autoCapitalize="none"
-          placeholder="Outro nome (fica pendente até a pessoa entrar)"
-          accessibilityLabel="Novo responsável"
+          placeholder={t('collab.newPlaceholder')}
+          accessibilityLabel={t('collab.newLabel')}
         />
       )}
     </View>
   );
 }
 
-const WHEN = new Intl.DateTimeFormat('pt-BR', {
-  day: 'numeric',
-  month: 'short',
-  hour: '2-digit',
-  minute: '2-digit',
-});
-
 /** Comentários em ordem cronológica; @nome avisa o membro (ESCOPO 4.5). Leitor também comenta. */
 export function Comments({ task }: { task: Task }) {
+  const { t, i18n } = useTranslation();
+  const when = new Intl.DateTimeFormat(i18n.language, {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
   const online = useIsOnline();
   const { session } = useSession();
   const comments = useComments(task.id);
@@ -121,7 +133,7 @@ export function Comments({ task }: { task: Task }) {
     if (!trimmed || !online) return;
     m.add.mutate(
       { id: randomUUID(), body: trimmed },
-      { onError: (err) => toast({ message: `Não deu para comentar: ${err.message}` }) },
+      { onError: (err) => toast({ message: t('collab.commentError', { message: err.message }) }) },
     );
     setBody('');
   }
@@ -129,30 +141,29 @@ export function Comments({ task }: { task: Task }) {
   return (
     <View className="gap-3">
       {comments.data?.length === 0 && (
-        <Text className="text-sm text-ink-muted">Nenhum comentário.</Text>
+        <Text className="text-sm text-ink-muted">{t('collab.noComments')}</Text>
       )}
       {comments.data?.map((c) => {
         const author =
           c.author?.display_name ??
           members?.find((mem) => mem.userId === c.author_id)?.displayName ??
-          'Você';
+          t('collab.you');
         return (
-          <View key={c.id} className="gap-1 rounded-lg bg-wash p-3">
+          <View key={c.id} className="gap-1 border-l-2 border-line pl-3">
             <View className="flex-row items-center gap-2">
               <Text className="flex-1 text-sm font-semibold text-ink">{author}</Text>
-              <Text className="text-xs text-ink-muted">{WHEN.format(new Date(c.created_at))}</Text>
+              <Text className="font-mono text-xs text-ink-muted">
+                {when.format(new Date(c.created_at))}
+              </Text>
               {c.author_id === session?.user.id && online && (
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel="Apagar comentário"
-                  className="h-8 w-8 items-center justify-center rounded-full active:bg-paper"
+                <IconButton
+                  icon={X}
+                  label={t('collab.deleteComment')}
                   onPress={() => m.remove.mutate(c.id)}
-                >
-                  <Text className="text-ink-muted">✕</Text>
-                </Pressable>
+                />
               )}
             </View>
-            <Text className="text-base text-ink">{c.body}</Text>
+            <Text className="text-sm text-ink">{c.body}</Text>
           </View>
         );
       })}
@@ -162,8 +173,8 @@ export function Comments({ task }: { task: Task }) {
         onSubmitEditing={send}
         submitBehavior="submit"
         editable={online}
-        placeholder="Comentar… (@nome avisa a pessoa)"
-        accessibilityLabel="Novo comentário"
+        placeholder={t('collab.commentPlaceholder')}
+        accessibilityLabel={t('collab.newComment')}
       />
     </View>
   );

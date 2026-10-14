@@ -1,6 +1,10 @@
 import { router } from 'expo-router';
+import { ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 
+import { Icon } from '@/components/ui/icon';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { rewardMessage } from '@/lib/gamification';
@@ -12,14 +16,15 @@ import { useCanWrite } from '@/providers/write';
 import { AssigneeChips } from './assignee-chips';
 import { TaskMeta } from './task-meta';
 
-const COLUMNS: { status: TaskStatus; title: string }[] = [
-  { status: 'todo', title: 'A fazer' },
-  { status: 'doing', title: 'Fazendo' },
-  { status: 'done', title: 'Feito' },
-];
+const COLUMNS = [
+  { status: 'todo', title: 'kanban.todo' },
+  { status: 'doing', title: 'kanban.doing' },
+  { status: 'done', title: 'kanban.done' },
+] as const satisfies readonly { status: TaskStatus; title: string }[];
+type Column = (typeof COLUMNS)[number];
 
 /**
- * Kanban (ESCOPO 3): A fazer / Fazendo / Feito. Mover é por botões (◀ ▶), que funcionam com
+ * Kanban (ESCOPO 3): A fazer / Fazendo / Feito. Mover é por botões (setas), que funcionam com
  * toque, teclado e leitor de tela; levar para Feito conclui a tarefa (XP, bosses).
  */
 export function KanbanBoard({
@@ -31,6 +36,7 @@ export function KanbanBoard({
   folderId: string;
   subtaskCount: Map<string, { done: number; total: number }>;
 }) {
+  const { t } = useTranslation();
   const { width } = useWindowDimensions();
   const wide = width >= 900;
   const today = useToday();
@@ -40,7 +46,7 @@ export function KanbanBoard({
   const toast = useToast();
   const game = useGameState();
 
-  function move(task: Task, target: { status: TaskStatus; title: string }) {
+  function move(task: Task, target: Column) {
     setStatus.mutate(
       { id: task.id, status: target.status },
       {
@@ -49,7 +55,7 @@ export function KanbanBoard({
             target.status === 'done' && summary && game.data?.enabled !== false
               ? rewardMessage(summary)
               : null;
-          if (reward) toast({ message: `Feito: ${task.title} · ${reward}` });
+          if (reward) toast({ message: t('kanban.doneToast', { title: task.title, reward }) });
         },
       },
     );
@@ -63,13 +69,11 @@ export function KanbanBoard({
   const body = columns.map((column, index) => (
     <View
       key={column.status}
-      accessibilityLabel={`Coluna ${column.title}`}
-      className={cn('gap-2 rounded-lg bg-wash p-2', wide ? 'flex-1' : '')}
+      accessibilityLabel={t('kanban.column', { title: t(column.title) })}
+      className={cn('gap-2', wide ? 'flex-1' : '')}
       style={wide ? undefined : { width: Math.min(320, width * 0.8) }}
     >
-      <Text className="px-1 text-sm font-semibold text-ink-muted">
-        {column.title} ({column.tasks.length})
-      </Text>
+      <SectionLabel title={t(column.title)} count={column.tasks.length} className="pt-0" />
       {column.tasks.map((task) => (
         <KanbanCard
           key={task.id}
@@ -83,17 +87,17 @@ export function KanbanBoard({
         />
       ))}
       {column.tasks.length === 0 && (
-        <Text className="px-1 py-3 text-xs text-ink-muted">Nada aqui.</Text>
+        <Text className="py-3 text-xs text-ink-muted">{t('kanban.empty')}</Text>
       )}
     </View>
   ));
 
   return wide ? (
-    <View className="flex-row items-start gap-3 pt-2">{body}</View>
+    <View className="flex-row items-start gap-6 pt-2">{body}</View>
   ) : (
     <ScrollView
       horizontal
-      contentContainerClassName="gap-3 pt-2"
+      contentContainerClassName="gap-6 pt-2"
       showsHorizontalScrollIndicator={false}
     >
       {body}
@@ -114,22 +118,23 @@ function KanbanCard({
   today: string;
   folderId: string;
   subtasks?: { done: number; total: number };
-  prev?: { status: TaskStatus; title: string };
-  next?: { status: TaskStatus; title: string };
-  onMove: (target: { status: TaskStatus; title: string }) => void;
+  prev?: Column;
+  next?: Column;
+  onMove: (target: Column) => void;
 }) {
+  const { t } = useTranslation();
   const writable = useCanWrite(folderId, { offline: true });
 
   return (
-    <View className="gap-1 rounded-lg border border-line bg-paper p-2">
+    <View className="gap-2 rounded-lg border border-line bg-surface p-3">
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`Detalhes de ${task.title}`}
+        accessibilityLabel={t('task.details', { title: task.title })}
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
       >
         <Text
           className={cn(
-            'text-base',
+            'text-sm',
             task.status === 'done' ? 'text-ink-muted line-through' : 'text-ink',
           )}
         >
@@ -142,8 +147,9 @@ function KanbanCard({
         <View className="flex-row justify-between">
           {prev ? (
             <MoveButton
-              label={`◀ ${prev.title}`}
-              a11y={`Mover ${task.title} para ${prev.title}`}
+              icon={ChevronLeft}
+              label={t(prev.title)}
+              a11y={t('kanban.move', { title: task.title, column: t(prev.title) })}
               onPress={() => move(prev)}
             />
           ) : (
@@ -151,8 +157,10 @@ function KanbanCard({
           )}
           {next && (
             <MoveButton
-              label={`${next.title} ▶`}
-              a11y={`Mover ${task.title} para ${next.title}`}
+              icon={ChevronRight}
+              trailing
+              label={t(next.title)}
+              a11y={t('kanban.move', { title: task.title, column: t(next.title) })}
               onPress={() => move(next)}
             />
           )}
@@ -163,10 +171,14 @@ function KanbanCard({
 }
 
 function MoveButton({
+  icon,
+  trailing,
   label,
   a11y,
   onPress,
 }: {
+  icon: LucideIcon;
+  trailing?: boolean;
   label: string;
   a11y: string;
   onPress: () => void;
@@ -175,10 +187,14 @@ function MoveButton({
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={a11y}
-      className="min-h-11 justify-center rounded px-2 active:bg-wash"
+      className={cn(
+        'min-h-11 items-center gap-1 rounded px-1 hover:bg-wash active:bg-wash md:min-h-8',
+        trailing ? 'flex-row-reverse' : 'flex-row',
+      )}
       onPress={onPress}
     >
-      <Text className="text-xs font-semibold text-accent">{label}</Text>
+      <Icon icon={icon} tone="ink-muted" />
+      <Text className="text-xs text-ink-muted">{label}</Text>
     </Pressable>
   );
 }

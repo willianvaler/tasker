@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Chip } from '@/components/ui/chip';
@@ -12,10 +13,16 @@ import type { Task } from '@/lib/queries/tasks';
 import { asRecurrence, habitStreak, isHabitDueOn, recurrenceLabel } from '@/lib/recurrence';
 import { useCanWrite } from '@/providers/write';
 
-const DAYS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-const DAY_NAMES = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
 // Ordem de exibição: segunda primeiro
 const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
+
+/** Nomes dos dias no idioma da tela (0 = domingo), a partir de um domingo qualquer. */
+function weekdayNames(locale: string, width: 'narrow' | 'short') {
+  const format = new Intl.DateTimeFormat(locale, { weekday: width, timeZone: 'UTC' });
+  return Array.from({ length: 7 }, (_, d) =>
+    format.format(new Date(Date.UTC(2024, 0, 7 + d))).replace('.', ''),
+  );
+}
 
 /** Escolha da repetição: nenhuma, diária, semanal, mensal ou dias da semana. */
 export function RecurrenceEditor({
@@ -28,16 +35,18 @@ export function RecurrenceEditor({
   habit?: boolean;
   onChange: (r: Recurrence | null) => void;
 }) {
+  const { t, i18n } = useTranslation();
+  const dayNames = weekdayNames(i18n.language, 'short');
   const writable = useCanWrite();
   const type = value?.type ?? (habit ? 'daily' : null);
   const days = value?.type === 'weekdays' ? value.days : [];
   const options: { label: string; value: Recurrence | null; selected: boolean }[] = [
-    ...(habit ? [] : [{ label: 'Não repete', value: null, selected: type === null }]),
-    { label: 'Todo dia', value: { type: 'daily' }, selected: type === 'daily' },
-    { label: 'Toda semana', value: { type: 'weekly' }, selected: type === 'weekly' },
-    { label: 'Todo mês', value: { type: 'monthly' }, selected: type === 'monthly' },
+    ...(habit ? [] : [{ label: t('extras.noRepeat'), value: null, selected: type === null }]),
+    { label: t('extras.daily'), value: { type: 'daily' }, selected: type === 'daily' },
+    { label: t('extras.weekly'), value: { type: 'weekly' }, selected: type === 'weekly' },
+    { label: t('extras.monthly'), value: { type: 'monthly' }, selected: type === 'monthly' },
     {
-      label: 'Dias da semana',
+      label: t('extras.weekdays'),
       value: { type: 'weekdays', days: [1, 3, 5] },
       selected: type === 'weekdays',
     },
@@ -71,7 +80,7 @@ export function RecurrenceEditor({
             <Chip
               key={d}
               role="checkbox"
-              label={DAY_NAMES[d].slice(0, 3)}
+              label={dayNames[d]}
               selected={days.includes(d)}
               disabled={!writable}
               onPress={() => toggleDay(d)}
@@ -85,6 +94,7 @@ export function RecurrenceEditor({
 
 /** Séries, repetições e carga (cards). Salva ao sair de cada campo. */
 export function MetaEditor({ task, onSave }: { task: Task; onSave: (meta: Json) => void }) {
+  const { t } = useTranslation();
   const writable = useCanWrite();
   const meta = (task.meta && typeof task.meta === 'object' ? task.meta : {}) as TaskMeta;
   const [sets, setSets] = useState(meta.sets?.toString() ?? '');
@@ -105,9 +115,9 @@ export function MetaEditor({ task, onSave }: { task: Task; onSave: (meta: Json) 
   return (
     <View className="flex-row gap-2">
       {[
-        { label: 'Séries', value: sets, set: setSets, numeric: true },
-        { label: 'Repetições', value: reps, set: setReps, numeric: true },
-        { label: 'Carga', value: weight, set: setWeight, numeric: false },
+        { label: t('extras.sets'), value: sets, set: setSets, numeric: true },
+        { label: t('extras.reps'), value: reps, set: setReps, numeric: true },
+        { label: t('extras.weight'), value: weight, set: setWeight, numeric: false },
       ].map((field) => (
         <View key={field.label} className="flex-1 gap-1">
           <Text className="text-xs text-ink-muted">{field.label}</Text>
@@ -121,6 +131,7 @@ export function MetaEditor({ task, onSave }: { task: Task; onSave: (meta: Json) 
             placeholder={field.numeric ? '0' : '20kg'}
             accessibilityLabel={field.label}
             maxLength={field.numeric ? 4 : 20}
+            className="font-mono"
           />
         </View>
       ))}
@@ -138,6 +149,8 @@ export function HabitHistory({
   dates: IsoDate[];
   today: IsoDate;
 }) {
+  const { t, i18n } = useTranslation();
+  const letters = weekdayNames(i18n.language, 'narrow');
   const r = asRecurrence(task.recurrence);
   const done = new Set(dates);
   const streak = habitStreak(r, dates, today);
@@ -153,23 +166,23 @@ export function HabitHistory({
     <View className="gap-3">
       <View className="flex-row gap-6">
         <Stat
-          value={`🔥 ${streak}`}
-          label={
+          value={String(streak)}
+          label={t(
             r?.type === 'weekly'
-              ? 'semanas seguidas'
+              ? 'extras.streakWeeks'
               : r?.type === 'monthly'
-                ? 'meses seguidos'
-                : 'em sequência'
-          }
+                ? 'extras.streakMonths'
+                : 'extras.streakDays',
+          )}
         />
-        <Stat value={String(last30)} label="vezes em 30 dias" />
-        <Stat value={recurrenceLabel(r) || 'Todo dia'} label="frequência" />
+        <Stat value={String(last30)} label={t('extras.last30')} />
+        <Stat value={recurrenceLabel(r) || t('extras.daily')} label={t('extras.frequency')} />
       </View>
-      <View className="gap-1 self-start" accessibilityLabel="Calendário das últimas 5 semanas">
+      <View className="gap-1 self-start" accessibilityLabel={t('extras.calendar')}>
         <View className="flex-row gap-1">
           {WEEK_ORDER.map((d) => (
-            <Text key={d} className="w-8 text-center text-xs text-ink-muted">
-              {DAYS[d]}
+            <Text key={d} className="w-8 text-center font-mono text-xs text-ink-muted">
+              {letters[d]}
             </Text>
           ))}
         </View>
@@ -178,7 +191,9 @@ export function HabitHistory({
             {week.map((day) => (
               <View
                 key={day}
-                accessibilityLabel={`${day}: ${done.has(day) ? 'feito' : 'não feito'}`}
+                accessibilityLabel={t(done.has(day) ? 'extras.dayDone' : 'extras.dayNotDone', {
+                  day,
+                })}
                 className={cn(
                   'h-8 w-8 items-center justify-center rounded',
                   day > today
@@ -192,7 +207,10 @@ export function HabitHistory({
                 )}
               >
                 <Text
-                  className={cn('text-xs', done.has(day) ? 'text-on-accent' : 'text-ink-muted')}
+                  className={cn(
+                    'font-mono text-xs',
+                    done.has(day) ? 'text-on-accent' : 'text-ink-muted',
+                  )}
                 >
                   {Number(day.slice(8))}
                 </Text>
@@ -208,25 +226,17 @@ export function HabitHistory({
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <View>
-      <Text className="text-lg font-semibold text-ink">{value}</Text>
+      <Text className="font-mono text-base text-ink">{value}</Text>
       <Text className="text-xs text-ink-muted">{label}</Text>
     </View>
   );
 }
 
-const HABIT_KINDS: { value: Task['habit_kind']; label: string; hint: string }[] = [
-  { value: 'check', label: '✔️ Marcar', hint: 'Feito ou não feito no período.' },
-  {
-    value: 'counter',
-    label: '🔢 Contador',
-    hint: 'Uma meta por período (ex.: 8 copos de água). + soma, − desfaz; bater a meta conclui.',
-  },
-  {
-    value: 'plusminus',
-    label: '➕➖ Bom e ruim',
-    hint: 'Sem meta: + quando fizer o bom (XP e dano no boss), − quando escorregar (o boss se cura um pouco).',
-  },
-];
+const HABIT_KINDS = [
+  { value: 'check', label: 'extras.kindCheck', hint: 'extras.hintCheck' },
+  { value: 'counter', label: 'extras.kindCounter', hint: 'extras.hintCounter' },
+  { value: 'plusminus', label: 'extras.kindPlusminus', hint: 'extras.hintPlusminus' },
+] as const satisfies readonly { value: Task['habit_kind']; label: string; hint: string }[];
 
 /** Tipo do hábito (D63): marcar, contador com meta ou bom/ruim (+/−). */
 export function HabitKindEditor({
@@ -236,6 +246,7 @@ export function HabitKindEditor({
   task: Task;
   onSave: (patch: Pick<Task, 'habit_kind' | 'habit_target'>) => void;
 }) {
+  const { t } = useTranslation();
   const writable = useCanWrite();
   const [target, setTarget] = useState(String(task.habit_target ?? 8));
   const current = HABIT_KINDS.find((k) => k.value === task.habit_kind) ?? HABIT_KINDS[0];
@@ -253,7 +264,7 @@ export function HabitKindEditor({
           <Chip
             key={k.value}
             role="radio"
-            label={k.label}
+            label={t(k.label)}
             selected={task.habit_kind === k.value}
             disabled={!writable}
             onPress={() =>
@@ -265,19 +276,19 @@ export function HabitKindEditor({
           />
         ))}
       </View>
-      <Text className="text-sm text-ink-muted">{current.hint}</Text>
+      <Text className="text-sm text-ink-muted">{t(current.hint)}</Text>
       {task.habit_kind === 'counter' && (
         <View className="flex-row items-center gap-2">
-          <Text className="text-ink">Meta por período:</Text>
+          <Text className="text-sm text-ink-muted">{t('extras.target')}</Text>
           <Input
             value={target}
-            onChangeText={(t) => setTarget(t.replace(/\D/g, ''))}
+            onChangeText={(text) => setTarget(text.replace(/\D/g, ''))}
             onBlur={saveTarget}
             onSubmitEditing={saveTarget}
             keyboardType="number-pad"
             editable={writable}
-            className="w-20"
-            accessibilityLabel="Meta por período"
+            className="w-20 font-mono"
+            accessibilityLabel={t('extras.target')}
           />
         </View>
       )}
