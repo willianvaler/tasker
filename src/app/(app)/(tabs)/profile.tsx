@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { LogOut, Shield, ShoppingBag, Swords } from 'lucide-react-native';
+import { LogOut, RefreshCw, Shield, ShoppingBag, Swords, Trash2 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -122,6 +122,20 @@ function ProfileForm({ profile }: { profile: Profile }) {
         </Group>
 
         <Group title={t('privacy.title')}>
+          <View className="flex-row flex-wrap gap-1">
+            <Button
+              variant="ghost"
+              icon={Trash2}
+              label={t('trash.link')}
+              onPress={() => router.push('/lixeira')}
+            />
+            <Button
+              variant="ghost"
+              icon={RefreshCw}
+              label={t('sync.title')}
+              onPress={() => router.push('/sync')}
+            />
+          </View>
           <PrivacySection />
         </Group>
 

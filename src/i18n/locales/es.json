@@ -844,5 +844,22 @@
     "show": "Ver versión anterior",
     "restore": "Usar esta versión",
     "dismiss": "Descartar"
+  },
+  "trash": {
+    "title": "Papelera",
+    "intro": "Lo borrado queda aquí 30 días. Restaurar trae de vuelta todo lo que había dentro.",
+    "offline": "Sin conexión: la papelera está en el servidor.",
+    "empty": "Nada borrado en los últimos 30 días.",
+    "untitled": "Sin título",
+    "restore": "Restaurar",
+    "restored": "Restaurado: {{title}}",
+    "withItems_one": "y {{count}} elemento más",
+    "withItems_other": "y {{count}} elementos más",
+    "kindFolder": "Carpeta",
+    "kindPage": "Página",
+    "kindTask": "Tarea",
+    "kindAssignee": "Responsable",
+    "kindComment": "Comentario",
+    "link": "Papelera"
   }
 }

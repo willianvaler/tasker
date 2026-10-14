@@ -844,5 +844,22 @@
     "show": "See previous version",
     "restore": "Use this version",
     "dismiss": "Discard"
+  },
+  "trash": {
+    "title": "Trash",
+    "intro": "Deleted items stay here for 30 days. Restoring brings back everything that was inside.",
+    "offline": "No connection: the trash lives on the server.",
+    "empty": "Nothing deleted in the last 30 days.",
+    "untitled": "Untitled",
+    "restore": "Restore",
+    "restored": "Restored: {{title}}",
+    "withItems_one": "and {{count}} more item",
+    "withItems_other": "and {{count}} more items",
+    "kindFolder": "Folder",
+    "kindPage": "Page",
+    "kindTask": "Task",
+    "kindAssignee": "Assignee",
+    "kindComment": "Comment",
+    "link": "Trash"
   }
 }

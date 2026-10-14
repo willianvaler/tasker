@@ -293,6 +293,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"deleted_items": {
+                  Row: {
+                    "batch": number,"deleted_at": string,"deleted_by": string | null,"id": string,"kind": string,"payload": NonNullable<Json>,"root_folder_id": string | null,"row_id": string,"title": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "batch"?: number,"deleted_at"?: string,"deleted_by"?: string | null,"id"?: string,"kind": string,"payload": NonNullable<Json>,"root_folder_id"?: string | null,"row_id": string,"title"?: string | null
+                  }
+                  Update: {
+                    "batch"?: number,"deleted_at"?: string,"deleted_by"?: string | null,"id"?: string,"kind"?: string,"payload"?: NonNullable<Json>,"root_folder_id"?: string | null,"row_id"?: string,"title"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"folder_members": {
                   Row: {
                     "aliases": (string)[],"folder_id": string,"joined_at": string,"role": Database["public"]['Enums']["folder_role"],"user_id": string
@@ -996,6 +1010,9 @@ isOneToOne: false
 "reset_page":
 { Args: { "p_page_id": string }; Returns: number
                            },
+"restore_deleted":
+{ Args: { "p_id": string }; Returns: number
+                           },
 "revoke_invites":
 { Args: { "p_folder_id": string }; Returns: number
                            },
@@ -1045,6 +1062,11 @@ isOneToOne: false
                            },
 "task_cycle_kind":
 { Args: { "p_recurrence": Json,"p_reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"p_view_type": Database["public"]['Enums']["page_view_type"] }; Returns: string
+                           },
+"trash_list":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "deleted_at": string,"id": string,"items": number,"kind": string,"title": string
+            }[]
                            },
 "uncomplete_task":
 { Args: { "p_task_id": string }; Returns: Json

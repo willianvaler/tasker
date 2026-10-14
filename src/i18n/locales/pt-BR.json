@@ -844,5 +844,22 @@
     "show": "Ver versão anterior",
     "restore": "Usar esta versão",
     "dismiss": "Descartar"
+  },
+  "trash": {
+    "title": "Lixeira",
+    "intro": "O que foi apagado fica aqui por 30 dias. Restaurar traz de volta com tudo o que estava dentro.",
+    "offline": "Sem conexão: a lixeira fica no servidor.",
+    "empty": "Nada apagado nos últimos 30 dias.",
+    "untitled": "Sem título",
+    "restore": "Restaurar",
+    "restored": "Restaurado: {{title}}",
+    "withItems_one": "e mais {{count}} item",
+    "withItems_other": "e mais {{count}} itens",
+    "kindFolder": "Pasta",
+    "kindPage": "Página",
+    "kindTask": "Tarefa",
+    "kindAssignee": "Responsável",
+    "kindComment": "Comentário",
+    "link": "Lixeira"
   }
 }

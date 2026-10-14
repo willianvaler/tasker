@@ -9,6 +9,7 @@ import {
   LayoutGrid,
   PanelLeft,
   Plus,
+  RefreshCw,
   Repeat,
   Search,
   Shield,
@@ -16,6 +17,7 @@ import {
   SlidersHorizontal,
   SunMoon,
   Swords,
+  Trash2,
   User,
   Users,
   type LucideIcon,
@@ -201,6 +203,8 @@ function Palette({
     },
     { id: 'go-shop', label: t('nav.shop'), icon: icon(ShoppingBag), group: 0, run: go('/shop') },
     { id: 'go-clan', label: t('nav.clan'), icon: icon(Shield), group: 0, run: go('/clan') },
+    { id: 'go-trash', label: t('trash.title'), icon: icon(Trash2), group: 0, run: go('/lixeira') },
+    { id: 'go-sync', label: t('sync.title'), icon: icon(RefreshCw), group: 0, run: go('/sync') },
     ...(tree.data?.folders ?? []).flatMap((root) => [
       {
         id: `folder-${root.id}`,
