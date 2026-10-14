@@ -1,4 +1,4 @@
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { router, useLocalSearchParams } from 'expo-router';
 import { FolderInput, Trash2, X } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
@@ -389,7 +389,7 @@ function Subtasks({ task }: { task: Task }) {
   function add() {
     const trimmed = title.trim();
     if (!trimmed) return;
-    create.mutate({ parent: task, title: trimmed, id: randomUUID() });
+    create.mutate({ parent: task, title: trimmed, id: uuidv7() });
     setTitle('');
   }
 

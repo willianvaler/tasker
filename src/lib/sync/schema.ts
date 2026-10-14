@@ -15,6 +15,9 @@ const folders = new Table(
     archived: column.integer,
     created_at: column.text,
     kind: column.text,
+    updated_at: column.text,
+    updated_by: column.text,
+    version: column.integer,
   },
   { indexes: { parent: ['parent_id'] } },
 );
@@ -42,6 +45,9 @@ const pages = new Table(
     position: column.real,
     manual_cycle: column.integer,
     created_at: column.text,
+    updated_at: column.text,
+    updated_by: column.text,
+    version: column.integer,
   },
   { indexes: { folder: ['folder_id'] } },
 );
@@ -71,6 +77,8 @@ const tasks = new Table(
     count_up: column.integer,
     count_down: column.integer,
     count_key: column.text,
+    updated_by: column.text,
+    version: column.integer,
   },
   { indexes: { page: ['page_id'], due: ['due_date'] } },
 );

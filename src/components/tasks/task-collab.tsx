@@ -1,4 +1,4 @@
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -132,7 +132,7 @@ export function Comments({ task }: { task: Task }) {
     const trimmed = body.trim();
     if (!trimmed || !online) return;
     m.add.mutate(
-      { id: randomUUID(), body: trimmed },
+      { id: uuidv7(), body: trimmed },
       { onError: (err) => toast({ message: t('collab.commentError', { message: err.message }) }) },
     );
     setBody('');

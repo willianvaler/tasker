@@ -1,4 +1,4 @@
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { router } from 'expo-router';
 import { Check, Dot, X } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
@@ -107,7 +107,7 @@ export default function BatchScreen() {
           ...item,
           assignees: assigneesOf(item.key, item.mentions),
           children: item.children.map((c) => ({ ...c, assignees: assigneesOf(c.key, c.mentions) })),
-          id: randomUUID(),
+          id: uuidv7(),
         })),
       },
       { onError: (err) => toast({ message: t('batch.error', { message: err.message }) }) },

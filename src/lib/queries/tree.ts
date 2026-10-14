@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 
 import type { Tables } from '../db';
 import { supabase } from '../supabase';
@@ -92,7 +92,7 @@ export function useTreeMutations() {
       const siblings = parentId
         ? (tree()?.folders.find((f) => f.id === parentId)?.children ?? [])
         : (tree()?.folders ?? []);
-      const id = randomUUID();
+      const id = uuidv7();
       const { error } = await supabase.from('folders').insert({
         id,
         name,
@@ -143,7 +143,7 @@ export function useTreeMutations() {
 
   const createPage = useMutation({
     mutationFn: async ({ folderId, ...settings }: { folderId: string } & PageSettings) => {
-      const id = randomUUID();
+      const id = uuidv7();
       const siblings = tree()?.pages.filter((p) => p.folder_id === folderId) ?? [];
       const { error } = await supabase.from('pages').insert({
         id,

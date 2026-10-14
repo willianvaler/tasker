@@ -1,4 +1,4 @@
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { router, useLocalSearchParams } from 'expo-router';
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
@@ -62,7 +62,7 @@ export default function NewTaskScreen() {
 
   function save() {
     if (!title.trim() || !page) return false;
-    const id = randomUUID();
+    const id = uuidv7();
     create.mutate({
       pageId: page.id,
       items: [

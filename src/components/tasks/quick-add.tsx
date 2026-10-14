@@ -1,4 +1,4 @@
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { router, useIsFocused } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Plus, SlidersHorizontal } from 'lucide-react-native';
@@ -90,7 +90,7 @@ export function QuickAdd({
           ...parsed,
           dueDate: parsed.dueDate ?? defaultDueDate ?? null,
           assignees: mentions.toAssignees(resolved),
-          id: randomUUID(),
+          id: uuidv7(),
           ...(habit ? { habitKind: habit.kind, habitTarget: habit.target ?? null } : {}),
         },
       ],

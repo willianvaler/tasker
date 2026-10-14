@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 
 import type { Json, Tables } from '../db';
 import type { ParsedTask } from '../parser/quick';
@@ -236,7 +236,7 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     meta: item.meta,
     done: item.done ?? false,
     assignees: item.assignees ?? [],
-    children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: randomUUID() })),
+    children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: uuidv7() })),
     ...(item.habitKind
       ? { habit_kind: item.habitKind, habit_target: item.habitTarget ?? null }
       : {}),
@@ -274,6 +274,8 @@ function optimisticTask(
     completed_at: item.done ? now : null,
     created_at: now,
     updated_at: now,
+    updated_by: null,
+    version: 1,
     page: page ? { name: page.name, icon: page.icon } : null,
   };
 }
@@ -318,7 +320,7 @@ export function useCreateTasks() {
       // Responsáveis aparecem na hora (o servidor confirma no onSettled)
       const newAssignees = items.flatMap((item) =>
         (item.assignees ?? []).map((a): Tables<'task_assignees'> => ({
-          id: randomUUID(),
+          id: uuidv7(),
           task_id: item.id,
           folder_id: '',
           user_id: 'user_id' in a ? a.user_id : null,

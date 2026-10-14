@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { router, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -160,7 +160,7 @@ export function ListKeys() {
         pageId: task.page_id,
         items: [
           {
-            id: randomUUID(),
+            id: uuidv7(),
             title: task.title,
             priority: task.priority as Priority,
             dueDate: task.due_date,

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { z } from 'zod';
 
 import type { Json, Tables } from '../db';
@@ -263,7 +263,7 @@ export function useAssigneeMutations() {
   const add = useMutation({
     mutationFn: async (input: { taskId: string; userId?: string; pendingName?: string }) => {
       const { error } = await supabase.from('task_assignees').insert({
-        id: randomUUID(),
+        id: uuidv7(),
         task_id: input.taskId,
         user_id: input.userId ?? null,
         pending_name: input.userId ? null : (input.pendingName ?? null),

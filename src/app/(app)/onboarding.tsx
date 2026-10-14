@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { router } from 'expo-router';
 import { Check, Folder, Swords, Zap, type LucideIcon } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
@@ -209,7 +209,7 @@ function OrganizeStep() {
           ...parseQuickInput(`${t(h.title)}${'repeat' in h ? ` ${h.repeat}` : ''}`, { today }),
           habitKind: h.kind,
           habitTarget: 'target' in h ? h.target : null,
-          id: randomUUID(),
+          id: uuidv7(),
         })),
       },
       {

@@ -1,5 +1,5 @@
 import { useQuery, useStatus } from '@powersync/react';
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -44,7 +44,7 @@ export default function SyncScreen() {
          created_by, created_at, updated_at, habit_kind, count_up, count_down)
        values (?, ?, ?, ?, 'todo', 0, ?, '[]', ?, ?, ?, 'check', 0, 0)`,
       [
-        randomUUID(),
+        uuidv7(),
         inbox.id,
         inbox.folder_id,
         title.trim(),

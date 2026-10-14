@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { randomUUID } from 'expo-crypto';
+import { uuidv7 } from '@/lib/uuid';
 import { router } from 'expo-router';
 import { Minus, Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -71,7 +71,7 @@ export function useHabitTickWithToast() {
   const game = useGameState();
   return (task: Task, delta: 1 | -1) => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    const vars: HabitTickVars = { taskId: task.id, delta, id: randomUUID() };
+    const vars: HabitTickVars = { taskId: task.id, delta, id: uuidv7() };
     const plusminus = task.habit_kind === 'plusminus';
     const message = plusminus
       ? delta === 1
