@@ -132,6 +132,7 @@ test('Linha do tempo e histórico da tarefa: quem fez o quê, filtros e CSV', as
   await page.getByRole('button', { name: 'Exportar CSV' }).click();
   const file = await download;
   expect(file.suggestedFilename()).toBe('Churrasco - Linha do tempo.csv');
-  const csv = await (await file.createReadStream()).toArray();
-  expect(Buffer.concat(csv).toString()).toContain('Ficou pronta');
+  let csv = '';
+  for await (const chunk of await file.createReadStream()) csv += String(chunk);
+  expect(csv).toContain('Ficou pronta');
 });
