@@ -226,5 +226,12 @@
     "damageToday": "{{damage}} de dano hoje · maior golpe {{best}}",
     "gold": "{{gold}} ouro",
     "error": "Não deu certo: {{message}}"
+  },
+  "mine": {
+    "later": "Depois",
+    "upcoming": "Próximos 7 dias",
+    "noDate": "Sem data",
+    "empty": "Nada atribuído a você agora.",
+    "emptyHint": "Em um projeto compartilhado, escreva @nome na tarefa para atribuir a alguém."
   }
 }

@@ -226,5 +226,12 @@
     "damageToday": "{{damage}} damage today · best hit {{best}}",
     "gold": "{{gold}} gold",
     "error": "Something went wrong: {{message}}"
+  },
+  "mine": {
+    "later": "Later",
+    "upcoming": "Next 7 days",
+    "noDate": "No date",
+    "empty": "Nothing assigned to you right now.",
+    "emptyHint": "In a shared project, write @name in a task to assign it to someone."
   }
 }
