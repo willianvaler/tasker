@@ -56,7 +56,8 @@
     "treeExpand": "Open the subtasks",
     "treeCollapse": "Close the subtasks (or go to the parent)",
     "treeCodes": "Show or hide WBS codes (1.2.1)",
-    "taskStart": "Start or stop the task"
+    "taskStart": "Start or stop the task",
+    "taskLink": "Link to another task (Depends on)"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -1103,6 +1104,18 @@
     "force": "Force",
     "locked": "Blocked",
     "flexibleMode": "Allow forcing blocked tasks",
-    "flexibleHint": "In flexible mode, Managers and Editors can start or complete a blocked task, and it is recorded. Off (strict), it waits for its prerequisites."
+    "flexibleHint": "In flexible mode, Managers and Editors can start or complete a blocked task, and it is recorded. Off (strict), it waits for its prerequisites.",
+    "dependsOn": "Depends on",
+    "unlocks": "Unlocks",
+    "searchPlaceholder": "Search a project task…",
+    "linkTo": "Depend on {{title}}",
+    "prereqOptions": "Options for {{title}}",
+    "isDone": "done",
+    "lagShort": "+{{minutes}} min",
+    "lagOption": "Wait {{minutes}} min after",
+    "noLag": "No wait",
+    "unlink": "Remove the link",
+    "modeAll": "Needs all",
+    "modeAny": "Any one is enough"
   }
 }

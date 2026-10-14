@@ -182,6 +182,12 @@ export function ListKeys() {
       );
     }),
   );
+  useShortcut(
+    'task.link',
+    onSelected((task) =>
+      router.push({ pathname: '/task/[id]', params: { id: task.id, focus: 'deps' } }),
+    ),
+  );
   useShortcut('tree.codes', () => treeState.setCodes(!treeState.codes()));
   useShortcut(
     'tree.expand',

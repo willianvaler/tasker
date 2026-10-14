@@ -1,7 +1,7 @@
 import { uuidv7 } from '@/lib/uuid';
 import { router, useLocalSearchParams } from 'expo-router';
 import { FolderInput, Trash2, X } from 'lucide-react-native';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
 
@@ -29,6 +29,7 @@ import { useColors } from '@/lib/tokens';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { useToday } from '@/lib/queries/profile';
+import { DependencyEditor } from '@/components/tasks/dependency-editor';
 import { useForceTask, useStartTask, useTaskFlow } from '@/lib/queries/dependencies';
 import {
   dueAfterParent,
@@ -119,6 +120,12 @@ function TaskDetails({ task }: { task: Task }) {
   const force = useForceTask();
   const [confirmForce, setConfirmForce, closeConfirmForce] = useDialog<'start' | 'complete'>();
   const blocked = flow.state === 'blocked';
+  // L na lista abre o painel já no "Depende de"
+  const { focus } = useLocalSearchParams<{ focus?: string }>();
+  const depsRef = useRef<TextInput>(null);
+  useEffect(() => {
+    if (focus === 'deps') setTimeout(() => depsRef.current?.focus(), 150);
+  }, [focus]);
   const toast = useToast();
   const flowError = (err: Error) => toast({ message: err.message });
   // Mãe: a estimativa é a soma das folhas (só leitura)
@@ -234,6 +241,16 @@ function TaskDetails({ task }: { task: Task }) {
               />
             )}
           </View>
+        )}
+
+        {project && !isHabit && (
+          <DependencyEditor
+            task={task}
+            dependsOn={flow.dependsOn}
+            unlocks={flow.unlocks}
+            titleOf={flow.titleOf}
+            inputRef={depsRef}
+          />
         )}
 
         <Section title={t('taskDetail.notes')}>

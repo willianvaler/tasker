@@ -81,7 +81,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **H2** Estados derivados (`bloqueada`/`pronta`) numa função pura, idêntica no app e no banco, com os mesmos casos de teste
 - [x] **H3** `started_at` (botão Iniciar, atalho S); modo estrito/flexível com "forçar" auditado
 - [x] **H4** Notificação de desbloqueio e de reabertura de pré-requisito
-- [ ] **H5** Campo "Depende de / Libera" no painel e atalho L
+- [x] **H5** Campo "Depende de / Libera" no painel e atalho L
 - [ ] **H6** Sintaxe `^` na captura e no lote (`^2` por linha)
 - [ ] **H7** E2E "carvão → fogo", inclusive após sync offline
 

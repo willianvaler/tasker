@@ -91,6 +91,13 @@ export const SHORTCUTS = [
     scope: 'list',
     permission: 'task.start',
   },
+  {
+    id: 'task.link',
+    combos: ['l'],
+    description: 'shortcuts.taskLink',
+    scope: 'list',
+    permission: 'dependency.manage',
+  },
   { id: 'task.indent', combos: ['tab'], description: 'shortcuts.taskIndent', scope: 'list' },
   {
     id: 'task.outdent',

@@ -161,6 +161,21 @@ export function useDependencyMutations(rootId: string | undefined) {
       },
       onSettled: settle,
     }),
+    setLag: useMutation({
+      networkMode,
+      mutationFn: async ({ id, lag }: { id: string; lag: number }) => {
+        if (isLocal()) {
+          await db.execute('update task_dependencies set lag_minutes = ? where id = ?', [lag, id]);
+          return;
+        }
+        const { error } = await supabase
+          .from('task_dependencies')
+          .update({ lag_minutes: lag })
+          .eq('id', id);
+        if (error) throw error;
+      },
+      onSettled: settle,
+    }),
     remove: useMutation({
       networkMode,
       mutationFn: async (id: string) => {
@@ -202,4 +217,39 @@ export function useTaskFlow(task: StateTask & { page_id: string; folder_id: stri
     titleOf: (id: string) => all.get(id)?.title,
     canStart: actorCan(actor, 'task.start'),
   };
+}
+
+export type TaskOption = { id: string; title: string; status: string; page_id: string };
+
+/** Todas as tarefas do projeto (subtarefas também), para buscar pré-requisitos pelo título. */
+export function useProjectTaskOptions(rootId: string | undefined, enabled = true) {
+  return useQuery({
+    queryKey: ['project-task-options', rootId],
+    enabled: !!rootId && enabled,
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<TaskOption[]> => {
+      if (isLocal())
+        return db.getAll<TaskOption>(
+          `select id, title, status, page_id from tasks
+           where folder_id in (select id from folders where id = ? or parent_id = ?)
+           order by title`,
+          [rootId, rootId],
+        );
+      const folders = await supabase
+        .from('folders')
+        .select('id')
+        .or(`id.eq.${rootId},parent_id.eq.${rootId}`);
+      if (folders.error) throw folders.error;
+      const { data, error } = await supabase
+        .from('tasks')
+        .select('id, title, status, page_id')
+        .in(
+          'folder_id',
+          folders.data.map((f) => f.id),
+        )
+        .order('title');
+      if (error) throw error;
+      return data;
+    },
+  });
 }

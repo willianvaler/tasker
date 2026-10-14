@@ -56,7 +56,8 @@
     "treeExpand": "Abrir las subtareas",
     "treeCollapse": "Cerrar las subtareas (o ir a la madre)",
     "treeCodes": "Mostrar u ocultar los códigos WBS (1.2.1)",
-    "taskStart": "Iniciar o detener la tarea"
+    "taskStart": "Iniciar o detener la tarea",
+    "taskLink": "Vincular a otra tarea (Depende de)"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -1103,6 +1104,18 @@
     "force": "Forzar",
     "locked": "Bloqueada",
     "flexibleMode": "Permitir forzar tareas bloqueadas",
-    "flexibleHint": "En el modo flexible, Gerentes y Editores pueden iniciar o completar una tarea bloqueada, y queda registrado. Apagado (estricto), espera sus requisitos."
+    "flexibleHint": "En el modo flexible, Gerentes y Editores pueden iniciar o completar una tarea bloqueada, y queda registrado. Apagado (estricto), espera sus requisitos.",
+    "dependsOn": "Depende de",
+    "unlocks": "Libera",
+    "searchPlaceholder": "Buscar tarea del proyecto…",
+    "linkTo": "Depender de {{title}}",
+    "prereqOptions": "Opciones de {{title}}",
+    "isDone": "hecha",
+    "lagShort": "+{{minutes}} min",
+    "lagOption": "Esperar {{minutes}} min después",
+    "noLag": "Sin espera",
+    "unlink": "Quitar el vínculo",
+    "modeAll": "Necesita todas",
+    "modeAny": "Basta una"
   }
 }
