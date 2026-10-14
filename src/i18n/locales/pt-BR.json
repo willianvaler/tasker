@@ -644,7 +644,8 @@
     "roleContributor": "Colaborador",
     "fromTeam": "pelo time",
     "useTeamRole": "Usar o cargo do time",
-    "inviteAs": "Entra como"
+    "inviteAs": "Entra como",
+    "customRoles": "Cargos do time"
   },
   "notifications": {
     "title": "Notificações",
@@ -991,6 +992,44 @@
       "role_updated": "{{actor}} mudou o cargo {{name}}",
       "role_deleted": "{{actor}} apagou o cargo {{name}}"
     },
-    "someone": "Alguém"
+    "someone": "Alguém",
+    "roles": "Cargos",
+    "rolesHint": "Cargos do time, montados a partir das permissões. Use num projeto do time em Compartilhar. Excluir projeto fica só com o Dono.",
+    "newRole": "Novo cargo",
+    "roleName": "Nome do cargo (ex.: Comprador)",
+    "editRole": "Editar",
+    "deleteRole": "Apagar",
+    "deleteRoleTitle": "Apagar o cargo {{name}}?",
+    "deleteRoleMessage": "Quem estava com esse cargo fica como Leitor.",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "grantNo": "Não",
+    "grantOwnAssigned": "Só as atribuídas",
+    "grantOwnCreated": "Só as que criou",
+    "grantYes": "Sim",
+    "grantsCount_one": "{{count}} permissão",
+    "grantsCount_other": "{{count}} permissões"
+  },
+  "perm": {
+    "project_view": "Ver o projeto",
+    "comment_create": "Comentar",
+    "task_create": "Criar tarefas",
+    "task_complete": "Concluir tarefas",
+    "task_edit": "Editar tarefas de outras pessoas",
+    "task_delete": "Apagar tarefas",
+    "task_assign": "Atribuir e delegar",
+    "page_manage": "Mexer nas listas e na estrutura",
+    "member_manage": "Convidar e mudar cargos",
+    "task_start": "Iniciar tarefas",
+    "task_force_unblock": "Forçar tarefa bloqueada",
+    "dependency_manage": "Mexer nas dependências",
+    "workflow_view_audit": "Ver o histórico do fluxo",
+    "automation_manage": "Mexer nas automações",
+    "item_check": "Marcar itens",
+    "item_log": "Registrar itens",
+    "page_share": "Compartilhar listas",
+    "page_view_progress": "Ver o progresso",
+    "timer_use": "Usar timers",
+    "settings_max_depth": "Mudar o limite de níveis"
   }
 }

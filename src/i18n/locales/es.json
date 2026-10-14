@@ -644,7 +644,8 @@
     "roleContributor": "Colaborador",
     "fromTeam": "por el equipo",
     "useTeamRole": "Usar el cargo del equipo",
-    "inviteAs": "Entra como"
+    "inviteAs": "Entra como",
+    "customRoles": "Cargos del equipo"
   },
   "notifications": {
     "title": "Notificaciones",
@@ -991,6 +992,44 @@
       "role_updated": "{{actor}} cambió el cargo {{name}}",
       "role_deleted": "{{actor}} borró el cargo {{name}}"
     },
-    "someone": "Alguien"
+    "someone": "Alguien",
+    "roles": "Cargos",
+    "rolesHint": "Cargos del equipo, armados a partir de permisos. Úsalos en un proyecto del equipo en Compartir. Borrar el proyecto queda solo para el Dueño.",
+    "newRole": "Nuevo cargo",
+    "roleName": "Nombre del cargo (ej.: Comprador)",
+    "editRole": "Editar",
+    "deleteRole": "Borrar",
+    "deleteRoleTitle": "¿Borrar el cargo {{name}}?",
+    "deleteRoleMessage": "Quien tenía este cargo queda como Lector.",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "grantNo": "No",
+    "grantOwnAssigned": "Solo las asignadas",
+    "grantOwnCreated": "Solo las suyas",
+    "grantYes": "Sí",
+    "grantsCount_one": "{{count}} permiso",
+    "grantsCount_other": "{{count}} permisos"
+  },
+  "perm": {
+    "project_view": "Ver el proyecto",
+    "comment_create": "Comentar",
+    "task_create": "Crear tareas",
+    "task_complete": "Completar tareas",
+    "task_edit": "Editar tareas de otras personas",
+    "task_delete": "Borrar tareas",
+    "task_assign": "Asignar y delegar",
+    "page_manage": "Cambiar listas y estructura",
+    "member_manage": "Invitar y cambiar cargos",
+    "task_start": "Iniciar tareas",
+    "task_force_unblock": "Forzar tarea bloqueada",
+    "dependency_manage": "Cambiar dependencias",
+    "workflow_view_audit": "Ver el historial del flujo",
+    "automation_manage": "Cambiar automatizaciones",
+    "item_check": "Marcar ítems",
+    "item_log": "Registrar ítems",
+    "page_share": "Compartir listas",
+    "page_view_progress": "Ver el progreso",
+    "timer_use": "Usar temporizadores",
+    "settings_max_depth": "Cambiar el límite de niveles"
   }
 }

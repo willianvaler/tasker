@@ -43,7 +43,7 @@ test('time: criar, convidar, projeto do time, aprovação e histórico', async (
   const bia = await joinTeam(browser, link, team, 'Bia do Time');
   await bia.getByRole('button', { name: 'Entrar no time' }).click();
   await expect(bia.getByRole('heading', { name: team })).toBeVisible();
-  await bia.getByRole('link', { name: 'Churrasco' }).click();
+  await bia.getByRole('link', { name: 'Churrasco' }).last().click();
   await expect(bia.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
 
   // Com aprovação ligada, o próximo vira pedido
@@ -58,6 +58,24 @@ test('time: criar, convidar, projeto do time, aprovação e histórico', async (
   await expect(page.getByText('quer entrar como Membro')).toBeVisible();
   await page.getByRole('button', { name: 'Aprovar' }).click();
   await expect(page.getByText('Caio Pedinte', { exact: true })).toBeVisible();
+
+  // Cargo personalizado: o Dono monta "Comprador" e dá para a Bia no projeto
+  await page.getByRole('button', { name: 'Novo cargo' }).click();
+  await page.getByPlaceholder('Nome do cargo (ex.: Comprador)').fill('Comprador');
+  await page
+    .getByRole('radiogroup', { name: 'Atribuir e delegar' })
+    .getByRole('radio', { name: 'Sim' })
+    .click();
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.getByText('Comprador', { exact: true })).toBeVisible();
+  // O último: o primeiro é o da barra lateral
+  await page.getByRole('link', { name: 'Churrasco' }).last().click();
+  await page.getByRole('button', { name: 'Pessoas' }).click();
+  const comprador = page.getByRole('radio', { name: 'Comprador' }).first();
+  await comprador.click();
+  await expect(comprador).toHaveAttribute('aria-checked', 'true');
+  await page.goBack();
+  await page.goBack();
 
   // A Bia (Membro) não vê convites nem histórico
   await bia.goto(link.replace(/.*\/team-invite\//, '/team-invite/'));

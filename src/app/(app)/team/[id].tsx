@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { ItemIcon } from '@/components/item-icon';
+import { RoleEditor } from '@/components/role-editor';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -26,6 +27,8 @@ import {
   useTeam,
   useTeamAdmin,
   useTeamMutations,
+  useTeamRoleMutations,
+  useTeamRoles,
   type TeamMember,
   type TeamRole,
 } from '@/lib/queries/teams';
@@ -46,6 +49,14 @@ export default function TeamScreen() {
   const isOwner = myRole === 'owner';
   const admin = useTeamAdmin(id, isAdmin);
   const m = useTeamMutations(id);
+  const roles = useTeamRoles(id);
+  const roleMutations = useTeamRoleMutations(id);
+  // 'new' ou o id do cargo em edição
+  const [editingRole, setEditingRole] = useState<string | null>(null);
+  const [deletingRole, setDeletingRole, closeDeletingRole] = useDialog<{
+    id: string;
+    name: string;
+  }>();
   const tree = useTree();
   const { session } = useSession();
   const online = useIsOnline();
@@ -366,6 +377,78 @@ export default function TeamScreen() {
           </View>
         </View>
 
+        {(isAdmin || (roles.data?.length ?? 0) > 0) && (
+          <View className="gap-2">
+            <SectionLabel title={t('team.roles')} count={roles.data?.length} className="pt-0" />
+            <Text className="text-sm text-ink-muted">{t('team.rolesHint')}</Text>
+            {roles.data?.map((role) =>
+              editingRole === role.id ? (
+                <RoleEditor
+                  key={role.id}
+                  initialName={role.name}
+                  initialGrants={role.grants}
+                  saving={roleMutations.save.isPending}
+                  onCancel={() => setEditingRole(null)}
+                  onSave={(next) =>
+                    roleMutations.save.mutate(
+                      { id: role.id, ...next },
+                      { onSuccess: () => setEditingRole(null), onError },
+                    )
+                  }
+                />
+              ) : (
+                <View
+                  key={role.id}
+                  className="min-h-11 flex-row items-center gap-2 border-b border-line"
+                >
+                  <View className="flex-1">
+                    <Text className="text-sm text-ink">{role.name}</Text>
+                    <Text className="font-mono text-xs text-ink-muted">
+                      {t('team.grantsCount', { count: role.grants.length })}
+                    </Text>
+                  </View>
+                  {isAdmin && online && (
+                    <>
+                      <Button
+                        variant="ghost"
+                        label={t('team.editRole')}
+                        onPress={() => setEditingRole(role.id)}
+                      />
+                      <Button
+                        variant="ghost"
+                        label={t('team.deleteRole')}
+                        onPress={() => setDeletingRole({ id: role.id, name: role.name })}
+                      />
+                    </>
+                  )}
+                </View>
+              ),
+            )}
+            {editingRole === 'new' ? (
+              <RoleEditor
+                saving={roleMutations.save.isPending}
+                onCancel={() => setEditingRole(null)}
+                onSave={(next) =>
+                  roleMutations.save.mutate(next, {
+                    onSuccess: () => setEditingRole(null),
+                    onError,
+                  })
+                }
+              />
+            ) : (
+              isAdmin && (
+                <Button
+                  variant="ghost"
+                  className="self-start"
+                  label={t('team.newRole')}
+                  disabled={!online}
+                  onPress={() => setEditingRole('new')}
+                />
+              )
+            )}
+          </View>
+        )}
+
         {isAdmin && (
           <View className="gap-4">
             <SectionLabel title={t('team.settings')} className="pt-0" />
@@ -481,6 +564,19 @@ export default function TeamScreen() {
               },
               onError,
             });
+          }}
+        />
+      )}
+      {deletingRole && (
+        <ConfirmDialog
+          title={t('team.deleteRoleTitle', { name: deletingRole.name })}
+          message={t('team.deleteRoleMessage')}
+          confirmLabel={t('team.deleteRole')}
+          onClose={closeDeletingRole}
+          onConfirm={() => {
+            const { id: roleId } = deletingRole;
+            closeDeletingRole();
+            roleMutations.remove.mutate(roleId, { onError });
           }}
         />
       )}

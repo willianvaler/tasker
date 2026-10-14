@@ -88,11 +88,17 @@ export const ROLE_PRESET: Record<Role, Preset> = {
 /** O recurso, quando a permissão depende de ser "seu". */
 export type Resource = { createdBy?: string | null; assigneeIds?: readonly string[] };
 
-export type Actor = { userId?: string; preset: Preset };
+/** Quem age: pelo preset do cargo ou pelas permissões de um cargo personalizado do time. */
+export type Actor = { userId?: string } & (
+  { preset: Preset; grants?: undefined } | { grants: readonly string[]; preset?: undefined }
+);
+
+/** O que um cargo personalizado pode ter: o catálogo, com ":own" onde há regra; nunca excluir o projeto. */
+export const GRANTABLE = PERMISSIONS.filter((p) => p !== 'project.delete');
 
 /** A função única de permissão. */
 export function can(actor: Actor, permission: Permission, resource?: Resource): boolean {
-  const grants: readonly Grant[] = PRESETS[actor.preset];
+  const grants: readonly string[] = actor.grants ?? PRESETS[actor.preset];
   if (grants.includes(permission)) return true;
   if (!(permission in OWN_RULE) || !grants.includes(`${permission as OwnPermission}:own`))
     return false;
@@ -105,4 +111,9 @@ export function can(actor: Actor, permission: Permission, resource?: Resource): 
 /** Atalho para quem só tem o papel da pasta (sem recurso "seu"). */
 export function roleCan(role: Role | undefined, permission: Permission): boolean {
   return !!role && can({ preset: ROLE_PRESET[role] }, permission);
+}
+
+/** Como roleCan, para quem pode ter cargo personalizado. undefined: ainda carregando. */
+export function actorCan(actor: Actor | undefined, permission: Permission): boolean {
+  return !!actor && can(actor, permission);
 }

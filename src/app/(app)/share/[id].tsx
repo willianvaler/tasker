@@ -19,7 +19,7 @@ import {
   inviteUrl,
   pendingNamesOf,
   useAssignees,
-  useFolderRole,
+  useFolderActor,
   useInviteMutations,
   useMemberMutations,
   useMembers,
@@ -28,8 +28,8 @@ import {
   type Role,
 } from '@/lib/queries/projects';
 import { Text } from '@/components/ui/text';
-import { roleCan } from '@/lib/permissions';
-import { teamRoleAtLeast, useTeamMutations, useTeams } from '@/lib/queries/teams';
+import { actorCan } from '@/lib/permissions';
+import { teamRoleAtLeast, useTeamMutations, useTeamRoles, useTeams } from '@/lib/queries/teams';
 import { findFolder, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
@@ -52,7 +52,7 @@ export default function ShareScreen() {
   const online = useIsOnline();
   const toast = useToast();
   const folder = findFolder(tree.data, id)?.folder;
-  const role = useFolderRole(id);
+  const actor = useFolderActor(id);
   const members = useMembers(id);
   const assignees = useAssignees();
   const invites = useInviteMutations(id);
@@ -65,12 +65,13 @@ export default function ShareScreen() {
   const teams = useTeams();
   const teamMutations = useTeamMutations();
 
-  const canManage = roleCan(role, 'member.manage');
+  const canManage = actorCan(actor, 'member.manage');
   const canInvite = canManage;
   const teamId = folder && 'team_id' in folder ? folder.team_id : null;
   const teamProject = !!teamId;
   const team = teams.data?.find((x) => x.id === teamId);
-  const canMoveTeam = roleCan(role, 'project.delete');
+  const customRoles = useTeamRoles(teamId);
+  const canMoveTeam = actorCan(actor, 'project.delete');
   const targetTeams = (teams.data ?? []).filter(
     (x) => x.id !== teamId && teamRoleAtLeast(x.myRole, 'admin'),
   );
@@ -234,7 +235,7 @@ export default function ShareScreen() {
                     )}
                   </View>
                   <Text className="font-mono text-xs text-ink-muted">
-                    {t(ROLE_LABEL[member.role])}
+                    {member.customRole ? member.customRole.name : t(ROLE_LABEL[member.role])}
                     {member.source === 'team' ? ` · ${t('share.fromTeam')}` : ''}
                   </Text>
                 </View>
@@ -245,9 +246,23 @@ export default function ShareScreen() {
                         key={r}
                         role="radio"
                         label={t(ROLE_LABEL[r])}
-                        selected={member.role === r}
+                        selected={!member.customRole && member.role === r}
                         onPress={() =>
                           m.setRole.mutate({ userId: member.userId, role: r }, { onError })
+                        }
+                      />
+                    ))}
+                    {customRoles.data?.map((custom) => (
+                      <Chip
+                        key={custom.id}
+                        role="radio"
+                        label={custom.name}
+                        selected={member.customRole?.id === custom.id}
+                        onPress={() =>
+                          m.setRole.mutate(
+                            { userId: member.userId, role: { custom: custom.id } },
+                            { onError },
+                          )
                         }
                       />
                     ))}

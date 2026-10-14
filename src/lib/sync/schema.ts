@@ -31,6 +31,7 @@ const folder_members = new Table(
     joined_at: column.text,
     aliases: column.text,
     source: column.text,
+    custom_role_id: column.text,
   },
   { indexes: { folder: ['folder_id'] } },
 );
@@ -139,6 +140,9 @@ const conflict_copies = new Table(
 );
 
 // De quem divide pasta comigo, só nome e avatar
+// Cargos personalizados em uso nos meus projetos (grants chega como texto JSON)
+const team_roles = new Table({ team_id: column.text, name: column.text, grants: column.text });
+
 const people = new Table({ display_name: column.text, avatar_url: column.text });
 
 // O meu perfil inteiro (fuso, idioma, gamificação)
@@ -178,6 +182,7 @@ export const AppSchema = new Schema({
   comments,
   task_completions,
   conflict_copies,
+  team_roles,
   people,
   profiles,
   commands,

@@ -644,7 +644,8 @@
     "roleContributor": "Contributor",
     "fromTeam": "from the team",
     "useTeamRole": "Use team role",
-    "inviteAs": "Joins as"
+    "inviteAs": "Joins as",
+    "customRoles": "Team roles"
   },
   "notifications": {
     "title": "Notifications",
@@ -991,6 +992,44 @@
       "role_updated": "{{actor}} changed the role {{name}}",
       "role_deleted": "{{actor}} deleted the role {{name}}"
     },
-    "someone": "Someone"
+    "someone": "Someone",
+    "roles": "Roles",
+    "rolesHint": "Team roles built from permissions. Use them in a team project under Share. Deleting a project stays with the Owner.",
+    "newRole": "New role",
+    "roleName": "Role name (e.g. Buyer)",
+    "editRole": "Edit",
+    "deleteRole": "Delete",
+    "deleteRoleTitle": "Delete the role {{name}}?",
+    "deleteRoleMessage": "People with this role become Viewers.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "grantNo": "No",
+    "grantOwnAssigned": "Only assigned",
+    "grantOwnCreated": "Only their own",
+    "grantYes": "Yes",
+    "grantsCount_one": "{{count}} permission",
+    "grantsCount_other": "{{count}} permissions"
+  },
+  "perm": {
+    "project_view": "See the project",
+    "comment_create": "Comment",
+    "task_create": "Create tasks",
+    "task_complete": "Complete tasks",
+    "task_edit": "Edit other people's tasks",
+    "task_delete": "Delete tasks",
+    "task_assign": "Assign and delegate",
+    "page_manage": "Change lists and structure",
+    "member_manage": "Invite and change roles",
+    "task_start": "Start tasks",
+    "task_force_unblock": "Force a blocked task",
+    "dependency_manage": "Change dependencies",
+    "workflow_view_audit": "See the workflow history",
+    "automation_manage": "Change automations",
+    "item_check": "Check items",
+    "item_log": "Log items",
+    "page_share": "Share lists",
+    "page_view_progress": "See progress",
+    "timer_use": "Use timers",
+    "settings_max_depth": "Change the depth limit"
   }
 }

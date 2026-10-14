@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import type { Json, Tables } from '../db';
 import type { MemberName } from '../members';
-import { roleCan } from '../permissions';
+import { ROLE_PRESET, type Actor } from '../permissions';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { isLocal, localInsert, TASK_WITH_PAGE_SQL, toTask, toTaskWithPage } from '../sync/local';
@@ -23,8 +23,25 @@ export type Member = {
   role: Role;
   /** 'team': o cargo vem do cargo no time; 'direct': dado no próprio projeto. */
   source: 'direct' | 'team';
+  /** Cargo personalizado do time, que vale no lugar do role */
+  customRole: { id: string; name: string; grants: string[] } | null;
   aliases: string[];
   displayName: string;
+};
+
+const parseGrants = (value: unknown): string[] => {
+  if (Array.isArray(value)) return value.map(String);
+  if (typeof value !== 'string') return [];
+  try {
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    // Postgres manda text[] como {a,b} quando não vem por JSON
+    return value
+      .replace(/^\{|\}$/g, '')
+      .split(',')
+      .filter(Boolean);
+  }
 };
 
 /** Pasta raiz (o projeto) de uma pasta. */
@@ -58,22 +75,39 @@ export function useMembers(rootId: string | undefined) {
           source: string | null;
           aliases: string | null;
           display_name: string | null;
+          custom_role_id: string | null;
+          custom_role_name: string | null;
+          custom_role_grants: string | null;
         }>(
-          `select m.user_id, m.role, m.source, m.aliases, p.display_name from folder_members m
-           left join people p on p.id = m.user_id where m.folder_id = ? order by m.joined_at`,
+          `select m.user_id, m.role, m.source, m.aliases, p.display_name, m.custom_role_id,
+                  r.name as custom_role_name, r.grants as custom_role_grants
+           from folder_members m
+           left join people p on p.id = m.user_id
+           left join team_roles r on r.id = m.custom_role_id
+           where m.folder_id = ? order by m.joined_at`,
           [rootId],
         );
         return rows.map((m) => ({
           userId: m.user_id,
           role: m.role,
           source: m.source === 'team' ? 'team' : 'direct',
+          customRole:
+            m.custom_role_id && m.custom_role_name
+              ? {
+                  id: m.custom_role_id,
+                  name: m.custom_role_name,
+                  grants: parseGrants(m.custom_role_grants),
+                }
+              : null,
           aliases: m.aliases ? JSON.parse(m.aliases) : [],
           displayName: m.display_name || 'Alguém',
         }));
       }
       const { data, error } = await supabase
         .from('folder_members')
-        .select('user_id, role, source, aliases, joined_at, profile:profiles(display_name)')
+        .select(
+          'user_id, role, source, aliases, joined_at, profile:profiles(display_name), custom_role:team_roles(id, name, grants)',
+        )
         .eq('folder_id', rootId ?? '')
         .order('joined_at');
       if (error) throw error;
@@ -81,6 +115,7 @@ export function useMembers(rootId: string | undefined) {
         userId: m.user_id,
         role: m.role,
         source: m.source === 'team' ? 'team' : 'direct',
+        customRole: m.custom_role,
         aliases: m.aliases,
         displayName: m.profile?.display_name || 'Alguém',
       }));
@@ -98,28 +133,25 @@ export function memberNames(members: Member[] | undefined): MemberName[] {
 }
 
 /**
- * Papel do usuário na pasta (pela raiz). Pasta só sua: dono, sem consulta. undefined enquanto
- * carrega (quem usa decide; useCanWrite deixa escrever e o servidor confere).
+ * Quem sou eu na pasta, para o can(): preset do cargo ou as permissões do cargo personalizado.
+ * Pasta só minha: Dono. undefined enquanto carrega.
  */
-export function useFolderRole(folderId: string | null | undefined): Role | undefined {
+export function useFolderActor(folderId: string | null | undefined): Actor | undefined {
   const { session } = useSession();
   const tree = useTree();
   const root = rootFolder(tree.data, folderId);
-  // Projeto de time: quem criou pode não ser o Dono
   const shared = !!root && (root.owner_id !== session?.user.id || !!root.team_id);
   const members = useMembers(shared ? root?.id : undefined);
-  // Caixa de entrada (fora da árvore) e pastas próprias: dono
-  if (folderId && tree.data?.inbox?.folder_id === folderId) return 'owner';
+  const userId = session?.user.id;
+  if (folderId && tree.data?.inbox?.folder_id === folderId) return { userId, preset: 'owner' };
   if (!root) return undefined;
-  if (!shared) return 'owner';
-  return members.data?.find((m) => m.userId === session?.user.id)?.role;
+  if (!shared) return { userId, preset: 'owner' };
+  const me = members.data?.find((m) => m.userId === userId);
+  if (!me) return undefined;
+  return me.customRole
+    ? { userId, grants: me.customRole.grants }
+    : { userId, preset: ROLE_PRESET[me.role] };
 }
-
-/**
- * Pode trabalhar no projeto (criar, marcar). O Colaborador passa: o que ele não pode mexer nas
- * tarefas dos outros o servidor recusa. Leitor só vê e comenta.
- */
-export const canEdit = (role: Role | undefined) => roleCan(role, 'task.create');
 
 export function useMemberMutations(rootId: string) {
   const queryClient = useQueryClient();
@@ -128,7 +160,22 @@ export function useMemberMutations(rootId: string) {
     queryClient.invalidateQueries({ queryKey: keys.assignees });
   };
   const setRole = useMutation({
-    mutationFn: async ({ userId, role }: { userId: string; role: AssignableRole | 'team' }) => {
+    mutationFn: async ({
+      userId,
+      role,
+    }: {
+      userId: string;
+      role: AssignableRole | 'team' | { custom: string };
+    }) => {
+      if (typeof role === 'object') {
+        const { error } = await supabase.rpc('set_member_custom_role', {
+          p_folder_id: rootId,
+          p_user_id: userId,
+          p_role_id: role.custom,
+        });
+        if (error) throw error;
+        return;
+      }
       if (role === 'team') {
         const { error } = await supabase.rpc('reset_member_role', {
           p_folder_id: rootId,

@@ -309,17 +309,23 @@ isOneToOne: false
                   ]
                 },"folder_members": {
                   Row: {
-                    "aliases": (string)[],"folder_id": string,"joined_at": string,"role": Database["public"]['Enums']["folder_role"],"source": string,"user_id": string
+                    "aliases": (string)[],"custom_role_id": string | null,"folder_id": string,"joined_at": string,"role": Database["public"]['Enums']["folder_role"],"source": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "aliases"?: (string)[],"folder_id": string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"source"?: string,"user_id": string
+                    "aliases"?: (string)[],"custom_role_id"?: string | null,"folder_id": string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"source"?: string,"user_id": string
                   }
                   Update: {
-                    "aliases"?: (string)[],"folder_id"?: string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"source"?: string,"user_id"?: string
+                    "aliases"?: (string)[],"custom_role_id"?: string | null,"folder_id"?: string,"joined_at"?: string,"role"?: Database["public"]['Enums']["folder_role"],"source"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
+      foreignKeyName: "folder_members_custom_role_id_fkey"
+      columns: ["custom_role_id"]
+isOneToOne: false
+      referencedRelation: "team_roles"
+      referencedColumns: ["id"]
+    },{
       foreignKeyName: "folder_members_folder_id_fkey"
       columns: ["folder_id"]
 isOneToOne: false
@@ -706,6 +712,32 @@ isOneToOne: false
       columns: ["user_id"]
 isOneToOne: false
       referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"team_roles": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"grants": (string)[],"id": string,"name": string,"team_id": string,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"grants"?: (string)[],"id"?: string,"name": string,"team_id": string,"updated_at"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"grants"?: (string)[],"id"?: string,"name"?: string,"team_id"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "team_roles_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "team_roles_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
       referencedColumns: ["id"]
     }
                   ]
@@ -1136,6 +1168,12 @@ isOneToOne: false
 "gold_balance":
 { Args: { "p_user": string }; Returns: number
                            },
+"grant_catalog":
+{ Args: Record<PropertyKey, never>; Returns: (string)[]
+                           },
+"grants_can":
+{ Args: { "p_grants": (string)[],"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
+                           },
 "habit_count_key":
 { Args: { "p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: string
                            },
@@ -1231,6 +1269,9 @@ isOneToOne: false
                            },
 "set_class":
 { Args: { "p_class": string }; Returns: Json
+                           },
+"set_member_custom_role":
+{ Args: { "p_folder_id": string,"p_role_id": string,"p_user_id": string }; Returns: undefined
                            },
 "set_member_role":
 { Args: { "p_folder_id": string,"p_role": Database["public"]['Enums']["folder_role"],"p_user_id": string }; Returns: undefined

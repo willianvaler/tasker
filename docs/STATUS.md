@@ -60,7 +60,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **E2** Cargo no projeto sobrescrevendo o do time; presets via permissões atômicas; `can()` no banco usado pelas policies
 - [x] **E3** Convite com validade/limite de usos e por e-mail; pedido de entrada com aprovação opcional
 - [x] **E4** Tela Time e cargos; sempre 1 Dono; log de auditoria do time
-- [ ] **E5** Cargos personalizados (se aprovado)
+- [x] **E5** Cargos personalizados (se aprovado)
 - [ ] **E6** Marcos (`milestones`) e visão geral do projeto (progresso, marcos, membros, atividade, boss)
 - [ ] **E7** `@nome` com autocomplete; captura some para Leitor
 - [ ] **E8** E2E do cenário "Churrasco"

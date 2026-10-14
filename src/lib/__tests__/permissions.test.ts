@@ -1,6 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 
-import { can, OWN_RULE, PERMISSIONS, PRESETS, roleCan } from '../permissions';
+import { can, GRANTABLE, OWN_RULE, PERMISSIONS, PRESETS, roleCan } from '../permissions';
+import ptBR from '../../i18n/locales/pt-BR.json';
 
 declare const require: (id: string) => unknown;
 
@@ -50,6 +51,38 @@ describe('can() (mesmos casos do pgTAP v2_permissoes)', () => {
     expect(roleCan('editor', 'task.edit')).toBe(true);
     expect(roleCan('viewer', 'task.edit')).toBe(false);
     expect(roleCan(undefined, 'project.view')).toBe(false);
+  });
+});
+
+describe('cargo personalizado (mesmos casos do pgTAP cargos_personalizados)', () => {
+  const comprador = [
+    'project.view',
+    'task.create',
+    'task.assign',
+    'comment.create',
+    'task.complete:own',
+  ];
+
+  test('vale o que o cargo tem, e só isso', () => {
+    expect(can({ grants: comprador }, 'task.assign')).toBe(true);
+    expect(can({ grants: comprador }, 'task.edit')).toBe(false);
+    expect(can({ grants: comprador }, 'page.manage')).toBe(false);
+  });
+
+  test('":own" do cargo vale sobre o que é seu', () => {
+    const actor = { userId: ana, grants: comprador };
+    expect(can(actor, 'task.complete', { assigneeIds: [ana] })).toBe(true);
+    expect(can(actor, 'task.complete', { assigneeIds: [bia] })).toBe(false);
+  });
+
+  test('excluir o projeto nunca entra em cargo personalizado', () => {
+    expect(GRANTABLE).not.toContain('project.delete');
+    expect(GRANTABLE).toHaveLength(PERMISSIONS.length - 1);
+  });
+
+  test('toda permissão tem nome na tela', () => {
+    const labels = (ptBR as { perm: Record<string, string> }).perm;
+    for (const permission of GRANTABLE) expect(labels[permission.replace('.', '_')]).toBeTruthy();
   });
 });
 

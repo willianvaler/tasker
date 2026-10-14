@@ -180,6 +180,57 @@ export function useTeamAdmin(teamId: string, enabled: boolean) {
   });
 }
 
+export type TeamCustomRole = Tables<'team_roles'>;
+
+/** Cargos personalizados do time (todo mundo do time vê; Admin e Dono mudam). */
+export function useTeamRoles(teamId: string | null | undefined) {
+  return useQuery({
+    queryKey: keys.teamRoles(teamId ?? ''),
+    enabled: !!teamId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('team_roles')
+        .select('*')
+        .eq('team_id', teamId ?? '')
+        .order('name');
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export function useTeamRoleMutations(teamId: string) {
+  const queryClient = useQueryClient();
+  const settle = () => {
+    queryClient.invalidateQueries({ queryKey: keys.teamRoles(teamId) });
+    queryClient.invalidateQueries({ queryKey: keys.teamAdmin(teamId) });
+    queryClient.invalidateQueries({ queryKey: ['members'] });
+  };
+  return {
+    save: useMutation({
+      mutationFn: async (role: { id?: string; name: string; grants: string[] }) => {
+        const { error } = role.id
+          ? await supabase
+              .from('team_roles')
+              .update({ name: role.name, grants: role.grants })
+              .eq('id', role.id)
+          : await supabase
+              .from('team_roles')
+              .insert({ team_id: teamId, name: role.name, grants: role.grants });
+        if (error) throw new Error(error.message);
+      },
+      onSettled: settle,
+    }),
+    remove: useMutation({
+      mutationFn: async (id: string) => {
+        const { error } = await supabase.from('team_roles').delete().eq('id', id);
+        if (error) throw new Error(error.message);
+      },
+      onSettled: settle,
+    }),
+  };
+}
+
 /** Convites para o meu e-mail, ainda não usados. */
 export function useMyTeamInvites() {
   const { session } = useSession();
