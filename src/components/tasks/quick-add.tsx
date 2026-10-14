@@ -21,6 +21,7 @@ import { useToast } from '@/providers/toast';
 import { setCaptureFocus } from '@/lib/ui-state';
 import { useCanWrite } from '@/providers/write';
 import { useColors } from '@/lib/tokens';
+import { useMentionAutocomplete } from './mention-autocomplete';
 
 /**
  * Campo de captura rápida: digita e Enter cria; o foco fica no campo.
@@ -57,6 +58,14 @@ export function QuickAdd({
   const toast = useToast();
   const [text, setText] = useState('');
   const inputRef = useRef<TextInput>(null);
+  // @nome em digitação: sugere os membros do projeto
+  const autocomplete = useMentionAutocomplete({
+    enabled: mentions.enabled,
+    members: mentions.members,
+    text,
+    setText,
+    inputRef,
+  });
   const { t } = useTranslation();
   const colors = useColors();
   const wide = useWindowDimensions().width >= 768;
@@ -72,6 +81,8 @@ export function QuickAdd({
   }
 
   function submit() {
+    // Enter com a lista aberta escolhe a sugestão
+    if (autocomplete.open) return autocomplete.pickActive();
     const trimmed = text.trim();
     // Ainda carregando ou offline: o texto fica no campo (nada se perde)
     if (!trimmed || !pageId || !writable) return;
@@ -130,52 +141,70 @@ export function QuickAdd({
     return () => node.removeEventListener('paste', onPaste);
   });
 
+  // Leitor não cria: no lugar do campo, só o porquê
+  if (pageId && !writable)
+    return (
+      <View className="min-h-11 justify-center border-b border-line md:min-h-10">
+        <Text className="text-sm text-ink-muted">{t('quickAdd.readOnly')}</Text>
+      </View>
+    );
+
   return (
-    // Linha de captura: "+" no acento, campo sem caixa, divisória fina
-    <View className="min-h-11 flex-row items-center gap-3 border-b border-line md:min-h-10">
-      <Icon icon={Plus} tone={ready ? 'accent' : 'ink-muted'} />
-      <TextInput
-        ref={inputRef}
-        placeholder={
-          !pageId
-            ? t('quickAdd.loading')
-            : !writable
-              ? t('quickAdd.readOnly')
+    <View>
+      {/* Linha de captura: "+" no acento, campo sem caixa, divisória fina */}
+      <View className="min-h-11 flex-row items-center gap-3 border-b border-line md:min-h-10">
+        <Icon icon={Plus} tone={ready ? 'accent' : 'ink-muted'} />
+        <TextInput
+          ref={inputRef}
+          placeholder={
+            !pageId
+              ? t('quickAdd.loading')
               : online
                 ? (placeholder ?? t('quickAdd.placeholder'))
                 : t('quickAdd.offline')
-        }
-        placeholderTextColor={colors['ink-muted']}
-        value={text}
-        editable={writable}
-        onChangeText={(value) => {
-          // No celular, colar várias linhas chega aqui com as quebras
-          if (/\r?\n/.test(value.trim())) openBatch(value);
-          else setText(value);
-        }}
-        onSubmitEditing={submit}
-        // Esc sai do campo: as teclas voltam a ser atalhos (N, J, F2…)
-        onKeyPress={(e) => e.nativeEvent.key === 'Escape' && inputRef.current?.blur()}
-        submitBehavior="submit"
-        {...webSubmit}
-        returnKeyType="done"
-        autoFocus={autoFocus}
-        accessibilityLabel={t('quickAdd.label')}
-        aria-disabled={!ready}
-        className={textClass('min-h-10 flex-1 text-base text-ink md:text-sm')}
-      />
-      {wide && ready && !text && (
-        <Text className="font-mono text-xs text-ink-muted">{t('quickAdd.hint')}</Text>
-      )}
-      {ready && !habit && (
-        <IconButton
-          icon={SlidersHorizontal}
-          label={t('newMenu.advanced')}
-          onPress={() =>
-            router.push({ pathname: '/task/new', params: pageId ? { page: pageId } : {} })
           }
+          placeholderTextColor={colors['ink-muted']}
+          value={text}
+          editable={writable}
+          onChangeText={(value) => {
+            // No celular, colar várias linhas chega aqui com as quebras
+            if (/\r?\n/.test(value.trim())) openBatch(value);
+            else {
+              setText(value);
+              autocomplete.onChangeText();
+            }
+          }}
+          onSelectionChange={autocomplete.onSelectionChange}
+          onSubmitEditing={submit}
+          onKeyPress={(e) => {
+            if (autocomplete.onKeyPress(e)) return;
+            // Esc sai do campo: as teclas voltam a ser atalhos (N, J, F2…)
+            if (e.nativeEvent.key === 'Escape') inputRef.current?.blur();
+          }}
+          aria-expanded={autocomplete.open}
+          aria-autocomplete="list"
+          submitBehavior="submit"
+          {...webSubmit}
+          returnKeyType="done"
+          autoFocus={autoFocus}
+          accessibilityLabel={t('quickAdd.label')}
+          aria-disabled={!ready}
+          className={textClass('min-h-10 flex-1 text-base text-ink md:text-sm')}
         />
-      )}
+        {wide && ready && !text && (
+          <Text className="font-mono text-xs text-ink-muted">{t('quickAdd.hint')}</Text>
+        )}
+        {ready && !habit && (
+          <IconButton
+            icon={SlidersHorizontal}
+            label={t('newMenu.advanced')}
+            onPress={() =>
+              router.push({ pathname: '/task/new', params: pageId ? { page: pageId } : {} })
+            }
+          />
+        )}
+      </View>
+      {autocomplete.list}
     </View>
   );
 }

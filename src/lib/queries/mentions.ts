@@ -16,6 +16,8 @@ export function useMentions(pageId: string | undefined) {
 
   return {
     enabled,
+    /** Membros do projeto, para o autocomplete */
+    members: names,
     resolve: (mentions: string[]): MentionResolution[] =>
       enabled ? mentions.map((m) => resolveMention(m, names)) : [],
     toAssignees,

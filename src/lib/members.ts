@@ -62,3 +62,37 @@ export function initials(name: string) {
     (parts[0]?.[0] ?? '?') + (parts.length > 1 ? (parts.at(-1)?.[0] ?? '') : '')
   ).toUpperCase();
 }
+
+/** O "@algo" que está sendo digitado antes do cursor, ou null. */
+export function mentionQuery(text: string, caret: number) {
+  const m = /(^|\s)@([\p{L}\p{N}._-]*)$/u.exec(text.slice(0, caret));
+  if (!m) return null;
+  return { start: caret - m[2].length - 1, query: m[2] };
+}
+
+/** Membros que começam com o que foi digitado (nome, sobrenome ou apelido), no máximo 6. */
+export function suggestMembers<T extends MemberName>(query: string, members: readonly T[]) {
+  const key = nameKey(query);
+  return members
+    .filter((m) => {
+      if (!key) return true;
+      const words = m.displayName.trim().split(/\s+/);
+      return [m.displayName, ...words, ...m.aliases].some((w) => nameKey(w).startsWith(key));
+    })
+    .slice(0, 6);
+}
+
+/** Como escrever a pessoa para o @nome resolver só nela: primeiro nome se for único, senão o nome inteiro junto. */
+export function mentionToken(member: MemberName, members: readonly MemberName[]) {
+  const first = member.displayName.trim().split(/\s+/)[0] ?? '';
+  const unique =
+    first && members.filter((m) => memberMatches(first, m)).length === 1 ? first : null;
+  return unique ?? member.displayName.replace(/\s+/g, '');
+}
+
+/** Troca o "@algo" em digitação pelo @nome escolhido, com um espaço depois. */
+export function applyMention(text: string, start: number, caret: number, token: string) {
+  const before = `${text.slice(0, start)}@${token} `;
+  const after = text.slice(caret).replace(/^\s+/, '');
+  return { text: before + after, caret: before.length };
+}

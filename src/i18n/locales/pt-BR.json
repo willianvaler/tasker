@@ -105,7 +105,9 @@
     "readOnly": "Só leitura: você é leitor deste projeto",
     "offline": "Nova tarefa… (vai quando a conexão voltar)",
     "hint": "amanhã · !! · #etiqueta · @pessoa",
-    "ambiguous": "{{names}}: mais de uma pessoa com esse nome. Escolha nos detalhes da tarefa."
+    "ambiguous": "{{names}}: mais de uma pessoa com esse nome. Escolha nos detalhes da tarefa.",
+    "mentionList": "Pessoas do projeto",
+    "mentionPick": "Atribuir a {{name}}"
   },
   "boss": {
     "level": "nv {{level}}",

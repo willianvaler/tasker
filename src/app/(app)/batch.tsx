@@ -1,7 +1,7 @@
 import { uuidv7 } from '@/lib/uuid';
 import { router } from 'expo-router';
 import { Check, Dot, X } from 'lucide-react-native';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
 
@@ -21,6 +21,7 @@ import { parseQuickInput } from '@/lib/parser/quick';
 import { setLastPageId } from '@/lib/prefs';
 import type { MentionResolution } from '@/lib/members';
 import { useMentions } from '@/lib/queries/mentions';
+import { useMentionAutocomplete } from '@/components/tasks/mention-autocomplete';
 import { useToday } from '@/lib/queries/profile';
 import { useCreateTasks, type Task } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
@@ -49,6 +50,7 @@ export default function BatchScreen() {
   // Em cards, "4x12" e "20kg" viram séries/repetições/carga
   const isCards = page?.view_type === 'cards';
   const mentions = useMentions(page?.id);
+  const inputRef = useRef<TextInput>(null);
   // Criar vai para a fila offline
   const writable = useCanWrite(page?.folder_id, { offline: true });
 
@@ -89,6 +91,15 @@ export default function BatchScreen() {
     setChoices((c) => ({ ...c, [`${key}|${name}`]: userId }));
 
   const total = countBatch(items);
+
+  const autocomplete = useMentionAutocomplete({
+    enabled: mentions.enabled,
+    members: mentions.members,
+    text,
+    setText: (value) => changeText(value),
+    inputRef,
+    enterPicks: true,
+  });
 
   function changeText(value: string) {
     setText(value);
@@ -139,10 +150,17 @@ export default function BatchScreen() {
         {t('batch.where', { page: page ? pageLabel(page) : '…' })}
       </Text>
       <TextInput
+        ref={inputRef}
         multiline
         autoFocus={!draft.text}
         value={text}
-        onChangeText={changeText}
+        onChangeText={(value) => {
+          changeText(value);
+          autocomplete.onChangeText();
+        }}
+        onSelectionChange={autocomplete.onSelectionChange}
+        onKeyPress={autocomplete.onKeyPress}
+        aria-expanded={autocomplete.open}
         placeholder={t('batch.placeholder')}
         placeholderTextColor={colors['ink-muted']}
         accessibilityLabel={t('batch.list')}
@@ -151,6 +169,7 @@ export default function BatchScreen() {
           'max-h-48 min-h-28 rounded border border-line bg-surface p-3 text-base text-ink focus:border-accent md:text-sm',
         )}
       />
+      {autocomplete.list}
 
       <Text
         className="mt-6 border-b border-line pb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted"

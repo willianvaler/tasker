@@ -62,7 +62,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **E4** Tela Time e cargos; sempre 1 Dono; log de auditoria do time
 - [x] **E5** Cargos personalizados (se aprovado)
 - [x] **E6** Marcos (`milestones`) e visão geral do projeto (progresso, marcos, membros, atividade, boss)
-- [ ] **E7** `@nome` com autocomplete; captura some para Leitor
+- [x] **E7** `@nome` com autocomplete; captura some para Leitor
 - [ ] **E8** E2E do cenário "Churrasco"
 
 ## Fase G — Subtarefas e WBS (23/11 – 25/11)

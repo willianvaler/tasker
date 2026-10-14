@@ -105,7 +105,9 @@
     "readOnly": "Read only: you are a viewer in this project",
     "offline": "New task… (sent when you are back online)",
     "hint": "tomorrow · !! · #tag · @person",
-    "ambiguous": "{{names}}: more than one person with that name. Pick one in the task details."
+    "ambiguous": "{{names}}: more than one person with that name. Pick one in the task details.",
+    "mentionList": "Project people",
+    "mentionPick": "Assign to {{name}}"
   },
   "boss": {
     "level": "lv {{level}}",
