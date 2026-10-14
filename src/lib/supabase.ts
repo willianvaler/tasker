@@ -4,7 +4,10 @@ import { AppState, Platform } from 'react-native';
 import type { Database } from './db';
 import { authStorage } from './storage';
 
-const url = process.env.EXPO_PUBLIC_SUPABASE_URL;
+// Caminho relativo ("/supabase") = mesmo endereço do app: o servidor remoto (scripts/serve.mjs)
+// repassa para o Supabase da máquina
+const envUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const url = envUrl?.startsWith('/') ? `${globalThis.location?.origin ?? ''}${envUrl}` : envUrl;
 const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 if (!url || !key) {
   throw new Error(

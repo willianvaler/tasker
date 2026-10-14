@@ -25,12 +25,17 @@ npm run db:test       # testes pgTAP de RLS (supabase/tests/)
 npm run e2e           # Playwright na web, perfis celular e desktop (precisa do db:start). Argumentos: npm run e2e -- e2e/x.spec.ts
 npm run db:reset      # recria o banco local a partir das migrações + seed
 npm run db:types      # regenera src/lib/database.types.ts depois de mudar o banco
+npm run deploy        # publica a web para acesso remoto (dist-remote/ + reinicia tasker-web.service)
 npm run capturas      # capturas das telas-chave (1280/390, claro/escuro) em docs/screenshots/ (precisa do db:start)
 ```
 
 Nesta máquina o "Docker" é o **Podman**: o socket precisa estar ativo (`systemctl --user start podman.socket`) e o `DOCKER_HOST` já aponta para ele. O `.env.local` (copiado do `.env.example`) tem as chaves padrão do Supabase local, que não são segredo.
 
 O npm desta máquina (v12) bloqueia scripts de instalação de pacotes sem aprovação (`npm install-scripts ls`). Se um pacote depender de `postinstall` (baixar binário, compilar), aprove com `npm install-scripts approve <pacote>`.
+
+## Acesso remoto (túnel da Cloudflare)
+
+`https://tasker.wavdev.org` → túnel `tasker-tunnel.service` (cloudflared em `~/.local/bin`, token em `~/.config/cloudflared/tasker.token`, **nunca no repositório**) → `tasker-web.service` (`scripts/serve.mjs`, porta 8787), que entrega `dist-remote/` e repassa `/supabase/*` (HTTP e websocket) para o Supabase local. O build remoto usa `EXPO_PUBLIC_SUPABASE_URL=/supabase` (relativo ao endereço do app). Serviços de usuário do systemd com linger: `systemctl --user status tasker-web tasker-tunnel tasker-quick`. `tasker-quick` dá um endereço `*.trycloudflare.com` provisório (muda a cada reinício; `journalctl --user -u tasker-quick | grep trycloudflare`). Depois de mudar o app: `npm run deploy`.
 
 ## Estrutura
 

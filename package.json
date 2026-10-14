@@ -81,7 +81,8 @@
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
     "export:web": "expo export --platform web",
     "e2e": "node scripts/e2e.mjs",
-    "capturas": "node scripts/e2e.mjs -c playwright.capturas.config.ts"
+    "capturas": "node scripts/e2e.mjs -c playwright.capturas.config.ts",
+    "deploy": "bash scripts/deploy.sh"
   },
   "private": true,
   "jest": {
