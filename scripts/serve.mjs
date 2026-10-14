@@ -1,13 +1,13 @@
 // Servidor da versão web para acesso remoto (túnel da Cloudflare): entrega o build em dist/ com
 // fallback de SPA e repassa /supabase/* (HTTP e websocket do Realtime) para o Supabase local e
 // /powersync/* para o serviço de sync.
-//   npm run deploy (gera dist-remote/ e reinicia o serviço) · PORT=8787 node scripts/serve.mjs
+//   npm run deploy (gera dist-remote/ e reinicia o serviço) · PORT=8081 node scripts/serve.mjs
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import http from 'node:http';
 import net from 'node:net';
 import { extname, join, normalize } from 'node:path';
 
-const PORT = Number(process.env.PORT ?? 8787);
+const PORT = Number(process.env.PORT ?? 8081);
 const DIST = process.env.DIST ?? join(import.meta.dirname, '..', 'dist-remote');
 const UPSTREAMS = {
   '/supabase': { host: '127.0.0.1', port: 54321, down: 'Supabase local fora do ar (npm run db:start)' },

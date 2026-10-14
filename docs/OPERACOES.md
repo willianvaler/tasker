@@ -8,7 +8,7 @@ Como o Questlist roda nesta máquina e como guardar e recuperar os dados.
 |---|---|
 | `tasker-db` | Supabase local (`npx supabase start`, containers no Podman). Postgres em `127.0.0.1:54322` |
 | `tasker-powersync` | PowerSync Open Edition (container `tasker-powersync`, porta 8095). Lê a réplica lógica do Postgres (publicação `powersync`) e guarda os buckets no banco `powersync_storage` do mesmo servidor |
-| `tasker-web` | `scripts/serve.mjs` na porta 8787: a web publicada (`dist-remote/`) e os repasses `/supabase` e `/powersync` |
+| `tasker-web` | `scripts/serve.mjs` na porta 8081: a web publicada (`dist-remote/`) e os repasses `/supabase` e `/powersync` |
 | `tasker-tunnel` | Túnel da Cloudflare para `tasker.wavdev.org` (token em `~/.config/cloudflared/tasker.token`) |
 | `tasker-quick` | Túnel provisório `*.trycloudflare.com` (`npm run endereco`) |
 

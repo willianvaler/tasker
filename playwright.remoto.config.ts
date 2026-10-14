@@ -5,6 +5,6 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './e2e',
   testMatch: 'sync.spec.ts',
-  use: { baseURL: process.env.BASE ?? 'http://localhost:8787', locale: 'pt-BR' },
+  use: { baseURL: process.env.BASE ?? 'http://localhost:8081', locale: 'pt-BR' },
   projects: [{ name: 'desktop', use: { ...devices['Desktop Chrome'] } }],
 });

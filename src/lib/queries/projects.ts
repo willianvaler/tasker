@@ -303,7 +303,7 @@ export function inviteUrl(token: string, route: 'invite' | 'team-invite' = 'invi
   const base =
     process.env.EXPO_PUBLIC_WEB_URL ||
     (typeof window !== 'undefined' && window.location?.origin) ||
-    'http://localhost:8081';
+    'http://localhost:8082';
   return `${base.replace(/\/$/, '')}/${route}/${token}`;
 }
 

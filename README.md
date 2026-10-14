@@ -19,7 +19,7 @@ Pré-requisitos: Node 22+, e Docker ou Podman (para o Supabase local).
 npm install
 cp .env.example .env.local
 npm run db:start     # sobe o Supabase local e aplica as migrações
-npm run web          # abre em http://localhost:8081
+npm run web          # abre em http://localhost:8082
 ```
 
 Crie uma conta na própria tela de login (no ambiente local não há confirmação por e-mail). Para ver os e-mails que o Supabase enviaria, abra http://127.0.0.1:54324. O painel do banco (Studio) fica em http://127.0.0.1:54323.
