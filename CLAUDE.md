@@ -163,7 +163,7 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 - **Depois de mudar o banco:** `npm run db:reset` (ou só aplicar a migração), `npm run db:test` e `npm run db:types`.
 - **Listas longas:** `TaskRow` e `TaskCard` são memoizadas; não passe objetos recriados a cada render como props delas (compare pelo conteúdo no `memo`). Acima de `SORTABLE_LIMIT` itens a lista não usa a grade de arrastar (D57).
 - **Classes do NativeWind não pegam em `Animated.View`**: ponha a classe num `View` comum dentro dele (ProgressBar, Checkbox).
-- **`mutate(..., { onSuccess })` não dispara se o componente desmontar antes da resposta** (ex.: card que muda de coluna no kanban): deixe a mutação num componente que continua na tela.
+- **`mutate(..., { onSuccess })` não dispara se o componente desmontar antes da resposta** (ex.: card que muda de coluna no kanban, tarefa concluída que sai da lista): use `mutateAsync(...).then(...)`, cuja promessa resolve mesmo assim.
 - **Tela larga:** escolha o `size` do `Screen` (D67); grades com `Grid`; layouts de colunas a partir de `lg:` ou por `useWindowDimensions` (a Hoje vira duas colunas em ≥ 1024 px).
 - **Estilos com classes do NativeWind** usando as cores do tema (`bg-background`, `text-foreground`, `text-muted-foreground`, `border-border`, `bg-primary`...). Nada de cor fixa, para o modo escuro funcionar.
 - **Campos de captura rápida** usam `submitBehavior="submit"` para não perder o foco no Enter; o `Input` traduz isso para a web (o react-native-web só entende o antigo `blurOnSubmit`).

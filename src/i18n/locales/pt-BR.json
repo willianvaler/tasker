@@ -125,7 +125,8 @@
     "pickClass": "Escolha sua classe",
     "gold": "{{gold}} de ouro",
     "unitHp": "HP",
-    "unitTasks": "tarefas"
+    "unitTasks": "tarefas",
+    "pendingXp": "+{{xp}} XP pendente"
   },
   "today": {
     "title": "Hoje",

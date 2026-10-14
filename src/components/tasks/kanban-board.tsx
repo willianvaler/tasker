@@ -47,17 +47,16 @@ export function KanbanBoard({
   const game = useGameState();
 
   function move(task: Task, target: Column) {
-    setStatus.mutate(
-      { id: task.id, status: target.status },
-      {
-        onSuccess: (summary) => {
-          const reward =
-            target.status === 'done' && summary && game.data?.enabled !== false
-              ? rewardMessage(summary)
-              : null;
-          if (reward) toast({ message: t('kanban.doneToast', { title: task.title, reward }) });
-        },
+    // mutateAsync: o card muda de coluna (desmonta) antes da resposta
+    setStatus.mutateAsync({ id: task.id, status: target.status }).then(
+      (summary) => {
+        const reward =
+          target.status === 'done' && summary && game.data?.enabled !== false
+            ? rewardMessage(summary)
+            : null;
+        if (reward) toast({ message: t('kanban.doneToast', { title: task.title, reward }) });
       },
+      () => {},
     );
   }
 

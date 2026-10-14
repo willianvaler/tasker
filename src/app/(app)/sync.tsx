@@ -15,6 +15,7 @@ import { Text } from '@/components/ui/text';
 import { toggleTaskFn } from '@/lib/queries/tasks';
 import { connector, POWERSYNC_URL } from '@/lib/sync/connector';
 import { db } from '@/lib/sync/db';
+import { pendingXp } from '@/lib/sync/pending-xp';
 import { uuidv7 } from '@/lib/uuid';
 import { useSession } from '@/providers/session';
 
@@ -72,6 +73,7 @@ export default function SyncScreen() {
   async function discard() {
     closeDiscard();
     // Apaga o banco do aparelho inteiro (fila incluída) e baixa de novo
+    pendingXp.clear();
     await db.disconnectAndClear();
     await db.connect(connector, { crudUploadThrottleMs: 0 });
   }

@@ -80,12 +80,14 @@ export function useHabitTickWithToast() {
       : `${task.title}: ${Math.max(0, Math.min(task.habit_target ?? 1, task.count_up + delta))}/${task.habit_target ?? 1}`;
     const action = plusminus ? { label: 'Desfazer', onPress: () => undo.mutate(vars) } : undefined;
     if (plusminus) toast({ message, action });
-    tick.mutate(vars, {
-      onSuccess: (summary) => {
+    // mutateAsync: a recompensa chega mesmo se a linha sair da tela antes (ver useToggleWithUndo)
+    tick.mutateAsync(vars).then(
+      (summary) => {
         const reward = summary && game.data?.enabled !== false ? rewardMessage(summary) : null;
         if (reward) toast({ message: `${message} · ${reward}`, action });
       },
-    });
+      () => {},
+    );
   };
 }
 

@@ -7,6 +7,8 @@ import { todayIn } from '../parser/dates';
 import { asRecurrence, nextDueDate } from '../recurrence';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
+import { gamificationConfig } from '../gamification.config';
+import { estimateCompletionXp } from '../sync/pending-xp';
 import {
   isLocal,
   localTasks,
@@ -601,6 +603,8 @@ export async function toggleTaskFn({
   nextDue,
 }: ToggleTaskVars): Promise<CompletionSummary | null> {
   if (isLocal()) {
+    const task = done ? await localTaskForXp(id) : null;
+    const estimate = task ? estimateCompletionXp(task) : 0;
     const result = await runCommand(
       done ? 'complete_task' : 'uncomplete_task',
       { p_task_id: id },
@@ -612,7 +616,9 @@ export async function toggleTaskFn({
               done ? new Date().toISOString() : null,
               id,
             ]),
+      estimate,
     );
+    if (result == null && estimate > 0) return pendingSummary(estimate);
     return completionSummarySchema.safeParse(result).data ?? null;
   }
   const { data, error } = await supabase.rpc(done ? 'complete_task' : 'uncomplete_task', {
@@ -639,18 +645,58 @@ export async function updateTaskFn({ id, patch }: UpdateTaskVars) {
 }
 
 /** Kanban: mover entre A fazer, Fazendo e Feito (Feito = concluir, com XP). */
+/** Prioridade, tipo da página e recorrência: o que a estimativa de XP pendente usa. */
+function localTaskForXp(id: string) {
+  return db.getOptional<{
+    priority: number;
+    parent_task_id: string | null;
+    recurrence: string | null;
+    view_type: string | null;
+  }>(
+    `select t.priority, t.parent_task_id, t.recurrence, p.view_type from tasks t
+     left join pages p on p.id = t.page_id where t.id = ?`,
+    [id],
+  );
+}
+
+/** "+" de hábito bom vale XP; no contador, só o toque que bate a meta. */
+function estimateHabitTickXp(task: Task, delta: 1 | -1) {
+  if (delta !== 1) return 0;
+  if (task.habit_kind === 'plusminus') return gamificationConfig.xp.habitPlus;
+  if (task.habit_kind === 'counter' && task.count_up + 1 === (task.habit_target ?? 1))
+    return gamificationConfig.xp.habit;
+  return 0;
+}
+
+/** Resposta "de mentira" enquanto o comando está na fila: só o XP estimado, marcado pendente. */
+const pendingSummary = (xp: number): CompletionSummary => ({
+  xp,
+  level: null,
+  level_up: false,
+  boss_defeated: false,
+  achievements: [],
+  pending: true,
+});
+
 export async function setTaskStatusFn({
   id,
   status,
 }: StatusTaskVars): Promise<CompletionSummary | null> {
   if (isLocal()) {
-    const result = await runCommand('set_task_status', { p_task_id: id, p_status: status }, (tx) =>
-      tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
-        status,
-        status === 'done' ? new Date().toISOString() : null,
-        id,
-      ]),
+    const task = status === 'done' ? await localTaskForXp(id) : null;
+    const estimate = task ? estimateCompletionXp(task) : 0;
+    const result = await runCommand(
+      'set_task_status',
+      { p_task_id: id, p_status: status },
+      (tx) =>
+        tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
+          status,
+          status === 'done' ? new Date().toISOString() : null,
+          id,
+        ]),
+      estimate,
     );
+    if (result == null && estimate > 0) return pendingSummary(estimate);
     return completionSummarySchema.safeParse(result).data ?? null;
   }
   const { data, error } = await supabase.rpc('set_task_status', {
@@ -668,6 +714,10 @@ export async function habitTickFn({
   id,
 }: HabitTickVars): Promise<CompletionSummary | null> {
   if (isLocal()) {
+    const before = await db.getOptional<Record<string, unknown>>(
+      'select * from tasks where id = ?',
+      [taskId],
+    );
     const result = await runCommand(
       'habit_tick',
       { p_task_id: taskId, p_delta: delta, p_id: id },
@@ -684,7 +734,12 @@ export async function habitTickFn({
           [next.count_up, next.count_down, next.status, next.completed_at, taskId],
         );
       },
+      before ? estimateHabitTickXp(toTask(before), delta) : 0,
     );
+    if (result == null && before) {
+      const estimate = estimateHabitTickXp(toTask(before), delta);
+      if (estimate > 0) return pendingSummary(estimate);
+    }
     return completionSummarySchema.safeParse(result).data ?? null;
   }
   const { data, error } = await supabase.rpc('habit_tick', {

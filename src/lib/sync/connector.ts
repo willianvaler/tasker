@@ -8,6 +8,8 @@ import {
 import type { Json } from '@/lib/database.types';
 import { supabase } from '@/lib/supabase';
 
+import { pendingXp } from './pending-xp';
+
 // Sem a variável, o app não sincroniza (o banco local fica vazio e as telas usam o Supabase)
 const envUrl = process.env.EXPO_PUBLIC_POWERSYNC_URL;
 export const POWERSYNC_URL = envUrl?.startsWith('/')
@@ -88,6 +90,14 @@ const waiting = new Map<string, (result: unknown) => void>();
 function commandDone(id: string, result: unknown) {
   waiting.get(id)?.(result);
   waiting.delete(id);
+  pendingXp.resolve(id);
+  onCommandApplied?.();
+}
+
+let onCommandApplied: (() => void) | null = null;
+/** Chamado depois de cada comando aplicado no servidor (o app relê XP e boss). */
+export function setOnCommandApplied(fn: () => void) {
+  onCommandApplied = fn;
 }
 
 /** Espera a resposta do comando `id` por até `ms`; sem resposta (offline, lento), null. */

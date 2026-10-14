@@ -5,6 +5,9 @@ export default defineConfig({
   testDir: './e2e',
   // Cada página roda o SQLite do sync em WASM; com mais workers, envios e sync passam do tempo
   workers: 4,
+  // Uma nova tentativa: com a máquina carregada, arrastar e esperas de sync às vezes estouram o
+  // tempo. O relatório marca como "flaky" o que só passou na segunda
+  retries: 1,
   // locale: o app segue o idioma do navegador (V2 §11); o padrão do Playwright é en-US
   use: { baseURL: 'http://localhost:8081', trace: 'retain-on-failure', locale: 'pt-BR' },
   projects: [

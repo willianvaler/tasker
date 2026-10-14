@@ -88,6 +88,8 @@ export const completionSummarySchema = z.object({
   heal: z.number().optional(),
   gold: z.number().optional(),
   drops: z.array(z.object({ key: z.string(), name: z.string(), icon: z.string() })).optional(),
+  /** Estimativa local enquanto a ação está na fila do sync (o servidor ainda não respondeu) */
+  pending: z.boolean().optional(),
 });
 export type CompletionSummary = z.infer<typeof completionSummarySchema>;
 

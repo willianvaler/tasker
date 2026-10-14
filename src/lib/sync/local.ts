@@ -6,6 +6,7 @@ import { uuidv7 } from '@/lib/uuid';
 
 import { commandResult, POWERSYNC_URL } from './connector';
 import { db } from './db';
+import { pendingXp } from './pending-xp';
 
 /**
  * As telas leem e gravam no banco do aparelho depois da primeira sincronização completa; antes
@@ -100,6 +101,8 @@ export async function runCommand(
   name: string,
   args: Record<string, unknown>,
   localChange?: (tx: Transaction) => Promise<unknown>,
+  /** XP estimado, mostrado como pendente se a resposta não vier logo */
+  estimate = 0,
 ) {
   const id = uuidv7();
   await db.writeTransaction(async (tx) => {
@@ -110,7 +113,9 @@ export async function runCommand(
       JSON.stringify(args),
     ]);
   });
-  return db.currentStatus.connected ? commandResult(id, 3000) : null;
+  const result = db.currentStatus.connected ? await commandResult(id, 3000) : null;
+  if (result == null) pendingXp.add(id, estimate);
+  return result;
 }
 
 /** Valor para uma coluna do SQLite: jsonb e arrays viram texto. */

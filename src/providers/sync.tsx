@@ -2,8 +2,9 @@ import { PowerSyncContext } from '@powersync/react';
 import { useEffect, type ReactNode } from 'react';
 
 import { keys, taskMutationKey } from '@/lib/queries/keys';
-import { connector, POWERSYNC_URL } from '@/lib/sync/connector';
+import { connector, POWERSYNC_URL, setOnCommandApplied } from '@/lib/sync/connector';
 import { db } from '@/lib/sync/db';
+import { pendingXp } from '@/lib/sync/pending-xp';
 import { queryClient } from '@/providers/query';
 import { useSession } from '@/providers/session';
 
@@ -32,9 +33,25 @@ export function SyncProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isLoading || !POWERSYNC_URL) return;
     // Saiu da conta: os dados de quem saiu não ficam no aparelho
-    if (!userId) db.disconnectAndClear();
-    else db.connect(connector, { crudUploadThrottleMs: 0 });
+    if (!userId) {
+      pendingXp.clear();
+      db.disconnectAndClear();
+    } else db.connect(connector, { crudUploadThrottleMs: 0 });
   }, [isLoading, userId]);
+
+  useEffect(() => {
+    // Comando aplicado no servidor: XP, boss e quadro oficiais substituem a estimativa
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    setOnCommandApplied(() => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: keys.game });
+        queryClient.invalidateQueries({ queryKey: ['project-boss'] });
+        queryClient.invalidateQueries({ queryKey: ['board'] });
+      }, 300);
+    });
+    return () => setOnCommandApplied(() => {});
+  }, []);
 
   useEffect(() => {
     if (!POWERSYNC_URL) return;

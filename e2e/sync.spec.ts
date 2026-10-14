@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { adminRest, signUp } from './helpers';
+import { adminRest, ageTask, shown, signUp } from './helpers';
 
 // Protótipo do sync (D0): banco local na web, escrita offline pela fila até as RPCs, mudança do
 // servidor chegando sozinha e acesso revogado tirando os dados do aparelho.
@@ -210,4 +210,35 @@ test('sync: descartar mudanças locais', async ({ page, context }, testInfo) => 
   await context.setOffline(false);
   await openSync(page);
   expect(await serverTask(title)).toBeUndefined();
+});
+
+test('sync: XP pendente offline, trocado pelo oficial ao voltar', async ({
+  page,
+  context,
+}, testInfo) => {
+  await signUp(page, testInfo);
+  await openSync(page);
+  await page.goto('/inbox');
+  const title = `Pendente ${testInfo.project.name} ${Date.now()}`;
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill(title);
+  await input.press('Enter');
+  await expect
+    .poll(async () => (await serverTask(title))?.status, { timeout: 20_000 })
+    .toBe('todo');
+  await ageTask(title);
+
+  await context.setOffline(true);
+  await page.getByRole('checkbox', { name: `Concluir ${title}` }).click();
+  await expect(shown(page, /\+~10 XP \(pendente\)/)).toBeVisible({ timeout: 10_000 });
+  if (testInfo.project.name === 'desktop')
+    await expect(page.getByRole('navigation').getByText('+10 XP pendente')).toBeVisible();
+
+  await context.setOffline(false);
+  await expect
+    .poll(async () => (await serverTask(title))?.status, { timeout: 30_000 })
+    .toBe('done');
+  await expect(page.getByText('+10 XP pendente')).toHaveCount(0, { timeout: 15_000 });
+  if (testInfo.project.name === 'desktop')
+    await expect(page.getByRole('navigation').getByText(/^10\/\d+ XP$/)).toBeVisible();
 });

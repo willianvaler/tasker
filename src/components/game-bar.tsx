@@ -7,6 +7,7 @@ import { Avatar } from '@/components/character';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
+import { usePendingXp } from '@/lib/sync/pending-xp';
 import { useGameState, type Boss } from '@/lib/queries/game';
 import { useColors } from '@/lib/tokens';
 
@@ -117,6 +118,7 @@ export function GameHeader() {
           <Text className="font-mono text-xs text-ink-muted">
             {game.into_level}/{game.for_next} XP
           </Text>
+          <PendingXp />
           <Text
             className={cn('font-mono text-xs', game.active_today ? 'text-ink' : 'text-ink-muted')}
             accessibilityLabel={t('boss.streak', { count: game.streak })}
@@ -160,4 +162,12 @@ export function SidebarGame() {
       </Pressable>
     </Link>
   );
+}
+
+/** XP de ações ainda na fila do sync, estimado; some quando o servidor confirma. */
+export function PendingXp() {
+  const { t } = useTranslation();
+  const xp = usePendingXp();
+  if (xp <= 0) return null;
+  return <Text className="font-mono text-xs text-accent">{t('boss.pendingXp', { xp })}</Text>;
 }

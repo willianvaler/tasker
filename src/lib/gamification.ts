@@ -29,8 +29,10 @@ export function rewardMessage(summary: {
   heal?: number;
   gold?: number;
   drops?: { name: string; icon: string }[];
+  pending?: boolean;
 }) {
   const parts: string[] = [];
+  if (summary.pending) return summary.xp > 0 ? `+~${summary.xp} XP (pendente)` : null;
   if (summary.xp > 0) parts.push(`+${summary.xp} XP`);
   if (summary.damage && summary.damage > 0)
     parts.push(

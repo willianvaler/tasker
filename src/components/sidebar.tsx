@@ -30,6 +30,7 @@ import { useNewMenu } from '@/components/new-menu';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { IconButton } from '@/components/ui/button';
+import { PendingXp } from '@/components/game-bar';
 import { SyncDot } from '@/components/sync-dot';
 import { Icon } from '@/components/ui/icon';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -274,6 +275,7 @@ function SidebarFooter({ online }: { online: boolean }) {
               <Text className="font-mono text-xs text-ink">
                 {t('nav.level', { level: game.level })}
               </Text>
+              <PendingXp />
               <Text className="font-mono text-xs text-ink-muted">
                 {t('nav.xp', { into: game.into_level, next: game.for_next })}
               </Text>
