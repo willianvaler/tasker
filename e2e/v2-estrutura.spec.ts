@@ -214,3 +214,62 @@ test('ajuda: "?" abre a tabela de atalhos, gerada do registro, com busca', async
   await expect(page.getByLabel(/^Renomear o item selecionado.*: F2$/)).toBeVisible();
   await expect(page.getByText('Abrir o menu Novo', { exact: true })).toHaveCount(0);
 });
+
+test('aceite da Fase C: pasta, página, 10 tarefas em lote, F2 e ícone sem mouse', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'O aceite é de teclado (V2 §13, Fase C)');
+  await signUp(page, testInfo);
+  const kb = page.keyboard;
+
+  // Pasta: Alt+N, F, nome, Enter (a pasta abre)
+  await kb.press('Alt+n');
+  await kb.press('f');
+  await expect(page.getByPlaceholder('Nome (ex.: Academia)')).toBeFocused();
+  await kb.type('Academia');
+  await kb.press('Enter');
+  await expect(page.getByRole('heading', { name: 'Academia' })).toBeVisible();
+
+  // Página dentro dela: Alt+N, P, nome, Enter (a página abre)
+  await kb.press('Alt+n');
+  await kb.press('p');
+  await expect(page.getByPlaceholder('Nome (ex.: Treino A)')).toBeFocused();
+  await kb.type('Treino A');
+  await kb.press('Enter');
+  await expect(page.getByRole('heading', { name: 'Treino A' })).toBeVisible();
+
+  // 10 tarefas coladas no campo (N põe o foco), Ctrl+Enter confirma o lote
+  await kb.press('Escape');
+  await kb.press('n');
+  await expect(page.getByRole('textbox', { name: 'Nova tarefa' })).toBeFocused();
+  await paste(page, Array.from({ length: 10 }, (_, i) => `Exercício ${i + 1}`).join('\n'));
+  await expect(page.getByText('10 tarefas serão criadas')).toBeVisible();
+  const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
+  await kb.press('Control+Enter');
+  await created;
+  await expect(page.getByText('Exercício 10', { exact: true })).toBeVisible();
+
+  // F2 renomeia a página; Shift+Tab vai ao ícone, Enter abre o seletor, busca e escolhe
+  await kb.press('Escape');
+  await kb.press('F2');
+  await expect(page.getByRole('textbox', { name: 'Nome', exact: true })).toBeFocused();
+  await kb.press('ControlOrMeta+a');
+  await kb.type('Treino de peito');
+  await kb.press('Shift+Tab');
+  await kb.press('Enter');
+  await expect(page.getByRole('textbox', { name: /Buscar ícone/ })).toBeFocused();
+  await kb.type('academia');
+  await kb.press('Tab');
+  await kb.press('Enter');
+  await expect(page.getByRole('textbox', { name: /Buscar ícone/ })).toHaveCount(0);
+  await page.getByRole('textbox', { name: 'Nome', exact: true }).focus();
+  const saved = page.waitForResponse(
+    (r) => r.url().includes('/rest/v1/pages') && r.request().method() === 'PATCH',
+  );
+  await kb.press('Enter');
+  await saved;
+  await expect(page.getByRole('heading', { name: 'Treino de peito' })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Treino de peito' })).toBeVisible();
+  await expect(page.getByText('Exercício 1', { exact: true })).toBeVisible();
+});

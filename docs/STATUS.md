@@ -38,7 +38,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **C7** Paleta de comandos (Ctrl+K) lendo o registro
 - [x] **C8** Criação/edição avançada: painel lateral (desktop) / tela deslizante (celular), seções recolhíveis, Ctrl+Shift+N, Ctrl+E, Ctrl+Enter
 - [x] **C9** Rota `/ajuda` com a tabela de atalhos gerada do registro e o atalho `?`
-- [ ] **C10** E2E do aceite
+- [x] **C10** E2E do aceite
 
 ## Fase D — Offline-first e sync (04/11 – 13/11)
 
