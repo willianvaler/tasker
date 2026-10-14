@@ -34,7 +34,11 @@ export default function AppLayout() {
           <Stack.Screen name="shop" />
           <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
           <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
-          <Stack.Screen name="task/[id]" options={{ presentation: 'modal' }} />
+          {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}
+          <Stack.Screen
+            name="task/[id]"
+            options={{ presentation: 'transparentModal', animation: 'none' }}
+          />
           <Stack.Screen
             name="capture"
             options={{ presentation: 'transparentModal', animation: 'fade' }}
