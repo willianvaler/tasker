@@ -32,12 +32,13 @@ import { Badge, useUnreadCount } from '@/components/notifications-bell';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { IconButton } from '@/components/ui/button';
 import { PendingXp } from '@/components/game-bar';
+import { SidebarResizer } from '@/components/sidebar-resizer';
 import { SyncDot } from '@/components/sync-dot';
 import { Icon } from '@/components/ui/icon';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { getOpenFolders, setOpenFolders } from '@/lib/prefs';
+import { getOpenFolders, getSidebarWidth, setOpenFolders, setSidebarWidth } from '@/lib/prefs';
 import { useGameState } from '@/lib/queries/game';
 import { useTree, type Page, type SubFolder } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
@@ -73,6 +74,7 @@ export function Sidebar() {
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
   const [open, setOpen] = useState(() => new Set(getOpenFolders()));
+  const [width, setWidth] = useState(getSidebarWidth);
   const openPalette = useCommandPalette();
 
   // Pasta da tela atual (a própria pasta, ou a pasta da página aberta)
@@ -164,9 +166,11 @@ export function Sidebar() {
   return (
     <SafeAreaView
       edges={['top', 'left', 'bottom']}
-      className="w-64 border-r border-line bg-surface"
+      className="border-r border-line bg-surface"
+      style={{ width }}
       role="navigation"
     >
+      <SidebarResizer width={width} onChange={setWidth} onCommit={setSidebarWidth} />
       <View className="gap-6 px-2 pt-3">
         <View className="flex-row items-center pl-2">
           <Text className="flex-1 font-serif text-lg text-ink">Questlist</Text>

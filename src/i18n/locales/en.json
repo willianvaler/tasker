@@ -105,7 +105,8 @@
     "level": "lv {{level}}",
     "xp": "{{into}}/{{next}} XP",
     "characterSummary": "Character: level {{level}}, {{into}} of {{next}} XP",
-    "teams": "Teams"
+    "teams": "Teams",
+    "resizeSidebar": "Sidebar width (drag or use ← →)"
   },
   "quickAdd": {
     "label": "New task",

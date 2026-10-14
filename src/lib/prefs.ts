@@ -68,6 +68,19 @@ export function setOpenFolders(ids: string[]) {
   localStore.setItem(OPEN_FOLDERS_KEY, JSON.stringify(ids));
 }
 
+const SIDEBAR_WIDTH_KEY = 'questlist:sidebar-width';
+export const SIDEBAR_WIDTH = { min: 200, max: 480, default: 256 } as const;
+
+/** Largura da barra lateral escolhida no divisor (só computador). */
+export function getSidebarWidth(): number {
+  const value = Number(localStore.getItem(SIDEBAR_WIDTH_KEY));
+  return value >= SIDEBAR_WIDTH.min && value <= SIDEBAR_WIDTH.max ? value : SIDEBAR_WIDTH.default;
+}
+
+export function setSidebarWidth(width: number) {
+  localStore.setItem(SIDEBAR_WIDTH_KEY, String(Math.round(width)));
+}
+
 export function clearPrefs() {
   localStore.removeItem(LAST_PAGE_KEY);
   localStore.removeItem(OPEN_FOLDERS_KEY);

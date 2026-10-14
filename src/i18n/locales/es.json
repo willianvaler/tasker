@@ -105,7 +105,8 @@
     "level": "nv {{level}}",
     "xp": "{{into}}/{{next}} XP",
     "characterSummary": "Personaje: nivel {{level}}, {{into}} de {{next}} XP",
-    "teams": "Equipos"
+    "teams": "Equipos",
+    "resizeSidebar": "Ancho de la barra lateral (arrastra o usa ← →)"
   },
   "quickAdd": {
     "label": "Nueva tarea",

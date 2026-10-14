@@ -5,9 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from '@/lib/cn';
 
 /**
- * Área da tela. "narrow" (formulários, detalhes) fica numa coluna confortável de ler; "medium" (listas)
- * na área de leitura de 760 px; "wide" (Hoje, pastas, cards, kanban, personagem, loja) usa a largura do
- * computador para colunas e grades.
+ * Área da tela. "narrow" (formulários, detalhes) fica numa coluna confortável de ler (768 px);
+ * "medium" (listas) usa até 1152 px, para a linha mostrar título e detalhes lado a lado; "wide"
+ * (Início, pastas, cards, kanban, personagem, loja) usa a largura do computador para colunas e grades.
  */
 export function Screen({
   children,
@@ -25,8 +25,8 @@ export function Screen({
           size === 'wide'
             ? 'max-w-7xl md:px-8'
             : size === 'medium'
-              ? 'max-w-[760px] md:px-6'
-              : 'max-w-2xl',
+              ? 'max-w-6xl md:px-8'
+              : 'max-w-3xl md:px-6',
         )}
       >
         {children}

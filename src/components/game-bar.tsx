@@ -104,7 +104,7 @@ export function GameHeader() {
       <Pressable
         accessibilityRole="link"
         accessibilityLabel={t('boss.gameLink')}
-        className="gap-3 border-y border-line py-3 hover:bg-wash active:bg-wash"
+        className="-mx-2 gap-3 rounded border-y border-line px-2 py-3 hover:bg-wash active:bg-wash"
       >
         <View className="flex-row items-center gap-3">
           <Text className="font-mono text-xs text-ink">

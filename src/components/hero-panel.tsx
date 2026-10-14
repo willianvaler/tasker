@@ -29,7 +29,7 @@ export function HeroPanel() {
           <Pressable
             accessibilityRole="link"
             accessibilityLabel={t('hero.open')}
-            className="flex-row items-center gap-3 rounded hover:bg-wash"
+            className="-mx-2 flex-row items-center gap-3 rounded px-2 py-1 hover:bg-wash"
           >
             <Avatar game={game} size="md" />
             <View className="flex-1 gap-1">

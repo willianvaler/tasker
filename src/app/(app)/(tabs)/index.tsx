@@ -208,7 +208,10 @@ export default function HomeScreen() {
 function Stat({ href, warn, children }: { href: Href; warn?: boolean; children: string }) {
   return (
     <Link href={href} asChild>
-      <Pressable accessibilityRole="link" className="min-h-8 justify-center rounded hover:bg-wash">
+      <Pressable
+        accessibilityRole="link"
+        className="-mx-2 min-h-8 justify-center rounded px-2 hover:bg-wash"
+      >
         <Text className={cn('font-mono text-xs', warn ? 'text-warn' : 'text-ink-muted')}>
           {children}
         </Text>

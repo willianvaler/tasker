@@ -201,7 +201,7 @@ export function HabitRow({
         <Text className={cn('text-base md:text-sm', done ? 'text-ink-muted' : 'text-ink')}>
           {task.title}
         </Text>
-        <View className="flex-row flex-wrap items-center gap-x-3 md:ml-auto">
+        <View className="flex-row flex-wrap items-center gap-x-3 md:ml-auto md:pr-4">
           <Text className="font-mono text-xs text-ink-muted">
             {kind === 'plusminus' ? t('habit.plusminus') : recurrenceLabel(r) || t('habit.daily')}
           </Text>
@@ -209,7 +209,7 @@ export function HabitRow({
         </View>
       </Pressable>
       {kind === 'plusminus' ? (
-        <View className="flex-row items-center gap-2 pr-1">
+        <View className="flex-row items-center gap-2 pl-2 pr-1">
           <Text
             className="text-right font-mono text-xs text-ink-muted"
             accessibilityLabel={t('habit.todayCounts', {
