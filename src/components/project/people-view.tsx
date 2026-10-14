@@ -28,6 +28,7 @@ export function PeopleView({ root }: { root: FolderNode }) {
     people: data.people,
     members: data.members,
     me: session?.user.id,
+    blockedPages: data.blockedPages,
   });
   if (!board.length) return <EmptyState title={t('peopleView.empty')} />;
   const titleOf = (id: string) => data.tasks.get(id)?.title ?? '…';

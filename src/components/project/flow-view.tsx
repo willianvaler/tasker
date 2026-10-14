@@ -39,6 +39,7 @@ export function FlowView({ root }: { root: FolderNode }) {
     people: data.people,
     me,
     hideDone: !showDone,
+    blockedPages: data.blockedPages,
   });
   const titleOf = (id: string) => data.tasks.get(id)?.title;
   const myName = data.members.find((m) => m.userId === me)?.displayName;

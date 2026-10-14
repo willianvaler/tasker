@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
+import { PageDependencyEditor } from '@/components/page-dependency-editor';
 import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -131,6 +132,11 @@ export default function PageScreen() {
           title={t('page.settings')}
           initial={page}
           inheritedDepth={effectiveMaxDepth(null, rootFolder(tree.data, page.folder_id)?.max_depth)}
+          extra={
+            rootFolder(tree.data, page.folder_id)?.kind === 'project' && page.view_type !== 'habits'
+              ? { label: t('pageDeps.label'), content: <PageDependencyEditor page={page} /> }
+              : undefined
+          }
           onClose={closeDialog}
           onConfirm={(settings) => {
             m.updatePage.mutate({ id: page.id, ...settings }, { onError });

@@ -162,6 +162,21 @@ const task_dependencies = new Table(
   { indexes: { task: ['task_id'], dependsOn: ['depends_on_task_id'], folder: ['folder_id'] } },
 );
 
+// Lista que depende de outra (V3 §2.3)
+const page_dependencies = new Table(
+  {
+    page_id: column.text,
+    depends_on_page_id: column.text,
+    threshold_pct: column.integer,
+    folder_id: column.text,
+    created_by: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+    version: column.integer,
+  },
+  { indexes: { page: ['page_id'], folder: ['folder_id'] } },
+);
+
 const milestones = new Table(
   {
     folder_id: column.text,
@@ -222,6 +237,7 @@ export const AppSchema = new Schema({
   conflict_copies,
   milestones,
   task_dependencies,
+  page_dependencies,
   team_roles,
   people,
   profiles,

@@ -11,6 +11,8 @@ export type StateTask = {
   completed_at: string | null;
   started_at: string | null;
   deps_mode: string;
+  /** Lista da tarefa: conta quando a lista depende de outra (V3 §2.3) */
+  page_id?: string;
 };
 export type StateDep = { task_id: string; depends_on_task_id: string; lag_minutes: number };
 
@@ -20,6 +22,8 @@ export type StateResult = {
   waitingOn: string[];
   /** Tudo concluído, só falta o atraso: libera a partir daqui */
   readyAt?: string;
+  /** A lista da tarefa espera outra lista chegar ao percentual (page_blockers) */
+  pageBlocked?: true;
 };
 
 /** A ligação está atendida? (pré-requisito concluído e o atraso já passou) */
@@ -30,11 +34,15 @@ function satisfied(pre: StateTask | undefined, lag: number, now: number) {
   return at <= now ? { ok: true as const } : { ok: false as const, at };
 }
 
+const EMPTY: ReadonlySet<string> = new Set();
+
 export function taskState(
   taskId: string,
   tasks: ReadonlyMap<string, StateTask>,
   deps: readonly StateDep[],
   now: Date = new Date(),
+  /** Listas bloqueadas por outra lista (lib/page-deps.ts) */
+  blockedPages: ReadonlySet<string> = EMPTY,
 ): StateResult {
   const task = tasks.get(taskId);
   if (!task) return { state: 'ready', waitingOn: [] };
@@ -45,7 +53,7 @@ export function taskState(
   let blocked = false;
   // A tarefa e as mães dela: a filha herda os bloqueios de cima
   const seen = new Set<string>();
-  for (let level: StateTask | undefined = task; level && !seen.has(level.id); ) {
+  for (let level: StateTask | undefined = task; level && !seen.has(level.id);) {
     seen.add(level.id);
     const mine = deps.filter((d) => d.task_id === level!.id);
     if (mine.length) {
@@ -54,7 +62,8 @@ export function taskState(
         ...satisfied(tasks.get(d.depends_on_task_id), d.lag_minutes, now.getTime()),
       }));
       const open = checks.filter((c) => !c.ok);
-      const levelBlocked = level.deps_mode === 'any' ? open.length === checks.length : open.length > 0;
+      const levelBlocked =
+        level.deps_mode === 'any' ? open.length === checks.length : open.length > 0;
       if (levelBlocked) {
         blocked = true;
         for (const c of open) {
@@ -66,14 +75,17 @@ export function taskState(
     level = level.parent_task_id ? tasks.get(level.parent_task_id) : undefined;
   }
 
+  const pageBlocked = !!task.page_id && blockedPages.has(task.page_id);
   if (blocked) {
     // Só o atraso segura: todos os que esperam já estão concluídos
     const onlyLag = [...waiting].every((id) => tasks.get(id)?.status === 'done');
     return {
       state: 'blocked',
       waitingOn: [...waiting],
-      ...(onlyLag && lagUntil ? { readyAt: new Date(lagUntil).toISOString() } : {}),
+      ...(onlyLag && lagUntil && !pageBlocked ? { readyAt: new Date(lagUntil).toISOString() } : {}),
+      ...(pageBlocked ? { pageBlocked: true as const } : {}),
     };
   }
+  if (pageBlocked) return { state: 'blocked', waitingOn: [], pageBlocked: true };
   return { state: task.started_at ? 'doing' : 'ready', waitingOn: [] };
 }

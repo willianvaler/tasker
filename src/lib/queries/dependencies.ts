@@ -11,6 +11,8 @@ import { keys, taskMutationKey } from './keys';
 import { rootFolder, useFolderActor } from './projects';
 import { invalidateWhenIdle, usePageTasks } from './tasks';
 import { useTree } from './tree';
+import { usePageDeps } from './page-deps';
+import { useTranslation } from 'react-i18next';
 
 export type Dependency = Tables<'task_dependencies'>;
 /** Pré-requisito com o que a tela precisa (título e onde está). */
@@ -28,7 +30,8 @@ export function useProjectDependencies(rootId: string | undefined) {
     queryKey: keys.dependencies(rootId ?? ''),
     enabled: !!rootId,
     networkMode: isLocal() ? 'always' : 'online',
-    queryFn: async (): Promise<{ deps: Dependency[]; prereqs: Map<string, PrereqTask> }> => {
+    // Lista (não Map): o cache salvo em disco é JSON, e um Map voltaria como objeto vazio
+    queryFn: async (): Promise<{ deps: Dependency[]; prereqs: PrereqTask[] }> => {
       let deps: Dependency[];
       let prereqs: PrereqTask[] = [];
       if (isLocal()) {
@@ -67,7 +70,7 @@ export function useProjectDependencies(rootId: string | undefined) {
           prereqs = tasks.data as PrereqTask[];
         }
       }
-      return { deps, prereqs: new Map(prereqs.map((t) => [t.id, t])) };
+      return { deps, prereqs };
     },
   });
 }
@@ -193,6 +196,7 @@ export function useDependencyMutations(rootId: string | undefined) {
 
 /** Estado de uma tarefa no fluxo (painel da tarefa), com o que ela espera e se dá para forçar. */
 export function useTaskFlow(task: StateTask & { page_id: string; folder_id: string }) {
+  const { t } = useTranslation();
   const tree = useTree();
   const root = rootFolder(tree.data, task.folder_id);
   const dependencies = useProjectDependencies(root?.id);
@@ -200,16 +204,27 @@ export function useTaskFlow(task: StateTask & { page_id: string; folder_id: stri
   const actor = useFolderActor(task.folder_id);
   const deps = dependencies.data?.deps ?? [];
   const all = new Map<string, StateTask & { title: string }>(
-    [...(dependencies.data?.prereqs.values() ?? []), ...(pageTasks.data ?? [])].map((t) => [
+    [...(dependencies.data?.prereqs ?? []), ...(pageTasks.data ?? [])].map((t) => [
       t.id,
       t,
     ]),
   );
   if (!all.has(task.id)) all.set(task.id, { ...task, title: '' });
-  const result = taskState(task.id, all, deps);
+  // Lista que espera outra (V3 §2.3) também segura a tarefa
+  const pageDeps = usePageDeps(root);
+  const result = taskState(task.id, all, deps, new Date(), pageDeps.blocked);
+  const pageWaits = result.pageBlocked
+    ? pageDeps.blockersOf(task.page_id).map((w) =>
+        t('pageDeps.waitingShort', {
+          name: tree.data?.pages.find((p) => p.id === w.pageId)?.name ?? '…',
+          pct: w.pct,
+          threshold: w.threshold,
+        }),
+      )
+    : [];
   return {
     ...result,
-    waiting: result.waitingOn.map((id) => all.get(id)?.title ?? '…'),
+    waiting: [...result.waitingOn.map((id) => all.get(id)?.title ?? '…'), ...pageWaits],
     forceable: root?.dependency_mode === 'flexible' && actorCan(actor, 'task.force_unblock'),
     /** Ligações desta tarefa (Depende de) e de quem depende dela (Libera) */
     dependsOn: deps.filter((d) => d.task_id === task.id),

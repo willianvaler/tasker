@@ -28,6 +28,7 @@ export function peopleBoard({
   members,
   me,
   now = new Date(),
+  blockedPages,
 }: {
   tasks: ReadonlyMap<string, FlowTask>;
   deps: readonly FlowDep[];
@@ -35,6 +36,8 @@ export function peopleBoard({
   members: readonly { userId: string; displayName: string }[];
   me?: string;
   now?: Date;
+  /** Listas que esperam outra lista (lib/page-deps.ts) */
+  blockedPages?: ReadonlySet<string>;
 }): PersonColumn[] {
   const columns = new Map<string, PersonColumn>();
   const column = (key: string, name: string, userId: string | null) => {
@@ -58,7 +61,7 @@ export function peopleBoard({
   };
   for (const task of tasks.values()) {
     if (parents.has(task.id)) continue;
-    const s = taskState(task.id, tasks, deps, now);
+    const s = taskState(task.id, tasks, deps, now, blockedPages);
     const item: BoardTask = {
       id: task.id,
       title: task.title,

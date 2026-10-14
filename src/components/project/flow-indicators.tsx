@@ -39,7 +39,12 @@ export function FlowIndicators({ root }: { root: FolderNode }) {
 
   if (data.loading) return null;
   const holding = bottlenecks(data.tasks, data.deps);
-  const critical = buildFlow({ tasks: data.tasks, deps: data.deps, people: data.people }).critical;
+  const critical = buildFlow({
+    tasks: data.tasks,
+    deps: data.deps,
+    people: data.people,
+    blockedPages: data.blockedPages,
+  }).critical;
   const late = overdueByPerson(data.tasks, data.people, today);
   const times = (['waiting', 'to_start', 'doing'] as const).filter(
     (k) => (stats.data?.[k]?.count ?? 0) > 0 && stats.data?.[k]?.minutes != null,

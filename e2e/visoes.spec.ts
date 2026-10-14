@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { openTab, signUp } from './helpers';
+import { openTab, signUp, waitForSync } from './helpers';
 
 // Aceite da Fase I (V3 §2.6 e §2.7): as visões do projeto (Fluxo, Pessoas, Linha do tempo) e o
 // histórico da tarefa.
@@ -99,6 +99,8 @@ test('Linha do tempo e histórico da tarefa: quem fez o quê, filtros e CSV', as
   await page.goto(compras);
   await page.getByRole('checkbox', { name: 'Concluir Comprar carvão' }).click();
   await expect(page.getByText('Aguardando: Comprar carvão')).toHaveCount(0, { timeout: 15_000 });
+  // O histórico é do servidor: espera a conclusão chegar lá
+  await waitForSync(page);
 
   // No painel do fogo, o histórico conta a história
   await page.getByRole('button', { name: 'Detalhes de Acender o fogo' }).click();
@@ -138,4 +140,58 @@ test('Linha do tempo e histórico da tarefa: quem fez o quê, filtros e CSV', as
   let csv = '';
   for await (const chunk of await file.createReadStream()) csv += String(chunk);
   expect(csv).toContain('Ficou pronta');
+});
+
+test('lista que depende de outra: bloqueada até a anterior chegar ao percentual', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  const { project } = await churrasco(page);
+
+  // Uma lista nova com duas tarefas: Alvenaria
+  await page.getByRole('button', { name: 'Nova lista' }).click();
+  await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Alvenaria');
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.getByRole('heading', { name: /Alvenaria$/ })).toBeVisible();
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Levantar parede');
+  await input.press('Enter');
+  await input.fill('Rebocar');
+  await input.press('Enter');
+  await expect(page.getByRole('checkbox', { name: 'Concluir Rebocar' })).toBeVisible();
+  const alvenaria = page.url();
+
+  // Organização libera depois da Alvenaria a 100%
+  await page.goto(project);
+  await page.getByRole('link', { name: 'Organização' }).last().click();
+  await expect(page.getByRole('heading', { name: /Organização$/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Configurar página' }).click();
+  await page.getByRole('button', { name: /^\+ .*Alvenaria$/ }).click();
+  await expect(page.getByRole('radio', { name: '100%' })).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('button', { name: 'Cancelar' }).click();
+
+  await expect(
+    page.getByText(/Esta lista espera ".*Alvenaria" chegar a 100% \(agora 0%\)/),
+  ).toBeVisible();
+  const first = page.getByRole('checkbox', { name: /^Concluir / }).first();
+  await expect(first).toBeDisabled();
+  await expect(page.getByText(/Aguardando: .*Alvenaria \(0% de 100%\)/).first()).toBeVisible();
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/lista-bloqueada.png` });
+
+  // A 50%: uma das duas tarefas da Alvenaria basta
+  await page.getByRole('button', { name: 'Configurar página' }).click();
+  await page.getByRole('radio', { name: '50%' }).click();
+  await expect(page.getByRole('radio', { name: '50%' })).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('button', { name: 'Cancelar' }).click();
+  await page.goto(alvenaria);
+  await page.getByRole('checkbox', { name: 'Concluir Levantar parede' }).click();
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'Concluída: Levantar parede' }),
+  ).toBeVisible();
+  await page.goto(project);
+  await page.getByRole('link', { name: 'Organização' }).last().click();
+  await expect(page.getByText(/Esta lista espera/)).toHaveCount(0, { timeout: 15_000 });
+  await expect(page.getByRole('checkbox', { name: /^Concluir / }).first()).toBeEnabled();
 });

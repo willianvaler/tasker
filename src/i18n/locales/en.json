@@ -1227,5 +1227,16 @@
     "waiting": "tasks wait {{time}} for a prerequisite",
     "to_start": "start {{time}} after being unblocked",
     "doing": "stay {{time}} in progress"
+  },
+  "pageDeps": {
+    "label": "Unlocks after",
+    "hint": "This list unlocks when the other reaches the percentage. Until then, its tasks are blocked.",
+    "add": "+ {{name}}",
+    "at": "{{pct}}%",
+    "now": "now {{pct}}%",
+    "unlink": "Unlink from {{name}}",
+    "threshold": "Percentage of {{name}}",
+    "waitingShort": "{{name}} ({{pct}}% of {{threshold}}%)",
+    "banner": "This list waits for \"{{name}}\" to reach {{threshold}}% (now {{pct}}%)."
   }
 }

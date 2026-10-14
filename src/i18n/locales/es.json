@@ -1227,5 +1227,16 @@
     "waiting": "esperan {{time}} por un requisito",
     "to_start": "empiezan {{time}} después de liberarse",
     "doing": "pasan {{time}} en curso"
+  },
+  "pageDeps": {
+    "label": "Se libera después de",
+    "hint": "La lista se libera cuando la otra llega al porcentaje. Hasta entonces, sus tareas quedan bloqueadas.",
+    "add": "+ {{name}}",
+    "at": "{{pct}}%",
+    "now": "ahora {{pct}}%",
+    "unlink": "Desvincular de {{name}}",
+    "threshold": "Porcentaje de {{name}}",
+    "waitingShort": "{{name}} ({{pct}}% de {{threshold}}%)",
+    "banner": "Esta lista espera que \"{{name}}\" llegue al {{threshold}}% (ahora {{pct}}%)."
   }
 }

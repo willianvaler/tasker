@@ -457,6 +457,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"page_dependencies": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"depends_on_page_id": string,"folder_id": string,"id": string,"page_id": string,"threshold_pct": number,"updated_at": string,"version": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"depends_on_page_id": string,"folder_id": string,"id"?: string,"page_id": string,"threshold_pct"?: number,"updated_at"?: string,"version"?: number
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"depends_on_page_id"?: string,"folder_id"?: string,"id"?: string,"page_id"?: string,"threshold_pct"?: number,"updated_at"?: string,"version"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "page_dependencies_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_dependencies_depends_on_page_id_fkey"
+      columns: ["depends_on_page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_dependencies_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_dependencies_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"pages": {
                   Row: {
                     "created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"]
@@ -1340,8 +1378,19 @@ isOneToOne: false
 "normalize_labels":
 { Args: { "p_labels": (string)[] }; Returns: (string)[]
                            },
+"page_blockers":
+{ Args: { "p_page_id": string }; Returns: (string)[]
+                           },
+"page_dependency_path":
+{ Args: { "p_from": string,"p_to": string }; Returns: (string)[]
+                           },
 "page_max_depth":
 { Args: { "p_page_id": string }; Returns: number
+                           },
+"page_progress":
+{ Args: { "p_page_id": string }; Returns: {
+              "done": number,"total": number
+            }[]
                            },
 "patch_task_labels":
 { Args: { "p_add": (string)[],"p_remove": (string)[],"p_task_id": string }; Returns: undefined

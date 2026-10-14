@@ -33,6 +33,7 @@ export function PageDialog({
   title,
   initial,
   inheritedDepth = DEFAULT_MAX_DEPTH,
+  extra,
   onConfirm,
   onClose,
 }: {
@@ -40,6 +41,8 @@ export function PageDialog({
   initial?: Partial<Page>;
   /** O limite que vale se a página ficar no padrão (o do projeto) */
   inheritedDepth?: number;
+  /** Seções que salvam sozinhas (ex.: "Libera depois de", só ao configurar lista de projeto) */
+  extra?: { label: string; content: React.ReactNode };
   onConfirm: (settings: PageSettings) => void;
   onClose: () => void;
 }) {
@@ -143,6 +146,13 @@ export function PageDialog({
                 <Label>{t('tree.depthLimit')}</Label>
                 <DepthPicker value={maxDepth} inherited={inheritedDepth} onChange={setMaxDepth} />
                 <Text className="text-sm text-ink-muted">{t('tree.depthHint')}</Text>
+              </>
+            )}
+
+            {extra && (
+              <>
+                <Label>{extra.label}</Label>
+                {extra.content}
               </>
             )}
 

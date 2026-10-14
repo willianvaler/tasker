@@ -72,7 +72,14 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
-  task_dependencies: { insert: ['task_id', 'depends_on_task_id', 'lag_minutes'], update: ['lag_minutes'] },
+  task_dependencies: {
+    insert: ['task_id', 'depends_on_task_id', 'lag_minutes'],
+    update: ['lag_minutes'],
+  },
+  page_dependencies: {
+    insert: ['page_id', 'depends_on_page_id', 'threshold_pct'],
+    update: ['threshold_pct'],
+  },
   milestones: {
     insert: ['folder_id', 'name', 'due_date', 'done_at', 'position'],
     update: ['name', 'due_date', 'done_at', 'position'],

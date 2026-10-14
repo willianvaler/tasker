@@ -5,6 +5,7 @@ import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { isLocal, toTask } from '../sync/local';
 import { useProjectDependencies } from './dependencies';
+import { usePageDeps } from './page-deps';
 import { useAssignees, useMembers } from './projects';
 import type { FolderNode } from './tree';
 
@@ -48,6 +49,7 @@ export function useProjectFlow(root: FolderNode | undefined) {
   const dependencies = useProjectDependencies(root?.id);
   const assignees = useAssignees();
   const members = useMembers(root?.id);
+  const pageDeps = usePageDeps(root);
 
   const byId = new Map((tasks.data ?? []).map((t) => [t.id, t]));
   const names = new Map((members.data ?? []).map((m) => [m.userId, m.displayName]));
@@ -64,5 +66,6 @@ export function useProjectFlow(root: FolderNode | undefined) {
     deps: dependencies.data?.deps ?? [],
     people,
     members: members.data ?? [],
+    blockedPages: pageDeps.blocked,
   };
 }

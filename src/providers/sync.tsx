@@ -22,6 +22,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   folder_members: [keys.tree, ['members']],
   milestones: [['milestones']],
   task_dependencies: [keys.tasks, ['dependencies']],
+  page_dependencies: [keys.tasks, ['dependencies'], ['page-dependencies']],
   people: [['members'], ['comments']],
 };
 

@@ -1,5 +1,12 @@
 import { router } from 'expo-router';
-import { ChevronDown, ChevronRight, ListPlus, ListTree, RotateCcw } from 'lucide-react-native';
+import {
+  ChevronDown,
+  ChevronRight,
+  ListPlus,
+  ListTree,
+  Lock,
+  RotateCcw,
+} from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, useWindowDimensions, View } from 'react-native';
@@ -26,6 +33,7 @@ import { treeState, useExpanded, useShowCodes } from '@/lib/tree-state';
 import type { RowFlow } from '@/lib/flow';
 import { actorCan } from '@/lib/permissions';
 import { useProjectDependencies } from '@/lib/queries/dependencies';
+import { usePageDeps } from '@/lib/queries/page-deps';
 import { rootFolder, useFolderActor } from '@/lib/queries/projects';
 import { useTree } from '@/lib/queries/tree';
 import { taskState, type StateTask } from '@/lib/task-state';
@@ -67,6 +75,16 @@ export function PageView({ page }: { page: Page | undefined }) {
   const tree = useTree();
   const root = rootFolder(tree.data, page?.folder_id);
   const dependencies = useProjectDependencies(root?.id);
+  // Lista que espera outra chegar a X% (V3 §2.3): todas as tarefas abertas ficam bloqueadas
+  const pageDeps = usePageDeps(root);
+  const pageWaits = page ? pageDeps.blockersOf(page.id) : [];
+  const pageName = (id: string) => tree.data?.pages.find((p) => p.id === id)?.name ?? '…';
+  // Texto pronto (a memo das linhas compara só a string)
+  const pageWaitKey = pageWaits
+    .map((w) =>
+      t('pageDeps.waitingShort', { name: pageName(w.pageId), pct: w.pct, threshold: w.threshold }),
+    )
+    .join('\n');
   const actor = useFolderActor(page?.folder_id);
   const forceable = root?.dependency_mode === 'flexible' && actorCan(actor, 'task.force_unblock');
   const flows = useMemo(() => {
@@ -74,7 +92,7 @@ export function PageView({ page }: { page: Page | undefined }) {
     const deps = dependencies.data?.deps ?? [];
     if (!deps.length || !tasks.data) return result;
     const all = new Map<string, StateTask & { title: string }>(
-      [...(dependencies.data?.prereqs.values() ?? []), ...tasks.data].map((t) => [t.id, t]),
+      [...(dependencies.data?.prereqs ?? []), ...tasks.data].map((t) => [t.id, t]),
     );
     const hasDeps = new Set(deps.map((d) => d.task_id));
     const now = new Date();
@@ -102,6 +120,14 @@ export function PageView({ page }: { page: Page | undefined }) {
     }
     return result;
   }, [dependencies.data, tasks.data, forceable]);
+  // Sem memo: a linha compara o fluxo pelo conteúdo (sameFlow)
+  const pageFlows = new Map<string, RowFlow>();
+  if (pageWaitKey) {
+    const waiting = pageWaitKey.split('\n');
+    for (const task of tasks.data ?? [])
+      if (task.status !== 'done') pageFlows.set(task.id, { state: 'blocked', waiting, forceable });
+  }
+  const rowFlows = pageWaitKey ? pageFlows : flows;
 
   // Lista com árvore: as linhas abaixo de cada raiz, só nas mães abertas
   const gutter = kids.size > 0;
@@ -144,6 +170,25 @@ export function PageView({ page }: { page: Page | undefined }) {
 
   return (
     <View className="flex-1 gap-4">
+      {pageWaits.length > 0 && (
+        <View
+          role="status"
+          className="flex-row items-center gap-2 rounded border border-dashed border-line px-3 py-2"
+        >
+          <Icon icon={Lock} size={16} tone="ink-muted" />
+          <Text className="flex-1 text-sm text-ink">
+            {pageWaits
+              .map((w) =>
+                t('pageDeps.banner', {
+                  name: pageName(w.pageId),
+                  pct: w.pct,
+                  threshold: w.threshold,
+                }),
+              )
+              .join(' ')}
+          </Text>
+        </View>
+      )}
       {page && (viewType === 'list' || viewType === 'cards') && all.length > 0 && (
         <PageProgress page={page} done={all.length - open.length} total={all.length} />
       )}
@@ -206,7 +251,7 @@ export function PageView({ page }: { page: Page | undefined }) {
                     draggable
                     gutter={gutter}
                     code={codes?.get(t.id)}
-                    flow={flows.get(t.id)}
+                    flow={rowFlows.get(t.id)}
                   />
                   {branch(t).map((row) => (
                     <TaskRow
@@ -217,7 +262,7 @@ export function PageView({ page }: { page: Page | undefined }) {
                       level={row.level}
                       gutter
                       code={codes?.get(row.task.id)}
-                      flow={flows.get(row.task.id)}
+                      flow={rowFlows.get(row.task.id)}
                     />
                   ))}
                 </View>
