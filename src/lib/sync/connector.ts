@@ -51,6 +51,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'habit_kind',
       'habit_target',
       'estimate_minutes',
+      'deps_mode',
     ],
     update: [
       'page_id',
@@ -66,9 +67,11 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'habit_kind',
       'habit_target',
       'estimate_minutes',
+      'deps_mode',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
+  task_dependencies: { insert: ['task_id', 'depends_on_task_id', 'lag_minutes'], update: ['lag_minutes'] },
   milestones: {
     insert: ['folder_id', 'name', 'due_date', 'done_at', 'position'],
     update: ['name', 'due_date', 'done_at', 'position'],

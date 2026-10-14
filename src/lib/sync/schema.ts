@@ -65,6 +65,7 @@ const tasks = new Table(
     parent_task_id: column.text,
     depth: column.integer,
     estimate_minutes: column.integer,
+    deps_mode: column.text,
     title: column.text,
     notes: column.text,
     status: column.text,
@@ -145,6 +146,20 @@ const conflict_copies = new Table(
 );
 
 // De quem divide pasta comigo, só nome e avatar
+const task_dependencies = new Table(
+  {
+    task_id: column.text,
+    depends_on_task_id: column.text,
+    lag_minutes: column.integer,
+    folder_id: column.text,
+    created_by: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+    version: column.integer,
+  },
+  { indexes: { task: ['task_id'], dependsOn: ['depends_on_task_id'], folder: ['folder_id'] } },
+);
+
 const milestones = new Table(
   {
     folder_id: column.text,
@@ -204,6 +219,7 @@ export const AppSchema = new Schema({
   task_completions,
   conflict_copies,
   milestones,
+  task_dependencies,
   team_roles,
   people,
   profiles,

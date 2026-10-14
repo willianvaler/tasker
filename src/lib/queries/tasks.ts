@@ -325,6 +325,7 @@ function optimisticTask(
     parent_task_id: null,
     depth: 1,
     estimate_minutes: null,
+    deps_mode: 'all',
     title: item.title,
     notes: null,
     status: item.done ? 'done' : 'todo',

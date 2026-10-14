@@ -27,6 +27,8 @@ streams:
       - SELECT * FROM task_completions WHERE folder_id IN roots
       - SELECT task_completions.* FROM task_completions INNER JOIN folders ON task_completions.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM milestones WHERE folder_id IN roots
+      - SELECT * FROM task_dependencies WHERE folder_id IN roots
+      - SELECT task_dependencies.* FROM task_dependencies INNER JOIN folders ON task_dependencies.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM conflict_copies WHERE folder_id IN roots
       - SELECT conflict_copies.* FROM conflict_copies INNER JOIN folders ON conflict_copies.folder_id = folders.id WHERE folders.parent_id IN roots
 

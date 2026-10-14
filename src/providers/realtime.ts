@@ -18,6 +18,7 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   folders: [keys.tree],
   pages: [keys.tree],
   milestones: [['milestones']],
+  task_dependencies: [keys.tasks, ['dependencies']],
   bosses: [keys.game, ['project-boss'], ['board']],
   clan_activity: [keys.clan],
   clan_members: [keys.clan, keys.game],

@@ -77,7 +77,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## Fase H — Dependências e estados (26/11 – 01/12)
 
-- [ ] **H1** `task_dependencies` (lag, `deps_mode`), detecção de ciclo no servidor com o caminho na mensagem
+- [x] **H1** `task_dependencies` (lag, `deps_mode`), detecção de ciclo no servidor com o caminho na mensagem
 - [ ] **H2** Estados derivados (`bloqueada`/`pronta`) numa função pura, idêntica no app e no banco, com os mesmos casos de teste
 - [ ] **H3** `started_at` (botão Iniciar, atalho S); modo estrito/flexível com "forçar" auditado
 - [ ] **H4** Notificação de desbloqueio e de reabertura de pré-requisito
