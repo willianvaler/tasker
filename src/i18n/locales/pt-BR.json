@@ -1195,5 +1195,26 @@
     "moreDone_other": "e mais {{count}} concluídas",
     "moreReady_one": "e mais {{count}} pronta",
     "moreReady_other": "e mais {{count}} prontas"
+  },
+  "timeline": {
+    "who": "Pessoa",
+    "everyone": "Todas",
+    "kind": "Tipo",
+    "allKinds": "Tudo",
+    "group_progress": "Andamento",
+    "group_flow": "Bloqueios",
+    "group_people": "Responsáveis",
+    "group_changes": "Criar, mover, apagar",
+    "period": "Período",
+    "period_all": "Desde o início",
+    "period_7": "7 dias",
+    "period_30": "30 dias",
+    "export": "Exportar CSV",
+    "empty": "Nada registrado com esses filtros.",
+    "colAt": "Data",
+    "colWho": "Pessoa",
+    "colKind": "Tipo",
+    "colTask": "Tarefa",
+    "colText": "O que aconteceu"
   }
 }

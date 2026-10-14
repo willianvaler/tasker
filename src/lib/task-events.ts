@@ -72,3 +72,27 @@ export function eventsCsv(
     .map((line) => line.map(cell).join(','))
     .join('\n');
 }
+
+/** Filtros por tipo da linha do tempo. */
+export const EVENT_GROUPS = {
+  progress: ['started', 'stopped', 'completed', 'reopened', 'forced'],
+  flow: ['ready', 'blocked', 'dependency_added', 'dependency_removed'],
+  people: ['assigned', 'unassigned'],
+  changes: ['created', 'restored', 'renamed', 'moved', 'deleted'],
+} as const satisfies Record<string, readonly EventKind[]>;
+export type EventGroup = keyof typeof EVENT_GROUPS;
+
+/** Agrupa por dia (a chave é a data local 'YYYY-MM-DD'), mantendo a ordem. */
+export function byDay<T extends { at: string }>(
+  events: readonly T[],
+  dayOf: (at: string) => string,
+) {
+  const days: { day: string; events: T[] }[] = [];
+  for (const e of events) {
+    const day = dayOf(e.at);
+    const last = days[days.length - 1];
+    if (last?.day === day) last.events.push(e);
+    else days.push({ day, events: [e] });
+  }
+  return days;
+}

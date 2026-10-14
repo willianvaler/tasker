@@ -14,7 +14,8 @@ create table public.task_events (
     'created', 'restored', 'renamed', 'assigned', 'unassigned', 'started', 'stopped', 'ready',
     'blocked', 'completed', 'reopened', 'forced', 'dependency_added', 'dependency_removed',
     'moved', 'deleted')),
-  at timestamptz not null default now(),
+  -- Hora do relógio, não da transação: os eventos de uma mesma ação ficam na ordem em que aconteceram
+  at timestamptz not null default clock_timestamp(),
   payload jsonb not null default '{}'
 );
 create index task_events_task on public.task_events (task_id, at desc);

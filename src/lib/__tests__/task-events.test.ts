@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { eventMessage, eventsCsv } from '../task-events';
+import { byDay, EVENT_GROUPS, EVENT_KINDS, eventMessage, eventsCsv } from '../task-events';
 
 describe('eventMessage', () => {
   it('usa o nome de quem fez e os dados do evento', () => {
@@ -54,5 +54,27 @@ describe('eventsCsv', () => {
     ).toBe(
       'Data,Pessoa,Tipo,Tarefa,O que aconteceu\n2026-10-14 10:00,Greg,completed,"Carvão, 2 kg","Disse ""ok"""',
     );
+  });
+});
+
+describe('grupos e dias', () => {
+  it('todo tipo está em exatamente um grupo', () => {
+    const grouped = Object.values(EVENT_GROUPS).flat();
+    expect([...grouped].sort()).toEqual([...EVENT_KINDS].sort());
+  });
+
+  it('agrupa por dia mantendo a ordem', () => {
+    const days = byDay(
+      [
+        { at: '2026-10-14T20:00:00Z' },
+        { at: '2026-10-14T08:00:00Z' },
+        { at: '2026-10-13T23:00:00Z' },
+      ],
+      (at) => at.slice(0, 10),
+    );
+    expect(days.map((d) => [d.day, d.events.length])).toEqual([
+      ['2026-10-14', 2],
+      ['2026-10-13', 1],
+    ]);
   });
 });

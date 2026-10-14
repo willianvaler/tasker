@@ -1195,5 +1195,26 @@
     "moreDone_other": "and {{count}} more completed",
     "moreReady_one": "and {{count}} more ready",
     "moreReady_other": "and {{count}} more ready"
+  },
+  "timeline": {
+    "who": "Person",
+    "everyone": "Everyone",
+    "kind": "Type",
+    "allKinds": "All",
+    "group_progress": "Progress",
+    "group_flow": "Blocks",
+    "group_people": "Assignees",
+    "group_changes": "Create, move, delete",
+    "period": "Period",
+    "period_all": "Since the start",
+    "period_7": "7 days",
+    "period_30": "30 days",
+    "export": "Export CSV",
+    "empty": "Nothing recorded with these filters.",
+    "colAt": "Date",
+    "colWho": "Person",
+    "colKind": "Type",
+    "colTask": "Task",
+    "colText": "What happened"
   }
 }

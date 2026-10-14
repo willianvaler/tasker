@@ -25,7 +25,7 @@ export function useTaskEvents(taskId: string | undefined, enabled = true) {
   });
 }
 
-export type EventFilters = { userId?: string; kind?: string; since?: string };
+export type EventFilters = { userId?: string; kinds?: readonly string[]; since?: string };
 
 /** Linha do tempo do projeto, filtrável por pessoa, tipo e período, de 200 em 200. */
 export function useProjectEvents(
@@ -45,7 +45,7 @@ export function useProjectEvents(
         .order('at', { ascending: false })
         .limit(EVENTS_PAGE);
       if (filters.userId) query = query.eq('user_id', filters.userId);
-      if (filters.kind) query = query.eq('kind', filters.kind);
+      if (filters.kinds?.length) query = query.in('kind', [...filters.kinds]);
       if (filters.since) query = query.gte('at', filters.since);
       if (pageParam) query = query.lt('at', pageParam);
       const { data, error } = await query;

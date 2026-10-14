@@ -24,8 +24,10 @@ async function churrasco(page: Page) {
   await expect(page.getByText('Aguardando: Acender o fogo').last()).toBeVisible({
     timeout: 15_000,
   });
+  const compras = page.url();
   await page.goto(project);
   await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
+  return { project, compras };
 }
 
 test('Fluxo: grafo da esquerda para a direita, "você está aqui" e lista acessível', async ({
@@ -81,4 +83,55 @@ test('Pessoas: quem está fazendo o quê', async ({ page }, testInfo) => {
     timeout: 15_000,
   });
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/pessoas-${testInfo.project.name}.png` });
+});
+
+test('Linha do tempo e histórico da tarefa: quem fez o quê, filtros e CSV', async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  const { project, compras } = await churrasco(page);
+
+  // Concluir o carvão libera o fogo
+  await page.goto(compras);
+  await page.getByRole('checkbox', { name: 'Concluir Comprar carvão' }).click();
+  await expect(page.getByText('Aguardando: Comprar carvão')).toHaveCount(0, { timeout: 15_000 });
+
+  // No painel do fogo, o histórico conta a história
+  await page.getByRole('button', { name: 'Detalhes de Acender o fogo' }).click();
+  await page.getByRole('button', { name: 'Histórico de mudanças' }).click();
+  const history = page.getByRole('list', { name: 'Histórico de mudanças' });
+  await expect(history.getByText('Ficou pronta: "Comprar carvão" foi concluída')).toBeVisible();
+  await expect(history.getByText('Passou a esperar "Comprar carvão"')).toBeVisible();
+  await expect(history.getByText('Teste E2E ligou a "Comprar carvão"')).toBeVisible();
+  await page.getByRole('button', { name: 'Voltar' }).click();
+
+  await page.goto(`${project}?view=timeline`);
+  await expect(page.getByRole('tab', { name: 'Linha do tempo' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await expect(
+    page.getByRole('button', { name: 'Comprar carvão: Teste E2E concluiu' }),
+  ).toBeVisible();
+
+  // Filtro por tipo: só os bloqueios
+  await page.getByRole('button', { name: 'Bloqueios' }).click();
+  await expect(
+    page.getByRole('button', {
+      name: 'Acender o fogo: Ficou pronta: "Comprar carvão" foi concluída',
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Comprar carvão: Teste E2E concluiu' }),
+  ).toHaveCount(0);
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/linha-${testInfo.project.name}.png` });
+
+  // CSV com o que está na tela
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Exportar CSV' }).click();
+  const file = await download;
+  expect(file.suggestedFilename()).toBe('Churrasco - Linha do tempo.csv');
+  const csv = await (await file.createReadStream()).toArray();
+  expect(Buffer.concat(csv).toString()).toContain('Ficou pronta');
 });

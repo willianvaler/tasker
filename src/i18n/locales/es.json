@@ -1195,5 +1195,26 @@
     "moreDone_other": "y {{count}} completadas más",
     "moreReady_one": "y {{count}} lista más",
     "moreReady_other": "y {{count}} listas más"
+  },
+  "timeline": {
+    "who": "Persona",
+    "everyone": "Todas",
+    "kind": "Tipo",
+    "allKinds": "Todo",
+    "group_progress": "Avance",
+    "group_flow": "Bloqueos",
+    "group_people": "Responsables",
+    "group_changes": "Crear, mover, borrar",
+    "period": "Período",
+    "period_all": "Desde el inicio",
+    "period_7": "7 días",
+    "period_30": "30 días",
+    "export": "Exportar CSV",
+    "empty": "Nada registrado con estos filtros.",
+    "colAt": "Fecha",
+    "colWho": "Persona",
+    "colKind": "Tipo",
+    "colTask": "Tarea",
+    "colText": "Qué pasó"
   }
 }
