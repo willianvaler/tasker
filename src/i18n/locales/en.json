@@ -225,7 +225,12 @@
     "deleteConfirm": "Delete",
     "subtasks": "Subtasks",
     "newSubtask": "New subtask",
-    "newSubtaskPlaceholder": "New subtask… (Enter)"
+    "newSubtaskPlaceholder": "New subtask… (Enter)",
+    "afterParent": "After the parent task date ({{date}}).",
+    "estimate": "Estimate",
+    "estimatePlaceholder": "How long it takes (e.g. 30m, 1h30)",
+    "estimateRollup": "{{time}} (sum of subtasks)",
+    "estimateNone": "No estimate in the subtasks"
   },
   "home": {
     "title": "Home",

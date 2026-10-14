@@ -583,14 +583,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number
+                    "completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -1081,6 +1081,7 @@ isOneToOne: false
 "depth": number,
 "done_cycle_key": string | null,
 "due_date": string | null,
+"estimate_minutes": number | null,
 "folder_id": string,
 "habit_kind": string,
 "habit_target": number | null,

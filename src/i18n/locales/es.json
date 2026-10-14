@@ -225,7 +225,12 @@
     "deleteConfirm": "Eliminar",
     "subtasks": "Subtareas",
     "newSubtask": "Nueva subtarea",
-    "newSubtaskPlaceholder": "Nueva subtarea… (Enter)"
+    "newSubtaskPlaceholder": "Nueva subtarea… (Enter)",
+    "afterParent": "Después de la fecha de la tarea madre ({{date}}).",
+    "estimate": "Estimación",
+    "estimatePlaceholder": "Cuánto tarda (ej.: 30m, 1h30)",
+    "estimateRollup": "{{time}} (suma de las subtareas)",
+    "estimateNone": "Sin estimación en las subtareas"
   },
   "home": {
     "title": "Inicio",

@@ -225,7 +225,12 @@
     "deleteConfirm": "Apagar",
     "subtasks": "Subtarefas",
     "newSubtask": "Nova subtarefa",
-    "newSubtaskPlaceholder": "Nova subtarefa… (Enter)"
+    "newSubtaskPlaceholder": "Nova subtarefa… (Enter)",
+    "afterParent": "Depois da data da tarefa-mãe ({{date}}).",
+    "estimate": "Estimativa",
+    "estimatePlaceholder": "Quanto tempo leva (ex.: 30m, 1h30)",
+    "estimateRollup": "{{time}} (soma das subtarefas)",
+    "estimateNone": "Sem estimativa nas subtarefas"
   },
   "home": {
     "title": "Início",

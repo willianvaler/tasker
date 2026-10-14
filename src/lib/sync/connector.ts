@@ -41,6 +41,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'position',
       'habit_kind',
       'habit_target',
+      'estimate_minutes',
     ],
     update: [
       'page_id',
@@ -55,6 +56,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'position',
       'habit_kind',
       'habit_target',
+      'estimate_minutes',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },

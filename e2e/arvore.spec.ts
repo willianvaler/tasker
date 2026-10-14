@@ -30,3 +30,30 @@ test('árvore: progresso pelas folhas, "Concluir tudo" e mãe que fecha sozinha'
     timeout: 15_000,
   });
 });
+
+test('estimativa: "90m" vira 1h30 e fica salva; a mãe mostra a soma', async ({
+  page,
+}, testInfo) => {
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  await page.getByRole('button', { name: 'Adicionar várias' }).click();
+  await page
+    .getByRole('textbox', { name: 'Lista de tarefas' })
+    .fill('Pintar\n  Sala\nComprar tinta');
+  await page.getByRole('button', { name: 'Criar 3' }).click();
+
+  await page.getByRole('button', { name: 'Detalhes de Comprar tinta' }).click();
+  const field = page.getByRole('textbox', { name: 'Estimativa' });
+  await field.fill('90m');
+  await field.press('Enter');
+  await expect(field).toHaveValue('1h30');
+  await page.getByRole('button', { name: 'Voltar' }).click();
+  await page.getByRole('button', { name: 'Detalhes de Comprar tinta' }).click();
+  await expect(page.getByRole('textbox', { name: 'Estimativa' })).toHaveValue('1h30');
+  await page.getByRole('button', { name: 'Voltar' }).click();
+
+  // Mãe: estimativa é só leitura
+  await page.getByRole('button', { name: 'Detalhes de Pintar' }).click();
+  await expect(page.getByText('Sem estimativa nas subtarefas')).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Estimativa' })).toHaveCount(0);
+});

@@ -64,6 +64,7 @@ const tasks = new Table(
     folder_id: column.text,
     parent_task_id: column.text,
     depth: column.integer,
+    estimate_minutes: column.integer,
     title: column.text,
     notes: column.text,
     status: column.text,

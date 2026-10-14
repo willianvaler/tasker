@@ -318,6 +318,7 @@ function optimisticTask(
     folder_id: '',
     parent_task_id: null,
     depth: 1,
+    estimate_minutes: null,
     title: item.title,
     notes: null,
     status: item.done ? 'done' : 'todo',
@@ -431,6 +432,8 @@ export function useCreateSubtask() {
               folder_id: parent.folder_id,
               parent_task_id: parent.id,
               depth: (parent.depth ?? 1) + 1,
+              // O servidor faz o mesmo (herda as etiquetas da mãe)
+              labels: parent.labels,
               title,
               position: Date.now(),
             },
@@ -502,6 +505,7 @@ export type TaskPatch = Partial<
     | 'meta'
     | 'habit_kind'
     | 'habit_target'
+    | 'estimate_minutes'
   >
 >;
 

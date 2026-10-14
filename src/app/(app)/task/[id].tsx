@@ -29,7 +29,13 @@ import { useColors } from '@/lib/tokens';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { useToday } from '@/lib/queries/profile';
-import { leafProgress } from '@/lib/task-tree';
+import {
+  dueAfterParent,
+  formatDuration,
+  leafEstimates,
+  leafProgress,
+  parseDuration,
+} from '@/lib/task-tree';
 import {
   useCompleteTree,
   useCreateSubtask,
@@ -104,6 +110,19 @@ function TaskDetails({ task }: { task: Task }) {
   const siblings = usePageTasks(task.page_id);
   const leaves = leafProgress(siblings.data ?? []).get(task.id);
   const openLeaves = leaves ? leaves.total - leaves.done : 0;
+  const parent = siblings.data?.find((s) => s.id === task.parent_task_id);
+  // Mãe: a estimativa é a soma das folhas (só leitura)
+  const rollup = leaves ? leafEstimates(siblings.data ?? []).get(task.id) : undefined;
+  const [estimateText, setEstimateText] = useState(
+    task.estimate_minutes ? formatDuration(task.estimate_minutes) : '',
+  );
+  function saveEstimate() {
+    const minutes = estimateText.trim() ? parseDuration(estimateText) : null;
+    if (minutes === null && estimateText.trim())
+      return setEstimateText(task.estimate_minutes ? formatDuration(task.estimate_minutes) : '');
+    if (minutes !== task.estimate_minutes) save({ estimate_minutes: minutes });
+    setEstimateText(minutes ? formatDuration(minutes) : '');
+  }
 
   const [title, setTitle] = useState(task.title);
   const [notes, setNotes] = useState(task.notes ?? '');
@@ -246,6 +265,11 @@ function TaskDetails({ task }: { task: Task }) {
                 {t('taskDetail.dueOn', { date: formatDueDate(task.due_date, today) })}
               </Text>
             )}
+            {parent?.due_date && dueAfterParent(task.due_date, parent.due_date) && (
+              <Text className="text-xs text-warn">
+                {t('taskDetail.afterParent', { date: formatDueDate(parent.due_date, today) })}
+              </Text>
+            )}
             <Input
               value={dateText}
               onChangeText={setDateText}
@@ -255,6 +279,28 @@ function TaskDetails({ task }: { task: Task }) {
               placeholder={t('taskDetail.otherDatePlaceholder')}
               accessibilityLabel={t('taskDetail.otherDate')}
             />
+          </Section>
+        )}
+
+        {!isHabit && (
+          <Section title={t('taskDetail.estimate')}>
+            {leaves ? (
+              <Text className="text-sm text-ink">
+                {rollup
+                  ? t('taskDetail.estimateRollup', { time: formatDuration(rollup) })
+                  : t('taskDetail.estimateNone')}
+              </Text>
+            ) : (
+              <Input
+                value={estimateText}
+                onChangeText={setEstimateText}
+                onSubmitEditing={saveEstimate}
+                onBlur={saveEstimate}
+                editable={writable}
+                placeholder={t('taskDetail.estimatePlaceholder')}
+                accessibilityLabel={t('taskDetail.estimate')}
+              />
+            )}
           </Section>
         )}
 

@@ -1,6 +1,12 @@
 import { describe, expect, test } from '@jest/globals';
 
-import { leafProgress } from '../task-tree';
+import {
+  dueAfterParent,
+  formatDuration,
+  leafEstimates,
+  leafProgress,
+  parseDuration,
+} from '../task-tree';
 
 const task = (id: string, parent: string | null, done = false) => ({
   id,
@@ -33,5 +39,47 @@ describe('progresso pelas folhas', () => {
 
   test('não trava com ciclo em dado local', () => {
     expect(() => leafProgress([task('a', 'b'), task('b', 'a')])).not.toThrow();
+  });
+});
+
+describe('estimativa e datas', () => {
+  const est = (id: string, parent: string | null, minutes: number | null) => ({
+    ...task(id, parent),
+    estimate_minutes: minutes,
+  });
+
+  test('a mãe soma as folhas do galho inteiro (a estimativa da própria mãe não conta)', () => {
+    const e = leafEstimates([
+      est('mudar', null, 999),
+      est('cozinha', 'mudar', 999),
+      est('louca', 'cozinha', 30),
+      est('panelas', 'cozinha', null),
+      est('sala', 'mudar', 90),
+    ]);
+    expect(e.get('cozinha')).toBe(30);
+    expect(e.get('mudar')).toBe(120);
+    expect(e.has('sala')).toBe(false);
+  });
+
+  test('lê e escreve duração', () => {
+    expect(parseDuration('90')).toBe(90);
+    expect(parseDuration('45m')).toBe(45);
+    expect(parseDuration('1h30')).toBe(90);
+    expect(parseDuration('1h 30min')).toBe(90);
+    expect(parseDuration('1,5h')).toBe(90);
+    expect(parseDuration('2h')).toBe(120);
+    expect(parseDuration('amanhã')).toBeNull();
+    expect(parseDuration('0')).toBeNull();
+    expect(formatDuration(90)).toBe('1h30');
+    expect(formatDuration(45)).toBe('45min');
+    expect(formatDuration(120)).toBe('2h');
+    expect(formatDuration(65)).toBe('1h05');
+  });
+
+  test('data da filha depois da mãe', () => {
+    expect(dueAfterParent('2026-10-20', '2026-10-18')).toBe(true);
+    expect(dueAfterParent('2026-10-18', '2026-10-18')).toBe(false);
+    expect(dueAfterParent(null, '2026-10-18')).toBe(false);
+    expect(dueAfterParent('2026-10-20', null)).toBe(false);
   });
 });
