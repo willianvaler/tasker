@@ -80,3 +80,105 @@ export function formatDuration(minutes: number): string {
 export function dueAfterParent(child: string | null, parent: string | null) {
   return !!child && !!parent && child > parent;
 }
+
+type TreeTask = Node & { position: number };
+
+/** Filhas de cada tarefa, em ordem de posição. */
+export function childrenMap<T extends TreeTask>(tasks: readonly T[]): Map<string, T[]> {
+  const map = new Map<string, T[]>();
+  for (const t of tasks) {
+    if (!t.parent_task_id) continue;
+    map.set(t.parent_task_id, [...(map.get(t.parent_task_id) ?? []), t]);
+  }
+  for (const list of map.values()) list.sort((a, b) => a.position - b.position);
+  return map;
+}
+
+export type BranchRow<T> = { task: T; level: number; hasChildren: boolean; expanded: boolean };
+
+/** As linhas visíveis abaixo de uma tarefa (nível 2 em diante), descendo só nas expandidas. */
+export function branchRows<T extends TreeTask>(
+  root: T,
+  children: Map<string, T[]>,
+  expanded: ReadonlySet<string>,
+): BranchRow<T>[] {
+  const rows: BranchRow<T>[] = [];
+  const walk = (task: T, level: number, seen: Set<string>) => {
+    if (!expanded.has(task.id)) return;
+    for (const kid of children.get(task.id) ?? []) {
+      if (seen.has(kid.id)) continue;
+      const hasChildren = (children.get(kid.id)?.length ?? 0) > 0;
+      rows.push({ task: kid, level, hasChildren, expanded: hasChildren && expanded.has(kid.id) });
+      walk(kid, level + 1, new Set(seen).add(kid.id));
+    }
+  };
+  walk(root, 2, new Set([root.id]));
+  return rows;
+}
+
+/** Nível da tarefa pela cadeia de mães (1 = raiz). */
+export function levelOf(task: TreeTask, byId: ReadonlyMap<string, TreeTask>) {
+  let level = 1;
+  let current = task.parent_task_id ? byId.get(task.parent_task_id) : undefined;
+  const seen = new Set<string>([task.id]);
+  while (current && !seen.has(current.id)) {
+    seen.add(current.id);
+    level++;
+    current = current.parent_task_id ? byId.get(current.parent_task_id) : undefined;
+  }
+  return level;
+}
+
+/** Quantos níveis o galho que começa nesta tarefa tem (ela mesma conta 1). */
+export function branchHeight(taskId: string, children: Map<string, TreeTask[]>): number {
+  const walk = (id: string, seen: Set<string>): number => {
+    let max = 0;
+    for (const kid of children.get(id) ?? [])
+      if (!seen.has(kid.id)) max = Math.max(max, walk(kid.id, new Set(seen).add(kid.id)));
+    return 1 + max;
+  };
+  return walk(taskId, new Set([taskId]));
+}
+
+export type MovePlan =
+  | { ok: true; parentId: string | null; position: number }
+  | { ok: false; reason: 'first' | 'root' | 'limit' | 'full' };
+
+/** Tab: vira a última filha da irmã de cima, se couber no limite. */
+export function planIndent(
+  task: TreeTask,
+  tasks: readonly TreeTask[],
+  maxDepth: number,
+  maxChildren = 50,
+): MovePlan {
+  const children = childrenMap(tasks);
+  const byId = new Map(tasks.map((t) => [t.id, t]));
+  const siblings = task.parent_task_id
+    ? (children.get(task.parent_task_id) ?? [])
+    : tasks.filter((t) => !t.parent_task_id).sort((a, b) => a.position - b.position);
+  const index = siblings.findIndex((t) => t.id === task.id);
+  if (index <= 0) return { ok: false, reason: 'first' };
+  const newParent = siblings[index - 1];
+  const kids = children.get(newParent.id) ?? [];
+  if (kids.length >= maxChildren) return { ok: false, reason: 'full' };
+  if (levelOf(newParent, byId) + branchHeight(task.id, children) > maxDepth)
+    return { ok: false, reason: 'limit' };
+  return { ok: true, parentId: newParent.id, position: (kids.at(-1)?.position ?? 0) + 1 };
+}
+
+/** Shift+Tab: vira irmã da mãe, logo depois dela. */
+export function planOutdent(task: TreeTask, tasks: readonly TreeTask[]): MovePlan {
+  if (!task.parent_task_id) return { ok: false, reason: 'root' };
+  const byId = new Map(tasks.map((t) => [t.id, t]));
+  const parent = byId.get(task.parent_task_id);
+  if (!parent) return { ok: false, reason: 'root' };
+  const aunts = tasks
+    .filter((t) => t.parent_task_id === parent.parent_task_id && t.id !== task.id)
+    .sort((a, b) => a.position - b.position);
+  const next = aunts[aunts.findIndex((t) => t.id === parent.id) + 1];
+  return {
+    ok: true,
+    parentId: parent.parent_task_id,
+    position: next ? (parent.position + next.position) / 2 : parent.position + 1,
+  };
+}

@@ -50,7 +50,11 @@
     "taskAdvanced": "Criação avançada (todos os campos)",
     "taskEdit": "Editar a tarefa selecionada (painel)",
     "formSave": "Salvar o formulário avançado",
-    "helpOpen": "Abrir a ajuda e a lista de atalhos"
+    "helpOpen": "Abrir a ajuda e a lista de atalhos",
+    "taskIndent": "Virar subtarefa da tarefa de cima",
+    "taskOutdent": "Subir um nível",
+    "treeExpand": "Abrir as subtarefas",
+    "treeCollapse": "Fechar as subtarefas (ou ir para a mãe)"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -1067,5 +1071,12 @@
     "page_view_progress": "Ver o progresso",
     "timer_use": "Usar timers",
     "settings_max_depth": "Mudar o limite de níveis"
+  },
+  "tree": {
+    "expand": "Abrir subtarefas de {{title}}",
+    "collapse": "Fechar subtarefas de {{title}}",
+    "limit": "Passaria de {{max}} níveis. Suba um nível ou aumente o limite do projeto.",
+    "full": "Essa tarefa já tem 50 subtarefas.",
+    "first": "Não há tarefa acima para virar mãe."
   }
 }

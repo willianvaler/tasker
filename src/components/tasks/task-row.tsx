@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
-import { ChevronRight } from 'lucide-react-native';
+import { ChevronDown, ChevronRight } from 'lucide-react-native';
 import { Platform, Pressable, TextInput, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -29,6 +29,7 @@ import {
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { useTree } from '@/lib/queries/tree';
 import { useSelection, selection } from '@/lib/selection';
+import { treeState, useIsExpanded } from '@/lib/tree-state';
 import { DURATION } from '@/lib/tokens';
 import { useTaskCan } from '@/providers/write';
 import { useToast } from '@/providers/toast';
@@ -81,6 +82,8 @@ function TaskRowView({
   subtasks,
   pageLabel,
   draggable,
+  level = 1,
+  gutter,
 }: {
   task: Task;
   today: string;
@@ -88,8 +91,14 @@ function TaskRowView({
   pageLabel?: string;
   /** Mostra a alça de arrastar (só dentro de SortableTasks) */
   draggable?: boolean;
+  /** Nível na árvore (1 = raiz): o recuo da linha */
+  level?: number;
+  /** Lista com árvore: reserva o lugar da seta mesmo sem filhas, para alinhar */
+  gutter?: boolean;
 }) {
   const allowed = useTaskCan(task);
+  const expanded = useIsExpanded(task.id);
+  const hasChildren = !!subtasks?.total;
   const toggle = useToggleWithUndo();
   const completeTree = useCompleteTree();
   const [confirmAll, setConfirmAll, closeConfirmAll] = useDialog<true>();
@@ -135,6 +144,18 @@ function TaskRowView({
     >
       {selected && <View className="absolute bottom-0 left-0 top-0 w-0.5 bg-accent" />}
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
+      {level > 1 && <View style={{ width: (level - 1) * 20 }} />}
+      {hasChildren ? (
+        <IconButton
+          icon={expanded ? ChevronDown : ChevronRight}
+          label={t(expanded ? 'tree.collapse' : 'tree.expand', { title: task.title })}
+          aria-expanded={expanded}
+          onPress={() => treeState.toggle(task.id)}
+        />
+      ) : (
+        // Mantém o alinhamento com as linhas que têm seta
+        (gutter || level > 1) && <View className="w-11 md:w-8" />
+      )}
       <Checkbox
         checked={done}
         disabled={!allowed.complete}
@@ -243,5 +264,7 @@ export const TaskRow = memo(
     a.today === b.today &&
     a.pageLabel === b.pageLabel &&
     a.draggable === b.draggable &&
+    a.level === b.level &&
+    a.gutter === b.gutter &&
     sameSubtasks(a.subtasks, b.subtasks),
 );

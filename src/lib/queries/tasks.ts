@@ -500,6 +500,7 @@ export type TaskPatch = Partial<
     | 'due_date'
     | 'labels'
     | 'page_id'
+    | 'parent_task_id'
     | 'position'
     | 'recurrence'
     | 'meta'

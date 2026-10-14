@@ -11,7 +11,12 @@ import type { Priority, Recurrence, TaskMeta } from '@/lib/parser/quick';
 import { positionAfterMove } from '@/lib/positions';
 import { useToday } from '@/lib/queries/profile';
 import { keys } from '@/lib/queries/keys';
+import { effectiveMaxDepth, MAX_CHILDREN_PER_TASK } from '@/config/limits';
 import { useCreateTasks, useDeleteTask, useUpdateTask, type Task } from '@/lib/queries/tasks';
+import { rootFolder } from '@/lib/queries/projects';
+import { useTree } from '@/lib/queries/tree';
+import { planIndent, planOutdent, type MovePlan } from '@/lib/task-tree';
+import { treeState } from '@/lib/tree-state';
 import { selection } from '@/lib/selection';
 import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
 import { useShortcut } from '@/lib/use-shortcut';
@@ -37,6 +42,7 @@ export function ListKeys() {
   const remove = useDeleteTask();
   const create = useCreateTasks();
   const [dating, setDating, closeDating] = useDialog<Task>();
+  const tree = useTree();
 
   useEffect(
     () =>
@@ -51,10 +57,10 @@ export function ListKeys() {
   );
 
   // Ação sobre a tarefa selecionada; sem seleção, a tecla segue para a tela
-  const onSelected = (action: (task: Task) => void) => () => {
+  const onSelected = (action: (task: Task) => void | boolean) => () => {
     const task = selection.selectedTask();
     if (!task) return false;
-    action(task);
+    return action(task);
   };
 
   useShortcut('list.next', () => selection.move(1));
@@ -111,10 +117,15 @@ export function ListKeys() {
 
   const moveBy = (delta: -1 | 1) =>
     onSelected((task) => {
-      // Só faz sentido dentro de uma página: as abertas da mesma página, na ordem da tela
+      // Só faz sentido dentro de uma página: as irmãs abertas (mesma mãe), na ordem da tela
       const siblings = selection
         .get()
-        .list.filter((t) => t.page_id === task.page_id && t.status !== 'done' && !t.parent_task_id);
+        .list.filter(
+          (t) =>
+            t.page_id === task.page_id &&
+            t.status !== 'done' &&
+            t.parent_task_id === task.parent_task_id,
+        );
       const from = siblings.findIndex((t) => t.id === task.id);
       const to = from + delta;
       if (from < 0 || to < 0 || to >= siblings.length) return;
@@ -127,6 +138,53 @@ export function ListKeys() {
     });
   useShortcut('task.moveUp', moveBy(-1));
   useShortcut('task.moveDown', moveBy(1));
+
+  // Árvore (V3 §1.2): Tab / Shift+Tab mudam o nível, respeitando o limite da página
+  const pageTasks = (task: Task) =>
+    queryClient.getQueryData<Task[]>(keys.pageTasks(task.page_id)) ?? selection.get().list;
+  const maxDepthFor = (task: Task) => {
+    const page = tree.data?.pages.find((p) => p.id === task.page_id);
+    return effectiveMaxDepth(page?.max_depth, rootFolder(tree.data, page?.folder_id)?.max_depth);
+  };
+  const applyPlan = (task: Task, plan: MovePlan, max: number) => {
+    if (!plan.ok) {
+      if (plan.reason === 'limit') toast({ message: t('tree.limit', { max }) });
+      if (plan.reason === 'full') toast({ message: t('tree.full') });
+      return;
+    }
+    if (plan.parentId) treeState.expand(plan.parentId);
+    update.mutate(
+      { id: task.id, patch: { parent_task_id: plan.parentId, position: plan.position } },
+      { onError: (err) => toast({ message: err.message }) },
+    );
+  };
+  useShortcut(
+    'task.indent',
+    onSelected((task) => {
+      const max = maxDepthFor(task);
+      applyPlan(task, planIndent(task, pageTasks(task), max, MAX_CHILDREN_PER_TASK), max);
+    }),
+  );
+  useShortcut(
+    'task.outdent',
+    onSelected((task) => applyPlan(task, planOutdent(task, pageTasks(task)), maxDepthFor(task))),
+  );
+  useShortcut(
+    'tree.expand',
+    onSelected((task) => {
+      if (!pageTasks(task).some((t) => t.parent_task_id === task.id)) return false;
+      treeState.expand(task.id);
+    }),
+  );
+  useShortcut(
+    'tree.collapse',
+    onSelected((task) => {
+      // Aberta: fecha; fechada (ou folha): vai para a mãe
+      if (treeState.isExpanded(task.id)) return treeState.collapse(task.id);
+      if (task.parent_task_id) selection.select(task.parent_task_id);
+      else return false;
+    }),
+  );
 
   useShortcut(
     'task.delete',

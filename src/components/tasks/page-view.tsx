@@ -21,7 +21,8 @@ import { useToast } from '@/providers/toast';
 import { HabitRow, useHabitDates } from './habit-row';
 import { KanbanBoard } from './kanban-board';
 import { QuickAdd } from './quick-add';
-import { leafProgress } from '@/lib/task-tree';
+import { branchRows, childrenMap, leafProgress } from '@/lib/task-tree';
+import { useExpanded } from '@/lib/tree-state';
 import { SortableTasks } from './sortable-tasks';
 import { TaskCard } from './task-card';
 import { TaskRow } from './task-row';
@@ -40,9 +41,11 @@ export function PageView({ page }: { page: Page | undefined }) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const viewType = page?.view_type ?? 'list';
 
-  const { open, done, all, subtaskCount } = useMemo(() => {
+  const expanded = useExpanded();
+  const { open, done, all, subtaskCount, kids } = useMemo(() => {
     // Progresso da mãe = folhas do galho inteiro concluídas (V3 §1.2)
     const count: Counts = leafProgress(tasks.data ?? []);
+    const kids = childrenMap(tasks.data ?? []);
     const top = (tasks.data ?? []).filter((t) => !t.parent_task_id).sort(byPosition);
     return {
       all: top,
@@ -51,11 +54,22 @@ export function PageView({ page }: { page: Page | undefined }) {
         .filter((t) => t.status === 'done')
         .sort((a, b) => (b.completed_at ?? '').localeCompare(a.completed_at ?? '')),
       subtaskCount: count,
+      kids,
     };
   }, [tasks.data]);
+  // Lista com árvore: as linhas abaixo de cada raiz, só nas mães abertas
+  const gutter = kids.size > 0;
+  const branch = (root: Task) => branchRows(root, kids, expanded);
 
-  // Ordem do teclado: as abertas, depois as concluídas
-  const selectable = useMemo(() => [...open, ...done], [open, done]);
+  // Ordem do teclado: as abertas (com os galhos abertos), depois as concluídas
+  const selectable = useMemo(
+    () =>
+      [...open, ...done].flatMap((root) => [
+        root,
+        ...branchRows(root, kids, expanded).map((r) => r.task),
+      ]),
+    [open, done, kids, expanded],
+  );
   useSelectableList(viewType === 'list' ? selectable : all);
 
   const empty = {
@@ -112,7 +126,25 @@ export function PageView({ page }: { page: Page | undefined }) {
               tasks={open}
               scrollRef={scrollRef}
               renderTask={(t) => (
-                <TaskRow task={t} today={today} subtasks={subtaskCount.get(t.id)} draggable />
+                <View>
+                  <TaskRow
+                    task={t}
+                    today={today}
+                    subtasks={subtaskCount.get(t.id)}
+                    draggable
+                    gutter={gutter}
+                  />
+                  {branch(t).map((row) => (
+                    <TaskRow
+                      key={row.task.id}
+                      task={row.task}
+                      today={today}
+                      subtasks={subtaskCount.get(row.task.id)}
+                      level={row.level}
+                      gutter
+                    />
+                  ))}
+                </View>
               )}
             />
             <DoneSection tasks={done} today={today} subtaskCount={subtaskCount} />

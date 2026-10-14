@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, signUp } from './helpers';
+import { openTab, signUp, waitForSync } from './helpers';
 
 test('árvore: progresso pelas folhas, "Concluir tudo" e mãe que fecha sozinha', async ({
   page,
@@ -56,4 +56,50 @@ test('estimativa: "90m" vira 1h30 e fica salva; a mãe mostra a soma', async ({
   await page.getByRole('button', { name: 'Detalhes de Pintar' }).click();
   await expect(page.getByText('Sem estimativa nas subtarefas')).toBeVisible();
   await expect(page.getByRole('textbox', { name: 'Estimativa' })).toHaveCount(0);
+});
+
+test('teclado: Tab e Shift+Tab mudam o nível, ← e → fecham e abrem', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Teclado: desktop');
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  for (const title of ['Mudar', 'Cozinha', 'Louça']) {
+    await input.fill(title);
+    await input.press('Enter');
+  }
+  await expect(page.getByRole('checkbox', { name: 'Concluir Louça' })).toBeVisible();
+  await input.press('Escape');
+
+  // Cozinha vira filha de Mudar
+  await page.keyboard.press('j');
+  await page.keyboard.press('j');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Fechar subtarefas de Mudar' })).toBeVisible();
+  await expect(page.getByLabel('0 de 1 subtarefas')).toBeVisible();
+
+  // Louça também, e depois um nível abaixo (filha de Cozinha)
+  await page.keyboard.press('j');
+  await page.keyboard.press('Tab');
+  await expect(page.getByLabel('0 de 2 subtarefas')).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Fechar subtarefas de Cozinha' })).toBeVisible();
+
+  // Shift+Tab volta um nível
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.getByRole('button', { name: /subtarefas de Cozinha/ })).toHaveCount(0);
+
+  // ← vai para a mãe e fecha; → abre de novo
+  await page.keyboard.press('ArrowLeft');
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByRole('button', { name: 'Abrir subtarefas de Mudar' })).toBeVisible();
+  await expect(page.getByRole('checkbox', { name: 'Concluir Louça' })).toHaveCount(0);
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('checkbox', { name: 'Concluir Louça' })).toBeVisible();
+
+  // Depois de recarregar, a árvore veio do servidor
+  await waitForSync(page);
+  await page.reload();
+  await page.getByRole('button', { name: 'Abrir subtarefas de Mudar' }).click();
+  await expect(page.getByRole('checkbox', { name: 'Concluir Cozinha' })).toBeVisible();
+  await expect(page.getByRole('checkbox', { name: 'Concluir Louça' })).toBeVisible();
 });

@@ -84,6 +84,20 @@ export const SHORTCUTS = [
     description: 'shortcuts.taskMoveDown',
     scope: 'list',
   },
+  { id: 'task.indent', combos: ['tab'], description: 'shortcuts.taskIndent', scope: 'list' },
+  {
+    id: 'task.outdent',
+    combos: ['shift+tab'],
+    description: 'shortcuts.taskOutdent',
+    scope: 'list',
+  },
+  { id: 'tree.expand', combos: ['arrowright'], description: 'shortcuts.treeExpand', scope: 'list' },
+  {
+    id: 'tree.collapse',
+    combos: ['arrowleft'],
+    description: 'shortcuts.treeCollapse',
+    scope: 'list',
+  },
   {
     id: 'task.delete',
     combos: ['delete', 'backspace'],
@@ -173,6 +187,7 @@ export function allowedWhileTyping(combo: Combo): boolean {
 
 const KEY_LABELS: Record<string, string> = {
   escape: 'Esc',
+  tab: 'Tab',
   enter: 'Enter',
   arrowup: '↑',
   arrowdown: '↓',

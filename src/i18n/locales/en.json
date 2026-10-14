@@ -50,7 +50,11 @@
     "taskAdvanced": "Advanced creation (all fields)",
     "taskEdit": "Edit the selected task (panel)",
     "formSave": "Save the advanced form",
-    "helpOpen": "Open help and the shortcut list"
+    "helpOpen": "Open help and the shortcut list",
+    "taskIndent": "Make it a subtask of the task above",
+    "taskOutdent": "Move up one level",
+    "treeExpand": "Open the subtasks",
+    "treeCollapse": "Close the subtasks (or go to the parent)"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -1067,5 +1071,12 @@
     "page_view_progress": "See progress",
     "timer_use": "Use timers",
     "settings_max_depth": "Change the depth limit"
+  },
+  "tree": {
+    "expand": "Open subtasks of {{title}}",
+    "collapse": "Close subtasks of {{title}}",
+    "limit": "That would go past {{max}} levels. Move up a level or raise the project limit.",
+    "full": "That task already has 50 subtasks.",
+    "first": "There is no task above to become the parent."
   }
 }

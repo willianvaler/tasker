@@ -1,7 +1,13 @@
 import { describe, expect, test } from '@jest/globals';
 
 import {
+  branchHeight,
+  branchRows,
+  childrenMap,
   dueAfterParent,
+  levelOf,
+  planIndent,
+  planOutdent,
   formatDuration,
   leafEstimates,
   leafProgress,
@@ -81,5 +87,51 @@ describe('estimativa e datas', () => {
     expect(dueAfterParent('2026-10-18', '2026-10-18')).toBe(false);
     expect(dueAfterParent(null, '2026-10-18')).toBe(false);
     expect(dueAfterParent('2026-10-20', null)).toBe(false);
+  });
+});
+
+describe('teclado na árvore', () => {
+  const t = (id: string, parent: string | null, position: number) => ({
+    ...task(id, parent),
+    position,
+  });
+  // a (b (c)), d, e
+  const tasks = [t('a', null, 1), t('b', 'a', 1), t('c', 'b', 1), t('d', null, 2), t('e', null, 3)];
+
+  test('linhas visíveis só descem nas expandidas', () => {
+    const kids = childrenMap(tasks);
+    const a = tasks[0];
+    expect(branchRows(a, kids, new Set())).toEqual([]);
+    expect(
+      branchRows(a, kids, new Set(['a'])).map((r) => [r.task.id, r.level, r.hasChildren]),
+    ).toEqual([['b', 2, true]]);
+    expect(branchRows(a, kids, new Set(['a', 'b'])).map((r) => r.task.id)).toEqual(['b', 'c']);
+  });
+
+  test('Tab vira filha da irmã de cima', () => {
+    expect(planIndent(tasks[3], tasks, 5)).toEqual({ ok: true, parentId: 'a', position: 2 });
+    expect(planIndent(tasks[0], tasks, 5)).toEqual({ ok: false, reason: 'first' });
+    expect(planIndent(tasks[1], tasks, 5)).toEqual({ ok: false, reason: 'first' });
+  });
+
+  test('Tab respeita o limite de níveis contando o galho que vai junto', () => {
+    // d entra em a (nível 2): ok com limite 2; c já está no 3
+    expect(planIndent(tasks[3], tasks, 2).ok).toBe(true);
+    const deep = [...tasks, t('f', 'd', 1)];
+    // d (com filha) entraria no nível 2 levando f para o 3
+    expect(planIndent(deep[3], deep, 2)).toEqual({ ok: false, reason: 'limit' });
+  });
+
+  test('Shift+Tab vira irmã da mãe, logo depois dela', () => {
+    expect(planOutdent(tasks[2], tasks)).toEqual({ ok: true, parentId: 'a', position: 2 });
+    expect(planOutdent(tasks[1], tasks)).toEqual({ ok: true, parentId: null, position: 1.5 });
+    expect(planOutdent(tasks[0], tasks)).toEqual({ ok: false, reason: 'root' });
+  });
+
+  test('nível e altura do galho', () => {
+    const byId = new Map(tasks.map((x) => [x.id, x]));
+    expect(levelOf(tasks[2], byId)).toBe(3);
+    expect(branchHeight('a', childrenMap(tasks))).toBe(3);
+    expect(branchHeight('e', childrenMap(tasks))).toBe(1);
   });
 });
