@@ -190,6 +190,7 @@ export function useTreeMutations() {
       id: string;
       auto_complete_parent?: boolean;
       max_depth?: number | null;
+      dependency_mode?: 'strict' | 'flexible';
     }) => {
       if (isLocal()) return localUpdate('folders', id, patch);
       const { error } = await supabase.from('folders').update(patch).eq('id', id);

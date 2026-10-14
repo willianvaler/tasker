@@ -54,9 +54,9 @@ select is(public.task_state('c0000000-0000-0000-0000-000000000099'), 'ready', 'm
 select is(public.task_state('c0000000-0000-0000-0000-0000000000ff'), 'blocked', 'filha herda o bloqueio da mãe');
 
 -- Reaberto volta a bloquear, mesmo iniciada
+update public.tasks set status = 'todo', completed_at = null where id = 'c0000000-0000-0000-0000-0000000000f0';
 update public.tasks set started_at = now() where id = 'c0000000-0000-0000-0000-0000000000f0';
 update public.tasks set status = 'todo', completed_at = null where id = 'c0000000-0000-0000-0000-0000000000ca';
-update public.tasks set status = 'todo', completed_at = null where id = 'c0000000-0000-0000-0000-0000000000f0';
 select is(public.task_state('c0000000-0000-0000-0000-0000000000f0'), 'blocked', 'pré-requisito reaberto volta a bloquear');
 
 delete from public.tasks where id = 'c0000000-0000-0000-0000-0000000000ca';

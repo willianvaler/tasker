@@ -126,6 +126,20 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
         </View>
       )}
 
+      {actorCan(actor, 'member.manage') && (
+        <ToggleRow
+          title={t('flow.flexibleMode')}
+          hint={t('flow.flexibleHint')}
+          value={root.dependency_mode === 'flexible'}
+          onChange={(value) =>
+            treeMutations.setFolderSettings.mutate({
+              id: root.id,
+              dependency_mode: value ? 'flexible' : 'strict',
+            })
+          }
+        />
+      )}
+
       {actorCan(actor, 'page.manage') && (
         <ToggleRow
           title={t('project.autoCompleteParent')}

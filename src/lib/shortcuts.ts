@@ -84,6 +84,13 @@ export const SHORTCUTS = [
     description: 'shortcuts.taskMoveDown',
     scope: 'list',
   },
+  {
+    id: 'task.start',
+    combos: ['s'],
+    description: 'shortcuts.taskStart',
+    scope: 'list',
+    permission: 'task.start',
+  },
   { id: 'task.indent', combos: ['tab'], description: 'shortcuts.taskIndent', scope: 'list' },
   {
     id: 'task.outdent',

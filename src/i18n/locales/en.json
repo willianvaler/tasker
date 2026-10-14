@@ -55,7 +55,8 @@
     "taskOutdent": "Move up one level",
     "treeExpand": "Open the subtasks",
     "treeCollapse": "Close the subtasks (or go to the parent)",
-    "treeCodes": "Show or hide WBS codes (1.2.1)"
+    "treeCodes": "Show or hide WBS codes (1.2.1)",
+    "taskStart": "Start or stop the task"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -77,7 +78,9 @@
     "completeAllTitle": "Complete \"{{title}}\" and everything inside?",
     "completeAllMessage_one": "{{count}} open subtask will be completed too.",
     "completeAllMessage_other": "{{count}} open subtasks will be completed too.",
-    "completeAll": "Complete all"
+    "completeAll": "Complete all",
+    "start": "Start",
+    "stop": "Stop"
   },
   "nav": {
     "home": "Home",
@@ -1089,5 +1092,17 @@
     "depthDefault": "Default ({{count}})",
     "depthHint": "How many levels the tasks on this page can have (the task counts as the first).",
     "depthHintProject": "Applies to project lists without their own limit. Lowering it below what already exists is not allowed."
+  },
+  "flow": {
+    "blocked": "Waiting for: {{names}}",
+    "readyAt": "unlocks at {{time}}",
+    "ready": "Ready",
+    "doing": "In progress",
+    "forceTitle": "Force \"{{title}}\"?",
+    "forceMessage": "It is still waiting for: {{names}}. This is recorded in the project.",
+    "force": "Force",
+    "locked": "Blocked",
+    "flexibleMode": "Allow forcing blocked tasks",
+    "flexibleHint": "In flexible mode, Managers and Editors can start or complete a blocked task, and it is recorded. Off (strict), it waits for its prerequisites."
   }
 }

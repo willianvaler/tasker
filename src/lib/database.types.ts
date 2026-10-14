@@ -341,14 +341,14 @@ isOneToOne: false
                   ]
                 },"folders": {
                   Row: {
-                    "archived": boolean,"auto_complete_parent": boolean,"color": string | null,"created_at": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"max_depth": number | null,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
+                    "archived": boolean,"auto_complete_parent": boolean,"color": string | null,"created_at": string,"dependency_mode": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"max_depth": number | null,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"dependency_mode"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"dependency_mode"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -1248,6 +1248,9 @@ isOneToOne: false
 "folder_timezone":
 { Args: { "p_folder_id": string }; Returns: string
                            },
+"force_task":
+{ Args: { "p_action": string,"p_task_id": string }; Returns: Json
+                           },
 "game_state":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
@@ -1397,6 +1400,45 @@ isOneToOne: false
                           SetofOptions: {
         from: "*"
         to: "bosses"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"start_task":
+{ Args: { "p_started"?: boolean,"p_task_id": string }; Returns: {
+              "completed_at": string | null,
+"completed_by": string | null,
+"count_down": number,
+"count_key": string | null,
+"count_up": number,
+"created_at": string,
+"created_by": string,
+"deps_mode": string,
+"depth": number,
+"done_cycle_key": string | null,
+"due_date": string | null,
+"estimate_minutes": number | null,
+"folder_id": string,
+"habit_kind": string,
+"habit_target": number | null,
+"id": string,
+"labels": (string)[],
+"meta": Json | null,
+"notes": string | null,
+"page_id": string,
+"parent_task_id": string | null,
+"position": number,
+"priority": number,
+"recurrence": Json | null,
+"started_at": string | null,
+"status": Database["public"]['Enums']["task_status"],
+"title": string,
+"updated_at": string,
+"updated_by": string | null,
+"version": number
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "tasks"
         isOneToOne: true
         isSetofReturn: false
       } },

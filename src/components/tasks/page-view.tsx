@@ -23,6 +23,12 @@ import { KanbanBoard } from './kanban-board';
 import { QuickAdd } from './quick-add';
 import { branchRows, childrenMap, leafProgress, parentIds, wbsCodes } from '@/lib/task-tree';
 import { treeState, useExpanded, useShowCodes } from '@/lib/tree-state';
+import type { RowFlow } from '@/lib/flow';
+import { actorCan } from '@/lib/permissions';
+import { useProjectDependencies } from '@/lib/queries/dependencies';
+import { rootFolder, useFolderActor } from '@/lib/queries/projects';
+import { useTree } from '@/lib/queries/tree';
+import { taskState, type StateTask } from '@/lib/task-state';
 import { SortableTasks } from './sortable-tasks';
 import { TaskCard } from './task-card';
 import { TaskRow } from './task-row';
@@ -57,6 +63,46 @@ export function PageView({ page }: { page: Page | undefined }) {
       kids,
     };
   }, [tasks.data]);
+  // Fluxo (V3 §2.2): estado de cada tarefa com pré-requisito (dela ou de uma mãe)
+  const tree = useTree();
+  const root = rootFolder(tree.data, page?.folder_id);
+  const dependencies = useProjectDependencies(root?.id);
+  const actor = useFolderActor(page?.folder_id);
+  const forceable = root?.dependency_mode === 'flexible' && actorCan(actor, 'task.force_unblock');
+  const flows = useMemo(() => {
+    const result = new Map<string, RowFlow>();
+    const deps = dependencies.data?.deps ?? [];
+    if (!deps.length || !tasks.data) return result;
+    const all = new Map<string, StateTask & { title: string }>(
+      [...(dependencies.data?.prereqs.values() ?? []), ...tasks.data].map((t) => [t.id, t]),
+    );
+    const hasDeps = new Set(deps.map((d) => d.task_id));
+    const now = new Date();
+    for (const task of tasks.data) {
+      // Só quem tem pré-requisito, na própria tarefa ou numa mãe acima
+      let involved = false;
+      for (
+        let at: StateTask | undefined = task;
+        at;
+        at = at.parent_task_id ? all.get(at.parent_task_id) : undefined
+      ) {
+        if (hasDeps.has(at.id)) {
+          involved = true;
+          break;
+        }
+      }
+      if (!involved) continue;
+      const r = taskState(task.id, all, deps, now);
+      result.set(task.id, {
+        state: r.state,
+        waiting: r.waitingOn.map((id) => all.get(id)?.title ?? '…'),
+        readyAt: r.readyAt,
+        forceable,
+      });
+    }
+    return result;
+  }, [dependencies.data, tasks.data, forceable]);
+
   // Lista com árvore: as linhas abaixo de cada raiz, só nas mães abertas
   const gutter = kids.size > 0;
   const showCodes = useShowCodes();
@@ -160,6 +206,7 @@ export function PageView({ page }: { page: Page | undefined }) {
                     draggable
                     gutter={gutter}
                     code={codes?.get(t.id)}
+                    flow={flows.get(t.id)}
                   />
                   {branch(t).map((row) => (
                     <TaskRow
@@ -170,6 +217,7 @@ export function PageView({ page }: { page: Page | undefined }) {
                       level={row.level}
                       gutter
                       code={codes?.get(row.task.id)}
+                      flow={flows.get(row.task.id)}
                     />
                   ))}
                 </View>

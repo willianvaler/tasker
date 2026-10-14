@@ -55,7 +55,8 @@
     "taskOutdent": "Subir un nivel",
     "treeExpand": "Abrir las subtareas",
     "treeCollapse": "Cerrar las subtareas (o ir a la madre)",
-    "treeCodes": "Mostrar u ocultar los códigos WBS (1.2.1)"
+    "treeCodes": "Mostrar u ocultar los códigos WBS (1.2.1)",
+    "taskStart": "Iniciar o detener la tarea"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -77,7 +78,9 @@
     "completeAllTitle": "¿Completar \"{{title}}\" y todo lo de adentro?",
     "completeAllMessage_one": "{{count}} subtarea abierta también se completará.",
     "completeAllMessage_other": "{{count}} subtareas abiertas también se completarán.",
-    "completeAll": "Completar todo"
+    "completeAll": "Completar todo",
+    "start": "Iniciar",
+    "stop": "Detener"
   },
   "nav": {
     "home": "Inicio",
@@ -1089,5 +1092,17 @@
     "depthDefault": "Predeterminado ({{count}})",
     "depthHint": "Cuántos niveles pueden tener las tareas de esta página (la tarea cuenta como el primero).",
     "depthHintProject": "Vale para las listas del proyecto sin límite propio. No se puede bajar por debajo de lo que ya existe."
+  },
+  "flow": {
+    "blocked": "Esperando: {{names}}",
+    "readyAt": "se libera a las {{time}}",
+    "ready": "Lista",
+    "doing": "En curso",
+    "forceTitle": "¿Forzar \"{{title}}\"?",
+    "forceMessage": "Todavía espera: {{names}}. Queda registrado en el proyecto.",
+    "force": "Forzar",
+    "locked": "Bloqueada",
+    "flexibleMode": "Permitir forzar tareas bloqueadas",
+    "flexibleHint": "En el modo flexible, Gerentes y Editores pueden iniciar o completar una tarea bloqueada, y queda registrado. Apagado (estricto), espera sus requisitos."
   }
 }

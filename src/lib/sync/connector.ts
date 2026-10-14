@@ -30,6 +30,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'kind',
       'max_depth',
       'auto_complete_parent',
+      'dependency_mode',
     ],
   },
   pages: {

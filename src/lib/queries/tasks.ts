@@ -242,7 +242,7 @@ function patchTaskLists(queryClient: QueryClient, patch: (task: Task) => Task | 
  * Só recarrega quando a última mutação de tarefa em sequência termina. Antes disso, o refetch
  * traria a lista sem as mudanças ainda em voo e elas "piscariam" na tela.
  */
-function invalidateWhenIdle(queryClient: QueryClient) {
+export function invalidateWhenIdle(queryClient: QueryClient) {
   if (queryClient.isMutating({ mutationKey: taskMutationKey }) === 1) {
     return queryClient.invalidateQueries({ queryKey: keys.tasks });
   }

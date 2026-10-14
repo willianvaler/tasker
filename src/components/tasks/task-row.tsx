@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
-import { ChevronDown, ChevronRight } from 'lucide-react-native';
+import { ChevronDown, ChevronRight, Clock, Lock } from 'lucide-react-native';
 import { Platform, Pressable, TextInput, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -30,6 +30,9 @@ import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { useTree } from '@/lib/queries/tree';
 import { useSelection, selection } from '@/lib/selection';
 import { treeState, useIsExpanded } from '@/lib/tree-state';
+import { sameFlow, type RowFlow } from '@/lib/flow';
+import { useForceTask } from '@/lib/queries/dependencies';
+import { Icon } from '@/components/ui/icon';
 import { DURATION } from '@/lib/tokens';
 import { useTaskCan } from '@/providers/write';
 import { useToast } from '@/providers/toast';
@@ -85,6 +88,7 @@ function TaskRowView({
   level = 1,
   gutter,
   code,
+  flow,
 }: {
   task: Task;
   today: string;
@@ -98,13 +102,18 @@ function TaskRowView({
   gutter?: boolean;
   /** Código WBS ("1.2"), mostrado quando os códigos estão ligados */
   code?: string;
+  /** Estado no fluxo (só para tarefas com pré-requisitos) */
+  flow?: RowFlow;
 }) {
   const allowed = useTaskCan(task);
   const expanded = useIsExpanded(task.id);
   const hasChildren = !!subtasks?.total;
   const toggle = useToggleWithUndo();
-  const completeTree = useCompleteTree();
   const [confirmAll, setConfirmAll, closeConfirmAll] = useDialog<true>();
+  const [confirmForce, setConfirmForce, closeConfirmForce] = useDialog<true>();
+  const blocked = flow?.state === 'blocked';
+  // Bloqueada: no estrito não se conclui; no flexível, quem pode, força (com confirmação)
+  const canComplete = allowed.complete && (!blocked || !!flow?.forceable);
   const openLeaves = subtasks ? subtasks.total - subtasks.done : 0;
   const update = useUpdateTask();
   const { t } = useTranslation();
@@ -161,24 +170,20 @@ function TaskRowView({
       )}
       <Checkbox
         checked={done}
-        disabled={!allowed.complete}
+        disabled={!canComplete}
         label={t(done ? 'task.reopen' : 'task.complete', { title: task.title })}
         // Mãe com filhas abertas: pergunta antes de concluir o galho inteiro
         onChange={(checked) =>
-          checked && openLeaves > 0 ? setConfirmAll(true) : toggle(task, checked)
+          checked && blocked
+            ? setConfirmForce(true)
+            : checked && openLeaves > 0
+              ? setConfirmAll(true)
+              : toggle(task, checked)
         }
       />
+      {confirmForce && flow && <ForceDialog task={task} flow={flow} onClose={closeConfirmForce} />}
       {confirmAll && (
-        <ConfirmDialog
-          title={t('task.completeAllTitle', { title: task.title })}
-          message={t('task.completeAllMessage', { count: openLeaves })}
-          confirmLabel={t('task.completeAll')}
-          onClose={closeConfirmAll}
-          onConfirm={() => {
-            closeConfirmAll();
-            completeTree.mutate(task.id);
-          }}
-        />
+        <CompleteAllDialog task={task} openLeaves={openLeaves} onClose={closeConfirmAll} />
       )}
       <View className="flex-1 justify-center gap-1 py-1 md:flex-row md:items-center md:gap-3">
         <View className="flex-1 md:flex-initial md:shrink">
@@ -216,6 +221,7 @@ function TaskRowView({
               <PenStrike done={done} />
             </Pressable>
           )}
+          {flow && !done && <FlowLine flow={flow} />}
         </View>
         <View className="flex-row items-center gap-3 md:ml-auto">
           <TaskMeta task={task} today={today} subtasks={subtasks} pageLabel={pageLabel} />
@@ -271,5 +277,89 @@ export const TaskRow = memo(
     a.level === b.level &&
     a.gutter === b.gutter &&
     a.code === b.code &&
+    sameFlow(a.flow, b.flow) &&
     sameSubtasks(a.subtasks, b.subtasks),
 );
+
+/** Estado no fluxo: cadeado e o que ela espera, ponto verde quando pronta, relógio em andamento. */
+function FlowLine({ flow }: { flow: RowFlow }) {
+  const { t, i18n } = useTranslation();
+  if (flow.state === 'blocked') {
+    const time = flow.readyAt
+      ? new Intl.DateTimeFormat(i18n.language, { hour: '2-digit', minute: '2-digit' }).format(
+          new Date(flow.readyAt),
+        )
+      : null;
+    return (
+      <View className="flex-row items-center gap-1" accessibilityLabel={t('flow.locked')}>
+        <Icon icon={Lock} size={16} tone="ink-muted" />
+        <Text className="text-xs text-ink-muted" numberOfLines={1}>
+          {time
+            ? t('flow.readyAt', { time })
+            : t('flow.blocked', { names: flow.waiting.join(', ') })}
+        </Text>
+      </View>
+    );
+  }
+  if (flow.state === 'doing')
+    return (
+      <View className="flex-row items-center gap-1">
+        <Icon icon={Clock} size={16} tone="accent" />
+        <Text className="text-xs text-accent">{t('flow.doing')}</Text>
+      </View>
+    );
+  return (
+    <View className="flex-row items-center gap-1">
+      <View className="h-2 w-2 rounded-full bg-ok" />
+      <Text className="text-xs text-ok">{t('flow.ready')}</Text>
+    </View>
+  );
+}
+
+// Os diálogos têm as próprias mutações: assim cada linha da lista não cria duas mutações que
+// quase nunca usa (500 linhas = 1.000 observadores a mais)
+function CompleteAllDialog({
+  task,
+  openLeaves,
+  onClose,
+}: {
+  task: Task;
+  openLeaves: number;
+  onClose: () => void;
+}) {
+  const { t } = useTranslation();
+  const completeTree = useCompleteTree();
+  return (
+    <ConfirmDialog
+      title={t('task.completeAllTitle', { title: task.title })}
+      message={t('task.completeAllMessage', { count: openLeaves })}
+      confirmLabel={t('task.completeAll')}
+      onClose={onClose}
+      onConfirm={() => {
+        onClose();
+        completeTree.mutate(task.id);
+      }}
+    />
+  );
+}
+
+function ForceDialog({ task, flow, onClose }: { task: Task; flow: RowFlow; onClose: () => void }) {
+  const { t } = useTranslation();
+  const force = useForceTask();
+  const toast = useToast();
+  return (
+    <ConfirmDialog
+      title={t('flow.forceTitle', { title: task.title })}
+      message={t('flow.forceMessage', { names: flow.waiting.join(', ') })}
+      confirmLabel={t('flow.force')}
+      onClose={onClose}
+      onConfirm={() => {
+        onClose();
+        force.mutate(
+          { id: task.id, action: 'complete' },
+          { onError: (err) => toast({ message: err.message }) },
+        );
+      }}
+    />
+  );
+}

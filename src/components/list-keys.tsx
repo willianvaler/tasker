@@ -17,6 +17,7 @@ import { rootFolder } from '@/lib/queries/projects';
 import { useTree } from '@/lib/queries/tree';
 import { planIndent, planOutdent, type MovePlan } from '@/lib/task-tree';
 import { treeState } from '@/lib/tree-state';
+import { useStartTask } from '@/lib/queries/dependencies';
 import { selection } from '@/lib/selection';
 import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
 import { useShortcut } from '@/lib/use-shortcut';
@@ -43,6 +44,7 @@ export function ListKeys() {
   const create = useCreateTasks();
   const [dating, setDating, closeDating] = useDialog<Task>();
   const tree = useTree();
+  const start = useStartTask();
 
   useEffect(
     () =>
@@ -168,6 +170,17 @@ export function ListKeys() {
   useShortcut(
     'task.outdent',
     onSelected((task) => applyPlan(task, planOutdent(task, pageTasks(task)), maxDepthFor(task))),
+  );
+  // S: inicia ou para (o servidor recusa tarefa bloqueada no modo estrito, e o aviso diz por quê)
+  useShortcut(
+    'task.start',
+    onSelected((task) => {
+      if (task.status === 'done') return false;
+      start.mutate(
+        { id: task.id, started: task.status !== 'doing' },
+        { onError: (err) => toast({ message: err.message }) },
+      );
+    }),
   );
   useShortcut('tree.codes', () => treeState.setCodes(!treeState.codes()));
   useShortcut(

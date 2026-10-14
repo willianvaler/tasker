@@ -29,6 +29,7 @@ import { useColors } from '@/lib/tokens';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { useToday } from '@/lib/queries/profile';
+import { useForceTask, useStartTask, useTaskFlow } from '@/lib/queries/dependencies';
 import {
   dueAfterParent,
   formatDuration,
@@ -49,6 +50,7 @@ import {
 import { findFolder, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { rootFolder } from '@/lib/queries/projects';
+import { useToast } from '@/providers/toast';
 import { useCanWrite, useTaskCan, WriteScope } from '@/providers/write';
 
 const PRIORITIES = [
@@ -111,6 +113,14 @@ function TaskDetails({ task }: { task: Task }) {
   const leaves = leafProgress(siblings.data ?? []).get(task.id);
   const openLeaves = leaves ? leaves.total - leaves.done : 0;
   const parent = siblings.data?.find((s) => s.id === task.parent_task_id);
+  // Fluxo: bloqueada (estrito) não inicia nem conclui; no flexível, quem pode, força
+  const flow = useTaskFlow(task);
+  const start = useStartTask();
+  const force = useForceTask();
+  const [confirmForce, setConfirmForce, closeConfirmForce] = useDialog<'start' | 'complete'>();
+  const blocked = flow.state === 'blocked';
+  const toast = useToast();
+  const flowError = (err: Error) => toast({ message: err.message });
   // Mãe: a estimativa é a soma das folhas (só leitura)
   const rollup = leaves ? leafEstimates(siblings.data ?? []).get(task.id) : undefined;
   const [estimateText, setEstimateText] = useState(
@@ -168,10 +178,14 @@ function TaskDetails({ task }: { task: Task }) {
           {(!isHabit || task.habit_kind === 'check') && (
             <Checkbox
               checked={done}
-              disabled={!allowed.complete}
+              disabled={!allowed.complete || (blocked && !flow.forceable)}
               label={t(done ? 'taskDetail.reopen' : 'taskDetail.complete')}
               onChange={(checked) =>
-                checked && openLeaves > 0 ? setConfirmAll(true) : toggle(task, checked)
+                checked && blocked
+                  ? setConfirmForce('complete')
+                  : checked && openLeaves > 0
+                    ? setConfirmAll(true)
+                    : toggle(task, checked)
               }
             />
           )}
@@ -193,6 +207,34 @@ function TaskDetails({ task }: { task: Task }) {
             )}
           />
         </View>
+
+        {!done && !isHabit && (
+          <View className="flex-row flex-wrap items-center gap-2">
+            {blocked ? (
+              <Text className="flex-1 text-sm text-ink-muted">
+                {t('flow.blocked', { names: flow.waiting.join(', ') })}
+              </Text>
+            ) : flow.state === 'doing' ? (
+              <Text className="flex-1 text-sm text-accent">{t('flow.doing')}</Text>
+            ) : (
+              <View className="flex-1" />
+            )}
+            {allowed.complete && (!blocked || flow.forceable) && (
+              <Button
+                variant="ghost"
+                label={t(flow.state === 'doing' ? 'task.stop' : 'task.start')}
+                onPress={() =>
+                  blocked
+                    ? setConfirmForce('start')
+                    : start.mutate(
+                        { id: task.id, started: flow.state !== 'doing' },
+                        { onError: flowError },
+                      )
+                }
+              />
+            )}
+          </View>
+        )}
 
         <Section title={t('taskDetail.notes')}>
           <TextInput
@@ -418,6 +460,19 @@ function TaskDetails({ task }: { task: Task }) {
           />
         )}
 
+        {confirmForce && (
+          <ConfirmDialog
+            title={t('flow.forceTitle', { title: task.title })}
+            message={t('flow.forceMessage', { names: flow.waiting.join(', ') })}
+            confirmLabel={t('flow.force')}
+            onClose={closeConfirmForce}
+            onConfirm={() => {
+              const action = confirmForce;
+              closeConfirmForce();
+              force.mutate({ id: task.id, action }, { onError: flowError });
+            }}
+          />
+        )}
         {confirmAll && (
           <ConfirmDialog
             title={t('task.completeAllTitle', { title: task.title })}
