@@ -17,6 +17,7 @@ import { Text, textClass } from '@/components/ui/text';
 import type { Json } from '@/lib/db';
 import { asRecurrence } from '@/lib/recurrence';
 import { Button, IconButton } from '@/components/ui/button';
+import { ConflictNotice } from '@/components/tasks/conflict-notice';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip as UiChip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
@@ -177,6 +178,14 @@ function TaskDetails({ task }: { task: Task }) {
             className={textClass(
               'min-h-20 rounded border border-line bg-paper p-3 text-base text-ink focus:border-accent',
             )}
+          />
+          <ConflictNotice
+            taskId={task.id}
+            writable={writable}
+            onRestore={(body) => {
+              setNotes(body);
+              save({ notes: body });
+            }}
           />
         </Section>
 

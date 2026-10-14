@@ -80,7 +80,12 @@ const tasks = new Table(
     updated_by: column.text,
     version: column.integer,
   },
-  { indexes: { page: ['page_id'], due: ['due_date'] } },
+  {
+    indexes: { page: ['page_id'], due: ['due_date'] },
+    // A versão anterior de notas e etiquetas vai junto no envio (conflito e conjunto, D5)
+    trackPrevious: { columns: ['notes', 'labels'], onlyWhenChanged: true },
+    ignoreEmptyUpdates: true,
+  },
 );
 
 const task_assignees = new Table(
@@ -116,6 +121,19 @@ const task_completions = new Table(
     prev_due_date: column.text,
   },
   { indexes: { task: ['task_id', 'completed_at'] } },
+);
+
+// Versões de notas que perderam num conflito ("ver versão anterior")
+const conflict_copies = new Table(
+  {
+    task_id: column.text,
+    folder_id: column.text,
+    field: column.text,
+    body: column.text,
+    replaced_by: column.text,
+    created_at: column.text,
+  },
+  { indexes: { task: ['task_id'] } },
 );
 
 // De quem divide pasta comigo, só nome e avatar
@@ -157,6 +175,7 @@ export const AppSchema = new Schema({
   task_assignees,
   comments,
   task_completions,
+  conflict_copies,
   people,
   profiles,
   commands,

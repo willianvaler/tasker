@@ -57,6 +57,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   },
   comments: { insert: ['task_id', 'body'], update: [] },
   task_assignees: { insert: ['task_id', 'user_id', 'pending_name'], update: [] },
+  conflict_copies: { insert: [], update: [] },
 };
 
 // No SQLite, jsonb e arrays são texto
@@ -79,6 +80,38 @@ const FATAL = [/^22...$/, /^23...$/, /^42501$/, /^P0002$/];
 const isFatal = (code?: string) => !!code && FATAL.some((re) => re.test(code));
 
 type PgError = { code?: string; message: string };
+
+const parseList = (value: unknown): string[] =>
+  Array.isArray(value) ? value : typeof value === 'string' ? JSON.parse(value) : [];
+
+// Notas e etiquetas não vão como update comum: notas levam a versão em que o aparelho se baseou
+// (o servidor guarda a que perder) e etiquetas vão como "entrou/saiu" (conjunto). Tira as duas do
+// `patch` depois de enviar.
+async function patchTaskSets(op: CrudEntry, patch: Record<string, unknown>) {
+  const before = op.previousValues ?? {};
+  if ('notes' in patch) {
+    const { error } = await supabase.rpc('set_task_notes', {
+      p_task_id: op.id,
+      p_notes: (patch.notes as string | null) ?? '',
+      // Sem nota antes: null (o tipo gerado não sabe que o parâmetro aceita null)
+      p_base: (before.notes ?? null) as string,
+    });
+    if (error) return error;
+    delete patch.notes;
+  }
+  if ('labels' in patch) {
+    const now = parseList(patch.labels);
+    const was = parseList(before.labels);
+    const { error } = await supabase.rpc('patch_task_labels', {
+      p_task_id: op.id,
+      p_add: now.filter((l) => !was.includes(l)),
+      p_remove: was.filter((l) => !now.includes(l)),
+    });
+    if (error) return error;
+    delete patch.labels;
+  }
+  return null;
+}
 
 async function apply(op: CrudEntry): Promise<PgError | null> {
   const data = op.opData ?? {};
@@ -117,6 +150,10 @@ async function apply(op: CrudEntry): Promise<PgError | null> {
 
   if (op.op === UpdateType.PATCH) {
     const patch = pick(data, columns.update);
+    if (op.table === 'tasks') {
+      const error = await patchTaskSets(op, patch);
+      if (error) return error;
+    }
     if (Object.keys(patch).length === 0) return null;
     const { error } = await table.update(patch as never).eq('id', op.id);
     return error;

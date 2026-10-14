@@ -267,6 +267,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"conflict_copies": {
+                  Row: {
+                    "body": string,"created_at": string,"field": string,"folder_id": string,"id": string,"replaced_by": string | null,"task_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "body": string,"created_at"?: string,"field"?: string,"folder_id": string,"id"?: string,"replaced_by"?: string | null,"task_id": string
+                  }
+                  Update: {
+                    "body"?: string,"created_at"?: string,"field"?: string,"folder_id"?: string,"id"?: string,"replaced_by"?: string | null,"task_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "conflict_copies_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "conflict_copies_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"folder_members": {
                   Row: {
                     "aliases": (string)[],"folder_id": string,"joined_at": string,"role": Database["public"]['Enums']["folder_role"],"user_id": string
@@ -943,6 +969,9 @@ isOneToOne: false
 "normalize_labels":
 { Args: { "p_labels": (string)[] }; Returns: (string)[]
                            },
+"patch_task_labels":
+{ Args: { "p_add": (string)[],"p_remove": (string)[],"p_task_id": string }; Returns: undefined
+                           },
 "pending_names":
 { Args: { "p_folder_id": string }; Returns: (string)[]
                            },
@@ -981,6 +1010,9 @@ isOneToOne: false
                            },
 "set_member_role":
 { Args: { "p_folder_id": string,"p_role": Database["public"]['Enums']["folder_role"],"p_user_id": string }; Returns: undefined
+                           },
+"set_task_notes":
+{ Args: { "p_base": string,"p_notes": string,"p_task_id": string }; Returns: undefined
                            },
 "set_task_status":
 { Args: { "p_status": Database["public"]['Enums']["task_status"],"p_task_id": string }; Returns: Json

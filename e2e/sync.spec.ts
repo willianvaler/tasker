@@ -30,7 +30,9 @@ test('sync: offline, fila, servidor e revogação', async ({ page, context }, te
   await field.press('Enter');
   await expect(page.getByText(title)).toBeVisible();
   await expect(page.getByText('0 alterações esperando envio')).toBeVisible({ timeout: 15_000 });
-  await expect.poll(async () => (await serverTask(title))?.status).toBe('todo');
+  await expect
+    .poll(async () => (await serverTask(title))?.status, { timeout: 20_000 })
+    .toBe('todo');
 
   // Sem conexão: conclui no aparelho, fica na fila; volta a conexão e o complete_task roda
   await context.setOffline(true);
@@ -67,7 +69,9 @@ test('sync: reenvio depois de resposta perdida não duplica', async ({ page }, t
   const field = page.getByPlaceholder('Nova tarefa na Caixa de entrada');
   await field.fill(title);
   await field.press('Enter');
-  await expect.poll(async () => (await serverTask(title))?.status).toBe('todo');
+  await expect
+    .poll(async () => (await serverTask(title))?.status, { timeout: 20_000 })
+    .toBe('todo');
   const { id } = await serverTask(title);
   await adminRest(`tasks?id=eq.${id}`, {
     method: 'PATCH',
@@ -93,4 +97,88 @@ test('sync: reenvio depois de resposta perdida não duplica', async ({ page }, t
   expect(task.due_date).toBe('2026-11-15');
   const completions = await adminRest(`task_completions?task_id=eq.${id}&select=id`);
   expect(completions).toHaveLength(1);
+});
+
+test('sync: dois aparelhos offline na mesma tarefa chegam ao mesmo estado', async ({
+  browser,
+  page,
+}, testInfo) => {
+  test.setTimeout(120_000);
+  const email = await signUp(page, testInfo);
+  await page.goto('/sync');
+  await expect(page.getByText('Conectado', { exact: true })).toBeVisible({ timeout: 20_000 });
+  const title = `Conflito ${testInfo.project.name} ${Date.now()}`;
+  const field = page.getByPlaceholder('Nova tarefa na Caixa de entrada');
+  await field.fill(title);
+  await field.press('Enter');
+  await expect
+    .poll(async () => (await serverTask(title))?.status, { timeout: 20_000 })
+    .toBe('todo');
+  const { id } = await serverTask(title);
+
+  // O mesmo usuário em outro "aparelho"
+  const other = await browser.newContext({ ...testInfo.project.use, locale: 'pt-BR' });
+  const b = await other.newPage();
+  await b.goto('/');
+  await b.getByPlaceholder('E-mail').fill(email);
+  await b.getByPlaceholder('Senha').fill('senha-forte-123');
+  await b.getByRole('button', { name: 'Entrar', exact: true }).click();
+  await expect(b.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await b.goto('/sync');
+  await expect(b.getByText(title)).toBeVisible({ timeout: 20_000 });
+
+  const run = (p: typeof page, sql: string, params: unknown[]) =>
+    p.evaluate(([q, args]) => (window as any).questlistDb.execute(q, args), [sql, params] as const);
+  const row = (p: typeof page) =>
+    p.evaluate(
+      (taskId) =>
+        (window as any).questlistDb.get(
+          'select title, priority, notes, labels from tasks where id = ?',
+          [taskId],
+        ),
+      id,
+    );
+  const pending = (p: typeof page) =>
+    p.evaluate(() => (window as any).questlistDb.get('select count(*) as n from ps_crud'));
+
+  // Os dois sem rede, cada um mexendo em campos diferentes e nos mesmos (notas, etiquetas)
+  await page.context().setOffline(true);
+  await other.setOffline(true);
+  await run(page, 'update tasks set title = ?, notes = ?, labels = ? where id = ?', [
+    `${title} A`,
+    'nota do A',
+    '["casa"]',
+    id,
+  ]);
+  await run(b, 'update tasks set priority = ?, notes = ?, labels = ? where id = ?', [
+    3,
+    'nota do B',
+    '["urgente"]',
+    id,
+  ]);
+
+  // A volta primeiro, depois B
+  await page.context().setOffline(false);
+  await expect.poll(async () => (await pending(page)).n, { timeout: 30_000 }).toBe(0);
+  await other.setOffline(false);
+  await expect.poll(async () => (await pending(b)).n, { timeout: 30_000 }).toBe(0);
+
+  const expected = {
+    title: `${title} A`,
+    priority: 3,
+    notes: 'nota do B',
+    labels: '["casa","urgente"]',
+  };
+  await expect.poll(() => row(page), { timeout: 20_000 }).toEqual(expected);
+  await expect.poll(() => row(b), { timeout: 20_000 }).toEqual(expected);
+
+  // A nota do A perdeu, mas ficou guardada
+  const copies = await adminRest(`conflict_copies?task_id=eq.${id}&select=body`);
+  expect(copies).toEqual([{ body: 'nota do A' }]);
+  await page.goto(`/task/${id}`);
+  await page.getByRole('button', { name: 'Ver versão anterior' }).click();
+  await expect(page.getByText('nota do A')).toBeVisible();
+  await page.getByRole('button', { name: 'Descartar' }).click();
+  await expect(page.getByRole('button', { name: 'Ver versão anterior' })).toHaveCount(0);
+  await other.close();
 });

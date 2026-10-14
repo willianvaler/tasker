@@ -47,7 +47,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **D2** Banco local: é o SQLite do PowerSync (`lib/sync/db.ts` nativo com op-sqlite, `db.web.ts` com wa-sqlite em worker), feito na D0; não há `LocalStore` próprio (D84)
 - [x] **D3** Fila: a do PowerSync; o `uploadData` manda só as colunas com grant, cria tarefa pelo `create_tasks_batch` e as ações de RPC pela tabela local `commands` → `run_once` (chave de idempotência, tabela `applied_ops`); erro definitivo descarta, erro de rede repete (D84)
 - [x] **D4** Leitura: Sync Streams com responsáveis, comentários, conclusões, perfis (o meu inteiro; dos outros, nome e avatar); revogação e reenvio cobertos no `e2e/sync.spec.ts`
-- [ ] **D5** Conflitos: LWW por campo (HLC), conclusão como evento, conjuntos para etiquetas/subtarefas, `conflict_copies` nas notas
+- [x] **D5** Conflitos: campo a campo (o aparelho só manda o que mudou), notas com cópia da versão perdida (`conflict_copies`, `set_task_notes`, aviso "Ver versão anterior" no painel da tarefa), etiquetas como conjunto (`patch_task_labels`), conclusão como evento (já era); teste de dois aparelhos offline no `e2e/sync.spec.ts` (D85)
 - [ ] **D6** Telas lendo do `LocalStore` (troca do TanStack Query por leitura local, tela por tela — um commit por tela)
 - [ ] **D7** Lixeira 30 dias + rotina de retenção de tombstones; `docs/OPERACOES.md` (backup/restauração)
 - [ ] **D8** Indicador de sync (ponto) + tela "Estado da sincronização"

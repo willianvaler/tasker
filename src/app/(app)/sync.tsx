@@ -17,6 +17,10 @@ import { useSession } from '@/providers/session';
 
 type Row = { id: string; title: string; status: string };
 
+// Acesso ao banco local pelo console (e pelos testes de dois aparelhos): são os dados de quem está
+// logado, no navegador dele
+if (typeof window !== 'undefined') Object.assign(window, { questlistDb: db });
+
 // Estado da sincronização e o banco local por dentro: lê só do SQLite do aparelho, então funciona
 // sem conexão
 export default function SyncScreen() {

@@ -838,5 +838,11 @@
     "local": "En el dispositivo: {{folders}} carpetas, {{pages}} páginas, {{tasks}} tareas",
     "addPlaceholder": "Nueva tarea en la Bandeja de entrada",
     "recent": "Tareas abiertas en el dispositivo"
+  },
+  "conflict": {
+    "notice": "Esta nota se editó en dos lugares a la vez. Quedó la última; la otra versión está guardada.",
+    "show": "Ver versión anterior",
+    "restore": "Usar esta versión",
+    "dismiss": "Descartar"
   }
 }

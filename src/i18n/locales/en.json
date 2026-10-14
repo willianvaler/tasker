@@ -838,5 +838,11 @@
     "local": "On this device: {{folders}} folders, {{pages}} pages, {{tasks}} tasks",
     "addPlaceholder": "New task in the Inbox",
     "recent": "Open tasks on this device"
+  },
+  "conflict": {
+    "notice": "This note was edited in two places at once. The latest one was kept; the other version is saved.",
+    "show": "See previous version",
+    "restore": "Use this version",
+    "dismiss": "Discard"
   }
 }

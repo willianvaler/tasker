@@ -838,5 +838,11 @@
     "local": "No aparelho: {{folders}} pastas, {{pages}} páginas, {{tasks}} tarefas",
     "addPlaceholder": "Nova tarefa na Caixa de entrada",
     "recent": "Tarefas abertas no aparelho"
+  },
+  "conflict": {
+    "notice": "Esta nota foi editada em dois lugares ao mesmo tempo. Ficou a última; a outra versão está guardada.",
+    "show": "Ver versão anterior",
+    "restore": "Usar esta versão",
+    "dismiss": "Descartar"
   }
 }
