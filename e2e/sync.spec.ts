@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 import { adminRest, signUp } from './helpers';
 
@@ -13,15 +13,22 @@ test.beforeAll(async () => {
   test.skip(!up, 'PowerSync local fora do ar (npm run sync:start)');
 });
 
+/** Abre a tela do sync e espera a primeira carga do banco local (com a Caixa de entrada). */
+async function openSync(page: Page) {
+  await page.goto('/sync');
+  await expect(page.getByText('Conectado', { exact: true })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText(/No aparelho: \d+ pastas, [1-9]\d* páginas/)).toBeVisible({
+    timeout: 20_000,
+  });
+}
+
 const serverTask = async (title: string) =>
   (await adminRest(`tasks?title=eq.${encodeURIComponent(title)}&select=id,status,folder_id`))[0];
 
 test('sync: offline, fila, servidor e revogação', async ({ page, context }, testInfo) => {
   test.setTimeout(90_000);
   await signUp(page, testInfo);
-  await page.goto('/sync');
-  await expect(page.getByText('Conectado', { exact: true })).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByText(/No aparelho: \d+ pastas, [1-9]\d* páginas/)).toBeVisible();
+  await openSync(page);
 
   // Cria no banco local; a fila leva até o create_tasks_batch
   const title = `Sync ${testInfo.project.name} ${Date.now()}`;
@@ -62,8 +69,7 @@ test('sync: offline, fila, servidor e revogação', async ({ page, context }, te
 test('sync: reenvio depois de resposta perdida não duplica', async ({ page }, testInfo) => {
   test.setTimeout(90_000);
   await signUp(page, testInfo);
-  await page.goto('/sync');
-  await expect(page.getByText('Conectado', { exact: true })).toBeVisible({ timeout: 20_000 });
+  await openSync(page);
 
   const title = `Recorrente ${testInfo.project.name} ${Date.now()}`;
   const field = page.getByPlaceholder('Nova tarefa na Caixa de entrada');
@@ -105,8 +111,7 @@ test('sync: dois aparelhos offline na mesma tarefa chegam ao mesmo estado', asyn
 }, testInfo) => {
   test.setTimeout(120_000);
   const email = await signUp(page, testInfo);
-  await page.goto('/sync');
-  await expect(page.getByText('Conectado', { exact: true })).toBeVisible({ timeout: 20_000 });
+  await openSync(page);
   const title = `Conflito ${testInfo.project.name} ${Date.now()}`;
   const field = page.getByPlaceholder('Nova tarefa na Caixa de entrada');
   await field.fill(title);

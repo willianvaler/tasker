@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ageCycle, createPage, openTab, paste, shown, signUp } from './helpers';
+import { ageCycle, createPage, openTab, paste, shown, signUp, isRpc } from './helpers';
 
 const TREINO = [
   'Supino 4x12 20kg',
@@ -33,7 +33,7 @@ test('critério de aceite: Treino A com 8 exercícios, marcar tudo e reset na se
   // Toque no card inteiro marca
   for (const line of TREINO) {
     const name = line.replace(/ \d+x\d+.*$/, '');
-    const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
+    const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
     await page.getByRole('checkbox', { name, exact: true }).click();
     await done;
   }
@@ -65,7 +65,7 @@ test('hábitos: sequência, dias da semana e seção na tela Hoje', async ({ pag
   await input.press('Enter');
   await expect(shown(page, 'Seg, Qua, Sex')).toBeVisible();
 
-  const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
+  const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: 'Feito: Beber água' }).click();
   await done;
   await expect(
@@ -101,7 +101,7 @@ test('recorrente: concluir avança a data e desfazer volta', async ({ page }, te
     page.getByLabel('Data: Hoje').and(page.locator(':not([aria-hidden="true"] *)')),
   ).toBeVisible();
 
-  const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
+  const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: 'Concluir Pagar luz' }).click();
   await done;
   await expect(shown(page, /^Feito! Próxima: /)).toBeVisible();
@@ -111,7 +111,7 @@ test('recorrente: concluir avança a data e desfazer volta', async ({ page }, te
     page.getByLabel('Data: Hoje').and(page.locator(':not([aria-hidden="true"] *)')),
   ).toHaveCount(0);
 
-  const undone = page.waitForResponse((r) => r.url().includes('uncomplete_task') && r.ok());
+  const undone = page.waitForResponse((r) => isRpc(r, 'uncomplete_task'));
   await page.getByRole('button', { name: 'Desfazer' }).click();
   await undone;
   await expect(

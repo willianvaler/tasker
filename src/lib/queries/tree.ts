@@ -3,6 +3,16 @@ import { uuidv7 } from '@/lib/uuid';
 
 import type { Tables } from '../db';
 import { supabase } from '../supabase';
+import { db } from '../sync/db';
+import {
+  isLocal,
+  localInsert,
+  localUpdate,
+  newRowStamps,
+  sessionUserId,
+  toFolder,
+  toPage,
+} from '../sync/local';
 import { keys } from './keys';
 
 export type Folder = Tables<'folders'>;
@@ -33,12 +43,18 @@ export function useTree() {
   return useQuery({
     queryKey: keys.tree,
     queryFn: async (): Promise<Tree> => {
-      const [folders, pages] = await Promise.all([
-        supabase.from('folders').select('*').eq('archived', false),
-        supabase.from('pages').select('*'),
-      ]);
-      if (folders.error) throw folders.error;
-      if (pages.error) throw pages.error;
+      const [folders, pages] = isLocal()
+        ? await Promise.all([
+            db
+              .getAll<Record<string, unknown>>('select * from folders where archived = 0')
+              .then((r) => ({
+                data: r.map(toFolder),
+              })),
+            db
+              .getAll<Record<string, unknown>>('select * from pages')
+              .then((r) => ({ data: r.map(toPage) })),
+          ])
+        : await remoteTree();
 
       const pagesOf = (folderId: string) =>
         pages.data.filter((p) => p.folder_id === folderId).sort(byPosition);
@@ -63,6 +79,16 @@ export function useTree() {
       };
     },
   });
+}
+
+async function remoteTree() {
+  const [folders, pages] = await Promise.all([
+    supabase.from('folders').select('*').eq('archived', false),
+    supabase.from('pages').select('*'),
+  ]);
+  if (folders.error) throw folders.error;
+  if (pages.error) throw pages.error;
+  return [folders, pages] as const;
 }
 
 function nextPosition(items: { position: number }[]) {
@@ -93,7 +119,7 @@ export function useTreeMutations() {
         ? (tree()?.folders.find((f) => f.id === parentId)?.children ?? [])
         : (tree()?.folders ?? []);
       const id = uuidv7();
-      const { error } = await supabase.from('folders').insert({
+      const row = {
         id,
         name,
         icon: icon || null,
@@ -101,7 +127,31 @@ export function useTreeMutations() {
         kind: parentId ? 'folder' : kind,
         color: color ?? null,
         position: nextPosition(siblings),
-      });
+      };
+      if (isLocal()) {
+        const owner = await sessionUserId();
+        await localInsert('folders', {
+          ...row,
+          ...newRowStamps(),
+          owner_id: owner,
+          is_shared: 0,
+          is_inbox: 0,
+          archived: 0,
+        });
+        // A participação nasce no servidor (trigger); aqui, para a pasta já aparecer como minha
+        if (!parentId) {
+          await localInsert('folder_members', {
+            id: `${id}:${owner}`,
+            folder_id: id,
+            user_id: owner,
+            role: 'owner',
+            aliases: '[]',
+            joined_at: new Date().toISOString(),
+          });
+        }
+        return id;
+      }
+      const { error } = await supabase.from('folders').insert(row);
       if (error) throw error;
       return id;
     },
@@ -121,10 +171,9 @@ export function useTreeMutations() {
       /** undefined = não mexe; null = sem cor */
       color?: string | null;
     }) => {
-      const { error } = await supabase
-        .from('folders')
-        .update({ name, icon: icon || null, ...(color === undefined ? {} : { color }) })
-        .eq('id', id);
+      const patch = { name, icon: icon || null, ...(color === undefined ? {} : { color }) };
+      if (isLocal()) return localUpdate('folders', id, patch);
+      const { error } = await supabase.from('folders').update(patch).eq('id', id);
       if (error) throw error;
     },
     onSettled,
@@ -132,6 +181,18 @@ export function useTreeMutations() {
 
   const deleteFolder = useMutation({
     mutationFn: async (id: string) => {
+      if (isLocal()) {
+        // O servidor apaga em cascata; no aparelho, some tudo de uma vez para a tela não mostrar
+        // tarefas de uma pasta que já não existe enquanto o sync não chega
+        await db.writeTransaction(async (tx) => {
+          const ids = `(select id from folders where id = ? or parent_id = ?)`;
+          await tx.execute(`delete from tasks where folder_id in ${ids}`, [id, id]);
+          await tx.execute(`delete from pages where folder_id in ${ids}`, [id, id]);
+          await tx.execute('delete from folders where parent_id = ?', [id]);
+          await tx.execute('delete from folders where id = ?', [id]);
+        });
+        return;
+      }
       const { error } = await supabase.from('folders').delete().eq('id', id);
       if (error) throw error;
     },
@@ -145,13 +206,26 @@ export function useTreeMutations() {
     mutationFn: async ({ folderId, ...settings }: { folderId: string } & PageSettings) => {
       const id = uuidv7();
       const siblings = tree()?.pages.filter((p) => p.folder_id === folderId) ?? [];
-      const { error } = await supabase.from('pages').insert({
+      const row = {
         id,
         folder_id: folderId,
         ...settings,
         icon: settings.icon || null,
         position: nextPosition(siblings),
-      });
+      };
+      if (isLocal()) {
+        await localInsert('pages', {
+          view_type: 'list',
+          reset_cycle: 'none',
+          is_inbox: 0,
+          is_habits: 0,
+          manual_cycle: 0,
+          ...newRowStamps(),
+          ...row,
+        });
+        return id;
+      }
+      const { error } = await supabase.from('pages').insert(row);
       if (error) throw error;
       return id;
     },
@@ -160,6 +234,7 @@ export function useTreeMutations() {
 
   const updatePage = useMutation({
     mutationFn: async ({ id, ...patch }: { id: string } & PageSettings) => {
+      if (isLocal()) return localUpdate('pages', id, { ...patch, icon: patch.icon || null });
       const { error } = await supabase
         .from('pages')
         .update({ ...patch, icon: patch.icon || null })
@@ -177,6 +252,18 @@ export function useTreeMutations() {
   const movePage = useMutation({
     mutationFn: async ({ id, folderId }: { id: string; folderId: string }) => {
       const siblings = findFolder(tree(), folderId)?.folder.pages ?? [];
+      if (isLocal()) {
+        await db.writeTransaction(async (tx) => {
+          await tx.execute('update pages set folder_id = ?, position = ? where id = ?', [
+            folderId,
+            nextPosition(siblings),
+            id,
+          ]);
+          // No servidor é trigger; o folder_id das tarefas não sobe (não tem grant)
+          await tx.execute('update tasks set folder_id = ? where page_id = ?', [folderId, id]);
+        });
+        return;
+      }
       const { error } = await supabase
         .from('pages')
         .update({ folder_id: folderId, position: nextPosition(siblings) })
@@ -208,6 +295,13 @@ export function useTreeMutations() {
 
   const deletePage = useMutation({
     mutationFn: async (id: string) => {
+      if (isLocal()) {
+        await db.writeTransaction(async (tx) => {
+          await tx.execute('delete from tasks where page_id = ?', [id]);
+          await tx.execute('delete from pages where id = ?', [id]);
+        });
+        return;
+      }
       const { error } = await supabase.from('pages').delete().eq('id', id);
       if (error) throw error;
     },

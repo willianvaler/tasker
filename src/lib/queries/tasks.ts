@@ -6,6 +6,18 @@ import type { ParsedTask } from '../parser/quick';
 import { todayIn } from '../parser/dates';
 import { asRecurrence, nextDueDate } from '../recurrence';
 import { supabase } from '../supabase';
+import { db } from '../sync/db';
+import {
+  isLocal,
+  localTasks,
+  refreshCyclesInBackground,
+  runCommand,
+  sessionUserId,
+  TASK_WITH_PAGE_SQL,
+  toSqlValue,
+  toTask,
+  toTaskWithPage,
+} from '../sync/local';
 import { completionSummarySchema, type CompletionSummary } from './game';
 import { keys, taskMutationKey } from './keys';
 import { useTree, type Page, type Tree } from './tree';
@@ -23,6 +35,12 @@ export function usePageTasks(pageId: string | undefined) {
     queryKey: keys.pageTasks(pageId ?? ''),
     enabled: !!pageId,
     queryFn: async () => {
+      if (isLocal()) {
+        refreshCyclesInBackground(pageId);
+        return localTasks('select * from tasks where page_id = ? order by position, created_at', [
+          pageId,
+        ]);
+      }
       // Reabre o que ficou em ciclo vencido antes de ler (o cron também faz, a cada 15 min)
       await supabase.rpc('refresh_cycles', { p_page_id: pageId! });
       const { data, error } = await supabase
@@ -42,6 +60,15 @@ export function useTodayTasks(today: string) {
   return useQuery({
     queryKey: keys.today(today),
     queryFn: async () => {
+      if (isLocal()) {
+        refreshCyclesInBackground();
+        const rows = await db.getAll<Record<string, unknown>>(
+          `${TASK_WITH_PAGE_SQL} where t.parent_task_id is null and t.status != 'done'
+             and t.due_date <= ? order by t.due_date, t.priority desc, t.position`,
+          [today],
+        );
+        return rows.map(toTaskWithPage);
+      }
       await supabase.rpc('refresh_cycles', {});
       const { data, error } = await supabase
         .from('tasks')
@@ -63,6 +90,15 @@ export function useUpcomingTasks(today: string, until: string) {
   return useQuery({
     queryKey: ['tasks', 'upcoming', today, until],
     queryFn: async () => {
+      if (isLocal()) {
+        const rows = await db.getAll<Record<string, unknown>>(
+          `${TASK_WITH_PAGE_SQL} where t.parent_task_id is null and t.status != 'done'
+             and t.due_date > ? and t.due_date <= ?
+           order by t.due_date, t.priority desc, t.position`,
+          [today, until],
+        );
+        return rows.map(toTaskWithPage);
+      }
       const { data, error } = await supabase
         .from('tasks')
         .select(TASK_WITH_PAGE)
@@ -96,8 +132,16 @@ export function useHabits(today: string) {
     queryKey: [...keys.habits(today), pageIds.join(',')],
     enabled: !!tree.data,
     queryFn: async () => {
-      await supabase.rpc('refresh_cycles', {});
       if (pageIds.length === 0) return [];
+      if (isLocal()) {
+        refreshCyclesInBackground();
+        const rows = await db.getAll<Record<string, unknown>>(
+          `${TASK_WITH_PAGE_SQL} where p.view_type = 'habits' and t.parent_task_id is null
+           order by t.position`,
+        );
+        return rows.map(toTaskWithPage) as HabitTask[];
+      }
+      await supabase.rpc('refresh_cycles', {});
       const { data, error } = await supabase
         .from('tasks')
         .select('*, page:pages(name, icon, view_type)')
@@ -116,12 +160,9 @@ export function useCompletionDates(taskIds: string[], since: string, timeZone: s
     queryKey: ['tasks', 'completions', since, ...[...taskIds].sort()],
     enabled: taskIds.length > 0,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('task_completions')
-        .select('task_id, completed_at')
-        .in('task_id', taskIds)
-        .gte('completed_at', since);
-      if (error) throw error;
+      const data = isLocal()
+        ? await localCompletions(taskIds, since)
+        : await remoteCompletions(taskIds, since);
       // Objeto simples (não Map): o cache é salvo em JSON para abrir offline
       const byTask: Record<string, string[]> = {};
       for (const c of data) {
@@ -132,6 +173,25 @@ export function useCompletionDates(taskIds: string[], since: string, timeZone: s
   });
 }
 
+async function remoteCompletions(taskIds: string[], since: string) {
+  const { data, error } = await supabase
+    .from('task_completions')
+    .select('task_id, completed_at')
+    .in('task_id', taskIds)
+    .gte('completed_at', since);
+  if (error) throw error;
+  return data;
+}
+
+async function localCompletions(taskIds: string[], since: string) {
+  const rows = await db.getAll<{ task_id: string; completed_at: string }>(
+    `select task_id, completed_at from task_completions
+     where task_id in (select value from json_each(?)) and datetime(completed_at) >= datetime(?)`,
+    [JSON.stringify(taskIds), since],
+  );
+  return rows.map((r) => ({ ...r, completed_at: r.completed_at.replace(' ', 'T') }));
+}
+
 /** Uma tarefa: primeiro procura nas listas em cache, depois busca no banco. */
 export function useTask(id: string | undefined) {
   const queryClient = useQueryClient();
@@ -140,6 +200,7 @@ export function useTask(id: string | undefined) {
     enabled: !!id,
     initialData: () => findCachedTask(queryClient, id!),
     queryFn: async () => {
+      if (isLocal()) return (await localTasks('select * from tasks where id = ?', [id]))[0] ?? null;
       const { data, error } = await supabase.from('tasks').select('*').eq('id', id!).maybeSingle();
       if (error) throw error;
       return data;
@@ -354,7 +415,26 @@ export function useCreateSubtask() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: taskMutationKey,
+    networkMode: isLocal() ? 'always' : 'online',
     mutationFn: async ({ parent, title, id }: { parent: Task; title: string; id: string }) => {
+      if (isLocal()) {
+        const userId = await sessionUserId();
+        await db.writeTransaction((tx) =>
+          insertLocalTask(
+            tx,
+            {
+              id,
+              page_id: parent.page_id,
+              folder_id: parent.folder_id,
+              parent_task_id: parent.id,
+              title,
+              position: Date.now(),
+            },
+            userId,
+          ),
+        );
+        return;
+      }
       const { error } = await supabase.from('tasks').insert({
         id,
         page_id: parent.page_id,
@@ -442,7 +522,12 @@ export function useDeleteTask() {
 
   return useMutation({
     mutationKey: taskMutationKey,
+    networkMode: isLocal() ? 'always' : 'online',
     mutationFn: async (id: string) => {
+      if (isLocal()) {
+        await db.execute('delete from tasks where id = ? or parent_task_id = ?', [id, id]);
+        return;
+      }
       const { error } = await supabase.from('tasks').delete().eq('id', id);
       if (error) throw error;
     },
@@ -486,7 +571,12 @@ export const undoHabitTickKey = [...taskMutationKey, 'habit-undo'] as const;
 
 /** Mesma fila para todas as mutações de tarefa: a ordem de envio é a ordem em que foram feitas. */
 const offlineTaskMutation = (mutationKey: readonly unknown[]) =>
-  ({ mutationKey, scope: { id: 'tasks' } }) as const;
+  ({
+    mutationKey,
+    scope: { id: 'tasks' },
+    // Gravando no banco do aparelho, a mutação roda mesmo sem rede (o sync envia depois)
+    networkMode: isLocal() ? 'always' : 'online',
+  }) as const;
 
 export type CreateTasksVars = { pageId: string; items: (NewTask & { id: string })[] };
 export type ToggleTaskVars = { id: string; done: boolean; nextDue?: string | null };
@@ -497,6 +587,7 @@ export type StatusTaskVars = { id: string; status: TaskStatus };
 export type HabitTickVars = { taskId: string; delta: 1 | -1; id: string };
 
 export async function createTasksFn({ pageId, items }: CreateTasksVars) {
+  if (isLocal()) return createLocalTasks(pageId, items);
   const { error } = await supabase.rpc('create_tasks_batch', {
     p_page_id: pageId,
     p_items: items.map(toRpcItem) as unknown as Json,
@@ -507,7 +598,23 @@ export async function createTasksFn({ pageId, items }: CreateTasksVars) {
 export async function toggleTaskFn({
   id,
   done,
+  nextDue,
 }: ToggleTaskVars): Promise<CompletionSummary | null> {
+  if (isLocal()) {
+    const result = await runCommand(
+      done ? 'complete_task' : 'uncomplete_task',
+      { p_task_id: id },
+      (tx) =>
+        done && nextDue
+          ? tx.execute('update tasks set due_date = ? where id = ?', [nextDue, id])
+          : tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
+              done ? 'done' : 'todo',
+              done ? new Date().toISOString() : null,
+              id,
+            ]),
+    );
+    return completionSummarySchema.safeParse(result).data ?? null;
+  }
   const { data, error } = await supabase.rpc(done ? 'complete_task' : 'uncomplete_task', {
     p_task_id: id,
   });
@@ -518,6 +625,15 @@ export async function toggleTaskFn({
 
 /** Só os campos mudados vão para o servidor: em conflito, a última escrita vence por campo. */
 export async function updateTaskFn({ id, patch }: UpdateTaskVars) {
+  if (isLocal()) {
+    const columns = Object.keys(patch) as (keyof TaskPatch)[];
+    if (columns.length === 0) return;
+    await db.execute(`update tasks set ${columns.map((c) => `${c} = ?`).join(', ')} where id = ?`, [
+      ...columns.map((c) => toSqlValue(patch[c])),
+      id,
+    ]);
+    return;
+  }
   const { error } = await supabase.from('tasks').update(patch).eq('id', id);
   if (error) throw error;
 }
@@ -527,6 +643,16 @@ export async function setTaskStatusFn({
   id,
   status,
 }: StatusTaskVars): Promise<CompletionSummary | null> {
+  if (isLocal()) {
+    const result = await runCommand('set_task_status', { p_task_id: id, p_status: status }, (tx) =>
+      tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
+        status,
+        status === 'done' ? new Date().toISOString() : null,
+        id,
+      ]),
+    );
+    return completionSummarySchema.safeParse(result).data ?? null;
+  }
   const { data, error } = await supabase.rpc('set_task_status', {
     p_task_id: id,
     p_status: status,
@@ -541,6 +667,26 @@ export async function habitTickFn({
   delta,
   id,
 }: HabitTickVars): Promise<CompletionSummary | null> {
+  if (isLocal()) {
+    const result = await runCommand(
+      'habit_tick',
+      { p_task_id: taskId, p_delta: delta, p_id: id },
+      async (tx) => {
+        // Pela transação: o `db` esperaria esta mesma transação terminar
+        const row = await tx.getOptional<Record<string, unknown>>(
+          'select * from tasks where id = ?',
+          [taskId],
+        );
+        if (!row) return;
+        const next = applyHabitTick(toTask(row), delta);
+        await tx.execute(
+          'update tasks set count_up = ?, count_down = ?, status = ?, completed_at = ? where id = ?',
+          [next.count_up, next.count_down, next.status, next.completed_at, taskId],
+        );
+      },
+    );
+    return completionSummarySchema.safeParse(result).data ?? null;
+  }
   const { data, error } = await supabase.rpc('habit_tick', {
     p_task_id: taskId,
     p_delta: delta,
@@ -550,7 +696,14 @@ export async function habitTickFn({
   return completionSummarySchema.safeParse(data).data ?? null;
 }
 
-export async function undoHabitTickFn({ id }: HabitTickVars) {
+export async function undoHabitTickFn({ id, taskId, delta }: HabitTickVars) {
+  if (isLocal()) {
+    const column = delta === 1 ? 'count_up' : 'count_down';
+    await runCommand('undo_habit_tick', { p_event_id: id }, (tx) =>
+      tx.execute(`update tasks set ${column} = max(0, ${column} - 1) where id = ?`, [taskId]),
+    );
+    return;
+  }
   const { error } = await supabase.rpc('undo_habit_tick', { p_event_id: id });
   if (error) throw error;
 }
@@ -674,5 +827,140 @@ export function useSetTaskStatus() {
       queryClient.invalidateQueries({ queryKey: ['project-boss'] });
       queryClient.invalidateQueries({ queryKey: ['board'] });
     },
+  });
+}
+
+// ============================================================
+// Criar no banco do aparelho (o sync manda pelo create_tasks_batch)
+// ============================================================
+
+type LocalTaskInsert = {
+  id: string;
+  page_id: string;
+  folder_id: string;
+  title: string;
+  position: number;
+  parent_task_id?: string | null;
+  priority?: number;
+  due_date?: string | null;
+  labels?: string[];
+  recurrence?: unknown;
+  meta?: unknown;
+  habit_kind?: string;
+  habit_target?: number | null;
+};
+
+type Tx = { execute: (sql: string, params?: unknown[]) => Promise<unknown> };
+
+async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | null) {
+  const now = new Date().toISOString();
+  await tx.execute(
+    `insert into tasks (id, page_id, folder_id, parent_task_id, title, status, priority, due_date,
+       labels, recurrence, meta, position, habit_kind, habit_target, count_up, count_down,
+       created_by, created_at, updated_at, version)
+     values (?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1)`,
+    [
+      task.id,
+      task.page_id,
+      task.folder_id,
+      task.parent_task_id ?? null,
+      task.title,
+      task.priority ?? 0,
+      task.due_date ?? null,
+      JSON.stringify(task.labels ?? []),
+      toSqlValue(task.recurrence ?? null),
+      toSqlValue(task.meta ?? null),
+      task.position,
+      task.habit_kind ?? 'check',
+      task.habit_target ?? null,
+      userId,
+      now,
+      now,
+    ],
+  );
+}
+
+async function completeInTx(tx: Tx, id: string) {
+  await tx.execute("update tasks set status = 'done', completed_at = ? where id = ?", [
+    new Date().toISOString(),
+    id,
+  ]);
+  await tx.execute('insert into commands (id, name, args) values (?, ?, ?)', [
+    uuidv7(),
+    'complete_task',
+    JSON.stringify({ p_task_id: id }),
+  ]);
+}
+
+/** Tudo numa transação: o envio junta as tarefas da mesma página num create_tasks_batch só. */
+async function createLocalTasks(pageId: string, items: CreateTasksVars['items']) {
+  const page = await db.getOptional<{ folder_id: string }>(
+    'select folder_id from pages where id = ?',
+    [pageId],
+  );
+  if (!page) throw new Error('Página não encontrada no aparelho');
+  const userId = await sessionUserId();
+  await db.writeTransaction(async (tx) => {
+    const last = await tx.get<{ max: number | null }>(
+      'select max(position) as max from tasks where page_id = ? and parent_task_id is null',
+      [pageId],
+    );
+    let position = last.max ?? 0;
+    const done: string[] = [];
+    for (const item of items) {
+      await insertLocalTask(
+        tx,
+        {
+          id: item.id,
+          page_id: pageId,
+          folder_id: page.folder_id,
+          title: item.title,
+          position: ++position,
+          priority: item.priority,
+          due_date: item.dueDate,
+          labels: item.labels,
+          recurrence: item.recurrence,
+          meta: item.meta,
+          habit_kind: item.habitKind,
+          habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
+        },
+        userId,
+      );
+      let childPosition = 0;
+      for (const child of item.children ?? []) {
+        const childId = uuidv7();
+        await insertLocalTask(
+          tx,
+          {
+            id: childId,
+            page_id: pageId,
+            folder_id: page.folder_id,
+            parent_task_id: item.id,
+            title: child.title,
+            position: ++childPosition,
+            priority: child.priority,
+            due_date: child.dueDate,
+            labels: child.labels,
+          },
+          userId,
+        );
+        if (child.done) done.push(childId);
+      }
+      for (const assignee of item.assignees ?? []) {
+        await tx.execute(
+          'insert into task_assignees (id, task_id, folder_id, user_id, pending_name) values (?, ?, ?, ?, ?)',
+          [
+            uuidv7(),
+            item.id,
+            page.folder_id,
+            'user_id' in assignee ? assignee.user_id : null,
+            'pending_name' in assignee ? assignee.pending_name : null,
+          ],
+        );
+      }
+      if (item.done) done.push(item.id);
+    }
+    // Conclusões por último: no envio, depois de as tarefas existirem no servidor
+    for (const id of done) await completeInTx(tx, id);
   });
 }

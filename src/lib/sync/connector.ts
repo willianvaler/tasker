@@ -60,6 +60,8 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   conflict_copies: { insert: [], update: [] },
 };
 
+const SERVER_SIDE = new Set(['folder_members']);
+
 // No SQLite, jsonb e arrays são texto
 const JSON_COLUMNS = new Set(['labels', 'meta', 'recurrence', 'args']);
 
@@ -80,6 +82,27 @@ const FATAL = [/^22...$/, /^23...$/, /^42501$/, /^P0002$/];
 const isFatal = (code?: string) => !!code && FATAL.some((re) => re.test(code));
 
 type PgError = { code?: string; message: string };
+
+// Resposta das RPCs da fila (XP, boss, recompensa), para quem fez a ação mostrar o resultado
+const waiting = new Map<string, (result: unknown) => void>();
+function commandDone(id: string, result: unknown) {
+  waiting.get(id)?.(result);
+  waiting.delete(id);
+}
+
+/** Espera a resposta do comando `id` por até `ms`; sem resposta (offline, lento), null. */
+export function commandResult(id: string, ms: number): Promise<unknown> {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      waiting.delete(id);
+      resolve(null);
+    }, ms);
+    waiting.set(id, (result) => {
+      clearTimeout(timer);
+      resolve(result);
+    });
+  });
+}
 
 const parseList = (value: unknown): string[] =>
   Array.isArray(value) ? value : typeof value === 'string' ? JSON.parse(value) : [];
@@ -117,16 +140,19 @@ async function apply(op: CrudEntry): Promise<PgError | null> {
   const data = op.opData ?? {};
 
   if (op.table === 'commands') {
-    const { error } = await supabase.rpc('run_once', {
+    const { data: result, error } = await supabase.rpc('run_once', {
       p_key: op.id,
       p_name: String(data.name),
       p_args: JSON.parse(String(data.args ?? '{}')) as Json,
     });
+    if (!error) commandDone(op.id, result);
     return error;
   }
 
+  // Linha que o servidor cria sozinho (a participação do dono nasce com a pasta): não sobe
+  if (SERVER_SIDE.has(op.table)) return null;
   const columns = WRITABLE[op.table];
-  if (!columns) return { message: `Tabela sem envio: ${op.table}` };
+  if (!columns) return { code: '22023', message: `Tabela sem envio: ${op.table}` };
   // Tipos do supabase-js por tabela não ajudam aqui: as colunas já vêm filtradas pelos grants
   const table = supabase.from(op.table as 'tasks');
 
@@ -163,6 +189,40 @@ async function apply(op: CrudEntry): Promise<PgError | null> {
   return error;
 }
 
+const isNewTask = (op: CrudEntry) =>
+  op.table === 'tasks' && op.op === UpdateType.PUT && !op.opData?.parent_task_id;
+
+/** Tarefas novas seguidas da mesma página vão juntas (um create_tasks_batch em vez de 500). */
+function batches(crud: CrudEntry[]) {
+  const groups: CrudEntry[][] = [];
+  for (const op of crud) {
+    const last = groups.at(-1);
+    if (
+      last &&
+      last.length < 500 &&
+      isNewTask(op) &&
+      isNewTask(last[0]) &&
+      last[0].opData?.page_id === op.opData?.page_id &&
+      !op.opData?.notes &&
+      !last[0].opData?.notes
+    )
+      last.push(op);
+    else groups.push([op]);
+  }
+  return groups;
+}
+
+async function createBatch(ops: CrudEntry[]) {
+  const { error } = await supabase.rpc('create_tasks_batch', {
+    p_page_id: String(ops[0].opData?.page_id),
+    p_items: ops.map((op) => {
+      const { page_id: _page, ...item } = pick(op.opData ?? {}, WRITABLE.tasks.insert);
+      return { id: op.id, ...item };
+    }) as Json,
+  });
+  return error;
+}
+
 export const connector: PowerSyncBackendConnector = {
   async fetchCredentials() {
     const { data, error } = await supabase.auth.getSession();
@@ -177,8 +237,19 @@ export const connector: PowerSyncBackendConnector = {
   async uploadData(db: AbstractPowerSyncDatabase) {
     const transaction = await db.getNextCrudTransaction();
     if (!transaction) return;
-    for (const op of transaction.crud) {
-      const error = await apply(op);
+    // A mudança local que acompanha um comando (concluir marca a linha, o hábito soma) é só o
+    // reflexo dele no aparelho: quem muda a linha no servidor é a RPC
+    const commanded = new Set(
+      transaction.crud
+        .filter((op) => op.table === 'commands')
+        .map((op) => JSON.parse(String(op.opData?.args ?? '{}')).p_task_id),
+    );
+    const crud = transaction.crud.filter(
+      (op) => !(op.table === 'tasks' && op.op === UpdateType.PATCH && commanded.has(op.id)),
+    );
+    for (const group of batches(crud)) {
+      const op = group[0];
+      const error = group.length > 1 ? await createBatch(group) : await apply(op);
       if (!error) continue;
       // Reenvio de algo que já entrou (id repetido): o servidor já tem, segue
       if (error.code === '23505' && op.op === UpdateType.PUT) continue;

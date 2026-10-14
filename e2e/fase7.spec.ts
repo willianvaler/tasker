@@ -1,6 +1,6 @@
 import { expect, test, type Locator } from '@playwright/test';
 
-import { ageTask, createPage, shown, signUp } from './helpers';
+import { ageTask, createPage, shown, signUp, isRpc } from './helpers';
 
 test('personagem: escolher classe, ver o golpe e a habilidade do dia', async ({
   page,
@@ -34,7 +34,7 @@ test('tarefa concluída na hora não dá XP, mas bate no boss', async ({ page },
   await input.fill(title);
   await input.press('Enter');
   await created;
-  const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
+  const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: new RegExp(title) }).click();
   await done;
   await expect(page.getByText(/Concluída: Rápida \d+ · ⚔️ \d+ de dano/)).toBeVisible();
@@ -70,7 +70,7 @@ test('hábitos: contador com meta e bom/ruim com + e −', async ({ page }, test
 
   await page.getByRole('button', { name: `Mais um: ${water}` }).click();
   await expect(onScreen(page.getByLabel('1 de 2'))).toBeVisible();
-  const goal = page.waitForResponse((r) => r.url().includes('habit_tick') && r.ok());
+  const goal = page.waitForResponse((r) => isRpc(r, 'habit_tick'));
   await page.getByRole('button', { name: `Mais um: ${water}` }).click();
   await goal;
   await expect(onScreen(page.getByLabel('2 de 2'))).toBeVisible();
@@ -84,14 +84,14 @@ test('hábitos: contador com meta e bom/ruim com + e −', async ({ page }, test
   await kind;
   await page.getByRole('button', { name: 'Voltar' }).click();
 
-  const plus = page.waitForResponse((r) => r.url().includes('habit_tick') && r.ok());
+  const plus = page.waitForResponse((r) => isRpc(r, 'habit_tick'));
   await page.getByRole('button', { name: `Hábito bom: ${food}` }).click();
   await plus;
   await expect(page.getByText(`👍 ${food} · +3 XP`, { exact: false })).toBeVisible();
   await page.getByRole('button', { name: `Hábito ruim: ${food}` }).click();
   await expect(onScreen(page.getByLabel('Hoje: 1 bons, 1 ruins'))).toBeVisible();
   // Desfazer o − (o aviso dele é o último)
-  const undo = page.waitForResponse((r) => r.url().includes('undo_habit_tick') && r.ok());
+  const undo = page.waitForResponse((r) => isRpc(r, 'undo_habit_tick'));
   await page.getByRole('button', { name: 'Desfazer' }).click();
   await undo;
   await expect(onScreen(page.getByLabel('Hoje: 1 bons, 0 ruins'))).toBeVisible();

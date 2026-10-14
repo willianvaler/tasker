@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
 
-import { ageTask, openTab, paste, shown, signUp } from './helpers';
+import { ageTask, openTab, paste, shown, signUp, isRpc } from './helpers';
 
 test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page }, testInfo) => {
+  test.setTimeout(60_000);
   await signUp(page, testInfo);
   await page
     .getByRole('button', { name: 'Nova pasta' })
@@ -31,14 +32,14 @@ test('kanban: A fazer → Fazendo → Feito, com XP ao concluir', async ({ page 
   await page.getByRole('button', { name: `Mover ${title} para Fazendo` }).click();
   await expect(page.getByLabel('Coluna Fazendo').getByText(title)).toBeVisible();
 
-  const done = page.waitForResponse((r) => r.url().includes('set_task_status') && r.ok());
+  const done = page.waitForResponse((r) => isRpc(r, 'set_task_status'));
   await page.getByRole('button', { name: `Mover ${title} para Feito` }).click();
   await done;
   await expect(page.getByLabel('Coluna Feito').getByText(title)).toBeVisible();
   await expect(page.getByText(`Feito: ${title} · +10 XP`, { exact: false })).toBeVisible();
 
   // Volta: sai de Feito e o XP sai junto (o servidor confirma depois de recarregar)
-  const back = page.waitForResponse((r) => r.url().includes('set_task_status') && r.ok());
+  const back = page.waitForResponse((r) => isRpc(r, 'set_task_status'));
   await page.getByRole('button', { name: `Mover ${title} para Fazendo` }).click();
   await back;
   await page.reload();

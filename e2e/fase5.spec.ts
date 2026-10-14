@@ -1,6 +1,6 @@
 import { devices, expect, test } from '@playwright/test';
 
-import { ageTask, openTab, shown, signUp } from './helpers';
+import { ageTask, openTab, shown, signUp, isRpc } from './helpers';
 
 test('fila offline: cria e marca sem internet, envia ao voltar', async ({
   page,
@@ -27,7 +27,7 @@ test('fila offline: cria e marca sem internet, envia ao voltar', async ({
   await openTab(page, 'Hoje');
 
   // Volta a internet: a fila vai na ordem, e o servidor confirma depois de recarregar
-  const sent = page.waitForResponse((r) => r.url().includes('/complete_task') && r.ok());
+  const sent = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await context.setOffline(false);
   await sent;
   await expect(page.getByText(/alteraç(ão|ões) esperando/)).toHaveCount(0);
@@ -97,7 +97,7 @@ test('boss de projeto com prazo: cada tarefa é um golpe', async ({ page }, test
   await expect(page.getByText(/faltam 12 de 12 tarefas/)).toBeVisible();
 
   await page.getByRole('link', { name: 'Preparação' }).first().click();
-  const done = page.waitForResponse((r) => r.url().includes('/complete_task') && r.ok());
+  const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: 'Concluir Bolo' }).click();
   await done;
   await page.getByRole('button', { name: 'Voltar' }).click();

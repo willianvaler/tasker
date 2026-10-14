@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, paste, signUp } from './helpers';
+import { openTab, paste, signUp, isRpc } from './helpers';
 
 test('Hoje: criar com data, concluir com 1 toque e desfazer', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
@@ -21,7 +21,7 @@ test('Hoje: criar com data, concluir com 1 toque e desfazer', async ({ page }, t
   await expect(page.getByRole('checkbox', { name: 'Concluir Ligar pro banco' })).toBeVisible();
 
   // Concluída de vez: some da tela Hoje depois de recarregar
-  const saved = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
+  const saved = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: 'Concluir Ligar pro banco' }).click();
   await saved;
   await page.reload();

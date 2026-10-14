@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { createPage, paste, signUp } from './helpers';
+import { createPage, isRpc, paste, signUp } from './helpers';
 
 // Fase C (V2 §5–9): estrutura e velocidade, de preferência sem mouse.
 
@@ -110,11 +110,11 @@ test('atalhos de lista: prioridade, concluir, apagar e desfazer, navegar', async
   await expect(page.getByText('!!!', { exact: true })).toBeVisible();
 
   // X conclui, Ctrl+Z desfaz
-  const done = page.waitForResponse((r) => r.url().includes('/complete_task'));
+  const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.keyboard.press('x');
   await done;
   await expect(page.getByRole('checkbox', { name: 'Reabrir Lavar louça' })).toHaveCount(0);
-  const undone = page.waitForResponse((r) => r.url().includes('/uncomplete_task'));
+  const undone = page.waitForResponse((r) => isRpc(r, 'uncomplete_task'));
   await page.keyboard.press('Control+z');
   await undone;
   await expect(page.getByRole('checkbox', { name: 'Concluir Lavar louça' })).toBeVisible();
@@ -183,8 +183,11 @@ test('criação avançada: todos os campos e Ctrl+Enter', async ({ page }, testI
   await page.getByRole('radio', { name: '!!! Alta' }).click();
   await page.getByRole('button', { name: 'Amanhã' }).click();
   const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
+  // Notas vão pelo set_task_notes no sync, ou como update direto sem ele
   const noted = page.waitForResponse(
-    (r) => r.url().includes('/rest/v1/tasks') && r.request().method() === 'PATCH' && r.ok(),
+    (r) =>
+      isRpc(r, 'set_task_notes') ||
+      (r.url().includes('/rest/v1/tasks') && r.request().method() === 'PATCH' && r.ok()),
   );
   if (testInfo.project.name === 'desktop') await page.keyboard.press('Control+Enter');
   else await page.getByRole('button', { name: 'Criar tarefa' }).click();

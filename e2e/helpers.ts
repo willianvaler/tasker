@@ -1,4 +1,4 @@
-import { expect, type Page, type TestInfo } from '@playwright/test';
+import { expect, type Page, type Response, type TestInfo } from '@playwright/test';
 
 /** Cria uma conta nova e espera a tela Hoje. */
 export async function signUp(page: Page, testInfo: TestInfo) {
@@ -114,4 +114,20 @@ export async function adminRest(path: string, init: RequestInit = {}) {
   });
   if (!res.ok) throw new Error(`adminRest ${path}: ${res.status} ${await res.text()}`);
   return res.json();
+}
+
+/**
+ * Resposta OK de uma RPC, chamada direto ou pela fila do sync (que manda as ações pelo
+ * `run_once`, com o nome da ação no corpo).
+ */
+export function isRpc(response: Response, name: string) {
+  if (!response.ok()) return false;
+  const url = response.url();
+  if (url.includes(`/rpc/${name}`)) return true;
+  if (!url.includes('/rpc/run_once')) return false;
+  try {
+    return JSON.parse(response.request().postData() ?? '{}').p_name === name;
+  } catch {
+    return false;
+  }
 }

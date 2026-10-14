@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ageTask, openTab, signUp } from './helpers';
+import { ageTask, openTab, signUp, isRpc } from './helpers';
 
 test('critério de aceite: concluir e desmarcar mudam XP e HP do boss, e voltam', async ({
   page,
@@ -24,7 +24,7 @@ test('critério de aceite: concluir e desmarcar mudam XP e HP do boss, e voltam'
   await created;
   await ageTask(title);
 
-  const done = page.waitForResponse((r) => r.url().includes('/complete_task') && r.ok());
+  const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: `Concluir ${title}` }).click();
   await done;
   // Sem classe: 4 × 1,05 = 4 de dano (8 num crítico), 2 de ouro (D61)
@@ -36,14 +36,14 @@ test('critério de aceite: concluir e desmarcar mudam XP e HP do boss, e voltam'
   await expect(game.getByText('10/100 XP')).toBeVisible();
   await expect(game.getByText(/11[26]\/120 HP/)).toBeVisible();
 
-  const undone = page.waitForResponse((r) => r.url().includes('uncomplete_task') && r.ok());
+  const undone = page.waitForResponse((r) => isRpc(r, 'uncomplete_task'));
   await page.getByRole('button', { name: 'Desfazer' }).click();
   await undone;
   await expect(game.getByText('0/100 XP')).toBeVisible();
   await expect(game.getByText(/120\/120 HP/)).toBeVisible();
 
   // Marcar de novo: o saldo é sempre o de uma conclusão só
-  const again = page.waitForResponse((r) => r.url().includes('/complete_task') && r.ok());
+  const again = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: `Concluir ${title}` }).click();
   await again;
   await expect(game.getByText('10/100 XP')).toBeVisible();
