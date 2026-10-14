@@ -57,7 +57,8 @@
     "treeCollapse": "Close the subtasks (or go to the parent)",
     "treeCodes": "Show or hide WBS codes (1.2.1)",
     "taskStart": "Start or stop the task",
-    "taskLink": "Link to another task (Depends on)"
+    "taskLink": "Link to another task (Depends on)",
+    "goFlow": "Go to the project Flow view"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -1149,5 +1150,36 @@
     "offline": "History needs a connection.",
     "more": "Show more",
     "title": "Change history"
+  },
+  "flowView": {
+    "empty": "No linked tasks yet",
+    "emptyHint": "Link a task to another under \"Depends on\" in the task panel, or with ^ when adding. The flow shows up here.",
+    "here_one": "You are here: {{count}} task ready or in progress.",
+    "here_other": "You are here: {{count}} tasks ready or in progress.",
+    "nothingReady": "Nothing ready right now: everything is done or waiting.",
+    "criticalSummary_one": "Critical path: {{time}} of work in {{count}} task.",
+    "criticalSummary_other": "Critical path: {{time}} of work in {{count}} tasks.",
+    "critical": "critical path",
+    "yourTurn": "Your turn",
+    "asList": "Show as list",
+    "lanes": "Lanes by person",
+    "showDone": "Show completed",
+    "hiddenDone_one": "{{count}} completed hidden",
+    "hiddenDone_other": "{{count}} completed hidden",
+    "step": "Step {{n}}",
+    "graph": "Project flow. Tab moves through tasks; Enter opens.",
+    "hereMine_one": "You are here: {{count}} task ready or in progress, {{mine}} yours.",
+    "hereMine_other": "You are here: {{count}} tasks ready or in progress, {{mine}} yours."
+  },
+  "people": {
+    "done": "Completed",
+    "unassigned": "Unassigned"
+  },
+  "projectTabs": {
+    "label": "Project views",
+    "list": "List",
+    "flow": "Flow",
+    "people": "People",
+    "timeline": "Timeline"
   }
 }

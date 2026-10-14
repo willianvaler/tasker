@@ -57,7 +57,8 @@
     "treeCollapse": "Fechar as subtarefas (ou ir para a mãe)",
     "treeCodes": "Mostrar ou esconder os códigos WBS (1.2.1)",
     "taskStart": "Iniciar ou parar a tarefa",
-    "taskLink": "Ligar a outra tarefa (Depende de)"
+    "taskLink": "Ligar a outra tarefa (Depende de)",
+    "goFlow": "Ir para a visão Fluxo do projeto"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -1149,5 +1150,36 @@
     "offline": "O histórico precisa de conexão.",
     "more": "Ver mais",
     "title": "Histórico de mudanças"
+  },
+  "flowView": {
+    "empty": "Nenhuma tarefa ligada ainda",
+    "emptyHint": "Ligue uma tarefa a outra em \"Depende de\", no painel da tarefa, ou com ^ na captura. O fluxo aparece aqui.",
+    "here_one": "Você está aqui: {{count}} tarefa pronta para fazer ou em andamento.",
+    "here_other": "Você está aqui: {{count}} tarefas prontas para fazer ou em andamento.",
+    "nothingReady": "Nada pronto agora: tudo concluído ou esperando.",
+    "criticalSummary_one": "Caminho crítico: {{time}} de trabalho em {{count}} tarefa.",
+    "criticalSummary_other": "Caminho crítico: {{time}} de trabalho em {{count}} tarefas.",
+    "critical": "caminho crítico",
+    "yourTurn": "Sua vez",
+    "asList": "Ver em lista",
+    "lanes": "Raias por pessoa",
+    "showDone": "Mostrar concluídas",
+    "hiddenDone_one": "{{count}} concluída escondida",
+    "hiddenDone_other": "{{count}} concluídas escondidas",
+    "step": "Etapa {{n}}",
+    "graph": "Fluxo do projeto. Tab percorre as tarefas; Enter abre.",
+    "hereMine_one": "Você está aqui: {{count}} tarefa pronta ou em andamento, {{mine}} sua.",
+    "hereMine_other": "Você está aqui: {{count}} tarefas prontas ou em andamento, {{mine}} suas."
+  },
+  "people": {
+    "done": "Concluída",
+    "unassigned": "Sem responsável"
+  },
+  "projectTabs": {
+    "label": "Visões do projeto",
+    "list": "Lista",
+    "flow": "Fluxo",
+    "people": "Pessoas",
+    "timeline": "Linha do tempo"
   }
 }

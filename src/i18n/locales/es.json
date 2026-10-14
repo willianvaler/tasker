@@ -57,7 +57,8 @@
     "treeCollapse": "Cerrar las subtareas (o ir a la madre)",
     "treeCodes": "Mostrar u ocultar los códigos WBS (1.2.1)",
     "taskStart": "Iniciar o detener la tarea",
-    "taskLink": "Vincular a otra tarea (Depende de)"
+    "taskLink": "Vincular a otra tarea (Depende de)",
+    "goFlow": "Ir a la vista Flujo del proyecto"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -1149,5 +1150,36 @@
     "offline": "El historial necesita conexión.",
     "more": "Ver más",
     "title": "Historial de cambios"
+  },
+  "flowView": {
+    "empty": "Todavía no hay tareas vinculadas",
+    "emptyHint": "Vincula una tarea a otra en \"Depende de\", en el panel de la tarea, o con ^ al crearla. El flujo aparece aquí.",
+    "here_one": "Estás aquí: {{count}} tarea lista o en curso.",
+    "here_other": "Estás aquí: {{count}} tareas listas o en curso.",
+    "nothingReady": "Nada listo ahora: todo está completado o esperando.",
+    "criticalSummary_one": "Ruta crítica: {{time}} de trabajo en {{count}} tarea.",
+    "criticalSummary_other": "Ruta crítica: {{time}} de trabajo en {{count}} tareas.",
+    "critical": "ruta crítica",
+    "yourTurn": "Tu turno",
+    "asList": "Ver como lista",
+    "lanes": "Carriles por persona",
+    "showDone": "Mostrar completadas",
+    "hiddenDone_one": "{{count}} completada oculta",
+    "hiddenDone_other": "{{count}} completadas ocultas",
+    "step": "Etapa {{n}}",
+    "graph": "Flujo del proyecto. Tab recorre las tareas; Enter abre.",
+    "hereMine_one": "Estás aquí: {{count}} tarea lista o en curso, {{mine}} tuya.",
+    "hereMine_other": "Estás aquí: {{count}} tareas listas o en curso, {{mine}} tuyas."
+  },
+  "people": {
+    "done": "Completada",
+    "unassigned": "Sin responsable"
+  },
+  "projectTabs": {
+    "label": "Vistas del proyecto",
+    "list": "Lista",
+    "flow": "Flujo",
+    "people": "Personas",
+    "timeline": "Línea de tiempo"
   }
 }
