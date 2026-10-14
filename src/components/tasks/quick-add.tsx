@@ -154,6 +154,8 @@ export function QuickAdd({
           else setText(value);
         }}
         onSubmitEditing={submit}
+        // Esc sai do campo: as teclas voltam a ser atalhos (N, J, F2…)
+        onKeyPress={(e) => e.nativeEvent.key === 'Escape' && inputRef.current?.blur()}
         submitBehavior="submit"
         {...webSubmit}
         returnKeyType="done"

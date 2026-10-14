@@ -49,7 +49,9 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
 
   const run = (action: () => void) => () => {
     close();
-    action();
+    // Depois do menu fechar: o Modal da web devolve o foco ao elemento anterior ao sair, e
+    // roubaria o foco do campo do diálogo que a ação abre
+    setTimeout(action, 0);
   };
   const items = [
     {

@@ -24,6 +24,7 @@ import { useMentions } from '@/lib/queries/mentions';
 import { useToday } from '@/lib/queries/profile';
 import { useCreateTasks, type Task } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
+import { useShortcut } from '@/lib/use-shortcut';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
@@ -115,6 +116,12 @@ export default function BatchScreen() {
     toast({ message: t('batch.created', { count: total, page: pageLabel(page) }) });
     router.back();
   }
+
+  // Ctrl/⌘+Enter confirma o lote sem tirar a mão do teclado
+  useShortcut('form.save', () => {
+    if (total === 0 || !page || !writable) return false;
+    confirm();
+  });
 
   if (!draft) {
     return (

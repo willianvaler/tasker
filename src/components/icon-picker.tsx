@@ -1,7 +1,7 @@
 import { X } from 'lucide-react-native';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View, type TextInput } from 'react-native';
 
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { Icon } from '@/components/ui/icon';
@@ -36,6 +36,14 @@ export function IconPicker({
   const [query, setQuery] = useState('');
   const [recent] = useState(getRecentIcons);
   const results = searchIcons(query);
+  const searchRef = useRef<TextInput>(null);
+  // Dentro de um Modal (popover), a web põe o foco no próprio Modal ao abrir, por cima do
+  // autoFocus do campo: o foco vai para a busca logo depois
+  useEffect(() => {
+    if (!autoFocus) return;
+    const timer = setTimeout(() => searchRef.current?.focus(), 50);
+    return () => clearTimeout(timer);
+  }, [autoFocus]);
   const typedEmoji = isEmoji(query) ? query.trim() : null;
 
   function choose(next: string | null) {
@@ -68,6 +76,7 @@ export function IconPicker({
   return (
     <View className="gap-3">
       <Input
+        ref={searchRef}
         value={query}
         onChangeText={setQuery}
         autoFocus={autoFocus}

@@ -77,6 +77,7 @@ export function PageDialog({
               placeholder={t('pageDialog.namePlaceholder')}
               value={name}
               onChangeText={setName}
+              onSubmitEditing={confirm}
               autoFocus
               maxLength={100}
             />
