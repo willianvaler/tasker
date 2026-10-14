@@ -5,6 +5,8 @@ export default defineConfig({
   testDir: './e2e',
   // Cada página roda o SQLite do sync em WASM; com mais workers, envios e sync passam do tempo
   workers: 4,
+  // No CI, cada falha vira anotação no GitHub (os logs completos pedem login)
+  reporter: process.env.CI ? [['github'], ['list']] : 'list',
   // Uma nova tentativa: com a máquina carregada, arrastar e esperas de sync às vezes estouram o
   // tempo. O relatório marca como "flaky" o que só passou na segunda
   retries: 1,
