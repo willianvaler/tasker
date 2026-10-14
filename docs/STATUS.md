@@ -87,7 +87,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## Fase I — Fluxo, pessoas e auditoria (02/12 – 08/12)
 
-- [ ] **I1** `task_events` (só inserção) gravado por trigger; aba Histórico na tarefa
+- [x] **I1** `task_events` (só inserção) gravado por trigger; aba Histórico na tarefa
 - [ ] **I2** Abas do Projeto: Lista (indicadores) · Fluxo · Pessoas · Linha do tempo
 - [ ] **I3** Visão Fluxo (grafo com layout automático, raias, "você está aqui", caminho crítico); alternativa em lista acessível
 - [ ] **I4** Visão Pessoas (fazendo / pronta / bloqueada / concluída)

@@ -1123,5 +1123,31 @@
     "unlink": "Tirar a ligação",
     "modeAll": "Precisa de todas",
     "modeAny": "Basta uma"
+  },
+  "events": {
+    "someone": "Alguém",
+    "created": "{{who}} criou em {{page}}",
+    "restored": "{{who}} restaurou da lixeira",
+    "renamed": "{{who}} renomeou (antes: \"{{from}}\")",
+    "assigned": "{{who}} atribuiu a {{name}}",
+    "unassigned": "{{who}} tirou {{name}}",
+    "started": "{{who}} iniciou",
+    "stopped": "{{who}} parou",
+    "ready": "Ficou pronta: \"{{prereq}}\" foi concluída",
+    "blocked": "Passou a esperar \"{{prereq}}\"",
+    "completed": "{{who}} concluiu",
+    "reopened": "{{who}} reabriu",
+    "forced_start": "{{who}} forçou o início",
+    "forced_complete": "{{who}} forçou a conclusão",
+    "forced": "{{who}} forçou",
+    "dependency_added": "{{who}} ligou a \"{{prereq}}\"",
+    "dependency_removed": "{{who}} desligou de \"{{prereq}}\"",
+    "moved": "{{who}} moveu de {{from}} para {{to}}",
+    "deleted": "{{who}} apagou",
+    "other": "{{who}} mexeu na tarefa",
+    "empty": "Nada registrado ainda.",
+    "offline": "O histórico precisa de conexão.",
+    "more": "Ver mais",
+    "title": "Histórico de mudanças"
   }
 }

@@ -15,6 +15,8 @@ export const keys = {
   assignees: ['assignees'] as const,
   comments: (taskId: string) => ['comments', taskId] as const,
   activity: (rootId: string) => ['activity', rootId] as const,
+  taskEvents: (taskId: string) => ['task-events', taskId] as const,
+  projectEvents: (rootId: string) => ['project-events', rootId] as const,
   milestones: (rootId: string) => ['milestones', rootId] as const,
   dependencies: (rootId: string) => ['dependencies', rootId] as const,
   notifications: ['notifications'] as const,

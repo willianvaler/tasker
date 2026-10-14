@@ -1123,5 +1123,31 @@
     "unlink": "Quitar el vínculo",
     "modeAll": "Necesita todas",
     "modeAny": "Basta una"
+  },
+  "events": {
+    "someone": "Alguien",
+    "created": "{{who}} la creó en {{page}}",
+    "restored": "{{who}} la restauró de la papelera",
+    "renamed": "{{who}} la renombró (antes: \"{{from}}\")",
+    "assigned": "{{who}} asignó a {{name}}",
+    "unassigned": "{{who}} quitó a {{name}}",
+    "started": "{{who}} la inició",
+    "stopped": "{{who}} la detuvo",
+    "ready": "Quedó lista: \"{{prereq}}\" fue completada",
+    "blocked": "Pasó a esperar \"{{prereq}}\"",
+    "completed": "{{who}} la completó",
+    "reopened": "{{who}} la reabrió",
+    "forced_start": "{{who}} forzó el inicio",
+    "forced_complete": "{{who}} forzó la conclusión",
+    "forced": "{{who}} la forzó",
+    "dependency_added": "{{who}} la vinculó a \"{{prereq}}\"",
+    "dependency_removed": "{{who}} la desvinculó de \"{{prereq}}\"",
+    "moved": "{{who}} la movió de {{from}} a {{to}}",
+    "deleted": "{{who}} la borró",
+    "other": "{{who}} cambió la tarea",
+    "empty": "Nada registrado todavía.",
+    "offline": "El historial necesita conexión.",
+    "more": "Ver más",
+    "title": "Historial de cambios"
   }
 }

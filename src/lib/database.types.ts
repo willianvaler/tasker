@@ -619,6 +619,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"task_events": {
+                  Row: {
+                    "at": string,"id": string,"kind": string,"payload": NonNullable<Json>,"root_id": string,"task_id": string,"user_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "at"?: string,"id"?: string,"kind": string,"payload"?: NonNullable<Json>,"root_id": string,"task_id": string,"user_id"?: string | null
+                  }
+                  Update: {
+                    "at"?: string,"id"?: string,"kind"?: string,"payload"?: NonNullable<Json>,"root_id"?: string,"task_id"?: string,"user_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "task_events_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"tasks": {
                   Row: {
                     "completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number
@@ -1016,6 +1036,9 @@ isOneToOne: false
 "_notify":
 { Args: { "p_kind": string,"p_payload": Json,"p_user": string }; Returns: undefined
                            },
+"_page_title":
+{ Args: { "p_page_id": string }; Returns: string
+                           },
 "_refresh_profile_stats":
 { Args: { "p_user": string }; Returns: undefined
                            },
@@ -1039,6 +1062,12 @@ isOneToOne: false
                            },
 "_sync_team_access":
 { Args: { "p_folder_id"?: string,"p_team_id": string,"p_user_id": string }; Returns: undefined
+                           },
+"_task_event":
+{ Args: { "p_folder_id": string,"p_kind": string,"p_payload"?: Json,"p_task_id": string }; Returns: undefined
+                           },
+"_task_people":
+{ Args: { "p_task_id": string }; Returns: string[]
                            },
 "_team_audit":
 { Args: { "p_action": string,"p_payload"?: Json,"p_target"?: string,"p_team_id": string }; Returns: undefined
@@ -1066,6 +1095,9 @@ isOneToOne: false
                            },
 "buy_item":
 { Args: { "p_item": string }; Returns: Json
+                           },
+"can_view_audit":
+{ Args: { "p_root": string }; Returns: boolean
                            },
 "cancel_project_boss":
 { Args: { "p_folder_id": string }; Returns: undefined

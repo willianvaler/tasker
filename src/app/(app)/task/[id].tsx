@@ -50,6 +50,7 @@ import {
 } from '@/lib/queries/tasks';
 import { findFolder, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
+import { TaskHistory } from '@/components/tasks/task-history';
 import { rootFolder } from '@/lib/queries/projects';
 import { useToast } from '@/providers/toast';
 import { useCanWrite, useTaskCan, WriteScope } from '@/providers/write';
@@ -460,6 +461,8 @@ function TaskDetails({ task }: { task: Task }) {
             )}
           </Section>
         )}
+
+        <TaskHistory taskId={task.id} folderId={task.folder_id} />
 
         {update.error && (
           <Text className="text-sm text-danger">

@@ -1123,5 +1123,31 @@
     "unlink": "Remove the link",
     "modeAll": "Needs all",
     "modeAny": "Any one is enough"
+  },
+  "events": {
+    "someone": "Someone",
+    "created": "{{who}} created it in {{page}}",
+    "restored": "{{who}} restored it from the trash",
+    "renamed": "{{who}} renamed it (was \"{{from}}\")",
+    "assigned": "{{who}} assigned {{name}}",
+    "unassigned": "{{who}} removed {{name}}",
+    "started": "{{who}} started it",
+    "stopped": "{{who}} stopped it",
+    "ready": "Became ready: \"{{prereq}}\" was completed",
+    "blocked": "Started waiting for \"{{prereq}}\"",
+    "completed": "{{who}} completed it",
+    "reopened": "{{who}} reopened it",
+    "forced_start": "{{who}} forced the start",
+    "forced_complete": "{{who}} forced completion",
+    "forced": "{{who}} forced it",
+    "dependency_added": "{{who}} linked it to \"{{prereq}}\"",
+    "dependency_removed": "{{who}} unlinked it from \"{{prereq}}\"",
+    "moved": "{{who}} moved it from {{from}} to {{to}}",
+    "deleted": "{{who}} deleted it",
+    "other": "{{who}} changed the task",
+    "empty": "Nothing recorded yet.",
+    "offline": "History needs a connection.",
+    "more": "Show more",
+    "title": "Change history"
   }
 }
