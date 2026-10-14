@@ -588,5 +588,22 @@
     "removeMessage": "Their assigned tasks go back to their pending name.",
     "leaveConfirm": "Leave",
     "removeConfirm": "Remove"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Nothing here. When someone assigns you a task or mentions you, it shows up here.",
+    "unread": "unread"
+  },
+  "templates": {
+    "title": "Use template",
+    "mine": "My templates",
+    "label": "Template {{name}}",
+    "pages": "Pages: {{names}}",
+    "delete": "Delete template {{name}}",
+    "newProject": "New project: {{name}}",
+    "create": "Create",
+    "name": "Name",
+    "emoji": "Emoji",
+    "error": "Something went wrong: {{message}}"
   }
 }

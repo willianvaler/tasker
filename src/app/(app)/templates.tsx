@@ -1,9 +1,14 @@
 import { router } from 'expo-router';
+import { X } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
+import { ItemIcon } from '@/components/item-icon';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
+import { IconButton } from '@/components/ui/button';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
+import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { useToday } from '@/lib/queries/profile';
 import { useTemplateMutations, useUserTemplates, type TemplateData } from '@/lib/queries/projects';
@@ -15,6 +20,7 @@ type Chosen = { name: string; icon: string; data: TemplateData; shared: boolean 
 
 // Criar projeto a partir de modelo (ESCOPO 4.5): os prontos (no app) e os salvos pelo usuário.
 export default function TemplatesScreen() {
+  const { t } = useTranslation();
   const today = useToday();
   const online = useIsOnline();
   const toast = useToast();
@@ -23,38 +29,47 @@ export default function TemplatesScreen() {
   const [chosen, setChosen, close] = useDialog<Chosen>();
 
   return (
-    <Screen>
-      <ScreenHeader title="Usar modelo" back />
-      <ScrollView contentContainerClassName="gap-3 pb-12">
-        {BUILT_IN_TEMPLATES.map((t) => (
-          <TemplateCard
-            key={t.key}
-            icon={t.icon}
-            name={t.name}
-            detail={t.description}
-            pages={t.pages.map((p) => p.name)}
-            disabled={!online}
-            // Modelos prontos são de projeto: já nascem compartilháveis (o @nome vira responsável)
-            onPress={() =>
-              setChosen({ name: t.name, icon: t.icon, data: templateData(t, today), shared: true })
-            }
-          />
-        ))}
+    <Screen size="medium">
+      <ScreenHeader title={t('templates.title')} back />
+      <ScrollView contentContainerClassName="pb-12">
+        <View className="border-t border-line">
+          {BUILT_IN_TEMPLATES.map((tpl) => (
+            <TemplateRow
+              key={tpl.key}
+              icon={tpl.icon}
+              name={tpl.name}
+              detail={tpl.description}
+              pages={tpl.pages.map((p) => p.name)}
+              disabled={!online}
+              // Modelos prontos são de projeto: já nascem compartilháveis (o @nome vira responsável)
+              onPress={() =>
+                setChosen({
+                  name: tpl.name,
+                  icon: tpl.icon,
+                  data: templateData(tpl, today),
+                  shared: true,
+                })
+              }
+            />
+          ))}
+        </View>
 
         {(mine.data?.length ?? 0) > 0 && (
-          <Text className="mt-4 font-semibold text-ink">Meus modelos</Text>
+          <SectionLabel title={t('templates.mine')} count={mine.data?.length} />
         )}
-        {mine.data?.map((t) => {
-          const data = t.data as unknown as TemplateData;
+        {mine.data?.map((tpl) => {
+          const data = tpl.data as unknown as TemplateData;
           return (
-            <TemplateCard
-              key={t.id}
-              icon={t.icon || '📁'}
-              name={t.name}
+            <TemplateRow
+              key={tpl.id}
+              icon={tpl.icon}
+              name={tpl.name}
               pages={data.pages.map((p) => p.name)}
               disabled={!online}
-              onPress={() => setChosen({ name: t.name, icon: t.icon ?? '', data, shared: false })}
-              onDelete={() => m.remove.mutate(t.id)}
+              onPress={() =>
+                setChosen({ name: tpl.name, icon: tpl.icon ?? '', data, shared: false })
+              }
+              onDelete={() => m.remove.mutate(tpl.id)}
             />
           );
         })}
@@ -62,11 +77,11 @@ export default function TemplatesScreen() {
 
       {chosen && (
         <PromptDialog
-          title={`Novo projeto: ${chosen.icon} ${chosen.name}`}
-          confirmLabel="Criar"
+          title={t('templates.newProject', { name: chosen.name })}
+          confirmLabel={t('templates.create')}
           fields={[
-            { key: 'name', placeholder: 'Nome', initial: chosen.name },
-            { key: 'icon', placeholder: 'Emoji', initial: chosen.icon, maxLength: 8 },
+            { key: 'name', placeholder: t('templates.name'), initial: chosen.name },
+            { key: 'icon', placeholder: t('templates.emoji'), initial: chosen.icon, maxLength: 8 },
           ]}
           onClose={close}
           onConfirm={({ name, icon }) => {
@@ -75,7 +90,8 @@ export default function TemplatesScreen() {
               { ...chosen, name, icon },
               {
                 onSuccess: (id) => router.replace({ pathname: '/folder/[id]', params: { id } }),
-                onError: (err) => toast({ message: `Não deu certo: ${err.message}` }),
+                onError: (err) =>
+                  toast({ message: t('templates.error', { message: err.message }) }),
               },
             );
           }}
@@ -85,7 +101,7 @@ export default function TemplatesScreen() {
   );
 }
 
-function TemplateCard({
+function TemplateRow({
   icon,
   name,
   detail,
@@ -94,7 +110,7 @@ function TemplateCard({
   onPress,
   onDelete,
 }: {
-  icon: string;
+  icon?: string | null;
   name: string;
   detail?: string;
   pages: string[];
@@ -102,30 +118,29 @@ function TemplateCard({
   onPress: () => void;
   onDelete?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
-    <View className="flex-row items-center rounded-lg border border-line bg-surface">
+    <View className="flex-row items-center border-b border-line">
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`Modelo ${name}`}
+        accessibilityLabel={t('templates.label', { name })}
         disabled={disabled}
-        className="flex-1 gap-1 p-4 active:opacity-70"
+        className="flex-1 flex-row items-start gap-3 py-4 hover:bg-wash active:bg-wash"
         onPress={onPress}
       >
-        <Text className="text-lg font-semibold text-ink">
-          {icon} {name}
-        </Text>
-        {detail && <Text className="text-sm text-ink-muted">{detail}</Text>}
-        <Text className="text-xs text-ink-muted">Páginas: {pages.join(', ')}</Text>
+        <View className="pt-1">
+          <ItemIcon icon={icon} kind="project" size={20} />
+        </View>
+        <View className="flex-1 gap-1">
+          <Text className="font-serif text-lg text-ink">{name}</Text>
+          {detail && <Text className="text-sm text-ink-muted">{detail}</Text>}
+          <Text className="font-mono text-xs text-ink-muted">
+            {t('templates.pages', { names: pages.join(', ') })}
+          </Text>
+        </View>
       </Pressable>
       {onDelete && (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`Apagar modelo ${name}`}
-          className="h-11 w-11 items-center justify-center rounded-full active:bg-wash"
-          onPress={onDelete}
-        >
-          <Text className="text-ink-muted">✕</Text>
-        </Pressable>
+        <IconButton icon={X} label={t('templates.delete', { name })} onPress={onDelete} />
       )}
     </View>
   );

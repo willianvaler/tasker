@@ -588,5 +588,22 @@
     "removeMessage": "As tarefas atribuídas voltam a ficar com o nome da pessoa, pendente.",
     "leaveConfirm": "Sair",
     "removeConfirm": "Tirar"
+  },
+  "notifications": {
+    "title": "Notificações",
+    "empty": "Nada por aqui. Quando alguém te atribuir uma tarefa ou te mencionar, aparece aqui.",
+    "unread": "não lida"
+  },
+  "templates": {
+    "title": "Usar modelo",
+    "mine": "Meus modelos",
+    "label": "Modelo {{name}}",
+    "pages": "Páginas: {{names}}",
+    "delete": "Apagar modelo {{name}}",
+    "newProject": "Novo projeto: {{name}}",
+    "create": "Criar",
+    "name": "Nome",
+    "emoji": "Emoji",
+    "error": "Não deu certo: {{message}}"
   }
 }

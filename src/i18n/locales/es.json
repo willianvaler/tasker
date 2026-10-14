@@ -588,5 +588,22 @@
     "removeMessage": "Las tareas asignadas vuelven al nombre pendiente de la persona.",
     "leaveConfirm": "Salir",
     "removeConfirm": "Quitar"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "empty": "Nada por aquí. Cuando alguien te asigne una tarea o te mencione, aparece aquí.",
+    "unread": "no leída"
+  },
+  "templates": {
+    "title": "Usar plantilla",
+    "mine": "Mis plantillas",
+    "label": "Plantilla {{name}}",
+    "pages": "Páginas: {{names}}",
+    "delete": "Eliminar plantilla {{name}}",
+    "newProject": "Nuevo proyecto: {{name}}",
+    "create": "Crear",
+    "name": "Nombre",
+    "emoji": "Emoji",
+    "error": "Algo salió mal: {{message}}"
   }
 }
