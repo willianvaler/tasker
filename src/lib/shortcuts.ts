@@ -47,6 +47,16 @@ export const SHORTCUTS = [
   { id: 'new.folder', combos: ['f'], description: 'shortcuts.newFolder', scope: 'menu' },
   { id: 'new.project', combos: ['j'], description: 'shortcuts.newProject', scope: 'menu' },
   { id: 'new.habit', combos: ['h'], description: 'shortcuts.newHabit', scope: 'menu' },
+  { id: 'list.next', combos: ['j', 'arrowdown'], description: 'shortcuts.listNext', scope: 'list' },
+  { id: 'list.prev', combos: ['k', 'arrowup'], description: 'shortcuts.listPrev', scope: 'list' },
+  { id: 'item.rename', combos: ['f2'], description: 'shortcuts.itemRename', scope: 'list' },
+  {
+    id: 'item.open',
+    combos: ['shift+f2', 'enter'],
+    description: 'shortcuts.itemOpen',
+    scope: 'list',
+  },
+  { id: 'list.deselect', combos: ['escape'], description: 'shortcuts.listDeselect', scope: 'list' },
   {
     id: 'overlay.close',
     combos: ['escape'],

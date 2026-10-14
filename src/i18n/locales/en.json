@@ -25,7 +25,12 @@
     "newPage": "New page (in the New menu)",
     "newFolder": "New folder (in the New menu)",
     "newProject": "New project (in the New menu)",
-    "newHabit": "New habit (in the New menu)"
+    "newHabit": "New habit (in the New menu)",
+    "itemRename": "Rename the selected item (or the open page)",
+    "itemOpen": "Open the selected task's details",
+    "listDeselect": "Clear the selection",
+    "listNext": "Next task in the list",
+    "listPrev": "Previous task in the list"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -754,5 +759,10 @@
     "noColor": "No color",
     "label": "Icon",
     "change": "Change icon"
+  },
+  "rename": {
+    "name": "Name",
+    "save": "Save name",
+    "icon": "Change icon"
   }
 }

@@ -14,6 +14,7 @@ import { Text } from '@/components/ui/text';
 import { setBatchDraft } from '@/lib/batch-draft';
 import { useToday } from '@/lib/queries/profile';
 import { usePageTasks, type Task } from '@/lib/queries/tasks';
+import { useSelectableList } from '@/lib/selection';
 import { useTreeMutations, type Page } from '@/lib/queries/tree';
 import { useCanWrite } from '@/providers/write';
 import { useToast } from '@/providers/toast';
@@ -57,6 +58,10 @@ export function PageView({ page }: { page: Page | undefined }) {
       subtaskCount: count,
     };
   }, [tasks.data]);
+
+  // Ordem do teclado: as abertas, depois as concluídas
+  const selectable = useMemo(() => [...open, ...done], [open, done]);
+  useSelectableList(viewType === 'list' ? selectable : all);
 
   const empty = {
     list: { title: t('page.emptyList') },

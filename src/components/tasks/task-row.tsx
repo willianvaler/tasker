@@ -21,6 +21,7 @@ import { formatDueDate } from '@/lib/parser/dates';
 import { useToday } from '@/lib/queries/profile';
 import { advanceOnComplete, useToggleTask, useUpdateTask, type Task } from '@/lib/queries/tasks';
 import { useTree } from '@/lib/queries/tree';
+import { useSelection, selection } from '@/lib/selection';
 import { DURATION } from '@/lib/tokens';
 import { useCanWrite } from '@/providers/write';
 import { useToast } from '@/providers/toast';
@@ -86,21 +87,44 @@ function TaskRowView({
   const toggle = useToggleWithUndo();
   const update = useUpdateTask();
   const { t } = useTranslation();
-  const [editing, setEditing] = useState(false);
+  const [localEditing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const done = task.status === 'done';
+  // Seleção e F2 vêm do store da lista (só esta linha re-renderiza quando muda)
+  const selected = useSelection((s) => s.selectedId === task.id);
+  const editRequested = useSelection((s) => s.editId === task.id);
+  const editing = localEditing || editRequested;
+
+  function stopEditing() {
+    setEditing(false);
+    if (selection.get().editId === task.id) selection.edit(null);
+  }
 
   function saveTitle() {
-    setEditing(false);
+    stopEditing();
     const trimmed = title.trim();
     if (trimmed && trimmed !== task.title)
       update.mutate({ id: task.id, patch: { title: trimmed } });
     else setTitle(task.title);
   }
 
+  function cancelTitle() {
+    stopEditing();
+    setTitle(task.title);
+  }
+
   return (
     // 52 px no celular, 40 no computador (docs/DESIGN.md); só a divisória fina, sem caixa
-    <View className="min-h-[52px] flex-row items-center border-b border-line md:min-h-10">
+    <Pressable
+      // Toque/clique na linha (fora do título e dos botões) seleciona, para os atalhos de teclado
+      accessible={false}
+      onPress={() => selection.select(task.id)}
+      className={cn(
+        'min-h-[52px] flex-row items-center border-b border-line md:min-h-10',
+        selected && 'bg-wash',
+      )}
+    >
+      {selected && <View className="absolute bottom-0 left-0 top-0 w-0.5 bg-accent" />}
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
       <Checkbox
         checked={done}
@@ -117,6 +141,8 @@ function TaskRowView({
               onChangeText={setTitle}
               onSubmitEditing={saveTitle}
               onBlur={saveTitle}
+              onKeyPress={(e) => e.nativeEvent.key === 'Escape' && cancelTitle()}
+              selectTextOnFocus
               maxLength={500}
               accessibilityLabel={t('task.titleField')}
               className={textClass('min-h-8 text-base text-ink md:text-sm')}
@@ -152,7 +178,7 @@ function TaskRowView({
         label={t('task.details', { title: task.title })}
         onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
       />
-    </View>
+    </Pressable>
   );
 }
 

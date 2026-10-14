@@ -1,11 +1,24 @@
 import { router } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
-import type { ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 
+import { IconPicker } from '@/components/icon-picker';
+import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { IconButton } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
+import { Popover } from '@/components/ui/popover';
+import { Text, textClass } from '@/components/ui/text';
+import { selection, useSelection } from '@/lib/selection';
+
+/** Renomear pelo cabeçalho (F2 ou toque longo no título), com o seletor de ícone ao lado. */
+export type HeaderRename = {
+  target: { kind: 'page' | 'folder'; id: string };
+  icon: string | null;
+  iconKind: ItemKind;
+  color?: string | null;
+  onSave: (patch: { name: string; icon: string | null; color?: string | null }) => void;
+};
 
 /**
  * Cabeçalho de tela (docs/mockups): linha de contexto pequena em mono e caixa-alta (data, caminho,
@@ -17,6 +30,7 @@ export function ScreenHeader({
   back,
   icon,
   right,
+  rename,
 }: {
   title: string;
   /** Contexto acima do título: "TER, 13 OUT", "PASTAS / MERCADO" */
@@ -24,8 +38,13 @@ export function ScreenHeader({
   back?: boolean;
   icon?: ReactNode;
   right?: ReactNode;
+  /** Permite renomear (F2) */
+  rename?: HeaderRename;
 }) {
   const { t } = useTranslation();
+  const requested = useSelection(
+    (s) => !!rename && s.rename?.kind === rename.target.kind && s.rename.id === rename.target.id,
+  );
   return (
     <View className="flex-row items-end gap-2 pb-4 pt-4 md:pt-8">
       {back && (
@@ -44,18 +63,92 @@ export function ScreenHeader({
             {eyebrow}
           </Text>
         )}
-        <View className="flex-row items-center gap-2">
-          {icon}
-          <Text
-            className="flex-1 font-serif text-xl text-ink"
-            numberOfLines={1}
-            accessibilityRole="header"
-          >
-            {title}
-          </Text>
-        </View>
+        {requested && rename ? (
+          <RenameField title={title} rename={rename} />
+        ) : (
+          <View className="flex-row items-center gap-2">
+            {icon}
+            <Pressable
+              className="flex-1"
+              disabled={!rename}
+              accessible={false}
+              // Toque longo no título também renomeia (no celular não há F2)
+              onLongPress={() => rename && selection.rename(rename.target)}
+            >
+              <Text
+                className="font-serif text-xl text-ink"
+                numberOfLines={1}
+                accessibilityRole="header"
+              >
+                {title}
+              </Text>
+            </Pressable>
+          </View>
+        )}
       </View>
       {right && <View className="flex-row items-center gap-1">{right}</View>}
+    </View>
+  );
+}
+
+/**
+ * Nome editável no lugar do título: o texto vem selecionado, Enter salva, Esc cancela, Tab vai
+ * para o ícone (V2 §8), que abre o seletor num popover.
+ */
+function RenameField({ title, rename }: { title: string; rename: HeaderRename }) {
+  const { t } = useTranslation();
+  const [name, setName] = useState(title);
+  const [icon, setIcon] = useState(rename.icon);
+  const [color, setColor] = useState(rename.color ?? null);
+  const [picking, setPicking] = useState(false);
+  const anchor = useRef<View>(null);
+
+  const finish = () => selection.rename(null);
+  function save() {
+    const trimmed = name.trim();
+    if (trimmed) rename.onSave({ name: trimmed, icon, color });
+    finish();
+  }
+
+  return (
+    <View className="flex-row items-center gap-2">
+      <View ref={anchor} collapsable={false}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('rename.icon')}
+          onPress={() => setPicking(true)}
+          className="h-11 w-11 items-center justify-center rounded border border-line hover:bg-wash md:h-8 md:w-8"
+        >
+          <ItemIcon icon={icon} kind={rename.iconKind} size={20} />
+        </Pressable>
+      </View>
+      <TextInput
+        autoFocus
+        selectTextOnFocus
+        value={name}
+        onChangeText={setName}
+        onSubmitEditing={save}
+        onKeyPress={(e) => e.nativeEvent.key === 'Escape' && finish()}
+        accessibilityLabel={t('rename.name')}
+        className={textClass(
+          'flex-1 rounded border border-accent px-2 py-1 font-serif text-xl text-ink',
+        )}
+      />
+      <Popover anchor={anchor} open={picking} onClose={() => setPicking(false)} width={320}>
+        <View className="p-2">
+          <IconPicker
+            value={icon}
+            kind={rename.iconKind}
+            onChange={(value) => {
+              setIcon(value);
+              setPicking(false);
+            }}
+            color={rename.color !== undefined ? color : undefined}
+            onColor={rename.color !== undefined ? setColor : undefined}
+            autoFocus
+          />
+        </View>
+      </Popover>
     </View>
   );
 }

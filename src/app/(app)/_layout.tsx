@@ -2,6 +2,7 @@ import { router, Stack, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
+import { ListKeys } from '@/components/list-keys';
 import { NewMenuProvider } from '@/components/new-menu';
 import { OfflineBanner } from '@/components/offline-banner';
 import { Sidebar, useIsWide } from '@/components/sidebar';
@@ -25,6 +26,7 @@ export default function AppLayout() {
         {wide && !onboarding && <Sidebar />}
         <View className="flex-1">
           <OfflineBanner />
+          <ListKeys />
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="page/[id]" />

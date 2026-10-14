@@ -62,6 +62,18 @@ export default function PageScreen() {
         icon={
           page ? <ItemIcon icon={page.icon} kind={page.view_type as ItemKind} size={20} /> : null
         }
+        rename={
+          // Páginas de sistema (Caixa de entrada, Hábitos) não mudam de nome
+          page && online && !page.is_habits && !page.is_inbox
+            ? {
+                target: { kind: 'page', id: page.id },
+                icon: page.icon,
+                iconKind: page.view_type as ItemKind,
+                onSave: ({ name, icon }) =>
+                  m.updatePage.mutate({ id: page.id, name, icon }, { onError }),
+              }
+            : undefined
+        }
         back
         right={
           // Página de hábitos de sistema: sem configurar nem duplicar (D68)

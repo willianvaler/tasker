@@ -14,7 +14,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
-import { findFolder, useTree } from '@/lib/queries/tree';
+import { findFolder, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useCanWrite } from '@/providers/write';
 
@@ -23,6 +23,7 @@ export default function FolderScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const tree = useTree();
+  const treeMutations = useTreeMutations();
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
   const found = findFolder(tree.data, id);
@@ -63,6 +64,18 @@ export default function FolderScreen() {
           ) : null
         }
         back
+        rename={
+          folder && online && writable
+            ? {
+                target: { kind: 'folder', id: folder.id },
+                icon: folder.icon,
+                iconKind: project ? 'project' : 'folder',
+                color: folder.color,
+                onSave: ({ name, icon, color }) =>
+                  treeMutations.updateFolder.mutate({ id: folder.id, name, icon, color }),
+              }
+            : undefined
+        }
         right={
           folder && online ? (
             <MenuButton label={folder.name} onPress={() => actions.folderMenu(folder)} />

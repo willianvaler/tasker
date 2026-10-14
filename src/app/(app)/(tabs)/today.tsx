@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionList, useWindowDimensions, View } from 'react-native';
 
@@ -17,6 +18,7 @@ import { useToday } from '@/lib/queries/profile';
 import { useHabits, useTodayTasks, type HabitTask, type TaskWithPage } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
 import { asRecurrence, isHabitDueOn } from '@/lib/recurrence';
+import { useSelectableList } from '@/lib/selection';
 
 type Row = { kind: 'task'; task: TaskWithPage } | { kind: 'habit'; task: HabitTask };
 type Section = { title: string; count: string; tone?: 'warn'; data: Row[] };
@@ -43,6 +45,8 @@ export default function TodayScreen() {
 
   const overdue = (tasks.data ?? []).filter((task) => task.due_date! < today);
   const dueToday = (tasks.data ?? []).filter((task) => task.due_date === today);
+  const keyboardOrder = useMemo(() => [...overdue, ...dueToday], [overdue, dueToday]);
+  useSelectableList(keyboardOrder);
   const asRows = (list: TaskWithPage[]) => list.map((task) => ({ kind: 'task' as const, task }));
   const candidates: (Section | false)[] = [
     overdue.length > 0 && {

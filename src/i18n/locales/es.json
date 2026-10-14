@@ -25,7 +25,12 @@
     "newPage": "Nueva página (en el menú Nuevo)",
     "newFolder": "Nueva carpeta (en el menú Nuevo)",
     "newProject": "Nuevo proyecto (en el menú Nuevo)",
-    "newHabit": "Nuevo hábito (en el menú Nuevo)"
+    "newHabit": "Nuevo hábito (en el menú Nuevo)",
+    "itemRename": "Renombrar el ítem seleccionado (o la página abierta)",
+    "itemOpen": "Abrir los detalles de la tarea seleccionada",
+    "listDeselect": "Quitar la selección",
+    "listNext": "Siguiente tarea de la lista",
+    "listPrev": "Tarea anterior de la lista"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -754,5 +759,10 @@
     "noColor": "Sin color",
     "label": "Ícono",
     "change": "Cambiar ícono"
+  },
+  "rename": {
+    "name": "Nombre",
+    "save": "Guardar nombre",
+    "icon": "Cambiar ícono"
   }
 }
