@@ -39,6 +39,7 @@ import { useToast } from '@/providers/toast';
 import { AssigneeChips } from './assignee-chips';
 import { DragHandle } from './sortable-tasks';
 import { RepeatButton } from './repeat';
+import { SnoozeButton } from './snooze';
 import { TaskMeta } from './task-meta';
 
 /**
@@ -227,6 +228,9 @@ function TaskRowView({
         <View className="flex-row items-center gap-3 md:ml-auto">
           {task.repeat_plan && !hasChildren ? (
             <RepeatButton task={task} disabled={!canComplete || blocked} />
+          ) : null}
+          {!done && allowed.edit && task.due_date && task.due_date <= today && !hasChildren ? (
+            <SnoozeButton task={task} />
           ) : null}
           <TaskMeta task={task} today={today} subtasks={subtasks} pageLabel={pageLabel} />
           <AssigneeChips taskId={task.id} folderId={task.folder_id} />

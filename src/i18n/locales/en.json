@@ -62,7 +62,8 @@
     "workoutDone": "Mark the set as done",
     "workoutSkipRest": "Skip the rest",
     "taskPomodoro": "Start a pomodoro on the task",
-    "taskStopwatch": "Start or stop the task stopwatch"
+    "taskStopwatch": "Start or stop the task stopwatch",
+    "taskSnooze": "Snooze the task to tomorrow"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -1476,5 +1477,9 @@
     "history": "History",
     "noHistory": "Nothing logged yet.",
     "cycleOf": "Since {{date}}"
+  },
+  "snooze": {
+    "button": "Snooze {{title}} to tomorrow",
+    "done": "{{title}}: snoozed to {{date}}"
   }
 }

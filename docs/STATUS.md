@@ -122,7 +122,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## Fase M — Extras "A" e automações (28/12 – 01/01)
 
-- [ ] **M1** Adiar (snooze) com 1 gesto
+- [x] **M1** Adiar com 1 gesto: botão na linha (hoje/atrasada → amanhã, com Desfazer) e atalho Z (D138)
 - [ ] **M2** Reivindicar tarefa ("eu levo")
 - [ ] **M3** Estimativa e peso (alimentam WBS, caminho crítico e dano)
 - [ ] **M4** Meu dia + Próxima ação

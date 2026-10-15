@@ -62,7 +62,8 @@
     "workoutDone": "Marcar la serie hecha",
     "workoutSkipRest": "Saltar el descanso",
     "taskPomodoro": "Empezar un pomodoro en la tarea",
-    "taskStopwatch": "Iniciar o detener el cronómetro de la tarea"
+    "taskStopwatch": "Iniciar o detener el cronómetro de la tarea",
+    "taskSnooze": "Posponer la tarea para mañana"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -1476,5 +1477,9 @@
     "history": "Historial",
     "noHistory": "Nada registrado todavía.",
     "cycleOf": "Desde {{date}}"
+  },
+  "snooze": {
+    "button": "Posponer {{title}} para mañana",
+    "done": "{{title}}: pospuesta para {{date}}"
   }
 }

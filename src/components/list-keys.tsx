@@ -20,6 +20,7 @@ import { treeState } from '@/lib/tree-state';
 import { useStartTask } from '@/lib/queries/dependencies';
 import { selection } from '@/lib/selection';
 import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
+import { useSnooze } from '@/components/tasks/snooze';
 import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import { readRepeatPlan } from '@/lib/repeat';
@@ -49,6 +50,7 @@ export function ListKeys() {
   const tree = useTree();
   const start = useStartTask();
   const pomodoro = usePomodoro();
+  const snooze = useSnooze();
   const startTimer = useStartTimer();
   const activeTimer = useActiveTimer().data;
   const timerActions = useTimerActions();
@@ -104,6 +106,12 @@ export function ListKeys() {
     if (!selection.get().selectedId) return false;
     selection.select(null);
   });
+
+  // Z: adiar a selecionada para amanhã (M1)
+  useShortcut(
+    'task.snooze',
+    onSelected((task) => snooze(task)),
+  );
 
   // Shift+T: cronômetro da tarefa selecionada (liga ou, se for o dela, para e guarda)
   useShortcut(
