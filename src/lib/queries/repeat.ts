@@ -9,6 +9,7 @@ import { isLocal, runCommand, sessionUserId } from '../sync/local';
 import { uuidv7 } from '../uuid';
 import { completionSummarySchema, type CompletionSummary } from './game';
 import { keys, taskMutationKey } from './keys';
+import { isReceivedTask, localCycleKey } from './shares';
 import { estimateCompletionXp } from '../sync/pending-xp';
 import {
   invalidateWhenIdle,
@@ -79,8 +80,13 @@ export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise
        left join task_progress p on p.task_id = t.id and p.user_id = ? where t.id = ?`,
       [userId, task.id],
     );
+    const share = await isReceivedTask(task.id);
+    const received = share ? { key: await localCycleKey(share.pageId, task.recurrence) } : null;
     const concludes =
-      !!before && before.status !== 'done' && applyRep(plan, false, before.done_reps, delta).done;
+      !received &&
+      !!before &&
+      before.status !== 'done' &&
+      applyRep(plan, false, before.done_reps, delta).done;
     const xpTask = concludes ? await localTaskForXp(task.id) : null;
     estimate = xpTask ? estimateCompletionXp(xpTask) : 0;
     result = await runCommand(
@@ -94,7 +100,9 @@ export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise
           [userId, task.id],
         );
         if (!row) return;
-        const next = applyRep(plan, row.status === 'done', row.done_reps, delta);
+        // Página recebida (L2): o "feito" é o do aluno (o da lista já vem com ele)
+        const doneBefore = received ? task.status === 'done' : row.status === 'done';
+        const next = applyRep(plan, doneBefore, row.done_reps, delta);
         const now = new Date().toISOString();
         // As tabelas do PowerSync são views: sem "on conflict"
         if (row.done_reps == null)
@@ -108,12 +116,25 @@ export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise
             'update task_progress set done_reps = ?, updated_at = ? where task_id = ? and user_id = ?',
             [next.reps, now, task.id, userId],
           );
-        if (next.done !== (row.status === 'done'))
-          await tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
-            next.done ? 'done' : 'todo',
-            next.done ? new Date().toISOString() : null,
-            task.id,
-          ]);
+        if (next.done === doneBefore) return;
+        if (received) {
+          await tx.execute(
+            'delete from share_checks where task_id = ? and user_id = ? and cycle_key = ?',
+            [task.id, userId, received.key],
+          );
+          if (next.done)
+            await tx.execute(
+              `insert into share_checks (id, task_id, page_id, user_id, cycle_key, done_at)
+               values (?, ?, ?, ?, ?, ?)`,
+              [uuidv7(), task.id, task.page_id, userId, received.key, new Date().toISOString()],
+            );
+          return;
+        }
+        await tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
+          next.done ? 'done' : 'todo',
+          next.done ? new Date().toISOString() : null,
+          task.id,
+        ]);
       },
       estimate,
     );

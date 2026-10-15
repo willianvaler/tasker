@@ -67,6 +67,7 @@ streams:
       - SELECT * FROM pages WHERE id IN shared
       - SELECT * FROM tasks WHERE page_id IN shared
       - SELECT * FROM page_shares WHERE recipient_id = auth.user_id()
+      - SELECT * FROM share_checks WHERE user_id = auth.user_id()
 
   me:
     auto_subscribe: true

@@ -97,6 +97,7 @@ const SERVER_SIDE = new Set([
   'timers',
   'time_entries',
   'page_shares',
+  'share_checks',
 ]);
 
 // No SQLite, jsonb e arrays são texto

@@ -28,6 +28,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   timers: [keys.timer],
   time_entries: [keys.timeEntries],
   page_shares: [['received'], keys.tasks],
+  share_checks: [keys.tasks],
 };
 
 // Consultas com ramo local: as do AFFECTS

@@ -659,6 +659,38 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"share_checks": {
+                  Row: {
+                    "cycle_key": string,"done_at": string,"id": string,"note": string | null,"page_id": string,"task_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "cycle_key": string,"done_at"?: string,"id"?: string,"note"?: string | null,"page_id": string,"task_id": string,"user_id": string
+                  }
+                  Update: {
+                    "cycle_key"?: string,"done_at"?: string,"id"?: string,"note"?: string | null,"page_id"?: string,"task_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "share_checks_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "share_checks_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "share_checks_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"task_assignees": {
                   Row: {
                     "created_at": string,"created_by": string | null,"folder_id": string,"id": string,"pending_name": string | null,"task_id": string,"user_id": string | null
@@ -1352,6 +1384,9 @@ isOneToOne: false
 "character_attributes":
 { Args: { "p_user": string }; Returns: Record<string, unknown>
                            },
+"check_item":
+{ Args: { "p_done": boolean,"p_note"?: string,"p_task_id": string }; Returns: Json
+                           },
 "claim_pending_assignee":
 { Args: { "p_folder_id": string,"p_pending_name": string,"p_user_id"?: string }; Returns: number
                            },
@@ -1628,6 +1663,9 @@ isOneToOne: false
                            },
 "page_blockers":
 { Args: { "p_page_id": string }; Returns: (string)[]
+                           },
+"page_cycle_key":
+{ Args: { "p_page_id": string,"p_recurrence"?: Json }; Returns: string
                            },
 "page_dependency_path":
 { Args: { "p_from": string,"p_to": string }; Returns: (string)[]

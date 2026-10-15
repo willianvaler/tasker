@@ -114,7 +114,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## Fase L — Página enviada (21/12 – 25/12)
 
 - [x] **L1** `page_shares` + `page_share_links`, preset Executor, RLS + pgTAP (aluno A nunca vê o B; Executor não edita estrutura via API), stream `received`, ator Executor no app (D133). Modo padrão: ao vivo
-- [ ] **L2** Progresso por usuário (`task_completions` por tarefa, usuário e ciclo)
+- [x] **L2** Progresso por usuário: `share_checks` por tarefa, usuário e ciclo (`check_item`, offline), séries do aluno pelo `log_rep`, autor acompanha; app troca o estado pelo do aluno e tira as recebidas das listas gerais (D134)
 - [ ] **L3** "Enviar para…": link/e-mail, modo, vários destinatários; quem não tem conta cai direto na página
 - [ ] **L4** Seção "Recebidas" na sidebar
 - [ ] **L5** Painel "Alunos" (aderência, histórico, gráfico de cargas, lembrete)

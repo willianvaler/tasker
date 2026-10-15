@@ -74,8 +74,11 @@ export function toTaskWithPage(row: Row) {
   };
 }
 
+// Só tarefas das minhas pastas: as de uma página recebida (L) vêm sem a pasta do autor e ficam
+// fora das listas gerais (Hoje, Início); aparecem só na página delas, com o progresso do aluno
 export const TASK_WITH_PAGE_SQL = `select t.*, p.name as page_name, p.icon as page_icon,
-  p.view_type as page_view_type from tasks t left join pages p on p.id = t.page_id`;
+  p.view_type as page_view_type from tasks t left join pages p on p.id = t.page_id
+  join folders own_folder on own_folder.id = t.folder_id`;
 
 export async function localTasks(sql: string, params: unknown[] = []) {
   return (await db.getAll<Row>(sql, params)).map(toTask);

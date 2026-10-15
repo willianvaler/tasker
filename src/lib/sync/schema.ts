@@ -168,6 +168,19 @@ const page_shares = new Table(
   { indexes: { page: ['page_id'] } },
 );
 
+// Marcações do aluno numa página recebida (L2), por ciclo
+const share_checks = new Table(
+  {
+    task_id: column.text,
+    page_id: column.text,
+    user_id: column.text,
+    cycle_key: column.text,
+    done_at: column.text,
+    note: column.text,
+  },
+  { indexes: { page: ['page_id', 'user_id'] } },
+);
+
 const task_assignees = new Table(
   {
     task_id: column.text,
@@ -304,6 +317,7 @@ export const AppSchema = new Schema({
   timers,
   time_entries,
   page_shares,
+  share_checks,
   task_assignees,
   comments,
   task_completions,

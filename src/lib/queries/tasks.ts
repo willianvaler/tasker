@@ -21,6 +21,7 @@ import {
   toTaskWithPage,
 } from '../sync/local';
 import { completionSummarySchema, type CompletionSummary } from './game';
+import { isReceivedTask, localCycleKey, overlayReceived } from './shares';
 import { keys, taskMutationKey } from './keys';
 import { useTree, type Page, type Tree } from './tree';
 
@@ -37,22 +38,26 @@ export function usePageTasks(pageId: string | undefined) {
     queryKey: keys.pageTasks(pageId ?? ''),
     enabled: !!pageId,
     queryFn: async () => {
+      // Página recebida (L2): o "feito" é o do aluno, não o do autor
       if (isLocal()) {
         refreshCyclesInBackground(pageId);
-        return localTasks('select * from tasks where page_id = ? order by position, created_at', [
-          pageId,
-        ]);
+        return overlayReceived(
+          await localTasks('select * from tasks where page_id = ? order by position, created_at', [
+            pageId,
+          ]),
+          pageId ?? '',
+        );
       }
       // Reabre o que ficou em ciclo vencido antes de ler (o cron também faz, a cada 15 min)
-      await supabase.rpc('refresh_cycles', { p_page_id: pageId! });
+      await supabase.rpc('refresh_cycles', { p_page_id: pageId ?? '' });
       const { data, error } = await supabase
         .from('tasks')
         .select('*')
-        .eq('page_id', pageId!)
+        .eq('page_id', pageId ?? '')
         .order('position')
         .order('created_at');
       if (error) throw error;
-      return data;
+      return overlayReceived(data, pageId ?? '');
     },
   });
 }
@@ -202,10 +207,18 @@ export function useTask(id: string | undefined) {
     enabled: !!id,
     initialData: () => findCachedTask(queryClient, id!),
     queryFn: async () => {
-      if (isLocal()) return (await localTasks('select * from tasks where id = ?', [id]))[0] ?? null;
-      const { data, error } = await supabase.from('tasks').select('*').eq('id', id!).maybeSingle();
-      if (error) throw error;
-      return data;
+      const task = isLocal()
+        ? ((await localTasks('select * from tasks where id = ?', [id]))[0] ?? null)
+        : await supabase
+            .from('tasks')
+            .select('*')
+            .eq('id', id ?? '')
+            .maybeSingle()
+            .then(({ data, error }) => {
+              if (error) throw error;
+              return data;
+            });
+      return task ? ((await overlayReceived([task], task.page_id))[0] ?? task) : null;
     },
   });
 }
@@ -628,6 +641,12 @@ export async function toggleTaskFn({
   done,
   nextDue,
 }: ToggleTaskVars): Promise<CompletionSummary | null> {
+  // Página recebida (L2): marca o item do aluno, não a tarefa do autor
+  const received = await isReceivedTask(id);
+  if (received) {
+    await checkReceivedItem(id, received.pageId, done);
+    return null;
+  }
   if (isLocal()) {
     const task = done ? await localTaskForXp(id) : null;
     const estimate = task ? estimateCompletionXp(task) : 0;
@@ -653,6 +672,37 @@ export async function toggleTaskFn({
   if (error) throw error;
   // XP, nível, boss e conquistas vêm junto (Fase 3); se o formato mudar, a marcação vale igual
   return completionSummarySchema.safeParse(data).data ?? null;
+}
+
+/** Marca/desmarca o item da página recebida: check_item (pela fila, offline) com o reflexo local. */
+async function checkReceivedItem(id: string, pageId: string, done: boolean) {
+  const args = { p_task_id: id, p_done: done, p_note: null };
+  if (!isLocal()) {
+    const { error } = await supabase.rpc('run_once', {
+      p_key: uuidv7(),
+      p_name: 'check_item',
+      p_args: args as Json,
+    });
+    if (error) throw error;
+    return;
+  }
+  const userId = await sessionUserId();
+  const task = await db.getOptional<{ recurrence: string | null }>(
+    'select recurrence from tasks where id = ?',
+    [id],
+  );
+  const key = await localCycleKey(pageId, task?.recurrence ? JSON.parse(task.recurrence) : null);
+  await runCommand('check_item', args, async (tx) => {
+    await tx.execute(
+      'delete from share_checks where task_id = ? and user_id = ? and cycle_key = ?',
+      [id, userId, key],
+    );
+    if (done)
+      await tx.execute(
+        'insert into share_checks (id, task_id, page_id, user_id, cycle_key, done_at) values (?, ?, ?, ?, ?, ?)',
+        [uuidv7(), id, pageId, userId, key, new Date().toISOString()],
+      );
+  });
 }
 
 /** Só os campos mudados vão para o servidor: em conflito, a última escrita vence por campo. */
@@ -708,6 +758,11 @@ export async function setTaskStatusFn({
   id,
   status,
 }: StatusTaskVars): Promise<CompletionSummary | null> {
+  const received = await isReceivedTask(id);
+  if (received) {
+    await checkReceivedItem(id, received.pageId, status === 'done');
+    return null;
+  }
   if (isLocal()) {
     const task = status === 'done' ? await localTaskForXp(id) : null;
     const estimate = task ? estimateCompletionXp(task) : 0;
