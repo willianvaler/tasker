@@ -164,3 +164,71 @@ export function useTimeEntryActions() {
 }
 
 type LocalChange = NonNullable<Parameters<typeof runCommand>[2]>;
+
+export type StatRow = TimeEntry & {
+  task_title: string | null;
+  page_id: string | null;
+  page_name: string | null;
+};
+
+const STAT_SQL = `select e.*, t.title as task_title, t.page_id as page_id, p.name as page_name
+  from time_entries e left join tasks t on t.id = e.task_id left join pages p on p.id = t.page_id`;
+
+function fromRemote(
+  rows: (TimeEntry & {
+    task: { title: string; page_id: string; page: { name: string } | null } | null;
+  })[],
+): StatRow[] {
+  return rows.map(({ task, ...e }) => ({
+    ...e,
+    task_title: task?.title ?? null,
+    page_id: task?.page_id ?? null,
+    page_name: task?.page?.name ?? null,
+  }));
+}
+
+/** Meus registros desde `since` (ISO), para as estatísticas (K4). */
+export function useMyTimeStats(since: string) {
+  return useQuery({
+    queryKey: [...keys.timeEntries, 'mine', since],
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<StatRow[]> => {
+      const userId = await sessionUserId();
+      if (!userId) return [];
+      if (isLocal())
+        return db.getAll<StatRow>(`${STAT_SQL} where e.user_id = ? and e.ended_at >= ?`, [
+          userId,
+          since,
+        ]);
+      const { data, error } = await supabase
+        .from('time_entries')
+        .select('*, task:tasks(title, page_id, page:pages(name))')
+        .eq('user_id', userId)
+        .gte('ended_at', since);
+      if (error) throw error;
+      return fromRemote(data as never);
+    },
+  });
+}
+
+/** Registros de um projeto (a pasta e as subpastas), de todos: relatório por lista e pessoa. */
+export function useProjectTime(folderIds: string[]) {
+  return useQuery({
+    queryKey: [...keys.timeEntries, 'folders', folderIds.join(',')],
+    enabled: folderIds.length > 0,
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<StatRow[]> => {
+      if (isLocal())
+        return db.getAll<StatRow>(
+          `${STAT_SQL} where e.folder_id in (select value from json_each(?))`,
+          [JSON.stringify(folderIds)],
+        );
+      const { data, error } = await supabase
+        .from('time_entries')
+        .select('*, task:tasks(title, page_id, page:pages(name))')
+        .in('folder_id', folderIds);
+      if (error) throw error;
+      return fromRemote(data as never);
+    },
+  });
+}

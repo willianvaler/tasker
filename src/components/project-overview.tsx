@@ -13,6 +13,7 @@ import { actorCan } from '@/lib/permissions';
 import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
+import { ProjectTime } from '@/components/time-report';
 import { describeActivity } from '@/lib/activity';
 import { projectProgress } from '@/lib/progress';
 import {
@@ -107,6 +108,8 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
       </View>
 
       <FlowIndicators root={root} />
+
+      <ProjectTime root={root} />
 
       <ProjectMilestones rootId={root.id} />
 

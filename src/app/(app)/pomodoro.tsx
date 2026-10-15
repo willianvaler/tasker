@@ -5,6 +5,7 @@ import { ScrollView, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
+import { PomodoroStats } from '@/components/time-report';
 import { useBreakIdeas } from '@/components/timer-bar';
 import { Button, IconButton } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
@@ -29,7 +30,12 @@ export default function PomodoroScreen() {
     <Screen>
       <ScrollView contentContainerClassName="gap-6 pb-clear">
         <ScreenHeader title={t('pomodoro.title')} back />
-        {settings.data && <SettingsForm initial={settings.data} />}
+        <PomodoroStats />
+        {settings.data && (
+          // O cache do aparelho abre primeiro e pode estar atrás: o dado do servidor recomeça o
+          // formulário (depois de salvar, é o mesmo, e nada muda)
+          <SettingsForm key={JSON.stringify(settings.data)} initial={settings.data} />
+        )}
       </ScrollView>
     </Screen>
   );

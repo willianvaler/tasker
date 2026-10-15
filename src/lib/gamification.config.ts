@@ -1,5 +1,5 @@
 // Valores da gamificação. Quem concede XP, dano e ouro é o banco: o mesmo JSON
-// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261017000000_rpg.sql) e o teste
+// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261123000000_pomodoro_xp.sql) e o teste
 // gamification.test.ts falha se os dois divergirem. Mudou aqui? Mude lá numa migração nova.
 export const gamificationConfig = {
   xp: {
@@ -19,6 +19,8 @@ export const gamificationConfig = {
     pageBonusMinItems: 3,
     /** Cada "+" num hábito bom/ruim */
     habitPlus: 3,
+    /** Foco de pomodoro concluído (K4) */
+    pomodoro: 5,
   },
   antiFarm: {
     /** Concluída em menos disso depois de criada: 0 XP (fora de cards e hábitos), mas o golpe vale */
@@ -30,6 +32,9 @@ export const gamificationConfig = {
     dailyQuickDamageCap: 20,
     /** "+" de um hábito que valem XP, dano e ouro por dia */
     habitPlusDailyCap: 10,
+    /** Pomodoros que valem XP por dia, e o foco mínimo para valer */
+    pomodoroDailyCap: 4,
+    pomodoroMinMinutes: 15,
   },
   level: {
     /** XP para passar do nível n para o n+1 = round(base * n ^ exponent) */

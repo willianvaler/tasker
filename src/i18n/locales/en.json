@@ -1398,6 +1398,11 @@
     "sourceStopwatch": "stopwatch",
     "sourceManual": "logged",
     "remove": "Delete {{entry}}",
-    "rollup": "Done in subtasks: {{done}}"
+    "rollup": "Done in subtasks: {{done}}",
+    "noTask": "No task",
+    "stats": "Your numbers",
+    "today": "Today: {{pomodoros}} pomodoros · {{time}}",
+    "topTasks": "Where the time went (7 days)",
+    "project": "Time logged"
   }
 }

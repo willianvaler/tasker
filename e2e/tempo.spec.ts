@@ -50,3 +50,22 @@ test('tempo: cronômetro na tarefa, lançar à mão (ontem), apagar e Shift+T', 
     page.getByRole('timer', { name: /^Cronômetro · Planilha de custos: 0:0\d$/ }),
   ).toBeVisible();
 });
+
+test('tempo: números do pomodoro (hoje, 7 dias, onde foi o tempo)', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Revisar textos');
+  await input.press('Enter');
+  await page.getByRole('button', { name: 'Detalhes de Revisar textos' }).click();
+  const logged = page.waitForResponse((r) => isRpc(r, 'log_time'));
+  const field = page.getByRole('textbox', { name: 'Lançar tempo' });
+  await field.fill('1h15');
+  await field.press('Enter');
+  await logged;
+
+  await page.goto('/pomodoro');
+  await expect(page.getByText('Hoje: 0 pomodoros · 1h15')).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByLabel('Hoje: 0 · 1h15', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Revisar textos: 1h15', { exact: true })).toBeVisible();
+});

@@ -1398,6 +1398,11 @@
     "sourceStopwatch": "cronómetro",
     "sourceManual": "registrado",
     "remove": "Borrar {{entry}}",
-    "rollup": "Hecho en subtareas: {{done}}"
+    "rollup": "Hecho en subtareas: {{done}}",
+    "noTask": "Sin tarea",
+    "stats": "Tus números",
+    "today": "Hoy: {{pomodoros}} pomodoros · {{time}}",
+    "topTasks": "Dónde se fue el tiempo (7 días)",
+    "project": "Tiempo registrado"
   }
 }

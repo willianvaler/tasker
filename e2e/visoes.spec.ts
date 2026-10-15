@@ -51,7 +51,7 @@ test('Fluxo: grafo da esquerda para a direita, "você está aqui" e lista acess�
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/fluxo-raias.png` });
     // Clicar no nó abre a tarefa
     await page.getByLabel(/^Comprar carvão · Pronta/).click();
-    await expect(page.getByRole('button', { name: 'Iniciar' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Iniciar', exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Voltar' }).click();
   }
 
@@ -80,7 +80,7 @@ test('Pessoas: quem está fazendo o quê', async ({ page }, testInfo) => {
 
   // Iniciar pelo painel: vai para "Fazendo agora"
   await loose.getByRole('button', { name: 'Comprar carvão · Pronta para fazer' }).click();
-  await page.getByRole('button', { name: 'Iniciar' }).click();
+  await page.getByRole('button', { name: 'Iniciar', exact: true }).click();
   await page.getByRole('button', { name: 'Voltar' }).click();
   await expect(loose.getByRole('button', { name: 'Comprar carvão · Fazendo agora' })).toBeVisible({
     timeout: 15_000,
