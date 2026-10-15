@@ -1446,6 +1446,35 @@
     "accept": "Receive",
     "decline": "Decline",
     "pendingFrom": "{{page}} · from {{name}}",
-    "empty": "Nothing received yet."
+    "empty": "Nothing received yet.",
+    "noteTitle": "Note for the sender",
+    "notePlaceholder": "How did it go? E.g. my shoulder hurt on the last set",
+    "noteSave": "Save and mark done",
+    "noteSaved": "Note sent."
+  },
+  "students": {
+    "title": "Students",
+    "open": "Students",
+    "sendMore": "Send to another student",
+    "empty": "No one has received this page live yet.",
+    "thisCycle": "This cycle: {{done}}/{{total}}",
+    "adherence": "Adherence: {{done}} of {{expected}}",
+    "never": "no activity",
+    "lastActivity_one": "active {{count}} day ago",
+    "lastActivity_other": "active {{count}} days ago",
+    "notes_one": "{{count}} note",
+    "notes_other": "{{count}} notes",
+    "remind": "Remind",
+    "remindedToday": "Reminded today",
+    "remindLabel": "Remind {{name}}",
+    "reminded": "{{name}} will get the reminder.",
+    "archive": "Archive",
+    "archiveLabel": "Archive {{name}}",
+    "archiveTitle": "Archive {{name}}?",
+    "archiveMessage": "They stop receiving the page. The history stays here.",
+    "loads": "Loads",
+    "history": "History",
+    "noHistory": "Nothing logged yet.",
+    "cycleOf": "Since {{date}}"
   }
 }

@@ -82,3 +82,12 @@ describe('textos das notificações (tela 🔔 e push)', () => {
     ).toBe('"Acender o fogo" foi reaberta: "Assar a carne" voltou a esperar');
   });
 });
+
+test('lembrete de página recebida abre a página', () => {
+  expect(
+    describeNotification({
+      kind: 'page_reminder',
+      payload: { by: 'Carla', page_name: 'Treino A', page_id: 'p1', days: 5 },
+    }),
+  ).toEqual({ text: 'Carla lembrou você de "Treino A" (5 dias sem registro)', pageId: 'p1' });
+});

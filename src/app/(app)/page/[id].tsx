@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
-import { MoreHorizontal, Play, SlidersHorizontal } from 'lucide-react-native';
+import { MoreHorizontal, Play, SlidersHorizontal, Users } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,7 @@ import { actorCan } from '@/lib/permissions';
 import { rootFolder, useFolderActor } from '@/lib/queries/projects';
 import { saveTextFile } from '@/lib/download';
 import { setLastPageId } from '@/lib/prefs';
-import { useReceivedPages } from '@/lib/queries/shares';
+import { usePageShares, useReceivedPages } from '@/lib/queries/shares';
 import { usePageTasks } from '@/lib/queries/tasks';
 import { wbsOutline } from '@/lib/task-tree';
 import { findFolder, pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
@@ -64,6 +64,9 @@ export default function PageScreen() {
     actorCan(pageActor, 'page.share') &&
     !page.is_inbox &&
     !page.is_habits;
+  // Painel "Alunos" (L5): só para quem gerencia e com alguém recebendo ao vivo
+  const shares = usePageShares(sharable ? page?.id : undefined);
+  const hasStudents = !!shares.data?.shares.some((s) => s.mode === 'live' && s.status === 'active');
   // Paleta: "Enviar esta página"
   useEffect(() => {
     if (send && sharable) setDialog('send');
@@ -116,6 +119,13 @@ export default function PageScreen() {
           // Página de hábitos de sistema: sem configurar nem duplicar; recebida: só executar
           page && online && !page.is_habits && !receivedPage ? (
             <>
+              {hasStudents && (
+                <IconButton
+                  icon={Users}
+                  label={t('students.open')}
+                  onPress={() => router.push({ pathname: '/alunos/[id]', params: { id: page.id } })}
+                />
+              )}
               <IconButton
                 icon={SlidersHorizontal}
                 label={t('page.settings')}

@@ -1446,6 +1446,35 @@
     "accept": "Receber",
     "decline": "Recusar",
     "pendingFrom": "{{page}} · de {{name}}",
-    "empty": "Nada recebido ainda."
+    "empty": "Nada recebido ainda.",
+    "noteTitle": "Observação para quem enviou",
+    "notePlaceholder": "Como foi? Ex.: senti o ombro na última série",
+    "noteSave": "Salvar e marcar feito",
+    "noteSaved": "Observação enviada."
+  },
+  "students": {
+    "title": "Alunos",
+    "open": "Alunos",
+    "sendMore": "Enviar para outro aluno",
+    "empty": "Ninguém recebeu esta página ao vivo ainda.",
+    "thisCycle": "Neste ciclo: {{done}}/{{total}}",
+    "adherence": "Aderência: {{done}} de {{expected}}",
+    "never": "sem atividade",
+    "lastActivity_one": "ativo há {{count}} dia",
+    "lastActivity_other": "ativo há {{count}} dias",
+    "notes_one": "{{count}} observação",
+    "notes_other": "{{count}} observações",
+    "remind": "Lembrar",
+    "remindedToday": "Lembrado hoje",
+    "remindLabel": "Lembrar {{name}}",
+    "reminded": "{{name}} vai receber o lembrete.",
+    "archive": "Arquivar",
+    "archiveLabel": "Arquivar {{name}}",
+    "archiveTitle": "Arquivar {{name}}?",
+    "archiveMessage": "A pessoa deixa de receber a página. O histórico continua aqui.",
+    "loads": "Cargas",
+    "history": "Histórico",
+    "noHistory": "Nada registrado ainda.",
+    "cycleOf": "Desde {{date}}"
   }
 }

@@ -1,6 +1,6 @@
 import { expect, test, type Browser, type Page, type TestInfo } from '@playwright/test';
 
-import { createPage, openTab, shown, signUp } from './helpers';
+import { createPage, openTab, shown, signUp, waitForSync } from './helpers';
 
 /** Treinador: cria o link de envio no modo pedido e devolve o endereço. */
 async function makeLink(page: Page, mode: 'Ao vivo' | 'Cópia') {
@@ -115,4 +115,67 @@ test('Recebidas: convite por e-mail aparece, receber abre a página e ela fica n
     timeout: 15_000,
   });
   await other.close();
+});
+
+test('Alunos: números, cargas, observação, lembrete e arquivar', async ({
+  browser,
+  page,
+}, testInfo) => {
+  test.setTimeout(180_000);
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Academia', name: 'Treino A', type: 'Cards' });
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  for (const line of ['Supino 2x10 40kg', 'Alongar']) {
+    await input.fill(line);
+    await input.press('Enter');
+  }
+  await expect(page.getByRole('checkbox', { name: 'Alongar', exact: true })).toBeVisible();
+  const link = await makeLink(page, 'Ao vivo');
+  await page.getByRole('button', { name: 'Fechar' }).last().click();
+
+  // A aluna faz as duas séries e deixa uma observação no Alongar
+  const ana = await receive(browser, testInfo, link, 'Ana Aluna');
+  await ana.getByRole('button', { name: 'Mais uma em Supino (0 de 2)' }).click();
+  await ana.getByRole('button', { name: 'Mais uma em Supino (1 de 2)' }).click();
+  await expect(ana.getByRole('checkbox', { name: 'Supino', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+  await ana.getByRole('button', { name: 'Detalhes de Alongar' }).click();
+  await ana.getByRole('textbox', { name: 'Observação para quem enviou' }).fill('senti o ombro');
+  const noted = ana.waitForResponse((r) => r.url().includes('rpc/run_once') && r.ok());
+  await ana.getByRole('button', { name: 'Salvar e marcar feito' }).click();
+  await noted;
+  await ana.getByRole('button', { name: 'Voltar' }).click();
+  await expect(ana.getByRole('checkbox', { name: 'Alongar', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+
+  // O treinador abre "Alunos" (depois de a fila da aluna subir)
+  await waitForSync(ana);
+  await page.reload();
+  await page.getByRole('button', { name: 'Alunos' }).click();
+  await expect(page.getByRole('button', { name: /^Ana Aluna: Neste ciclo: 2\/2/ })).toBeVisible({
+    timeout: 15_000,
+  });
+  await expect(page.getByRole('button', { name: /1 observação$/ })).toBeVisible();
+  await page.getByRole('button', { name: /^Ana Aluna:/ }).click();
+  await expect(page.getByLabel('Supino: 40kg')).toBeVisible();
+  await expect(page.getByText('“senti o ombro”')).toBeVisible();
+
+  // Lembrete chega para a aluna
+  await page.getByRole('button', { name: 'Lembrar Ana Aluna' }).click();
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'Ana Aluna vai receber o lembrete.' }),
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Lembrar Ana Aluna' })).toBeDisabled();
+  await ana.goto('/notifications');
+  await expect(ana.getByText(/lembrou você de "Treino A"/)).toBeVisible({ timeout: 15_000 });
+
+  // Arquivar: sai da lista
+  await page.getByRole('button', { name: 'Arquivar Ana Aluna' }).click();
+  await page.getByRole('button', { name: 'Arquivar', exact: true }).click();
+  await expect(page.getByText('Ninguém recebeu esta página ao vivo ainda.')).toBeVisible();
+  await ana.context().close();
 });

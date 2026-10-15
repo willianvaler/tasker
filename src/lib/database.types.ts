@@ -661,14 +661,14 @@ isOneToOne: false
                   ]
                 },"share_checks": {
                   Row: {
-                    "cycle_key": string,"done_at": string,"id": string,"note": string | null,"page_id": string,"task_id": string,"user_id": string
+                    "cycle_key": string,"done_at": string,"id": string,"note": string | null,"page_id": string,"task_id": string,"user_id": string,"values": Json | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "cycle_key": string,"done_at"?: string,"id"?: string,"note"?: string | null,"page_id": string,"task_id": string,"user_id": string
+                    "cycle_key": string,"done_at"?: string,"id"?: string,"note"?: string | null,"page_id": string,"task_id": string,"user_id": string,"values"?: Json | null
                   }
                   Update: {
-                    "cycle_key"?: string,"done_at"?: string,"id"?: string,"note"?: string | null,"page_id"?: string,"task_id"?: string,"user_id"?: string
+                    "cycle_key"?: string,"done_at"?: string,"id"?: string,"note"?: string | null,"page_id"?: string,"task_id"?: string,"user_id"?: string,"values"?: Json | null
                   }
                   Relationships: [
                     {
@@ -1372,6 +1372,9 @@ isOneToOne: false
 "allocate_attribute":
 { Args: { "p_attr": string }; Returns: Json
                            },
+"archive_page_share":
+{ Args: { "p_share_id": string }; Returns: undefined
+                           },
 "attribute_points":
 { Args: { "p_user": string }; Returns: number
                            },
@@ -1718,6 +1721,11 @@ isOneToOne: false
 "page_share_preview":
 { Args: { "p_token": string }; Returns: Json
                            },
+"page_students":
+{ Args: { "p_page_id": string }; Returns: {
+              "accepted_at": string,"done_now": number,"expected": number,"items": number,"last_activity": string,"last_reminded_at": string,"mode": string,"name": string,"notes_recent": number,"recipient_id": string,"sessions": number,"share_id": string
+            }[]
+                           },
 "patch_task_labels":
 { Args: { "p_add": (string)[],"p_remove": (string)[],"p_task_id": string }; Returns: undefined
                            },
@@ -1743,6 +1751,9 @@ isOneToOne: false
 { Args: { "p_query": string }; Returns: {
               "context": string,"id": string,"title": string,"type": string
             }[]
+                           },
+"remind_student":
+{ Args: { "p_share_id": string }; Returns: undefined
                            },
 "remove_member":
 { Args: { "p_folder_id": string,"p_user_id": string }; Returns: undefined

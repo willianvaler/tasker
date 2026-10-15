@@ -36,15 +36,16 @@ export default function NotificationsScreen() {
       <ScrollView contentContainerClassName="pb-12">
         {list.data?.length === 0 && <EmptyState title={t('notifications.empty')} />}
         {list.data?.map((n) => {
-          const { text, taskId, folderId, teamId, teamInvite } = describeNotification(n);
+          const { text, taskId, folderId, teamId, teamInvite, pageId } = describeNotification(n);
           return (
             <Pressable
               key={n.id}
               accessibilityRole="button"
-              disabled={!taskId && !folderId && !teamId && !teamInvite}
+              disabled={!taskId && !folderId && !teamId && !teamInvite && !pageId}
               className="min-h-12 flex-row items-center gap-3 border-b border-line py-2 hover:bg-wash active:bg-wash"
               onPress={() => {
                 if (taskId) router.push({ pathname: '/task/[id]', params: { id: taskId } });
+                else if (pageId) router.push({ pathname: '/page/[id]', params: { id: pageId } });
                 else if (folderId)
                   router.push({ pathname: '/folder/[id]', params: { id: folderId } });
                 else if (teamId) router.push({ pathname: '/team/[id]', params: { id: teamId } });

@@ -12,6 +12,7 @@ import {
   MetaEditor,
   RecurrenceEditor,
 } from '@/components/tasks/task-extras';
+import { ReceivedNote } from '@/components/received';
 import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
 import { TaskTime } from '@/components/tasks/task-time';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
@@ -57,6 +58,7 @@ import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
 import { rootFolder } from '@/lib/queries/projects';
+import { useIsReceived } from '@/lib/queries/shares';
 import { useToast } from '@/providers/toast';
 import { useCanWrite, useTaskCan, WriteScope } from '@/providers/write';
 
@@ -107,6 +109,8 @@ function TaskDetails({ task }: { task: Task }) {
   const colors = useColors();
   const today = useToday();
   const allowed = useTaskCan(task);
+  // Item de página recebida (L): o aluno deixa observação para quem enviou
+  const received = useIsReceived(task.page_id);
   // Colaborador: só mexe no que criou ou no que é dele (o resto fica só de leitura)
   const writable = useCanWrite(task.folder_id) && allowed.edit;
   const tree = useTree();
@@ -299,6 +303,12 @@ function TaskDetails({ task }: { task: Task }) {
         {page?.view_type === 'cards' && (
           <Section title={t('taskDetail.exercise')}>
             <MetaEditor task={task} onSave={(meta) => save({ meta })} />
+          </Section>
+        )}
+
+        {received && (
+          <Section title={t('received.noteTitle')}>
+            <ReceivedNote task={task} />
           </Section>
         )}
 

@@ -1,10 +1,18 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
-import { useAcceptShare, usePendingShares } from '@/lib/queries/shares';
+import {
+  useAcceptShare,
+  useMyNote,
+  useNoteForSender,
+  usePendingShares,
+} from '@/lib/queries/shares';
+import type { Task } from '@/lib/queries/tasks';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
@@ -62,6 +70,46 @@ export function PendingShares({ compact }: { compact?: boolean }) {
           </View>
         );
       })}
+    </View>
+  );
+}
+
+/** No painel do item recebido: observação para quem enviou (salvar marca o item como feito). */
+export function ReceivedNote({ task }: { task: Task }) {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const mine = useMyNote(task.id, task.page_id, task.recurrence);
+  const save = useNoteForSender();
+  const [text, setText] = useState<string | null>(null);
+  const value = text ?? mine.data ?? '';
+  function submit() {
+    const note = value.trim();
+    if (!note) return;
+    save.mutate(
+      { taskId: task.id, pageId: task.page_id, recurrence: task.recurrence, note },
+      {
+        onSuccess: () => toast({ message: t('received.noteSaved') }),
+        onError: (err) => toast({ message: err.message }),
+      },
+    );
+  }
+  return (
+    <View className="gap-2">
+      <Input
+        value={value}
+        onChangeText={setText}
+        multiline
+        maxLength={500}
+        placeholder={t('received.notePlaceholder')}
+        accessibilityLabel={t('received.noteTitle')}
+      />
+      <Button
+        variant="ghost"
+        className="self-start"
+        label={t('received.noteSave')}
+        disabled={!value.trim() || save.isPending}
+        onPress={submit}
+      />
     </View>
   );
 }

@@ -13,6 +13,7 @@ import { rewardMessage } from '@/lib/gamification';
 import { useGameState } from '@/lib/queries/game';
 import { useLogRep, useMyProgress } from '@/lib/queries/repeat';
 import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
+import type { TaskMeta } from '@/lib/parser/quick';
 import type { Task } from '@/lib/queries/tasks';
 import {
   DEFAULT_REST_SECONDS,
@@ -77,7 +78,14 @@ export function useLogSet() {
     lastCount.set(task.id, { reps: next, at: Date.now() });
     if (delta === -1) cancelRest(task);
     // mutateAsync: a resposta chega mesmo se a linha sair da tela (ver useToggleWithUndo)
-    const result = log.mutateAsync({ task, delta, id: uuidv7(), values });
+    // A série leva a carga e as repetições previstas do item, se ninguém disse outras (o
+    // painel "Alunos" mostra a evolução das cargas)
+    const meta = (task.meta && typeof task.meta === 'object' ? task.meta : {}) as TaskMeta;
+    const planned =
+      delta === 1 && !values && (meta.weight || meta.reps)
+        ? { weight: meta.weight ?? null, reps: meta.reps ?? null }
+        : values;
+    const result = log.mutateAsync({ task, delta, id: uuidv7(), values: planned });
     const rest = delta === 1 && base < plan.total ? restAfterRep(plan, next) : null;
     if (rest)
       startTimer({

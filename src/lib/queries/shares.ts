@@ -5,7 +5,9 @@ import { todayIn } from '../parser/dates';
 import { cycleKeyFor, taskCycleKind, withMyChecks } from '../share';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
-import { isLocal, sessionUserId, toPage } from '../sync/local';
+import type { Json } from '../database.types';
+import { isLocal, runCommand, sessionUserId, toPage } from '../sync/local';
+import { uuidv7 } from '../uuid';
 
 // Páginas enviadas (L, D133). Do lado de quem recebe: as páginas ao vivo que chegaram (com o
 // envio) e os convites pendentes. A página recebida não está na árvore de pastas do usuário.
@@ -378,4 +380,162 @@ export function shareUrl(token: string) {
     (typeof window !== 'undefined' && window.location?.origin) ||
     'http://localhost:8082';
   return `${base.replace(/\/$/, '')}/enviada/${encodeURIComponent(token)}`;
+}
+
+// ---------- Painel "Alunos" (L5) ----------
+
+export type Student = {
+  share_id: string;
+  recipient_id: string;
+  name: string | null;
+  mode: string;
+  accepted_at: string | null;
+  last_activity: string | null;
+  done_now: number;
+  items: number;
+  sessions: number;
+  expected: number | null;
+  notes_recent: number;
+  last_reminded_at: string | null;
+};
+
+export function usePageStudents(pageId: string | undefined) {
+  return useQuery({
+    queryKey: ['students', pageId ?? ''],
+    enabled: !!pageId,
+    queryFn: async (): Promise<Student[]> => {
+      const { data, error } = await supabase.rpc('page_students', { p_page_id: pageId ?? '' });
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export type StudentCheck = {
+  id: string;
+  task_id: string;
+  cycle_key: string;
+  done_at: string;
+  note: string | null;
+  values: { weight?: string | null; reps?: number | null }[] | null;
+  title: string;
+};
+
+/** Histórico do aluno na página: cada conclusão (com as séries) e observação. */
+export function useStudentHistory(pageId: string | undefined, userId: string | undefined) {
+  return useQuery({
+    queryKey: ['student-history', pageId ?? '', userId ?? ''],
+    enabled: !!pageId && !!userId,
+    queryFn: async (): Promise<StudentCheck[]> => {
+      const { data, error } = await supabase
+        .from('share_checks')
+        .select('id, task_id, cycle_key, done_at, note, values, task:tasks(title)')
+        .eq('page_id', pageId ?? '')
+        .eq('user_id', userId ?? '')
+        .order('done_at', { ascending: false })
+        .limit(300);
+      if (error) throw error;
+      return data.map(({ task, ...c }) => ({
+        ...c,
+        values: (c.values as StudentCheck['values']) ?? null,
+        title: (task as { title: string } | null)?.title ?? '—',
+      }));
+    },
+  });
+}
+
+export function useStudentActions(pageId: string) {
+  const queryClient = useQueryClient();
+  const settle = () => {
+    queryClient.invalidateQueries({ queryKey: ['students', pageId] });
+    queryClient.invalidateQueries({ queryKey: sharesKey(pageId) });
+  };
+  return {
+    remind: useMutation({
+      mutationFn: async (shareId: string) => {
+        const { error } = await supabase.rpc('remind_student', { p_share_id: shareId });
+        if (error) throw error;
+      },
+      onSettled: settle,
+    }),
+    archive: useMutation({
+      mutationFn: async (shareId: string) => {
+        const { error } = await supabase.rpc('archive_page_share', { p_share_id: shareId });
+        if (error) throw error;
+      },
+      onSettled: settle,
+    }),
+  };
+}
+
+/** Aluno: marca o item com uma observação para o autor (L5). Também offline. */
+export function useNoteForSender() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    networkMode: isLocal() ? 'always' : 'online',
+    mutationFn: async ({
+      taskId,
+      pageId,
+      recurrence,
+      note,
+    }: {
+      taskId: string;
+      pageId: string;
+      recurrence: unknown;
+      note: string;
+    }) => {
+      const args = { p_task_id: taskId, p_done: true, p_note: note };
+      if (!isLocal()) {
+        const { error } = await supabase.rpc('run_once', {
+          p_key: uuidv7(),
+          p_name: 'check_item',
+          p_args: args as Json,
+        });
+        if (error) throw error;
+        return;
+      }
+      const userId = await sessionUserId();
+      const key = await localCycleKey(pageId, recurrence);
+      await runCommand('check_item', args, async (tx) => {
+        await tx.execute(
+          'delete from share_checks where task_id = ? and user_id = ? and cycle_key = ?',
+          [taskId, userId, key],
+        );
+        await tx.execute(
+          `insert into share_checks (id, task_id, page_id, user_id, cycle_key, done_at, note)
+           values (?, ?, ?, ?, ?, ?, ?)`,
+          [uuidv7(), taskId, pageId, userId, key, new Date().toISOString(), note],
+        );
+      });
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
+  });
+}
+
+/** A observação que deixei neste item, no ciclo atual. */
+export function useMyNote(taskId: string, pageId: string, recurrence: unknown) {
+  return useQuery({
+    queryKey: ['tasks', 'my-note', taskId],
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async () => {
+      const userId = await sessionUserId();
+      if (isLocal()) {
+        const key = await localCycleKey(pageId, recurrence);
+        const row = await db.getOptional<{ note: string | null }>(
+          'select note from share_checks where task_id = ? and user_id = ? and cycle_key = ?',
+          [taskId, userId, key],
+        );
+        return row?.note ?? null;
+      }
+      const { data } = await supabase
+        .from('share_checks')
+        .select('note, done_at')
+        .eq('task_id', taskId)
+        .eq('user_id', userId ?? '')
+        .order('done_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      return data?.note ?? null;
+    },
+  });
 }
