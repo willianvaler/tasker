@@ -1,7 +1,7 @@
 -- V4 §1.1 (O1): boss diário.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(14);
+select plan(19);
 
 -- Funções puras (os mesmos casos de src/lib/__tests__/gamification.test.ts)
 select is(public.daily_boss_hp(1), 60, 'diário nível 1: 60 HP');
@@ -27,8 +27,12 @@ select is((public.game_state() #>> '{daily_boss,max_hp}')::int, 60, 'o diário n
 select is(public.game_state() #>> '{daily_boss,scope}', 'daily', 'e é do tipo diário');
 select is((public.game_state() ->> 'daily_streak')::int, 0, 'nenhum dia seguido ainda');
 
-select public.complete_task('cccccccc-0000-0000-0000-000000000001');
+create temp table hit as select public.complete_task('cccccccc-0000-0000-0000-000000000001') as r;
 select ok((public.game_state() #>> '{daily_boss,hp}')::int < 60, 'o golpe tira do diário');
+select is((select (r #>> '{bosses,daily,hp}')::int from hit), (public.game_state() #>> '{daily_boss,hp}')::int,
+  'o aviso traz o HP do diário depois do golpe');
+select is((select (r #>> '{bosses,weekly,hp}')::int from hit), (public.game_state() #>> '{boss,hp}')::int,
+  'e o do semanal');
 select ok((public.game_state() #>> '{boss,hp}')::int < (public.game_state() #>> '{boss,max_hp}')::int,
   'e do semanal ao mesmo tempo');
 
@@ -37,13 +41,24 @@ reset role;
 update public.bosses set max_hp = (select coalesce(sum(amount), 0) + 1 from public.boss_damage d where d.boss_id = bosses.id)
 where scope = 'daily';
 set local role authenticated;
-select public.complete_task('cccccccc-0000-0000-0000-000000000002');
+create temp table final as select public.complete_task('cccccccc-0000-0000-0000-000000000002') as r;
 select is(public.game_state() #>> '{daily_boss,status}', 'defeated', 'diário derrotado');
+select is((select r -> 'defeated_now' from final), '["daily"]'::jsonb, 'o aviso diz que foi o diário que caiu');
 select is((select e.amount from public.xp_events e join public.bosses b on b.id = e.boss_id
            where b.scope = 'daily' and e.kind = 'boss_reward'), 15, 'recompensa do diário: 15 XP');
 select is((public.game_state() ->> 'daily_streak')::int, 1, 'um dia seguido');
 select is((public.game_state() ->> 'daily_defeated')::int, 1, 'um diário derrotado');
 select is((public.game_state() ->> 'bosses_defeated')::int, 0, 'o diário não conta como boss semanal');
+
+-- Limite do hábito: o 11º "+" do dia avisa (V4 §1.3)
+insert into public.pages (id, folder_id, name, view_type, reset_cycle) values
+  ('bbbbbbbb-0000-0000-0000-000000000002', 'aaaaaaaa-0000-0000-0000-000000000001', 'Hábitos', 'habits', 'none');
+insert into public.tasks (id, page_id, title, habit_kind) values
+  ('cccccccc-0000-0000-0000-000000000003', 'bbbbbbbb-0000-0000-0000-000000000002', 'Comer bem', 'plusminus');
+select public.habit_tick('cccccccc-0000-0000-0000-000000000003', 1) from generate_series(1, 10);
+select is(public.habit_tick('cccccccc-0000-0000-0000-000000000003', 1) ->> 'limit', 'habit',
+  'passou dos 10 "+" do dia: o aviso diz que o limite foi atingido');
+select is(public.habit_tick('cccccccc-0000-0000-0000-000000000003', -1) ->> 'limit', null, 'o "−" não fala de limite');
 
 -- Outra pessoa não vê o diário de ninguém
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';

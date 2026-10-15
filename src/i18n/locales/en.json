@@ -1676,5 +1676,23 @@
     "rest": "Rest",
     "restHint": "A break timer that alerts at the end (sound, vibration and notification).",
     "restStarted": "{{time}} rest started."
+  },
+  "reward": {
+    "pending": "+~{{xp}} XP (pending)",
+    "xp": "+{{xp}} XP",
+    "damage": "⚔️ {{damage}} damage",
+    "crit": "💥 {{damage}} damage (critical!)",
+    "heal": "💚 the boss healed {{heal}}",
+    "dailyHp": "day {{hp}}/{{max}}",
+    "weeklyHp": "week {{hp}}/{{max}}",
+    "gold": "🪙 +{{gold}}",
+    "levelUp": "🎉 Level {{level}}!",
+    "bossDefeated": "🏆 Boss defeated!",
+    "defeated_daily": "🏆 Daily boss defeated!",
+    "defeated_user": "🏆 Weekly boss defeated!",
+    "defeated_clan": "🏆 Clan boss defeated!",
+    "drop": "🎁 {{icon}} {{name}}",
+    "limitQuick": "daily limit for quick tasks reached",
+    "limitHabit": "daily limit for this habit reached ({{count}} \"+\")"
   }
 }

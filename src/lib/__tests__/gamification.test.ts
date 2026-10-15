@@ -148,6 +148,32 @@ describe('rewardMessage', () => {
   test('relâmpago: sem XP, mas o golpe aparece', () => {
     expect(rewardMessage({ ...base, damage: 4 })).toBe('⚔️ 4 de dano');
   });
+  test('O3: barras do dia e da semana, quem caiu e o limite do dia', () => {
+    const boss = (hp: number, max: number, status = 'active') => ({ hp, max_hp: max, status });
+    expect(
+      rewardMessage({
+        ...base,
+        xp: 10,
+        damage: 11,
+        bosses: { daily: boss(49, 60), weekly: boss(289, 300) },
+      }),
+    ).toBe('+10 XP · ⚔️ 11 de dano · dia 49/60 · semana 289/300');
+    expect(
+      rewardMessage({
+        ...base,
+        damage: 11,
+        boss_defeated: true,
+        bosses: { daily: boss(0, 60, 'defeated'), weekly: boss(278, 300) },
+        defeated_now: ['daily'],
+      }),
+    ).toBe('⚔️ 11 de dano · semana 278/300 · 🏆 Boss do dia derrotado!');
+    expect(rewardMessage({ ...base, limit: 'habit' })).toBe(
+      'limite diário deste hábito atingido (10 "+")',
+    );
+    expect(rewardMessage({ ...base, xp: 3, limit: 'quick' })).toBe(
+      '+3 XP · limite diário das tarefas rápidas atingido',
+    );
+  });
 });
 
 describe('peso da tarefa (mesmos casos do pgTAP peso)', () => {

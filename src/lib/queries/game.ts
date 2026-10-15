@@ -94,6 +94,13 @@ export const completionSummarySchema = z.object({
   drops: z.array(z.object({ key: z.string(), name: z.string(), icon: z.string() })).optional(),
   /** Estimativa local enquanto a ação está na fila do sync (o servidor ainda não respondeu) */
   pending: z.boolean().optional(),
+  /** O3: o diário e o semanal depois do golpe, quem caiu agora e o teto do dia atingido */
+  bosses: z
+    .object({ daily: bossSchema.nullable().optional(), weekly: bossSchema.nullable().optional() })
+    .nullable()
+    .optional(),
+  defeated_now: z.array(z.string()).nullable().optional(),
+  limit: z.string().nullable().optional(),
 });
 export type CompletionSummary = z.infer<typeof completionSummarySchema>;
 

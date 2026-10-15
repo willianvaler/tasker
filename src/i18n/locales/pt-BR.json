@@ -1676,5 +1676,23 @@
     "rest": "Descanso",
     "restHint": "Um timer de pausa que avisa no fim (som, vibração e notificação).",
     "restStarted": "Descanso de {{time}} começou."
+  },
+  "reward": {
+    "pending": "+~{{xp}} XP (pendente)",
+    "xp": "+{{xp}} XP",
+    "damage": "⚔️ {{damage}} de dano",
+    "crit": "💥 {{damage}} de dano (crítico!)",
+    "heal": "💚 o boss curou {{heal}}",
+    "dailyHp": "dia {{hp}}/{{max}}",
+    "weeklyHp": "semana {{hp}}/{{max}}",
+    "gold": "🪙 +{{gold}}",
+    "levelUp": "🎉 Nível {{level}}!",
+    "bossDefeated": "🏆 Boss derrotado!",
+    "defeated_daily": "🏆 Boss do dia derrotado!",
+    "defeated_user": "🏆 Boss da semana derrotado!",
+    "defeated_clan": "🏆 Boss do clã derrotado!",
+    "drop": "🎁 {{icon}} {{name}}",
+    "limitQuick": "limite diário das tarefas rápidas atingido",
+    "limitHabit": "limite diário deste hábito atingido ({{count}} \"+\")"
   }
 }

@@ -156,7 +156,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **N4** Limites e E2E (D153)
 - [x] **O1** Boss diário no servidor (D161)
 - [x] **O2** Calibragem do dano (D162)
-- [ ] **O3** Aviso com o dano nos bosses e limite atingido
+- [x] **O3** Aviso com o dano nos bosses e limite atingido (D163)
 - [ ] **O4** Boss diário nas telas
 - [ ] **P1** Raridade das conquistas
 - [ ] **P2** Conquistas novas
