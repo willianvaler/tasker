@@ -13,6 +13,10 @@ import { DURATION, SIZE } from '@/lib/tokens';
 import { useShortcut } from '@/lib/use-shortcut';
 
 /** Painel à direita no computador (sem travar a lista), folha no celular. Rota `transparentModal`. */
+/** 45% da janela, entre SIZE.panel e SIZE.panelMax */
+export const panelWidth = (window: number) =>
+  Math.round(Math.min(SIZE.panelMax, Math.max(SIZE.panel, window * 0.45)));
+
 export function Sheet({
   onClose,
   header,
@@ -35,7 +39,7 @@ export function Sheet({
       <View pointerEvents="box-none" className="flex-1 flex-row justify-end">
         <Animated.View
           entering={reduced ? undefined : SlideInRight.duration(DURATION.base)}
-          style={{ width: SIZE.panel, height: '100%' }}
+          style={{ width: panelWidth(width), height: '100%' }}
         >
           {/* As classes num View comum: o NativeWind não estiliza o Animated.View */}
           <View

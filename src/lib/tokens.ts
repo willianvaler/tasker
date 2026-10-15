@@ -71,7 +71,9 @@ export const SIZE = {
   icon: 16,
   iconNav: 20,
   sidebar: 256,
-  panel: 400,
+  /** Painel lateral (Sheet): cresce com a janela entre panel e panelMax (W5: 400 ficava espremido) */
+  panel: 480,
+  panelMax: 680,
   reading: 760,
 } as const;
 

@@ -159,17 +159,21 @@ export function Related({
                 }}
                 className="min-h-10 flex-row items-center gap-2 rounded px-2 hover:bg-wash md:min-h-8"
               >
-                <Text className="w-14 font-mono text-xs text-ink-muted">
+                <Text className="w-14 shrink-0 font-mono text-xs text-ink-muted">
                   {t(`related.kind_${c.type}`)}
                 </Text>
-                <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
-                  {c.title}
-                </Text>
-                {c.context && (
-                  <Text className="text-xs text-ink-muted" numberOfLines={1}>
-                    {c.context}
+                {/* W5: o nome em até duas linhas e o contexto embaixo (lado a lado, o contexto
+                    espremia o nome até sumir) */}
+                <View className="flex-1 py-1">
+                  <Text className="text-sm text-ink" numberOfLines={2}>
+                    {c.title}
                   </Text>
-                )}
+                  {c.context && (
+                    <Text className="text-xs text-ink-muted" numberOfLines={1}>
+                      {c.context}
+                    </Text>
+                  )}
+                </View>
               </Pressable>
             ))}
           {query.trim().length >= 2 && candidates.data?.length === 0 && (
