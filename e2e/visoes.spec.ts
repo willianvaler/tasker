@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { openTab, signUp, waitForSync } from './helpers';
+import { isRpc, openTab, signUp, waitForSync } from './helpers';
 
 // Aceite da Fase I (V3 §2.6 e §2.7): as visões do projeto (Fluxo, Pessoas, Linha do tempo) e o
 // histórico da tarefa.
@@ -162,6 +162,8 @@ test('lista que depende de outra: bloqueada até a anterior chegar ao percentual
   await input.press('Enter');
   await expect(page.getByRole('checkbox', { name: 'Concluir Rebocar' })).toBeVisible();
   const alvenaria = page.url();
+  // As tarefas aparecem antes de gravar (otimista): recarregar agora poderia perdê-las
+  await waitForSync(page);
 
   // Organização libera depois da Alvenaria a 100%
   await page.goto(project);
@@ -186,7 +188,10 @@ test('lista que depende de outra: bloqueada até a anterior chegar ao percentual
   await expect(page.getByRole('radio', { name: '50%' })).toHaveAttribute('aria-checked', 'true');
   await page.getByRole('button', { name: 'Cancelar' }).click();
   await page.goto(alvenaria);
+  // Recarregar antes da conclusão subir a perderia: espera o servidor responder
+  const completed = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: 'Concluir Levantar parede' }).click();
+  await completed;
   await expect(
     page.getByRole('alert').filter({ hasText: 'Concluída: Levantar parede' }),
   ).toBeVisible();

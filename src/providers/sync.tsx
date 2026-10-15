@@ -27,6 +27,11 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   task_progress: [keys.progress],
 };
 
+// Consultas com ramo local: as do AFFECTS
+const LOCAL_KEYS = new Set(
+  Object.values(AFFECTS).flatMap((list) => list.map((k) => JSON.stringify(k))),
+);
+
 // Banco local e cache pelo console (e pelos testes de dois aparelhos): são os dados de quem está
 // logado, no navegador dele
 if (typeof window !== 'undefined')
@@ -88,9 +93,10 @@ export function SyncProvider({ children }: { children: ReactNode }) {
     const stopStatus = db.registerListener({
       statusChanged: (status) => {
         if (status.hasSynced && !synced) {
-          // Só o que passa a ler do aparelho (o resto continua no Supabase)
-          for (const key of [keys.tasks, keys.tree, keys.assignees, ['members'], ['comments']])
-            queryClient.invalidateQueries({ queryKey: key });
+          // Tudo que passa a ler do aparelho (o resto continua no Supabase). Faltando uma chave,
+          // a consulta fica com o que o servidor tinha antes da fila subir (ex.: a lista que
+          // depende de outra recarregava sem a ligação recém-feita)
+          for (const id of LOCAL_KEYS) queryClient.invalidateQueries({ queryKey: JSON.parse(id) });
         }
         synced = !!status.hasSynced;
       },
