@@ -35,7 +35,10 @@ test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na sele
   await expect(toast).toBeVisible();
   await expect(page.getByRole('checkbox', { name: `Concluir ${title}` })).toHaveCount(0);
   await toast.getByRole('button', { name: 'Desfazer' }).click();
-  await expect(page.getByRole('checkbox', { name: `Concluir ${title}` })).toBeVisible();
+  // Desfazer relê a lista depois do servidor responder (no CI, mais de 5 s às vezes)
+  await expect(page.getByRole('checkbox', { name: `Concluir ${title}` })).toBeVisible({
+    timeout: 15_000,
+  });
 
   if (testInfo.project.name === 'celular') return;
   await page.locator('body').click({ position: { x: 600, y: 600 } });
