@@ -68,7 +68,7 @@ sed -i -E "s/versionCode [0-9]+/versionCode $CODE/; s/versionName \"[^\"]+\"/ver
   -Pandroid.injected.signing.key.alias=questlist \
   -Pandroid.injected.signing.key.password="$STORE_PASSWORD")
 
-OUT="$ROOT/downloads"
+OUT="${APK_OUT:-$ROOT/downloads}"
 mkdir -p "$OUT"
 cp android/app/build/outputs/apk/release/app-release.apk "$OUT/questlist.apk"
 SIZE="$(stat -c %s "$OUT/questlist.apk")"
