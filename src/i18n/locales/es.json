@@ -118,7 +118,9 @@
     "xp": "{{into}}/{{next}} XP",
     "characterSummary": "Personaje: nivel {{level}}, {{into}} de {{next}} XP",
     "teams": "Equipos",
-    "resizeSidebar": "Ancho de la barra lateral (arrastra o usa ← →)"
+    "resizeSidebar": "Ancho de la barra lateral (arrastra o usa ← →)",
+    "newProjectHere": "Nuevo proyecto",
+    "firstProject": "Crear el primer proyecto"
   },
   "quickAdd": {
     "label": "Nueva tarea",
@@ -412,7 +414,8 @@
     "notifications": "Avisos",
     "signOut": "Cerrar sesión",
     "game": "Juego",
-    "theme": "Tema"
+    "theme": "Tema",
+    "projectsGroup": "Proyectos y equipos"
   },
   "gameProfile": {
     "toggle": "Gamificación",
@@ -1720,5 +1723,16 @@
     "drop": "🎁 {{icon}} {{name}}",
     "limitQuick": "límite diario de tareas rápidas alcanzado",
     "limitHabit": "límite diario de este hábito alcanzado ({{count}} \"+\")"
+  },
+  "projectsHub": {
+    "title": "Configuración de proyectos",
+    "hint": "Tus proyectos y equipos en un solo lugar: quién participa, invitaciones, automatizaciones y lo demás de cada proyecto.",
+    "empty": "Aún no hay proyectos. Usa + para crear el primero.",
+    "open": "Abrir el proyecto {{name}}",
+    "people": "Personas e invitaciones",
+    "more": "Más opciones",
+    "teamsHint": "Los equipos reúnen personas y cargos para usar en varios proyectos.",
+    "openTeams": "Abrir los equipos",
+    "link": "Configuración de proyectos"
   }
 }

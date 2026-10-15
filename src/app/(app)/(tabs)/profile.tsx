@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import {
+  FolderKanban,
   LogOut,
   RefreshCw,
   Shield,
@@ -138,6 +139,24 @@ function ProfileForm({ profile }: { profile: Profile }) {
           </Group>
         )}
 
+        {/* W2: projetos e times têm configuração própria (Times saiu do bloco do jogo) */}
+        <Group title={t('profile.projectsGroup')}>
+          <View className="flex-row flex-wrap gap-1">
+            <Button
+              variant="ghost"
+              icon={FolderKanban}
+              label={t('projectsHub.link')}
+              onPress={() => router.push('/projetos')}
+            />
+            <Button
+              variant="ghost"
+              icon={Users}
+              label={t('nav.teams')}
+              onPress={() => router.push('/teams')}
+            />
+          </View>
+        </Group>
+
         <Group title={t('pomodoro.settings')}>
           <Button
             variant="ghost"
@@ -191,12 +210,6 @@ function ProfileForm({ profile }: { profile: Profile }) {
               icon={ShoppingBag}
               label={t('nav.shop')}
               onPress={() => router.push('/shop')}
-            />
-            <Button
-              variant="ghost"
-              icon={Users}
-              label={t('nav.teams')}
-              onPress={() => router.push('/teams')}
             />
             <Button
               variant="ghost"

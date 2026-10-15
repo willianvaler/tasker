@@ -244,12 +244,33 @@ export function Sidebar() {
             </Pressable>
           )}
         </View>
-        {inProject && (
-          <View>
-            <SectionHeader label={t('nav.projects')} />
-            {projects.map((folder) => renderFolder(folder, 0))}
-          </View>
-        )}
+        {/* W2: Projetos sempre à vista, com o "+" para criar direto daqui */}
+        <View>
+          <SectionHeader
+            label={t('nav.projects')}
+            action={
+              <IconButton
+                icon={Plus}
+                label={t('nav.newProjectHere')}
+                disabled={!online}
+                aria-disabled={!online}
+                onPress={() => actions.newProject()}
+              />
+            }
+          />
+          {projects.map((folder) => renderFolder(folder, 0))}
+          {tree.data && projects.length === 0 && (
+            <Pressable
+              accessibilityRole="button"
+              disabled={!online}
+              className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+              onPress={() => actions.newProject()}
+            >
+              <Icon icon={Plus} tone="ink-muted" />
+              <Text className="text-sm text-ink-muted">{t('nav.firstProject')}</Text>
+            </Pressable>
+          )}
+        </View>
         {((received.data?.length ?? 0) > 0 || (pending.data?.length ?? 0) > 0) && (
           <View>
             <SectionHeader label={t('received.title')} />

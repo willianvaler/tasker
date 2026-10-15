@@ -118,7 +118,9 @@
     "xp": "{{into}}/{{next}} XP",
     "characterSummary": "Character: level {{level}}, {{into}} of {{next}} XP",
     "teams": "Teams",
-    "resizeSidebar": "Sidebar width (drag or use ← →)"
+    "resizeSidebar": "Sidebar width (drag or use ← →)",
+    "newProjectHere": "New project",
+    "firstProject": "Create the first project"
   },
   "quickAdd": {
     "label": "New task",
@@ -412,7 +414,8 @@
     "notifications": "Notifications",
     "signOut": "Sign out",
     "game": "Game",
-    "theme": "Theme"
+    "theme": "Theme",
+    "projectsGroup": "Projects and teams"
   },
   "gameProfile": {
     "toggle": "Gamification",
@@ -1720,5 +1723,16 @@
     "drop": "🎁 {{icon}} {{name}}",
     "limitQuick": "daily limit for quick tasks reached",
     "limitHabit": "daily limit for this habit reached ({{count}} \"+\")"
+  },
+  "projectsHub": {
+    "title": "Project settings",
+    "hint": "Your projects and teams in one place: who takes part, invites, automations and the rest of each project.",
+    "empty": "No projects yet. Use + to create the first one.",
+    "open": "Open project {{name}}",
+    "people": "People and invites",
+    "more": "More options",
+    "teamsHint": "Teams gather people and roles to use across projects.",
+    "openTeams": "Open teams",
+    "link": "Project settings"
   }
 }

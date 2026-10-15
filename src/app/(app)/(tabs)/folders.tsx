@@ -71,7 +71,8 @@ export default function FoldersScreen() {
             add: () => actions.newProject(),
           },
         ].map((section) =>
-          section.list.length === 0 ? null : (
+          // W2: Projetos fica sempre (vazio, com o convite para criar o primeiro)
+          section.list.length === 0 && section.kind !== 'project' ? null : (
             <View key={section.kind} className="gap-6">
               <SectionLabel
                 title={section.title}
@@ -86,6 +87,16 @@ export default function FoldersScreen() {
                   />
                 }
               />
+              {section.list.length === 0 && (
+                <Button
+                  variant="ghost"
+                  icon={Plus}
+                  label={t('nav.firstProject')}
+                  className="self-start"
+                  disabled={!online}
+                  onPress={section.add}
+                />
+              )}
               {section.list.map((folder) => (
                 <FolderSection
                   key={folder.id}
