@@ -1,8 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { signUp, waitForSync } from './helpers';
+import { openTab, signUp, waitForSync } from './helpers';
 
-const bar = (page: Page) => page.getByRole('timer');
+// A mini-barra (o painel da tarefa tem a contagem grande, "Descanso: faltam…")
+const bar = (page: Page) => page.getByRole('timer', { name: /^(?!Descanso: faltam)/ });
 
 test('timer: um ativo, com fim absoluto, o mesmo nos dois aparelhos', async ({
   browser,
@@ -48,4 +49,50 @@ test('timer: um ativo, com fim absoluto, o mesmo nos dois aparelhos', async ({
   await expect(bar(b)).toHaveCount(0);
   await expect(bar(page)).toHaveCount(0, { timeout: 20_000 });
   await other.close();
+});
+
+test('descanso: começa depois da série, +30/−30, termina sozinho, Pular e desfazer cancelam', async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Supino 3x10');
+  await input.press('Enter');
+
+  // Descanso curto, para o teste
+  await page.getByRole('button', { name: 'Detalhes de Supino' }).click();
+  const rest = page.getByRole('textbox', { name: 'Descanso entre (s)' });
+  await expect(rest).toHaveValue('60');
+  await rest.fill('3');
+  await rest.press('Enter');
+  await expect(rest).toHaveValue('3');
+
+  // Série feita: o descanso começa sozinho, com a próxima série no rótulo
+  await page.getByRole('button', { name: 'Série feita' }).click();
+  const panel = page.getByRole('timer', { name: /^Descanso: faltam/ });
+  await expect(panel).toBeVisible();
+  await expect(bar(page)).toHaveAccessibleName(/^Descanso · Supino, 2\/3: 0:0\d$/);
+  await panel.getByRole('button', { name: 'Mais 30 segundos' }).click();
+  await expect(panel).toHaveAccessibleName(/faltam 0:3\d$/);
+  await panel.getByRole('button', { name: 'Menos 30 segundos' }).click();
+  await expect(panel).toHaveAccessibleName(/faltam 0:0\d$/);
+  // Chega a zero e some
+  await expect(bar(page)).toHaveCount(0, { timeout: 10_000 });
+
+  // Pular
+  await page.getByRole('button', { name: 'Série feita' }).click();
+  await expect(bar(page)).toHaveAccessibleName(/Supino, 3\/3/);
+  await bar(page).getByRole('button', { name: 'Pular' }).click();
+  await expect(bar(page)).toHaveCount(0);
+
+  // Desfazer a série cancela o descanso dela
+  await rest.fill('60');
+  await rest.press('Enter');
+  await page.getByRole('button', { name: 'Desfazer a última' }).click();
+  await page.getByRole('button', { name: 'Série feita' }).click();
+  await expect(bar(page)).toHaveAccessibleName(/Supino, 3\/3/);
+  await page.getByRole('button', { name: 'Desfazer a última' }).click();
+  await expect(bar(page)).toHaveCount(0);
 });

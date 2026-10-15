@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, View } from 'react-native';
 
+import { AdjustButtons, useLiveTimer, useStartTimer } from '@/components/timer-bar';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
@@ -11,15 +12,18 @@ import { cn } from '@/lib/cn';
 import { rewardMessage } from '@/lib/gamification';
 import { useGameState } from '@/lib/queries/game';
 import { useLogRep, useMyProgress } from '@/lib/queries/repeat';
+import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import type { Task } from '@/lib/queries/tasks';
 import {
   DEFAULT_REST_SECONDS,
   effectiveReps,
   readRepeatPlan,
   REPEAT_MODES,
+  restAfterRep,
   type RepeatMode,
   type RepeatPlan,
 } from '@/lib/repeat';
+import { formatClock } from '@/lib/timers';
 import { uuidv7 } from '@/lib/uuid';
 import { useToast } from '@/providers/toast';
 
@@ -40,26 +44,41 @@ export function useReps(task: Task) {
   return { plan, reps: effectiveReps(plan, task.status === 'done', progress.data?.[task.id]) };
 }
 
-/** +1 ou −1 com aviso: "Supino: 2/3"; na última, a recompensa e o "Desfazer". */
+/**
+ * +1 ou −1 com aviso: "Supino: 2/3"; na última, a recompensa e o "Desfazer". Nas séries, o
+ * descanso começa sozinho (J3); desfazer cancela o descanso desta tarefa.
+ */
 export function useRepWithToast() {
   const log = useLogRep();
   const toast = useToast();
   const game = useGameState();
   const { t } = useTranslation();
+  const startTimer = useStartTimer();
+  const timers = useTimerActions();
+  const active = useActiveTimer().data;
+
+  const cancelRest = (task: Task) => {
+    if (active?.kind === 'rest' && active.task_id === task.id)
+      timers.act(active, 'cancel').catch(() => {});
+  };
+
   return (task: Task, plan: RepeatPlan, reps: number, delta: 1 | -1) => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     const next = Math.max(0, Math.min(plan.total, reps + delta));
     const undo = {
       label: t('common.undo'),
-      onPress: () =>
+      onPress: () => {
+        cancelRest(task);
         log.mutate({
           task: { ...task, status: next >= plan.total ? 'done' : task.status },
           delta: -1,
           id: uuidv7(),
-        }),
+        });
+      },
     };
     const message = t('repeat.logged', { title: task.title, done: next, total: plan.total });
     if (delta === 1) toast({ message, action: undo });
+    else cancelRest(task);
     // mutateAsync: a recompensa chega mesmo se a linha sair da tela (ver useToggleWithUndo)
     log.mutateAsync({ task, delta, id: uuidv7() }).then(
       (result) => {
@@ -69,7 +88,38 @@ export function useRepWithToast() {
       },
       (err: Error) => toast({ message: err.message }),
     );
+    const rest = delta === 1 && reps < plan.total ? restAfterRep(plan, next) : null;
+    if (rest)
+      startTimer({
+        kind: 'rest',
+        seconds: rest.seconds,
+        taskId: task.id,
+        config: rest.after
+          ? { label: task.title, after: true }
+          : { label: `${task.title}, ${next + 1}/${plan.total}` },
+      });
   };
+}
+
+/** Descanso desta tarefa em contagem grande, com −30/+30 e Pular (painel). */
+function RestCountdown({ task }: { task: Task }) {
+  const { t } = useTranslation();
+  const { timer, seconds, act } = useLiveTimer();
+  if (timer?.kind !== 'rest' || timer.task_id !== task.id) return null;
+  return (
+    <View
+      accessibilityRole="timer"
+      accessibilityLabel={t('timer.restLeft', { time: formatClock(seconds) })}
+      className="flex-row flex-wrap items-center gap-2 rounded-lg border border-line p-3"
+    >
+      <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        {t('timer.rest')}
+      </Text>
+      <Text className="font-mono text-xl text-ink">{formatClock(seconds)}</Text>
+      <AdjustButtons act={act} large />
+      <Button variant="ghost" label={t('timer.skip')} onPress={() => act('skip')} />
+    </View>
+  );
 }
 
 /** Botão compacto da linha: "2/4"; tocar conta mais uma. */
@@ -108,24 +158,27 @@ export function RepeatCounter({ task, disabled }: { task: Task; disabled?: boole
   if (!state) return null;
   const { plan, reps } = state;
   return (
-    <View className="flex-row flex-wrap items-center gap-3">
-      <Text
-        className="font-mono text-xl text-ink"
-        accessibilityLabel={t('repeat.progress', { done: reps, total: plan.total })}
-      >
-        {reps}/{plan.total}
-      </Text>
-      <Button
-        label={t(plan.mode === 'sets' ? 'repeat.doneSet' : 'repeat.doneOnce')}
-        disabled={disabled || reps >= plan.total}
-        onPress={() => rep(task, plan, reps, 1)}
-      />
-      <Button
-        variant="ghost"
-        label={t('repeat.undoLast')}
-        disabled={disabled || reps === 0}
-        onPress={() => rep(task, plan, reps, -1)}
-      />
+    <View className="gap-3">
+      <RestCountdown task={task} />
+      <View className="flex-row flex-wrap items-center gap-3">
+        <Text
+          className="font-mono text-xl text-ink"
+          accessibilityLabel={t('repeat.progress', { done: reps, total: plan.total })}
+        >
+          {reps}/{plan.total}
+        </Text>
+        <Button
+          label={t(plan.mode === 'sets' ? 'repeat.doneSet' : 'repeat.doneOnce')}
+          disabled={disabled || reps >= plan.total}
+          onPress={() => rep(task, plan, reps, 1)}
+        />
+        <Button
+          variant="ghost"
+          label={t('repeat.undoLast')}
+          disabled={disabled || reps === 0}
+          onPress={() => rep(task, plan, reps, -1)}
+        />
+      </View>
     </View>
   );
 }

@@ -55,3 +55,18 @@ export function applyRep(
 
 /** "2/4" */
 export const repsLabel = (plan: RepeatPlan, reps: number) => `${reps}/${plan.total}`;
+
+/**
+ * Descanso que começa depois de uma série (J3, D125): entre séries, `rest_seconds` (só no modo
+ * séries e enquanto falta alguma); depois da última, `rest_after_seconds` (o próximo item).
+ */
+export function restAfterRep(
+  plan: RepeatPlan,
+  reps: number,
+): { seconds: number; after: boolean } | null {
+  if (reps < plan.total) {
+    if (plan.mode !== 'sets' || !plan.rest_seconds) return null;
+    return { seconds: plan.rest_seconds, after: false };
+  }
+  return plan.rest_after_seconds ? { seconds: plan.rest_after_seconds, after: true } : null;
+}

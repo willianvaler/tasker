@@ -1285,6 +1285,17 @@
     "pausedLabel": "{{label}}: {{time}}, en pausa",
     "pause": "Pausar",
     "resume": "Reanudar",
-    "stop": "Detener"
+    "stop": "Detener",
+    "skip": "Saltar",
+    "minus30": "30 segundos menos",
+    "plus30": "30 segundos más",
+    "restLeft": "Descanso: faltan {{time}}",
+    "permissionWhy": "Para avisarte cuando se acabe el tiempo (incluso con la pantalla bloqueada), la app pedirá permiso de notificaciones.",
+    "channel": "Temporizadores",
+    "restOver": "Fin del descanso",
+    "nextSet": "Hora de la siguiente serie: {{label}}",
+    "nextItem": "Hora del siguiente: después de {{label}}",
+    "backToIt": "Hora de volver",
+    "timeUp": "Se acabó el tiempo"
   }
 }

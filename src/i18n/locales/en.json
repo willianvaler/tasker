@@ -1285,6 +1285,17 @@
     "pausedLabel": "{{label}}: {{time}}, paused",
     "pause": "Pause",
     "resume": "Resume",
-    "stop": "Stop"
+    "stop": "Stop",
+    "skip": "Skip",
+    "minus30": "30 seconds less",
+    "plus30": "30 seconds more",
+    "restLeft": "Rest: {{time}} left",
+    "permissionWhy": "To let you know when time is up (even with the screen locked), the app will ask for notification permission.",
+    "channel": "Timers",
+    "restOver": "Rest is over",
+    "nextSet": "Time for the next set: {{label}}",
+    "nextItem": "Time for the next one: after {{label}}",
+    "backToIt": "Time to get back to it",
+    "timeUp": "Time's up"
   }
 }

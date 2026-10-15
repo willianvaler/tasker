@@ -36,7 +36,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import type { Task } from '@/lib/queries/tasks';
-import { useTimerActions } from '@/lib/queries/timers';
+import { useStartTimer } from '@/components/timer-bar';
 import { useTree } from '@/lib/queries/tree';
 import { DURATION, useColors } from '@/lib/tokens';
 import { toggleSidebar } from '@/lib/ui-state';
@@ -96,7 +96,7 @@ function Palette({
   const [index, setIndex] = useState(0);
 
   const go = (href: Parameters<typeof router.navigate>[0]) => () => router.navigate(href);
-  const timers = useTimerActions();
+  const startTimer = useStartTimer();
   const icon = (glyph: LucideIcon) => <Icon icon={glyph} tone="ink-muted" />;
 
   const commands: Command[] = [
@@ -161,14 +161,14 @@ function Palette({
       label: t('palette.timer', { minutes }),
       icon: icon(Timer),
       group: 0,
-      run: () => void timers.start({ kind: 'countdown', seconds: minutes * 60 }).catch(() => {}),
+      run: () => void startTimer({ kind: 'countdown', seconds: minutes * 60 }),
     })),
     {
       id: 'stopwatch',
       label: t('palette.stopwatch'),
       icon: icon(Watch),
       group: 0,
-      run: () => void timers.start({ kind: 'stopwatch' }).catch(() => {}),
+      run: () => void startTimer({ kind: 'stopwatch' }),
     },
     {
       id: 'help',
