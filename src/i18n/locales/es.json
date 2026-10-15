@@ -897,7 +897,7 @@
     "title": "Ayuda",
     "intro": "Lo esencial cabe en una frase: escribe y presiona Enter. El resto está aquí, en palabras simples. Los artículos completos llegan pronto; por ahora, los atajos.",
     "shortcuts": "Atajos de teclado",
-    "search": "Buscar atajo (ej.: fecha, renombrar)",
+    "search": "Buscar en la ayuda (ej.: carbón, renombrar)",
     "none": "Ningún atajo con ese nombre.",
     "scope_global": "En cualquier pantalla",
     "scope_list": "En la lista (con una tarea seleccionada)",
@@ -907,7 +907,10 @@
     "typingNote": "Los atajos sin Ctrl/⌘ no funcionan mientras escribes en un campo (Esc sale del campo).",
     "browserNote": "En el navegador, Ctrl+N y Ctrl+Shift+N son del navegador: usa Alt+N y Alt+Shift+N.",
     "link": "Ayuda",
-    "scope_workout": "En el modo Entrenamiento"
+    "scope_workout": "En el modo Entrenamiento",
+    "articles": "Artículos",
+    "missing": "Artículo no encontrado.",
+    "all": "Todos los artículos"
   },
   "sync": {
     "title": "Sincronización",

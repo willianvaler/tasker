@@ -138,6 +138,7 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 
 ## Regras do projeto
 
+- **Artigos da Ajuda** (`content/help/<idioma>/*.md`, D145): comportamento descrito mudou → artigo nos três idiomas + `npm run help:build` (o teste acusa).
 - **Texto da interface vem do i18n** (V2 §11): `t('chave')` do `react-i18next`, com a chave nos três arquivos de `src/i18n/locales/` (pt-BR é a referência e tipa as chaves). O teste `parity.test.ts` falha se faltar chave ou variável num idioma. As telas antigas migram para o i18n quando forem redesenhadas (Fase B).
 - **Permissão passa por `can()`** (`src/lib/permissions.ts`, D74), nunca por `role === 'x'`. Mudou um preset? Mude também `public.permission_presets()` (migração nova); o teste `permissions.test.ts` acusa a diferença.
 - **Banco é a fonte de verdade.** Armazenamento local é só cache, fila offline e preferências de UI.

@@ -1,0 +1,17 @@
+# Preguntas frecuentes
+
+**Borré algo sin querer.** Usa Deshacer en el aviso. Después, Perfil → **Papelera** lo guarda 30 días.
+
+**Mi tarea desapareció de Hoy.** Se completó, se pospuso o cambió de fecha. Búscala con `Ctrl+K`.
+
+**¿Por qué no gané XP?** Completada justo después de crearla, desmarcada, o es una tarea madre. Mira "XP, racha y jefes".
+
+**El aviso del descanso no sonó en el ordenador.** El navegador solo avisa con la pestaña abierta (puede estar oculta) y con permiso de notificaciones.
+
+**¿Cómo exporto mis datos?** Perfil → Privacidad → Exportar (JSON o CSV).
+
+**¿Cómo salgo de un proyecto?** En el proyecto, **Personas** → **Salir del proyecto**.
+
+**¿Se puede usar sin la parte de juego?** Sí: Perfil → Gamificación.
+
+**¿Dónde cambio el idioma?** Perfil → Idioma.

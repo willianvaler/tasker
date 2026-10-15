@@ -94,7 +94,8 @@
     "sync:start": "bash scripts/powersync.sh",
     "sync:assets": "powersync-web copy-assets -o public",
     "postinstall": "npm run sync:assets",
-    "endereco": "bash scripts/endereco.sh"
+    "endereco": "bash scripts/endereco.sh",
+    "help:build": "node scripts/help-build.mjs"
   },
   "private": true,
   "jest": {

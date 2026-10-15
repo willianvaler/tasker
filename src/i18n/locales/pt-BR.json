@@ -897,7 +897,7 @@
     "title": "Ajuda",
     "intro": "O essencial cabe numa frase: digite e aperte Enter. O resto está aqui, em linguagem simples. Os artigos completos chegam em breve; por enquanto, os atalhos.",
     "shortcuts": "Atalhos de teclado",
-    "search": "Buscar atalho (ex.: data, renomear)",
+    "search": "Buscar na ajuda (ex.: carvão, renomear)",
     "none": "Nenhum atalho com esse nome.",
     "scope_global": "Em qualquer tela",
     "scope_list": "Na lista (com uma tarefa selecionada)",
@@ -907,7 +907,10 @@
     "typingNote": "Atalhos sem Ctrl/⌘ não valem enquanto você digita num campo (Esc sai do campo).",
     "browserNote": "No navegador, Ctrl+N e Ctrl+Shift+N são do próprio navegador: use Alt+N e Alt+Shift+N.",
     "link": "Ajuda",
-    "scope_workout": "No Modo Treino"
+    "scope_workout": "No Modo Treino",
+    "articles": "Artigos",
+    "missing": "Artigo não encontrado.",
+    "all": "Todos os artigos"
   },
   "sync": {
     "title": "Sincronização",

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, View } from 'react-native';
+import { Link } from 'expo-router';
+import { Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Input } from '@/components/ui/input';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
+import { HELP } from '@/content/help';
 import { formatCombo, SHORTCUTS, type ShortcutScope } from '@/lib/shortcuts';
 
 const isMac =
@@ -23,12 +25,15 @@ const fold = (text: string) =>
     .toLowerCase();
 
 /**
- * Ajuda. A tabela de atalhos sai do registro (lib/shortcuts.ts): nunca é escrita à mão.
- * Os artigos (começando, pastas e projetos, time, sem internet, gamificação) entram na Fase F.
+ * Ajuda: os artigos (content/help, F1/D145) e a tabela de atalhos, que sai do registro
+ * (lib/shortcuts.ts) e nunca é escrita à mão. A busca vale para os dois.
  */
 export default function HelpScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [query, setQuery] = useState('');
+  const articles = (HELP[i18n.language] ?? HELP['pt-BR']).filter(
+    (a) => !query.trim() || fold(`${a.title} ${a.body}`).includes(fold(query.trim())),
+  );
   const q = fold(query.trim());
 
   const rows = SHORTCUTS.map((s) => ({
@@ -47,13 +52,30 @@ export default function HelpScreen() {
       <ScreenHeader title={t('help.title')} back />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-12">
         <Text className="text-base text-ink">{t('help.intro')}</Text>
-        <SectionLabel title={t('help.shortcuts')} className="pt-4" />
         <Input
           value={query}
           onChangeText={setQuery}
           placeholder={t('help.search')}
           accessibilityLabel={t('help.search')}
         />
+        <SectionLabel title={t('help.articles')} />
+        <View accessibilityRole="list">
+          {articles.map((a) => (
+            <Link
+              key={a.slug}
+              href={{ pathname: '/ajuda/[slug]', params: { slug: a.slug } }}
+              asChild
+            >
+              <Pressable
+                accessibilityRole="link"
+                className="min-h-11 flex-row items-center border-b border-line hover:bg-wash"
+              >
+                <Text className="flex-1 text-base text-ink">{a.title}</Text>
+              </Pressable>
+            </Link>
+          ))}
+        </View>
+        <SectionLabel title={t('help.shortcuts')} className="pt-4" />
         {SCOPES.map((scope) => {
           const list = rows.filter((r) => r.scope === scope);
           if (list.length === 0) return null;

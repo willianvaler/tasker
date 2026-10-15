@@ -42,7 +42,8 @@ export default function AppLayout() {
               <Stack.Screen name="team/[id]" />
               <Stack.Screen name="character" />
               <Stack.Screen name="shop" />
-              <Stack.Screen name="ajuda" />
+              <Stack.Screen name="ajuda/index" />
+              <Stack.Screen name="ajuda/[slug]" />
               <Stack.Screen name="sync" />
               <Stack.Screen name="lixeira" />
               <Stack.Screen name="pomodoro" />
