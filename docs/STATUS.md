@@ -157,7 +157,8 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **W5** Painel da tarefa mais largo; busca de Relacionar legível (D169)
 - [x] **W6** Clicar fora do painel fecha e salva (D170)
 - [x] **W7** Modo Treino fácil de achar (D171)
-- [ ] **W8** `ESCOPO_V5.md`: relógio, tela de bloqueio, usabilidade, HTTPS, LGPD, e-mail, restauração de conta
+- [x] **W8** `ESCOPO_V5.md`: relógio, tela de bloqueio, usabilidade, HTTPS, LGPD, e-mail, restauração de conta
+- [ ] **W9** HTTPS: mandar `http://` para `https://` e cabeçalhos de segurança
 
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)
 
