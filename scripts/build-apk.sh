@@ -74,4 +74,4 @@ cp android/app/build/outputs/apk/release/app-release.apk "$OUT/questlist.apk"
 SIZE="$(stat -c %s "$OUT/questlist.apk")"
 printf '{"version":"%s","versionCode":%s,"commit":"%s","size":%s,"builtAt":"%s"}\n' \
   "$VERSION" "$CODE" "$COMMIT" "$SIZE" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$OUT/apk.json"
-echo "APK pronto: downloads/questlist.apk ($((SIZE / 1024 / 1024)) MB, versão $VERSION ($COMMIT), código $CODE)"
+echo "APK pronto: $OUT/questlist.apk ($((SIZE / 1024 / 1024)) MB, versão $VERSION ($COMMIT), código $CODE)"
