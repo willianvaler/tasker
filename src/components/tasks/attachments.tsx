@@ -2,6 +2,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { CloudOff, Download, FileText, Paperclip, Trash2 } from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, Pressable, View } from 'react-native';
 
@@ -33,7 +34,7 @@ export function Attachments({
   task,
   writable,
 }: {
-  task: { id: string; folder_id: string | null };
+  task: { id: string; folder_id: string | null; page_id: string | null };
   writable: boolean;
 }) {
   const { t, i18n } = useTranslation();
@@ -51,11 +52,16 @@ export function Attachments({
   // Sem internet, com o banco no aparelho, o anexo espera na fila (N3)
   const canEdit = writable && (online || isLocal());
 
+  // O último erro fica escrito na seção (o aviso some sozinho e a foto pode demorar a processar)
+  const [failure, setFailure] = useState<string | null>(null);
   function send(files: PickedFile[]) {
+    setFailure(null);
     for (const file of files)
-      m.add
-        .mutateAsync(file)
-        .catch((err: Error) => toast({ message: t('attach.failed', { message: err.message }) }));
+      m.add.mutateAsync(file).catch((err: Error) => {
+        const message = t('attach.failed', { message: err.message });
+        setFailure(message);
+        toast({ message });
+      });
   }
 
   async function pickImage(camera: boolean) {
@@ -177,6 +183,7 @@ export function Attachments({
         </View>
       ))}
       {m.add.isPending && <Text className="text-sm text-ink-muted">{t('attach.sending')}</Text>}
+      {failure && !m.add.isPending && <Text className="text-xs text-warn">{failure}</Text>}
       {items.some((a) => a.pending && !a.error) && (
         <Text className="text-xs text-ink-muted">{t('attach.queued')}</Text>
       )}

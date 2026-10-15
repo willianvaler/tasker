@@ -135,7 +135,7 @@ test('limite por arquivo e uso no Perfil', async ({ page }, testInfo) => {
     mimeType: 'application/zip',
     buffer: Buffer.alloc(11 * 1024 * 1024, 1),
   });
-  await expect(page.getByText('Não deu para anexar: Arquivo maior que 10 MB.')).toBeVisible();
+  await expect(page.getByText('Não deu para anexar: Arquivo maior que 10 MB.').first()).toBeVisible();
 
   chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Anexar' }).click();

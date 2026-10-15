@@ -19,6 +19,7 @@ import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { isLocal, localInsert } from '../sync/local';
 import { keys } from './keys';
+import type { Tree } from './tree';
 
 // Anexos da tarefa (N2/N3, D150–D152). O arquivo vai para o Storage (bucket privado) e a linha
 // para `task_attachments` (pelo aparelho quando há sync). Baixar é por endereço assinado. Sem
@@ -222,11 +223,19 @@ async function prepare(file: PickedFile, task: { id: string; folder_id: string }
 }
 
 async function upload(path: string, body: Body, contentType: string) {
-  // upsert: subir de novo o que caiu no meio (fila) não falha por já existir
-  const { error } = await supabase.storage
-    .from(BUCKET)
-    .upload(path, body, { contentType, upsert: true, cacheControl: '31536000' });
-  if (error) throw error;
+  for (let attempt = 0; ; attempt++) {
+    // upsert: subir de novo o que caiu no meio (fila) não falha por já existir
+    const { error } = await supabase.storage
+      .from(BUCKET)
+      .upload(path, body, { contentType, upsert: true, cacheControl: '31536000' });
+    if (!error) return;
+    // A tarefa acabou de ser criada e ainda está chegando ao servidor: a RLS só a vê daqui a pouco
+    if (attempt < 3 && /row-level security/i.test(error.message)) {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      continue;
+    }
+    throw error;
+  }
 }
 
 /** Envia o arquivo e grava a linha; sem a linha, apaga o arquivo para não ficar órfão */
@@ -285,7 +294,32 @@ async function enqueue(p: Prepared, folderId: string, userId: string | null) {
   });
 }
 
+/**
+ * Espera a fila do sync subir (a tarefa criada no aparelho precisa existir no servidor, senão a
+ * RLS do Storage recusa o arquivo). Devolve false se não esvaziou no tempo.
+ */
+async function syncQueueEmpty(timeoutMs: number) {
+  const until = Date.now() + timeoutMs;
+  for (;;) {
+    const pending = await db.getOptional('select 1 from ps_crud limit 1');
+    if (!pending) return true;
+    if (Date.now() >= until) return false;
+    await new Promise((resolve) => setTimeout(resolve, 300));
+  }
+}
+
 let flushing: Promise<void> | null = null;
+let retry: ReturnType<typeof setTimeout> | undefined;
+
+/** Falha de rede (tenta de novo) ou recusa do servidor (marca na tela)? */
+function isNetworkError(err: unknown) {
+  const e = err as { name?: string; message?: string };
+  return (
+    err instanceof TypeError ||
+    e?.name === 'StorageUnknownError' ||
+    /fetch|network|timed? ?out|aborted/i.test(e?.message ?? '')
+  );
+}
 
 /** Sobe o que ficou na fila de anexos (chamado quando a conexão volta e ao abrir o app) */
 export function flushUploads(userId: string | null) {
@@ -295,6 +329,11 @@ export function flushUploads(userId: string | null) {
       const rows = await db.getAll<PendingRow>(
         'select * from pending_uploads where error is null order by created_at',
       );
+      if (rows.length && !(await syncQueueEmpty(10_000))) {
+        clearTimeout(retry);
+        retry = setTimeout(() => void flushUploads(userId), 5000);
+        return;
+      }
       for (const r of rows) {
         if (!onlineManager.isOnline()) break;
         const prepared: Prepared = {
@@ -318,9 +357,13 @@ export function flushUploads(userId: string | null) {
         try {
           await send(prepared, r.folder_id ?? '', r.created_by ?? userId);
         } catch (err) {
-          // Erro de rede: tenta de novo depois. Recusa do servidor (permissão, tarefa apagada,
-          // espaço cheio): fica marcado na tela, para a pessoa tirar
-          if (!onlineManager.isOnline() || err instanceof TypeError) break;
+          // Erro de rede (a conexão acabou de voltar e ainda oscila): tenta de novo em 5 s.
+          // Recusa do servidor (permissão, tarefa apagada, espaço cheio): fica marcado na tela
+          if (!onlineManager.isOnline() || isNetworkError(err)) {
+            clearTimeout(retry);
+            retry = setTimeout(() => void flushUploads(userId), 5000);
+            break;
+          }
           await db.execute('update pending_uploads set error = ? where id = ?', [
             friendly(err).message.slice(0, 200),
             r.id,
@@ -334,7 +377,11 @@ export function flushUploads(userId: string | null) {
   return flushing;
 }
 
-export function useAttachmentMutations(task: { id: string; folder_id: string | null }) {
+export function useAttachmentMutations(task: {
+  id: string;
+  folder_id: string | null;
+  page_id?: string | null;
+}) {
   const queryClient = useQueryClient();
   const { session } = useSession();
   const userId = session?.user.id ?? null;
@@ -343,7 +390,11 @@ export function useAttachmentMutations(task: { id: string; folder_id: string | n
   const add = useMutation({
     networkMode: 'always',
     mutationFn: async (file: PickedFile) => {
-      const folderId = task.folder_id;
+      // Tarefa recém-criada (otimista) ainda sem folder_id: a pasta é a da página
+      const folderId =
+        task.folder_id ||
+        queryClient.getQueryData<Tree>(keys.tree)?.pages.find((p) => p.id === task.page_id)
+          ?.folder_id;
       if (!folderId) throw new Error(tr('attach.error'));
       // Arquivo que não é imagem não diminui: recusa antes de ler tudo para a memória
       if (!isCompressibleImage(file.mime) && (file.size ?? 0) > MAX_FILE_BYTES)
@@ -353,6 +404,8 @@ export function useAttachmentMutations(task: { id: string; folder_id: string | n
       if ((await usage(userId).catch(() => 0)) + p.row.size > MAX_ACCOUNT_BYTES)
         throw new Error(tr('attach.full'));
       if (isLocal() && !onlineManager.isOnline()) return enqueue(p, folderId, userId);
+      // Tarefa recém-criada no aparelho ainda subindo: espera um pouco; se não der, vai para a fila
+      if (isLocal() && !(await syncQueueEmpty(8_000))) return enqueue(p, folderId, userId);
       await send(p, folderId, userId).catch((err) => {
         throw friendly(err);
       });
