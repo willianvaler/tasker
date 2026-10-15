@@ -1,5 +1,14 @@
 import { router } from 'expo-router';
-import { LogOut, RefreshCw, Shield, ShoppingBag, Swords, Trash2, Users } from 'lucide-react-native';
+import {
+  LogOut,
+  RefreshCw,
+  Shield,
+  ShoppingBag,
+  Swords,
+  Timer,
+  Trash2,
+  Users,
+} from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -119,6 +128,16 @@ function ProfileForm({ profile }: { profile: Profile }) {
 
         <Group title={t('profile.notifications')}>
           <PushSetting />
+        </Group>
+
+        <Group title={t('pomodoro.settings')}>
+          <Button
+            variant="ghost"
+            icon={Timer}
+            className="self-start"
+            label={t('pomodoro.openSettings')}
+            onPress={() => router.push('/pomodoro')}
+          />
         </Group>
 
         <Group title={t('privacy.title')}>

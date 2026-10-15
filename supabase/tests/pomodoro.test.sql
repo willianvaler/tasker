@@ -1,7 +1,7 @@
 -- V3 §5 (K1/K3): pomodoro e cronômetro viram tempo registrado; o servidor confere o horário.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(14);
+select plan(17);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'willian@teste.local'),
@@ -47,6 +47,15 @@ set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", 
 select is((select count(*)::int from public.time_entries), 1, 'membro do projeto vê o tempo das tarefas');
 set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "role": "authenticated"}';
 select is((select count(*)::int from public.time_entries), 0, 'estranho não vê');
+
+-- Configuração: cada um a sua (o upsert do app grava a hora junto)
+set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}';
+select lives_ok($$ insert into public.pomodoro_settings (focus_minutes, break_ideas, updated_at)
+  values (30, '["ler"]', now()) on conflict (user_id) do update set focus_minutes = excluded.focus_minutes $$,
+  'dono grava a configuração');
+select is((select focus_minutes from public.pomodoro_settings), 30, 'e lê a dele');
+set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "role": "authenticated"}';
+select is((select count(*)::int from public.pomodoro_settings), 0, 'outro não vê');
 
 select * from finish();
 rollback;

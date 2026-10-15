@@ -53,3 +53,61 @@ test('pomodoro: P na tarefa selecionada', async ({ page }, testInfo) => {
   await page.keyboard.press('p');
   await expect(bar(page)).toHaveAccessibleName(/^Foco 1\/4 · Ler artigo: /);
 });
+
+test('pomodoro: configurar durações e sugestões de pausa (em ordem)', async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  await page.clock.install();
+  await signUp(page, testInfo);
+  await page.goto('/pomodoro');
+  const focus = page.getByRole('textbox', { name: 'Foco (min)' });
+  await expect(focus).toHaveValue('25');
+  const saved = () =>
+    page.waitForResponse(
+      (r) => r.url().includes('pomodoro_settings') && r.request().method() === 'POST',
+    );
+  let wait = saved();
+  await focus.fill('30');
+  await focus.press('Enter');
+  await wait;
+
+  // Tira "beber água", acrescenta uma, põe a nova em primeiro e escolhe "Em ordem"
+  wait = saved();
+  await page.getByRole('button', { name: 'Tirar beber água' }).click();
+  await wait;
+  wait = saved();
+  await page.getByRole('textbox', { name: 'Nova sugestão' }).fill('ler uma página');
+  await page.getByRole('button', { name: 'Adicionar' }).click();
+  await wait;
+  for (let i = 0; i < 4; i++) {
+    wait = saved();
+    await page.getByRole('button', { name: 'Subir ler uma página' }).click();
+    await wait;
+  }
+  wait = saved();
+  await page.getByRole('radio', { name: 'Em ordem' }).click();
+  await wait;
+
+  await page.reload();
+  await expect(focus).toHaveValue('30');
+  await expect(page.getByRole('button', { name: 'Tirar beber água' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Subir ler uma página' })).toBeDisabled();
+  await expect(page.getByRole('radio', { name: 'Em ordem' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+
+  // O primeiro foco usa a primeira sugestão
+  if (testInfo.project.name === 'celular') return;
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await page.keyboard.press('Control+k');
+  await page.getByRole('textbox', { name: 'Buscar ou executar' }).fill('iniciar pomodoro');
+  await page.keyboard.press('Enter');
+  await expect(bar(page)).toHaveAccessibleName(/^Foco 1\/4: (30:00|29:5\d)$/);
+  await page.clock.fastForward('30:05');
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'Foco concluído. Que tal ler uma página?' }),
+  ).toBeVisible();
+});

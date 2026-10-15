@@ -1361,6 +1361,26 @@
     "idea2": "tomar aire",
     "idea3": "beber agua",
     "idea4": "estirarse",
-    "idea5": "mirar por la ventana"
+    "idea5": "mirar por la ventana",
+    "settings": "Pomodoro",
+    "focusMinutes": "Foco (min)",
+    "shortMinutes": "Pausa corta (min)",
+    "longMinutes": "Pausa larga (min)",
+    "cycles": "Focos hasta la pausa larga",
+    "autoStart": "Empezar la siguiente fase sola",
+    "autoStartHint": "Apagado, el aviso del final trae el botón de la siguiente fase.",
+    "ideas": "Ideas para la pausa",
+    "ideasHint": "Aparecen en el aviso del final del foco.",
+    "orderRandom": "Al azar",
+    "orderSequence": "En orden",
+    "ideaUp": "Subir {{idea}}",
+    "ideaDown": "Bajar {{idea}}",
+    "ideaRemove": "Quitar {{idea}}",
+    "ideaPlaceholder": "Ej.: leer una página",
+    "ideaNew": "Nueva idea",
+    "ideaAdd": "Agregar",
+    "ideasReset": "Volver a las ideas por defecto",
+    "openSettings": "Duraciones, ideas de pausa y números",
+    "settingsLabel": "Configurar pomodoro"
   }
 }

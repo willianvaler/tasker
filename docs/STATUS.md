@@ -107,7 +107,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## Fase K — Pomodoro e tempo (16/12 – 18/12)
 
 - [x] **K1** Pomodoro (config, ciclos, mini-barra, atalho P) usando os timers da J: fases no config do timer, aviso com sugestão de pausa e botão da fase seguinte, `pomodoro_settings`, `time_entries` + `actual_minutes`, foco só conta se o servidor vê o fim (D129)
-- [ ] **K2** Sugestões de pausa personalizáveis (`pomodoro_settings`)
+- [x] **K2** Sugestões de pausa personalizáveis (`pomodoro_settings`): tela `/pomodoro` com durações, ciclos, iniciar sozinho e a lista (ordenar, tirar, adicionar, sortear/em ordem, padrão do idioma) (D130)
 - [ ] **K3** Cronômetro por tarefa (Shift+T), `time_entries`, lançamento manual, rollup no pai
 - [ ] **K4** Estatísticas simples; XP de pomodoro com limite diário no servidor
 

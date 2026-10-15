@@ -4,7 +4,7 @@ import type { Json, Tables } from '../db';
 import { DEFAULT_POMODORO, type PomodoroSettings } from '../pomodoro';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
-import { isLocal, sessionUserId } from '../sync/local';
+import { isLocal } from '../sync/local';
 import { keys } from './keys';
 
 // Pomodoro e tempo (K, D129). A configuração é do servidor (com o cache do TanStack para abrir
@@ -38,7 +38,7 @@ export function useSavePomodoroSettings() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (settings: PomodoroSettings) => {
-      const userId = await sessionUserId();
+      // user_id nasce de auth.uid() (o cliente não escreve a coluna)
       const row = {
         ...settings,
         break_ideas: settings.break_ideas as Json,
@@ -46,7 +46,7 @@ export function useSavePomodoroSettings() {
       };
       const { error } = await supabase
         .from('pomodoro_settings')
-        .upsert({ ...row, user_id: userId ?? undefined } as never, { onConflict: 'user_id' });
+        .upsert(row as never, { onConflict: 'user_id' });
       if (error) throw error;
     },
     onMutate: async (settings) => {

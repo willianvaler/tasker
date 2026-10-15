@@ -1361,6 +1361,26 @@
     "idea2": "get some fresh air",
     "idea3": "drink water",
     "idea4": "stretch",
-    "idea5": "look out the window"
+    "idea5": "look out the window",
+    "settings": "Pomodoro",
+    "focusMinutes": "Focus (min)",
+    "shortMinutes": "Short break (min)",
+    "longMinutes": "Long break (min)",
+    "cycles": "Focus rounds before the long break",
+    "autoStart": "Start the next phase on its own",
+    "autoStartHint": "When off, the end alert has a button for the next phase.",
+    "ideas": "Break ideas",
+    "ideasHint": "They show up in the end-of-focus alert.",
+    "orderRandom": "Random",
+    "orderSequence": "In order",
+    "ideaUp": "Move {{idea}} up",
+    "ideaDown": "Move {{idea}} down",
+    "ideaRemove": "Remove {{idea}}",
+    "ideaPlaceholder": "E.g. read a page",
+    "ideaNew": "New idea",
+    "ideaAdd": "Add",
+    "ideasReset": "Back to the default ideas",
+    "openSettings": "Durations, break ideas and numbers",
+    "settingsLabel": "Pomodoro settings"
   }
 }

@@ -158,6 +158,13 @@ function Palette({
       run: toggleSidebar,
     },
     {
+      id: 'pomodoro-settings',
+      label: t('pomodoro.settingsLabel'),
+      icon: icon(Timer),
+      group: 0,
+      run: go('/pomodoro'),
+    },
+    {
       id: 'pomodoro',
       label: t('pomodoro.start'),
       icon: icon(Timer),
