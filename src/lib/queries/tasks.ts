@@ -539,6 +539,7 @@ export type TaskPatch = Partial<
     | 'habit_kind'
     | 'habit_target'
     | 'estimate_minutes'
+    | 'weight'
     | 'deps_mode'
   >
 >;

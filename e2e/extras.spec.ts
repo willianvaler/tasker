@@ -50,3 +50,23 @@ test('eu levo: em projeto, tarefa sem responsável vira minha num toque', async 
   await expect(page.getByRole('button', { name: 'Eu levo: Carvão' })).toHaveCount(0);
   await expect(page.getByLabel(/^Responsáveis: /)).toBeVisible();
 });
+
+test('peso: a subtarefa pesada conta mais no progresso da mãe', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  await page.getByRole('button', { name: 'Adicionar várias' }).click();
+  await page.getByRole('textbox', { name: 'Lista de tarefas' }).fill('Mudança\n  Caixas\n  Fita');
+  await page.getByRole('button', { name: 'Criar 3' }).click();
+
+  // Pelo painel da mãe, que lista as subtarefas
+  await page.getByRole('button', { name: 'Detalhes de Mudança' }).click();
+  await expect(page.getByText('Pelo peso das subtarefas: 0% feito')).toBeVisible();
+  await page.getByText('Caixas', { exact: true }).last().click();
+  await expect(page.getByText(/^Pesa no progresso da tarefa-mãe/)).toBeVisible();
+  await page.getByText('3', { exact: true }).last().click();
+  await page.getByRole('checkbox').first().click();
+  await page.goBack();
+  await expect(page.getByText('Pelo peso das subtarefas: 75% feito')).toBeVisible({
+    timeout: 15_000,
+  });
+});

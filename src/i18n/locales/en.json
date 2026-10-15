@@ -1487,5 +1487,10 @@
     "label": "I'll take it: {{title}}",
     "done": "{{title}} is yours.",
     "taken": "Someone else already took this one."
+  },
+  "weight": {
+    "title": "Weight",
+    "hint": "Counts in the parent task's progress and in the hit on the boss (XP doesn't change).",
+    "progress": "By subtask weight: {{pct}}% done"
   }
 }

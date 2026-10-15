@@ -1487,5 +1487,10 @@
     "label": "Eu levo: {{title}}",
     "done": "{{title}} é sua.",
     "taken": "Outra pessoa já levou esta."
+  },
+  "weight": {
+    "title": "Peso",
+    "hint": "Pesa no progresso da tarefa-mãe e no golpe no boss (o XP não muda).",
+    "progress": "Pelo peso das subtarefas: {{pct}}% feito"
   }
 }

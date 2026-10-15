@@ -39,6 +39,7 @@ import {
   dueAfterParent,
   formatDuration,
   leafActuals,
+  leafWeightedProgress,
   leafEstimates,
   leafProgress,
   parseDuration,
@@ -435,6 +436,32 @@ function TaskDetails({ task }: { task: Task }) {
             ))}
           </View>
         </Section>
+
+        {!isHabit && (
+          <Section title={t('weight.title')}>
+            {leaves ? (
+              <Text className="text-sm text-ink">
+                {t('weight.progress', {
+                  pct: leafWeightedProgress(siblings.data ?? []).get(task.id) ?? 0,
+                })}
+              </Text>
+            ) : (
+              <>
+                <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+                  {[1, 2, 3, 4, 5].map((w) => (
+                    <Chip
+                      key={w}
+                      label={String(w)}
+                      selected={(task.weight ?? 1) === w}
+                      onPress={() => save({ weight: w === 1 ? null : w })}
+                    />
+                  ))}
+                </View>
+                <Text className="text-xs text-ink-muted">{t('weight.hint')}</Text>
+              </>
+            )}
+          </Section>
+        )}
 
         <Section title={t('taskDetail.labels')}>
           <Input

@@ -1487,5 +1487,10 @@
     "label": "Yo lo llevo: {{title}}",
     "done": "{{title}} es tuya.",
     "taken": "Otra persona ya la tomó."
+  },
+  "weight": {
+    "title": "Peso",
+    "hint": "Cuenta en el progreso de la tarea madre y en el golpe al jefe (la XP no cambia).",
+    "progress": "Por el peso de las subtareas: {{pct}}% hecho"
   }
 }
