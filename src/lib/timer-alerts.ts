@@ -15,6 +15,10 @@ const ASKED_KEY = 'questlist:timer-permission-asked';
 const CHANNEL = 'timers';
 
 export const alertsSupported = true;
+/** Vibração: no celular, sempre (expo-haptics). */
+export const canVibrate = () => true;
+/** Som: no celular, quem toca é a notificação. */
+export function primeAudio() {}
 
 /** Já pedimos a permissão uma vez (a tela explica antes de pedir pela primeira vez). */
 export const permissionAsked = () => localStore.getItem(ASKED_KEY) === '1';
@@ -72,6 +76,6 @@ export async function syncTimerAlert(timer: Timer | null, previousId: string | n
 }
 
 /** Com o app aberto: vibra quando o timer chega a zero. */
-export function timerFinishedHere() {
+export function timerFinishedHere(_timerId: string) {
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
 }

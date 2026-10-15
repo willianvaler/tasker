@@ -10,8 +10,10 @@ import { cn } from '@/lib/cn';
 import { useActiveTimer, useTimerActions, type StartTimerVars } from '@/lib/queries/timers';
 import {
   alertsSupported,
+  canVibrate,
   ensureAlertPermission,
   permissionAsked,
+  primeAudio,
   syncTimerAlert,
   timerFinishedHere,
 } from '@/lib/timer-alerts';
@@ -23,6 +25,7 @@ import {
   type TimerAction,
   type TimerKind,
 } from '@/lib/timers';
+import { useWakeLock } from '@/lib/wake-lock';
 import { useToast } from '@/providers/toast';
 
 // Mini-barra do timer ativo (J2/J3, D124/D125): um por pessoa, o mesmo em todos os aparelhos. O
@@ -41,8 +44,11 @@ export function useStartTimer() {
   const toast = useToast();
   const { t } = useTranslation();
   return (vars: StartTimerVars) => {
+    // No toque que inicia: o navegador só deixa tocar som depois de um gesto
+    primeAudio();
     if (alertsSupported && !permissionAsked()) {
-      toast({ message: t('timer.permissionWhy') });
+      const why = t('timer.permissionWhy');
+      toast({ message: canVibrate() ? why : `${why} ${t('timer.noVibration')}` });
       ensureAlertPermission().catch(() => false);
     }
     return start(vars).catch(() => {});
@@ -82,7 +88,7 @@ export function useLiveTimer(owner = false) {
   // Qualquer aparelho pode marcar como feito; o servidor ignora o repetido
   useEffect(() => {
     if (!owner || !timer || !elapsed) return;
-    timerFinishedHere();
+    timerFinishedHere(timer.id);
     actions.act(timer, 'done').catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elapsed, timer?.id]);
@@ -132,6 +138,8 @@ export function TimerBar({ floating }: { floating?: boolean }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { timer, seconds, act } = useLiveTimer(true);
+  // Tela acesa durante o descanso (no treino, a tela não pode apagar no meio da contagem)
+  useWakeLock(timer?.kind === 'rest' && timer.state === 'running');
   if (!timer) return null;
   const label = timerLabel(timer, t);
   const clock = formatClock(seconds);

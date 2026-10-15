@@ -1296,6 +1296,7 @@
     "nextSet": "Hora da próxima série: {{label}}",
     "nextItem": "Hora do próximo: depois de {{label}}",
     "backToIt": "Hora de voltar",
-    "timeUp": "Tempo esgotado"
+    "timeUp": "Tempo esgotado",
+    "noVibration": "Neste navegador não há vibração; o aviso vem com som."
   }
 }

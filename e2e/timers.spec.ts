@@ -96,3 +96,58 @@ test('descanso: começa depois da série, +30/−30, termina sozinho, Pular e de
   await page.getByRole('button', { name: 'Desfazer a última' }).click();
   await expect(bar(page)).toHaveCount(0);
 });
+
+test('web: aba escondida recebe o aviso pelo Service Worker; tela fica acesa no descanso', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
+  test.setTimeout(90_000);
+  // Aba "escondida" sob comando, permissão concedida (o Chromium sem janela sempre recusa) e
+  // espiões no aviso e no Wake Lock
+  await page.addInitScript(() => {
+    Object.defineProperty(Notification, 'permission', { get: () => 'granted' });
+    Notification.requestPermission = async () => 'granted';
+    const w = window as any;
+    w.__hidden = false;
+    w.__wake = 0;
+    w.__shown = [];
+    Object.defineProperty(document, 'visibilityState', {
+      get: () => (w.__hidden ? 'hidden' : 'visible'),
+    });
+    Object.defineProperty(navigator, 'wakeLock', {
+      value: {
+        request: async () => {
+          w.__wake++;
+          return { released: false, release: async () => {} };
+        },
+      },
+    });
+    const original = ServiceWorkerRegistration.prototype.showNotification;
+    ServiceWorkerRegistration.prototype.showNotification = function (title, options) {
+      w.__shown.push({ title, body: options?.body });
+      return original.call(this, title, options).catch(() => {});
+    };
+  });
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Remada 3x10');
+  await input.press('Enter');
+  await page.getByRole('button', { name: 'Detalhes de Remada' }).click();
+  const rest = page.getByRole('textbox', { name: 'Descanso entre (s)' });
+  await rest.fill('3');
+  await rest.press('Enter');
+
+  await page.getByRole('button', { name: 'Série feita' }).click();
+  await expect(bar(page)).toBeVisible();
+  await expect.poll(() => page.evaluate(() => (window as any).__wake)).toBeGreaterThan(0);
+
+  // Usuário trocou de aba: o aviso vem do Service Worker, com a próxima série
+  await page.evaluate(() => ((window as any).__hidden = true));
+  await expect
+    .poll(() => page.evaluate(() => (window as any).__shown), { timeout: 10_000 })
+    .toEqual([{ title: 'Fim do descanso', body: 'Hora da próxima série: Remada, 2/3' }]);
+  expect(
+    await page.evaluate(async () => !!(await navigator.serviceWorker.getRegistration('/sw.js'))),
+  ).toBe(true);
+});

@@ -1296,6 +1296,7 @@
     "nextSet": "Time for the next set: {{label}}",
     "nextItem": "Time for the next one: after {{label}}",
     "backToIt": "Time to get back to it",
-    "timeUp": "Time's up"
+    "timeUp": "Time's up",
+    "noVibration": "This browser can't vibrate; the alert comes with a sound."
   }
 }
