@@ -4,12 +4,14 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './e2e',
   // Cada página roda o SQLite do sync em WASM; com mais workers, envios e sync passam do tempo
-  workers: 4,
+  // No CI (2 núcleos), 4 navegadores ao mesmo tempo deixavam tudo lento e os testes com espera de
+  // sync oscilavam: lá rodam 2 por vez, com uma tentativa a mais
+  workers: process.env.CI ? 2 : 4,
   // No CI, cada falha vira anotação no GitHub (os logs completos pedem login)
   reporter: process.env.CI ? [['github'], ['list']] : 'list',
   // Uma nova tentativa: com a máquina carregada, arrastar e esperas de sync às vezes estouram o
   // tempo. O relatório marca como "flaky" o que só passou na segunda
-  retries: 1,
+  retries: process.env.CI ? 2 : 1,
   // locale: o app segue o idioma do navegador (V2 §11); o padrão do Playwright é en-US
   // storageState: o painel da tarefa abre no modo Completo (U2, D158), porque os testes conferem as
   // seções avançadas; o modo Simples (o padrão de quem usa) tem teste próprio (e2e/painel.spec.ts)
