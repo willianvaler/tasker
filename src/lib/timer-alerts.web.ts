@@ -71,11 +71,17 @@ function beep() {
 
 // ---- Aviso ----------------------------------------------------------------------------------
 
+/** Padrão de vibração do fim do timer (mesmo do app): curto, pausa, curto */
+const PATTERN = [300, 150, 300];
 
 async function notify(timer: Timer) {
+  await show(alertText(timer), timer.id);
+}
+
+async function show({ title, body }: { title: string; body: string }, tag: string) {
   if (!hasNotification() || Notification.permission !== 'granted') return;
-  const { title, body } = alertText(timer);
-  const options = { body, tag: timer.id, icon: '/favicon.ico' };
+  // `vibrate` vale para a notificação no Chrome do Android, mesmo com a aba escondida
+  const options = { body, tag, icon: '/favicon.ico', vibrate: PATTERN } as NotificationOptions;
   const worker = await registerWorker();
   if (worker) {
     await worker.showNotification(title, options);
@@ -116,5 +122,20 @@ export function timerFinishedHere(timerId: string) {
   if (lastFinished === timerId) return;
   lastFinished = timerId;
   beep();
-  if (canVibrate()) navigator.vibrate([200, 100, 200]);
+  if (canVibrate()) navigator.vibrate(PATTERN);
+}
+
+export type AlertPermission = 'granted' | 'denied' | 'default' | 'unsupported';
+
+/** Estado da permissão de notificação deste navegador (U5) */
+export async function alertPermission(): Promise<AlertPermission> {
+  return hasNotification() ? Notification.permission : 'unsupported';
+}
+
+/** "Testar aviso" no Perfil: o mesmo som, vibração e notificação do fim do timer */
+export async function testAlert(text: { title: string; body: string }) {
+  primeAudio();
+  beep();
+  if (canVibrate()) navigator.vibrate(PATTERN);
+  await show(text, 'questlist-test');
 }

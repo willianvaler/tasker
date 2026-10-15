@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import * as Notifications from 'expo-notifications';
-import { Platform } from 'react-native';
+import { Platform, Vibration } from 'react-native';
 
 import i18n from '@/i18n';
 
@@ -13,7 +13,10 @@ import type { Timer } from './timers';
 // aparelho) reagenda; parar cancela. O id da notificação é o do timer.
 
 const ASKED_KEY = 'questlist:timer-permission-asked';
-const CHANNEL = 'timers';
+// Canal novo (v2): o Android não deixa mudar a vibração de um canal que já existe
+const CHANNEL = 'timers-v2';
+/** Espera, vibra, pausa, vibra (ms) */
+const PATTERN = [0, 300, 150, 300];
 
 export const alertsSupported = true;
 /** Vibração: no celular, sempre (expo-haptics). */
@@ -29,7 +32,8 @@ export async function ensureAlertPermission(): Promise<boolean> {
     await Notifications.setNotificationChannelAsync(CHANNEL, {
       name: i18n.t('timer.channel'),
       importance: Notifications.AndroidImportance.HIGH,
-      vibrationPattern: [0, 300, 150, 300],
+      vibrationPattern: PATTERN,
+      enableVibrate: true,
     });
   }
   const current = await Notifications.getPermissionsAsync();
@@ -40,7 +44,6 @@ export async function ensureAlertPermission(): Promise<boolean> {
   });
   return result.granted;
 }
-
 
 /** Agenda (ou reagenda) o aviso do timer; timer parado, pausado ou sem fim: cancela. */
 export async function syncTimerAlert(timer: Timer | null, previousId: string | null) {
@@ -64,7 +67,40 @@ export async function syncTimerAlert(timer: Timer | null, previousId: string | n
   });
 }
 
-/** Com o app aberto: vibra quando o timer chega a zero. */
+/**
+ * Com o app aberto: vibra de verdade quando o timer chega a zero (U6). O `Haptics` sozinho é um
+ * toque leve, fácil de não sentir com o celular no bolso ou na mesa.
+ */
 export function timerFinishedHere(_timerId: string) {
+  vibrate();
+}
+
+function vibrate() {
+  // No iPhone o padrão é ignorado (vibração fixa do sistema); o toque do Haptics reforça
+  Vibration.vibrate(Platform.OS === 'android' ? PATTERN : 400);
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+}
+
+export type AlertPermission = 'granted' | 'denied' | 'default' | 'unsupported';
+
+/** Estado da permissão de notificação no aparelho (U5) */
+export async function alertPermission(): Promise<AlertPermission> {
+  const current = await Notifications.getPermissionsAsync();
+  if (current.granted) return 'granted';
+  return current.canAskAgain ? 'default' : 'denied';
+}
+
+/** "Testar aviso" no Perfil: vibra agora e mostra uma notificação de teste */
+export async function testAlert(text: { title: string; body: string }) {
+  vibrate();
+  if (!(await Notifications.getPermissionsAsync()).granted) return;
+  await Notifications.scheduleNotificationAsync({
+    identifier: 'questlist-test',
+    content: { ...text, sound: true },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+      seconds: 2,
+      channelId: CHANNEL,
+    },
+  });
 }

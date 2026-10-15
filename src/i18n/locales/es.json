@@ -1628,5 +1628,26 @@
     "file": "Archivo",
     "full": "Tu espacio de adjuntos (1 GB) está lleno. Quita adjuntos antiguos para liberarlo.",
     "usage": "Adjuntos: {{used}} de {{total}} usados."
+  },
+  "apk": {
+    "title": "App para Android",
+    "details": "Versión {{version}} · {{size}} · {{date}}.",
+    "download": "Descargar la app (APK)",
+    "hint": "En tu Android, abre el archivo descargado y permite instalar desde esta fuente cuando lo pida. Para actualizar, descárgalo de nuevo e instálalo encima (tus datos se mantienen). Aún no hay versión para iPhone.",
+    "update": "Hay una versión nueva de la app.",
+    "upToDate": "Estás en la versión más reciente.",
+    "downloadUpdate": "Descargar la versión nueva"
+  },
+  "alerts": {
+    "title": "Avisos del temporizador",
+    "granted": "Permitido: el fin del descanso y del foco avisa con notificación, sonido y vibración (donde el dispositivo vibra).",
+    "default": "Aún no permitido. Sin el permiso, el aviso solo aparece con la app abierta.",
+    "denied": "Bloqueado. En la web, toca el candado junto a la dirección → Notificaciones → Permitir; en el móvil, Ajustes → Apps → Questlist → Notificaciones.",
+    "unsupported": "Este navegador no muestra notificaciones; el aviso suena mientras la pestaña esté abierta. En iPhone, añade la app a la pantalla de inicio para recibir notificaciones.",
+    "noVibration": "Este navegador no vibra (iPhone y ordenadores).",
+    "allow": "Permitir notificaciones",
+    "test": "Probar aviso",
+    "testTitle": "Prueba del aviso",
+    "testBody": "Así se avisa el fin del descanso y del foco."
   }
 }

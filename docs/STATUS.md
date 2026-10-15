@@ -144,8 +144,8 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [ ] **U2** Painel da tarefa simples × completo
 - [x] **U3** Sem foco automático (teclado) ao abrir telas no toque (D154)
 - [ ] **U4** Assistente de primeiro uso
-- [ ] **U5** Permissão de notificações no navegador (Perfil)
-- [ ] **U6** Vibrar ao fim do timer
+- [x] **U5** Permissão de notificações no navegador (Perfil) (D156)
+- [x] **U6** Vibrar ao fim do timer (D157)
 - [ ] **U7** APK para Android e botão de baixar no Perfil
 
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)

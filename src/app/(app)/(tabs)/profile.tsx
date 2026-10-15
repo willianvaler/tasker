@@ -15,6 +15,7 @@ import { ScrollView, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
 import { PrivacySection } from '@/components/privacy-section';
+import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -128,7 +129,9 @@ function ProfileForm({ profile }: { profile: Profile }) {
 
         <Group title={t('profile.notifications')}>
           <PushSetting />
+          <TimerAlertSetting />
         </Group>
+
 
         <Group title={t('pomodoro.settings')}>
           <Button

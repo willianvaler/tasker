@@ -1628,5 +1628,26 @@
     "file": "File",
     "full": "Your attachment space (1 GB) is full. Remove old attachments to free it up.",
     "usage": "Attachments: {{used}} of {{total}} used."
+  },
+  "apk": {
+    "title": "Android app",
+    "details": "Version {{version}} · {{size}} · {{date}}.",
+    "download": "Download the app (APK)",
+    "hint": "On your Android phone, open the downloaded file and allow installing from this source when asked. To update, download again and install over it (your data stays). There is no iPhone version yet.",
+    "update": "A new version of the app is available.",
+    "upToDate": "You're on the latest version.",
+    "downloadUpdate": "Download the new version"
+  },
+  "alerts": {
+    "title": "Timer alerts",
+    "granted": "Allowed: the end of rest and focus alerts you with a notification, sound and vibration (where the device vibrates).",
+    "default": "Not allowed yet. Without permission, the alert only shows with the app open.",
+    "denied": "Blocked. On the web, tap the lock next to the address → Notifications → Allow; on the phone, Settings → Apps → Questlist → Notifications.",
+    "unsupported": "This browser doesn't show notifications; the alert plays a sound while the tab is open. On iPhone, add the app to the Home Screen to get notifications.",
+    "noVibration": "This browser doesn't vibrate (iPhone and computers).",
+    "allow": "Allow notifications",
+    "test": "Test alert",
+    "testTitle": "Alert test",
+    "testBody": "This is how the end of rest and focus is announced."
   }
 }

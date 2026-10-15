@@ -1628,5 +1628,26 @@
     "file": "Arquivo",
     "full": "Seu espaço de anexos (1 GB) está cheio. Remova anexos antigos para liberar.",
     "usage": "Anexos: {{used}} de {{total}} usados."
+  },
+  "apk": {
+    "title": "App para Android",
+    "details": "Versão {{version}} · {{size}} · {{date}}.",
+    "download": "Baixar o app (APK)",
+    "hint": "No celular Android, abra o arquivo baixado e permita instalar desta fonte quando ele pedir. Para atualizar, baixe de novo e instale por cima (os dados ficam). Ainda não há versão para iPhone.",
+    "update": "Há uma versão nova do app.",
+    "upToDate": "Você está na versão mais recente.",
+    "downloadUpdate": "Baixar a versão nova"
+  },
+  "alerts": {
+    "title": "Avisos do timer",
+    "granted": "Permitido: o fim do descanso e do foco avisa com notificação, som e vibração (onde o aparelho vibra).",
+    "default": "Ainda não permitido. Sem a permissão, o aviso só aparece com o app aberto.",
+    "denied": "Bloqueado. Na web, toque no cadeado ao lado do endereço → Notificações → Permitir; no celular, Configurações → Apps → Questlist → Notificações.",
+    "unsupported": "Este navegador não mostra notificações; o aviso vem com som enquanto a aba estiver aberta. No iPhone, adicione o app à Tela de Início para receber notificações.",
+    "noVibration": "Este navegador não vibra (iPhone e computador).",
+    "allow": "Permitir notificações",
+    "test": "Testar aviso",
+    "testTitle": "Teste do aviso",
+    "testBody": "Assim avisa o fim do descanso e do foco."
   }
 }
