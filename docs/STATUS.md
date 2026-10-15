@@ -152,7 +152,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 - [x] **W1** Esqueci minha senha e olhinho na senha (D165)
 - [x] **W2** Bloco Projetos fixo com "+", configurações de projetos (Times sai do jogo) (D166)
-- [ ] **W3** Anotações simples (bloco acima de Pastas e Projetos; no Início no celular)
+- [x] **W3** Anotações simples (bloco acima de Pastas e Projetos; no Início no celular) (D167)
 - [ ] **W4** Descrição em tarefas e hábitos ("+ adicionar descrição", até 4.000 caracteres)
 - [ ] **W5** Painel da tarefa mais largo; busca de Relacionar legível
 - [ ] **W6** Clicar fora do painel fecha e salva

@@ -1734,5 +1734,20 @@
     "teamsHint": "Los equipos reúnen personas y cargos para usar en varios proyectos.",
     "openTeams": "Abrir los equipos",
     "link": "Configuración de proyectos"
+  },
+  "notes": {
+    "title": "Notas",
+    "new": "Nueva nota",
+    "first": "Escribir la primera nota",
+    "untitled": "Sin título",
+    "seeAll": "Ver todas ({{count}})",
+    "empty": "Aún no hay notas.",
+    "missing": "Esta nota ya no existe.",
+    "delete": "Borrar",
+    "deleteTitle": "¿Borrar esta nota?",
+    "titlePlaceholder": "Título",
+    "titleField": "Título de la nota",
+    "bodyPlaceholder": "Escribe aquí…",
+    "bodyField": "Texto de la nota"
   }
 }

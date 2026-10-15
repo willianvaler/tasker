@@ -1734,5 +1734,20 @@
     "teamsHint": "Teams gather people and roles to use across projects.",
     "openTeams": "Open teams",
     "link": "Project settings"
+  },
+  "notes": {
+    "title": "Notes",
+    "new": "New note",
+    "first": "Write the first note",
+    "untitled": "Untitled",
+    "seeAll": "See all ({{count}})",
+    "empty": "No notes yet.",
+    "missing": "This note no longer exists.",
+    "delete": "Delete",
+    "deleteTitle": "Delete this note?",
+    "titlePlaceholder": "Title",
+    "titleField": "Note title",
+    "bodyPlaceholder": "Write here…",
+    "bodyField": "Note text"
   }
 }

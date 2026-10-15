@@ -30,6 +30,7 @@ import { MenuButton } from '@/components/folder-cards';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { useNewMenu } from '@/components/new-menu';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
+import { NotesList, useNewNote } from '@/components/notes-block';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { IconButton } from '@/components/ui/button';
 import { PendingXp } from '@/components/game-bar';
@@ -168,6 +169,7 @@ export function Sidebar() {
   const received = useReceivedPages();
   const pending = usePendingShares();
   const inProject = projects.length > 0;
+  const newNote = useNewNote();
 
   return (
     <SafeAreaView
@@ -218,6 +220,14 @@ export function Sidebar() {
       </View>
 
       <ScrollView className="mt-6 flex-1" contentContainerClassName="gap-6 px-2 pb-6">
+        {/* W3: anotações acima de Pastas e Projetos */}
+        <View>
+          <SectionHeader
+            label={t('notes.title')}
+            action={<IconButton icon={Plus} label={t('notes.new')} onPress={newNote} />}
+          />
+          <NotesList limit={5} />
+        </View>
         <View>
           <SectionHeader
             label={t('nav.folders')}

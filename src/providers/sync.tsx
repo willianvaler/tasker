@@ -34,6 +34,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   page_shares: [['received'], keys.tasks],
   share_checks: [keys.tasks],
   my_day: [['my-day']],
+  notes: [['notes']],
   page_fields: [['page-fields']],
 };
 

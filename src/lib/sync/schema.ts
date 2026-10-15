@@ -186,6 +186,19 @@ const share_checks = new Table(
 );
 
 // Meu dia (M4): as tarefas que escolhi para um dia, em ordem
+// Anotações (W3): texto simples, só da pessoa
+const notes = new Table(
+  {
+    user_id: column.text,
+    title: column.text,
+    body: column.text,
+    pinned: column.integer,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { updated: ['updated_at'] } },
+);
+
 const my_day = new Table(
   {
     user_id: column.text,
@@ -389,6 +402,7 @@ export const AppSchema = new Schema({
   page_shares,
   share_checks,
   my_day,
+  notes,
   page_fields,
   task_assignees,
   comments,

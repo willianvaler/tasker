@@ -1734,5 +1734,20 @@
     "teamsHint": "Times reúnem pessoas e cargos para usar em vários projetos.",
     "openTeams": "Abrir os times",
     "link": "Configurações de projetos"
+  },
+  "notes": {
+    "title": "Anotações",
+    "new": "Nova anotação",
+    "first": "Escrever a primeira anotação",
+    "untitled": "Sem título",
+    "seeAll": "Ver todas ({{count}})",
+    "empty": "Nenhuma anotação ainda.",
+    "missing": "Essa anotação não existe mais.",
+    "delete": "Apagar",
+    "deleteTitle": "Apagar esta anotação?",
+    "titlePlaceholder": "Título",
+    "titleField": "Título da anotação",
+    "bodyPlaceholder": "Escreva aqui…",
+    "bodyField": "Texto da anotação"
   }
 }

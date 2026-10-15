@@ -12,6 +12,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { TaskRow } from '@/components/tasks/task-row';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { NotesBlock } from '@/components/notes-block';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
@@ -215,6 +216,8 @@ export default function HomeScreen() {
           ) : (
             <View className="mt-4">
               <GameHeader />
+              {/* W3: no celular as anotações ficam no Início (no computador, na barra lateral) */}
+              <NotesBlock limit={3} />
               {habitsSection}
               {nowSection}
               {laterSections}

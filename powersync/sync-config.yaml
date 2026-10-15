@@ -82,6 +82,11 @@ streams:
     auto_subscribe: true
     query: SELECT * FROM my_day WHERE user_id = auth.user_id()
 
+  # Anotações (W3): só as minhas
+  notes:
+    auto_subscribe: true
+    query: SELECT * FROM notes WHERE user_id = auth.user_id()
+
   me:
     auto_subscribe: true
     query: SELECT * FROM profiles WHERE id = auth.user_id()
