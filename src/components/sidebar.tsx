@@ -1,4 +1,4 @@
-import { Link, usePathname, type Href } from 'expo-router';
+import { Link, router, usePathname, type Href } from 'expo-router';
 import {
   Bell,
   ChevronDown,
@@ -17,6 +17,7 @@ import {
   User,
   UserCheck,
   Users,
+  Zap,
 } from 'lucide-react-native';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -191,6 +192,15 @@ export function Sidebar() {
             <Icon icon={Search} tone="ink-muted" />
             <Text className="flex-1 text-sm text-ink-muted">{t('palette.open')}</Text>
             <Kbd>Ctrl K</Kbd>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('modes.open')}
+            className="mb-2 min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+            onPress={() => router.push('/modos')}
+          >
+            <Icon icon={Zap} tone="ink-muted" />
+            <Text className="flex-1 text-sm text-ink">{t('modes.title')}</Text>
           </Pressable>
           {NAV.filter((item) => !item.projectsOnly || inProject).map((item) => (
             <NavRow

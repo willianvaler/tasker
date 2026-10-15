@@ -24,6 +24,7 @@ import {
   type LucideIcon,
   User,
   Users,
+  Zap,
 } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { createContext, useContext, useState, type ReactNode } from 'react';
@@ -171,6 +172,13 @@ function Palette({
           },
         ]
       : []),
+    {
+      id: 'modes',
+      label: t('modes.open'),
+      icon: icon(Zap),
+      group: 0,
+      run: go('/modos'),
+    },
     {
       id: 'pomodoro-settings',
       label: t('pomodoro.settingsLabel'),
