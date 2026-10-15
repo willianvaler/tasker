@@ -31,6 +31,8 @@ streams:
       - SELECT task_dependencies.* FROM task_dependencies INNER JOIN folders ON task_dependencies.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM page_dependencies WHERE folder_id IN roots
       - SELECT page_dependencies.* FROM page_dependencies INNER JOIN folders ON page_dependencies.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM page_fields WHERE folder_id IN roots
+      - SELECT page_fields.* FROM page_fields INNER JOIN folders ON page_fields.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM time_entries WHERE folder_id IN roots
       - SELECT time_entries.* FROM time_entries INNER JOIN folders ON time_entries.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM conflict_copies WHERE folder_id IN roots
@@ -69,6 +71,7 @@ streams:
       # Nome e avatar de quem me enviou ("Recebida de Ana")
       - SELECT people.id, people.display_name, people.avatar_url FROM profiles AS people WHERE people.id IN senders
       - SELECT * FROM tasks WHERE page_id IN shared
+      - SELECT * FROM page_fields WHERE page_id IN shared
       - SELECT * FROM page_shares WHERE recipient_id = auth.user_id()
       - SELECT * FROM share_checks WHERE user_id = auth.user_id()
 

@@ -1507,5 +1507,24 @@
     "remove": "Tirar {{title}} do meu dia",
     "add": "Pôr no meu dia",
     "inDay": "No meu dia"
+  },
+  "fields": {
+    "title": "Campos da página",
+    "menu": "Campos da página…",
+    "section": "Campos",
+    "empty": "Nenhum campo ainda. Ex.: Valor (moeda), Fase (seleção), Responsável pela compra (pessoa).",
+    "name": "Nome do campo",
+    "namePlaceholder": "Ex.: Valor",
+    "options": "Opções",
+    "optionsPlaceholder": "Separadas por vírgula: Obra, Compra, Pronto",
+    "add": "Adicionar campo",
+    "remove": "Tirar o campo {{name}}",
+    "invalid": "\"{{name}}\": valor que não entendi.",
+    "kindText": "Texto",
+    "kindNumber": "Número",
+    "kindSelect": "Seleção",
+    "kindDate": "Data",
+    "kindPerson": "Pessoa",
+    "kindMoney": "Moeda"
   }
 }

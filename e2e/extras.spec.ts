@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, shown, signUp } from './helpers';
+import { createPage, openTab, shown, signUp } from './helpers';
 
 test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na selecionada', async ({
   page,
@@ -96,4 +96,34 @@ test('Meu dia e Próxima ação', async ({ page }, testInfo) => {
   await expect(shown(page, 'Faltam 0min de 1h disponíveis')).toBeVisible();
   await page.getByRole('button', { name: 'Tirar Ler livro do meu dia' }).last().click();
   await expect(page.getByRole('button', { name: 'Fazer agora: Pagar conta' }).last()).toBeVisible();
+});
+
+test('campos personalizados: moeda e seleção na página, preenchidos no painel e mostrados na linha', async ({
+  page,
+}, testInfo) => {
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Casa', name: 'Reforma', type: 'Lista' });
+  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await shown(page, 'Campos da página…').click();
+  await page.getByRole('textbox', { name: 'Nome do campo' }).fill('Valor');
+  await page.getByRole('radio', { name: 'Moeda' }).click();
+  await page.getByRole('button', { name: 'Adicionar campo' }).click();
+  await page.getByRole('textbox', { name: 'Nome do campo' }).fill('Fase');
+  await page.getByRole('radio', { name: 'Seleção' }).click();
+  await page.getByRole('textbox', { name: 'Opções' }).fill('Obra, Compra');
+  await page.getByRole('button', { name: 'Adicionar campo' }).click();
+  await expect(page.getByRole('button', { name: 'Tirar o campo Fase' })).toBeVisible();
+  await page.getByRole('button', { name: 'Fechar' }).last().click();
+
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Piso');
+  await input.press('Enter');
+  await page.getByRole('button', { name: 'Detalhes de Piso' }).click();
+  const value = page.getByRole('textbox', { name: 'Valor', exact: true });
+  await value.fill('1.200,00');
+  await value.blur();
+  await expect(page.getByText(/^R\$\s1\.200,00$/)).toBeVisible();
+  await page.getByText('Compra', { exact: true }).last().click();
+  await page.getByRole('button', { name: 'Voltar' }).click();
+  await expect(shown(page, /^Valor R\$\s1\.200,00 · Fase Compra$/)).toBeVisible();
 });

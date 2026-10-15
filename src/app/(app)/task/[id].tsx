@@ -12,6 +12,7 @@ import {
   MetaEditor,
   RecurrenceEditor,
 } from '@/components/tasks/task-extras';
+import { TaskFields } from '@/components/fields';
 import { useMyDayToggle } from '@/components/my-day';
 import { ReceivedNote } from '@/components/received';
 import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
@@ -60,6 +61,7 @@ import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
 import { rootFolder } from '@/lib/queries/projects';
+import { usePageFields } from '@/lib/queries/fields';
 import { useIsReceived } from '@/lib/queries/shares';
 import { useToast } from '@/providers/toast';
 import { useCanWrite, useTaskCan, WriteScope } from '@/providers/write';
@@ -328,6 +330,8 @@ function TaskDetails({ task }: { task: Task }) {
             />
           </Section>
         )}
+
+        <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
 
         {!isHabit && !received && task.status !== 'done' && (
           <Section title={t('myDay.title')}>
@@ -667,6 +671,17 @@ function Subtasks({ task }: { task: Task }) {
         accessibilityLabel={t('taskDetail.newSubtask')}
       />
       {create.error && <Text className="text-danger">{create.error.message}</Text>}
+    </Section>
+  );
+}
+
+/** Campos personalizados da página (M5): só aparecem se a página tem algum. */
+function PanelFields({ task, disabled, title }: { task: Task; disabled: boolean; title: string }) {
+  const fields = usePageFields(task.page_id);
+  if (!fields.data?.length) return null;
+  return (
+    <Section title={title}>
+      <TaskFields task={task} disabled={disabled} />
     </Section>
   );
 }

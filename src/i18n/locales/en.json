@@ -1507,5 +1507,24 @@
     "remove": "Remove {{title}} from my day",
     "add": "Add to my day",
     "inDay": "In my day"
+  },
+  "fields": {
+    "title": "Page fields",
+    "menu": "Page fields…",
+    "section": "Fields",
+    "empty": "No fields yet. E.g. Cost (currency), Stage (select), Buyer (person).",
+    "name": "Field name",
+    "namePlaceholder": "E.g. Cost",
+    "options": "Options",
+    "optionsPlaceholder": "Comma separated: Build, Buy, Done",
+    "add": "Add field",
+    "remove": "Remove the {{name}} field",
+    "invalid": "\"{{name}}\": I didn't understand that value.",
+    "kindText": "Text",
+    "kindNumber": "Number",
+    "kindSelect": "Select",
+    "kindDate": "Date",
+    "kindPerson": "Person",
+    "kindMoney": "Currency"
   }
 }

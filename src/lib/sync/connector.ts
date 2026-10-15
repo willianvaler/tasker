@@ -55,6 +55,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'deps_mode',
       'repeat_plan',
       'weight',
+      'custom',
     ],
     update: [
       'page_id',
@@ -73,6 +74,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'deps_mode',
       'repeat_plan',
       'weight',
+      'custom',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
@@ -90,6 +92,10 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   },
   task_assignees: { insert: ['task_id', 'user_id', 'pending_name'], update: [] },
   my_day: { insert: ['task_id', 'day', 'position'], update: ['position'] },
+  page_fields: {
+    insert: ['page_id', 'name', 'kind', 'options', 'position'],
+    update: ['name', 'options', 'position'],
+  },
   conflict_copies: { insert: [], update: [] },
 };
 
@@ -104,7 +110,15 @@ const SERVER_SIDE = new Set([
 ]);
 
 // No SQLite, jsonb e arrays são texto
-const JSON_COLUMNS = new Set(['labels', 'meta', 'recurrence', 'repeat_plan', 'args']);
+const JSON_COLUMNS = new Set([
+  'labels',
+  'meta',
+  'recurrence',
+  'repeat_plan',
+  'custom',
+  'options',
+  'args',
+]);
 
 function pick(data: Record<string, unknown>, columns: string[]) {
   const out: Record<string, unknown> = {};

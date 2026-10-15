@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
+import { FieldsDialog } from '@/components/fields';
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { PageDependencyEditor } from '@/components/page-dependency-editor';
@@ -30,7 +31,7 @@ import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
-type DialogState = 'menu' | 'settings' | 'duplicate' | 'send';
+type DialogState = 'menu' | 'settings' | 'duplicate' | 'send' | 'fields';
 
 export default function PageScreen() {
   const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
@@ -172,6 +173,9 @@ export default function PageScreen() {
             { label: t('page.settings'), onPress: () => setDialog('settings') },
             { label: t('page.duplicate'), onPress: () => setDialog('duplicate') },
             ...(sharable ? [{ label: t('send.menu'), onPress: () => setDialog('send') }] : []),
+            ...(actorCan(pageActor, 'page.manage') && !page.is_inbox && !page.is_habits
+              ? [{ label: t('fields.menu'), onPress: () => setDialog('fields') }]
+              : []),
             ...(relatable
               ? [
                   {
@@ -201,6 +205,7 @@ export default function PageScreen() {
         />
       )}
       {page && dialog === 'send' && <SendPageDialog page={page} onClose={closeDialog} />}
+      {page && dialog === 'fields' && <FieldsDialog pageId={page.id} onClose={closeDialog} />}
       {page && dialog === 'settings' && (
         <PageDialog
           title={t('page.settings')}

@@ -359,6 +359,7 @@ function optimisticTask(
     repeat_plan: (item.repeatPlan ?? null) as Json,
     actual_minutes: 0,
     weight: null,
+    custom: {},
     done_cycle_key: null,
     habit_kind: item.habitKind ?? 'check',
     habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
@@ -540,6 +541,7 @@ export type TaskPatch = Partial<
     | 'habit_target'
     | 'estimate_minutes'
     | 'weight'
+    | 'custom'
     | 'deps_mode'
   >
 >;

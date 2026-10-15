@@ -91,6 +91,7 @@ const tasks = new Table(
     repeat_plan: column.text,
     actual_minutes: column.integer,
     weight: column.integer,
+    custom: column.text,
     updated_by: column.text,
     version: column.integer,
   },
@@ -192,6 +193,20 @@ const my_day = new Table(
     created_at: column.text,
   },
   { indexes: { day: ['user_id', 'day'] } },
+);
+
+// Campos personalizados da página (M5)
+const page_fields = new Table(
+  {
+    page_id: column.text,
+    folder_id: column.text,
+    name: column.text,
+    kind: column.text,
+    options: column.text,
+    position: column.real,
+    created_at: column.text,
+  },
+  { indexes: { page: ['page_id'] } },
 );
 
 const task_assignees = new Table(
@@ -332,6 +347,7 @@ export const AppSchema = new Schema({
   page_shares,
   share_checks,
   my_day,
+  page_fields,
   task_assignees,
   comments,
   task_completions,

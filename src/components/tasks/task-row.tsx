@@ -38,6 +38,7 @@ import { useTaskCan } from '@/providers/write';
 import { useToast } from '@/providers/toast';
 import { AssigneeChips, ClaimButton } from './assignee-chips';
 import { DragHandle } from './sortable-tasks';
+import { FieldValues } from '@/components/fields';
 import { RepeatButton } from './repeat';
 import { SnoozeButton } from './snooze';
 import { TaskMeta } from './task-meta';
@@ -224,6 +225,7 @@ function TaskRowView({
             </Pressable>
           )}
           {flow && !done && <FlowLine flow={flow} />}
+          <FieldValues task={task} />
         </View>
         <View className="flex-row items-center gap-3 md:ml-auto">
           {task.repeat_plan && !hasChildren ? (
