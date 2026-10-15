@@ -1625,6 +1625,8 @@
     "noCamera": "Sem permissão para a câmera.",
     "queued": "Na fila: sobe quando a internet voltar.",
     "rejected": "Um anexo não subiu: {{message}}. Remova e tente de novo.",
-    "file": "Arquivo"
+    "file": "Arquivo",
+    "full": "Seu espaço de anexos (1 GB) está cheio. Remova anexos antigos para liberar.",
+    "usage": "Anexos: {{used}} de {{total}} usados."
   }
 }

@@ -11,3 +11,7 @@ Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **pan
 ## El menú Nuevo
 
 `Alt+N` (o el botón **Nuevo**) y una letra: **T** tarea, **P** página, **F** carpeta, **J** proyecto, **H** hábito.
+
+## Adjuntos
+
+En el panel, **Adjuntar** añade una foto (de la galería o, en el móvil, de la cámara) o un archivo a la tarea. Las fotos se reducen en el dispositivo antes de subirlas (caben en un cuadrado de 2048 px), así que ocupan poco; la lista muestra solo la miniatura y la foto grande se descarga al abrirla. Cada archivo puede tener hasta **10 MB**, y cada cuenta tiene **1 GB** (mira cuánto usas en el Perfil). Quien ve la tarea ve los adjuntos; quien puede editarla adjunta y quita. Sin internet, el adjunto espera en el dispositivo y se sube solo después.

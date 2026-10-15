@@ -143,7 +143,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **N1** Storage + `task_attachments` + RLS (D150)
 - [x] **N2** Anexar no painel, compressão WebP e miniatura no aparelho (D151)
 - [x] **N3** Anexo offline (fila) (D152)
-- [ ] **N4** Limites e E2E
+- [x] **N4** Limites e E2E (D153)
 - [ ] **O1** Boss diário no servidor
 - [ ] **O2** Calibragem do dano
 - [ ] **O3** Aviso com o dano nos bosses e limite atingido

@@ -11,3 +11,7 @@ Tap the task's arrow (or `Enter` with it selected) to open the **panel**: notes,
 ## The New menu
 
 `Alt+N` (or the **New** button) and a letter: **T** task, **P** page, **F** folder, **J** project, **H** habit.
+
+## Attachments
+
+In the panel, **Attach** adds a photo (from the gallery or, on the phone, the camera) or a file to the task. Photos are shrunk on the device before uploading (to fit a 2048 px square), so they take little space; the list shows only the thumbnail and the full photo downloads when you open it. Each file can be up to **10 MB**, and each account has **1 GB** (see your usage in Profile). Whoever sees the task sees its attachments; whoever can edit it attaches and removes. Offline, the attachment waits on the device and uploads by itself later.

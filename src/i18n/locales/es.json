@@ -1625,6 +1625,8 @@
     "noCamera": "Sin permiso para la cámara.",
     "queued": "En cola: se sube cuando vuelva internet.",
     "rejected": "Un adjunto no se subió: {{message}}. Quítalo e inténtalo de nuevo.",
-    "file": "Archivo"
+    "file": "Archivo",
+    "full": "Tu espacio de adjuntos (1 GB) está lleno. Quita adjuntos antiguos para liberarlo.",
+    "usage": "Adjuntos: {{used}} de {{total}} usados."
   }
 }

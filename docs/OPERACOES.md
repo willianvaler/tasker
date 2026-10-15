@@ -45,6 +45,20 @@ Os aparelhos recebem o estado restaurado no próximo sync. O que estava na fila 
 - Chaves de idempotência da fila (`applied_ops`): 30 dias (cron `questlist-applied-ops`, 03:17).
 - Tombstones do sync: o PowerSync cuida (o aparelho é avisado de que a linha saiu). Compactação do armazenamento: `podman exec tasker-powersync node service/lib/entry.js compact -c /config/config.yaml`, quando o `powersync_storage` crescer.
 
+## Anexos (Storage)
+
+Os arquivos ficam no bucket privado `attachments` do Storage local (container `supabase_storage_task_tracking`, ligado em `supabase/config.toml`). O backup do banco **não** leva os arquivos: copie também o volume do Storage (`podman volume ls | grep storage`).
+
+Arquivo de anexo removido, ou de tarefa cuja lixeira venceu, entra em `public.storage_garbage`; o cron `questlist-storage-garbage` (a cada 10 min) apaga pela API do Storage, se `app_config` tiver o endereço e a chave de serviço. **A chave não vai para o repositório**: configure direto no banco, uma vez por máquina (e de novo se as chaves do Supabase local mudarem):
+
+```bash
+KEY=$(npx supabase status -o env | grep '^SERVICE_ROLE_KEY=' | cut -d= -f2- | tr -d '"')
+printf "insert into public.app_config values ('storage_url', 'http://supabase_kong_task_tracking:8000/storage/v1'), ('storage_key', '%s') on conflict (key) do update set value = excluded.value;\n" "$KEY" \
+  | podman exec -i supabase_db_task_tracking psql -U postgres -d postgres
+```
+
+Sem isso, a fila só cresce (nada se perde; apaga quando configurar). Em produção, `storage_url` é `https://<projeto>.supabase.co/storage/v1`.
+
 ## Mudou o banco?
 
 1. Migração nova em `supabase/migrations/` e `npx supabase migration up` (não `db:reset`, que apaga as contas).

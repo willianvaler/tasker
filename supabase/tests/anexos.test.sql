@@ -1,7 +1,7 @@
 -- V4 §4 (N1): anexos de tarefa (tabela e arquivos no Storage).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(10);
+select plan(17);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'dono@teste.local'),
@@ -51,6 +51,29 @@ select is((select count(*)::int from public.task_attachments), 1, 'leitor não a
 set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "role": "authenticated"}';
 select is((select count(*)::int from public.task_attachments), 0, 'estranho não vê o anexo');
 select is((select count(*)::int from storage.objects where bucket_id = 'attachments'), 0, 'estranho não vê o arquivo');
+
+-- Uso, cota, lixeira e fila de apagar arquivos (N4)
+set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}';
+select is(public.attachment_usage(), 350000::bigint, 'uso do dono');
+select throws_ok($$ insert into public.task_attachments (id, task_id, path, name, mime, size)
+  select gen_random_uuid(), 'c0000000-0000-0000-0000-000000000001',
+         'aaaaaaaa-0000-0000-0000-000000000001/c0000000-0000-0000-0000-000000000001/' || g || '.bin', 'g', 'x', 10000000
+  from generate_series(1, 110) g $$, '22023', null, 'passa de 1 GB: recusado');
+
+delete from public.tasks where id = 'c0000000-0000-0000-0000-000000000001';
+reset role;
+select is((select count(*)::int from public.deleted_items where kind = 'task_attachments'), 1,
+  'apagar a tarefa leva o anexo para a lixeira');
+select is((select count(*)::int from public.storage_garbage), 0, 'e o arquivo fica (pode voltar)');
+set local role authenticated;
+select lives_ok($$ select public.restore_deleted((select id from public.deleted_items where kind = 'tasks')) $$,
+  'restaurar a tarefa');
+select is((select count(*)::int from public.task_attachments), 1, 'o anexo volta junto');
+
+delete from public.task_attachments;
+reset role;
+select is((select count(*)::int from public.storage_garbage), 2,
+  'remover o anexo põe o arquivo e a miniatura na fila de apagar');
 
 select * from finish();
 rollback;

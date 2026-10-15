@@ -5,6 +5,7 @@ import {
   cleanName,
   extensionOf,
   isCompressibleImage,
+  MAX_ACCOUNT_BYTES,
   MAX_FILE_BYTES,
 } from '@/lib/attachments';
 import { base64ToBytes, bytesToBase64 } from '@/lib/base64';
@@ -77,6 +78,47 @@ export function useAttachments(taskId: string | undefined) {
       return data;
     },
   });
+}
+
+/** Quanto a pessoa ocupa com anexos (o que já subiu + o que está na fila do aparelho) */
+async function usage(userId: string | null): Promise<number> {
+  let queued = 0;
+  if (isLocal()) {
+    const row = await db.getOptional<{ total: number | null }>(
+      'select sum(size) as total from pending_uploads',
+    );
+    queued = row?.total ?? 0;
+  }
+  if (isLocal() && !onlineManager.isOnline()) {
+    const row = await db.getOptional<{ total: number | null }>(
+      'select sum(size) as total from task_attachments where created_by = ?',
+      [userId],
+    );
+    return (row?.total ?? 0) + queued;
+  }
+  const { data, error } = await supabase.rpc('attachment_usage');
+  if (error) throw error;
+  return Number(data ?? 0) + queued;
+}
+
+export function useAttachmentUsage() {
+  const { session } = useSession();
+  const userId = session?.user.id ?? null;
+  return useQuery({
+    queryKey: ['attachment-usage', userId],
+    enabled: !!userId,
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: () => usage(userId),
+  });
+}
+
+/** Mensagem do servidor (em português) → texto no idioma do app */
+function friendly(err: unknown): Error {
+  const message = (err as Error)?.message ?? String(err);
+  if (/Espaço de anexos cheio/.test(message)) return new Error(tr('attach.full'));
+  if (/maximum allowed size|Payload too large|exceeded the maximum/i.test(message))
+    return new Error(tr('attach.tooBig'));
+  return err instanceof Error ? err : new Error(message);
 }
 
 /** Endereços assinados (1 h) para os caminhos; a tela guarda a imagem pelo caminho (cacheKey) */
@@ -280,7 +322,7 @@ export function flushUploads(userId: string | null) {
           // espaço cheio): fica marcado na tela, para a pessoa tirar
           if (!onlineManager.isOnline() || err instanceof TypeError) break;
           await db.execute('update pending_uploads set error = ? where id = ?', [
-            (err as Error).message.slice(0, 200),
+            friendly(err).message.slice(0, 200),
             r.id,
           ]);
         }
@@ -303,12 +345,22 @@ export function useAttachmentMutations(task: { id: string; folder_id: string | n
     mutationFn: async (file: PickedFile) => {
       const folderId = task.folder_id;
       if (!folderId) throw new Error(tr('attach.error'));
+      // Arquivo que não é imagem não diminui: recusa antes de ler tudo para a memória
+      if (!isCompressibleImage(file.mime) && (file.size ?? 0) > MAX_FILE_BYTES)
+        throw new Error(tr('attach.tooBig'));
       const p = await prepare(file, { id: task.id, folder_id: folderId });
       if (p.row.size > MAX_FILE_BYTES) throw new Error(tr('attach.tooBig'));
+      if ((await usage(userId).catch(() => 0)) + p.row.size > MAX_ACCOUNT_BYTES)
+        throw new Error(tr('attach.full'));
       if (isLocal() && !onlineManager.isOnline()) return enqueue(p, folderId, userId);
-      await send(p, folderId, userId);
+      await send(p, folderId, userId).catch((err) => {
+        throw friendly(err);
+      });
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: key }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: key });
+      queryClient.invalidateQueries({ queryKey: ['attachment-usage'] });
+    },
   });
 
   const remove = useMutation({
@@ -338,7 +390,10 @@ export function useAttachmentMutations(task: { id: string; folder_id: string | n
       return { previous };
     },
     onError: (_err, _vars, context) => queryClient.setQueryData(key, context?.previous),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: key }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: key });
+      queryClient.invalidateQueries({ queryKey: ['attachment-usage'] });
+    },
   });
 
   return { add, remove };

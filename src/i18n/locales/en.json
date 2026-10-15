@@ -1625,6 +1625,8 @@
     "noCamera": "No camera permission.",
     "queued": "Queued: uploads when you're back online.",
     "rejected": "An attachment didn't upload: {{message}}. Remove it and try again.",
-    "file": "File"
+    "file": "File",
+    "full": "Your attachment space (1 GB) is full. Remove old attachments to free it up.",
+    "usage": "Attachments: {{used}} of {{total}} used."
   }
 }

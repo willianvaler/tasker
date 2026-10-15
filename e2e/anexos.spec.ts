@@ -116,3 +116,38 @@ test('anexo sem internet entra na fila e sobe depois', async ({ page, context },
   await expect(page.getByText('Na fila: sobe quando a internet voltar.')).toHaveCount(0);
   await expect(page.getByRole('button', { name: `Abrir ${name}` })).toBeVisible();
 });
+
+// N4 (D153): arquivo acima de 10 MB é recusado antes de enviar; o Perfil mostra o uso.
+test('limite por arquivo e uso no Perfil', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const title = `Planta ${testInfo.project.name} ${Date.now()}`;
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill(title);
+  await input.press('Enter');
+  await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
+
+  let chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Anexar' }).click();
+  await page.getByRole('menuitem', { name: 'Arquivo' }).click();
+  await (await chooser).setFiles({
+    name: 'planta.zip',
+    mimeType: 'application/zip',
+    buffer: Buffer.alloc(11 * 1024 * 1024, 1),
+  });
+  await expect(page.getByText('Não deu para anexar: Arquivo maior que 10 MB.')).toBeVisible();
+
+  chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Anexar' }).click();
+  await page.getByRole('menuitem', { name: 'Arquivo' }).click();
+  await (await chooser).setFiles({
+    name: 'planta.txt',
+    mimeType: 'text/plain',
+    buffer: Buffer.alloc(2048, 65),
+  });
+  await expect(page.getByRole('button', { name: 'Abrir planta.txt' })).toBeVisible({
+    timeout: 20_000,
+  });
+  await page.goto('/profile');
+  await expect(page.getByText('Anexos: 2 KB de 1 GB usados.')).toBeVisible({ timeout: 15_000 });
+});

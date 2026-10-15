@@ -10,6 +10,8 @@ import { Text } from '@/components/ui/text';
 import { saveTextFile } from '@/lib/download';
 import { tasksToCsv } from '@/lib/export';
 import { clearPrefs } from '@/lib/prefs';
+import { formatBytes, MAX_ACCOUNT_BYTES } from '@/lib/attachments';
+import { useAttachmentUsage } from '@/lib/queries/attachments';
 import { deleteMyAccount, exportMyData } from '@/lib/queries/clan';
 import { supabase } from '@/lib/supabase';
 import { useIsOnline } from '@/providers/online';
@@ -18,9 +20,10 @@ import { useToast } from '@/providers/toast';
 
 /** Seus dados: exportar (JSON completo ou CSV das tarefas) e excluir a conta. */
 export function PrivacySection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const online = useIsOnline();
   const toast = useToast();
+  const usage = useAttachmentUsage();
   const [busy, setBusy] = useState<'json' | 'csv' | 'delete' | null>(null);
   const [confirm, setConfirm, close] = useDialog<true>();
 
@@ -64,6 +67,14 @@ export function PrivacySection() {
 
   return (
     <View className="gap-3">
+      {usage.data !== undefined && (
+        <Text className="text-sm text-ink-muted">
+          {t('attach.usage', {
+            used: formatBytes(usage.data, i18n.language),
+            total: formatBytes(MAX_ACCOUNT_BYTES, i18n.language),
+          })}
+        </Text>
+      )}
       <Text className="text-sm text-ink-muted">{t('privacy.exportHint')}</Text>
       <View className="flex-row flex-wrap gap-2">
         <Button

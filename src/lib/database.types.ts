@@ -795,6 +795,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"storage_garbage": {
+                  Row: {
+                    "path": string,"queued_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "path": string,"queued_at"?: string
+                  }
+                  Update: {
+                    "path"?: string,"queued_at"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"task_assignees": {
                   Row: {
                     "created_at": string,"created_by": string | null,"folder_id": string,"id": string,"pending_name": string | null,"task_id": string,"user_id": string | null
@@ -1523,6 +1537,9 @@ isOneToOne: false
 "archive_page_share":
 { Args: { "p_share_id": string }; Returns: undefined
                            },
+"attachment_usage":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "attribute_points":
 { Args: { "p_user": string }; Returns: number
                            },
@@ -1754,6 +1771,9 @@ isOneToOne: false
 "export_my_data":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
+"flush_storage_garbage":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "folder_role_rank":
 { Args: { "p_role": Database["public"]['Enums']["folder_role"] }; Returns: number
                            },
@@ -1901,6 +1921,9 @@ isOneToOne: false
                            },
 "project_flow_stats":
 { Args: { "p_root": string }; Returns: Json
+                           },
+"purge_trash":
+{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "refresh_cycles":
 { Args: { "p_page_id"?: string }; Returns: number
