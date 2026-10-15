@@ -495,6 +495,76 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"page_share_links": {
+                  Row: {
+                    "created_at": string,"created_by": string,"expires_at": string,"id": string,"mode": string,"page_id": string,"revoked_at": string | null,"token": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string,"expires_at"?: string,"id"?: string,"mode"?: string,"page_id": string,"revoked_at"?: string | null,"token"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string,"expires_at"?: string,"id"?: string,"mode"?: string,"page_id"?: string,"revoked_at"?: string | null,"token"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "page_share_links_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_share_links_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"page_shares": {
+                  Row: {
+                    "accepted_at": string | null,"copy_page_id": string | null,"created_at": string,"id": string,"last_reminded_at": string | null,"link_id": string | null,"mode": string,"owner_id": string,"page_id": string,"recipient_email": string | null,"recipient_id": string | null,"status": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id": string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
+                  }
+                  Update: {
+                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id"?: string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "page_shares_copy_page_id_fkey"
+      columns: ["copy_page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_shares_link_fk"
+      columns: ["link_id"]
+isOneToOne: false
+      referencedRelation: "page_share_links"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_shares_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_shares_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_shares_recipient_id_fkey"
+      columns: ["recipient_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"pages": {
                   Row: {
                     "created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"]
@@ -1270,6 +1340,9 @@ isOneToOne: false
 "buy_item":
 { Args: { "p_item": string }; Returns: Json
                            },
+"can_share_page":
+{ Args: { "p_page_id": string }; Returns: boolean
+                           },
 "can_view_audit":
 { Args: { "p_root": string }; Returns: boolean
                            },
@@ -1489,6 +1562,9 @@ isOneToOne: false
 "is_folder_member":
 { Args: { "p_folder_id": string,"p_min_role"?: Database["public"]['Enums']["folder_role"] }; Returns: boolean
                            },
+"is_page_recipient":
+{ Args: { "p_page_id": string }; Returns: boolean
+                           },
 "is_task_assignee":
 { Args: { "p_task_id": string,"p_user_id": string }; Returns: boolean
                            },
@@ -1536,6 +1612,9 @@ isOneToOne: false
 { Args: { "p_name": string,"p_root": string }; Returns: string[]
                            },
 "my_clan":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
+"my_email":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
 "name_key":

@@ -11,6 +11,7 @@ import { isLocal, localInsert, TASK_WITH_PAGE_SQL, toTask, toTaskWithPage } from
 import { useSession } from '@/providers/session';
 import { keys } from './keys';
 import type { TaskWithPage } from './tasks';
+import { useReceivedPages } from './shares';
 import { useTree, type Folder, type Tree } from './tree';
 
 export type Role = 'owner' | 'manager' | 'editor' | 'contributor' | 'viewer';
@@ -142,8 +143,12 @@ export function useFolderActor(folderId: string | null | undefined): Actor | und
   const root = rootFolder(tree.data, folderId);
   const shared = !!root && (root.owner_id !== session?.user.id || !!root.team_id);
   const members = useMembers(shared ? root?.id : undefined);
+  const received = useReceivedPages();
   const userId = session?.user.id;
   if (folderId && tree.data?.inbox?.folder_id === folderId) return { userId, preset: 'owner' };
+  // Página recebida ao vivo: a pasta é do autor; aqui sou Executor (D133)
+  if (!root && folderId && received.data?.some((p) => p.folder_id === folderId))
+    return { userId, preset: 'executor' };
   if (!root) return undefined;
   if (!shared) return { userId, preset: 'owner' };
   const me = members.data?.find((m) => m.userId === userId);

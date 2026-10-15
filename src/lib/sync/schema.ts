@@ -150,6 +150,24 @@ const time_entries = new Table(
   { indexes: { task: ['task_id'], user: ['user_id', 'started_at'] } },
 );
 
+// Envios de página que recebi (L): o "Recebidas" e o modo Executor
+const page_shares = new Table(
+  {
+    page_id: column.text,
+    owner_id: column.text,
+    recipient_id: column.text,
+    recipient_email: column.text,
+    mode: column.text,
+    status: column.text,
+    copy_page_id: column.text,
+    link_id: column.text,
+    created_at: column.text,
+    accepted_at: column.text,
+    last_reminded_at: column.text,
+  },
+  { indexes: { page: ['page_id'] } },
+);
+
 const task_assignees = new Table(
   {
     task_id: column.text,
@@ -285,6 +303,7 @@ export const AppSchema = new Schema({
   task_progress,
   timers,
   time_entries,
+  page_shares,
   task_assignees,
   comments,
   task_completions,

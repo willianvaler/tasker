@@ -52,6 +52,9 @@ export function useTaskCan(task: { id: string; folder_id: string; created_by: st
   const writable = useCanWrite(task.folder_id, { offline: true });
   const actor = useFolderActor(task.folder_id);
   const assignees = useAssignees();
+  // Página recebida (Executor): marca e registra, não muda a estrutura (D133). Também offline
+  if (actor?.preset === 'executor')
+    return { complete: can(actor, 'item.check'), edit: false, delete: false };
   if (!writable) return { complete: false, edit: false, delete: false };
   // Ainda carregando: deixa, e o servidor confere
   if (!actor) return { complete: true, edit: true, delete: true };

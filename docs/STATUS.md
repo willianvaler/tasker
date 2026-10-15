@@ -113,7 +113,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## Fase L — Página enviada (21/12 – 25/12)
 
-- [ ] **L1** `page_shares`, preset Executor, RLS + pgTAP (aluno A nunca vê o B; Executor não edita estrutura via API)
+- [x] **L1** `page_shares` + `page_share_links`, preset Executor, RLS + pgTAP (aluno A nunca vê o B; Executor não edita estrutura via API), stream `received`, ator Executor no app (D133). Modo padrão: ao vivo
 - [ ] **L2** Progresso por usuário (`task_completions` por tarefa, usuário e ciclo)
 - [ ] **L3** "Enviar para…": link/e-mail, modo, vários destinatários; quem não tem conta cai direto na página
 - [ ] **L4** Seção "Recebidas" na sidebar
@@ -150,5 +150,5 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 | V3-1 | Profundidade padrão 4? | antes da G | |
 | V3-2 | Dependências: estrito ou flexível por padrão? | antes da H | |
 | V3-3 | Biblioteca do grafo | antes da I | |
-| V3-4 | Página enviada: ao vivo ou cópia por padrão? | antes da L | |
+| V3-4 | Página enviada: ao vivo ou cópia por padrão? | antes da L | **Ao vivo** (D133, decidido na ausência do dono; a cópia continua no envio) |
 | V3-6 | Quais itens B sobem de prioridade | depois da M | |

@@ -27,6 +27,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   task_progress: [keys.progress],
   timers: [keys.timer],
   time_entries: [keys.timeEntries],
+  page_shares: [['received'], keys.tasks],
 };
 
 // Consultas com ramo local: as do AFFECTS
