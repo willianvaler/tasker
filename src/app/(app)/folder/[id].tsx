@@ -11,6 +11,7 @@ import { FlowView } from '@/components/project/flow-view';
 import { PeopleView } from '@/components/project/people-view';
 import { TimelineView } from '@/components/project/timeline-view';
 import { Tabs } from '@/components/ui/tabs';
+import { Related } from '@/components/related';
 import { useShortcut } from '@/lib/use-shortcut';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -40,7 +41,8 @@ export default function FolderScreen() {
   // Leitor do projeto só vê (e comenta nas tarefas)
   // Listas, subpastas e nome mexem na estrutura: pedem page.manage (o Colaborador não tem)
   const actor = useFolderActor(id);
-  const writable = useCanWrite(id) && actorCan(actor, 'page.manage');
+  const canWriteHere = useCanWrite(id);
+  const writable = canWriteHere && actorCan(actor, 'page.manage');
 
   const folder = found?.folder;
   const children = folder && 'children' in folder ? folder.children : [];
@@ -162,6 +164,14 @@ export default function FolderScreen() {
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
           {folder && 'children' in folder && project && (
             <View className="mb-4">
+              <View className="mb-6">
+                <Related
+                  type="folder"
+                  id={folder.id}
+                  editable={canWriteHere && actorCan(actor, 'task.edit')}
+                  hideEmpty={!actorCan(actor, 'task.edit')}
+                />
+              </View>
               <ProjectOverview root={folder} />
             </View>
           )}

@@ -1238,5 +1238,20 @@
     "threshold": "Percentage of {{name}}",
     "waitingShort": "{{name}} ({{pct}}% of {{threshold}}%)",
     "banner": "This list waits for \"{{name}}\" to reach {{threshold}}% (now {{pct}}%)."
+  },
+  "related": {
+    "title": "Related",
+    "add": "Relate",
+    "search": "Search task, list or project…",
+    "none": "None",
+    "restricted": "No access",
+    "open": "Open {{kind}} {{title}}",
+    "pick": "Relate to {{kind}} {{title}}",
+    "unlink": "Remove link to {{title}}",
+    "noResults": "Nothing found.",
+    "kind_task": "task",
+    "kind_page": "list",
+    "kind_folder": "project",
+    "addTo": "Relate to…"
   }
 }

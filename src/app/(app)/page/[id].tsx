@@ -1,12 +1,14 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
 import { MoreHorizontal, SlidersHorizontal } from 'lucide-react-native';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { PageDependencyEditor } from '@/components/page-dependency-editor';
+import { Related } from '@/components/related';
 import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -15,7 +17,8 @@ import { IconButton } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { effectiveMaxDepth } from '@/config/limits';
-import { rootFolder } from '@/lib/queries/projects';
+import { actorCan } from '@/lib/permissions';
+import { rootFolder, useFolderActor } from '@/lib/queries/projects';
 import { saveTextFile } from '@/lib/download';
 import { setLastPageId } from '@/lib/prefs';
 import { usePageTasks } from '@/lib/queries/tasks';
@@ -23,6 +26,7 @@ import { wbsOutline } from '@/lib/task-tree';
 import { findFolder, pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
+import { useCanWrite } from '@/providers/write';
 
 type DialogState = 'menu' | 'settings' | 'duplicate';
 
@@ -37,6 +41,11 @@ export default function PageScreen() {
   const { t } = useTranslation();
   const page = tree.data?.pages.find((p) => p.id === id);
   const pageTasks = usePageTasks(id);
+  // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
+  const [relating, setRelating] = useState(false);
+  const pageActor = useFolderActor(page?.folder_id);
+  const pageWritable = useCanWrite(page?.folder_id);
+  const relatable = pageWritable && actorCan(pageActor, 'task.edit');
 
   // A captura rápida global usa a última página aberta como destino padrão
   useEffect(() => {
@@ -100,6 +109,18 @@ export default function PageScreen() {
           ) : null
         }
       />
+      {page && !page.is_habits && !page.is_inbox && (
+        <View className="pb-3">
+          <Related
+            key={relating ? 'relating' : 'idle'}
+            type="page"
+            id={page.id}
+            editable={relatable}
+            hideEmpty
+            startSearching={relating}
+          />
+        </View>
+      )}
       <PageView page={page} />
       {folderDialog}
 
@@ -110,6 +131,17 @@ export default function PageScreen() {
           actions={[
             { label: t('page.settings'), onPress: () => setDialog('settings') },
             { label: t('page.duplicate'), onPress: () => setDialog('duplicate') },
+            ...(relatable
+              ? [
+                  {
+                    label: t('related.addTo'),
+                    onPress: () => {
+                      closeDialog();
+                      setRelating(true);
+                    },
+                  },
+                ]
+              : []),
             { label: t('folder.moveTo'), onPress: () => folderActions.movePage(page) },
             ...(pageTasks.data?.some((task) => task.parent_task_id)
               ? [

@@ -195,3 +195,26 @@ test('lista que depende de outra: bloqueada até a anterior chegar ao percentual
   await expect(page.getByText(/Esta lista espera/)).toHaveCount(0, { timeout: 15_000 });
   await expect(page.getByRole('checkbox', { name: /^Concluir / }).first()).toBeEnabled();
 });
+
+test('Relacionados: ligar projeto e tarefa, e o vínculo aparece dos dois lados', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  const { compras } = await churrasco(page);
+
+  // No projeto: Relacionar → busca → escolhe a tarefa
+  await page.getByRole('button', { name: 'Relacionar', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Buscar tarefa, lista ou projeto…' }).fill('carvão');
+  await page.getByRole('button', { name: 'Relacionar com tarefa Comprar carvão' }).click();
+  await expect(page.getByRole('link', { name: 'Abrir tarefa Comprar carvão' })).toBeVisible();
+
+  // Na tarefa, o projeto aparece em Relacionados
+  await page.goto(compras);
+  await page.getByRole('button', { name: 'Detalhes de Comprar carvão' }).click();
+  await expect(page.getByRole('link', { name: 'Abrir projeto Churrasco' })).toBeVisible();
+  // E dá para tirar o vínculo
+  await page.getByRole('button', { name: 'Tirar o vínculo com Churrasco' }).click();
+  await expect(page.getByRole('link', { name: 'Abrir projeto Churrasco' })).toHaveCount(0);
+});

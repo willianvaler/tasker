@@ -549,6 +549,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"relations": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"from_id": string,"from_type": string,"id": string,"kind": string,"to_id": string,"to_type": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"from_id": string,"from_type": string,"id"?: string,"kind"?: string,"to_id": string,"to_type": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"from_id"?: string,"from_type"?: string,"id"?: string,"kind"?: string,"to_id"?: string,"to_type"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "relations_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"task_assignees": {
                   Row: {
                     "created_at": string,"created_by": string | null,"folder_id": string,"id": string,"pending_name": string | null,"task_id": string,"user_id": string | null
@@ -1026,6 +1046,12 @@ isOneToOne: false
 "_boss_json":
 { Args: { "p_boss": Omit<Database["public"]['Tables']["bosses"]['Row'], Database["public"]['Tables']["bosses"]['ComputedFields']> }; Returns: Json
                            },
+"_can_relate":
+{ Args: { "p_folder": string }; Returns: boolean
+                           },
+"_can_view_folder":
+{ Args: { "p_folder": string }; Returns: boolean
+                           },
 "_cap_quick_damage":
 { Args: { "p_damage": number,"p_user": string }; Returns: number
                            },
@@ -1061,6 +1087,9 @@ isOneToOne: false
                            },
 "_invite_problem":
 { Args: { "p_invite": Omit<Database["public"]['Tables']["invites"]['Row'], Database["public"]['Tables']["invites"]['ComputedFields']> }; Returns: string
+                           },
+"_item_folder":
+{ Args: { "p_id": string,"p_type": string }; Returns: string
                            },
 "_join_team":
 { Args: { "p_role": Database["public"]['Enums']["team_role"],"p_team_id": string,"p_user_id": string }; Returns: undefined
@@ -1354,6 +1383,11 @@ isOneToOne: false
 "is_team_member":
 { Args: { "p_min_role"?: Database["public"]['Enums']["team_role"],"p_team_id": string }; Returns: boolean
                            },
+"item_relations":
+{ Args: { "p_id": string,"p_type": string }; Returns: {
+              "can_unlink": boolean,"icon": string,"id": string,"other_id": string,"other_type": string,"title": string
+            }[]
+                           },
 "join_clan":
 { Args: { "p_token": string }; Returns: string
                            },
@@ -1412,6 +1446,11 @@ isOneToOne: false
                            },
 "register_push_token":
 { Args: { "p_platform": string,"p_token": string }; Returns: undefined
+                           },
+"relation_candidates":
+{ Args: { "p_query": string }; Returns: {
+              "context": string,"id": string,"title": string,"type": string
+            }[]
                            },
 "remove_member":
 { Args: { "p_folder_id": string,"p_user_id": string }; Returns: undefined

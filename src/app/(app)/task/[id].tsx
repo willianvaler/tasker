@@ -51,6 +51,7 @@ import {
 import { findFolder, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { TaskHistory } from '@/components/tasks/task-history';
+import { Related } from '@/components/related';
 import { rootFolder } from '@/lib/queries/projects';
 import { useToast } from '@/providers/toast';
 import { useCanWrite, useTaskCan, WriteScope } from '@/providers/write';
@@ -461,6 +462,8 @@ function TaskDetails({ task }: { task: Task }) {
             )}
           </Section>
         )}
+
+        <Related type="task" id={task.id} editable={writable} />
 
         <TaskHistory taskId={task.id} folderId={task.folder_id} />
 

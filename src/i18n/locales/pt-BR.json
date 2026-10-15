@@ -1238,5 +1238,20 @@
     "threshold": "Percentual de {{name}}",
     "waitingShort": "{{name}} ({{pct}}% de {{threshold}}%)",
     "banner": "Esta lista espera \"{{name}}\" chegar a {{threshold}}% (agora {{pct}}%)."
+  },
+  "related": {
+    "title": "Relacionados",
+    "add": "Relacionar",
+    "search": "Buscar tarefa, lista ou projeto…",
+    "none": "Nenhum",
+    "restricted": "Item sem acesso",
+    "open": "Abrir {{kind}} {{title}}",
+    "pick": "Relacionar com {{kind}} {{title}}",
+    "unlink": "Tirar o vínculo com {{title}}",
+    "noResults": "Nada encontrado.",
+    "kind_task": "tarefa",
+    "kind_page": "lista",
+    "kind_folder": "projeto",
+    "addTo": "Relacionar com…"
   }
 }
