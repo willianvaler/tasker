@@ -2,7 +2,7 @@
 
 Completar da **XP**. La XP sube el **nivel**. Hacer algo cada día mantiene la **racha**.
 
-Cada semana aparece un **jefe**: cada tarea completada es un golpe. Derrótalo antes del domingo y gana XP, oro y a veces un objeto.
+Cada día nace un **jefe del día** (unas 6 tareas) y cada semana un **jefe de la semana** (unos 5 días de uso). Cada tarea o hábito es un golpe que cuenta para los dos a la vez (y para el del clan). El del día da una recompensa menor y tiene su propia racha; el de la semana da XP, oro y un objeto. El aviso al completar muestra cuánto le queda a cada uno.
 
 ## Justo, sin trucos
 
@@ -10,6 +10,7 @@ Cada semana aparece un **jefe**: cada tarea completada es un golpe. Derrótalo a
 - Desmarcar devuelve lo ganado.
 - Una tarea madre con subtareas no da XP: lo dan las subtareas.
 - El pomodoro da un bono pequeño, hasta 4 al día.
+- Cada hábito "bueno y malo" vale hasta 10 "+" al día, y las tareas creadas y completadas en pocos minutos tienen un tope diario. Cuando se llega a un límite, el aviso lo dice.
 
 ## Personaje
 

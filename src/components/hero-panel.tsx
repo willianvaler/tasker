@@ -57,7 +57,16 @@ export function HeroPanel() {
       </View>
       {game.boss && (
         <View className="gap-3 border-t border-line pt-4">
-          <BossLine boss={game.boss} />
+          {game.daily_boss && <BossLine boss={game.daily_boss} prefix={t('boss.dailyPrefix')} />}
+          {game.daily_streak > 0 && (
+            <Text className="font-mono text-xs text-accent">
+              {t('boss.dailyStreak', { count: game.daily_streak })}
+            </Text>
+          )}
+          <BossLine
+            boss={game.boss}
+            prefix={game.daily_boss ? t('boss.weeklyPrefix') : undefined}
+          />
           <Text className="font-mono text-xs text-ink-muted">
             {t('hero.damageToday', { damage: game.damage_today, best: game.best_hit })}
           </Text>

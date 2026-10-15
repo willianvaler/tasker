@@ -2,7 +2,7 @@
 
 Completing gives **XP**. XP raises your **level**. Doing something every day keeps your **streak**.
 
-Every week a **boss** shows up: each completed task is a hit. Beat it before Sunday to earn XP, gold and sometimes an item.
+Every day a **daily boss** is born (about 6 tasks) and every week a **weekly boss** (about 5 days of use). Each task or habit is a hit that counts for both at once (and for the clan's). The daily one gives a smaller reward and has its own streak; the weekly one gives XP, gold and an item. The completion notice shows how much each has left.
 
 ## Fair, no tricks
 
@@ -10,6 +10,7 @@ Every week a **boss** shows up: each completed task is a hit. Beat it before Sun
 - Unchecking takes back what you earned.
 - A parent task with subtasks gives no XP: the subtasks do.
 - Pomodoro gives a small bonus, up to 4 a day.
+- Each "good and bad" habit counts up to 10 "+" a day, and tasks created and completed within a few minutes have a daily cap. When a limit is reached, the notice says so.
 
 ## Character
 

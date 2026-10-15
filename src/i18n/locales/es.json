@@ -156,7 +156,12 @@
     "unitTasks": "tareas",
     "pendingXp": "+{{xp}} XP pendiente",
     "defeatedDaily": "El próximo nace a medianoche.",
-    "untilMidnight": "hasta la medianoche"
+    "untilMidnight": "hasta la medianoche",
+    "dailyPrefix": "Del día",
+    "weeklyPrefix": "De la semana",
+    "dailyStreak_one": "🔥 {{count}} día seguido derrotando al jefe del día",
+    "dailyStreak_other": "🔥 {{count}} días seguidos derrotando al jefe del día",
+    "dailyHint": "Nace cada día a medianoche y huye al final del día. Cada golpe cuenta para él y para el de la semana."
   },
   "today": {
     "title": "Hoy",
@@ -426,7 +431,8 @@
     "bossHint": "Cada tarea, hábito y tarjeta es un golpe; atributos y clase cambian el daño (ver Personaje). Vencer sube el nivel del próximo. Si escapa, el próximo llega sin castigo.",
     "achievements": "Logros",
     "achievementLabel": "{{name}}: {{description}}",
-    "achievementLocked": "{{name}}: {{description}} (bloqueado)"
+    "achievementLocked": "{{name}}: {{description}} (bloqueado)",
+    "dailyBoss": "Jefe del día"
   },
   "privacy": {
     "title": "Tus datos",
@@ -508,7 +514,11 @@
     "equipment": "Equipamiento",
     "shop": "Tienda",
     "nothingYet": "Nada todavía.",
-    "itemLabel": "{{name}} ({{rarity}})"
+    "itemLabel": "{{name}} ({{rarity}})",
+    "dailyTitle": "Jefe del día · nivel {{level}}",
+    "dailyHint": "Nace cada día a medianoche (unas 6 tareas). Cada victoria sube el nivel del siguiente (nivel {{next}}: {{hp}} HP) y da {{xp}} XP, oro y un {{chance}}% de probabilidad de objeto. Si huye, el de mañana llega sin castigo.",
+    "dailyDefeated": "jefes del día vencidos",
+    "dailyStreak": "días seguidos"
   },
   "shop": {
     "title": "Tienda",

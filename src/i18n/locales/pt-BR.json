@@ -156,7 +156,12 @@
     "unitTasks": "tarefas",
     "pendingXp": "+{{xp}} XP pendente",
     "defeatedDaily": "O próximo nasce à meia-noite.",
-    "untilMidnight": "até a meia-noite"
+    "untilMidnight": "até a meia-noite",
+    "dailyPrefix": "Do dia",
+    "weeklyPrefix": "Da semana",
+    "dailyStreak_one": "🔥 {{count}} dia seguido derrotando o boss do dia",
+    "dailyStreak_other": "🔥 {{count}} dias seguidos derrotando o boss do dia",
+    "dailyHint": "Nasce todo dia à meia-noite e foge no fim do dia. Todo golpe vale para ele e para o da semana."
   },
   "today": {
     "title": "Hoje",
@@ -426,7 +431,8 @@
     "bossHint": "Cada tarefa, hábito e card é um golpe; atributos e classe mudam o dano (veja em Personagem). Vencer sobe o nível do próximo. Se ele fugir, o próximo vem sem punição.",
     "achievements": "Conquistas",
     "achievementLabel": "{{name}}: {{description}}",
-    "achievementLocked": "{{name}}: {{description}} (bloqueada)"
+    "achievementLocked": "{{name}}: {{description}} (bloqueada)",
+    "dailyBoss": "Boss do dia"
   },
   "privacy": {
     "title": "Seus dados",
@@ -508,7 +514,11 @@
     "equipment": "Equipamento",
     "shop": "Loja",
     "nothingYet": "Nada ainda.",
-    "itemLabel": "{{name}} ({{rarity}})"
+    "itemLabel": "{{name}} ({{rarity}})",
+    "dailyTitle": "Boss do dia · nível {{level}}",
+    "dailyHint": "Nasce todo dia à meia-noite (umas 6 tarefas). Cada vitória sobe o nível do próximo (nível {{next}}: {{hp}} HP) e dá {{xp}} XP, ouro e {{chance}}% de chance de item. Se ele fugir, o de amanhã vem sem punição.",
+    "dailyDefeated": "bosses do dia vencidos",
+    "dailyStreak": "dias seguidos"
   },
   "shop": {
     "title": "Loja",

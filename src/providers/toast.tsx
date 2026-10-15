@@ -67,7 +67,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           >
             {/* As classes ficam num View comum: o NativeWind não estiliza o Animated.View */}
             <View className="flex-row items-center justify-between gap-3 rounded bg-ink py-1 pl-4 pr-1">
-              <Text className="flex-1 text-sm text-paper" numberOfLines={2}>
+              <Text className="flex-1 text-sm text-paper" numberOfLines={4}>
                 {toast.message}
               </Text>
               {toast.action && (

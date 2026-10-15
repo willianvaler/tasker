@@ -79,7 +79,9 @@ export function useHabitTickWithToast() {
         ? `👍 ${task.title}`
         : `👎 ${task.title}`
       : `${task.title}: ${Math.max(0, Math.min(task.habit_target ?? 1, task.count_up + delta))}/${task.habit_target ?? 1}`;
-    const action = plusminus ? { label: t('common.undo'), onPress: () => undo.mutate(vars) } : undefined;
+    const action = plusminus
+      ? { label: t('common.undo'), onPress: () => undo.mutate(vars) }
+      : undefined;
     if (plusminus) toast({ message, action });
     // mutateAsync: a recompensa chega mesmo se a linha sair da tela antes (ver useToggleWithUndo)
     tick.mutateAsync(vars).then(

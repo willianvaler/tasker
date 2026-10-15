@@ -70,11 +70,11 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
             {name}
           </Text>
           {scope !== 'folder' && boss.level ? (
-            <Text className="font-mono text-xs text-ink-muted">
+            <Text className="shrink-0 font-mono text-xs text-ink-muted">
               {t('boss.level', { level: boss.level })}
             </Text>
           ) : null}
-          <Text className="ml-auto font-mono text-xs text-ink-muted">
+          <Text className="ml-auto shrink-0 font-mono text-xs text-ink-muted">
             {scope === 'folder'
               ? t('boss.tasksLeft', { hp: boss.hp, max: boss.max_hp })
               : t('boss.hp', { hp: boss.hp, max: boss.max_hp })}
@@ -131,7 +131,14 @@ export function GameHeader() {
             {t('boss.streakShort', { count: game.streak })}
           </Text>
         </View>
-        {game.boss && <BossLine boss={game.boss} />}
+        {/* O4: o do dia vem antes do da semana */}
+        {game.daily_boss && <BossLine boss={game.daily_boss} prefix={t('boss.dailyPrefix')} />}
+        {game.boss && (
+          <BossLine
+            boss={game.boss}
+            prefix={game.daily_boss ? t('boss.weeklyPrefix') : undefined}
+          />
+        )}
         {game.clan_boss && <BossLine boss={game.clan_boss} prefix={t('boss.clanPrefix')} />}
       </Pressable>
     </Link>

@@ -156,7 +156,12 @@
     "unitTasks": "tasks",
     "pendingXp": "+{{xp}} XP pending",
     "defeatedDaily": "The next one is born at midnight.",
-    "untilMidnight": "until midnight"
+    "untilMidnight": "until midnight",
+    "dailyPrefix": "Today's",
+    "weeklyPrefix": "This week's",
+    "dailyStreak_one": "🔥 {{count}} day in a row beating the daily boss",
+    "dailyStreak_other": "🔥 {{count}} days in a row beating the daily boss",
+    "dailyHint": "Born every day at midnight and escapes at the end of the day. Every hit counts for it and for the weekly one."
   },
   "today": {
     "title": "Today",
@@ -426,7 +431,8 @@
     "bossHint": "Every task, habit and card is a hit; attributes and class change the damage (see Character). Winning raises the next one's level. If it escapes, the next one comes with no penalty.",
     "achievements": "Achievements",
     "achievementLabel": "{{name}}: {{description}}",
-    "achievementLocked": "{{name}}: {{description}} (locked)"
+    "achievementLocked": "{{name}}: {{description}} (locked)",
+    "dailyBoss": "Daily boss"
   },
   "privacy": {
     "title": "Your data",
@@ -508,7 +514,11 @@
     "equipment": "Equipment",
     "shop": "Shop",
     "nothingYet": "Nothing yet.",
-    "itemLabel": "{{name}} ({{rarity}})"
+    "itemLabel": "{{name}} ({{rarity}})",
+    "dailyTitle": "Daily boss · level {{level}}",
+    "dailyHint": "Born every day at midnight (about 6 tasks). Each win raises the next one's level (level {{next}}: {{hp}} HP) and gives {{xp}} XP, gold and a {{chance}}% chance of an item. If it escapes, tomorrow's comes with no penalty.",
+    "dailyDefeated": "daily bosses beaten",
+    "dailyStreak": "days in a row"
   },
   "shop": {
     "title": "Shop",

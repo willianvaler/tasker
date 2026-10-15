@@ -18,7 +18,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
-import { bossHpForLevel } from '@/lib/character';
+import { bossHpForLevel, dailyBossHp } from '@/lib/character';
 import { gamificationConfig as config } from '@/lib/gamification.config';
 import { useGameState } from '@/lib/queries/game';
 import { useProfile } from '@/lib/queries/profile';
@@ -83,6 +83,19 @@ export default function CharacterScreen() {
             <DamagePanel game={game} />
           </View>
           <View className="gap-6 lg:flex-1">
+            {game.daily_boss && (
+              <Panel title={t('character.dailyTitle', { level: game.daily_boss.level ?? 1 })}>
+                <BossLine boss={game.daily_boss} />
+                <Text className="text-xs text-ink-muted">
+                  {t('character.dailyHint', {
+                    next: (game.daily_boss.level ?? 1) + 1,
+                    hp: dailyBossHp((game.daily_boss.level ?? 1) + 1),
+                    xp: config.dailyBoss.rewardXp,
+                    chance: Math.round(config.dailyBoss.dropChance * 100),
+                  })}
+                </Text>
+              </Panel>
+            )}
             {game.boss && (
               <Panel title={t('character.bossTitle', { level: game.boss.level ?? 1 })}>
                 <BossLine boss={game.boss} />
@@ -97,6 +110,8 @@ export default function CharacterScreen() {
             )}
             <View className="flex-row flex-wrap gap-x-4 gap-y-1">
               <Stat value={game.bosses_defeated} label={t('character.defeated')} />
+              <Stat value={game.daily_defeated} label={t('character.dailyDefeated')} />
+              <Stat value={game.daily_streak} label={t('character.dailyStreak')} />
               <Stat value={game.best_hit} label={t('character.bestHit')} />
               <Stat value={game.damage_today} label={t('character.damageToday')} />
             </View>

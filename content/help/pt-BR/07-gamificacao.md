@@ -2,7 +2,7 @@
 
 Concluir dá **XP**. XP sobe o **nível**. Fazer algo todo dia mantém a **sequência**.
 
-Toda semana aparece um **boss**: cada tarefa concluída é um golpe. Derrote antes de domingo e ganhe XP, ouro e às vezes um item.
+Todo dia nasce um **boss do dia** (umas 6 tarefas) e toda semana um **boss da semana** (uns 5 dias de uso). Cada tarefa ou hábito é um golpe que vale para os dois ao mesmo tempo (e para o do clã). O do dia dá uma recompensa menor e conta uma sequência própria; o da semana dá XP, ouro e um item. O aviso de conclusão mostra quanto sobrou de cada um.
 
 ## Justo, sem truque
 
@@ -10,6 +10,7 @@ Toda semana aparece um **boss**: cada tarefa concluída é um golpe. Derrote ant
 - Desmarcar devolve o que ganhou.
 - Tarefa-mãe com subtarefas não dá XP: as subtarefas dão.
 - Pomodoro dá um bônus pequeno, até 4 por dia.
+- Cada hábito "bom e ruim" vale até 10 "+" por dia, e tarefas criadas e concluídas em poucos minutos têm um teto diário. Quando um limite chega, o aviso diz.
 
 ## Personagem
 

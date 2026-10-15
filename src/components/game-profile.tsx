@@ -64,6 +64,19 @@ export function GameProfile() {
             {t(game.freeze_available ? 'gameProfile.freezeOn' : 'gameProfile.freezeOff')}
           </Text>
 
+          {game.daily_boss && (
+            <View className="gap-2">
+              <SectionLabel title={t('gameProfile.dailyBoss')} className="pt-2" />
+              <BossLine boss={game.daily_boss} />
+              <Text className="text-xs text-ink-muted">
+                {t('boss.dailyHint')}
+                {game.daily_streak > 0
+                  ? ` ${t('boss.dailyStreak', { count: game.daily_streak })}`
+                  : ''}
+              </Text>
+            </View>
+          )}
+
           {game.boss && (
             <View className="gap-2">
               <SectionLabel title={t('gameProfile.weeklyBoss')} className="pt-2" />
