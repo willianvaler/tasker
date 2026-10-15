@@ -122,7 +122,10 @@ test('repetições: XP só na última série; offline fica pendente e o oficial 
   await expect(page.getByRole('alert').filter({ hasText: `${title}: 1/2` })).toBeVisible();
   await expect(page.getByRole('alert').filter({ hasText: 'XP' })).toHaveCount(0);
   await more(1).click();
-  await expect(page.getByRole('alert').filter({ hasText: '+~10 XP (pendente)' })).toBeVisible();
+  // Sem resposta, o app espera até 3 s antes de mostrar o XP como pendente (o CI é lento)
+  await expect(page.getByRole('alert').filter({ hasText: '+~10 XP (pendente)' })).toBeVisible({
+    timeout: 15_000,
+  });
 
   await context.setOffline(false);
   await expect

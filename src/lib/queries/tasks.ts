@@ -1,4 +1,10 @@
-import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
+import {
+  onlineManager,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type QueryClient,
+} from '@tanstack/react-query';
 import { uuidv7 } from '@/lib/uuid';
 
 import type { Json, Tables } from '../db';
@@ -210,17 +216,23 @@ export function useTask(id: string | undefined) {
     enabled: !!id,
     initialData: () => findCachedTask(queryClient, id!),
     queryFn: async () => {
-      const task = isLocal()
+      const fromServer = () =>
+        supabase
+          .from('tasks')
+          .select('*')
+          .eq('id', id ?? '')
+          .maybeSingle()
+          .then(({ data, error }) => {
+            if (error) throw error;
+            return data;
+          });
+      let task = isLocal()
         ? ((await localTasks('select * from tasks where id = ?', [id]))[0] ?? null)
-        : await supabase
-            .from('tasks')
-            .select('*')
-            .eq('id', id ?? '')
-            .maybeSingle()
-            .then(({ data, error }) => {
-              if (error) throw error;
-              return data;
-            });
+        : await fromServer();
+      // Logo depois da primeira sincronização a tarefa pode ainda não estar no aparelho: com
+      // internet, confere no servidor antes de dizer que não existe (senão o painel aberto
+      // fechava e abria de novo, perdendo o que estava sendo feito nele)
+      if (!task && isLocal() && onlineManager.isOnline()) task = await fromServer();
       return task ? ((await overlayReceived([task], task.page_id))[0] ?? task) : null;
     },
   });

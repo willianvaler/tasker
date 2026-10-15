@@ -44,7 +44,8 @@ jobs:
           version: latest
       - run: npm ci
       - run: cp .env.example .env.local
-      - run: supabase start -x storage-api,imgproxy,studio,edge-runtime,logflare,vector,supavisor
+      # Storage fica ligado: os anexos (N1) precisam dele
+      - run: supabase start -x imgproxy,studio,edge-runtime,logflare,vector,supavisor
       # O app sincroniza pelo PowerSync (D82): sobe o serviço ao lado do Supabase
       - run: bash scripts/powersync.sh
         env:
