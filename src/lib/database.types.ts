@@ -437,6 +437,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"my_day": {
+                  Row: {
+                    "created_at": string,"day": string,"id": string,"position": number,"task_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"day": string,"id"?: string,"position"?: number,"task_id": string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"day"?: string,"id"?: string,"position"?: number,"task_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "my_day_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "my_day_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"notifications": {
                   Row: {
                     "created_at": string,"id": string,"kind": string,"payload": NonNullable<Json>,"read_at": string | null,"user_id": string

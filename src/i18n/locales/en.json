@@ -63,7 +63,8 @@
     "workoutSkipRest": "Skip the rest",
     "taskPomodoro": "Start a pomodoro on the task",
     "taskStopwatch": "Start or stop the task stopwatch",
-    "taskSnooze": "Snooze the task to tomorrow"
+    "taskSnooze": "Snooze the task to tomorrow",
+    "taskMyDay": "Add to or remove from My day"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -1492,5 +1493,19 @@
     "title": "Weight",
     "hint": "Counts in the parent task's progress and in the hit on the boss (XP doesn't change).",
     "progress": "By subtask weight: {{pct}}% done"
+  },
+  "myDay": {
+    "title": "My day",
+    "next": "Do now",
+    "nextLabel": "Do now: {{title}}",
+    "left": "{{left}} estimated left",
+    "leftOf": "{{left}} left of {{available}} available",
+    "available": "Time available today",
+    "availablePlaceholder": "I have 3h",
+    "up": "Move {{title}} up",
+    "down": "Move {{title}} down",
+    "remove": "Remove {{title}} from my day",
+    "add": "Add to my day",
+    "inDay": "In my day"
   }
 }

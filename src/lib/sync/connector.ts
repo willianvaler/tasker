@@ -89,6 +89,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['name', 'due_date', 'done_at', 'position'],
   },
   task_assignees: { insert: ['task_id', 'user_id', 'pending_name'], update: [] },
+  my_day: { insert: ['task_id', 'day', 'position'], update: ['position'] },
   conflict_copies: { insert: [], update: [] },
 };
 

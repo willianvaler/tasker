@@ -182,6 +182,18 @@ const share_checks = new Table(
   { indexes: { page: ['page_id', 'user_id'] } },
 );
 
+// Meu dia (M4): as tarefas que escolhi para um dia, em ordem
+const my_day = new Table(
+  {
+    user_id: column.text,
+    task_id: column.text,
+    day: column.text,
+    position: column.real,
+    created_at: column.text,
+  },
+  { indexes: { day: ['user_id', 'day'] } },
+);
+
 const task_assignees = new Table(
   {
     task_id: column.text,
@@ -319,6 +331,7 @@ export const AppSchema = new Schema({
   time_entries,
   page_shares,
   share_checks,
+  my_day,
   task_assignees,
   comments,
   task_completions,

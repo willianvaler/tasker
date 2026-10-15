@@ -6,6 +6,7 @@ import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import { GameHeader } from '@/components/game-bar';
 import { HeroPanel } from '@/components/hero-panel';
 import { NotificationsBell } from '@/components/notifications-bell';
+import { NextActionCard } from '@/components/my-day';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
@@ -186,6 +187,9 @@ export default function HomeScreen() {
             }
           />
           {summary}
+          <View className="pt-4">
+            <NextActionCard tasks={[...overdue, ...dueToday]} today={today} />
+          </View>
           {triple ? (
             <View className="mt-4 flex-row items-start gap-12">
               <View className="flex-1">

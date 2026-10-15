@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { SectionList, useWindowDimensions, View } from 'react-native';
 
 import { GameHeader } from '@/components/game-bar';
+import { MyDaySection, NextActionCard } from '@/components/my-day';
 import { NotificationsBell } from '@/components/notifications-bell';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -97,6 +98,8 @@ export default function TodayScreen() {
               defaultDueDate={today}
               placeholder={t('today.placeholder')}
             />
+            <NextActionCard tasks={tasks.data ?? []} today={today} />
+            <MyDaySection today={today} />
             {tasks.error && (
               <Text className="text-sm text-danger">
                 {t('common.loadError', { message: tasks.error.message })}

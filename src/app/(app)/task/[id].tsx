@@ -12,6 +12,7 @@ import {
   MetaEditor,
   RecurrenceEditor,
 } from '@/components/tasks/task-extras';
+import { useMyDayToggle } from '@/components/my-day';
 import { ReceivedNote } from '@/components/received';
 import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
 import { TaskTime } from '@/components/tasks/task-time';
@@ -112,6 +113,7 @@ function TaskDetails({ task }: { task: Task }) {
   const allowed = useTaskCan(task);
   // Item de página recebida (L): o aluno deixa observação para quem enviou
   const received = useIsReceived(task.page_id);
+  const myDay = useMyDayToggle(today);
   // Colaborador: só mexe no que criou ou no que é dele (o resto fica só de leitura)
   const writable = useCanWrite(task.folder_id) && allowed.edit;
   const tree = useTree();
@@ -323,6 +325,16 @@ function TaskDetails({ task }: { task: Task }) {
               value={readRepeatPlan(task.repeat_plan)}
               onChange={(plan) => save({ repeat_plan: plan as Json })}
               disabled={!writable}
+            />
+          </Section>
+        )}
+
+        {!isHabit && !received && task.status !== 'done' && (
+          <Section title={t('myDay.title')}>
+            <Chip
+              label={t(myDay.has(task.id) ? 'myDay.inDay' : 'myDay.add')}
+              selected={myDay.has(task.id)}
+              onPress={() => myDay.toggle(task.id)}
             />
           </Section>
         )}

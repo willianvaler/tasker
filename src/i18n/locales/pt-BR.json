@@ -63,7 +63,8 @@
     "workoutSkipRest": "Pular o descanso",
     "taskPomodoro": "Iniciar pomodoro na tarefa",
     "taskStopwatch": "Iniciar ou parar o cronômetro da tarefa",
-    "taskSnooze": "Adiar a tarefa para amanhã"
+    "taskSnooze": "Adiar a tarefa para amanhã",
+    "taskMyDay": "Pôr ou tirar do Meu dia"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -1492,5 +1493,19 @@
     "title": "Peso",
     "hint": "Pesa no progresso da tarefa-mãe e no golpe no boss (o XP não muda).",
     "progress": "Pelo peso das subtarefas: {{pct}}% feito"
+  },
+  "myDay": {
+    "title": "Meu dia",
+    "next": "Fazer agora",
+    "nextLabel": "Fazer agora: {{title}}",
+    "left": "Faltam {{left}} estimados",
+    "leftOf": "Faltam {{left}} de {{available}} disponíveis",
+    "available": "Tempo disponível hoje",
+    "availablePlaceholder": "Tenho 3h",
+    "up": "Subir {{title}}",
+    "down": "Descer {{title}}",
+    "remove": "Tirar {{title}} do meu dia",
+    "add": "Pôr no meu dia",
+    "inDay": "No meu dia"
   }
 }

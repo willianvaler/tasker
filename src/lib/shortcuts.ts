@@ -78,6 +78,7 @@ export const SHORTCUTS = [
   { id: 'task.priority2', combos: ['2'], description: 'shortcuts.taskPriority2', scope: 'list' },
   { id: 'task.priority3', combos: ['3'], description: 'shortcuts.taskPriority3', scope: 'list' },
   { id: 'task.date', combos: ['d'], description: 'shortcuts.taskDate', scope: 'list' },
+  { id: 'task.myDay', combos: ['m'], description: 'shortcuts.taskMyDay', scope: 'list' },
   {
     id: 'task.snooze',
     combos: ['z'],

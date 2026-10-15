@@ -70,3 +70,30 @@ test('peso: a subtarefa pesada conta mais no progresso da mãe', async ({ page }
     timeout: 15_000,
   });
 });
+
+test('Meu dia e Próxima ação', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Pagar conta hoje');
+  await input.press('Enter');
+  await input.fill('Ler livro');
+  await input.press('Enter');
+
+  await openTab(page, 'Hoje');
+  await expect(page.getByRole('button', { name: 'Fazer agora: Pagar conta' }).last()).toBeVisible();
+
+  // "Ler livro" (sem data) vai para o Meu dia e passa a ser a próxima ação
+  await openTab(page, 'Caixa de entrada');
+  await page.getByRole('button', { name: 'Detalhes de Ler livro' }).click();
+  await page.getByText('Pôr no meu dia').last().click();
+  await expect(page.getByText('No meu dia').last()).toBeVisible();
+  await page.getByRole('button', { name: 'Voltar' }).click();
+  await openTab(page, 'Hoje');
+  await expect(shown(page, 'Meu dia').first()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Fazer agora: Ler livro' }).last()).toBeVisible();
+  await page.getByRole('textbox', { name: 'Tempo disponível hoje' }).last().fill('1h');
+  await expect(shown(page, 'Faltam 0min de 1h disponíveis')).toBeVisible();
+  await page.getByRole('button', { name: 'Tirar Ler livro do meu dia' }).last().click();
+  await expect(page.getByRole('button', { name: 'Fazer agora: Pagar conta' }).last()).toBeVisible();
+});

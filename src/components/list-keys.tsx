@@ -20,6 +20,7 @@ import { treeState } from '@/lib/tree-state';
 import { useStartTask } from '@/lib/queries/dependencies';
 import { selection } from '@/lib/selection';
 import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
+import { useMyDayToggle } from '@/components/my-day';
 import { useSnooze } from '@/components/tasks/snooze';
 import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
@@ -51,6 +52,7 @@ export function ListKeys() {
   const start = useStartTask();
   const pomodoro = usePomodoro();
   const snooze = useSnooze();
+  const myDay = useMyDayToggle(today);
   const startTimer = useStartTimer();
   const activeTimer = useActiveTimer().data;
   const timerActions = useTimerActions();
@@ -106,6 +108,12 @@ export function ListKeys() {
     if (!selection.get().selectedId) return false;
     selection.select(null);
   });
+
+  // M: pôr/tirar do Meu dia (M4)
+  useShortcut(
+    'task.myDay',
+    onSelected((task) => myDay.toggle(task.id)),
+  );
 
   // Z: adiar a selecionada para amanhã (M1)
   useShortcut(
