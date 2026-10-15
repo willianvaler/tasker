@@ -41,6 +41,11 @@ streams:
       roots: SELECT folder_id FROM folder_members WHERE user_id = auth.user_id()
     query: SELECT people.id, people.display_name, people.avatar_url FROM profiles AS people INNER JOIN folder_members ON folder_members.user_id = people.id WHERE folder_members.folder_id IN roots
 
+  # Séries feitas (J1): só as minhas; id local "tarefa:pessoa"
+  progress:
+    auto_subscribe: true
+    query: SELECT task_id || ':' || user_id AS id, task_id, user_id, done_reps, logged_values, cycle_key, updated_at FROM task_progress WHERE user_id = auth.user_id()
+
   me:
     auto_subscribe: true
     query: SELECT * FROM profiles WHERE id = auth.user_id()

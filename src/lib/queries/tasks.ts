@@ -229,7 +229,7 @@ function findCachedTask(queryClient: QueryClient, id: string): Task | undefined 
 // ============================================================
 
 /** Aplica a mudança em todas as listas de tarefas do cache (página, Hoje, tarefa avulsa). */
-function patchTaskLists(queryClient: QueryClient, patch: (task: Task) => Task | null) {
+export function patchTaskLists(queryClient: QueryClient, patch: (task: Task) => Task | null) {
   queryClient.setQueriesData<Task[] | Task | null>({ queryKey: keys.tasks }, (data) => {
     if (Array.isArray(data)) {
       return data.map(patch).filter((t): t is Task => t !== null);
@@ -248,12 +248,15 @@ export function invalidateWhenIdle(queryClient: QueryClient) {
   }
 }
 
-async function snapshot(queryClient: QueryClient) {
+export async function snapshot(queryClient: QueryClient) {
   await queryClient.cancelQueries({ queryKey: keys.tasks });
   return queryClient.getQueriesData({ queryKey: keys.tasks });
 }
 
-function restore(queryClient: QueryClient, saved: [readonly unknown[], unknown][] | undefined) {
+export function restore(
+  queryClient: QueryClient,
+  saved: [readonly unknown[], unknown][] | undefined,
+) {
   saved?.forEach(([key, data]) => queryClient.setQueryData(key, data));
 }
 
@@ -289,6 +292,7 @@ type RpcItem = {
   labels: string[];
   recurrence: ParsedTask['recurrence'];
   meta: ParsedTask['meta'];
+  repeat_plan: ParsedTask['repeatPlan'];
   done: boolean;
   assignees: NewAssignee[];
   children: RpcItem[];
@@ -305,6 +309,7 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     labels: item.labels,
     recurrence: item.recurrence,
     meta: item.meta,
+    repeat_plan: item.repeatPlan ?? null,
     done: item.done ?? false,
     assignees: item.assignees ?? [],
     children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: c.id ?? uuidv7() })),
@@ -338,6 +343,7 @@ function optimisticTask(
     recurrence: item.recurrence as Json,
     position: Number.MAX_SAFE_INTEGER,
     meta: item.meta as Json,
+    repeat_plan: (item.repeatPlan ?? null) as Json,
     done_cycle_key: null,
     habit_kind: item.habitKind ?? 'check',
     habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
@@ -514,6 +520,7 @@ export type TaskPatch = Partial<
     | 'position'
     | 'recurrence'
     | 'meta'
+    | 'repeat_plan'
     | 'habit_kind'
     | 'habit_target'
     | 'estimate_minutes'
@@ -920,6 +927,7 @@ type LocalTaskInsert = {
   labels?: string[];
   recurrence?: unknown;
   meta?: unknown;
+  repeat_plan?: unknown;
   habit_kind?: string;
   habit_target?: number | null;
 };
@@ -930,9 +938,9 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
   const now = new Date().toISOString();
   await tx.execute(
     `insert into tasks (id, page_id, folder_id, parent_task_id, depth, title, status, priority, due_date,
-       labels, recurrence, meta, position, habit_kind, habit_target, count_up, count_down,
+       labels, recurrence, meta, repeat_plan, position, habit_kind, habit_target, count_up, count_down,
        created_by, created_at, updated_at, version)
-     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1)`,
+     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1)`,
     [
       task.id,
       task.page_id,
@@ -946,6 +954,7 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
       JSON.stringify(task.labels ?? []),
       toSqlValue(task.recurrence ?? null),
       toSqlValue(task.meta ?? null),
+      toSqlValue(task.repeat_plan ?? null),
       task.position,
       task.habit_kind ?? 'check',
       task.habit_target ?? null,
@@ -997,6 +1006,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
           labels: item.labels,
           recurrence: item.recurrence,
           meta: item.meta,
+          repeat_plan: item.repeatPlan,
           habit_kind: item.habitKind,
           habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
         },
@@ -1020,6 +1030,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
               priority: child.priority,
               due_date: child.dueDate,
               labels: child.labels,
+              repeat_plan: child.repeatPlan,
             },
             userId,
           );

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { TextInput, View } from 'react-native';
 
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
+import { RepeatPlanEditor } from '@/components/tasks/repeat';
 import { RecurrenceEditor } from '@/components/tasks/task-extras';
 import { Button, IconButton } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
@@ -16,6 +17,7 @@ import { Text, textClass } from '@/components/ui/text';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
 import { parseQuickInput, type Priority, type Recurrence } from '@/lib/parser/quick';
 import { getLastPageId, setLastPageId } from '@/lib/prefs';
+import type { RepeatPlan } from '@/lib/repeat';
 import { useToday } from '@/lib/queries/profile';
 import { useCreateTasks, useUpdateTask } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
@@ -55,6 +57,7 @@ export default function NewTaskScreen() {
   const [priority, setPriority] = useState<Priority>(0);
   const [labels, setLabels] = useState('');
   const [recurrence, setRecurrence] = useState<Recurrence | null>(null);
+  const [repeatPlan, setRepeatPlan] = useState<RepeatPlan | null>(null);
 
   const dirty = !!(title.trim() || notes.trim() || labels.trim());
   const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
@@ -77,6 +80,7 @@ export default function NewTaskScreen() {
             .filter(Boolean),
           recurrence,
           meta: null,
+          repeatPlan,
           mentions: [],
           prereqs: [],
         },
@@ -205,6 +209,10 @@ export default function NewTaskScreen() {
 
       <Field label={t('taskDetail.repeat')}>
         <RecurrenceEditor value={recurrence} onChange={setRecurrence} />
+      </Field>
+
+      <Field label={t('repeat.section')}>
+        <RepeatPlanEditor value={repeatPlan} onChange={setRepeatPlan} />
       </Field>
 
       <Field label={t('taskDetail.labels')}>

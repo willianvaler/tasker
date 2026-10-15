@@ -1253,5 +1253,25 @@
     "kind_page": "list",
     "kind_folder": "project",
     "addTo": "Relate to…"
+  },
+  "repeat": {
+    "section": "How many times",
+    "none": "Just once",
+    "modeSets": "Sets",
+    "modeCount": "Times",
+    "modeTimed": "Timed",
+    "modeInterval": "Every…",
+    "total": "How many",
+    "rest": "Rest between (s)",
+    "restAfter": "Rest when done (s)",
+    "duration": "Each lasts (s)",
+    "interval": "Every (min)",
+    "doneSet": "Set done",
+    "doneOnce": "One more",
+    "undoLast": "Undo the last one",
+    "progress": "{{done}} of {{total}}",
+    "logged": "{{title}}: {{done}}/{{total}}",
+    "oneMore": "One more of {{title}} ({{done}} of {{total}})",
+    "hint": "In quick add: \"Push-ups 3x12\" (sets) or \"Drink water x8\" (times). The task completes only on the last one."
   }
 }

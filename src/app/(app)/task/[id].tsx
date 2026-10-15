@@ -12,10 +12,12 @@ import {
   MetaEditor,
   RecurrenceEditor,
 } from '@/components/tasks/task-extras';
+import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
 import { Text, textClass } from '@/components/ui/text';
 import type { Json } from '@/lib/db';
 import { asRecurrence } from '@/lib/recurrence';
+import { readRepeatPlan } from '@/lib/repeat';
 import { Button, IconButton } from '@/components/ui/button';
 import { ConflictNotice } from '@/components/tasks/conflict-notice';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -295,6 +297,20 @@ function TaskDetails({ task }: { task: Task }) {
         {page?.view_type === 'cards' && (
           <Section title={t('taskDetail.exercise')}>
             <MetaEditor task={task} onSave={(meta) => save({ meta })} />
+          </Section>
+        )}
+
+        {!isHabit && !leaves && (
+          <Section title={t('repeat.section')}>
+            <RepeatCounter
+              task={task}
+              disabled={!allowed.complete || (blocked && !flow.forceable)}
+            />
+            <RepeatPlanEditor
+              value={readRepeatPlan(task.repeat_plan)}
+              onChange={(plan) => save({ repeat_plan: plan as Json })}
+              disabled={!writable}
+            />
           </Section>
         )}
 

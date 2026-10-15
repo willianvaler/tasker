@@ -118,6 +118,7 @@ describe('título', () => {
     expect(parse('Pagar aluguel !!! #casa amanhã /mensal')).toEqual({
       title: 'Pagar aluguel',
       meta: null,
+      repeatPlan: null,
       priority: 3,
       dueDate: '2026-10-09',
       labels: ['casa'],
@@ -137,7 +138,35 @@ describe('séries, repetições e carga (cards)', () => {
   it('carga com espaço e vírgula', () =>
     expect(meta('Rosca 3x10 12,5 kg').meta).toEqual({ sets: 3, reps: 10, weight: '12,5kg' }));
   it('X maiúsculo', () => expect(meta('Remada 4X8').meta).toEqual({ sets: 4, reps: 8 }));
-  it('sem a opção, fica no título', () =>
-    expect(parse('Supino 4x12 20kg')).toMatchObject({ title: 'Supino 4x12 20kg', meta: null }));
+  it('sem a opção, a carga fica no título', () =>
+    expect(parse('Supino 4x12 20kg')).toMatchObject({
+      title: 'Supino 20kg',
+      meta: { sets: 4, reps: 12 },
+    }));
   it('número solto não é carga', () => expect(meta('Correr 5 km').title).toBe('Correr 5 km'));
+});
+
+describe('repetições (D123)', () => {
+  it('3x12: 3 séries com descanso', () =>
+    expect(parse('Flexões 3x12')).toMatchObject({
+      title: 'Flexões',
+      repeatPlan: { mode: 'sets', total: 3, rest_seconds: 60 },
+    }));
+  it('x5: contador de 5', () =>
+    expect(parse('Beber água x8 hoje')).toMatchObject({
+      title: 'Beber água',
+      dueDate: today,
+      repeatPlan: { mode: 'count', total: 8 },
+    }));
+  it('× também vale', () => expect(parse('Prancha 3×30').repeatPlan?.total).toBe(3));
+  it('x1 e 0x10 ficam no título', () => {
+    expect(parse('Ler x1').title).toBe('Ler x1');
+    expect(parse('Ler 0x10').title).toBe('Ler 0x10');
+  });
+  it('só o primeiro conta', () =>
+    expect(parse('Treino 3x10 x5')).toMatchObject({
+      title: 'Treino x5',
+      repeatPlan: { total: 3 },
+    }));
+  it('palavra com x no meio fica', () => expect(parse('xadrez x').title).toBe('xadrez x'));
 });

@@ -24,6 +24,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   task_dependencies: [keys.tasks, ['dependencies']],
   page_dependencies: [keys.tasks, ['dependencies'], ['page-dependencies']],
   people: [['members'], ['comments']],
+  task_progress: [keys.progress],
 };
 
 // Banco local e cache pelo console (e pelos testes de dois aparelhos): são os dados de quem está

@@ -38,6 +38,7 @@ import { useTaskCan } from '@/providers/write';
 import { useToast } from '@/providers/toast';
 import { AssigneeChips } from './assignee-chips';
 import { DragHandle } from './sortable-tasks';
+import { RepeatButton } from './repeat';
 import { TaskMeta } from './task-meta';
 
 /**
@@ -224,6 +225,9 @@ function TaskRowView({
           {flow && !done && <FlowLine flow={flow} />}
         </View>
         <View className="flex-row items-center gap-3 md:ml-auto">
+          {task.repeat_plan && !hasChildren ? (
+            <RepeatButton task={task} disabled={!canComplete || blocked} />
+          ) : null}
           <TaskMeta task={task} today={today} subtasks={subtasks} pageLabel={pageLabel} />
           <AssigneeChips taskId={task.id} folderId={task.folder_id} />
         </View>

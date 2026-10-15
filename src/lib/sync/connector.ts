@@ -53,6 +53,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'habit_target',
       'estimate_minutes',
       'deps_mode',
+      'repeat_plan',
     ],
     update: [
       'page_id',
@@ -69,6 +70,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'habit_target',
       'estimate_minutes',
       'deps_mode',
+      'repeat_plan',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
@@ -88,10 +90,11 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   conflict_copies: { insert: [], update: [] },
 };
 
-const SERVER_SIDE = new Set(['folder_members']);
+// task_progress: o reflexo local do log_rep (quem grava no servidor é o comando)
+const SERVER_SIDE = new Set(['folder_members', 'task_progress']);
 
 // No SQLite, jsonb e arrays são texto
-const JSON_COLUMNS = new Set(['labels', 'meta', 'recurrence', 'args']);
+const JSON_COLUMNS = new Set(['labels', 'meta', 'recurrence', 'repeat_plan', 'args']);
 
 function pick(data: Record<string, unknown>, columns: string[]) {
   const out: Record<string, unknown> = {};

@@ -1,3 +1,4 @@
+import { DEFAULT_REST_SECONDS, type RepeatPlan } from '../repeat';
 import { addDays, makeDate, nextDayMonth, nextWeekday, type IsoDate } from './dates';
 
 // Sintaxe rápida do título. Nada é obrigatório: o que não for reconhecido fica no título.
@@ -7,7 +8,8 @@ import { addDays, makeDate, nextDayMonth, nextWeekday, type IsoDate } from './da
 //   ^trecho, ^2            pré-requisito: tarefa pelo título, ou o item 2 do lote (só com `prereqs`)
 //   hoje, amanhã, depois de amanhã, sexta, sexta-feira, 15/10, 15/10/2026   vencimento
 //   /diaria /semanal /mensal /seg,qua,sex   recorrência
-//   4x12, 20kg             séries x repetições e carga (só com `meta`, nas páginas de cards)
+//   3x12, x5               repetições: 3 séries de 12 (com descanso) ou 5 vezes (contador), D123
+//   20kg                   carga (só com `meta`, nas páginas de cards)
 // Um "na", "no", "até", "para"... logo antes da data sai junto ("comprar presente para sexta").
 
 export type Recurrence =
@@ -24,8 +26,10 @@ export type TaskMeta = { sets?: number; reps?: number; weight?: string };
 
 export type ParsedTask = {
   title: string;
-  /** Só com a opção `meta` (páginas de cards): "4x12" e "20kg" saem do título. */
+  /** "4x12" (séries e repetições) e, nas páginas de cards, "20kg". */
   meta: TaskMeta | null;
+  /** "3x12" → 3 séries com descanso; "x5" → contador de 5 (D123) */
+  repeatPlan: RepeatPlan | null;
   priority: Priority;
   dueDate: IsoDate | null;
   labels: string[];
@@ -42,7 +46,7 @@ export type QuickParseOptions = {
   mentions?: boolean;
   /** Reconhecer ^pré-requisito (páginas de projeto). Desligado, fica no título. */
   prereqs?: boolean;
-  /** Reconhecer "4x12" (séries x repetições) e "20kg" / "12,5 kg" (carga). Usado nas páginas de cards. */
+  /** Reconhecer a carga ("20kg" / "12,5 kg"). Usado nas páginas de cards. */
   meta?: boolean;
 };
 
@@ -75,7 +79,8 @@ const LABEL_RE = /^#([\p{L}\p{N}_-]+)$/u;
 const MENTION_RE = /^@([\p{L}\p{N}._-]+)$/u;
 const PREREQ_RE = /^\^([\p{L}\p{N}._-]+)$/u;
 const DATE_RE = /^(\d{1,2})\/(\d{1,2})(?:\/(\d{2}|\d{4}))?$/;
-const SETS_RE = /^(\d{1,3})x(\d{1,4})$/i;
+const SETS_RE = /^(\d{1,2})[x×](\d{1,4})$/i;
+const TIMES_RE = /^[x×](\d{1,2})$/i;
 const WEIGHT_RE = /^(\d{1,4}(?:[.,]\d{1,2})?)(kg|lb|lbs)$/i;
 
 function parseRecurrence(token: string): Recurrence | null {
@@ -132,6 +137,7 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
   const result: ParsedTask = {
     title: '',
     meta: null,
+    repeatPlan: null,
     priority: 0,
     dueDate: null,
     labels: [],
@@ -163,12 +169,22 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
       if (!result.prereqs.includes(prereq[1])) result.prereqs.push(prereq[1]);
       continue;
     }
+    const sets = result.repeatPlan ? null : SETS_RE.exec(token);
+    if (sets && Number(sets[1]) > 0) {
+      result.meta = { ...result.meta, sets: Number(sets[1]), reps: Number(sets[2]) };
+      result.repeatPlan = {
+        mode: 'sets',
+        total: Number(sets[1]),
+        rest_seconds: DEFAULT_REST_SECONDS,
+      };
+      continue;
+    }
+    const times = result.repeatPlan ? null : TIMES_RE.exec(token);
+    if (times && Number(times[1]) > 1) {
+      result.repeatPlan = { mode: 'count', total: Number(times[1]) };
+      continue;
+    }
     if (options.meta) {
-      const sets = SETS_RE.exec(token);
-      if (sets) {
-        result.meta = { ...result.meta, sets: Number(sets[1]), reps: Number(sets[2]) };
-        continue;
-      }
       // "20kg" ou "20 kg"
       const unit =
         /^(kg|lb|lbs)$/i.test(tokens[i + 1] ?? '') && /^\d{1,4}(?:[.,]\d{1,2})?$/.test(token);
@@ -202,6 +218,7 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
       ...result,
       title: tokens.join(' '),
       meta: null,
+      repeatPlan: null,
       priority: 0,
       dueDate: null,
       labels: [],

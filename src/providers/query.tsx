@@ -3,6 +3,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { type ReactNode } from 'react';
 
+import { registerOfflineRepMutations } from '@/lib/queries/repeat';
 import { registerOfflineTaskMutations } from '@/lib/queries/tasks';
 import { localStore } from '@/lib/storage';
 
@@ -22,6 +23,7 @@ export const queryClient = new QueryClient({
 
 // Fila offline: as mutações de tarefa restauradas do disco precisam saber como se executar
 registerOfflineTaskMutations(queryClient);
+registerOfflineRepMutations(queryClient);
 
 const persister = createSyncStoragePersister({ storage: localStore, key: 'questlist-cache' });
 
@@ -31,7 +33,7 @@ export function QueryProvider({ children }: { children: ReactNode }) {
       client={queryClient}
       // buster: mude quando o formato de algum dado em cache mudar (o cache do disco não passa pelo
       // zod de novo). v3 = Fase 7 (game_state com personagem, tarefas com contagens de hábito)
-      persistOptions={{ persister, maxAge: 7 * 24 * 60 * 60 * 1000, buster: 'v6' }}
+      persistOptions={{ persister, maxAge: 7 * 24 * 60 * 60 * 1000, buster: 'v7' }}
       // O cache do disco serve para abrir rápido (e offline), mas pode estar velho: o ciclo virou,
       // ou a última gravação não chegou a ser salva. Depois de restaurar, reenvia a fila offline
       // (se houver conexão) e busca tudo de novo.

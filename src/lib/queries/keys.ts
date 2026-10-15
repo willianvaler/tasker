@@ -29,6 +29,8 @@ export const keys = {
   teamRoles: (teamId: string) => ['team-roles', teamId] as const,
   projectBoss: (rootId: string) => ['project-boss', rootId] as const,
   board: (bossId: string) => ['board', bossId] as const,
+  /** Séries feitas pelo usuário (J1). Fora de 'tasks': não é lista de tarefas */
+  progress: ['task-progress'] as const,
 };
 
 /** Toda mutação de tarefa usa esta chave (ver invalidateWhenIdle). */

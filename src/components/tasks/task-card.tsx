@@ -19,6 +19,7 @@ import type { Task } from '@/lib/queries/tasks';
 import { DURATION, useColors } from '@/lib/tokens';
 import { useTaskCan } from '@/providers/write';
 import { DragHandle } from './sortable-tasks';
+import { RepeatButton } from './repeat';
 import { metaLabel } from './task-meta';
 import { useToggleWithUndo } from './task-row';
 
@@ -83,6 +84,10 @@ function TaskCardView({
           </Text>
           {detail ? <Text className="font-mono text-xs text-ink-muted">{detail}</Text> : null}
         </View>
+        {/* Com séries: o "2/4" conta uma; o toque no card conclui o exercício inteiro */}
+        {task.repeat_plan && !subtasks?.total ? (
+          <RepeatButton task={task} disabled={!writable} />
+        ) : null}
         <StampBox checked={done} size={24} />
         <IconButton
           icon={ChevronRight}

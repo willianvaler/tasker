@@ -88,6 +88,7 @@ const tasks = new Table(
     count_up: column.integer,
     count_down: column.integer,
     count_key: column.text,
+    repeat_plan: column.text,
     updated_by: column.text,
     version: column.integer,
   },
@@ -97,6 +98,19 @@ const tasks = new Table(
     trackPrevious: { columns: ['notes', 'labels'], onlyWhenChanged: true },
     ignoreEmptyUpdates: true,
   },
+);
+
+// Séries feitas pelo usuário (J1); id = "tarefa:pessoa". Só a RPC log_rep grava no servidor
+const task_progress = new Table(
+  {
+    task_id: column.text,
+    user_id: column.text,
+    done_reps: column.integer,
+    logged_values: column.text,
+    cycle_key: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { task: ['task_id'] } },
 );
 
 const task_assignees = new Table(
@@ -231,6 +245,7 @@ export const AppSchema = new Schema({
   folder_members,
   pages,
   tasks,
+  task_progress,
   task_assignees,
   comments,
   task_completions,

@@ -20,6 +20,7 @@ import { treeState } from '@/lib/tree-state';
 import { useStartTask } from '@/lib/queries/dependencies';
 import { selection } from '@/lib/selection';
 import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
+import { readRepeatPlan } from '@/lib/repeat';
 import { useShortcut } from '@/lib/use-shortcut';
 import { undoLast, useToast } from '@/providers/toast';
 
@@ -245,6 +246,7 @@ export function ListKeys() {
             labels: task.labels,
             recurrence: task.recurrence as Recurrence | null,
             meta: task.meta as TaskMeta | null,
+            repeatPlan: readRepeatPlan(task.repeat_plan),
             mentions: [],
             prereqs: [],
           },

@@ -1253,5 +1253,25 @@
     "kind_page": "lista",
     "kind_folder": "proyecto",
     "addTo": "Relacionar con…"
+  },
+  "repeat": {
+    "section": "Cuántas veces",
+    "none": "Una sola vez",
+    "modeSets": "Series",
+    "modeCount": "Veces",
+    "modeTimed": "Por tiempo",
+    "modeInterval": "Cada…",
+    "total": "Cuántas",
+    "rest": "Descanso entre (s)",
+    "restAfter": "Descanso al terminar (s)",
+    "duration": "Duración de cada una (s)",
+    "interval": "Cada (min)",
+    "doneSet": "Serie hecha",
+    "doneOnce": "Una más",
+    "undoLast": "Deshacer la última",
+    "progress": "{{done}} de {{total}}",
+    "logged": "{{title}}: {{done}}/{{total}}",
+    "oneMore": "Una más de {{title}} ({{done}} de {{total}})",
+    "hint": "En la captura: \"Flexiones 3x12\" (series) o \"Beber agua x8\" (veces). La tarea se completa solo con la última."
   }
 }

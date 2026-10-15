@@ -28,6 +28,7 @@ export function toTask(row: Row): Tables<'tasks'> {
     labels: json(row.labels) ?? [],
     recurrence: json(row.recurrence),
     meta: json(row.meta),
+    repeat_plan: json(row.repeat_plan),
     created_at: iso(row.created_at)!,
     updated_at: iso(row.updated_at)!,
     completed_at: iso(row.completed_at),
