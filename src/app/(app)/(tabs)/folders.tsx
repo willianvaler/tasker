@@ -3,14 +3,16 @@ import { LayoutTemplate, Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
-import { FolderSection } from '@/components/folder-cards';
+import { FolderSection, PageRow } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
+import { PendingShares } from '@/components/received';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
+import { usePendingShares, useReceivedPages } from '@/lib/queries/shares';
 import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 
@@ -23,6 +25,8 @@ export default function FoldersScreen() {
   const folders = tree.data?.folders ?? [];
   const personal = folders.filter((f) => f.kind !== 'project');
   const projects = folders.filter((f) => f.kind === 'project');
+  const received = useReceivedPages();
+  const pending = usePendingShares();
 
   return (
     <Screen size="medium">
@@ -92,7 +96,21 @@ export default function FoldersScreen() {
             </View>
           ),
         )}
-        {tree.data && folders.length === 0 && (
+        {((received.data?.length ?? 0) > 0 || (pending.data?.length ?? 0) > 0) && (
+          // Páginas que outras pessoas me enviaram (L4)
+          <View className="gap-3">
+            <SectionLabel
+              title={t('received.title')}
+              count={received.data?.length}
+              className="pt-0"
+            />
+            {(received.data ?? []).map((page) => (
+              <PageRow key={page.id} page={page} />
+            ))}
+            <PendingShares />
+          </View>
+        )}
+        {tree.data && folders.length === 0 && !received.data?.length && (
           <View className="items-center">
             <EmptyState title={t('folder.emptyFolders')} />
             <Button

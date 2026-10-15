@@ -42,6 +42,8 @@ import { getOpenFolders, getSidebarWidth, setOpenFolders, setSidebarWidth } from
 import { useGameState } from '@/lib/queries/game';
 import { useTree, type Page, type SubFolder } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
+import { PendingShares } from '@/components/received';
+import { usePendingShares, useReceivedPages } from '@/lib/queries/shares';
 
 /** Largura a partir da qual as abas viram barra lateral. */
 export const WIDE = 768;
@@ -161,6 +163,9 @@ export function Sidebar() {
   const folders = tree.data?.folders ?? [];
   const personal = folders.filter((f) => f.kind !== 'project');
   const projects = folders.filter((f) => f.kind === 'project');
+  // Páginas recebidas (L4): não estão em pasta nenhuma do usuário
+  const received = useReceivedPages();
+  const pending = usePendingShares();
   const inProject = projects.length > 0;
 
   return (
@@ -233,6 +238,13 @@ export function Sidebar() {
           <View>
             <SectionHeader label={t('nav.projects')} />
             {projects.map((folder) => renderFolder(folder, 0))}
+          </View>
+        )}
+        {((received.data?.length ?? 0) > 0 || (pending.data?.length ?? 0) > 0) && (
+          <View>
+            <SectionHeader label={t('received.title')} />
+            {(received.data ?? []).map((page) => renderPage(page, 0))}
+            <PendingShares compact />
           </View>
         )}
       </ScrollView>

@@ -325,12 +325,7 @@ export function usePendingShares() {
   return useQuery({
     queryKey: ['pending-shares'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('page_shares')
-        .select(
-          'id, mode, page:pages!page_shares_page_id_fkey(name, icon, view_type), owner:profiles!page_shares_owner_id_fkey(display_name)',
-        )
-        .eq('status', 'pending');
+      const { data, error } = await supabase.rpc('my_pending_shares');
       if (error) throw error;
       return data;
     },

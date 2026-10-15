@@ -1684,6 +1684,11 @@ isOneToOne: false
 "my_email":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
+"my_pending_shares":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "created_at": string,"id": string,"mode": string,"owner_name": string,"page_icon": string,"page_name": string,"view_type": string
+            }[]
+                           },
 "name_key":
 { Args: { "p_name": string }; Returns: string
                            },

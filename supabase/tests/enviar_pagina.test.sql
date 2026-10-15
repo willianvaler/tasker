@@ -1,7 +1,7 @@
 -- V3 §3.2 (L3): enviar por link (ao vivo e cópia) e por e-mail; aceitar, recusar, revogar.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(16);
+select plan(17);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'treinador@teste.local'),
@@ -58,6 +58,8 @@ select ok(not public.is_page_recipient('bbbbbbbb-0000-0000-0000-000000000001'), 
 -- Aluna C: convite por e-mail, pendente até aceitar
 set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "role": "authenticated"}';
 select is((select status from public.page_shares), 'pending', 'a aluna C vê o convite pendente');
+select is((select page_name || ' · ' || owner_name from public.my_pending_shares()), 'Treino A · treinador',
+  'o convite mostra a página e quem enviou, antes de aceitar');
 select lives_ok($$ select public.accept_page_share((select id from public.page_shares)) $$, 'e aceita');
 select ok(public.is_page_recipient('bbbbbbbb-0000-0000-0000-000000000001'), 'agora recebe');
 

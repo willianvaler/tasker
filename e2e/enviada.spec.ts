@@ -1,6 +1,6 @@
 import { expect, test, type Browser, type Page, type TestInfo } from '@playwright/test';
 
-import { createPage, shown, signUp } from './helpers';
+import { createPage, openTab, shown, signUp } from './helpers';
 
 /** Treinador: cria o link de envio no modo pedido e devolve o endereço. */
 async function makeLink(page: Page, mode: 'Ao vivo' | 'Cópia') {
@@ -76,4 +76,43 @@ test('enviar página: link ao vivo (aluna só executa) e cópia (vira dele); e-m
   await expect(bruno.getByRole('textbox', { name: 'Nova tarefa' })).toBeVisible();
   await ana.context().close();
   await bruno.context().close();
+});
+
+test('Recebidas: convite por e-mail aparece, receber abre a página e ela fica na seção', async ({
+  browser,
+  page,
+}, testInfo) => {
+  test.setTimeout(150_000);
+  // A aluna já tem conta
+  const other = await browser.newContext({ ...testInfo.project.use, locale: 'pt-BR' });
+  const ana = await other.newPage();
+  const anaEmail = await signUp(ana, testInfo);
+
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Academia', name: 'Treino A', type: 'Cards' });
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Prancha');
+  await input.press('Enter');
+  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await shown(page, 'Enviar para…').click();
+  await page.getByRole('textbox', { name: 'E-mails' }).fill(anaEmail);
+  await page.getByRole('button', { name: 'Enviar convites' }).click();
+  await expect(page.getByText('ao vivo · pendente')).toBeVisible();
+
+  // Na aluna: Pastas → Recebidas → Receber
+  await ana.reload();
+  await openTab(ana, 'Pastas');
+  const receive = ana.getByRole('button', { name: /^Receber: Treino A · de / });
+  await expect(receive.first()).toBeVisible({ timeout: 15_000 });
+  await receive.first().click();
+  await expect(ana.getByRole('heading', { name: /Treino A$/ })).toBeVisible();
+  await expect(ana.getByRole('checkbox', { name: 'Prancha', exact: true })).toBeVisible();
+
+  // A página fica em Recebidas
+  await ana.goto('/folders');
+  await expect(shown(ana, 'Recebidas').first()).toBeVisible();
+  await expect(ana.getByRole('link', { name: /Treino A/ }).first()).toBeVisible({
+    timeout: 15_000,
+  });
+  await other.close();
 });
