@@ -1649,5 +1649,28 @@
     "test": "Test alert",
     "testTitle": "Alert test",
     "testBody": "This is how the end of rest and focus is announced."
+  },
+  "panelMode": {
+    "title": "Show in the panel",
+    "label": "Panel: {{mode}}. Change",
+    "simple": "Simple",
+    "full": "Full",
+    "simpleHint": "the essentials",
+    "fullHint": "time, sets, weight, dependencies, fields…",
+    "showAll": "Show everything (time, sets, weight, dependencies…)"
+  },
+  "modes": {
+    "title": "Mode",
+    "open": "Mode: workout, focus or rest",
+    "workout": "Workout",
+    "workoutHint": "Sets, load and rest full screen, one exercise at a time.",
+    "noWorkout": "No workout page yet. Create a Cards page (New → Page) and put the exercises in it.",
+    "startWorkout": "Train: {{page}}",
+    "focus": "Focus",
+    "focusHint": "Pomodoro: focus with suggested breaks at the end.",
+    "startFocus": "Start a {{minutes}} min focus",
+    "rest": "Rest",
+    "restHint": "A break timer that alerts at the end (sound, vibration and notification).",
+    "restStarted": "{{time}} rest started."
   }
 }

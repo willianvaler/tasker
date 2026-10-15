@@ -11,7 +11,22 @@ export default defineConfig({
   // tempo. O relatório marca como "flaky" o que só passou na segunda
   retries: 1,
   // locale: o app segue o idioma do navegador (V2 §11); o padrão do Playwright é en-US
-  use: { baseURL: 'http://localhost:8082', trace: 'retain-on-failure', locale: 'pt-BR' },
+  // storageState: o painel da tarefa abre no modo Completo (U2, D158), porque os testes conferem as
+  // seções avançadas; o modo Simples (o padrão de quem usa) tem teste próprio (e2e/painel.spec.ts)
+  use: {
+    baseURL: 'http://localhost:8082',
+    trace: 'retain-on-failure',
+    locale: 'pt-BR',
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: 'http://localhost:8082',
+          localStorage: [{ name: 'questlist:panel-mode', value: 'full' }],
+        },
+      ],
+    },
+  },
   projects: [
     { name: 'celular', use: { ...devices['Pixel 7'] } },
     {

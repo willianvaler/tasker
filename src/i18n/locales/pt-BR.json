@@ -1649,5 +1649,28 @@
     "test": "Testar aviso",
     "testTitle": "Teste do aviso",
     "testBody": "Assim avisa o fim do descanso e do foco."
+  },
+  "panelMode": {
+    "title": "Mostrar no painel",
+    "label": "Painel: {{mode}}. Trocar",
+    "simple": "Simples",
+    "full": "Completo",
+    "simpleHint": "o essencial",
+    "fullHint": "tempo, séries, peso, dependências, campos…",
+    "showAll": "Mostrar tudo (tempo, séries, peso, dependências…)"
+  },
+  "modes": {
+    "title": "Modo",
+    "open": "Modo: treino, foco ou descanso",
+    "workout": "Treino",
+    "workoutHint": "Séries, carga e descanso em tela cheia, um exercício por vez.",
+    "noWorkout": "Nenhuma página de treino ainda. Crie uma página do tipo Cards (Novo → Página) e ponha os exercícios nela.",
+    "startWorkout": "Treinar: {{page}}",
+    "focus": "Foco",
+    "focusHint": "Pomodoro: foco com pausas sugeridas no fim.",
+    "startFocus": "Começar foco de {{minutes}} min",
+    "rest": "Descanso",
+    "restHint": "Um timer de pausa que avisa no fim (som, vibração e notificação).",
+    "restStarted": "Descanso de {{time}} começou."
   }
 }

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, Platform, Pressable, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { ActionMenu, ConfirmDialog, DialogFrame, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { formatBytes, isImage } from '@/lib/attachments';
@@ -132,7 +133,7 @@ export function Attachments({
               >
                 {a.pending && (
                   <View className="absolute bottom-1 right-1 z-10 rounded-full bg-surface p-1">
-                    <CloudOff size={12} className={a.error ? 'text-warn' : 'text-ink-muted'} />
+                    <Icon icon={CloudOff} size={16} tone={a.error ? 'warn' : 'ink-muted'} />
                   </View>
                 )}
                 {uri ? (
@@ -144,7 +145,7 @@ export function Attachments({
                   />
                 ) : (
                   <View className="flex-1 items-center justify-center">
-                    <Paperclip size={18} className="text-ink-muted" />
+                    <Icon icon={Paperclip} size={20} tone="ink-muted" />
                   </View>
                 )}
               </Pressable>
@@ -161,9 +162,9 @@ export function Attachments({
             className="flex-1 flex-row items-center gap-2"
           >
             {a.pending ? (
-              <CloudOff size={16} className={a.error ? 'text-warn' : 'text-ink-muted'} />
+              <Icon icon={CloudOff} size={16} tone={a.error ? 'warn' : 'ink-muted'} />
             ) : (
-              <FileText size={16} className="text-ink-muted" />
+              <Icon icon={FileText} tone="ink-muted" />
             )}
             <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
               {a.name}

@@ -1,6 +1,6 @@
 import { uuidv7 } from '@/lib/uuid';
 import { router, useLocalSearchParams } from 'expo-router';
-import { FolderInput, Trash2, X } from 'lucide-react-native';
+import { ChevronDown, FolderInput, Trash2, X } from 'lucide-react-native';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
@@ -19,15 +19,18 @@ import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
 import { ApprovalEditor } from '@/components/tasks/assignee-chips';
 import { TaskTime } from '@/components/tasks/task-time';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
+import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import type { Json } from '@/lib/db';
 import { asRecurrence } from '@/lib/recurrence';
+import { showSection, usedSections, type AdvancedSection } from '@/lib/panel-sections';
+import { getPanelMode, setPanelMode, type PanelMode } from '@/lib/prefs';
 import { readRepeatPlan } from '@/lib/repeat';
 import { Button, IconButton } from '@/components/ui/button';
 import { ConflictNotice } from '@/components/tasks/conflict-notice';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip as UiChip } from '@/components/ui/chip';
-import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
+import { ActionMenu, ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Input } from '@/components/ui/input';
 import { Sheet } from '@/components/ui/sheet';
@@ -98,14 +101,44 @@ export default function TaskScreen() {
 }
 
 /** Topo do painel: caminho em mono e o botão de fechar ("Voltar", como o resto do app). */
-function PanelHeader({ path }: { path: string }) {
+function PanelHeader({
+  path,
+  mode,
+  onMode,
+}: {
+  path: string;
+  mode?: PanelMode;
+  onMode?: (mode: PanelMode) => void;
+}) {
   const { t } = useTranslation();
+  const [menu, setMenu, closeMenu] = useDialog<true>();
   return (
     <View className="min-h-12 flex-row items-center gap-2 border-b border-line pl-4 pr-2">
       <Text className="flex-1 font-mono text-xs uppercase text-ink-muted" numberOfLines={1}>
         {path}
       </Text>
+      {mode && onMode && (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('panelMode.label', { mode: t(`panelMode.${mode}`) })}
+          onPress={() => setMenu(true)}
+          className="h-11 flex-row items-center gap-1 rounded px-2 hover:bg-wash md:h-8"
+        >
+          <Text className="text-sm text-ink-muted">{t(`panelMode.${mode}`)}</Text>
+          <Icon icon={ChevronDown} tone="ink-muted" />
+        </Pressable>
+      )}
       <IconButton icon={X} label={t('common.back')} onPress={close} />
+      {menu && onMode && (
+        <ActionMenu
+          title={t('panelMode.title')}
+          onClose={closeMenu}
+          actions={(['simple', 'full'] as const).map((value) => ({
+            label: `${value === mode ? '✓ ' : ''}${t(`panelMode.${value}`)} · ${t(`panelMode.${value}Hint`)}`,
+            onPress: () => onMode(value),
+          }))}
+        />
+      )}
     </View>
   );
 }
@@ -118,6 +151,12 @@ function TaskDetails({ task }: { task: Task }) {
   // Item de página recebida (L): o aluno deixa observação para quem enviou
   const received = useIsReceived(task.page_id);
   const myDay = useMyDayToggle(today);
+  // Painel simples × completo (U2): o avançado só aparece no completo ou se a tarefa já usa
+  const [mode, setMode] = useState<PanelMode>(getPanelMode);
+  const changeMode = (value: PanelMode) => {
+    setPanelMode(value);
+    setMode(value);
+  };
   // Colaborador: só mexe no que criou ou no que é dele (o resto fica só de leitura)
   const writable = useCanWrite(task.folder_id) && allowed.edit;
   const tree = useTree();
@@ -133,6 +172,11 @@ function TaskDetails({ task }: { task: Task }) {
   const parent = siblings.data?.find((s) => s.id === task.parent_task_id);
   // Fluxo: bloqueada (estrito) não inicia nem conclui; no flexível, quem pode, força
   const flow = useTaskFlow(task);
+  const used = usedSections(task, {
+    dependencies: flow.dependsOn.length + flow.unlocks.length,
+    inMyDay: myDay.has(task.id),
+  });
+  const show = (section: AdvancedSection) => showSection(mode, used, section);
   const start = useStartTask();
   const force = useForceTask();
   const [confirmForce, setConfirmForce, closeConfirmForce] = useDialog<'start' | 'complete'>();
@@ -187,6 +231,8 @@ function TaskDetails({ task }: { task: Task }) {
         onClose={close}
         header={
           <PanelHeader
+            mode={mode}
+            onMode={changeMode}
             path={[
               place?.folder.name,
               page ? pageLabel(page) : null,
@@ -260,7 +306,7 @@ function TaskDetails({ task }: { task: Task }) {
           </View>
         )}
 
-        {project && !isHabit && (
+        {project && !isHabit && show('dependencies') && (
           <DependencyEditor
             task={task}
             dependsOn={flow.dependsOn}
@@ -319,15 +365,20 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
-
-        {!isHabit && !received && rootFolder(tree.data, task.folder_id)?.kind === 'project' && (
-          <Section title={t('approval.title')}>
-            <ApprovalEditor task={task} disabled={!writable} onChange={(patch) => save(patch)} />
-          </Section>
+        {show('fields') && (
+          <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
         )}
 
-        {!isHabit && !received && task.status !== 'done' && (
+        {!isHabit &&
+          !received &&
+          show('approval') &&
+          rootFolder(tree.data, task.folder_id)?.kind === 'project' && (
+            <Section title={t('approval.title')}>
+              <ApprovalEditor task={task} disabled={!writable} onChange={(patch) => save(patch)} />
+            </Section>
+          )}
+
+        {!isHabit && !received && task.status !== 'done' && show('myDay') && (
           <Section title={t('myDay.title')}>
             <Chip
               label={t(myDay.has(task.id) ? 'myDay.inDay' : 'myDay.add')}
@@ -382,7 +433,7 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {!isHabit && (
+        {!isHabit && (show('time') || !!leaves) && (
           <Section title={t('taskDetail.time')}>
             {leaves ? (
               <Text className="text-sm text-ink">
@@ -413,7 +464,7 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {!isHabit && !leaves && (
+        {!isHabit && !leaves && show('repeat') && (
           <Section title={t('repeat.section')}>
             <RepeatCounter
               task={task}
@@ -461,7 +512,7 @@ function TaskDetails({ task }: { task: Task }) {
           </View>
         </Section>
 
-        {!isHabit && (
+        {!isHabit && show('weight') && (
           <Section title={t('weight.title')}>
             {leaves ? (
               <Text className="text-sm text-ink">
@@ -555,9 +606,19 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        <Related type="task" id={task.id} editable={writable} />
+        {show('extras') && <Related type="task" id={task.id} editable={writable} />}
 
-        <TaskHistory taskId={task.id} folderId={task.folder_id} />
+        {show('extras') && <TaskHistory taskId={task.id} folderId={task.folder_id} />}
+
+        {mode === 'simple' && (
+          <Button
+            variant="ghost"
+            icon={ChevronDown}
+            label={t('panelMode.showAll')}
+            onPress={() => changeMode('full')}
+            className="self-start"
+          />
+        )}
 
         {update.error && (
           <Text className="text-sm text-danger">
