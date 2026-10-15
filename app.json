@@ -49,7 +49,15 @@
           "defaultChannel": "default"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app usa suas fotos para anexar às tarefas.",
+          "cameraPermission": "O app usa a câmera para anexar fotos às tarefas.",
+          "microphonePermission": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

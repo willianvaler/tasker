@@ -1603,5 +1603,25 @@
     "clanFinal": "⚔️ ¡{{who}} dio el golpe final a {{name}}!",
     "clanAchievement": "{{icon}} {{who}} consiguió \"{{name}}\"",
     "clanOther": "{{who}} hizo algo"
+  },
+  "attach": {
+    "section": "Adjuntos",
+    "empty": "Sin adjuntos.",
+    "add": "Adjuntar",
+    "fromGallery": "Foto o imagen",
+    "fromCamera": "Tomar foto",
+    "fromFiles": "Archivo",
+    "sending": "Subiendo…",
+    "offline": "Adjuntar necesita internet.",
+    "failed": "No se pudo adjuntar: {{message}}",
+    "tooBig": "Archivo de más de 10 MB.",
+    "error": "Tarea sin carpeta.",
+    "photo": "Foto",
+    "open": "Abrir {{name}}",
+    "remove": "Quitar",
+    "removeTitle": "¿Quitar el adjunto?",
+    "download": "Descargar",
+    "loading": "Cargando…",
+    "noCamera": "Sin permiso para la cámara."
   }
 }

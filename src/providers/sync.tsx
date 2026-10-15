@@ -16,6 +16,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   task_completions: [keys.tasks],
   task_assignees: [keys.tasks, keys.assignees],
   comments: [keys.tasks, ['comments']],
+  task_attachments: [['attachments']],
   conflict_copies: [keys.tasks],
   folders: [keys.tree],
   pages: [keys.tree, keys.tasks],

@@ -1603,5 +1603,25 @@
     "clanFinal": "⚔️ {{who}} landed the final blow on {{name}}!",
     "clanAchievement": "{{icon}} {{who}} earned \"{{name}}\"",
     "clanOther": "{{who}} did something"
+  },
+  "attach": {
+    "section": "Attachments",
+    "empty": "No attachments.",
+    "add": "Attach",
+    "fromGallery": "Photo or image",
+    "fromCamera": "Take photo",
+    "fromFiles": "File",
+    "sending": "Uploading…",
+    "offline": "Attaching needs internet.",
+    "failed": "Couldn't attach: {{message}}",
+    "tooBig": "File larger than 10 MB.",
+    "error": "Task without a folder.",
+    "photo": "Photo",
+    "open": "Open {{name}}",
+    "remove": "Remove",
+    "removeTitle": "Remove the attachment?",
+    "download": "Download",
+    "loading": "Loading…",
+    "noCamera": "No camera permission."
   }
 }

@@ -14,6 +14,7 @@ export const keys = {
   members: (rootId: string) => ['members', rootId] as const,
   assignees: ['assignees'] as const,
   comments: (taskId: string) => ['comments', taskId] as const,
+  attachments: (taskId: string) => ['attachments', taskId] as const,
   activity: (rootId: string) => ['activity', rootId] as const,
   taskEvents: (taskId: string) => ['task-events', taskId] as const,
   projectEvents: (rootId: string) => ['project-events', rootId] as const,

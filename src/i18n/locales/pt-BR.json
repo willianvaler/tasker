@@ -1603,5 +1603,25 @@
     "clanFinal": "⚔️ {{who}} deu o golpe final em {{name}}!",
     "clanAchievement": "{{icon}} {{who}} conquistou \"{{name}}\"",
     "clanOther": "{{who}} fez algo"
+  },
+  "attach": {
+    "section": "Anexos",
+    "empty": "Nenhum anexo.",
+    "add": "Anexar",
+    "fromGallery": "Foto ou imagem",
+    "fromCamera": "Tirar foto",
+    "fromFiles": "Arquivo",
+    "sending": "Enviando…",
+    "offline": "Anexar precisa de internet.",
+    "failed": "Não deu para anexar: {{message}}",
+    "tooBig": "Arquivo maior que 10 MB.",
+    "error": "Tarefa sem pasta.",
+    "photo": "Foto",
+    "open": "Abrir {{name}}",
+    "remove": "Remover",
+    "removeTitle": "Remover o anexo?",
+    "download": "Baixar",
+    "loading": "Carregando…",
+    "noCamera": "Sem permissão para a câmera."
   }
 }

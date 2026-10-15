@@ -12,6 +12,7 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   task_completions: [keys.tasks],
   task_assignees: [keys.assignees, keys.mine],
   comments: [['comments']],
+  task_attachments: [['attachments']],
   activity_log: [['activity']],
   notifications: [keys.notifications],
   folder_members: [['members'], keys.tree],

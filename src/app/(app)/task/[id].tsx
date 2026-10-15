@@ -59,6 +59,7 @@ import {
 } from '@/lib/queries/tasks';
 import { findFolder, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
+import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
 import { rootFolder } from '@/lib/queries/projects';
@@ -511,6 +512,10 @@ function TaskDetails({ task }: { task: Task }) {
         )}
 
         {!task.parent_task_id && <Subtasks task={task} />}
+
+        <Section title={t('attach.section')}>
+          <Attachments task={task} writable={writable} />
+        </Section>
 
         {project && (
           <Section title={t('taskDetail.comments')}>
