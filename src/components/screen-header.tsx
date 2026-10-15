@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { ChevronLeft } from 'lucide-react-native';
+import { ChevronLeft, CircleHelp } from 'lucide-react-native';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
@@ -31,6 +31,7 @@ export function ScreenHeader({
   icon,
   right,
   rename,
+  help,
 }: {
   title: string;
   /** Contexto acima do título: "TER, 13 OUT", "PASTAS / MERCADO" */
@@ -40,6 +41,8 @@ export function ScreenHeader({
   right?: ReactNode;
   /** Permite renomear (F2) */
   rename?: HeaderRename;
+  /** Artigo da Ajuda sobre a tela: mostra o "?" (F2, D146) */
+  help?: string;
 }) {
   const { t } = useTranslation();
   const requested = useSelection(
@@ -86,7 +89,18 @@ export function ScreenHeader({
           </View>
         )}
       </View>
-      {right && <View className="flex-row items-center gap-1">{right}</View>}
+      {(right || help) && (
+        <View className="flex-row items-center gap-1">
+          {right}
+          {help && (
+            <IconButton
+              icon={CircleHelp}
+              label={t('help.contextual')}
+              onPress={() => router.push({ pathname: '/ajuda/[slug]', params: { slug: help } })}
+            />
+          )}
+        </View>
+      )}
     </View>
   );
 }

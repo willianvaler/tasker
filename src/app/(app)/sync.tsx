@@ -92,7 +92,7 @@ export default function SyncScreen() {
   const last = status.lastSyncedAt;
   return (
     <Screen size="medium">
-      <ScreenHeader title={t('sync.title')} back />
+      <ScreenHeader help="sem-internet" title={t('sync.title')} back />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
         {!POWERSYNC_URL && <Text className="text-sm text-warn">{t('sync.disabled')}</Text>}
         <Text className="text-base text-ink">{t(`sync.state_${state}`)}</Text>

@@ -31,6 +31,7 @@ export default function FoldersScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader
+        help="pastas-projetos-paginas"
         title={t('folder.title')}
         right={
           <>

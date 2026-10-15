@@ -29,7 +29,7 @@ export default function PomodoroScreen() {
   return (
     <Screen>
       <ScrollView contentContainerClassName="gap-6 pb-clear">
-        <ScreenHeader title={t('pomodoro.title')} back />
+        <ScreenHeader help="pomodoro" title={t('pomodoro.title')} back />
         <PomodoroStats />
         {settings.data && (
           // O cache do aparelho abre primeiro e pode estar atrás: o dado do servidor recomeça o

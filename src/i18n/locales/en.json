@@ -910,7 +910,10 @@
     "scope_workout": "In Workout mode",
     "articles": "Articles",
     "missing": "Article not found.",
-    "all": "All articles"
+    "all": "All articles",
+    "contextual": "Help about this screen",
+    "tour": "Replay the introduction",
+    "tourHint": "The 3 starting steps: quick typing, organizing and the game."
   },
   "sync": {
     "title": "Sync",

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
@@ -52,6 +53,14 @@ export default function HelpScreen() {
       <ScreenHeader title={t('help.title')} back />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-12">
         <Text className="text-base text-ink">{t('help.intro')}</Text>
+        <View className="flex-row flex-wrap items-center gap-2">
+          <Button
+            variant="ghost"
+            label={t('help.tour')}
+            onPress={() => router.push('/onboarding')}
+          />
+          <Text className="text-xs text-ink-muted">{t('help.tourHint')}</Text>
+        </View>
         <Input
           value={query}
           onChangeText={setQuery}

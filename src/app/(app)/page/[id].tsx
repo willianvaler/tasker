@@ -76,7 +76,7 @@ export default function PageScreen() {
   if (tree.data && !page && !received.isPending) {
     return (
       <Screen>
-        <ScreenHeader title={t('page.fallbackTitle')} back />
+        <ScreenHeader help="pastas-projetos-paginas" title={t('page.fallbackTitle')} back />
         <EmptyState title={t('page.missing')} />
       </Screen>
     );

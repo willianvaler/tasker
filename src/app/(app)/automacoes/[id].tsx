@@ -109,7 +109,7 @@ export default function AutomationsScreen() {
   return (
     <Screen>
       <ScrollView contentContainerClassName="gap-6 pb-clear">
-        <ScreenHeader title={t('auto.title')} eyebrow={folder?.name} back />
+        <ScreenHeader help="organizar-o-dia" title={t('auto.title')} eyebrow={folder?.name} back />
         <Text className="text-sm text-ink-muted">{t('auto.hint')}</Text>
         {rules.length === 0 && <Text className="text-sm text-ink-muted">{t('auto.empty')}</Text>}
         {rules.map((rule) => {

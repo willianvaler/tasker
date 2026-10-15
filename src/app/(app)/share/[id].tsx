@@ -99,7 +99,7 @@ export default function ShareScreen() {
   if (tree.data && (!folder || folder.parent_id || folder.is_inbox)) {
     return (
       <Screen>
-        <ScreenHeader title={t('share.title')} back />
+        <ScreenHeader help="time" title={t('share.title')} back />
         <EmptyState title={t('share.rootOnly')} />
       </Screen>
     );

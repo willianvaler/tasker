@@ -50,6 +50,7 @@ export default function StudentsScreen() {
     <Screen size="wide">
       <ScrollView contentContainerClassName="gap-6 pb-clear">
         <ScreenHeader
+          help="enviar-pagina"
           title={t('students.title')}
           eyebrow={page ? pageLabel(page) : undefined}
           back

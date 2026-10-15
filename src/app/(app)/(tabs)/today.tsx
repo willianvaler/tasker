@@ -80,6 +80,7 @@ export default function TodayScreen() {
         ListHeaderComponent={
           <View className="gap-4">
             <ScreenHeader
+              help="comecando"
               eyebrow={formatShortDate(today)}
               title={t('today.title')}
               right={

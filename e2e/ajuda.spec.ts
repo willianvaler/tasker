@@ -19,3 +19,14 @@ test('ajuda: artigos por idioma, busca no texto e abrir um artigo', async ({ pag
   await page.getByRole('button', { name: 'Todos os artigos' }).click();
   await expect(page.getByRole('link', { name: 'Começando em 1 minuto' })).toBeVisible();
 });
+
+test('ajuda contextual e refazer a introdução', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await page.getByRole('button', { name: 'Ajuda sobre esta tela' }).click();
+  await expect(page.getByRole('heading', { name: 'Começando em 1 minuto' })).toBeVisible();
+
+  await page.goto('/ajuda');
+  await page.getByRole('button', { name: 'Refazer a introdução' }).click();
+  await page.getByRole('button', { name: 'Pular introdução' }).click();
+  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+});

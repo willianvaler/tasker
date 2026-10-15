@@ -37,7 +37,7 @@ export default function CharacterScreen() {
   if (!game.enabled) {
     return (
       <Screen>
-        <ScreenHeader title={t('character.title')} back />
+        <ScreenHeader help="gamificacao" title={t('character.title')} back />
         <EmptyState title={t('character.off')} />
       </Screen>
     );

@@ -910,7 +910,10 @@
     "scope_workout": "En el modo Entrenamiento",
     "articles": "Artículos",
     "missing": "Artículo no encontrado.",
-    "all": "Todos los artículos"
+    "all": "Todos los artículos",
+    "contextual": "Ayuda sobre esta pantalla",
+    "tour": "Repetir la introducción",
+    "tourHint": "Los 3 pasos del inicio: escribir rápido, organizar y el juego."
   },
   "sync": {
     "title": "Sincronización",

@@ -133,7 +133,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## Fase F — Ajuda, polimento e idiomas (04/01 – 07/01)
 
 - [x] **F1** Artigos da Ajuda (V2 §10 + V3 §9) em `content/help/{pt-BR,en,es}/`: 15 por idioma, `help:build`, busca no texto, `/ajuda/<slug>` (D145)
-- [ ] **F2** Tour inicial opcional (3 passos) e "?" contextual
+- [x] **F2** Tour inicial opcional (a introdução de 3 passos, refazível pela Ajuda) e "?" contextual no cabeçalho das telas-chave (D146)
 - [ ] **F3** Revisão das traduções (incluindo parser de datas e `^`/`3x12` em en/es)
 - [ ] **F4** Revisão de acessibilidade (AA, foco, teclado, `prefers-reduced-motion`) e performance (pendência D70)
 - [ ] **F5** Capturas finais e revisão contra o checklist anti "cara de IA"
