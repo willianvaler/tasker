@@ -1,11 +1,12 @@
-import { PowerSyncContext, useStatus } from '@powersync/react';
-import { useEffect, type ReactNode } from 'react';
+import { PowerSyncContext } from '@powersync/react';
+import { useEffect, useSyncExternalStore, type ReactNode } from 'react';
 import { onlineManager } from '@tanstack/react-query';
 
 import { flushUploads } from '@/lib/queries/attachments';
 import { keys, taskMutationKey } from '@/lib/queries/keys';
 import { connector, POWERSYNC_URL, setOnCommandApplied } from '@/lib/sync/connector';
 import { db } from '@/lib/sync/db';
+import { isLocal } from '@/lib/sync/local';
 import { pendingXp } from '@/lib/sync/pending-xp';
 import { supabase } from '@/lib/supabase';
 import { getSyncUser, setSyncUser } from '@/lib/prefs';
@@ -176,9 +177,13 @@ export function SyncProvider({ children }: { children: ReactNode }) {
 /**
  * `isLocal()` que acompanha a tela: vira true quando a primeira sincronização termina. Para
  * controles que mudam com isso (ex.: "Anexar" sem internet), que senão ficavam com o valor da
- * primeira renderização.
+ * primeira renderização. Só redesenha quando o valor muda (o estado do sync muda o tempo todo,
+ * sobretudo sem internet, tentando reconectar).
  */
 export function useIsLocal() {
-  const status = useStatus();
-  return !!POWERSYNC_URL && !!status.hasSynced;
+  return useSyncExternalStore(
+    (onChange) => db.registerListener({ statusChanged: onChange }),
+    isLocal,
+    () => false,
+  );
 }
