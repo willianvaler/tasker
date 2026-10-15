@@ -230,3 +230,22 @@ export function wbsOutline<T extends TreeTask & { title: string }>(tasks: readon
     })
     .join('\n');
 }
+
+/**
+ * Progresso da mãe pelo peso das folhas (M3, D140): % do peso já concluído. Folha sem peso vale 1.
+ */
+export function leafWeightedProgress(
+  tasks: readonly {
+    id: string;
+    parent_task_id: string | null;
+    status: string;
+    weight?: number | null;
+  }[],
+) {
+  const total = leafSum(tasks, (t) => t.weight ?? 1);
+  const done = leafSum(tasks, (t) => (t.status === 'done' ? (t.weight ?? 1) : 0));
+  const pct = new Map<string, number>();
+  for (const [id, sum] of total)
+    pct.set(id, sum ? Math.round(((done.get(id) ?? 0) / sum) * 100) : 0);
+  return pct;
+}

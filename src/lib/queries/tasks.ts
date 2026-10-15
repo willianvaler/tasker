@@ -358,6 +358,7 @@ function optimisticTask(
     meta: item.meta as Json,
     repeat_plan: (item.repeatPlan ?? null) as Json,
     actual_minutes: 0,
+    weight: null,
     done_cycle_key: null,
     habit_kind: item.habitKind ?? 'check',
     habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,

@@ -139,6 +139,11 @@ export function totalAttributes(cls: ClassKey | null, allocated: Attributes): At
 }
 
 /** HP do boss de um nível (espelho de public.boss_hp_for_level). */
+/** Peso da tarefa no golpe (M3): espelho de public.weight_factor. */
+export function weightFactor(weight: number | null | undefined) {
+  return 1 + config.damage.weightStep * ((weight ?? 1) - 1);
+}
+
 export function bossHpForLevel(level: number) {
   const { hpBase, hpGrowth } = config.boss;
   return Math.round(hpBase * Math.pow(hpGrowth, Math.max(level, 1) - 1));

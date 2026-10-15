@@ -3,6 +3,7 @@ import { describe, expect, test } from '@jest/globals';
 import {
   branchHeight,
   leafActuals,
+  leafWeightedProgress,
   branchRows,
   childrenMap,
   dueAfterParent,
@@ -178,4 +179,13 @@ test('tempo feito sobe pelas folhas (K3)', () => {
     { id: 'b', parent_task_id: 'm', actual_minutes: 50 },
   ]);
   expect(sums.get('m')).toBe(75);
+});
+
+test('progresso da mãe pelo peso (M3)', () => {
+  const pct = leafWeightedProgress([
+    { id: 'm', parent_task_id: null, status: 'todo', weight: null },
+    { id: 'a', parent_task_id: 'm', status: 'done', weight: 3 },
+    { id: 'b', parent_task_id: 'm', status: 'todo', weight: null },
+  ]);
+  expect(pct.get('m')).toBe(75);
 });

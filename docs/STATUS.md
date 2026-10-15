@@ -124,7 +124,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 - [x] **M1** Adiar com 1 gesto: botão na linha (hoje/atrasada → amanhã, com Desfazer) e atalho Z (D138)
 - [x] **M2** Reivindicar tarefa ("eu levo"): botão na linha da tarefa de projeto sem responsável; policy `task_assignees_claim` (só a si, só vaga) (D139)
-- [ ] **M3** Estimativa e peso (alimentam WBS, caminho crítico e dano)
+- [~] **M3** Estimativa e peso: banco (peso 1–5, dano ×até 2, XP igual), espelhos e progresso ponderado prontos (D140); falta o campo no painel e exibir o progresso pelo peso
 - [ ] **M4** Meu dia + Próxima ação
 - [ ] **M5** Campos personalizados por página
 - [ ] **M6** Automações "quando… então…" com limite e proteção contra laço

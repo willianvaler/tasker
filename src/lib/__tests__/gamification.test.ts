@@ -7,6 +7,7 @@ import {
   healAmount,
   hitDamage,
   totalAttributes,
+  weightFactor,
 } from '../character';
 import { levelFromXp, rewardMessage, xpToNext } from '../gamification';
 import { gamificationConfig } from '../gamification.config';
@@ -137,5 +138,12 @@ describe('rewardMessage', () => {
   });
   test('relâmpago: sem XP, mas o golpe aparece', () => {
     expect(rewardMessage({ ...base, damage: 4 })).toBe('⚔️ 4 de dano');
+  });
+});
+
+describe('peso da tarefa (mesmos casos do pgTAP peso)', () => {
+  test('sem peso 1×, peso 5 2×', () => {
+    expect(weightFactor(null)).toBe(1);
+    expect(weightFactor(5)).toBe(2);
   });
 });

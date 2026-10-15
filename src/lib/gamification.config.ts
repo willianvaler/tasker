@@ -1,5 +1,5 @@
 // Valores da gamificação. Quem concede XP, dano e ouro é o banco: o mesmo JSON
-// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261123000000_pomodoro_xp.sql) e o teste
+// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261130000000_peso.sql) e o teste
 // gamification.test.ts falha se os dois divergirem. Mudou aqui? Mude lá numa migração nova.
 export const gamificationConfig = {
   xp: {
@@ -70,6 +70,8 @@ export const gamificationConfig = {
     critPerAgi: 0.02,
     critMax: 0.6,
     critMultiplier: 2,
+    /** Peso da tarefa (M3): +25% de golpe por ponto acima de 1 (peso 5 = 2×) */
+    weightStep: 0.25,
   },
   gold: {
     task: 2,

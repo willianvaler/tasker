@@ -90,6 +90,7 @@ const tasks = new Table(
     count_key: column.text,
     repeat_plan: column.text,
     actual_minutes: column.integer,
+    weight: column.integer,
     updated_by: column.text,
     version: column.integer,
   },
