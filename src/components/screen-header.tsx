@@ -32,6 +32,7 @@ export function ScreenHeader({
   right,
   rename,
   help,
+  wrap,
 }: {
   title: string;
   /** Contexto acima do título: "TER, 13 OUT", "PASTAS / MERCADO" */
@@ -43,6 +44,8 @@ export function ScreenHeader({
   rename?: HeaderRename;
   /** Artigo da Ajuda sobre a tela: mostra o "?" (F2, D146) */
   help?: string;
+  /** Título longo (artigo da Ajuda) quebra a linha em vez de cortar */
+  wrap?: boolean;
 }) {
   const { t } = useTranslation();
   const requested = useSelection(
@@ -80,7 +83,7 @@ export function ScreenHeader({
             >
               <Text
                 className="font-serif text-xl text-ink"
-                numberOfLines={1}
+                numberOfLines={wrap ? undefined : 1}
                 accessibilityRole="header"
               >
                 {title}

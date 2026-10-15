@@ -232,14 +232,15 @@ function TaskRowView({
           {task.repeat_plan && !hasChildren ? (
             <RepeatButton task={task} disabled={!canComplete || blocked} />
           ) : null}
-          {!done && allowed.edit && task.due_date && task.due_date <= today && !hasChildren ? (
-            <SnoozeButton task={task} />
-          ) : null}
           <TaskMeta task={task} today={today} subtasks={subtasks} pageLabel={pageLabel} />
           <AssigneeChips taskId={task.id} folderId={task.folder_id} />
           {!done && !hasChildren ? <ClaimButton task={task} /> : null}
         </View>
       </View>
+      {/* Adiar fica numa coluna fixa e só nas atrasadas (Z vale para qualquer uma) */}
+      {!done && allowed.edit && task.due_date && task.due_date < today && !hasChildren ? (
+        <SnoozeButton task={task} />
+      ) : null}
       <IconButton
         icon={ChevronRight}
         label={t('task.details', { title: task.title })}

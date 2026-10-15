@@ -307,7 +307,7 @@ function Running({
         <View
           accessibilityRole="timer"
           accessibilityLabel={t('timer.restLeft', { time: formatClock(rest.seconds) })}
-          className="items-center gap-3 rounded-lg border border-line p-4"
+          className="items-center gap-3 border-y border-line py-4"
         >
           <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
             {t('timer.rest')}

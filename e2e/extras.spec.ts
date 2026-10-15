@@ -1,23 +1,41 @@
 import { expect, test } from '@playwright/test';
 
-import { createPage, openTab, shown, signUp } from './helpers';
+import { adminRest, createPage, openTab, shown, signUp } from './helpers';
 
 test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na selecionada', async ({
   page,
 }, testInfo) => {
   await signUp(page, testInfo);
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
-  await input.fill('Pagar boleto hoje');
+  const title = `Pagar boleto ${testInfo.project.name} ${Date.now()}`;
+  await input.fill(`${title} hoje`);
   await input.press('Enter');
   await input.fill('Ligar para o banco hoje');
   await input.press('Enter');
+  // O botão de adiar aparece nas atrasadas: a tarefa passa a ter vencido ontem
+  const saved = page.waitForResponse(
+    (r) => r.url().includes('create_tasks_batch') || r.url().includes('powersync'),
+  );
+  await saved.catch(() => {});
+  await expect
+    .poll(
+      async () => (await adminRest(`tasks?title=eq.${encodeURIComponent(title)}&select=id`)).length,
+      { timeout: 20_000 },
+    )
+    .toBe(1);
+  const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+  await adminRest(`tasks?title=eq.${encodeURIComponent(title)}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ due_date: yesterday }),
+  });
+  await page.reload();
 
-  await page.getByRole('button', { name: 'Adiar Pagar boleto para amanhã' }).click();
-  const toast = page.getByRole('alert').filter({ hasText: 'Pagar boleto: adiada para Amanhã' });
+  await page.getByRole('button', { name: `Adiar ${title} para amanhã` }).click({ timeout: 20_000 });
+  const toast = page.getByRole('alert').filter({ hasText: `${title}: adiada para Amanhã` });
   await expect(toast).toBeVisible();
-  await expect(page.getByRole('checkbox', { name: 'Concluir Pagar boleto' })).toHaveCount(0);
+  await expect(page.getByRole('checkbox', { name: `Concluir ${title}` })).toHaveCount(0);
   await toast.getByRole('button', { name: 'Desfazer' }).click();
-  await expect(page.getByRole('checkbox', { name: 'Concluir Pagar boleto' })).toBeVisible();
+  await expect(page.getByRole('checkbox', { name: `Concluir ${title}` })).toBeVisible();
 
   if (testInfo.project.name === 'celular') return;
   await page.locator('body').click({ position: { x: 600, y: 600 } });
@@ -34,6 +52,7 @@ test('eu levo: em projeto, tarefa sem responsável vira minha num toque', async 
   test.skip(testInfo.project.name === 'celular', 'Projeto pelo menu Novo (Alt+N)');
   await signUp(page, testInfo);
   await page.keyboard.press('Alt+n');
+  await expect(page.getByRole('menuitem', { name: 'Projeto' })).toBeVisible();
   await page.keyboard.press('j');
   await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Churrasco');
   await page.keyboard.press('Enter');
@@ -80,7 +99,8 @@ test('Meu dia e Próxima ação', async ({ page }, testInfo) => {
   await input.fill('Ler livro');
   await input.press('Enter');
 
-  await openTab(page, 'Hoje');
+  // Sem Meu dia, a sugestão aparece no Início (na Hoje seria a mesma primeira linha)
+  await openTab(page, 'Início');
   await expect(page.getByRole('button', { name: 'Fazer agora: Pagar conta' }).last()).toBeVisible();
 
   // "Ler livro" (sem data) vai para o Meu dia e passa a ser a próxima ação
@@ -95,7 +115,7 @@ test('Meu dia e Próxima ação', async ({ page }, testInfo) => {
   await page.getByRole('textbox', { name: 'Tempo disponível hoje' }).last().fill('1h');
   await expect(shown(page, 'Faltam 0min de 1h disponíveis')).toBeVisible();
   await page.getByRole('button', { name: 'Tirar Ler livro do meu dia' }).last().click();
-  await expect(page.getByRole('button', { name: 'Fazer agora: Pagar conta' }).last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Fazer agora: Ler livro' })).toHaveCount(0);
 });
 
 test('campos personalizados: moeda e seleção na página, preenchidos no painel e mostrados na linha', async ({
@@ -135,6 +155,7 @@ test('automação: concluir em "Dia" cria a tarefa seguinte em "Depois"', async 
   test.setTimeout(90_000);
   await signUp(page, testInfo);
   await page.keyboard.press('Alt+n');
+  await expect(page.getByRole('menuitem', { name: 'Projeto' })).toBeVisible();
   await page.keyboard.press('j');
   await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Churrasco');
   await page.keyboard.press('Enter');
@@ -181,6 +202,7 @@ test('aprovação: a tarefa mostra quem aprova e quem pode, conclui', async ({ p
   test.skip(testInfo.project.name === 'celular', 'Projeto pelo menu Novo (Alt+N)');
   await signUp(page, testInfo);
   await page.keyboard.press('Alt+n');
+  await expect(page.getByRole('menuitem', { name: 'Projeto' })).toBeVisible();
   await page.keyboard.press('j');
   await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Reforma');
   await page.keyboard.press('Enter');

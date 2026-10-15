@@ -152,6 +152,8 @@ test('arrastar para reordenar (lista)', async ({ page }, testInfo) => {
   );
   await page.mouse.up();
   await saved;
+  // A fila do aparelho fecha a transação depois da resposta: recarregar antes pode perdê-la
+  await waitForSync(page);
 
   await page.reload();
   await expect(shown(page, 'Terceira', { exact: true })).toBeVisible();

@@ -1,5 +1,6 @@
 import type { TFunction } from 'i18next';
 import { Pause, Play, Square } from 'lucide-react-native';
+import { usePathname } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -272,6 +273,8 @@ export function AdjustButtons({
 export function TimerBar({ floating }: { floating?: boolean }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  // No Modo Treino o descanso já está na tela, em grande
+  const inWorkout = (usePathname() ?? '').startsWith('/treino');
   const finished = usePomodoroFinished();
   const settings = usePomodoroSettings().data ?? DEFAULT_POMODORO;
   const { timer, seconds, act } = useLiveTimer(true, finished);
@@ -279,7 +282,7 @@ export function TimerBar({ floating }: { floating?: boolean }) {
   const task = useTask(timer?.kind === 'pomodoro' ? (timer.task_id ?? undefined) : undefined);
   // Tela acesa durante o descanso (no treino, a tela não pode apagar no meio da contagem)
   useWakeLock(timer?.kind === 'rest' && timer.state === 'running');
-  if (!timer) return null;
+  if (!timer || inWorkout) return null;
   const label = timerLabel(timer, t, settings.cycles);
   const taskDone = timer.kind === 'pomodoro' && task.data?.status === 'done';
   const clock = formatClock(seconds);

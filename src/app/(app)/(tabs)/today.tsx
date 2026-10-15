@@ -99,7 +99,7 @@ export default function TodayScreen() {
               defaultDueDate={today}
               placeholder={t('today.placeholder')}
             />
-            <NextActionCard tasks={tasks.data ?? []} today={today} />
+            <NextActionCard tasks={tasks.data ?? []} today={today} onlyWithMyDay />
             <MyDaySection today={today} />
             {tasks.error && (
               <Text className="text-sm text-danger">

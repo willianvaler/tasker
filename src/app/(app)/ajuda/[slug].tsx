@@ -19,7 +19,12 @@ export default function HelpArticleScreen() {
   return (
     <Screen>
       <ScrollView contentContainerClassName="gap-4 pb-12">
-        <ScreenHeader title={article?.title ?? t('help.title')} eyebrow={t('help.title')} back />
+        <ScreenHeader
+          title={article?.title ?? t('help.title')}
+          eyebrow={t('help.title')}
+          back
+          wrap
+        />
         {article ? <Markdown source={article.body} /> : <EmptyState title={t('help.missing')} />}
         <Button
           variant="ghost"

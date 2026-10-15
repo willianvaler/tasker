@@ -318,20 +318,6 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {!isHabit && !leaves && (
-          <Section title={t('repeat.section')}>
-            <RepeatCounter
-              task={task}
-              disabled={!allowed.complete || (blocked && !flow.forceable)}
-            />
-            <RepeatPlanEditor
-              value={readRepeatPlan(task.repeat_plan)}
-              onChange={(plan) => save({ repeat_plan: plan as Json })}
-              disabled={!writable}
-            />
-          </Section>
-        )}
-
         <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
 
         {!isHabit && !received && rootFolder(tree.data, task.folder_id)?.kind === 'project' && (
@@ -423,6 +409,20 @@ function TaskDetails({ task }: { task: Task }) {
             ) : (
               <TaskTime task={task} disabled={!allowed.complete || (blocked && !flow.forceable)} />
             )}
+          </Section>
+        )}
+
+        {!isHabit && !leaves && (
+          <Section title={t('repeat.section')}>
+            <RepeatCounter
+              task={task}
+              disabled={!allowed.complete || (blocked && !flow.forceable)}
+            />
+            <RepeatPlanEditor
+              value={readRepeatPlan(task.repeat_plan)}
+              onChange={(plan) => save({ repeat_plan: plan as Json })}
+              disabled={!writable}
+            />
           </Section>
         )}
 

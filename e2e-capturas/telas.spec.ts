@@ -65,13 +65,30 @@ test('telas-chave', async ({ page }, testInfo) => {
 
   // Página em cards
   await createPage(page, { folder: 'Academia', name: 'Treino A', type: 'Cards' });
-  await addMany(page, ['Supino reto', 'Supino inclinado', 'Crucifixo', 'Tríceps corda']);
+  await addMany(page, ['Supino reto 4x10 40kg', 'Supino inclinado 3x12 16kg', 'Crucifixo 3x12', 'Tríceps corda']);
   await expect(page.getByText('Tríceps corda')).toBeVisible();
   await shoot(page, 'pagina-cards', project);
+
+  // Modo Treino (J5)
+  await page.getByRole('button', { name: 'Iniciar treino' }).click();
+  await expect(page.getByRole('heading', { name: 'Supino reto' })).toBeVisible();
+  await page.getByRole('button', { name: 'Feita' }).click();
+  await page.waitForTimeout(400);
+  await shoot(page, 'treino', project);
+  await page.getByRole('button', { name: /^Sair do treino/ }).click();
 
   await page.goto('/');
   await openTab(page, 'Pastas');
   await shoot(page, 'pastas', project);
+
+  // Pomodoro (K) e um artigo da Ajuda (F1)
+  await page.goto('/pomodoro');
+  await page.waitForTimeout(500);
+  await shoot(page, 'pomodoro', project);
+  await page.goto('/ajuda/dependencias');
+  await page.waitForTimeout(400);
+  await shoot(page, 'ajuda-artigo', project);
+  await page.goto('/');
 
   await openTab(page, 'Perfil');
   await page.waitForTimeout(400);

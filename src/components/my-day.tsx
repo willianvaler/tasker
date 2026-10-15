@@ -18,10 +18,20 @@ import { formatDuration, parseDuration } from '@/lib/task-tree';
 // Meu dia e Próxima ação (M4, D141).
 
 /** "Fazer agora": a sugestão entre o Meu dia e o que vence (atrasadas e hoje). */
-export function NextActionCard({ tasks, today }: { tasks: readonly Task[]; today: string }) {
+export function NextActionCard({
+  tasks,
+  today,
+  onlyWithMyDay,
+}: {
+  tasks: readonly Task[];
+  today: string;
+  /** Na Hoje, sem Meu dia a sugestão é só a primeira linha da lista: não repete */
+  onlyWithMyDay?: boolean;
+}) {
   const { t } = useTranslation();
   const myDay = useMyDay(today);
   const day = (myDay.data ?? []).map((i) => i.task);
+  if (onlyWithMyDay && day.length === 0) return null;
   const all = [...day, ...tasks.filter((x) => !day.some((d) => d.id === x.id))];
   const next = nextAction(
     all,
@@ -34,10 +44,11 @@ export function NextActionCard({ tasks, today }: { tasks: readonly Task[]; today
       accessibilityRole="button"
       accessibilityLabel={t('myDay.nextLabel', { title: next.title })}
       onPress={() => router.push({ pathname: '/task/[id]', params: { id: next.id } })}
-      className="gap-1 rounded-lg border border-accent px-3 py-2 hover:bg-wash"
+      className="min-h-11 flex-row items-center gap-3 border-b border-line hover:bg-wash"
     >
-      <Text className="text-base text-ink" numberOfLines={2}>
-        {t('myDay.nextLabel', { title: next.title })}
+      <Text className="font-mono text-xs uppercase text-accent">{t('myDay.next')}</Text>
+      <Text className="flex-1 text-base text-ink" numberOfLines={1}>
+        {next.title}
       </Text>
     </Pressable>
   );

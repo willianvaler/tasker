@@ -164,12 +164,12 @@ let folderCache: { userId: string; at: number; ids: string[] } | null = null;
 /**
  * Pastas da pessoa (raízes de que é membro e as subpastas), para as consultas pelo servidor
  * filtrarem `folder_id in (...)`: sem isso a RLS confere todas as tarefas do banco (D70, F4).
- * Cache de 1 minuto em memória.
+ * Cache de 10 s em memória (pasta nova aparece logo).
  */
 export async function myFolderIds(): Promise<string[]> {
   const userId = await sessionUserId();
   if (!userId) return [];
-  if (folderCache && folderCache.userId === userId && Date.now() - folderCache.at < 60_000)
+  if (folderCache && folderCache.userId === userId && Date.now() - folderCache.at < 10_000)
     return folderCache.ids;
   const roots = await supabase.from('folder_members').select('folder_id').eq('user_id', userId);
   const rootIds = (roots.data ?? []).map((r) => r.folder_id);
