@@ -41,6 +41,8 @@ export default function HomeScreen() {
   const tree = useTree();
   const { width } = useWindowDimensions();
   const wide = width >= 1024;
+  // Tela bem larga (1600+): as listas se dividem em duas colunas ao lado do personagem
+  const triple = width >= 1600;
 
   const todayTasks = useTodayTasks(today);
   const upcoming = useUpcomingTasks(today, addDays(today, 7));
@@ -78,7 +80,8 @@ export default function HomeScreen() {
 
   // Resumo em uma linha: cada número leva para a tela dele
   const summary = (
-    <View className="flex-row flex-wrap items-center gap-x-3 gap-y-1">
+    // -mx-2: cada número tem a folga do realce sem desalinhar o primeiro do título
+    <View className="-mx-2 flex-row flex-wrap items-center gap-1">
       <Stat href="/today" warn={overdue.length > 0}>
         {t('home.overdue', { count: overdue.length })}
       </Stat>
@@ -92,8 +95,8 @@ export default function HomeScreen() {
     </View>
   );
 
-  const lists = (
-    <View>
+  const nowSection = (
+    <>
       <Section
         title={t('home.now')}
         count={overdue.length + dueToday.length}
@@ -105,7 +108,10 @@ export default function HomeScreen() {
         ))}
         <More count={overdue.length + dueToday.length} />
       </Section>
-
+    </>
+  );
+  const laterSections = (
+    <>
       <Section
         title={t('home.upcoming')}
         count={(upcoming.data ?? []).length}
@@ -116,7 +122,6 @@ export default function HomeScreen() {
         ))}
         <More count={(upcoming.data ?? []).length} />
       </Section>
-
       <Section
         title={t('home.inbox')}
         count={inboxOpen.length}
@@ -128,7 +133,6 @@ export default function HomeScreen() {
         ))}
         <More count={inboxOpen.length} />
       </Section>
-
       {assigned.length > 0 && (
         <Section
           title={t('home.mine')}
@@ -141,7 +145,7 @@ export default function HomeScreen() {
           <More count={assigned.length} />
         </Section>
       )}
-    </View>
+    </>
   );
 
   const habitsSection = (
@@ -163,12 +167,12 @@ export default function HomeScreen() {
     </Section>
   );
 
-  if (!focused) return <Screen size="wide">{null}</Screen>;
+  if (!focused) return <Screen size="full">{null}</Screen>;
 
   return (
-    <Screen size="wide">
+    <Screen size="full">
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-        <View className="w-full max-w-[1120px] self-center">
+        <View className={cn('w-full self-center', !triple && 'max-w-[1120px]')}>
           <ScreenHeader
             eyebrow={`${formatShortDate(today)} · ${t(nothingPending ? 'home.nothing' : 'home.pending')}`}
             title={firstName ? t('home.hello', { name: firstName }) : t('home.title')}
@@ -182,11 +186,23 @@ export default function HomeScreen() {
             }
           />
           {summary}
-          {wide ? (
+          {triple ? (
             <View className="mt-4 flex-row items-start gap-12">
               <View className="flex-1">
                 {habitsSection}
-                {lists}
+                {nowSection}
+              </View>
+              <View className="flex-1">{laterSections}</View>
+              <View className="w-80 pt-6">
+                <HeroPanel />
+              </View>
+            </View>
+          ) : wide ? (
+            <View className="mt-4 flex-row items-start gap-12">
+              <View className="flex-1">
+                {habitsSection}
+                {nowSection}
+                {laterSections}
               </View>
               <View className="w-80 pt-6">
                 <HeroPanel />
@@ -196,7 +212,8 @@ export default function HomeScreen() {
             <View className="mt-4">
               <GameHeader />
               {habitsSection}
-              {lists}
+              {nowSection}
+              {laterSections}
             </View>
           )}
         </View>
@@ -210,7 +227,7 @@ function Stat({ href, warn, children }: { href: Href; warn?: boolean; children: 
     <Link href={href} asChild>
       <Pressable
         accessibilityRole="link"
-        className="-mx-2 min-h-8 justify-center rounded px-2 hover:bg-wash"
+        className="min-h-8 justify-center rounded px-2 hover:bg-wash active:bg-wash"
       >
         <Text className={cn('font-mono text-xs', warn ? 'text-warn' : 'text-ink-muted')}>
           {children}
@@ -239,9 +256,15 @@ function Section({
         title={title}
         count={count === 0 ? undefined : count}
         right={
-          link && (
+          // Sem link, a mesma altura: as colunas lado a lado começam alinhadas
+          !link ? (
+            <View className="min-h-8" />
+          ) : (
             <Link href={link.href} asChild>
-              <Pressable accessibilityRole="link" className="min-h-8 justify-center px-1">
+              <Pressable
+                accessibilityRole="link"
+                className="-mr-2 min-h-8 justify-center rounded px-2 hover:bg-wash active:bg-wash"
+              >
                 <Text className="text-xs font-semibold text-ink">{link.label}</Text>
               </Pressable>
             </Link>

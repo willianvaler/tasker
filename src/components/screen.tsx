@@ -14,19 +14,21 @@ export function Screen({
   size = 'narrow',
 }: {
   children: ReactNode;
-  /** narrow: formulários · medium: listas · wide: painéis e grades */
-  size?: 'narrow' | 'medium' | 'wide';
+  /** narrow: formulários · medium: listas · wide: painéis e grades · full: painéis de várias colunas */
+  size?: 'narrow' | 'medium' | 'wide' | 'full';
 }) {
   return (
     <SafeAreaView edges={['top', 'left', 'right']} className="flex-1 bg-paper">
       <View
         className={cn(
           'w-full flex-1 self-center px-4',
-          size === 'wide'
-            ? 'max-w-7xl md:px-8'
-            : size === 'medium'
-              ? 'max-w-6xl md:px-8'
-              : 'max-w-3xl md:px-6',
+          size === 'full'
+            ? 'max-w-[1680px] md:px-8'
+            : size === 'wide'
+              ? 'max-w-7xl md:px-8'
+              : size === 'medium'
+                ? 'max-w-6xl md:px-8'
+                : 'max-w-3xl md:px-6',
         )}
       >
         {children}
