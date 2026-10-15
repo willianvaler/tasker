@@ -154,7 +154,9 @@
     "gold": "{{gold}} gold",
     "unitHp": "HP",
     "unitTasks": "tasks",
-    "pendingXp": "+{{xp}} XP pending"
+    "pendingXp": "+{{xp}} XP pending",
+    "defeatedDaily": "The next one is born at midnight.",
+    "untilMidnight": "until midnight"
   },
   "today": {
     "title": "Today",

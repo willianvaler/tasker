@@ -13,7 +13,7 @@ const bossSchema = z.object({
   hp: z.number(),
   status: z.enum(['active', 'defeated', 'escaped']),
   ends_at: z.string(),
-  scope: z.enum(['user', 'folder', 'clan']).optional(),
+  scope: z.enum(['user', 'daily', 'folder', 'clan']).optional(),
   level: z.number().optional(),
 });
 
@@ -63,6 +63,10 @@ const gameStateSchema = z.object({
   equipped: z.record(z.string(), z.string()).default({}),
   inventory: z.array(z.string()).default([]),
   boss: bossSchema.nullable(),
+  /** Boss diário (O1); null/ausente em respostas antigas */
+  daily_boss: bossSchema.nullable().optional(),
+  daily_defeated: z.number().default(0),
+  daily_streak: z.number().default(0),
   clan: z
     .object({ id: z.string(), name: z.string(), icon: z.string().nullable(), members: z.number() })
     .nullable()

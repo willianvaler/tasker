@@ -2,6 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import {
   bossHpForLevel,
+  dailyBossHp,
   critChance,
   goldFor,
   healAmount,
@@ -65,6 +66,13 @@ describe('personagem (mesmos casos do pgTAP fase7_rpg)', () => {
     [2, 144],
     [5, 249],
   ])('boss nível %i: %i HP', (level, hp) => expect(bossHpForLevel(level)).toBe(hp));
+
+  // Os mesmos casos do pgTAP boss_diario
+  test.each([
+    [1, 24],
+    [2, 25],
+    [100, 72],
+  ])('boss diário nível %i: %i HP', (level, hp) => expect(dailyBossHp(level)).toBe(hp));
 
   test('sem classe, todos os atributos em 1; lutador ganha Força e Constituição', () => {
     expect(totalAttributes(null, none)).toEqual({ str: 1, agi: 1, int: 1, con: 1 });

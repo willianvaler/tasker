@@ -138,15 +138,23 @@ export function totalAttributes(cls: ClassKey | null, allocated: Attributes): At
   };
 }
 
-/** HP do boss de um nível (espelho de public.boss_hp_for_level). */
 /** Peso da tarefa no golpe (M3): espelho de public.weight_factor. */
 export function weightFactor(weight: number | null | undefined) {
   return 1 + config.damage.weightStep * ((weight ?? 1) - 1);
 }
 
+/** HP do boss semanal de um nível (espelho de public.boss_hp_for_level). */
 export function bossHpForLevel(level: number) {
   const { hpBase, hpGrowth } = config.boss;
   return Math.round(hpBase * Math.pow(hpGrowth, Math.max(level, 1) - 1));
+}
+
+/** HP do boss diário de um nível, com teto (espelho de public.daily_boss_hp, O1) */
+export function dailyBossHp(level: number) {
+  const { hpBase, hpGrowth, hpMaxFactor } = config.dailyBoss;
+  return Math.round(
+    Math.min(hpBase * Math.pow(hpGrowth, Math.max(level, 1) - 1), hpBase * hpMaxFactor),
+  );
 }
 
 /** Chance de crítico (0 a 1). */

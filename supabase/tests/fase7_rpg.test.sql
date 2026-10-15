@@ -14,6 +14,13 @@ insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
   ('22222222-2222-2222-2222-222222222222', 'bia@teste.local');
 
+-- Boss diário (O1) com HP enorme: estes testes medem o semanal, o do clã e o de projeto
+insert into public.bosses (scope, scope_id, name, icon, period_key, max_hp, hp, level, starts_at, ends_at)
+select 'daily', id, 'Diário de teste', '🧪', to_char(public.user_today(id), 'YYYY-MM-DD'), 1000000, 1000000, 1,
+       now(), now() + interval '1 day'
+from auth.users where created_at is null or created_at = now()
+on conflict do nothing;
+
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}';
 
@@ -152,7 +159,8 @@ set local role authenticated;
 create temp table defeat as select public.complete_task('cccccccc-0000-0000-0000-000000000003') as r;
 select is(((select r from defeat) ->> 'boss_defeated')::boolean, true, 'golpe final derrota o boss');
 select is(jsonb_array_length((select r from defeat) -> 'drops'), 1, 'o boss deixa cair um item');
-select is((select gold from public.xp_events where kind = 'boss_reward' and not reverted), 20, 'recompensa: 20 de ouro no nível 1');
+select is((select e.gold from public.xp_events e join public.bosses b on b.id = e.boss_id
+           where e.kind = 'boss_reward' and not e.reverted and b.scope = 'user'), 20, 'recompensa: 20 de ouro no nível 1');
 select public.uncomplete_task('cccccccc-0000-0000-0000-000000000003');
 select is((select count(*)::int from public.user_items where source = 'drop'), 0, 'boss revivido: o item sai junto');
 

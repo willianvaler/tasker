@@ -154,7 +154,9 @@
     "gold": "{{gold}} de ouro",
     "unitHp": "HP",
     "unitTasks": "tarefas",
-    "pendingXp": "+{{xp}} XP pendente"
+    "pendingXp": "+{{xp}} XP pendente",
+    "defeatedDaily": "O próximo nasce à meia-noite.",
+    "untilMidnight": "até a meia-noite"
   },
   "today": {
     "title": "Hoje",

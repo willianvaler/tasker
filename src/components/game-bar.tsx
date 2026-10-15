@@ -41,6 +41,7 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
   if (boss.status === 'defeated') {
     const tail = {
       user: 'boss.defeatedUser',
+      daily: 'boss.defeatedDaily',
       clan: 'boss.defeatedClan',
       folder: 'boss.defeatedFolder',
     } as const;
@@ -84,7 +85,11 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
           label={t('boss.label', { name: boss.name, hp: boss.hp, max: boss.max_hp, unit })}
         />
         <Text className="font-mono text-xs text-ink-muted">
-          {boss.status === 'escaped' ? t('boss.escaped') : t('boss.until', { when })}
+          {boss.status === 'escaped'
+            ? t('boss.escaped')
+            : scope === 'daily'
+              ? t('boss.untilMidnight')
+              : t('boss.until', { when })}
         </Text>
       </View>
     </View>

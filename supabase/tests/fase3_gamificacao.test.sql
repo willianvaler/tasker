@@ -20,6 +20,13 @@ insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
   ('22222222-2222-2222-2222-222222222222', 'bia@teste.local');
 
+-- Boss diário (O1) com HP enorme: estes testes medem o semanal, o do clã e o de projeto
+insert into public.bosses (scope, scope_id, name, icon, period_key, max_hp, hp, level, starts_at, ends_at)
+select 'daily', id, 'Diário de teste', '🧪', to_char(public.user_today(id), 'YYYY-MM-DD'), 1000000, 1000000, 1,
+       now(), now() + interval '1 day'
+from auth.users where created_at is null or created_at = now()
+on conflict do nothing;
+
 -- Sequência com congelamento (datas fixas; 04/10/2026 é domingo, fim da semana ISO 40)
 insert into public.xp_events (user_id, kind, amount, day) values
   ('22222222-2222-2222-2222-222222222222', 'task', 10, '2026-10-01'),
@@ -126,19 +133,20 @@ select is((select kind || ':' || amount from public.xp_events e join public.task
   'too_fast:0', '[x] do lote vira relâmpago, mesmo em cards');
 
 -- Boss: dano = XP ganho
-select is((select hp from public.bosses where scope_id = auth.uid()),
+select is((select hp from public.bosses where scope = 'user' and scope_id = auth.uid()),
           (select greatest(0, b.max_hp - sum(d.amount))::int from public.bosses b join public.boss_damage d on d.boss_id = b.id
-           where b.scope_id = auth.uid() group by b.max_hp), 'HP do boss = máximo − dano (sem passar de 0)');
-select is((select sum(amount)::int from public.boss_damage where user_id = auth.uid()),
+           where b.scope = 'user' and b.scope_id = auth.uid() group by b.max_hp), 'HP do boss = máximo − dano (sem passar de 0)');
+select is((select sum(d.amount)::int from public.boss_damage d join public.bosses b on b.id = d.boss_id
+           where d.user_id = auth.uid() and b.scope = 'user'),
           (select sum(damage)::int from public.xp_events where user_id = auth.uid() and not reverted),
           'dano no boss = dano dos eventos (e o revertido saiu)');
 
 reset role;
 -- Um boss novo, a 3 HP do fim (uma tarefa comum tira ao menos 4)
 update public.bosses
-set max_hp = (select sum(amount) from public.boss_damage where user_id = '11111111-1111-1111-1111-111111111111') + 3,
+set max_hp = (select sum(amount) from public.boss_damage d where d.boss_id = bosses.id) + 3,
     hp = 3, status = 'active', defeated_at = null
-where scope_id = '11111111-1111-1111-1111-111111111111';
+where scope = 'user' and scope_id = '11111111-1111-1111-1111-111111111111';
 update public.xp_events set reverted = true
 where kind = 'boss_reward' and user_id = '11111111-1111-1111-1111-111111111111';
 set local role authenticated;
@@ -147,10 +155,10 @@ reset role;
 update public.tasks set created_at = now() - interval '1 hour' where id = 'cccccccc-0000-0000-0000-000000000005';
 set local role authenticated;
 select is((public.complete_task('cccccccc-0000-0000-0000-000000000005') ->> 'boss_defeated')::boolean, true, 'golpe final derrota o boss');
-select is((select status from public.bosses where scope_id = auth.uid()), 'defeated', 'boss derrotado');
+select is((select status from public.bosses where scope = 'user' and scope_id = auth.uid()), 'defeated', 'boss derrotado');
 select is((select count(*)::int from public.xp_events where kind = 'boss_reward' and not reverted), 1, 'recompensa no ledger');
 select public.uncomplete_task('cccccccc-0000-0000-0000-000000000005');
-select is((select status || ':' || hp from public.bosses where scope_id = auth.uid()), 'active:3', 'desmarcar o golpe final revive o boss');
+select is((select status || ':' || hp from public.bosses where scope = 'user' and scope_id = auth.uid()), 'active:3', 'desmarcar o golpe final revive o boss');
 select is((select count(*)::int from public.xp_events where kind = 'boss_reward' and not reverted), 0, 'e a recompensa sai');
 
 -- Conquistas e estado
@@ -172,7 +180,7 @@ insert into public.folder_members (folder_id, user_id, role)
 values ('aaaaaaaa-0000-0000-0000-000000000001', '22222222-2222-2222-2222-222222222222', 'viewer');
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';
-select is((select count(*)::int from public.xp_events) + (select count(*)::int from public.bosses)
+select is((select count(*)::int from public.xp_events) + (select count(*)::int from public.bosses where scope_id <> auth.uid())
           + (select count(*)::int from public.boss_damage) + (select count(*)::int from public.user_achievements), 0,
   'estranho não vê ledger, boss nem conquistas dos outros');
 select throws_ok($$ select public.complete_task('cccccccc-0000-0000-0000-000000000001') $$,

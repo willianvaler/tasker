@@ -1701,6 +1701,12 @@ isOneToOne: false
 "cycle_key_for":
 { Args: { "p_at": string,"p_kind": string,"p_manual": number,"p_timezone": string }; Returns: string
                            },
+"daily_boss_hp":
+{ Args: { "p_level": number }; Returns: number
+                           },
+"daily_boss_streak":
+{ Args: { "p_user": string }; Returns: number
+                           },
 "decide_join_request":
 { Args: { "p_approve": boolean,"p_request_id": string }; Returns: undefined
                            },
@@ -1721,6 +1727,29 @@ isOneToOne: false
                            },
 "ensure_clan_boss":
 { Args: { "p_clan_id": string }; Returns: {
+              "created_at": string,
+"defeated_at": string | null,
+"ends_at": string,
+"hp": number,
+"icon": string,
+"id": string,
+"level": number,
+"max_hp": number,
+"name": string,
+"period_key": string,
+"scope": string,
+"scope_id": string,
+"starts_at": string,
+"status": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "bosses"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"ensure_daily_boss":
+{ Args: { "p_user": string }; Returns: {
               "created_at": string,
 "defeated_at": string | null,
 "ends_at": string,

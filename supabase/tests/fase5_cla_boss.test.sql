@@ -10,6 +10,13 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('33333333-3333-3333-3333-333333333333', 'caio@teste.local', '{"display_name": "Caio"}'),
   ('44444444-4444-4444-4444-444444444444', 'duda@teste.local', '{"display_name": "Duda"}');
 
+-- Boss diário (O1) com HP enorme: estes testes medem o semanal, o do clã e o de projeto
+insert into public.bosses (scope, scope_id, name, icon, period_key, max_hp, hp, level, starts_at, ends_at)
+select 'daily', id, 'Diário de teste', '🧪', to_char(public.user_today(id), 'YYYY-MM-DD'), 1000000, 1000000, 1,
+       now(), now() + interval '1 day'
+from auth.users where created_at is null or created_at = now()
+on conflict do nothing;
+
 create temp table ids (k text primary key, v text) on commit drop;
 grant all on ids to authenticated, anon;
 
@@ -78,8 +85,8 @@ select isnt(public.game_state() -> 'clan_boss', 'null'::jsonb, 'clã tem boss da
 select is(public.game_state() #>> '{clan,name}', 'Guilda', 'game_state mostra o clã');
 select public.complete_task('cccccccc-0000-0000-0000-000000000011');
 select is((select count(*)::int from public.boss_damage d join public.xp_events e on e.id = d.xp_event_id
-           where e.task_id = 'cccccccc-0000-0000-0000-000000000011'), 2,
-  'um XP bate no boss solo e no do clã');
+           where e.task_id = 'cccccccc-0000-0000-0000-000000000011'), 3,
+  'um golpe bate no diário, no semanal e no do clã');
 insert into ids select 'clan_boss', id from public.bosses
   where scope = 'clan' and scope_id = (select v::uuid from ids where k = 'clan');
 select is((select max_hp - hp from public.bosses where id = (select v::uuid from ids where k = 'clan_boss')),
@@ -167,7 +174,7 @@ select is((select count(*)::int from public.xp_events where kind = 'boss_reward'
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "role": "authenticated"}';
 select is((select count(*)::int from public.clans) + (select count(*)::int from public.clan_members)
-          + (select count(*)::int from public.clan_activity) + (select count(*)::int from public.bosses where scope <> 'user'), 0,
+          + (select count(*)::int from public.clan_activity) + (select count(*)::int from public.bosses where scope not in ('user', 'daily')), 0,
   'estranho não vê clã, membros, feed nem bosses dos outros');
 select throws_ok($$ select public.boss_board((select v::uuid from ids where k = 'project_boss')) $$, 'P0002', null,
   'nem o quadro');

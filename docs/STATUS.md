@@ -154,7 +154,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **N2** Anexar no painel, compressão WebP e miniatura no aparelho (D151)
 - [x] **N3** Anexo offline (fila) (D152)
 - [x] **N4** Limites e E2E (D153)
-- [ ] **O1** Boss diário no servidor
+- [x] **O1** Boss diário no servidor (D161)
 - [ ] **O2** Calibragem do dano
 - [ ] **O3** Aviso com o dano nos bosses e limite atingido
 - [ ] **O4** Boss diário nas telas

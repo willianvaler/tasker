@@ -1,5 +1,5 @@
 // Valores da gamificação. Quem concede XP, dano e ouro é o banco: o mesmo JSON
-// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261130000000_peso.sql) e o teste
+// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261138000000_boss_diario.sql) e o teste
 // gamification.test.ts falha se os dois divergirem. Mudou aqui? Mude lá numa migração nova.
 export const gamificationConfig = {
   xp: {
@@ -54,6 +54,22 @@ export const gamificationConfig = {
     rewardGoldPerLevel: 10,
     /** Ouro a mais quando não há item novo para cair */
     noDropGold: 25,
+  },
+  /** Boss diário (O1, V4 §1.1): nasce à meia-noite do fuso e vai até o fim do dia */
+  dailyBoss: {
+    /** HP do nível n = round(min(hpBase × hpGrowth^(n−1), hpBase × hpMaxFactor)) */
+    hpBase: 24,
+    hpGrowth: 1.05,
+    hpMaxFactor: 3,
+    /** Nunca menos que recentFactor × a média de dano dos dias ativos nos últimos recentDays */
+    recentDays: 14,
+    recentFactor: 0.7,
+    /** Recompensa menor que a do semanal; o item é só uma chance */
+    rewardXp: 15,
+    rewardGold: 5,
+    rewardGoldPerLevel: 1,
+    noDropGold: 5,
+    dropChance: 0.15,
   },
   damage: {
     /** Dano base por tipo (antes dos atributos) */
