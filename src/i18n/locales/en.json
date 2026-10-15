@@ -7,7 +7,8 @@
     "close": "Close",
     "back": "Back",
     "loading": "Loading…",
-    "loadError": "Could not load: {{message}}"
+    "loadError": "Could not load: {{message}}",
+    "someone": "Someone"
   },
   "language": {
     "label": "Language",
@@ -1586,5 +1587,21 @@
     "manager": "A manager",
     "owner": "Only the Owner",
     "tag": "Approval · {{who}}"
+  },
+  "activity": {
+    "completed": "{{who}} completed \"{{title}}\"",
+    "createdOne": "{{who}} created \"{{title}}\"",
+    "createdMany": "{{who}} created {{count}} tasks",
+    "joined": "{{who}} joined the project",
+    "commented": "{{who}} commented on \"{{title}}\"",
+    "claimed": "{{who}} linked @{{name}}",
+    "bossStarted": "{{who}} called {{boss}} to the fight (until {{deadline}})",
+    "bossDefeated": "⚔️ {{name}} was defeated!",
+    "other": "{{who}} changed the project",
+    "clanJoined": "{{who}} joined the clan",
+    "clanLeft": "{{who}} left the clan",
+    "clanFinal": "⚔️ {{who}} landed the final blow on {{name}}!",
+    "clanAchievement": "{{icon}} {{who}} earned \"{{name}}\"",
+    "clanOther": "{{who}} did something"
   }
 }

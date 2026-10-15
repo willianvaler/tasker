@@ -1,3 +1,4 @@
+import { tr } from '@/lib/i18n-ref';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { uuidv7 } from '@/lib/uuid';
 import { z } from 'zod';
@@ -101,7 +102,7 @@ export function useMembers(rootId: string | undefined) {
                 }
               : null,
           aliases: m.aliases ? JSON.parse(m.aliases) : [],
-          displayName: m.display_name || 'Alguém',
+          displayName: m.display_name || tr('common.someone'),
         }));
       }
       const { data, error } = await supabase
@@ -118,7 +119,7 @@ export function useMembers(rootId: string | undefined) {
         source: m.source === 'team' ? 'team' : 'direct',
         customRole: m.custom_role,
         aliases: m.aliases,
-        displayName: m.profile?.display_name || 'Alguém',
+        displayName: m.profile?.display_name || tr('common.someone'),
       }));
     },
   });

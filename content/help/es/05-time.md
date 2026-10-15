@@ -1,6 +1,6 @@
 # Trabajar con otras personas
 
-En un proyecto, abre **Personas** y toca **Crear enlace de invitación**. Envía el enlace: quien lo abra crea la cuenta ahí mismo y entra.
+En un proyecto, abre **Personas** y toca **Generar enlace de invitación**. Envía el enlace: quien lo abra crea la cuenta ahí mismo y entra.
 
 Antes de invitar, puedes escribir `@gregorio` en las tareas. Cuando Gregorio entre, dice "soy @gregorio" y esas tareas pasan a ser suyas.
 

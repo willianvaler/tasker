@@ -7,7 +7,8 @@
     "close": "Cerrar",
     "back": "Volver",
     "loading": "Cargando…",
-    "loadError": "No se pudo cargar: {{message}}"
+    "loadError": "No se pudo cargar: {{message}}",
+    "someone": "Alguien"
   },
   "language": {
     "label": "Idioma",
@@ -1586,5 +1587,21 @@
     "manager": "Quien gestiona",
     "owner": "Solo el Dueño",
     "tag": "Aprobación · {{who}}"
+  },
+  "activity": {
+    "completed": "{{who}} completó \"{{title}}\"",
+    "createdOne": "{{who}} creó \"{{title}}\"",
+    "createdMany": "{{who}} creó {{count}} tareas",
+    "joined": "{{who}} entró al proyecto",
+    "commented": "{{who}} comentó en \"{{title}}\"",
+    "claimed": "{{who}} vinculó @{{name}}",
+    "bossStarted": "{{who}} llamó a {{boss}} a la pelea (plazo {{deadline}})",
+    "bossDefeated": "⚔️ ¡{{name}} fue derrotado!",
+    "other": "{{who}} cambió el proyecto",
+    "clanJoined": "{{who}} entró al clan",
+    "clanLeft": "{{who}} salió del clan",
+    "clanFinal": "⚔️ ¡{{who}} dio el golpe final a {{name}}!",
+    "clanAchievement": "{{icon}} {{who}} consiguió \"{{name}}\"",
+    "clanOther": "{{who}} hizo algo"
   }
 }

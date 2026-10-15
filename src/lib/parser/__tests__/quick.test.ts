@@ -170,3 +170,24 @@ describe('repetições (D123)', () => {
     }));
   it('palavra com x no meio fica', () => expect(parse('xadrez x').title).toBe('xadrez x'));
 });
+
+describe('inglês e espanhol (F3)', () => {
+  it.each([
+    ['Call mom tomorrow', 'Call mom', '2026-10-09'],
+    ['Pay rent on friday', 'Pay rent', '2026-10-09'],
+    ['Report day after tomorrow', 'Report', '2026-10-10'],
+    ['Llamar mañana', 'Llamar', '2026-10-09'],
+    ['Informe pasado mañana', 'Informe', '2026-10-10'],
+    ['Pagar el viernes', 'Pagar', '2026-10-09'],
+    ['Comprar hoy', 'Comprar', '2026-10-08'],
+  ])('%s', (text, title, dueDate) => expect(parse(text)).toMatchObject({ title, dueDate }));
+  it('recorrência em inglês e espanhol', () => {
+    expect(parse('Gym /mon,wed').recurrence).toEqual({ type: 'weekdays', days: [1, 3] });
+    expect(parse('Agua /diario').recurrence).toEqual({ type: 'daily' });
+    expect(parse('Rent /monthly').recurrence).toEqual({ type: 'monthly' });
+  });
+  it('em inglês, 10/15 é mês/dia', () =>
+    expect(parseQuickInput('Dentist 10/15', { today, dateOrder: 'mdy' }).dueDate).toBe(
+      '2026-10-15',
+    ));
+});

@@ -55,34 +55,47 @@ export function nextDayMonth(today: IsoDate, day: number, month: number): IsoDat
   return makeDate(year + 1, month, day);
 }
 
-const WEEKDAY_SHORT = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
-const MONTH_SHORT = [
-  'jan',
-  'fev',
-  'mar',
-  'abr',
-  'mai',
-  'jun',
-  'jul',
-  'ago',
-  'set',
-  'out',
-  'nov',
-  'dez',
-];
+// Idioma das datas na interface (o i18n avisa quando muda: setDateLocale). Português por padrão.
+export type DateLocale = 'pt-BR' | 'en' | 'es';
+let current: DateLocale = 'pt-BR';
+export function setDateLocale(locale: string) {
+  current = locale.startsWith('en') ? 'en' : locale.startsWith('es') ? 'es' : 'pt-BR';
+}
+export const dateLocale = () => current;
 
-/** "sex, 17 out" */
-export function formatShortDate(date: IsoDate): string {
+const WEEKDAY_SHORT: Record<DateLocale, string[]> = {
+  'pt-BR': ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+  en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  es: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+};
+const MONTH_SHORT: Record<DateLocale, string[]> = {
+  'pt-BR': ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'],
+};
+const RELATIVE: Record<DateLocale, [string, string, string]> = {
+  'pt-BR': ['Hoje', 'Amanhã', 'Ontem'],
+  en: ['Today', 'Tomorrow', 'Yesterday'],
+  es: ['Hoy', 'Mañana', 'Ayer'],
+};
+
+/** "sex, 17 out" · "Fri, Oct 17" · "vie, 17 oct" */
+export function formatShortDate(date: IsoDate, locale: DateLocale = current): string {
   const d = toUtc(date);
-  return `${WEEKDAY_SHORT[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTH_SHORT[d.getUTCMonth()]}`;
+  const day = WEEKDAY_SHORT[locale][d.getUTCDay()];
+  const month = MONTH_SHORT[locale][d.getUTCMonth()];
+  return locale === 'en'
+    ? `${day}, ${month} ${d.getUTCDate()}`
+    : `${day}, ${d.getUTCDate()} ${month}`;
 }
 
 /** Rótulo curto para a interface: "Hoje", "Amanhã", "Ontem", "sex, 17 out" (ano só se for outro). */
-export function formatDueDate(date: IsoDate, today: IsoDate): string {
-  if (date === today) return 'Hoje';
-  if (date === addDays(today, 1)) return 'Amanhã';
-  if (date === addDays(today, -1)) return 'Ontem';
-  const label = formatShortDate(date);
+export function formatDueDate(date: IsoDate, today: IsoDate, locale: DateLocale = current): string {
+  const [todayLabel, tomorrow, yesterday] = RELATIVE[locale];
+  if (date === today) return todayLabel;
+  if (date === addDays(today, 1)) return tomorrow;
+  if (date === addDays(today, -1)) return yesterday;
+  const label = formatShortDate(date, locale);
   return date.slice(0, 4) === today.slice(0, 4) ? label : `${label} ${date.slice(0, 4)}`;
 }
 

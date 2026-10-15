@@ -1,32 +1,41 @@
+import { tr } from './i18n-ref';
 import type { Activity } from './queries/projects';
+
+// Frases do feed do projeto e do clã (no idioma do app, F3).
+
+const someone = () => tr('common.someone');
 
 /** "Cris concluiu Comprar cerveja". */
 export function describeActivity(a: Pick<Activity, 'action' | 'payload' | 'actor'>) {
   const p = (a.payload ?? {}) as Record<string, string | number | undefined>;
-  const who = a.actor?.display_name || 'Alguém';
+  const who = a.actor?.display_name || someone();
   switch (a.action) {
     case 'task_completed':
-      return `${who} concluiu "${p.title}"`;
+      return tr('activity.completed', { who, title: p.title });
     case 'tasks_created':
       return p.count === 1 && p.title
-        ? `${who} criou "${p.title}"`
-        : `${who} criou ${p.count} tarefas`;
+        ? tr('activity.createdOne', { who, title: p.title })
+        : tr('activity.createdMany', { who, count: Number(p.count ?? 0) });
     case 'member_joined':
-      return `${who} entrou no projeto`;
+      return tr('activity.joined', { who });
     case 'comment_added':
-      return `${who} comentou em "${p.title}"`;
+      return tr('activity.commented', { who, title: p.title });
     case 'assignee_claimed':
-      return `${who} vinculou @${p.name}`;
+      return tr('activity.claimed', { who, name: p.name });
     case 'boss_started':
-      return `${who} chamou ${p.icon ?? ''} ${p.name} para a briga (prazo ${String(p.deadline ?? '')
-        .split('-')
-        .reverse()
-        .slice(0, 2)
-        .join('/')})`;
+      return tr('activity.bossStarted', {
+        who,
+        boss: `${p.icon ?? ''} ${p.name}`.trim(),
+        deadline: String(p.deadline ?? '')
+          .split('-')
+          .reverse()
+          .slice(0, 2)
+          .join('/'),
+      });
     case 'boss_defeated':
-      return `⚔️ ${p.name} foi derrotado!`;
+      return tr('activity.bossDefeated', { name: p.name });
     default:
-      return `${who} mexeu no projeto`;
+      return tr('activity.other', { who });
   }
 }
 
@@ -37,17 +46,17 @@ export function describeClanActivity(a: {
   actor: { display_name: string } | null;
 }) {
   const p = (a.payload ?? {}) as Record<string, string | undefined>;
-  const who = a.actor?.display_name || 'Alguém';
+  const who = a.actor?.display_name || someone();
   switch (a.action) {
     case 'joined':
-      return `${who} entrou no clã`;
+      return tr('activity.clanJoined', { who });
     case 'left':
-      return `${who} saiu do clã`;
+      return tr('activity.clanLeft', { who });
     case 'boss_defeated':
-      return `⚔️ ${who} deu o golpe final em ${p.name}!`;
+      return tr('activity.clanFinal', { who, name: p.name });
     case 'achievement':
-      return `${p.icon ?? '🏅'} ${who} conquistou "${p.name}"`;
+      return tr('activity.clanAchievement', { who, icon: p.icon ?? '🏅', name: p.name });
     default:
-      return `${who} fez algo`;
+      return tr('activity.clanOther', { who });
   }
 }

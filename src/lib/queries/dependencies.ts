@@ -204,10 +204,7 @@ export function useTaskFlow(task: StateTask & { page_id: string; folder_id: stri
   const actor = useFolderActor(task.folder_id);
   const deps = dependencies.data?.deps ?? [];
   const all = new Map<string, StateTask & { title: string }>(
-    [...(dependencies.data?.prereqs ?? []), ...(pageTasks.data ?? [])].map((t) => [
-      t.id,
-      t,
-    ]),
+    [...(dependencies.data?.prereqs ?? []), ...(pageTasks.data ?? [])].map((t) => [t.id, t]),
   );
   if (!all.has(task.id)) all.set(task.id, { ...task, title: '' });
   // Lista que espera outra (V3 §2.3) também segura a tarefa

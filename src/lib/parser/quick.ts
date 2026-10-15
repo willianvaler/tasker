@@ -1,5 +1,5 @@
 import { DEFAULT_REST_SECONDS, type RepeatPlan } from '../repeat';
-import { addDays, makeDate, nextDayMonth, nextWeekday, type IsoDate } from './dates';
+import { addDays, dateLocale, makeDate, nextDayMonth, nextWeekday, type IsoDate } from './dates';
 
 // Sintaxe rápida do título. Nada é obrigatório: o que não for reconhecido fica no título.
 //   !, !!, !!!            prioridade baixa / média / alta
@@ -7,7 +7,10 @@ import { addDays, makeDate, nextDayMonth, nextWeekday, type IsoDate } from './da
 //   @nome                  responsável (só quando `mentions` está ligado, em páginas de projeto)
 //   ^trecho, ^2            pré-requisito: tarefa pelo título, ou o item 2 do lote (só com `prereqs`)
 //   hoje, amanhã, depois de amanhã, sexta, sexta-feira, 15/10, 15/10/2026   vencimento
-//   /diaria /semanal /mensal /seg,qua,sex   recorrência
+//     (também em inglês e espanhol: today, tomorrow, friday, hoy, mañana, viernes; a ordem de
+//     15/10 segue o idioma do app: 10/15 em inglês)
+//   /diaria /semanal /mensal /seg,qua,sex   recorrência (/daily /weekly /monthly /mon,wed;
+//     /diario /mensual /lun,mie)
 //   3x12, x5               repetições: 3 séries de 12 (com descanso) ou 5 vezes (contador), D123
 //   20kg                   carga (só com `meta`, nas páginas de cards)
 // Um "na", "no", "até", "para"... logo antes da data sai junto ("comprar presente para sexta").
@@ -48,6 +51,8 @@ export type QuickParseOptions = {
   prereqs?: boolean;
   /** Reconhecer a carga ("20kg" / "12,5 kg"). Usado nas páginas de cards. */
   meta?: boolean;
+  /** Ordem de "10/15": dia/mês ou mês/dia. Padrão: a do idioma do app (mês/dia em inglês). */
+  dateOrder?: 'dmy' | 'mdy';
 };
 
 /** Tira acentos e passa para minúsculas, para comparar palavras. */
@@ -62,6 +67,18 @@ const WEEKDAYS: Record<string, number> = {
   quinta: 4,
   sexta: 5,
   sabado: 6,
+  sunday: 0,
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+  lunes: 1,
+  martes: 2,
+  miercoles: 3,
+  jueves: 4,
+  viernes: 5,
 };
 const RECURRENCE_DAYS: Record<string, number> = {
   dom: 0,
@@ -71,8 +88,35 @@ const RECURRENCE_DAYS: Record<string, number> = {
   qui: 4,
   sex: 5,
   sab: 6,
+  sun: 0,
+  mon: 1,
+  tue: 2,
+  wed: 3,
+  thu: 4,
+  fri: 5,
+  sat: 6,
+  lun: 1,
+  mar: 2,
+  mie: 3,
+  jue: 4,
+  vie: 5,
 };
-const DATE_PREPOSITIONS = new Set(['na', 'no', 'ate', 'em', 'dia', 'para', 'pra', 'pro']);
+const DATE_PREPOSITIONS = new Set([
+  'na',
+  'no',
+  'ate',
+  'em',
+  'dia',
+  'para',
+  'pra',
+  'pro',
+  'on',
+  'by',
+  'due',
+  'until',
+  'el',
+  'hasta',
+]);
 
 const PRIORITY_RE = /^!{1,3}$/;
 const LABEL_RE = /^#([\p{L}\p{N}_-]+)$/u;
@@ -86,9 +130,9 @@ const WEIGHT_RE = /^(\d{1,4}(?:[.,]\d{1,2})?)(kg|lb|lbs)$/i;
 function parseRecurrence(token: string): Recurrence | null {
   if (!token.startsWith('/')) return null;
   const word = fold(token.slice(1));
-  if (word === 'diaria') return { type: 'daily' };
-  if (word === 'semanal') return { type: 'weekly' };
-  if (word === 'mensal') return { type: 'monthly' };
+  if (word === 'diaria' || word === 'diario' || word === 'daily') return { type: 'daily' };
+  if (word === 'semanal' || word === 'weekly') return { type: 'weekly' };
+  if (word === 'mensal' || word === 'mensual' || word === 'monthly') return { type: 'monthly' };
   const parts = word.split(',');
   if (parts.length === 0 || !parts.every((p) => p in RECURRENCE_DAYS)) return null;
   const days = [...new Set(parts.map((p) => RECURRENCE_DAYS[p]))].sort((a, b) => a - b);
@@ -100,25 +144,28 @@ function parseDateAt(
   tokens: string[],
   i: number,
   today: IsoDate,
+  order: 'dmy' | 'mdy',
 ): { date: IsoDate; length: number } | null {
   const word = fold(tokens[i]);
-  if (word === 'hoje') return { date: today, length: 1 };
-  if (word === 'amanha') return { date: addDays(today, 1), length: 1 };
+  const next = fold(tokens[i + 1] ?? '');
+  const after = fold(tokens[i + 2] ?? '');
+  if (word === 'hoje' || word === 'today' || word === 'hoy') return { date: today, length: 1 };
   if (
-    word === 'depois' &&
-    fold(tokens[i + 1] ?? '') === 'de' &&
-    fold(tokens[i + 2] ?? '') === 'amanha'
-  ) {
+    (word === 'depois' && next === 'de' && after === 'amanha') ||
+    (word === 'day' && next === 'after' && after === 'tomorrow')
+  )
     return { date: addDays(today, 2), length: 3 };
-  }
+  if (word === 'pasado' && next === 'manana') return { date: addDays(today, 2), length: 2 };
+  if (word === 'amanha' || word === 'tomorrow' || word === 'manana')
+    return { date: addDays(today, 1), length: 1 };
 
   const weekday = WEEKDAYS[word.replace(/-feira$/, '')];
   if (weekday !== undefined) return { date: nextWeekday(today, weekday), length: 1 };
 
   const m = DATE_RE.exec(tokens[i]);
   if (m) {
-    const day = Number(m[1]);
-    const month = Number(m[2]);
+    const day = Number(order === 'mdy' ? m[2] : m[1]);
+    const month = Number(order === 'mdy' ? m[1] : m[2]);
     let date: IsoDate | null;
     if (m[3]) {
       const year = m[3].length === 2 ? 2000 + Number(m[3]) : Number(m[3]);
@@ -201,7 +248,8 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
       continue;
     }
     // Só a primeira data conta; as seguintes ficam no título
-    const date = result.dueDate ? null : parseDateAt(tokens, i, options.today);
+    const order = options.dateOrder ?? (dateLocale() === 'en' ? 'mdy' : 'dmy');
+    const date = result.dueDate ? null : parseDateAt(tokens, i, options.today, order);
     if (date) {
       result.dueDate = date.date;
       if (kept.length > 0 && DATE_PREPOSITIONS.has(fold(kept[kept.length - 1]))) kept.pop();

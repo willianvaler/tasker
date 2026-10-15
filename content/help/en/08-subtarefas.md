@@ -14,4 +14,4 @@ The parent is a **bundle**: its progress is its subtasks' ("2/5"), and it comple
 
 ## Codes
 
-Press `W` to see codes like **1.2.3**. The **Outline** view shows the whole tree, and the page menu exports it as text.
+Press `W` to see codes like **1.2.3**. The **Structure** view shows the whole tree, and the page menu exports it as text.

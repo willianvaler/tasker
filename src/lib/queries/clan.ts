@@ -1,3 +1,4 @@
+import { tr } from '@/lib/i18n-ref';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
@@ -42,7 +43,7 @@ export function useClan() {
         members: members.data.map((m) => ({
           userId: m.user_id,
           role: m.role,
-          displayName: m.profile?.display_name || 'Alguém',
+          displayName: m.profile?.display_name || tr('common.someone'),
           level: m.profile?.level ?? 1,
         })),
         activity: activity.data as ClanActivity[],

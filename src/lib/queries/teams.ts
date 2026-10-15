@@ -1,3 +1,4 @@
+import { tr } from '@/lib/i18n-ref';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { TFunction } from 'i18next';
 import { z } from 'zod';
@@ -119,7 +120,7 @@ export function useTeam(teamId: string) {
       const list: TeamMember[] = members.data.map((m) => ({
         userId: m.user_id,
         role: m.role,
-        displayName: m.profile?.display_name || 'Alguém',
+        displayName: m.profile?.display_name || tr('common.someone'),
         joinedAt: m.joined_at,
       }));
       return {
@@ -168,7 +169,7 @@ export function useTeamAdmin(teamId: string, enabled: boolean) {
         invites: invites.data.filter((i) => i.uses < i.max_uses),
         requests: requests.data.map(({ profile, ...r }) => ({
           ...r,
-          displayName: profile?.display_name || 'Alguém',
+          displayName: profile?.display_name || tr('common.someone'),
         })) as JoinRequest[],
         audit: audit.data.map(({ actor, target, ...a }) => ({
           ...a,
