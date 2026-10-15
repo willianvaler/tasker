@@ -6,7 +6,7 @@
 
 ## Editing later
 
-Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 4,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, page fields and comments. Each field saves when you leave it.
+Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 10,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, page fields and comments. Each field saves when you leave it.
 
 At the top of the panel, **Simple ▾** shows only the essentials; switch to **Full** to see time, sets, weight, dependencies, fields, approval, My day and history. Whatever the task already uses shows even in Simple.
 

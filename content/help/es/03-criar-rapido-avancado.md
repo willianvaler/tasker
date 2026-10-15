@@ -6,7 +6,7 @@
 
 ## Editar después
 
-Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 4.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la página y comentarios. Cada campo se guarda al salir de él.
+Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 10.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la página y comentarios. Cada campo se guarda al salir de él.
 
 Arriba del panel, **Simple ▾** muestra solo lo esencial; cambia a **Completo** para ver tiempo, series, peso, dependencias, campos, aprobación, Mi día e historial. Lo que la tarea ya usa aparece incluso en Simple.
 

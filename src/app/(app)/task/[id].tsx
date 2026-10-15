@@ -109,7 +109,7 @@ const parseLabelsText = (text: string) =>
     .filter(Boolean);
 
 /** Descrição da tarefa (W4): o mesmo limite do banco (tasks_notes_check) */
-const NOTES_MAX = 4000;
+const NOTES_MAX = 10000;
 
 function PanelHeader({
   path,
