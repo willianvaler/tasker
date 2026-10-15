@@ -231,6 +231,62 @@ Decidido na A7: **PowerSync** (D75). A tabela abaixo é a do protocolo próprio;
 
 ---
 
+## ESCOPO_V4 (a partir de 15/10, na ordem sugerida pelo próprio V4)
+
+Valores marcados "provisório" são propostas minhas para não parar o trabalho; o dono ajusta (V4 §8).
+
+### Fase N — Anexos
+
+| # | Tarefa |
+|---|---|
+| N1 | Storage ligado, bucket privado `attachments`, tabela `task_attachments`, RLS igual à da tarefa + pgTAP |
+| N2 | Anexar no painel (web: arquivo; celular: câmera e galeria), imagem reduzida e recomprimida no aparelho (WebP, até 2048 px) + miniatura; pré-visualização; outros arquivos como link |
+| N3 | Offline: o anexo fica na fila do aparelho e sobe quando a conexão volta |
+| N4 | Limites: 10 MB por arquivo, cota por conta (provisório: 1 GB); E2E |
+
+### Fase O — Boss diário e dano
+
+| # | Tarefa |
+|---|---|
+| O1 | Boss diário (nasce à meia-noite do fuso, HP para 5–8 tarefas, nível próprio, recompensa menor; provisório) no servidor e nos espelhos |
+| O2 | Calibragem do dano (`_attack` + `lib/character.ts`, mesmos casos) |
+| O3 | Aviso de conclusão com o dano no diário e no semanal, e "limite diário atingido" |
+| O4 | Boss diário no Início, na Hoje e no Personagem, acima do semanal; sequência de diários derrotados |
+
+### Fase P — Conquistas com raridade
+
+| # | Tarefa |
+|---|---|
+| P1 | Raridade (comum → lendária) com nome e selo, % de jogadores |
+| P2 | Conquistas novas (volume, sequência, bosses, níveis, projetos, árvore, secretas) |
+| P3 | Tela de conquistas com filtros e progresso até a próxima da faixa |
+
+### Fase Q — Inventário e configurações
+
+| # | Tarefa |
+|---|---|
+| Q1 | Inventário (tela própria) com filtros por espaço e raridade; itens com raridade |
+| Q2 | Configurações só no Perfil; Personagem mostra só o jogo |
+
+### Fase R — Renascer (rebirth)
+
+| # | Tarefa |
+|---|---|
+| R1 | RPC de renascer (nível mínimo 20, bônus +5% por renascimento até +25%, ouro fica; provisório), ledger, conquistas, confirmação forte |
+
+### Fase S — Página de entrada
+
+| # | Tarefa |
+|---|---|
+| S1 | Página de apresentação antes do login, 3 idiomas, com capturas; convites continuam abrindo direto |
+
+### Fase T — Planos e assinaturas (depende de contas e decisões do dono)
+
+| # | Tarefa |
+|---|---|
+| T1 | Modelo de planos e assinaturas no servidor (validade, carência, cancelamento), selo founder |
+| T2 | Provedor de pagamento (Stripe na web; compras nas lojas) — bloqueado até o dono decidir e criar as contas |
+
 ## Riscos
 
 1. **Sync (Fase D)** é a maior incerteza: reescreve como as telas leem dados. Se o spike apontar PowerSync, a D encurta; com protocolo próprio, pode passar de 8 dias.

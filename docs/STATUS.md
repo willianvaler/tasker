@@ -138,6 +138,26 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **F4** Acessibilidade (contraste AA no tema claro com teste, foco, teclado, reduzir movimento) e desempenho (filtro por pastas nas consultas pelo servidor, pendência D70) (D148)
 - [x] **F5** Capturas finais (48, inclusive treino, pomodoro e ajuda) e revisão contra o checklist anti "cara de IA" com correções (D149). **Fase F concluída: V2/V3 completos**
 
+## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)
+
+- [ ] **N1** Storage + `task_attachments` + RLS
+- [ ] **N2** Anexar no painel, compressão WebP e miniatura no aparelho
+- [ ] **N3** Anexo offline (fila)
+- [ ] **N4** Limites e E2E
+- [ ] **O1** Boss diário no servidor
+- [ ] **O2** Calibragem do dano
+- [ ] **O3** Aviso com o dano nos bosses e limite atingido
+- [ ] **O4** Boss diário nas telas
+- [ ] **P1** Raridade das conquistas
+- [ ] **P2** Conquistas novas
+- [ ] **P3** Tela de conquistas
+- [ ] **Q1** Inventário e raridade dos itens
+- [ ] **Q2** Configurações só no Perfil
+- [ ] **R1** Renascer
+- [ ] **S1** Página de entrada
+- [ ] **T1** Planos e assinaturas (modelo)
+- [ ] **T2** Provedor de pagamento (bloqueado: decisão e contas do dono)
+
 ## Decisões em aberto
 
 | # | Pergunta | Quando | Resposta |
@@ -152,3 +172,9 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 | V3-3 | Biblioteca do grafo | antes da I | |
 | V3-4 | Página enviada: ao vivo ou cópia por padrão? | antes da L | **Ao vivo** (D133, decidido na ausência do dono; a cópia continua no envio) |
 | V3-6 | Quais itens B sobem de prioridade | depois da M | |
+| V4-1 | Boss diário: HP base e recompensa | O1 | Provisório (D150+) |
+| V4-2 | Rebirth: nível mínimo, ouro, bônus | R1 | Provisório: 20, ouro fica, +5%/renascimento até +25% |
+| V4-3 | Raridades: dificuldade fixa ou % de jogadores | P1 | Provisório: dificuldade fixa, % mostrada à parte |
+| V4-4 | Anexos: limite por arquivo e por conta | N4 | Provisório: 10 MB / 1 GB |
+| V4-5 | Planos: o que cada um libera, preços, founder | T1 | |
+| V4-6 | Provedor de pagamento e compras nas lojas | T2 | |
