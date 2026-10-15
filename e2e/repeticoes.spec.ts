@@ -1,6 +1,18 @@
 import { expect, test } from '@playwright/test';
 
-import { createPage, isRpc, openTab, shown, signUp, waitForSync } from './helpers';
+import {
+  adminRest,
+  ageTask,
+  createPage,
+  isRpc,
+  openTab,
+  shown,
+  signUp,
+  waitForSync,
+} from './helpers';
+
+const serverTask = async (title: string) =>
+  (await adminRest(`tasks?title=eq.${encodeURIComponent(title)}&select=id,status`))[0];
 
 test('repetições: "3x12" na captura, cada série conta e a última conclui; desfazer reabre', async ({
   page,
@@ -67,4 +79,56 @@ test('repetições: no card, "0/2" conta a série; "x8" vira contador', async ({
   await expect(page.getByRole('textbox', { name: 'Quantas' })).toHaveValue('8');
   await page.getByRole('button', { name: 'Mais uma' }).click();
   await expect(page.getByLabel('1 de 8', { exact: true })).toBeVisible();
+});
+
+test('repetições: XP só na última série; offline fica pendente e o oficial chega ao voltar', async ({
+  page,
+  context,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await page.goto('/inbox');
+  const title = `Barra ${testInfo.project.name} ${Date.now()}`;
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill(`${title} 2x8`);
+  await input.press('Enter');
+  await expect
+    .poll(async () => (await serverTask(title))?.status, { timeout: 20_000 })
+    .toBe('todo');
+  // Concluir logo depois de criar vale 0 XP (relâmpago): envelhece e espera chegar ao aparelho
+  await ageTask(title);
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          async (t) =>
+            (
+              await (window as any).questlistDb.getOptional(
+                "select 1 as ok from tasks where title = ? and julianday(created_at) < julianday('now', '-1 minute')",
+                [t],
+              )
+            )?.ok ?? 0,
+          title,
+        ),
+      { timeout: 20_000 },
+    )
+    .toBe(1);
+
+  const more = (done: number) =>
+    page.getByRole('button', { name: `Mais uma em ${title} (${done} de 2)` });
+  await context.setOffline(true);
+  await more(0).click();
+  // A série do meio não promete XP
+  await expect(page.getByRole('alert').filter({ hasText: `${title}: 1/2` })).toBeVisible();
+  await expect(page.getByRole('alert').filter({ hasText: 'XP' })).toHaveCount(0);
+  await more(1).click();
+  await expect(page.getByRole('alert').filter({ hasText: '+~10 XP (pendente)' })).toBeVisible();
+
+  await context.setOffline(false);
+  await expect
+    .poll(async () => (await serverTask(title))?.status, { timeout: 30_000 })
+    .toBe('done');
+  await expect(page.getByText('+10 XP pendente')).toHaveCount(0, { timeout: 15_000 });
+  if (testInfo.project.name === 'desktop')
+    await expect(page.getByRole('navigation').getByText(/^10\/\d+ XP$/)).toBeVisible();
 });

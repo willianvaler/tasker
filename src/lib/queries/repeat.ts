@@ -9,7 +9,16 @@ import { isLocal, runCommand, sessionUserId } from '../sync/local';
 import { uuidv7 } from '../uuid';
 import { completionSummarySchema, type CompletionSummary } from './game';
 import { keys, taskMutationKey } from './keys';
-import { invalidateWhenIdle, patchTaskLists, restore, snapshot, type Task } from './tasks';
+import { estimateCompletionXp } from '../sync/pending-xp';
+import {
+  invalidateWhenIdle,
+  localTaskForXp,
+  patchTaskLists,
+  pendingSummary,
+  restore,
+  snapshot,
+  type Task,
+} from './tasks';
 
 // Séries feitas (J1, D123): a conta é do usuário (task_progress) e só o log_rep muda. Concluir
 // no total é efeito do servidor; aqui a tela só antecipa.
@@ -61,37 +70,53 @@ export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise
   if (!plan) return null;
   const args = { p_task_id: task.id, p_delta: delta, p_values: values ?? null };
   let result: unknown;
+  let estimate = 0;
   if (isLocal()) {
     const userId = await sessionUserId();
-    result = await runCommand('log_rep', args, async (tx) => {
-      // Pela transação: o `db` esperaria esta mesma transação terminar
-      const row = await tx.getOptional<{ status: string; done_reps: number | null }>(
-        `select t.status, p.done_reps from tasks t
+    // XP só na série que conclui (J6): é ela que vira pendente sem resposta do servidor
+    const before = await db.getOptional<{ status: string; done_reps: number | null }>(
+      `select t.status, p.done_reps from tasks t
+       left join task_progress p on p.task_id = t.id and p.user_id = ? where t.id = ?`,
+      [userId, task.id],
+    );
+    const concludes =
+      !!before && before.status !== 'done' && applyRep(plan, false, before.done_reps, delta).done;
+    const xpTask = concludes ? await localTaskForXp(task.id) : null;
+    estimate = xpTask ? estimateCompletionXp(xpTask) : 0;
+    result = await runCommand(
+      'log_rep',
+      args,
+      async (tx) => {
+        // Pela transação: o `db` esperaria esta mesma transação terminar
+        const row = await tx.getOptional<{ status: string; done_reps: number | null }>(
+          `select t.status, p.done_reps from tasks t
          left join task_progress p on p.task_id = t.id and p.user_id = ? where t.id = ?`,
-        [userId, task.id],
-      );
-      if (!row) return;
-      const next = applyRep(plan, row.status === 'done', row.done_reps, delta);
-      const now = new Date().toISOString();
-      // As tabelas do PowerSync são views: sem "on conflict"
-      if (row.done_reps == null)
-        await tx.execute(
-          `insert into task_progress (id, task_id, user_id, done_reps, logged_values, cycle_key, updated_at)
+          [userId, task.id],
+        );
+        if (!row) return;
+        const next = applyRep(plan, row.status === 'done', row.done_reps, delta);
+        const now = new Date().toISOString();
+        // As tabelas do PowerSync são views: sem "on conflict"
+        if (row.done_reps == null)
+          await tx.execute(
+            `insert into task_progress (id, task_id, user_id, done_reps, logged_values, cycle_key, updated_at)
            values (?, ?, ?, ?, '[]', 'once', ?)`,
-          [`${task.id}:${userId}`, task.id, userId, next.reps, now],
-        );
-      else
-        await tx.execute(
-          'update task_progress set done_reps = ?, updated_at = ? where task_id = ? and user_id = ?',
-          [next.reps, now, task.id, userId],
-        );
-      if (next.done !== (row.status === 'done'))
-        await tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
-          next.done ? 'done' : 'todo',
-          next.done ? new Date().toISOString() : null,
-          task.id,
-        ]);
-    });
+            [`${task.id}:${userId}`, task.id, userId, next.reps, now],
+          );
+        else
+          await tx.execute(
+            'update task_progress set done_reps = ?, updated_at = ? where task_id = ? and user_id = ?',
+            [next.reps, now, task.id, userId],
+          );
+        if (next.done !== (row.status === 'done'))
+          await tx.execute('update tasks set status = ?, completed_at = ? where id = ?', [
+            next.done ? 'done' : 'todo',
+            next.done ? new Date().toISOString() : null,
+            task.id,
+          ]);
+      },
+      estimate,
+    );
   } else {
     // Mesmo online vai pelo run_once: o reenvio da fila do TanStack não conta duas vezes
     const { data, error } = await supabase.rpc('run_once', {
@@ -102,7 +127,11 @@ export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise
     if (error) throw error;
     result = data;
   }
-  if (result == null) return null;
+  if (result == null) {
+    // Sem resposta (offline, lento): só a série que conclui mostra o XP estimado, como pendente
+    if (estimate <= 0) return null;
+    return { reps: plan.total, completed: true, summary: pendingSummary(estimate) };
+  }
   const rep = repResultSchema.parse(result);
   return {
     reps: rep.done_reps ?? 0,

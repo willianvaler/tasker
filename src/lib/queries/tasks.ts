@@ -671,7 +671,7 @@ export async function updateTaskFn({ id, patch }: UpdateTaskVars) {
 
 /** Kanban: mover entre A fazer, Fazendo e Feito (Feito = concluir, com XP). */
 /** Prioridade, tipo da página e recorrência: o que a estimativa de XP pendente usa. */
-function localTaskForXp(id: string) {
+export function localTaskForXp(id: string) {
   return db.getOptional<{
     priority: number;
     parent_task_id: string | null;
@@ -694,7 +694,7 @@ function estimateHabitTickXp(task: Task, delta: 1 | -1) {
 }
 
 /** Resposta "de mentira" enquanto o comando está na fila: só o XP estimado, marcado pendente. */
-const pendingSummary = (xp: number): CompletionSummary => ({
+export const pendingSummary = (xp: number): CompletionSummary => ({
   xp,
   level: null,
   level_up: false,

@@ -151,3 +151,31 @@ test('web: aba escondida recebe o aviso pelo Service Worker; tela fica acesa no 
     await page.evaluate(async () => !!(await navigator.serviceWorker.getRegistration('/sw.js'))),
   ).toBe(true);
 });
+
+test('segundo plano: parado por minutos, o timer volta já terminado (o fim é absoluto)', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'A paleta (Ctrl+K) é do computador');
+  test.setTimeout(90_000);
+  // O relógio da página passa a ser do teste: dá para "dormir" sem esperar de verdade
+  await page.clock.install();
+  await signUp(page, testInfo);
+
+  await page.keyboard.press('Control+k');
+  await page.getByRole('textbox', { name: 'Buscar ou executar' }).fill('temporizador de 1');
+  await page.keyboard.press('Enter');
+  await expect(bar(page)).toHaveAccessibleName(/^Temporizador: (1:00|0:5\d)$/);
+  await waitForSync(page);
+
+  // Aba congelada por 30 s: nenhum intervalo rodou, e mesmo assim o tempo certo aparece
+  await page.clock.fastForward('00:30');
+  await expect(bar(page)).toHaveAccessibleName(/^Temporizador: 0:(29|30|31)$/);
+
+  // Mais 2 minutos sem rodar nada: ao voltar, já terminou (e continua terminado ao recarregar)
+  await page.clock.fastForward('02:00');
+  await expect(bar(page)).toHaveCount(0);
+  await waitForSync(page);
+  await page.reload();
+  await expect(page.getByRole('heading', { name: /^Olá|^Hoje/ }).first()).toBeVisible();
+  await expect(bar(page)).toHaveCount(0);
+});
