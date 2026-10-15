@@ -69,7 +69,7 @@ export function Related({
           {t('related.title')}
         </Text>
         {list.map((r) => (
-          <View key={r.id} className="flex-row items-center rounded bg-wash">
+          <View key={r.id} className="max-w-full flex-row items-center rounded bg-wash">
             <Pressable
               accessibilityRole="link"
               accessibilityLabel={
@@ -79,9 +79,13 @@ export function Related({
               }
               disabled={!r.title}
               onPress={() => open(r.other_type, r.other_id)}
-              className="min-h-8 justify-center px-2 hover:bg-line"
+              className="min-h-8 shrink justify-center px-2 hover:bg-line"
             >
-              <Text className={cn('text-sm', r.title ? 'text-ink' : 'italic text-ink-muted')}>
+              {/* Título longo corta com "…": o X de desfazer o vínculo não pode sair da tela */}
+              <Text
+                numberOfLines={1}
+                className={cn('text-sm', r.title ? 'text-ink' : 'italic text-ink-muted')}
+              >
                 {r.icon && !r.icon.startsWith('lucide:') ? `${r.icon} ` : ''}
                 {r.title ?? t('related.restricted')}
               </Text>
@@ -93,7 +97,7 @@ export function Related({
                   title: r.title ?? t('related.restricted'),
                 })}
                 onPress={() => m.remove.mutate(r.id, { onError })}
-                className="h-8 w-7 items-center justify-center hover:bg-line"
+                className="h-8 w-7 shrink-0 items-center justify-center hover:bg-line"
               >
                 <Icon icon={X} size={16} tone="ink-muted" />
               </Pressable>
