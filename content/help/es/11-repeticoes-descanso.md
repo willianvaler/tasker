@@ -8,8 +8,8 @@ Tras cada serie empieza el **descanso** (60 s por defecto; cámbialo en "Cuánta
 
 ## Modo Entrenamiento
 
-En páginas de tarjetas, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al final, un resumen con tiempo, series, volumen y XP. Funciona sin internet y mantiene la pantalla encendida.
+En páginas de tarjetas o con tareas que tienen series, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al final, un resumen con tiempo, series, volumen y XP. Funciona sin internet y mantiene la pantalla encendida.
 
 ## Modo: entrenamiento, foco o descanso
 
-El botón **Modo** (barra lateral, el rayo arriba de Hoy en el móvil, o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.
+El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

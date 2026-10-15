@@ -9,7 +9,7 @@ import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
 import { Sheet } from '@/components/ui/sheet';
 import { Text } from '@/components/ui/text';
-import { pageLabel, useTree } from '@/lib/queries/tree';
+import { pageLabel, useTree, useWorkoutPageIds } from '@/lib/queries/tree';
 import { useToast } from '@/providers/toast';
 
 // Modos (U1, D159): Treino, Foco e Descanso num lugar só. Antes cada um ficava numa tela: o Modo
@@ -35,7 +35,11 @@ export default function ModesScreen() {
   const tree = useTree();
   const pomodoro = usePomodoro();
   const startTimer = useStartTimer();
-  const workouts = (tree.data?.pages ?? []).filter((p) => p.view_type === 'cards');
+  const seriesPages = useWorkoutPageIds().data ?? [];
+  // W7: as de cards e as que têm tarefa com séries (o Modo Treino serve para as duas)
+  const workouts = (tree.data?.pages ?? []).filter(
+    (p) => p.view_type === 'cards' || seriesPages.includes(p.id),
+  );
 
   return (
     <Sheet

@@ -160,15 +160,18 @@ export default function PageScreen() {
           />
         </View>
       )}
-      {page?.view_type === 'cards' && (pageTasks.data?.length ?? 0) > 0 && (
-        <View className="flex-row pb-3">
-          <Button
-            icon={Play}
-            label={t('workout.start')}
-            onPress={() => router.push({ pathname: '/treino/[id]', params: { id: page.id } })}
-          />
-        </View>
-      )}
+      {/* W7: o Modo Treino serve para qualquer página com séries, não só a de cards */}
+      {page &&
+        (pageTasks.data?.length ?? 0) > 0 &&
+        (page.view_type === 'cards' || pageTasks.data?.some((task) => !!task.repeat_plan)) && (
+          <View className="flex-row pb-3">
+            <Button
+              icon={Play}
+              label={t('workout.start')}
+              onPress={() => router.push({ pathname: '/treino/[id]', params: { id: page.id } })}
+            />
+          </View>
+        )}
       <PageView page={page} />
       {folderDialog}
 

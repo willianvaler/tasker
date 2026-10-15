@@ -156,7 +156,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **W4** Descrição em tarefas e hábitos ("+ adicionar descrição", até 4.000 caracteres) (D168)
 - [x] **W5** Painel da tarefa mais largo; busca de Relacionar legível (D169)
 - [x] **W6** Clicar fora do painel fecha e salva (D170)
-- [ ] **W7** Modo Treino fácil de achar
+- [x] **W7** Modo Treino fácil de achar (D171)
 - [ ] **W8** `ESCOPO_V5.md`: relógio, tela de bloqueio, usabilidade, HTTPS, LGPD, e-mail, restauração de conta
 
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)

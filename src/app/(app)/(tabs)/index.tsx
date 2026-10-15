@@ -12,6 +12,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { TaskRow } from '@/components/tasks/task-row';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { ModeButton } from '@/components/mode-button';
 import { NotesBlock } from '@/components/notes-block';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
@@ -181,6 +182,7 @@ export default function HomeScreen() {
             right={
               width < 768 && (
                 <>
+                  <ModeButton />
                   <ThemeToggle />
                   <NotificationsBell />
                 </>

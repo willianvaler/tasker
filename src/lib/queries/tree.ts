@@ -9,6 +9,7 @@ import {
   isLocal,
   localInsert,
   localUpdate,
+  myFolderIds,
   newRowStamps,
   sessionUserId,
   toFolder,
@@ -112,6 +113,34 @@ export function useConfirmedMissing(id: string | undefined, found: boolean) {
     refetch().finally(() => setChecked(id ?? null));
   }, [suspect, checked, id, refetch]);
   return suspect && checked === id;
+}
+
+/**
+ * Páginas para o Modo Treino (W7): as de cards e as que têm alguma tarefa com séries. Só ids
+ * (a árvore dá o resto).
+ */
+export function useWorkoutPageIds() {
+  return useQuery({
+    queryKey: ['workout-pages'],
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<string[]> => {
+      if (isLocal()) {
+        const rows = await db.getAll<{ page_id: string }>(
+          'select distinct page_id from tasks where repeat_plan is not null',
+        );
+        return rows.map((r) => r.page_id);
+      }
+      const folders = await myFolderIds();
+      if (!folders.length) return [];
+      const { data, error } = await supabase
+        .from('tasks')
+        .select('page_id')
+        .in('folder_id', folders)
+        .not('repeat_plan', 'is', null);
+      if (error) throw error;
+      return [...new Set(data.map((r) => r.page_id))];
+    },
+  });
 }
 
 export function useTreeMutations() {

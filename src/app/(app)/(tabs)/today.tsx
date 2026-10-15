@@ -1,5 +1,3 @@
-import { router } from 'expo-router';
-import { Zap } from 'lucide-react-native';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionList, useWindowDimensions, View } from 'react-native';
@@ -12,8 +10,8 @@ import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { TaskRow } from '@/components/tasks/task-row';
+import { ModeButton } from '@/components/mode-button';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { IconButton } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
@@ -90,11 +88,7 @@ export default function TodayScreen() {
                 // Em tela larga o tema e as notificações ficam na barra lateral
                 width < 768 && (
                   <>
-                    <IconButton
-                      icon={Zap}
-                      label={t('modes.open')}
-                      onPress={() => router.push('/modos')}
-                    />
+                    <ModeButton />
                     <ThemeToggle />
                     <NotificationsBell />
                   </>
