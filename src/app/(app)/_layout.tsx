@@ -61,6 +61,7 @@ export default function AppLayout() {
                 options={{ presentation: 'transparentModal', animation: 'fade' }}
               />
               <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="treino/[id]" options={{ presentation: 'fullScreenModal' }} />
             </Stack>
             {!wide && !onboarding && <SyncDot floating />}
             {!onboarding && <TimerBar floating />}

@@ -58,7 +58,9 @@
     "treeCodes": "Mostrar u ocultar los códigos WBS (1.2.1)",
     "taskStart": "Iniciar o detener la tarea",
     "taskLink": "Vincular a otra tarea (Depende de)",
-    "goFlow": "Ir a la vista Flujo del proyecto"
+    "goFlow": "Ir a la vista Flujo del proyecto",
+    "workoutDone": "Marcar la serie hecha",
+    "workoutSkipRest": "Saltar el descanso"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -899,7 +901,8 @@
     "scope_menu": "Dentro del menú Nuevo",
     "typingNote": "Los atajos sin Ctrl/⌘ no funcionan mientras escribes en un campo (Esc sale del campo).",
     "browserNote": "En el navegador, Ctrl+N y Ctrl+Shift+N son del navegador: usa Alt+N y Alt+Shift+N.",
-    "link": "Ayuda"
+    "link": "Ayuda",
+    "scope_workout": "En el modo Entrenamiento"
   },
   "sync": {
     "title": "Sincronización",
@@ -1298,5 +1301,36 @@
     "backToIt": "Hora de volver",
     "timeUp": "Se acabó el tiempo",
     "noVibration": "Este navegador no vibra; el aviso llega con sonido."
+  },
+  "workout": {
+    "start": "Empezar entrenamiento",
+    "title": "Entrenamiento",
+    "empty": "Nada por hacer en esta página.",
+    "exit": "Salir del entrenamiento (el avance se guarda)",
+    "exercise": "Ejercicio {{n}} de {{total}}",
+    "set": "Serie {{n}} de {{total}}",
+    "time": "Vez {{n}} de {{total}}",
+    "single": "Una vez",
+    "alreadyDone": "Ya hecho",
+    "done": "Hecha",
+    "doneHint": "Atajo: Espacio",
+    "skipRest": "Saltar descanso (R)",
+    "previous": "Anterior",
+    "skip": "Saltar ejercicio",
+    "addSet": "Una serie más",
+    "lighter": "Bajar la carga",
+    "heavier": "Subir la carga",
+    "load": "Carga: {{weight}}",
+    "pause": "Pausar el entrenamiento",
+    "resume": "Reanudar el entrenamiento",
+    "elapsed": "Tiempo de entrenamiento: {{time}}",
+    "progress": "{{done}} de {{total}} series",
+    "finishedTitle": "Entrenamiento completado",
+    "summaryTime": "Tiempo",
+    "summarySets": "Series",
+    "summaryVolume": "Volumen",
+    "summaryXp": "XP",
+    "summarySkipped": "Saltados",
+    "finish": "Terminar"
   }
 }

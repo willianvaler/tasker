@@ -109,9 +109,9 @@ test('atalhos de lista: prioridade, concluir, apagar e desfazer, navegar', async
   await page.keyboard.press('3');
   await expect(page.getByText('!!!', { exact: true })).toBeVisible();
 
-  // X conclui, Ctrl+Z desfaz
+  // Espaço (ou X) conclui, Ctrl+Z desfaz
   const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
-  await page.keyboard.press('x');
+  await page.keyboard.press(' ');
   await done;
   await expect(page.getByRole('checkbox', { name: 'Reabrir Lavar louça' })).toHaveCount(0);
   const undone = page.waitForResponse((r) => isRpc(r, 'uncomplete_task'));

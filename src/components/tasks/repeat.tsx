@@ -44,15 +44,15 @@ export function useReps(task: Task) {
   return { plan, reps: effectiveReps(plan, task.status === 'done', progress.data?.[task.id]) };
 }
 
+/** Última conta calculada por tarefa (o otimista do TanStack só entra depois de um await). */
+const lastCount = new Map<string, { reps: number; at: number }>();
+
 /**
- * +1 ou −1 com aviso: "Supino: 2/3"; na última, a recompensa e o "Desfazer". Nas séries, o
- * descanso começa sozinho (J3); desfazer cancela o descanso desta tarefa.
+ * Uma série (+1) ou desfazer (−1), sem aviso: conta, guarda os valores da série e, nas séries,
+ * começa o descanso (J3); desfazer cancela o descanso desta tarefa. O Modo Treino usa direto.
  */
-export function useRepWithToast() {
+export function useLogSet() {
   const log = useLogRep();
-  const toast = useToast();
-  const game = useGameState();
-  const { t } = useTranslation();
   const startTimer = useStartTimer();
   const timers = useTimerActions();
   const active = useActiveTimer().data;
@@ -62,33 +62,23 @@ export function useRepWithToast() {
       timers.act(active, 'cancel').catch(() => {});
   };
 
-  return (task: Task, plan: RepeatPlan, reps: number, delta: 1 | -1) => {
+  const logSet = (
+    task: Task,
+    plan: RepeatPlan,
+    reps: number,
+    delta: 1 | -1,
+    values?: Record<string, unknown>,
+  ) => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    const next = Math.max(0, Math.min(plan.total, reps + delta));
-    const undo = {
-      label: t('common.undo'),
-      onPress: () => {
-        cancelRest(task);
-        log.mutate({
-          task: { ...task, status: next >= plan.total ? 'done' : task.status },
-          delta: -1,
-          id: uuidv7(),
-        });
-      },
-    };
-    const message = t('repeat.logged', { title: task.title, done: next, total: plan.total });
-    if (delta === 1) toast({ message, action: undo });
-    else cancelRest(task);
-    // mutateAsync: a recompensa chega mesmo se a linha sair da tela (ver useToggleWithUndo)
-    log.mutateAsync({ task, delta, id: uuidv7() }).then(
-      (result) => {
-        const reward =
-          result?.summary && game.data?.enabled !== false ? rewardMessage(result.summary) : null;
-        if (reward && delta === 1) toast({ message: `${message} · ${reward}`, action: undo });
-      },
-      (err: Error) => toast({ message: err.message }),
-    );
-    const rest = delta === 1 && reps < plan.total ? restAfterRep(plan, next) : null;
+    // Dois toques seguidos: o segundo parte do que o primeiro calculou (a tela ainda não mudou)
+    const last = lastCount.get(task.id);
+    const base = last && Date.now() - last.at < 3000 ? last.reps : reps;
+    const next = Math.max(0, Math.min(plan.total, base + delta));
+    lastCount.set(task.id, { reps: next, at: Date.now() });
+    if (delta === -1) cancelRest(task);
+    // mutateAsync: a resposta chega mesmo se a linha sair da tela (ver useToggleWithUndo)
+    const result = log.mutateAsync({ task, delta, id: uuidv7(), values });
+    const rest = delta === 1 && base < plan.total ? restAfterRep(plan, next) : null;
     if (rest)
       startTimer({
         kind: 'rest',
@@ -98,6 +88,43 @@ export function useRepWithToast() {
           ? { label: task.title, after: true }
           : { label: `${task.title}, ${next + 1}/${plan.total}` },
       });
+    return { next, result };
+  };
+
+  /** Desfaz a última (do aviso): a tarefa pode já estar concluída por ela. */
+  const undo = (task: Task, plan: RepeatPlan, next: number) => {
+    cancelRest(task);
+    lastCount.set(task.id, { reps: Math.max(0, next - 1), at: Date.now() });
+    log.mutate({
+      task: { ...task, status: next >= plan.total ? 'done' : task.status },
+      delta: -1,
+      id: uuidv7(),
+    });
+  };
+
+  return { logSet, undo };
+}
+
+/** +1 ou −1 com aviso: "Supino: 2/3"; na última, a recompensa. "Desfazer" no aviso. */
+export function useRepWithToast() {
+  const { logSet, undo } = useLogSet();
+  const toast = useToast();
+  const game = useGameState();
+  const { t } = useTranslation();
+
+  return (task: Task, plan: RepeatPlan, reps: number, delta: 1 | -1) => {
+    const { next, result } = logSet(task, plan, reps, delta);
+    const action = { label: t('common.undo'), onPress: () => undo(task, plan, next) };
+    const message = t('repeat.logged', { title: task.title, done: next, total: plan.total });
+    if (delta === 1) toast({ message, action });
+    result.then(
+      (rep) => {
+        const reward =
+          rep?.summary && game.data?.enabled !== false ? rewardMessage(rep.summary) : null;
+        if (reward && delta === 1) toast({ message: `${message} · ${reward}`, action });
+      },
+      (err: Error) => toast({ message: err.message }),
+    );
   };
 }
 

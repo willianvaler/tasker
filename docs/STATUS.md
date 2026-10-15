@@ -101,7 +101,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **J2** Tabela `timers` com `ends_at` absoluto, um ativo por usuário, sincronizado: RPCs `start_timer`/`update_timer` (também offline, vence quem iniciou por último), mini-barra flutuante, início pela paleta, E2E com dois aparelhos (D124)
 - [x] **J3** Timer de descanso: começa sozinho depois da série (desfazer cancela), +30/−30/Pular na mini-barra e em grande no painel, notificação local agendada para o fim (`expo-notifications`), vibração (`expo-haptics`), permissão pedida no primeiro timer (D125). Falta testar a notificação num development build
 - [x] **J4** Web: aviso pelo Service Worker (`public/sw.js`) com a aba escondida, `setTimeout` único para o fim, som por Web Audio, vibração onde houver, Wake Lock no descanso; limitações na D126
-- [ ] **J5** Modo Treino em tela cheia (Space = série feita, R = pular descanso), resumo final, offline
+- [x] **J5** Modo Treino em tela cheia (`/treino/[id]`, "Iniciar treino" nos cards): Espaço = série feita, R = pular descanso, carga −/+, mais uma série, anterior/pular, pausa, resumo (tempo, séries, volume, XP), offline, tela acesa (D127). Corrigido o Espaço nos atalhos (nunca disparava)
 - [ ] **J6** XP só na conclusão final, validado no servidor; testes de timer em segundo plano
 
 ## Fase K — Pomodoro e tempo (16/12 – 18/12)

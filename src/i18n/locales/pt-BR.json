@@ -58,7 +58,9 @@
     "treeCodes": "Mostrar ou esconder os códigos WBS (1.2.1)",
     "taskStart": "Iniciar ou parar a tarefa",
     "taskLink": "Ligar a outra tarefa (Depende de)",
-    "goFlow": "Ir para a visão Fluxo do projeto"
+    "goFlow": "Ir para a visão Fluxo do projeto",
+    "workoutDone": "Marcar a série feita",
+    "workoutSkipRest": "Pular o descanso"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -899,7 +901,8 @@
     "scope_menu": "Dentro do menu Novo",
     "typingNote": "Atalhos sem Ctrl/⌘ não valem enquanto você digita num campo (Esc sai do campo).",
     "browserNote": "No navegador, Ctrl+N e Ctrl+Shift+N são do próprio navegador: use Alt+N e Alt+Shift+N.",
-    "link": "Ajuda"
+    "link": "Ajuda",
+    "scope_workout": "No Modo Treino"
   },
   "sync": {
     "title": "Sincronização",
@@ -1298,5 +1301,36 @@
     "backToIt": "Hora de voltar",
     "timeUp": "Tempo esgotado",
     "noVibration": "Neste navegador não há vibração; o aviso vem com som."
+  },
+  "workout": {
+    "start": "Iniciar treino",
+    "title": "Treino",
+    "empty": "Nada para fazer nesta página.",
+    "exit": "Sair do treino (o andamento fica guardado)",
+    "exercise": "Exercício {{n}} de {{total}}",
+    "set": "Série {{n}} de {{total}}",
+    "time": "Vez {{n}} de {{total}}",
+    "single": "Uma vez",
+    "alreadyDone": "Já feito",
+    "done": "Feita",
+    "doneHint": "Atalho: Espaço",
+    "skipRest": "Pular descanso (R)",
+    "previous": "Anterior",
+    "skip": "Pular exercício",
+    "addSet": "Mais uma série",
+    "lighter": "Diminuir a carga",
+    "heavier": "Aumentar a carga",
+    "load": "Carga: {{weight}}",
+    "pause": "Pausar o treino",
+    "resume": "Retomar o treino",
+    "elapsed": "Tempo de treino: {{time}}",
+    "progress": "{{done}} de {{total}} séries",
+    "finishedTitle": "Treino concluído",
+    "summaryTime": "Tempo",
+    "summarySets": "Séries",
+    "summaryVolume": "Volume",
+    "summaryXp": "XP",
+    "summarySkipped": "Pulados",
+    "finish": "Concluir"
   }
 }

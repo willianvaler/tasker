@@ -14,7 +14,7 @@ const isMac =
   typeof navigator !== 'undefined' &&
   /Mac|iPhone|iPad/.test(navigator.userAgent);
 
-const SCOPES: ShortcutScope[] = ['global', 'list', 'editor', 'capture', 'menu'];
+const SCOPES: ShortcutScope[] = ['global', 'list', 'editor', 'capture', 'menu', 'workout'];
 
 const fold = (text: string) =>
   text

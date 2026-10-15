@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
-import { MoreHorizontal, SlidersHorizontal } from 'lucide-react-native';
+import { MoreHorizontal, Play, SlidersHorizontal } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { PageView } from '@/components/tasks/page-view';
-import { IconButton } from '@/components/ui/button';
+import { Button, IconButton } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { effectiveMaxDepth } from '@/config/limits';
@@ -118,6 +118,15 @@ export default function PageScreen() {
             editable={relatable}
             hideEmpty
             startSearching={relating}
+          />
+        </View>
+      )}
+      {page?.view_type === 'cards' && (pageTasks.data?.length ?? 0) > 0 && (
+        <View className="flex-row pb-3">
+          <Button
+            icon={Play}
+            label={t('workout.start')}
+            onPress={() => router.push({ pathname: '/treino/[id]', params: { id: page.id } })}
           />
         </View>
       )}

@@ -44,7 +44,8 @@ if (Platform.OS === 'web' && typeof window !== 'undefined') {
 }
 
 function matches(combo: string, event: KeyboardEvent) {
-  const steps = combo.split(' ');
+  // Espaço sozinho é a tecla, não o separador das sequências ("g h")
+  const steps = combo === ' ' ? [combo] : combo.split(' ');
   if (steps.length === 1) return matchesCombo(combo, event, isMac);
   const [first, second] = steps;
   return (

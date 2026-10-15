@@ -4,7 +4,7 @@ import type { Permission } from './permissions';
 // paleta de comandos leem esta lista, nunca uma cópia à mão. As descrições são chaves do i18n.
 
 /** Onde o atalho vale. `global`: qualquer tela logada; os outros, só com aquela área ativa. */
-export type ShortcutScope = 'global' | 'list' | 'editor' | 'capture' | 'menu';
+export type ShortcutScope = 'global' | 'list' | 'editor' | 'capture' | 'menu' | 'workout';
 
 /**
  * Uma combinação: teclas separadas por "+", modificadores antes (`mod` = Ctrl, ou ⌘ no Mac).
@@ -57,6 +57,13 @@ export const SHORTCUTS = [
     combos: ['mod+n', 'alt+n'],
     description: 'shortcuts.newOpen',
     scope: 'global',
+  },
+  { id: 'workout.done', combos: [' '], description: 'shortcuts.workoutDone', scope: 'workout' },
+  {
+    id: 'workout.skipRest',
+    combos: ['r'],
+    description: 'shortcuts.workoutSkipRest',
+    scope: 'workout',
   },
   { id: 'new.task', combos: ['t'], description: 'shortcuts.newTask', scope: 'menu' },
   { id: 'new.page', combos: ['p'], description: 'shortcuts.newPage', scope: 'menu' },

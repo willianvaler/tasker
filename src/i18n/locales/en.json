@@ -58,7 +58,9 @@
     "treeCodes": "Show or hide WBS codes (1.2.1)",
     "taskStart": "Start or stop the task",
     "taskLink": "Link to another task (Depends on)",
-    "goFlow": "Go to the project Flow view"
+    "goFlow": "Go to the project Flow view",
+    "workoutDone": "Mark the set as done",
+    "workoutSkipRest": "Skip the rest"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -899,7 +901,8 @@
     "scope_menu": "Inside the New menu",
     "typingNote": "Shortcuts without Ctrl/⌘ don't work while you type in a field (Esc leaves the field).",
     "browserNote": "In the browser, Ctrl+N and Ctrl+Shift+N belong to the browser: use Alt+N and Alt+Shift+N.",
-    "link": "Help"
+    "link": "Help",
+    "scope_workout": "In Workout mode"
   },
   "sync": {
     "title": "Sync",
@@ -1298,5 +1301,36 @@
     "backToIt": "Time to get back to it",
     "timeUp": "Time's up",
     "noVibration": "This browser can't vibrate; the alert comes with a sound."
+  },
+  "workout": {
+    "start": "Start workout",
+    "title": "Workout",
+    "empty": "Nothing to do on this page.",
+    "exit": "Leave the workout (progress is kept)",
+    "exercise": "Exercise {{n}} of {{total}}",
+    "set": "Set {{n}} of {{total}}",
+    "time": "Time {{n}} of {{total}}",
+    "single": "Once",
+    "alreadyDone": "Already done",
+    "done": "Done",
+    "doneHint": "Shortcut: Space",
+    "skipRest": "Skip rest (R)",
+    "previous": "Previous",
+    "skip": "Skip exercise",
+    "addSet": "One more set",
+    "lighter": "Lower the load",
+    "heavier": "Raise the load",
+    "load": "Load: {{weight}}",
+    "pause": "Pause the workout",
+    "resume": "Resume the workout",
+    "elapsed": "Workout time: {{time}}",
+    "progress": "{{done}} of {{total}} sets",
+    "finishedTitle": "Workout complete",
+    "summaryTime": "Time",
+    "summarySets": "Sets",
+    "summaryVolume": "Volume",
+    "summaryXp": "XP",
+    "summarySkipped": "Skipped",
+    "finish": "Finish"
   }
 }
