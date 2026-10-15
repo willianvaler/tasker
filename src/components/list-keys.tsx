@@ -20,6 +20,7 @@ import { treeState } from '@/lib/tree-state';
 import { useStartTask } from '@/lib/queries/dependencies';
 import { selection } from '@/lib/selection';
 import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
+import { usePomodoro } from '@/components/timer-bar';
 import { readRepeatPlan } from '@/lib/repeat';
 import { useShortcut } from '@/lib/use-shortcut';
 import { undoLast, useToast } from '@/providers/toast';
@@ -46,6 +47,7 @@ export function ListKeys() {
   const [dating, setDating, closeDating] = useDialog<Task>();
   const tree = useTree();
   const start = useStartTask();
+  const pomodoro = usePomodoro();
 
   useEffect(
     () =>
@@ -98,6 +100,12 @@ export function ListKeys() {
     if (!selection.get().selectedId) return false;
     selection.select(null);
   });
+
+  // P: pomodoro na tarefa selecionada (D129)
+  useShortcut(
+    'task.pomodoro',
+    onSelected((task) => void pomodoro.start({ id: task.id, title: task.title })),
+  );
 
   useShortcut(
     'task.toggle',

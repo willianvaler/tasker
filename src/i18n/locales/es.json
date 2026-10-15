@@ -60,7 +60,8 @@
     "taskLink": "Vincular a otra tarea (Depende de)",
     "goFlow": "Ir a la vista Flujo del proyecto",
     "workoutDone": "Marcar la serie hecha",
-    "workoutSkipRest": "Saltar el descanso"
+    "workoutSkipRest": "Saltar el descanso",
+    "taskPomodoro": "Empezar un pomodoro en la tarea"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -246,7 +247,8 @@
     "estimate": "Estimación",
     "estimatePlaceholder": "Cuánto tarda (ej.: 30m, 1h30)",
     "estimateRollup": "{{time}} (suma de las subtareas)",
-    "estimateNone": "Sin estimación en las subtareas"
+    "estimateNone": "Sin estimación en las subtareas",
+    "time": "Tiempo"
   },
   "home": {
     "title": "Inicio",
@@ -1332,5 +1334,33 @@
     "summaryXp": "XP",
     "summarySkipped": "Saltados",
     "finish": "Terminar"
+  },
+  "pomodoro": {
+    "title": "Pomodoro",
+    "start": "Empezar pomodoro",
+    "startOn": "Pomodoro en {{title}}",
+    "focus": "Foco {{cycle}}/{{cycles}}",
+    "short": "Pausa",
+    "long": "Pausa larga",
+    "focusOver": "Fin del foco",
+    "breakOver": "Fin de la pausa",
+    "breakIdea": "Pausa: {{idea}}",
+    "takeBreak": "Hora de la pausa",
+    "backTo": "Hora de enfocarse: {{label}}",
+    "backToFocus": "Hora de enfocarse",
+    "focusDone": "Foco terminado. ¿Qué tal {{idea}}?",
+    "focusDoneNoIdea": "Foco terminado.",
+    "startBreak": "Pausa de {{minutes}} min",
+    "breakDone": "Pausa terminada.",
+    "startFocus": "Enfocarse de nuevo",
+    "autoNext": "Empezó: {{phase}}",
+    "taskDone": "Tarea hecha · Terminar",
+    "count": "Pomodoros: {{done}}",
+    "countOf": "Pomodoros: {{done}} de {{estimated}}",
+    "idea1": "tomar un café o té",
+    "idea2": "tomar aire",
+    "idea3": "beber agua",
+    "idea4": "estirarse",
+    "idea5": "mirar por la ventana"
   }
 }

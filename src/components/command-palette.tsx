@@ -36,7 +36,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import type { Task } from '@/lib/queries/tasks';
-import { useStartTimer } from '@/components/timer-bar';
+import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useTree } from '@/lib/queries/tree';
 import { DURATION, useColors } from '@/lib/tokens';
 import { toggleSidebar } from '@/lib/ui-state';
@@ -97,6 +97,7 @@ function Palette({
 
   const go = (href: Parameters<typeof router.navigate>[0]) => () => router.navigate(href);
   const startTimer = useStartTimer();
+  const pomodoro = usePomodoro();
   const icon = (glyph: LucideIcon) => <Icon icon={glyph} tone="ink-muted" />;
 
   const commands: Command[] = [
@@ -155,6 +156,13 @@ function Palette({
       icon: icon(PanelLeft),
       group: 0,
       run: toggleSidebar,
+    },
+    {
+      id: 'pomodoro',
+      label: t('pomodoro.start'),
+      icon: icon(Timer),
+      group: 0,
+      run: () => void pomodoro.start(),
     },
     ...[1, 5].map((minutes): Command => ({
       id: `timer-${minutes}`,

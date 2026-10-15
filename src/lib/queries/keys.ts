@@ -33,6 +33,9 @@ export const keys = {
   progress: ['task-progress'] as const,
   /** Timer ativo do usuário (J2) */
   timer: ['timer'] as const,
+  /** Tempo registrado (K) e configuração do pomodoro */
+  timeEntries: ['time-entries'] as const,
+  pomodoro: ['pomodoro-settings'] as const,
 };
 
 /** Toda mutação de tarefa usa esta chave (ver invalidateWhenIdle). */

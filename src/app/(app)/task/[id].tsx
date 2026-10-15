@@ -13,6 +13,7 @@ import {
   RecurrenceEditor,
 } from '@/components/tasks/task-extras';
 import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
+import { TaskTime } from '@/components/tasks/task-time';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
 import { Text, textClass } from '@/components/ui/text';
 import type { Json } from '@/lib/db';
@@ -360,7 +361,7 @@ function TaskDetails({ task }: { task: Task }) {
         )}
 
         {!isHabit && (
-          <Section title={t('taskDetail.estimate')}>
+          <Section title={t('taskDetail.time')}>
             {leaves ? (
               <Text className="text-sm text-ink">
                 {rollup
@@ -377,6 +378,9 @@ function TaskDetails({ task }: { task: Task }) {
                 placeholder={t('taskDetail.estimatePlaceholder')}
                 accessibilityLabel={t('taskDetail.estimate')}
               />
+            )}
+            {!leaves && (
+              <TaskTime task={task} disabled={!allowed.complete || (blocked && !flow.forceable)} />
             )}
           </Section>
         )}

@@ -116,8 +116,8 @@ export function useTimerActions() {
           [vars.startedAt, vars.startedAt, userId],
         );
         await tx.execute(
-          `insert into timers (id, user_id, task_id, kind, state, started_at, ends_at, device_id, config, updated_at)
-           values (?, ?, ?, ?, 'running', ?, ?, ?, ?, ?)`,
+          `insert into timers (id, user_id, task_id, kind, state, started_at, ends_at, device_id, config, updated_at,
+           duration_seconds) values (?, ?, ?, ?, 'running', ?, ?, ?, ?, ?, ?)`,
           [
             vars.id,
             userId,
@@ -130,6 +130,7 @@ export function useTimerActions() {
             getDeviceId(),
             JSON.stringify(vars.config ?? {}),
             vars.startedAt,
+            vars.kind === 'stopwatch' ? null : (vars.seconds ?? null),
           ],
         );
       });
@@ -149,6 +150,7 @@ export function useTimerActions() {
             ? null
             : new Date(Date.parse(vars.startedAt) + (vars.seconds ?? 0) * 1000).toISOString(),
         paused_seconds: null,
+        duration_seconds: vars.kind === 'stopwatch' ? null : (vars.seconds ?? null),
         ended_at: null,
         device_id: getDeviceId(),
         config: (vars.config ?? {}) as NonNullable<Json>,

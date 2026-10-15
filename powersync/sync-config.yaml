@@ -31,6 +31,8 @@ streams:
       - SELECT task_dependencies.* FROM task_dependencies INNER JOIN folders ON task_dependencies.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM page_dependencies WHERE folder_id IN roots
       - SELECT page_dependencies.* FROM page_dependencies INNER JOIN folders ON page_dependencies.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM time_entries WHERE folder_id IN roots
+      - SELECT time_entries.* FROM time_entries INNER JOIN folders ON time_entries.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM conflict_copies WHERE folder_id IN roots
       - SELECT conflict_copies.* FROM conflict_copies INNER JOIN folders ON conflict_copies.folder_id = folders.id WHERE folders.parent_id IN roots
 
@@ -50,6 +52,11 @@ streams:
   timers:
     auto_subscribe: true
     query: SELECT * FROM timers WHERE user_id = auth.user_id()
+
+  # Tempo registrado sem tarefa (pomodoro solto); o das tarefas vem com as pastas
+  my_time:
+    auto_subscribe: true
+    query: SELECT * FROM time_entries WHERE user_id = auth.user_id() AND task_id IS NULL
 
   me:
     auto_subscribe: true

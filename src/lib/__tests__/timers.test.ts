@@ -13,6 +13,7 @@ const base: Timer = {
   started_at: '2026-10-14T10:00:00.000Z',
   ends_at: '2026-10-14T10:01:30.000Z',
   paused_seconds: null,
+  duration_seconds: 90,
   ended_at: null,
   device_id: null,
   config: {},

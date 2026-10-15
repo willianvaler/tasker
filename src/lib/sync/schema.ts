@@ -89,6 +89,7 @@ const tasks = new Table(
     count_down: column.integer,
     count_key: column.text,
     repeat_plan: column.text,
+    actual_minutes: column.integer,
     updated_by: column.text,
     version: column.integer,
   },
@@ -126,9 +127,27 @@ const timers = new Table(
     ended_at: column.text,
     device_id: column.text,
     config: column.text,
+    duration_seconds: column.integer,
     updated_at: column.text,
   },
   { indexes: { user: ['user_id', 'started_at'] } },
+);
+
+// Tempo registrado (K): pomodoro, cronômetro e manual. Só RPCs gravam
+const time_entries = new Table(
+  {
+    user_id: column.text,
+    task_id: column.text,
+    folder_id: column.text,
+    source: column.text,
+    timer_id: column.text,
+    started_at: column.text,
+    ended_at: column.text,
+    minutes: column.integer,
+    note: column.text,
+    created_at: column.text,
+  },
+  { indexes: { task: ['task_id'], user: ['user_id', 'started_at'] } },
 );
 
 const task_assignees = new Table(
@@ -265,6 +284,7 @@ export const AppSchema = new Schema({
   tasks,
   task_progress,
   timers,
+  time_entries,
   task_assignees,
   comments,
   task_completions,

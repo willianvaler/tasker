@@ -60,7 +60,8 @@
     "taskLink": "Link to another task (Depends on)",
     "goFlow": "Go to the project Flow view",
     "workoutDone": "Mark the set as done",
-    "workoutSkipRest": "Skip the rest"
+    "workoutSkipRest": "Skip the rest",
+    "taskPomodoro": "Start a pomodoro on the task"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -246,7 +247,8 @@
     "estimate": "Estimate",
     "estimatePlaceholder": "How long it takes (e.g. 30m, 1h30)",
     "estimateRollup": "{{time}} (sum of subtasks)",
-    "estimateNone": "No estimate in the subtasks"
+    "estimateNone": "No estimate in the subtasks",
+    "time": "Time"
   },
   "home": {
     "title": "Home",
@@ -1332,5 +1334,33 @@
     "summaryXp": "XP",
     "summarySkipped": "Skipped",
     "finish": "Finish"
+  },
+  "pomodoro": {
+    "title": "Pomodoro",
+    "start": "Start pomodoro",
+    "startOn": "Pomodoro on {{title}}",
+    "focus": "Focus {{cycle}}/{{cycles}}",
+    "short": "Break",
+    "long": "Long break",
+    "focusOver": "Focus is over",
+    "breakOver": "Break is over",
+    "breakIdea": "Break: {{idea}}",
+    "takeBreak": "Time for a break",
+    "backTo": "Time to focus: {{label}}",
+    "backToFocus": "Time to focus",
+    "focusDone": "Focus done. How about {{idea}}?",
+    "focusDoneNoIdea": "Focus done.",
+    "startBreak": "{{minutes}} min break",
+    "breakDone": "Break is over.",
+    "startFocus": "Focus again",
+    "autoNext": "Started: {{phase}}",
+    "taskDone": "Task done · End",
+    "count": "Pomodoros: {{done}}",
+    "countOf": "Pomodoros: {{done}} of {{estimated}}",
+    "idea1": "grab a coffee or tea",
+    "idea2": "get some fresh air",
+    "idea3": "drink water",
+    "idea4": "stretch",
+    "idea5": "look out the window"
   }
 }

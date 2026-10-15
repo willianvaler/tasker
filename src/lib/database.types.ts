@@ -515,6 +515,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"pomodoro_settings": {
+                  Row: {
+                    "auto_start": boolean,"break_ideas": Json | null,"cycles": number,"focus_minutes": number,"idea_order": string,"long_break_minutes": number,"short_break_minutes": number,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "auto_start"?: boolean,"break_ideas"?: Json | null,"cycles"?: number,"focus_minutes"?: number,"idea_order"?: string,"long_break_minutes"?: number,"short_break_minutes"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "auto_start"?: boolean,"break_ideas"?: Json | null,"cycles"?: number,"focus_minutes"?: number,"idea_order"?: string,"long_break_minutes"?: number,"short_break_minutes"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "pomodoro_settings_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar_url": string | null,"class": string | null,"coins": number,"created_at": string,"display_name": string,"equipped": NonNullable<Json>,"gamification_enabled": boolean,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"onboarded_at": string | null,"skill_day": string | null,"streak": number,"streak_best": number,"timezone": string,"xp": number
@@ -725,14 +745,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number
+                    "actual_minutes": number,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "actual_minutes"?: number,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "actual_minutes"?: number,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -929,16 +949,48 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
-                },"timers": {
+                },"time_entries": {
                   Row: {
-                    "config": NonNullable<Json>,"device_id": string | null,"ended_at": string | null,"ends_at": string | null,"id": string,"kind": string,"paused_seconds": number | null,"started_at": string,"state": string,"task_id": string | null,"updated_at": string,"user_id": string
+                    "created_at": string,"ended_at": string,"folder_id": string | null,"id": string,"minutes": number,"note": string | null,"source": string,"started_at": string,"task_id": string | null,"timer_id": string | null,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "config"?: NonNullable<Json>,"device_id"?: string | null,"ended_at"?: string | null,"ends_at"?: string | null,"id": string,"kind": string,"paused_seconds"?: number | null,"started_at": string,"state"?: string,"task_id"?: string | null,"updated_at"?: string,"user_id"?: string
+                    "created_at"?: string,"ended_at": string,"folder_id"?: string | null,"id"?: string,"minutes": number,"note"?: string | null,"source": string,"started_at": string,"task_id"?: string | null,"timer_id"?: string | null,"user_id"?: string
                   }
                   Update: {
-                    "config"?: NonNullable<Json>,"device_id"?: string | null,"ended_at"?: string | null,"ends_at"?: string | null,"id"?: string,"kind"?: string,"paused_seconds"?: number | null,"started_at"?: string,"state"?: string,"task_id"?: string | null,"updated_at"?: string,"user_id"?: string
+                    "created_at"?: string,"ended_at"?: string,"folder_id"?: string | null,"id"?: string,"minutes"?: number,"note"?: string | null,"source"?: string,"started_at"?: string,"task_id"?: string | null,"timer_id"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "time_entries_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "time_entries_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "time_entries_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"timers": {
+                  Row: {
+                    "config": NonNullable<Json>,"device_id": string | null,"duration_seconds": number | null,"ended_at": string | null,"ends_at": string | null,"id": string,"kind": string,"paused_seconds": number | null,"started_at": string,"state": string,"task_id": string | null,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "config"?: NonNullable<Json>,"device_id"?: string | null,"duration_seconds"?: number | null,"ended_at"?: string | null,"ends_at"?: string | null,"id": string,"kind": string,"paused_seconds"?: number | null,"started_at": string,"state"?: string,"task_id"?: string | null,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "config"?: NonNullable<Json>,"device_id"?: string | null,"duration_seconds"?: number | null,"ended_at"?: string | null,"ends_at"?: string | null,"id"?: string,"kind"?: string,"paused_seconds"?: number | null,"started_at"?: string,"state"?: string,"task_id"?: string | null,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -1194,6 +1246,9 @@ isOneToOne: false
 "_team_invite_problem":
 { Args: { "p_invite": Omit<Database["public"]['Tables']["team_invites"]['Row'], Database["public"]['Tables']["team_invites"]['ComputedFields']> }; Returns: string
                            },
+"_timer_finished":
+{ Args: { "p_timer_id": string }; Returns: undefined
+                           },
 "accept_invite":
 { Args: { "p_token": string }; Returns: Json
                            },
@@ -1266,7 +1321,8 @@ isOneToOne: false
       } },
 "create_tasks_batch":
 { Args: { "p_items": Json,"p_page_id": string }; Returns: {
-              "completed_at": string | null,
+              "actual_minutes": number,
+"completed_at": string | null,
 "completed_by": string | null,
 "count_down": number,
 "count_key": string | null,
@@ -1584,7 +1640,8 @@ isOneToOne: false
       } },
 "start_task":
 { Args: { "p_started"?: boolean,"p_task_id": string }; Returns: {
-              "completed_at": string | null,
+              "actual_minutes": number,
+"completed_at": string | null,
 "completed_by": string | null,
 "count_down": number,
 "count_key": string | null,
@@ -1626,6 +1683,7 @@ isOneToOne: false
 { Args: { "p_config"?: Json,"p_device"?: string,"p_id": string,"p_kind": string,"p_seconds"?: number,"p_started_at": string,"p_task_id"?: string }; Returns: {
               "config": NonNullable<Json>,
 "device_id": string | null,
+"duration_seconds": number | null,
 "ended_at": string | null,
 "ends_at": string | null,
 "id": string,
@@ -1685,6 +1743,7 @@ isOneToOne: false
 { Args: { "p_action": string,"p_at"?: string,"p_id": string,"p_seconds"?: number }; Returns: {
               "config": NonNullable<Json>,
 "device_id": string | null,
+"duration_seconds": number | null,
 "ended_at": string | null,
 "ends_at": string | null,
 "id": string,

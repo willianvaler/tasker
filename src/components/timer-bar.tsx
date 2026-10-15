@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next';
 import { Pause, Play, Square } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +8,17 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconButton } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
+import {
+  DEFAULT_POMODORO,
+  nextPhase,
+  phaseSeconds,
+  pickIdea,
+  type PomodoroConfig,
+  type PomodoroPhase,
+} from '@/lib/pomodoro';
+import { useGameState } from '@/lib/queries/game';
+import { usePomodoroSettings } from '@/lib/queries/pomodoro';
+import { useTask } from '@/lib/queries/tasks';
 import { useActiveTimer, useTimerActions, type StartTimerVars } from '@/lib/queries/timers';
 import {
   alertsSupported,
@@ -55,6 +67,70 @@ export function useStartTimer() {
   };
 }
 
+/** Sugestões de pausa: as do usuário ou as padrão do idioma. */
+export function useBreakIdeas() {
+  const { t } = useTranslation();
+  const settings = usePomodoroSettings().data ?? DEFAULT_POMODORO;
+  return (
+    settings.break_ideas ?? [
+      t('pomodoro.idea1'),
+      t('pomodoro.idea2'),
+      t('pomodoro.idea3'),
+      t('pomodoro.idea4'),
+      t('pomodoro.idea5'),
+    ]
+  );
+}
+
+/** Pomodoro (K1, D129): começar um foco (solto ou numa tarefa) e passar para a fase seguinte. */
+export function usePomodoro() {
+  const settings = usePomodoroSettings().data ?? DEFAULT_POMODORO;
+  const ideas = useBreakIdeas();
+  const startTimer = useStartTimer();
+
+  const begin = (config: PomodoroConfig, taskId: string | null) =>
+    startTimer({
+      kind: 'pomodoro',
+      seconds: phaseSeconds(settings, config.phase),
+      taskId,
+      config,
+    });
+
+  return {
+    settings,
+    start: (task?: { id: string; title: string } | null) =>
+      begin(
+        {
+          phase: 'focus',
+          cycle: 1,
+          label: task?.title,
+          idea: pickIdea(ideas, settings.idea_order, 0),
+        },
+        task?.id ?? null,
+      ),
+    /** A fase seguinte à deste timer (foco → pausa → foco...). */
+    next: (timer: Timer) => {
+      const config = (timer.config ?? {}) as Partial<PomodoroConfig>;
+      const step = nextPhase(
+        { phase: config.phase ?? 'focus', cycle: config.cycle ?? 1 },
+        settings.cycles,
+      );
+      return begin(
+        {
+          ...step,
+          label: config.label,
+          // Em ordem: uma sugestão por foco do ciclo
+          idea:
+            step.phase === 'focus'
+              ? pickIdea(ideas, settings.idea_order, step.cycle - 1)
+              : config.idea,
+        },
+        timer.task_id,
+      );
+    },
+  };
+}
+
 /** Agora, redesenhando a cada 250 ms enquanto o timer roda. */
 function useNow(running: boolean) {
   const [now, setNow] = useState(() => Date.now());
@@ -70,7 +146,7 @@ function useNow(running: boolean) {
  * Timer ativo com o tempo de agora. `owner` (só a mini-barra, montada uma vez): agenda o aviso
  * do celular e, ao chegar a zero, vibra e marca como feito.
  */
-export function useLiveTimer(owner = false) {
+export function useLiveTimer(owner = false, onFinished?: (timer: Timer) => void) {
   const timer = useActiveTimer().data ?? null;
   const actions = useTimerActions();
   const now = useNow(timer?.state === 'running');
@@ -90,6 +166,7 @@ export function useLiveTimer(owner = false) {
     if (!owner || !timer || !elapsed) return;
     timerFinishedHere(timer.id);
     actions.act(timer, 'done').catch(() => {});
+    onFinished?.(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elapsed, timer?.id]);
 
@@ -99,11 +176,69 @@ export function useLiveTimer(owner = false) {
   return { timer: elapsed ? null : timer, seconds: timer ? timerSeconds(timer, now) : 0, act };
 }
 
-export function timerLabel(timer: Timer, t: (key: (typeof KIND_LABEL)[TimerKind]) => string) {
-  const config = (timer.config ?? {}) as { label?: string };
-  const kind = t(KIND_LABEL[timer.kind as TimerKind] ?? 'timer.countdown');
+type T = TFunction;
+
+export function timerLabel(timer: Timer, t: T, cycles = DEFAULT_POMODORO.cycles) {
+  const config = (timer.config ?? {}) as Partial<PomodoroConfig>;
+  const kind =
+    timer.kind === 'pomodoro'
+      ? config.phase === 'short'
+        ? t('pomodoro.short')
+        : config.phase === 'long'
+          ? t('pomodoro.long')
+          : t('pomodoro.focus', { cycle: config.cycle ?? 1, cycles })
+      : t(KIND_LABEL[timer.kind as TimerKind] ?? 'timer.countdown');
   return config.label ? `${kind} · ${config.label}` : kind;
 }
+
+/** Fim de uma fase do pomodoro: a seguinte começa sozinha ou fica no aviso (D129). */
+function usePomodoroFinished() {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const pomodoro = usePomodoro();
+  const game = useGameState();
+  return (timer: Timer) => {
+    if (timer.kind !== 'pomodoro') return;
+    const config = (timer.config ?? {}) as Partial<PomodoroConfig>;
+    const focus = (config.phase ?? 'focus') === 'focus';
+    const step = nextPhase(
+      { phase: config.phase ?? 'focus', cycle: config.cycle ?? 1 },
+      pomodoro.settings.cycles,
+    );
+    const message = focus
+      ? config.idea
+        ? t('pomodoro.focusDone', { idea: config.idea })
+        : t('pomodoro.focusDoneNoIdea')
+      : t('pomodoro.breakDone');
+    // O XP do pomodoro (K4) vem do servidor: relê o jogo
+    if (focus && game.data?.enabled !== false) setTimeout(() => game.refetch(), 1500);
+    if (pomodoro.settings.auto_start) {
+      pomodoro.next(timer);
+      toast({
+        message: `${message} ${t('pomodoro.autoNext', { phase: phaseName(step.phase, t) })}`,
+      });
+      return;
+    }
+    toast({
+      message,
+      action: {
+        label: focus
+          ? t('pomodoro.startBreak', {
+              minutes: phaseSeconds(pomodoro.settings, step.phase) / 60,
+            })
+          : t('pomodoro.startFocus'),
+        onPress: () => pomodoro.next(timer),
+      },
+    });
+  };
+}
+
+const phaseName = (phase: PomodoroPhase, t: T) =>
+  phase === 'focus'
+    ? t('pomodoro.backToFocus')
+    : phase === 'short'
+      ? t('pomodoro.short')
+      : t('pomodoro.long');
 
 /** −30 s · +30 s em botões de texto (o −30 nunca volta antes de agora). */
 export function AdjustButtons({
@@ -137,11 +272,16 @@ export function AdjustButtons({
 export function TimerBar({ floating }: { floating?: boolean }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { timer, seconds, act } = useLiveTimer(true);
+  const finished = usePomodoroFinished();
+  const settings = usePomodoroSettings().data ?? DEFAULT_POMODORO;
+  const { timer, seconds, act } = useLiveTimer(true, finished);
+  // Pomodoro numa tarefa já concluída: oferece encerrar
+  const task = useTask(timer?.kind === 'pomodoro' ? (timer.task_id ?? undefined) : undefined);
   // Tela acesa durante o descanso (no treino, a tela não pode apagar no meio da contagem)
   useWakeLock(timer?.kind === 'rest' && timer.state === 'running');
   if (!timer) return null;
-  const label = timerLabel(timer, t);
+  const label = timerLabel(timer, t, settings.cycles);
+  const taskDone = timer.kind === 'pomodoro' && task.data?.status === 'done';
   const clock = formatClock(seconds);
   const paused = timer.state === 'paused';
   const rest = timer.kind === 'rest';
@@ -160,6 +300,15 @@ export function TimerBar({ floating }: { floating?: boolean }) {
         {clock}
       </Text>
       {timer.kind !== 'stopwatch' && <AdjustButtons act={act} />}
+      {taskDone && (
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => act('cancel')}
+          className="h-8 items-center justify-center rounded px-2 hover:bg-wash active:bg-wash"
+        >
+          <Text className="text-xs font-semibold text-accent">{t('pomodoro.taskDone')}</Text>
+        </Pressable>
+      )}
       {rest ? (
         <Pressable
           accessibilityRole="button"
@@ -176,7 +325,12 @@ export function TimerBar({ floating }: { floating?: boolean }) {
             label={t(paused ? 'timer.resume' : 'timer.pause')}
             onPress={() => act(paused ? 'resume' : 'pause')}
           />
-          <IconButton icon={Square} label={t('timer.stop')} onPress={() => act('cancel')} />
+          <IconButton
+            icon={Square}
+            label={t('timer.stop')}
+            // Cronômetro parado guarda o tempo (K3); os outros só param
+            onPress={() => act(timer.kind === 'stopwatch' ? 'done' : 'cancel')}
+          />
         </>
       )}
     </View>

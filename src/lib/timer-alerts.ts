@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 import i18n from '@/i18n';
 
 import { localStore } from './storage';
+import { alertText } from './timer-text';
 import type { Timer } from './timers';
 
 // Aviso do fim do timer no celular (J3, D125): notificação local agendada para o `ends_at`, que
@@ -40,18 +41,6 @@ export async function ensureAlertPermission(): Promise<boolean> {
   return result.granted;
 }
 
-/** Texto do aviso: "Hora da próxima série: Supino reto, 3/4". */
-export function alertText(timer: Timer) {
-  const { label, after } = (timer.config ?? {}) as { label?: string; after?: boolean };
-  if (timer.kind === 'rest')
-    return {
-      title: i18n.t('timer.restOver'),
-      body: !label
-        ? i18n.t('timer.backToIt')
-        : i18n.t(after ? 'timer.nextItem' : 'timer.nextSet', { label }),
-    };
-  return { title: i18n.t('timer.timeUp'), body: label ?? i18n.t('timer.countdown') };
-}
 
 /** Agenda (ou reagenda) o aviso do timer; timer parado, pausado ou sem fim: cancela. */
 export async function syncTimerAlert(timer: Timer | null, previousId: string | null) {
