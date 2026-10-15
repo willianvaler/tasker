@@ -98,7 +98,8 @@
     "sync:assets": "powersync-web copy-assets -o public",
     "postinstall": "npm run sync:assets",
     "endereco": "bash scripts/endereco.sh",
-    "help:build": "node scripts/help-build.mjs"
+    "help:build": "node scripts/help-build.mjs",
+    "apk": "bash scripts/build-apk.sh"
   },
   "private": true,
   "jest": {

@@ -54,3 +54,6 @@ supabase/.branches/
 .idea/
 dist-remote/
 public/@powersync/
+
+# APK gerado por npm run apk (U7)
+/downloads

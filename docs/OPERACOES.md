@@ -59,6 +59,17 @@ printf "insert into public.app_config values ('storage_url', 'http://supabase_ko
 
 Sem isso, a fila só cresce (nada se perde; apaga quando configurar). Em produção, `storage_url` é `https://<projeto>.supabase.co/storage/v1`.
 
+## APK do Android (fora da loja)
+
+`npm run apk` compila o último commit (numa cópia à parte, `~/.cache/questlist-apk-src`, para nada editado no meio entrar no build) e publica `downloads/questlist.apk` + `downloads/apk.json`, que o `scripts/serve.mjs` entrega em `https://tasker.wavdev.org/downloads/`. O Perfil (na web e no Android) mostra o botão de baixar ou o aviso de versão nova. Não precisa de deploy nem de reiniciar nada: o servidor lê a pasta a cada pedido.
+
+- **Ferramentas** (já instaladas nesta máquina, fora do sistema): JDK 17 em `~/.local/share/android-build/jdk-17*` e Android SDK em `~/Android/Sdk` (plataforma 36, build-tools 36, NDK e CMake que o Gradle baixou). Leva uns 10 min do zero; depois, menos.
+- **Chave de assinatura:** `~/.config/questlist/release.keystore`, com a senha em `~/.config/questlist/keystore.env` (criadas no primeiro build, **fora do repositório**). Faça backup das duas: com outra chave, o Android não instala por cima e quem tem o app precisa desinstalar (perde o que não sincronizou).
+- **Endereços:** o APK fala com `https://tasker.wavdev.org/supabase` e `/powersync` (mude com `QUESTLIST_URL=... npm run apk`).
+- **Arquitetura:** só `arm64-v8a` (todo Android dos últimos anos). Para um emulador x86_64: `APK_ARCHS=arm64-v8a,x86_64 npm run apk`.
+- **Versão:** o código da versão é o número de commits; o app instalado compara com o `apk.json` para avisar que há versão nova.
+- Push (notificação vinda do servidor) não funciona no APK: precisa do Firebase, que depende da conta do dono. Os avisos do timer (locais) funcionam.
+
 ## Mudou o banco?
 
 1. Migração nova em `supabase/migrations/` e `npx supabase migration up` (não `db:reset`, que apaga as contas).

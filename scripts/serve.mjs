@@ -9,9 +9,19 @@ import { extname, join, normalize } from 'node:path';
 
 const PORT = Number(process.env.PORT ?? 8081);
 const DIST = process.env.DIST ?? join(import.meta.dirname, '..', 'dist-remote');
+// APK do Android (npm run apk, U7): fica fora do dist-remote, que o deploy apaga
+const DOWNLOADS = join(import.meta.dirname, '..', 'downloads');
 const UPSTREAMS = {
-  '/supabase': { host: '127.0.0.1', port: 54321, down: 'Supabase local fora do ar (npm run db:start)' },
-  '/powersync': { host: '127.0.0.1', port: 8095, down: 'PowerSync fora do ar (npm run sync:start)' },
+  '/supabase': {
+    host: '127.0.0.1',
+    port: 54321,
+    down: 'Supabase local fora do ar (npm run db:start)',
+  },
+  '/powersync': {
+    host: '127.0.0.1',
+    port: 8095,
+    down: 'PowerSync fora do ar (npm run sync:start)',
+  },
 };
 const upstreamFor = (url) => {
   const prefix = Object.keys(UPSTREAMS).find((p) => url.startsWith(p + '/'));
@@ -44,6 +54,26 @@ function serveFile(req, res) {
   createReadStream(file).pipe(res);
 }
 
+/** /downloads/questlist.apk e /downloads/apk.json (ou 404, sem cair no index.html) */
+function serveDownload(req, res) {
+  const name = new URL(req.url, 'http://x').pathname.slice('/downloads/'.length);
+  const file = join(DOWNLOADS, name);
+  if (!/^[\w.-]+$/.test(name) || !existsSync(file)) {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end('Ainda não há APK publicado (npm run apk).');
+  }
+  const apk = name.endsWith('.apk');
+  res.writeHead(200, {
+    'Content-Type': apk ? 'application/vnd.android.package-archive' : 'application/json',
+    'Content-Length': statSync(file).size,
+    'Cache-Control': 'no-cache',
+    'Access-Control-Allow-Origin': '*',
+    ...(apk && { 'Content-Disposition': 'attachment; filename="questlist.apk"' }),
+  });
+  if (req.method === 'HEAD') return res.end();
+  createReadStream(file).pipe(res);
+}
+
 function proxy(target, req, res) {
   const upstream = http.request(
     {
@@ -68,6 +98,7 @@ function proxy(target, req, res) {
 const server = http.createServer((req, res) => {
   const target = upstreamFor(req.url);
   if (target) proxy(target, req, res);
+  else if (req.url.startsWith('/downloads/')) serveDownload(req, res);
   else serveFile(req, res);
 });
 

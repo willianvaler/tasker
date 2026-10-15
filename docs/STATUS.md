@@ -146,7 +146,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **U4** Assistente de primeiro uso (D160)
 - [x] **U5** Permissão de notificações no navegador (Perfil) (D156)
 - [x] **U6** Vibrar ao fim do timer (D157)
-- [ ] **U7** APK para Android e botão de baixar no Perfil
+- [x] **U7** APK para Android e botão de baixar no Perfil (D155)
 
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)
 

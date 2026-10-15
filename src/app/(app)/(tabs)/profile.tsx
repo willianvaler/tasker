@@ -11,10 +11,11 @@ import {
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { Platform, ScrollView, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
 import { LanguageChooser, PanelModeChooser, ThemeChooser } from '@/components/preference-choosers';
+import { AppDownload, useApkInfo } from '@/components/app-download';
 import { PrivacySection } from '@/components/privacy-section';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
@@ -55,6 +56,7 @@ export default function ProfileScreen() {
 function ProfileForm({ profile }: { profile: Profile }) {
   const { t } = useTranslation();
   const update = useUpdateProfile();
+  const apk = useApkInfo();
   const online = useIsOnline();
   const [name, setName] = useState(profile.display_name);
   const [timezone, setTimezone] = useState(profile.timezone);
@@ -130,6 +132,11 @@ function ProfileForm({ profile }: { profile: Profile }) {
           <TimerAlertSetting />
         </Group>
 
+        {Platform.OS !== 'ios' && !!apk.data && (
+          <Group title={t('apk.title')}>
+            <AppDownload />
+          </Group>
+        )}
 
         <Group title={t('pomodoro.settings')}>
           <Button
