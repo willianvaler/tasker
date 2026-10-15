@@ -103,6 +103,8 @@ function RootNavigator() {
       <Stack.Screen name="enviada/[token]" />
       {/* Política de privacidade: pública (as lojas pedem o endereço) */}
       <Stack.Screen name="privacidade" />
+      {/* Link de "Esqueci minha senha" (W1): pública, entra com a sessão de recuperação */}
+      <Stack.Screen name="nova-senha" />
     </Stack>
   );
 }

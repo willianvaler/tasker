@@ -148,6 +148,17 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **U6** Vibrar ao fim do timer (D157)
 - [x] **U7** APK para Android e botão de baixar no Perfil (D155)
 
+## Fase W — Correções do dono (15/10, noite)
+
+- [x] **W1** Esqueci minha senha e olhinho na senha (D165)
+- [ ] **W2** Bloco Projetos fixo com "+", configurações de projetos (Times sai do jogo)
+- [ ] **W3** Anotações simples (bloco acima de Pastas e Projetos; no Início no celular)
+- [ ] **W4** Descrição em tarefas e hábitos ("+ adicionar descrição", até 4.000 caracteres)
+- [ ] **W5** Painel da tarefa mais largo; busca de Relacionar legível
+- [ ] **W6** Clicar fora do painel fecha e salva
+- [ ] **W7** Modo Treino fácil de achar
+- [ ] **W8** `ESCOPO_V5.md`: relógio, tela de bloqueio, usabilidade, HTTPS, LGPD, e-mail, restauração de conta
+
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)
 
 - [x] **N1** Storage + `task_attachments` + RLS (D150)
