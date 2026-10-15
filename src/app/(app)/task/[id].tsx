@@ -101,6 +101,13 @@ export default function TaskScreen() {
 }
 
 /** Topo do painel: caminho em mono e o botão de fechar ("Voltar", como o resto do app). */
+/** "#casa, #Mercado" → ['casa', 'mercado'] */
+const parseLabelsText = (text: string) =>
+  text
+    .split(/[\s,]+/)
+    .map((l) => l.replace(/^#/, '').toLowerCase())
+    .filter(Boolean);
+
 /** Descrição da tarefa (W4): o mesmo limite do banco (tasks_notes_check) */
 const NOTES_MAX = 4000;
 
@@ -213,6 +220,22 @@ function TaskDetails({ task }: { task: Task }) {
   const [moving, setMoving] = useState(false);
 
   const save = (patch: TaskPatch) => update.mutate({ id: task.id, patch });
+
+  // W6: fechar o painel (clicar fora, X, Esc) salva o que estava sendo editado, sem depender do
+  // campo perder o foco. O ref guarda a versão mais nova (a limpeza roda depois da última tela)
+  const flush = useRef<() => void>(() => {});
+  useEffect(() => {
+    flush.current = () => {
+      if (!writable) return;
+      const patch: TaskPatch = {};
+      if (title.trim() && title.trim() !== task.title) patch.title = title.trim();
+      if (notes !== (task.notes ?? '')) patch.notes = notes.trim() || null;
+      const nextLabels = parseLabelsText(labels);
+      if (nextLabels.join() !== task.labels.join()) patch.labels = nextLabels;
+      if (Object.keys(patch).length) update.mutate({ id: task.id, patch });
+    };
+  });
+  useEffect(() => () => flush.current(), []);
   const done = task.status === 'done';
   const page = tree.data?.pages.find((p) => p.id === task.page_id);
   const place = page ? findFolder(tree.data, page.folder_id) : null;
@@ -565,10 +588,7 @@ function TaskDetails({ task }: { task: Task }) {
             value={labels}
             onChangeText={setLabels}
             onBlur={() => {
-              const next = labels
-                .split(/[\s,]+/)
-                .map((l) => l.replace(/^#/, '').toLowerCase())
-                .filter(Boolean);
+              const next = parseLabelsText(labels);
               if (next.join() !== task.labels.join()) save({ labels: next });
             }}
             editable={writable}

@@ -35,8 +35,14 @@ export function Sheet({
 
   if (wide)
     return (
-      // box-none: o que está fora do painel continua clicável (a lista ao lado)
-      <View pointerEvents="box-none" className="flex-1 flex-row justify-end">
+      <View className="flex-1 flex-row justify-end">
+        {/* W6: clicar fora fecha (e o painel salva ao fechar), como nos outros editores. Fundo
+            transparente: a lista continua à vista */}
+        <Pressable
+          accessibilityLabel={t('common.close')}
+          className="absolute inset-0"
+          onPress={onClose}
+        />
         <Animated.View
           entering={reduced ? undefined : SlideInRight.duration(DURATION.base)}
           style={{ width: panelWidth(width), height: '100%' }}

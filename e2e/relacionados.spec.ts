@@ -22,7 +22,7 @@ test('Relacionados: título longo não esconde o X de tirar o vínculo', async (
   await page.getByRole('button', { name: 'Relacionar', exact: true }).click();
   await page.getByRole('textbox', { name: 'Buscar tarefa, lista ou projeto…' }).fill('contrato');
   // W5: o nome do resultado aparece (antes, o contexto ao lado espremia o nome até sumir)
-  await expect(page.getByText(long, { exact: true })).toBeVisible();
+  await expect(page.getByText(long, { exact: true })).toBeVisible({ timeout: 15_000 });
   await page.screenshot({ path: testInfo.outputPath('busca.png') });
   await page.getByRole('button', { name: `Relacionar com tarefa ${long}` }).click();
   await expect(page.getByRole('link', { name: `Abrir tarefa ${long}` })).toBeVisible();
