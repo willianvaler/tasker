@@ -5,15 +5,20 @@ import { Avatar } from '@/components/ui/person';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import type { MentionResolution } from '@/lib/members';
+import { actorCan } from '@/lib/permissions';
 import {
   assigneesOf,
   rootFolder,
+  useAssigneeMutations,
   useAssignees,
+  useFolderActor,
   useMembers,
   type Assignee,
   type Member,
 } from '@/lib/queries/projects';
 import { useTree } from '@/lib/queries/tree';
+import { useSession } from '@/providers/session';
+import { useToast } from '@/providers/toast';
 
 /** Nome do responsável: o do membro ou "@nome" (pendente). */
 export function assigneeName(a: Assignee, members: Member[] | undefined) {
@@ -107,5 +112,42 @@ export function MentionChips({
         ),
       )}
     </View>
+  );
+}
+
+/**
+ * "Eu levo" (M2, D139): tarefa de projeto sem responsável, para quem pode criar tarefas. Quem
+ * chega depois de outra pessoa é recusado pelo servidor.
+ */
+export function ClaimButton({ task }: { task: { id: string; title: string; folder_id: string } }) {
+  const { t } = useTranslation();
+  const tree = useTree();
+  const root = rootFolder(tree.data, task.folder_id);
+  const all = useAssignees();
+  const actor = useFolderActor(task.folder_id);
+  const { session } = useSession();
+  const { add } = useAssigneeMutations();
+  const toast = useToast();
+  const userId = session?.user.id;
+  if (!root || root.kind !== 'project' || !userId) return null;
+  if (!all.data || assigneesOf(all.data, task.id).length > 0) return null;
+  if (!actorCan(actor, 'task.create')) return null;
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={t('claim.label', { title: task.title })}
+      onPress={() =>
+        add.mutate(
+          { taskId: task.id, userId },
+          {
+            onSuccess: () => toast({ message: t('claim.done', { title: task.title }) }),
+            onError: () => toast({ message: t('claim.taken') }),
+          },
+        )
+      }
+      className="h-7 items-center justify-center rounded border border-dashed border-line px-2 hover:bg-wash active:bg-wash"
+    >
+      <Text className="text-xs text-ink">{t('claim.button')}</Text>
+    </Pressable>
   );
 }

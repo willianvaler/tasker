@@ -1481,5 +1481,11 @@
   "snooze": {
     "button": "Posponer {{title}} para mañana",
     "done": "{{title}}: pospuesta para {{date}}"
+  },
+  "claim": {
+    "button": "Yo lo llevo",
+    "label": "Yo lo llevo: {{title}}",
+    "done": "{{title}} es tuya.",
+    "taken": "Otra persona ya la tomó."
   }
 }

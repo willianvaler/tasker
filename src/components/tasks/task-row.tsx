@@ -36,7 +36,7 @@ import { Icon } from '@/components/ui/icon';
 import { DURATION } from '@/lib/tokens';
 import { useTaskCan } from '@/providers/write';
 import { useToast } from '@/providers/toast';
-import { AssigneeChips } from './assignee-chips';
+import { AssigneeChips, ClaimButton } from './assignee-chips';
 import { DragHandle } from './sortable-tasks';
 import { RepeatButton } from './repeat';
 import { SnoozeButton } from './snooze';
@@ -234,6 +234,7 @@ function TaskRowView({
           ) : null}
           <TaskMeta task={task} today={today} subtasks={subtasks} pageLabel={pageLabel} />
           <AssigneeChips taskId={task.id} folderId={task.folder_id} />
+          {!done && !hasChildren ? <ClaimButton task={task} /> : null}
         </View>
       </View>
       <IconButton

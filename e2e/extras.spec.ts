@@ -27,3 +27,26 @@ test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na sele
   await openTab(page, 'Início');
   await expect(shown(page, 'Próximos 7 dias').first()).toBeVisible();
 });
+
+test('eu levo: em projeto, tarefa sem responsável vira minha num toque', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Projeto pelo menu Novo (Alt+N)');
+  await signUp(page, testInfo);
+  await page.keyboard.press('Alt+n');
+  await page.keyboard.press('j');
+  await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Churrasco');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
+  await page.getByRole('button', { name: 'Nova lista' }).click();
+  await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Compras');
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Carvão');
+  await input.press('Enter');
+
+  await page.getByRole('button', { name: 'Eu levo: Carvão' }).click();
+  await expect(page.getByRole('alert').filter({ hasText: 'Carvão é sua.' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Eu levo: Carvão' })).toHaveCount(0);
+  await expect(page.getByLabel(/^Responsáveis: /)).toBeVisible();
+});

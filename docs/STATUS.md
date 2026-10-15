@@ -123,7 +123,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## Fase M — Extras "A" e automações (28/12 – 01/01)
 
 - [x] **M1** Adiar com 1 gesto: botão na linha (hoje/atrasada → amanhã, com Desfazer) e atalho Z (D138)
-- [ ] **M2** Reivindicar tarefa ("eu levo")
+- [x] **M2** Reivindicar tarefa ("eu levo"): botão na linha da tarefa de projeto sem responsável; policy `task_assignees_claim` (só a si, só vaga) (D139)
 - [ ] **M3** Estimativa e peso (alimentam WBS, caminho crítico e dano)
 - [ ] **M4** Meu dia + Próxima ação
 - [ ] **M5** Campos personalizados por página
