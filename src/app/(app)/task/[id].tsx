@@ -16,6 +16,7 @@ import { TaskFields } from '@/components/fields';
 import { useMyDayToggle } from '@/components/my-day';
 import { ReceivedNote } from '@/components/received';
 import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
+import { ApprovalEditor } from '@/components/tasks/assignee-chips';
 import { TaskTime } from '@/components/tasks/task-time';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
 import { Text, textClass } from '@/components/ui/text';
@@ -332,6 +333,12 @@ function TaskDetails({ task }: { task: Task }) {
         )}
 
         <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
+
+        {!isHabit && !received && rootFolder(tree.data, task.folder_id)?.kind === 'project' && (
+          <Section title={t('approval.title')}>
+            <ApprovalEditor task={task} disabled={!writable} onChange={(patch) => save(patch)} />
+          </Section>
+        )}
 
         {!isHabit && !received && task.status !== 'done' && (
           <Section title={t('myDay.title')}>

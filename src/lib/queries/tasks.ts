@@ -360,6 +360,8 @@ function optimisticTask(
     actual_minutes: 0,
     weight: null,
     custom: {},
+    approver_id: null,
+    approver_role: null,
     done_cycle_key: null,
     habit_kind: item.habitKind ?? 'check',
     habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
@@ -542,6 +544,8 @@ export type TaskPatch = Partial<
     | 'estimate_minutes'
     | 'weight'
     | 'custom'
+    | 'approver_id'
+    | 'approver_role'
     | 'deps_mode'
   >
 >;

@@ -951,17 +951,23 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "actual_minutes": number,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"weight": number | null
+                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_target": number | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"weight": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "actual_minutes"?: number,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
                   }
                   Update: {
-                    "actual_minutes"?: number,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_target"?: number | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
                   }
                   Relationships: [
                     {
+      foreignKeyName: "tasks_approver_id_fkey"
+      columns: ["approver_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
       foreignKeyName: "tasks_completed_by_fkey"
       columns: ["completed_by"]
 isOneToOne: false
@@ -1497,6 +1503,9 @@ isOneToOne: false
 "buy_item":
 { Args: { "p_item": string }; Returns: Json
                            },
+"can_approve":
+{ Args: { "p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']>,"p_user": string }; Returns: boolean
+                           },
 "can_share_page":
 { Args: { "p_page_id": string }; Returns: boolean
                            },
@@ -1572,6 +1581,8 @@ isOneToOne: false
 "create_tasks_batch":
 { Args: { "p_items": Json,"p_page_id": string }; Returns: {
               "actual_minutes": number,
+"approver_id": string | null,
+"approver_role": string | null,
 "completed_at": string | null,
 "completed_by": string | null,
 "count_down": number,
@@ -1956,6 +1967,8 @@ isOneToOne: false
 "start_task":
 { Args: { "p_started"?: boolean,"p_task_id": string }; Returns: {
               "actual_minutes": number,
+"approver_id": string | null,
+"approver_role": string | null,
 "completed_at": string | null,
 "completed_by": string | null,
 "count_down": number,

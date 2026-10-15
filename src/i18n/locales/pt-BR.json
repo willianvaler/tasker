@@ -1573,5 +1573,12 @@
     "log": "Últimas execuções",
     "ok": "feito",
     "failed": "não deu: {{message}}"
+  },
+  "approval": {
+    "title": "Aprovação",
+    "none": "Não pede",
+    "manager": "Quem gerencia",
+    "owner": "Só o Dono",
+    "tag": "Aprovação · {{who}}"
   }
 }

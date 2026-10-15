@@ -92,6 +92,8 @@ const tasks = new Table(
     actual_minutes: column.integer,
     weight: column.integer,
     custom: column.text,
+    approver_id: column.text,
+    approver_role: column.text,
     updated_by: column.text,
     version: column.integer,
   },

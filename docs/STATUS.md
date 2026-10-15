@@ -128,7 +128,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **M4** Meu dia (`my_day`, painel, atalho M, ordem, tempo disponível) + Próxima ação ("Fazer agora" no Início e na Hoje) (D141)
 - [x] **M5** Campos personalizados por página (`page_fields` + `tasks.custom`, 6 tipos, painel e linha) (D142)
 - [x] **M6** Automações "quando… então…": 5 gatilhos, 6 ações, até 20 por projeto, encadeamento até 3, uma vez por regra e tarefa, falha não desfaz; tela `/automacoes/[id]` (D143)
-- [ ] **M7** Tarefa do tipo Aprovação
+- [x] **M7** Tarefa do tipo Aprovação: pessoa, Gerente ou só o Dono conclui/reabre (guarda no servidor), marca na linha (D144). **Fase M concluída**
 
 ## Fase F — Ajuda, polimento e idiomas (04/01 – 07/01)
 

@@ -1,5 +1,6 @@
 import { createContext, useContext, type ReactNode } from 'react';
 
+import { canApprove } from '@/lib/approval';
 import { actorCan, can } from '@/lib/permissions';
 import { assigneesOf, useAssignees, useFolderActor } from '@/lib/queries/projects';
 import { useIsOnline } from './online';
@@ -48,7 +49,13 @@ export function useCanWrite(folderId?: string | null, options?: { offline?: bool
  * tarefa, ou poder concluí-la; apagar, task.delete (o Colaborador, só o que criou). Sem conexão
  * (fora a fila offline), nada.
  */
-export function useTaskCan(task: { id: string; folder_id: string; created_by: string | null }) {
+export function useTaskCan(task: {
+  id: string;
+  folder_id: string;
+  created_by: string | null;
+  approver_id?: string | null;
+  approver_role?: string | null;
+}) {
   const writable = useCanWrite(task.folder_id, { offline: true });
   const actor = useFolderActor(task.folder_id);
   const assignees = useAssignees();
@@ -64,7 +71,14 @@ export function useTaskCan(task: { id: string; folder_id: string; created_by: st
       a.user_id ? [a.user_id] : [],
     ),
   };
-  const complete = can(actor, 'task.complete', resource);
+  // Aprovação (M7): só quem aprova conclui (o servidor confere)
+  const complete =
+    can(actor, 'task.complete', resource) &&
+    canApprove(
+      { approver_id: task.approver_id ?? null, approver_role: task.approver_role ?? null },
+      actor.userId,
+      actor.preset,
+    );
   const edit =
     can(actor, 'task.edit', resource) ||
     complete ||

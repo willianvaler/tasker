@@ -176,3 +176,31 @@ test('automação: concluir em "Dia" cria a tarefa seguinte em "Depois"', async 
     { timeout: 20_000 },
   );
 });
+
+test('aprovação: a tarefa mostra quem aprova e quem pode, conclui', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Projeto pelo menu Novo (Alt+N)');
+  await signUp(page, testInfo);
+  await page.keyboard.press('Alt+n');
+  await page.keyboard.press('j');
+  await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Reforma');
+  await page.keyboard.press('Enter');
+  await page.getByRole('button', { name: 'Nova lista' }).click();
+  await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Compras');
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Aprovar orçamento');
+  await input.press('Enter');
+
+  await page.getByRole('button', { name: 'Detalhes de Aprovar orçamento' }).click();
+  await page.getByRole('radio', { name: 'Só o Dono' }).click();
+  await expect(page.getByRole('radio', { name: 'Só o Dono' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+  await page.getByRole('button', { name: 'Voltar' }).click();
+  await expect(shown(page, 'Aprovação · Só o Dono')).toBeVisible();
+  await page.getByRole('checkbox', { name: 'Concluir Aprovar orçamento' }).click();
+  await expect(
+    page.getByRole('alert').filter({ hasText: /Concluída: Aprovar orçamento/ }),
+  ).toBeVisible();
+});

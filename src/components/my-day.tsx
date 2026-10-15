@@ -36,11 +36,8 @@ export function NextActionCard({ tasks, today }: { tasks: readonly Task[]; today
       onPress={() => router.push({ pathname: '/task/[id]', params: { id: next.id } })}
       className="gap-1 rounded-lg border border-accent px-3 py-2 hover:bg-wash"
     >
-      <Text className="text-xs font-semibold uppercase tracking-wide text-accent">
-        {t('myDay.next')}
-      </Text>
       <Text className="text-base text-ink" numberOfLines={2}>
-        {next.title}
+        {t('myDay.nextLabel', { title: next.title })}
       </Text>
     </Pressable>
   );

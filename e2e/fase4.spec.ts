@@ -78,11 +78,12 @@ test('critério de aceite: Churrasco por modelo, @nomes antes de convidar, 2 con
   // Gregory entra pela web no computador; Cris, no celular
   const gregory = await joinByLink(browser, link, 'Gregory Souza', devices['Desktop Chrome']);
   await claimAndOpenMine(gregory, 'gregory');
-  await expect(gregory.getByText('carne', { exact: true })).toBeVisible();
+  // Aparelho recém-entrado: a primeira sincronização demora com a suíte cheia
+  await expect(gregory.getByText('carne', { exact: true })).toBeVisible({ timeout: 20_000 });
 
   const cris = await joinByLink(browser, link, 'Cris Lima', devices['Pixel 7']);
   await claimAndOpenMine(cris, 'cris');
-  await expect(cris.getByText('cerveja', { exact: true })).toBeVisible();
+  await expect(cris.getByText('cerveja', { exact: true })).toBeVisible({ timeout: 20_000 });
 
   // A Ana vê os dois entrarem, sem recarregar
   await expect(page.getByText('Gregory Souza entrou no projeto')).toBeVisible();
