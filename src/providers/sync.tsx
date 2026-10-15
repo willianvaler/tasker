@@ -1,4 +1,4 @@
-import { PowerSyncContext } from '@powersync/react';
+import { PowerSyncContext, useStatus } from '@powersync/react';
 import { useEffect, type ReactNode } from 'react';
 import { onlineManager } from '@tanstack/react-query';
 
@@ -171,4 +171,14 @@ export function SyncProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return <PowerSyncContext.Provider value={db}>{children}</PowerSyncContext.Provider>;
+}
+
+/**
+ * `isLocal()` que acompanha a tela: vira true quando a primeira sincronização termina. Para
+ * controles que mudam com isso (ex.: "Anexar" sem internet), que senão ficavam com o valor da
+ * primeira renderização.
+ */
+export function useIsLocal() {
+  const status = useStatus();
+  return !!POWERSYNC_URL && !!status.hasSynced;
 }

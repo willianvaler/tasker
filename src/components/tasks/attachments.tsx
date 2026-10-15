@@ -11,7 +11,6 @@ import { Icon } from '@/components/ui/icon';
 import { ActionMenu, ConfirmDialog, DialogFrame, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { formatBytes, isImage } from '@/lib/attachments';
-import { isLocal } from '@/lib/sync/local';
 import {
   signedUrl,
   useAttachmentMutations,
@@ -21,6 +20,7 @@ import {
   type PickedFile,
 } from '@/lib/queries/attachments';
 import { useIsOnline } from '@/providers/online';
+import { useIsLocal } from '@/providers/sync';
 import { useToast } from '@/providers/toast';
 
 // Anexos no painel da tarefa (N2, D150): miniaturas das imagens, arquivos como linha; tocar abre
@@ -41,6 +41,7 @@ export function Attachments({
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const online = useIsOnline();
+  const local = useIsLocal();
   const list = useAttachments(task.id);
   const m = useAttachmentMutations(task);
   const items = list.data ?? [];
@@ -51,7 +52,7 @@ export function Attachments({
   const [viewing, setViewing, closeViewing] = useDialog<Attachment>();
   const [removing, setRemoving, closeRemoving] = useDialog<Attachment>();
   // Sem internet, com o banco no aparelho, o anexo espera na fila (N3)
-  const canEdit = writable && (online || isLocal());
+  const canEdit = writable && (online || local);
 
   // O último erro fica escrito na seção (o aviso some sozinho e a foto pode demorar a processar)
   const [failure, setFailure] = useState<string | null>(null);
