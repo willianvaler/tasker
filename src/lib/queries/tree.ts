@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { uuidv7 } from '@/lib/uuid';
 
 import type { Tables } from '../db';
@@ -95,6 +96,22 @@ async function remoteTree() {
 
 function nextPosition(items: { position: number }[]) {
   return items.reduce((max, i) => Math.max(max, i.position), 0) + 1;
+}
+
+/**
+ * A pasta ou página `id` sumiu mesmo? Logo depois de criar, a árvore em cache ainda não a tem:
+ * relê uma vez antes de dizer que não existe (senão a tela nova piscava "não existe mais").
+ */
+export function useConfirmedMissing(id: string | undefined, found: boolean) {
+  const tree = useTree();
+  const [checked, setChecked] = useState<string | null>(null);
+  const suspect = !!tree.data && !found && !!id;
+  const { refetch } = tree;
+  useEffect(() => {
+    if (!suspect || checked === id) return;
+    refetch().finally(() => setChecked(id ?? null));
+  }, [suspect, checked, id, refetch]);
+  return suspect && checked === id;
 }
 
 export function useTreeMutations() {

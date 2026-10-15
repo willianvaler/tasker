@@ -20,7 +20,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
-import { findFolder, useTree, useTreeMutations } from '@/lib/queries/tree';
+import { findFolder, useConfirmedMissing, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { actorCan } from '@/lib/permissions';
 import { useFolderActor } from '@/lib/queries/projects';
@@ -38,6 +38,7 @@ export default function FolderScreen() {
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
   const found = findFolder(tree.data, id);
+  const missing = useConfirmedMissing(id, !!found);
   // Leitor do projeto só vê (e comenta nas tarefas)
   // Listas, subpastas e nome mexem na estrutura: pedem page.manage (o Colaborador não tem)
   const actor = useFolderActor(id);
@@ -64,7 +65,7 @@ export default function FolderScreen() {
     router.setParams({ view: value === 'list' ? undefined : value });
   useShortcut('go.flow', () => (tabbed ? setView('flow') : false), focused);
 
-  if (tree.data && !found) {
+  if (missing) {
     return (
       <Screen>
         <ScreenHeader title={t('folder.fallbackTitle')} back />

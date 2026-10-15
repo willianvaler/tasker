@@ -26,7 +26,13 @@ import { setLastPageId } from '@/lib/prefs';
 import { usePageShares, useReceivedPages } from '@/lib/queries/shares';
 import { usePageTasks } from '@/lib/queries/tasks';
 import { wbsOutline } from '@/lib/task-tree';
-import { findFolder, pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
+import {
+  findFolder,
+  pageLabel,
+  useConfirmedMissing,
+  useTree,
+  useTreeMutations,
+} from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
@@ -46,6 +52,7 @@ export default function PageScreen() {
   const received = useReceivedPages();
   const receivedPage = received.data?.find((p) => p.id === id);
   const page = tree.data?.pages.find((p) => p.id === id) ?? receivedPage;
+  const missing = useConfirmedMissing(id, !!page);
   const pageTasks = usePageTasks(id);
   // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
   const [relating, setRelating] = useState(false);
@@ -73,7 +80,7 @@ export default function PageScreen() {
     if (send && sharable) setDialog('send');
   }, [send, sharable, setDialog]);
 
-  if (tree.data && !page && !received.isPending) {
+  if (missing && !page && !received.isPending) {
     return (
       <Screen>
         <ScreenHeader help="pastas-projetos-paginas" title={t('page.fallbackTitle')} back />
