@@ -35,6 +35,8 @@ streams:
       - SELECT page_fields.* FROM page_fields INNER JOIN folders ON page_fields.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM time_entries WHERE folder_id IN roots
       - SELECT time_entries.* FROM time_entries INNER JOIN folders ON time_entries.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM task_attachments WHERE folder_id IN roots
+      - SELECT task_attachments.* FROM task_attachments INNER JOIN folders ON task_attachments.folder_id = folders.id WHERE folders.parent_id IN roots
       - SELECT * FROM conflict_copies WHERE folder_id IN roots
       - SELECT conflict_copies.* FROM conflict_copies INNER JOIN folders ON conflict_copies.folder_id = folders.id WHERE folders.parent_id IN roots
 

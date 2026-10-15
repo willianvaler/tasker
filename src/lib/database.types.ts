@@ -833,6 +833,38 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"task_attachments": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"folder_id": string | null,"height": number | null,"id": string,"mime": string,"name": string,"path": string,"size": number,"task_id": string,"thumb_path": string | null,"width": number | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id"?: string | null,"height"?: number | null,"id": string,"mime": string,"name": string,"path": string,"size": number,"task_id": string,"thumb_path"?: string | null,"width"?: number | null
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id"?: string | null,"height"?: number | null,"id"?: string,"mime"?: string,"name"?: string,"path"?: string,"size"?: number,"task_id"?: string,"thumb_path"?: string | null,"width"?: number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "task_attachments_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "task_attachments_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "task_attachments_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"task_completions": {
                   Row: {
                     "completed_at": string,"cycle_key": string,"folder_id": string,"id": string,"prev_due_date": string | null,"task_id": string,"user_id": string | null
@@ -1505,6 +1537,12 @@ isOneToOne: false
                            },
 "can_approve":
 { Args: { "p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']>,"p_user": string }; Returns: boolean
+                           },
+"can_edit_task":
+{ Args: { "p_task_id": string }; Returns: boolean
+                           },
+"can_see_task":
+{ Args: { "p_task_id": string }; Returns: boolean
                            },
 "can_share_page":
 { Args: { "p_page_id": string }; Returns: boolean

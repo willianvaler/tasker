@@ -140,7 +140,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)
 
-- [ ] **N1** Storage + `task_attachments` + RLS
+- [x] **N1** Storage + `task_attachments` + RLS (D150)
 - [ ] **N2** Anexar no painel, compressão WebP e miniatura no aparelho
 - [ ] **N3** Anexo offline (fila)
 - [ ] **N4** Limites e E2E

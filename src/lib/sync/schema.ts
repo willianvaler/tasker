@@ -234,6 +234,24 @@ const comments = new Table(
   { indexes: { task: ['task_id'] } },
 );
 
+// Anexos (N1): só os dados; o arquivo fica no Storage e baixa ao abrir
+const task_attachments = new Table(
+  {
+    task_id: column.text,
+    folder_id: column.text,
+    path: column.text,
+    thumb_path: column.text,
+    name: column.text,
+    mime: column.text,
+    size: column.integer,
+    width: column.integer,
+    height: column.integer,
+    created_by: column.text,
+    created_at: column.text,
+  },
+  { indexes: { task: ['task_id'] } },
+);
+
 const task_completions = new Table(
   {
     task_id: column.text,
@@ -352,6 +370,7 @@ export const AppSchema = new Schema({
   page_fields,
   task_assignees,
   comments,
+  task_attachments,
   task_completions,
   conflict_copies,
   milestones,

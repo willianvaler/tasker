@@ -82,6 +82,10 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
+  task_attachments: {
+    insert: ['task_id', 'path', 'thumb_path', 'name', 'mime', 'size', 'width', 'height'],
+    update: [],
+  },
   task_dependencies: {
     insert: ['task_id', 'depends_on_task_id', 'lag_minutes'],
     update: ['lag_minutes'],
