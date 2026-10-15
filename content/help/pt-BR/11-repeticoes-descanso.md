@@ -9,3 +9,7 @@ Depois de cada série começa o **descanso** (60 s por padrão; mude em "Quantas
 ## Modo Treino
 
 Em páginas de cards, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. No fim, um resumo com tempo, séries, volume e XP. Funciona sem internet e mantém a tela acesa.
+
+## Modo: treino, foco ou descanso
+
+O botão **Modo** (barra lateral, raio no topo da Hoje no celular, ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

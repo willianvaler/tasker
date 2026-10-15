@@ -15,3 +15,7 @@
 **¿Se puede usar sin la parte de juego?** Sí: Perfil → Gamificación.
 
 **¿Dónde cambio el idioma?** Perfil → Idioma.
+
+**El aviso del temporizador no vibra / no aparece.** Perfil → Avisos → **Avisos del temporizador**: mira si las notificaciones están permitidas y usa **Probar aviso**. El iPhone en el navegador y los ordenadores no vibran.
+
+**¿Hay app para el móvil?** Para Android, sí: Perfil → **App para Android** → Descargar la app (APK). Abre el archivo y permite instalar desde esta fuente. Para actualizar, descárgala de nuevo e instálala encima. Para iPhone, aún no.

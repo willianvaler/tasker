@@ -15,3 +15,7 @@
 **Dá para usar sem a parte de jogo?** Sim: Perfil → Gamificação.
 
 **Troco o idioma onde?** Perfil → Idioma.
+
+**O aviso do timer não vibra / não aparece.** Perfil → Avisos → **Avisos do timer**: veja se a notificação está permitida e use **Testar aviso**. iPhone pelo navegador e computador não vibram.
+
+**Tem app para o celular?** Para Android, sim: Perfil → **App para Android** → Baixar o app (APK). Abra o arquivo e permita instalar desta fonte. Para atualizar, baixe de novo e instale por cima. Para iPhone, ainda não.

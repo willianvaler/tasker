@@ -8,6 +8,8 @@
 
 Tap the task's arrow (or `Enter` with it selected) to open the **panel**: notes, date, priority, weight, time, subtasks, assignees, dependencies, page fields and comments. Each field saves when you leave it.
 
+At the top of the panel, **Simple ▾** shows only the essentials; switch to **Full** to see time, sets, weight, dependencies, fields, approval, My day and history. Whatever the task already uses shows even in Simple.
+
 ## The New menu
 
 `Alt+N` (or the **New** button) and a letter: **T** task, **P** page, **F** folder, **J** project, **H** habit.

@@ -15,3 +15,7 @@
 **Can I use it without the game part?** Yes: Profile → Gamification.
 
 **Where do I change the language?** Profile → Language.
+
+**The timer alert doesn't vibrate / doesn't show.** Profile → Alerts → **Timer alerts**: check that notifications are allowed and use **Test alert**. iPhone in the browser and computers don't vibrate.
+
+**Is there a phone app?** For Android, yes: Profile → **Android app** → Download the app (APK). Open the file and allow installing from this source. To update, download again and install over it. Not for iPhone yet.

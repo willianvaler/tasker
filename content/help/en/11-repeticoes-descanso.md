@@ -9,3 +9,7 @@ After each set a **rest** starts (60 s by default; change it under "How many tim
 ## Workout mode
 
 On card pages, **Start workout** opens full screen: current exercise, set, load, a big **Done** button (or `Space`), `R` skips the rest. At the end, a summary with time, sets, volume and XP. Works offline and keeps the screen on.
+
+## Mode: workout, focus or rest
+
+The **Mode** button (sidebar, the bolt at the top of Today on the phone, or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.
