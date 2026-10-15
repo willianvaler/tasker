@@ -179,3 +179,77 @@ test('Alunos: números, cargas, observação, lembrete e arquivar', async ({
   await expect(page.getByText('Ninguém recebeu esta página ao vivo ainda.')).toBeVisible();
   await ana.context().close();
 });
+
+test('aceite da Fase L: treino em lote para 2 alunos, cada um no seu (um offline), treinador acompanha', async ({
+  browser,
+  page,
+}, testInfo) => {
+  test.setTimeout(240_000);
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Academia', name: 'Treino A', type: 'Cards' });
+  await page.getByRole('button', { name: 'Adicionar várias' }).click();
+  await page
+    .getByRole('textbox', { name: 'Lista de tarefas' })
+    .fill('Supino 2x10 40kg\nRemada 2x12 30kg\nAlongar');
+  await page.getByRole('button', { name: 'Criar 3' }).click();
+  await expect(page.getByRole('checkbox', { name: 'Alongar', exact: true })).toBeVisible();
+  const link = await makeLink(page, 'Ao vivo');
+  await page.getByRole('button', { name: 'Fechar' }).last().click();
+
+  const ana = await receive(browser, testInfo, link, 'Ana Aluna');
+  const bruno = await receive(browser, testInfo, link, 'Bruno Aluno');
+  await expect(ana.getByRole('checkbox', { name: 'Alongar', exact: true })).toBeVisible();
+  await expect(bruno.getByRole('checkbox', { name: 'Alongar', exact: true })).toBeVisible();
+
+  // Ana na academia sem sinal: Supino (2 séries) e Alongar
+  await waitForSync(ana);
+  await ana.context().setOffline(true);
+  await ana.getByRole('button', { name: 'Mais uma em Supino (0 de 2)' }).click();
+  await ana.getByRole('button', { name: 'Mais uma em Supino (1 de 2)' }).click();
+  await ana.getByRole('checkbox', { name: 'Alongar', exact: true }).click();
+  await expect(ana.getByRole('checkbox', { name: 'Supino', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+  await expect(ana.getByRole('checkbox', { name: 'Alongar', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+
+  // Bruno, online, faz só a Remada
+  await bruno.getByRole('button', { name: 'Mais uma em Remada (0 de 2)' }).click();
+  await bruno.getByRole('button', { name: 'Mais uma em Remada (1 de 2)' }).click();
+  await expect(bruno.getByRole('checkbox', { name: 'Remada', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+  await waitForSync(bruno);
+
+  // Ana volta ao sinal: sobe tudo; ela não vê o que o Bruno fez (nem ele o dela)
+  await ana.context().setOffline(false);
+  await waitForSync(ana);
+  await ana.reload();
+  await expect(ana.getByRole('checkbox', { name: 'Remada', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'false',
+  );
+  await bruno.reload();
+  await expect(bruno.getByRole('checkbox', { name: 'Supino', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'false',
+  );
+
+  // O treinador vê cada um, com as cargas
+  await page.reload();
+  await page.getByRole('button', { name: 'Alunos' }).click();
+  await expect(page.getByRole('button', { name: /^Ana Aluna: Neste ciclo: 2\/3/ })).toBeVisible({
+    timeout: 20_000,
+  });
+  await expect(page.getByRole('button', { name: /^Bruno Aluno: Neste ciclo: 1\/3/ })).toBeVisible();
+  await page.getByRole('button', { name: /^Ana Aluna:/ }).click();
+  await expect(page.getByLabel('Supino: 40kg')).toBeVisible();
+  await page.getByRole('button', { name: /^Bruno Aluno:/ }).click();
+  await expect(page.getByLabel('Remada: 30kg')).toBeVisible();
+  await ana.context().close();
+  await bruno.context().close();
+});
