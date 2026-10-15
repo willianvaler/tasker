@@ -90,8 +90,8 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   conflict_copies: { insert: [], update: [] },
 };
 
-// task_progress: o reflexo local do log_rep (quem grava no servidor é o comando)
-const SERVER_SIDE = new Set(['folder_members', 'task_progress']);
+// task_progress e timers: o reflexo local do comando (quem grava no servidor é a RPC)
+const SERVER_SIDE = new Set(['folder_members', 'task_progress', 'timers']);
 
 // No SQLite, jsonb e arrays são texto
 const JSON_COLUMNS = new Set(['labels', 'meta', 'recurrence', 'repeat_plan', 'args']);

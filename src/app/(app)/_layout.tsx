@@ -6,6 +6,7 @@ import { CommandPaletteProvider } from '@/components/command-palette';
 import { ListKeys } from '@/components/list-keys';
 import { NewMenuProvider } from '@/components/new-menu';
 import { Sidebar, useIsWide } from '@/components/sidebar';
+import { TimerBar } from '@/components/timer-bar';
 import { SyncDot } from '@/components/sync-dot';
 import { SyncRejections } from '@/components/sync-rejections';
 import { useLocaleSync } from '@/i18n/use-locale';
@@ -62,6 +63,7 @@ export default function AppLayout() {
               <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
             </Stack>
             {!wide && !onboarding && <SyncDot floating />}
+            {!onboarding && <TimerBar floating />}
           </View>
         </View>
       </NewMenuProvider>

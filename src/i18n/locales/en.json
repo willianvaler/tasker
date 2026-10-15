@@ -870,7 +870,9 @@
     "theme": "Toggle light and dark",
     "sidebar": "Show or hide the sidebar",
     "help": "Help and shortcuts",
-    "open": "Search or run"
+    "open": "Search or run",
+    "timer": "{{minutes}} min timer",
+    "stopwatch": "Start stopwatch"
   },
   "advanced": {
     "title": "Advanced creation",
@@ -1273,5 +1275,16 @@
     "logged": "{{title}}: {{done}}/{{total}}",
     "oneMore": "One more of {{title}} ({{done}} of {{total}})",
     "hint": "In quick add: \"Push-ups 3x12\" (sets) or \"Drink water x8\" (times). The task completes only on the last one."
+  },
+  "timer": {
+    "rest": "Rest",
+    "pomodoro": "Focus",
+    "stopwatch": "Stopwatch",
+    "countdown": "Timer",
+    "label": "{{label}}: {{time}}",
+    "pausedLabel": "{{label}}: {{time}}, paused",
+    "pause": "Pause",
+    "resume": "Resume",
+    "stop": "Stop"
   }
 }

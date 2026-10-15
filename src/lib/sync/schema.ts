@@ -113,6 +113,24 @@ const task_progress = new Table(
   { indexes: { task: ['task_id'] } },
 );
 
+// Temporizadores do usuário (J2). Só as RPCs start_timer/update_timer gravam no servidor
+const timers = new Table(
+  {
+    user_id: column.text,
+    task_id: column.text,
+    kind: column.text,
+    state: column.text,
+    started_at: column.text,
+    ends_at: column.text,
+    paused_seconds: column.integer,
+    ended_at: column.text,
+    device_id: column.text,
+    config: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { user: ['user_id', 'started_at'] } },
+);
+
 const task_assignees = new Table(
   {
     task_id: column.text,
@@ -246,6 +264,7 @@ export const AppSchema = new Schema({
   pages,
   tasks,
   task_progress,
+  timers,
   task_assignees,
   comments,
   task_completions,

@@ -929,6 +929,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"timers": {
+                  Row: {
+                    "config": NonNullable<Json>,"device_id": string | null,"ended_at": string | null,"ends_at": string | null,"id": string,"kind": string,"paused_seconds": number | null,"started_at": string,"state": string,"task_id": string | null,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "config"?: NonNullable<Json>,"device_id"?: string | null,"ended_at"?: string | null,"ends_at"?: string | null,"id": string,"kind": string,"paused_seconds"?: number | null,"started_at": string,"state"?: string,"task_id"?: string | null,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "config"?: NonNullable<Json>,"device_id"?: string | null,"ended_at"?: string | null,"ends_at"?: string | null,"id"?: string,"kind"?: string,"paused_seconds"?: number | null,"started_at"?: string,"state"?: string,"task_id"?: string | null,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "timers_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "timers_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"user_achievements": {
                   Row: {
                     "achievement_key": string,"unlocked_at": string,"user_id": string
@@ -1596,6 +1622,27 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"start_timer":
+{ Args: { "p_config"?: Json,"p_device"?: string,"p_id": string,"p_kind": string,"p_seconds"?: number,"p_started_at": string,"p_task_id"?: string }; Returns: {
+              "config": NonNullable<Json>,
+"device_id": string | null,
+"ended_at": string | null,
+"ends_at": string | null,
+"id": string,
+"kind": string,
+"paused_seconds": number | null,
+"started_at": string,
+"state": string,
+"task_id": string | null,
+"updated_at": string,
+"user_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "timers"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "streak_stats":
 { Args: { "p_today": string,"p_user": string }; Returns: Record<string, unknown>
                            },
@@ -1634,6 +1681,27 @@ isOneToOne: false
 "undo_habit_tick":
 { Args: { "p_event_id": string }; Returns: Json
                            },
+"update_timer":
+{ Args: { "p_action": string,"p_at"?: string,"p_id": string,"p_seconds"?: number }; Returns: {
+              "config": NonNullable<Json>,
+"device_id": string | null,
+"ended_at": string | null,
+"ends_at": string | null,
+"id": string,
+"kind": string,
+"paused_seconds": number | null,
+"started_at": string,
+"state": string,
+"task_id": string | null,
+"updated_at": string,
+"user_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "timers"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "use_skill":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },

@@ -870,7 +870,9 @@
     "theme": "Alternar claro e escuro",
     "sidebar": "Mostrar ou esconder a barra lateral",
     "help": "Ajuda e atalhos",
-    "open": "Buscar ou executar"
+    "open": "Buscar ou executar",
+    "timer": "Temporizador de {{minutes}} min",
+    "stopwatch": "Iniciar cronômetro"
   },
   "advanced": {
     "title": "Criação avançada",
@@ -1273,5 +1275,16 @@
     "logged": "{{title}}: {{done}}/{{total}}",
     "oneMore": "Mais uma em {{title}} ({{done}} de {{total}})",
     "hint": "Na captura: \"Flexões 3x12\" (séries) ou \"Beber água x8\" (vezes). A tarefa só conclui na última."
+  },
+  "timer": {
+    "rest": "Descanso",
+    "pomodoro": "Foco",
+    "stopwatch": "Cronômetro",
+    "countdown": "Temporizador",
+    "label": "{{label}}: {{time}}",
+    "pausedLabel": "{{label}}: {{time}}, pausado",
+    "pause": "Pausar",
+    "resume": "Retomar",
+    "stop": "Parar"
   }
 }

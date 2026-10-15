@@ -1,6 +1,7 @@
 import { isLocale, type LocalePreference } from '@/i18n/locale';
 
 import { localStore } from './storage';
+import { uuidv7 } from './uuid';
 
 // Preferências de UI guardadas no aparelho (não são dados do usuário: perder não faz mal).
 const LAST_PAGE_KEY = 'questlist:last-page';
@@ -8,6 +9,7 @@ const OPEN_FOLDERS_KEY = 'questlist:open-folders';
 const THEME_KEY = 'questlist:theme';
 const LOCALE_KEY = 'questlist:locale';
 const RECENT_ICONS_KEY = 'questlist:recent-icons';
+const DEVICE_KEY = 'questlist:device';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -96,4 +98,14 @@ export function getSyncUser() {
 export function setSyncUser(userId: string | null) {
   if (userId) localStore.setItem(SYNC_USER_KEY, userId);
   else localStore.removeItem(SYNC_USER_KEY);
+}
+
+/** Id deste aparelho (timers: de onde veio o ativo). Gerado uma vez. */
+export function getDeviceId(): string {
+  let id = localStore.getItem(DEVICE_KEY);
+  if (!id) {
+    id = uuidv7();
+    localStore.setItem(DEVICE_KEY, id);
+  }
+  return id;
 }

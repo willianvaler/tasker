@@ -31,6 +31,8 @@ export const keys = {
   board: (bossId: string) => ['board', bossId] as const,
   /** Séries feitas pelo usuário (J1). Fora de 'tasks': não é lista de tarefas */
   progress: ['task-progress'] as const,
+  /** Timer ativo do usuário (J2) */
+  timer: ['timer'] as const,
 };
 
 /** Toda mutação de tarefa usa esta chave (ver invalidateWhenIdle). */

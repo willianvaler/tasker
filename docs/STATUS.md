@@ -98,7 +98,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## Fase J — Repetições, descanso e Modo Treino (09/12 – 15/12)
 
 - [x] **J1** `repeat_plan` + `task_progress` (conta por pessoa, `log_rep`, conclui no total, desfazer reabre); atalho `3x12`/`x8` na captura e no lote; botão "2/4" na linha e no card, "Quantas vezes" no painel e na criação avançada (D123)
-- [ ] **J2** Tabela `timers` com `ends_at` absoluto, um ativo por usuário, sincronizado
+- [x] **J2** Tabela `timers` com `ends_at` absoluto, um ativo por usuário, sincronizado: RPCs `start_timer`/`update_timer` (também offline, vence quem iniciou por último), mini-barra flutuante, início pela paleta, E2E com dois aparelhos (D124)
 - [ ] **J3** Timer de descanso: +30/−30/Pular, notificação local (`expo-notifications`), vibração (`expo-haptics`)
 - [ ] **J4** Web: Notification + Service Worker, Wake Lock, Web Audio; limitações documentadas
 - [ ] **J5** Modo Treino em tela cheia (Space = série feita, R = pular descanso), resumo final, offline
