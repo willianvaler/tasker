@@ -1,7 +1,7 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import { Download, FileText, Paperclip, Trash2 } from 'lucide-react-native';
+import { CloudOff, Download, FileText, Paperclip, Trash2 } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, Pressable, View } from 'react-native';
 
@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ActionMenu, ConfirmDialog, DialogFrame, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { formatBytes, isImage } from '@/lib/attachments';
+import { isLocal } from '@/lib/sync/local';
 import {
   signedUrl,
   useAttachmentMutations,
@@ -47,7 +48,8 @@ export function Attachments({
   const [menu, setMenu, closeMenu] = useDialog<true>();
   const [viewing, setViewing, closeViewing] = useDialog<Attachment>();
   const [removing, setRemoving, closeRemoving] = useDialog<Attachment>();
-  const canEdit = writable && online;
+  // Sem internet, com o banco no aparelho, o anexo espera na fila (N3)
+  const canEdit = writable && (online || isLocal());
 
   function send(files: PickedFile[]) {
     for (const file of files)
@@ -97,6 +99,12 @@ export function Attachments({
     }
   }
 
+  function press(a: Attachment) {
+    if (a.error) return setRemoving(a);
+    if (a.thumb_path || a.preview) return setViewing(a);
+    if (!a.pending) open(a);
+  }
+
   const images = items.filter((a) => a.thumb_path || isImage(a.mime));
   const files = items.filter((a) => !(a.thumb_path || isImage(a.mime)));
   return (
@@ -107,18 +115,23 @@ export function Attachments({
       {images.length > 0 && (
         <View className="flex-row flex-wrap gap-2">
           {images.map((a) => {
-            const uri = a.thumb_path ? thumbs.data?.[a.thumb_path] : undefined;
+            const uri = a.preview ?? (a.thumb_path ? thumbs.data?.[a.thumb_path] : undefined);
             return (
               <Pressable
                 key={a.id}
                 accessibilityRole="button"
                 accessibilityLabel={t('attach.open', { name: a.name })}
-                onPress={() => (a.thumb_path ? setViewing(a) : open(a))}
+                onPress={() => press(a)}
                 className="h-20 w-20 overflow-hidden rounded border border-line bg-wash"
               >
+                {a.pending && (
+                  <View className="absolute bottom-1 right-1 z-10 rounded-full bg-surface p-1">
+                    <CloudOff size={12} className={a.error ? 'text-warn' : 'text-ink-muted'} />
+                  </View>
+                )}
                 {uri ? (
                   <Image
-                    source={{ uri, cacheKey: a.thumb_path ?? undefined }}
+                    source={{ uri, cacheKey: a.pending ? undefined : (a.thumb_path ?? undefined) }}
                     contentFit="cover"
                     style={{ width: '100%', height: '100%' }}
                     accessibilityIgnoresInvertColors
@@ -138,10 +151,14 @@ export function Attachments({
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t('attach.open', { name: a.name })}
-            onPress={() => open(a)}
+            onPress={() => press(a)}
             className="flex-1 flex-row items-center gap-2"
           >
-            <FileText size={16} className="text-ink-muted" />
+            {a.pending ? (
+              <CloudOff size={16} className={a.error ? 'text-warn' : 'text-ink-muted'} />
+            ) : (
+              <FileText size={16} className="text-ink-muted" />
+            )}
             <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
               {a.name}
             </Text>
@@ -149,7 +166,7 @@ export function Attachments({
               {formatBytes(a.size, i18n.language)}
             </Text>
           </Pressable>
-          {canEdit && (
+          {(canEdit || a.pending) && (
             <Button
               variant="ghost"
               icon={Trash2}
@@ -160,6 +177,14 @@ export function Attachments({
         </View>
       ))}
       {m.add.isPending && <Text className="text-sm text-ink-muted">{t('attach.sending')}</Text>}
+      {items.some((a) => a.pending && !a.error) && (
+        <Text className="text-xs text-ink-muted">{t('attach.queued')}</Text>
+      )}
+      {items.some((a) => a.error) && (
+        <Text className="text-xs text-warn">
+          {t('attach.rejected', { message: items.find((a) => a.error)?.error ?? '' })}
+        </Text>
+      )}
       {canEdit && (
         <Button
           variant="ghost"
@@ -189,7 +214,7 @@ export function Attachments({
           attachment={viewing}
           onClose={closeViewing}
           onOpen={open}
-          onRemove={canEdit ? () => setRemoving(viewing) : undefined}
+          onRemove={canEdit || viewing.pending ? () => setRemoving(viewing) : undefined}
         />
       )}
       {removing && (
@@ -223,8 +248,8 @@ function Viewer({
   onRemove?: () => void;
 }) {
   const { t, i18n } = useTranslation();
-  const urls = useSignedUrls([attachment.path]);
-  const uri = urls.data?.[attachment.path];
+  const urls = useSignedUrls(attachment.pending ? [] : [attachment.path]);
+  const uri = attachment.pending ? attachment.preview : urls.data?.[attachment.path];
   const ratio =
     attachment.width && attachment.height ? attachment.width / attachment.height : 4 / 3;
   return (
@@ -235,7 +260,7 @@ function Viewer({
       <View className="w-full overflow-hidden rounded bg-wash" style={{ aspectRatio: ratio }}>
         {uri ? (
           <Image
-            source={{ uri, cacheKey: attachment.path }}
+            source={{ uri, cacheKey: attachment.pending ? undefined : attachment.path }}
             placeholder={attachment.thumb_path ? { cacheKey: attachment.thumb_path } : undefined}
             contentFit="contain"
             style={{ width: '100%', height: '100%' }}
@@ -255,12 +280,14 @@ function Viewer({
         {onRemove && (
           <Button variant="ghost" icon={Trash2} label={t('attach.remove')} onPress={onRemove} />
         )}
-        <Button
-          variant="ghost"
-          icon={Download}
-          label={t('attach.download')}
-          onPress={() => onOpen(attachment, true)}
-        />
+        {!attachment.pending && (
+          <Button
+            variant="ghost"
+            icon={Download}
+            label={t('attach.download')}
+            onPress={() => onOpen(attachment, true)}
+          />
+        )}
         <Button label={t('common.close')} onPress={onClose} />
       </View>
     </DialogFrame>

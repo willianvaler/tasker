@@ -252,6 +252,28 @@ const task_attachments = new Table(
   { indexes: { task: ['task_id'] } },
 );
 
+// Anexo feito sem internet (N3): o arquivo já reduzido, em base64, até subir. Só no aparelho
+const pending_uploads = new Table(
+  {
+    task_id: column.text,
+    folder_id: column.text,
+    path: column.text,
+    thumb_path: column.text,
+    name: column.text,
+    mime: column.text,
+    size: column.integer,
+    width: column.integer,
+    height: column.integer,
+    body: column.text,
+    thumb_body: column.text,
+    thumb_mime: column.text,
+    created_by: column.text,
+    created_at: column.text,
+    error: column.text,
+  },
+  { localOnly: true, indexes: { task: ['task_id'] } },
+);
+
 const task_completions = new Table(
   {
     task_id: column.text,
@@ -371,6 +393,7 @@ export const AppSchema = new Schema({
   task_assignees,
   comments,
   task_attachments,
+  pending_uploads,
   task_completions,
   conflict_copies,
   milestones,

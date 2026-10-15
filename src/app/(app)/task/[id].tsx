@@ -514,7 +514,7 @@ function TaskDetails({ task }: { task: Task }) {
         {!task.parent_task_id && <Subtasks task={task} />}
 
         <Section title={t('attach.section')}>
-          <Attachments task={task} writable={writable} />
+          <Attachments task={task} writable={allowed.edit} />
         </Section>
 
         {project && (

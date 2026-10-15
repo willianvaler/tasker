@@ -1622,6 +1622,9 @@
     "removeTitle": "Remover o anexo?",
     "download": "Baixar",
     "loading": "Carregando…",
-    "noCamera": "Sem permissão para a câmera."
+    "noCamera": "Sem permissão para a câmera.",
+    "queued": "Na fila: sobe quando a internet voltar.",
+    "rejected": "Um anexo não subiu: {{message}}. Remova e tente de novo.",
+    "file": "Arquivo"
   }
 }

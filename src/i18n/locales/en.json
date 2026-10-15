@@ -1622,6 +1622,9 @@
     "removeTitle": "Remove the attachment?",
     "download": "Download",
     "loading": "Loading…",
-    "noCamera": "No camera permission."
+    "noCamera": "No camera permission.",
+    "queued": "Queued: uploads when you're back online.",
+    "rejected": "An attachment didn't upload: {{message}}. Remove it and try again.",
+    "file": "File"
   }
 }

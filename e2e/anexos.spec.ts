@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { expect, test } from '@playwright/test';
 
 import { adminRest, openTab, signUp } from './helpers';
@@ -69,4 +70,49 @@ test('anexar foto e arquivo na tarefa', async ({ page }, testInfo) => {
   await page.getByRole('button', { name: 'Remover' }).click();
   await page.getByRole('button', { name: 'Remover' }).last().click();
   await expect(page.getByRole('button', { name: 'Abrir orcamento.pdf' })).toHaveCount(0);
+});
+
+// N3 (D152): sem internet o anexo espera no aparelho e sobe quando a conexão volta.
+test('anexo sem internet entra na fila e sobe depois', async ({ page, context }, testInfo) => {
+  const up = await fetch('http://localhost:8095/probes/liveness').then(
+    (r) => r.ok,
+    () => false,
+  );
+  test.skip(!up, 'PowerSync local fora do ar (npm run sync:start)');
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await page.goto('/sync');
+  await expect(page.getByText(/No aparelho: \d+ pastas, [1-9]\d* páginas/)).toBeVisible({
+    timeout: 20_000,
+  });
+  await page.goto('/inbox');
+  const title = `Recibo ${testInfo.project.name} ${Date.now()}`;
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill(title);
+  await input.press('Enter');
+  await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
+
+  await context.setOffline(true);
+  const name = `recibo-${testInfo.project.name}-${Date.now()}.pdf`;
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Anexar' }).click();
+  await page.getByRole('menuitem', { name: 'Arquivo' }).click();
+  await (await chooser).setFiles({
+    name,
+    mimeType: 'application/pdf',
+    buffer: Buffer.from('%PDF-1.4\n% recibo\n'),
+  });
+  await expect(page.getByText('Na fila: sobe quando a internet voltar.')).toBeVisible({
+    timeout: 15_000,
+  });
+  expect(await adminRest(`task_attachments?select=id&name=eq.${name}`)).toHaveLength(0);
+
+  await context.setOffline(false);
+  await expect
+    .poll(async () => (await adminRest(`task_attachments?select=id&name=eq.${name}`)).length, {
+      timeout: 30_000,
+    })
+    .toBe(1);
+  await expect(page.getByText('Na fila: sobe quando a internet voltar.')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: `Abrir ${name}` })).toBeVisible();
 });

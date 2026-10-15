@@ -1622,6 +1622,9 @@
     "removeTitle": "¿Quitar el adjunto?",
     "download": "Descargar",
     "loading": "Cargando…",
-    "noCamera": "Sin permiso para la cámara."
+    "noCamera": "Sin permiso para la cámara.",
+    "queued": "En cola: se sube cuando vuelva internet.",
+    "rejected": "Un adjunto no se subió: {{message}}. Quítalo e inténtalo de nuevo.",
+    "file": "Archivo"
   }
 }

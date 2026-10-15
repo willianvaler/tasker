@@ -1,6 +1,8 @@
 import { PowerSyncContext } from '@powersync/react';
 import { useEffect, type ReactNode } from 'react';
+import { onlineManager } from '@tanstack/react-query';
 
+import { flushUploads } from '@/lib/queries/attachments';
 import { keys, taskMutationKey } from '@/lib/queries/keys';
 import { connector, POWERSYNC_URL, setOnCommandApplied } from '@/lib/sync/connector';
 import { db } from '@/lib/sync/db';
@@ -17,6 +19,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   task_assignees: [keys.tasks, keys.assignees],
   comments: [keys.tasks, ['comments']],
   task_attachments: [['attachments']],
+  pending_uploads: [['attachments']],
   conflict_copies: [keys.tasks],
   folders: [keys.tree],
   pages: [keys.tree, keys.tasks],
@@ -63,6 +66,19 @@ export function SyncProvider({ children }: { children: ReactNode }) {
       await db.connect(connector, { crudUploadThrottleMs: 0 });
     })();
   }, [isLoading, userId]);
+
+  useEffect(() => {
+    if (!POWERSYNC_URL || !userId) return;
+    // Anexos feitos sem internet (N3) sobem quando a conexão volta
+    const run = () => void flushUploads(userId);
+    run();
+    const stopOnline = onlineManager.subscribe((online) => online && run());
+    const timer = setInterval(run, 60_000);
+    return () => {
+      stopOnline();
+      clearInterval(timer);
+    };
+  }, [userId]);
 
   useEffect(() => {
     if (!POWERSYNC_URL) return;
