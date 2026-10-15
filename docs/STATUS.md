@@ -158,7 +158,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **W6** Clicar fora do painel fecha e salva (D170)
 - [x] **W7** Modo Treino fácil de achar (D171)
 - [x] **W8** `ESCOPO_V5.md`: relógio, tela de bloqueio, usabilidade, HTTPS, LGPD, e-mail, restauração de conta
-- [ ] **W9** HTTPS: mandar `http://` para `https://` e cabeçalhos de segurança
+- [x] **W9** HTTPS: mandar `http://` para `https://` e cabeçalhos de segurança (D172)
 
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)
 

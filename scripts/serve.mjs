@@ -48,10 +48,27 @@ function serveFile(req, res) {
     file = join(DIST, 'index.html');
   const hashed = /\/_expo\/|\/assets\//.test(path);
   res.writeHead(200, {
+    ...securityHeaders(req),
     'Content-Type': TYPES[extname(file)] ?? 'application/octet-stream',
     'Cache-Control': hashed ? 'public, max-age=31536000, immutable' : 'no-cache',
   });
   createReadStream(file).pipe(res);
+}
+
+// Segurança (W9): quem chega pela Cloudflare em http:// vai para https://, e as respostas do app
+// levam os cabeçalhos de proteção. HSTS só quando a visita veio por HTTPS (nunca no localhost).
+const viaHttp = (req) =>
+  req.headers['x-forwarded-proto'] === 'http' || /"scheme":"http"/.test(req.headers['cf-visitor'] ?? '');
+const viaHttps = (req) =>
+  req.headers['x-forwarded-proto'] === 'https' || /"scheme":"https"/.test(req.headers['cf-visitor'] ?? '');
+function securityHeaders(req) {
+  return {
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'X-Frame-Options': 'DENY',
+    'Permissions-Policy': 'camera=(self), microphone=(), geolocation=(), payment=()',
+    ...(viaHttps(req) && { 'Strict-Transport-Security': 'max-age=15552000' }),
+  };
 }
 
 /** /downloads/questlist.apk e /downloads/apk.json (ou 404, sem cair no index.html) */
@@ -64,6 +81,7 @@ function serveDownload(req, res) {
   }
   const apk = name.endsWith('.apk');
   res.writeHead(200, {
+    ...securityHeaders(req),
     'Content-Type': apk ? 'application/vnd.android.package-archive' : 'application/json',
     'Content-Length': statSync(file).size,
     'Cache-Control': 'no-cache',
@@ -96,6 +114,10 @@ function proxy(target, req, res) {
 }
 
 const server = http.createServer((req, res) => {
+  if (viaHttp(req) && req.headers.host) {
+    res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
+    return res.end();
+  }
   const target = upstreamFor(req.url);
   if (target) proxy(target, req, res);
   else if (req.url.startsWith('/downloads/')) serveDownload(req, res);
