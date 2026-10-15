@@ -62,16 +62,16 @@ describe('personagem (mesmos casos do pgTAP fase7_rpg)', () => {
   const none = { str: 0, agi: 0, int: 0, con: 0 };
 
   test.each([
-    [1, 120],
-    [2, 144],
-    [5, 249],
+    [1, 300],
+    [2, 360],
+    [5, 622],
   ])('boss nível %i: %i HP', (level, hp) => expect(bossHpForLevel(level)).toBe(hp));
 
   // Os mesmos casos do pgTAP boss_diario
   test.each([
-    [1, 24],
-    [2, 25],
-    [100, 72],
+    [1, 60],
+    [2, 63],
+    [100, 180],
   ])('boss diário nível %i: %i HP', (level, hp) => expect(dailyBossHp(level)).toBe(hp));
 
   test('sem classe, todos os atributos em 1; lutador ganha Força e Constituição', () => {
@@ -113,9 +113,10 @@ describe('personagem (mesmos casos do pgTAP fase7_rpg)', () => {
     expect(critChance('arqueiro', totalAttributes('arqueiro', none), true)).toBeCloseTo(0.33);
   });
 
-  test('cura do hábito ruim: 3 × (1 − 0,08 × CON); paladino cura metade', () => {
-    expect(healAmount('lutador', totalAttributes('lutador', none))).toBe(3);
-    expect(healAmount('paladino', totalAttributes('paladino', none))).toBe(1);
+  test('cura do hábito ruim: 8 × (1 − 0,08 × CON); paladino cura metade', () => {
+    // lutador CON 2: 8 × 0,84 = 6,72 → 7; paladino CON 4: 8 × 0,68 × 0,5 = 2,72 → 3
+    expect(healAmount('lutador', totalAttributes('lutador', none))).toBe(7);
+    expect(healAmount('paladino', totalAttributes('paladino', none))).toBe(3);
   });
 
   test('ouro: 2 × (1 + 0,03 × CON); ladino +50%', () => {

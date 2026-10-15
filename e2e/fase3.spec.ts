@@ -11,9 +11,9 @@ test('critério de aceite: concluir e desmarcar mudam XP e HP do boss, e voltam'
   const game = page
     .getByRole('link', { name: 'Personagem, nível, XP e boss da semana' })
     .or(page.getByLabel('Personagem e boss da semana'));
-  // Boss de nível 1: 120 de HP (D62)
+  // Boss de nível 1: 300 de HP (O2)
   await expect(game.getByText('0/100 XP')).toBeVisible();
-  await expect(game.getByText(/120\/120 HP/)).toBeVisible();
+  await expect(game.getByText(/300\/300 HP/)).toBeVisible();
 
   // Título único: o ageTask acha a tarefa pelo título, e o banco é compartilhado entre os testes
   const title = `Pagar conta ${testInfo.project.name} ${Date.now()}`;
@@ -27,20 +27,20 @@ test('critério de aceite: concluir e desmarcar mudam XP e HP do boss, e voltam'
   const done = page.waitForResponse((r) => isRpc(r, 'complete_task'));
   await page.getByRole('checkbox', { name: `Concluir ${title}` }).click();
   await done;
-  // Sem classe: 4 × 1,05 = 4 de dano (8 num crítico), 2 de ouro (D61)
+  // Sem classe: 10 × 1,05 = 11 de dano (21 num crítico, O2), 2 de ouro (D61)
   await expect(
     page.getByText(
-      new RegExp(`Concluída: ${title} · \\+10 XP · (⚔️ 4|💥 8) de dano.* · 🌱 Primeiro passo`),
+      new RegExp(`Concluída: ${title} · \\+10 XP · (⚔️ 11|💥 21) de dano.* · 🌱 Primeiro passo`),
     ),
   ).toBeVisible();
   await expect(game.getByText('10/100 XP')).toBeVisible();
-  await expect(game.getByText(/11[26]\/120 HP/)).toBeVisible();
+  await expect(game.getByText(/(289|279)\/300 HP/)).toBeVisible();
 
   const undone = page.waitForResponse((r) => isRpc(r, 'uncomplete_task'));
   await page.getByRole('button', { name: 'Desfazer' }).click();
   await undone;
   await expect(game.getByText('0/100 XP')).toBeVisible();
-  await expect(game.getByText(/120\/120 HP/)).toBeVisible();
+  await expect(game.getByText(/300\/300 HP/)).toBeVisible();
 
   // Marcar de novo: o saldo é sempre o de uma conclusão só
   const again = page.waitForResponse((r) => isRpc(r, 'complete_task'));

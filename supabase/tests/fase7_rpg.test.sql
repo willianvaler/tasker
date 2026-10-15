@@ -5,9 +5,9 @@ create extension if not exists pgtap with schema extensions;
 select plan(60);
 
 -- ---------- Funções puras (os mesmos casos de src/lib/__tests__/gamification.test.ts) ----------
-select is(public.boss_hp_for_level(1), 120, 'boss nível 1: 120 HP');
-select is(public.boss_hp_for_level(2), 144, 'boss nível 2: 120 × 1,2');
-select is(public.boss_hp_for_level(5), 249, 'boss nível 5: round(120 × 1,2^4)');
+select is(public.boss_hp_for_level(1), 300, 'boss nível 1: 300 HP');
+select is(public.boss_hp_for_level(2), 360, 'boss nível 2: 300 × 1,2');
+select is(public.boss_hp_for_level(5), 622, 'boss nível 5: round(300 × 1,2^4)');
 
 -- ---------- Usuários ----------
 insert into auth.users (id, email) values
@@ -55,9 +55,9 @@ select throws_ok($$ update public.profiles set class = 'mago', attr_str = 50 whe
   'cliente não muda classe nem atributos direto');
 
 -- ---------- Dano ----------
--- Lutador: o primeiro golpe do dia dobra. 4 × (1 + 0,05 × 4) × 2 = 9,6 → 10 (ou 19 num crítico)
-select ok((public.complete_task('cccccccc-0000-0000-0000-000000000001') ->> 'damage')::int in (10, 19),
-  'tarefa comum: 4 × Força × primeiro golpe do lutador');
+-- Lutador: o primeiro golpe do dia dobra. 10 × (1 + 0,05 × 4) × 2 = 24 (ou 48 num crítico)
+select ok((public.complete_task('cccccccc-0000-0000-0000-000000000001') ->> 'damage')::int in (24, 48),
+  'tarefa comum: 10 × Força × primeiro golpe do lutador');
 select is((select gold from public.xp_events where task_id = 'cccccccc-0000-0000-0000-000000000001'), 2,
   'ouro da tarefa: 2 × (1 + 0,03 × 2) = 2');
 select is((select sum(amount)::int from public.boss_damage d join public.bosses b on b.id = d.boss_id where b.scope = 'user'),
@@ -77,8 +77,8 @@ reset role;
 update public.tasks set created_at = now() - interval '1 minute' where title like 'Rápida %';
 set local role authenticated;
 select public.complete_task(('dddddddd-0000-0000-0000-00000000000' || i)::uuid) from generate_series(1, 8) i;
-select ok((select sum(damage)::int from public.xp_events where quick and not reverted) <= 20,
-  'conclusões rápidas somam no máximo 20 de dano por dia');
+select ok((select sum(damage)::int from public.xp_events where quick and not reverted) <= 50,
+  'conclusões rápidas somam no máximo 50 de dano por dia');
 
 -- Lote com [x]: nem XP nem dano
 select public.create_tasks_batch('bbbbbbbb-0000-0000-0000-000000000001', '[{"title": "Feita antes", "done": true}]');

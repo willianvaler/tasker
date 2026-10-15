@@ -1,5 +1,5 @@
 // Valores da gamificação. Quem concede XP, dano e ouro é o banco: o mesmo JSON
-// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261138000000_boss_diario.sql) e o teste
+// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261139000000_calibragem_dano.sql) e o teste
 // gamification.test.ts falha se os dois divergirem. Mudou aqui? Mude lá numa migração nova.
 export const gamificationConfig = {
   xp: {
@@ -29,7 +29,7 @@ export const gamificationConfig = {
     quickSeconds: 300,
     dailyQuickCap: 50,
     /** ... e no máximo isto de dano por dia */
-    dailyQuickDamageCap: 20,
+    dailyQuickDamageCap: 50,
     /** "+" de um hábito que valem XP, dano e ouro por dia */
     habitPlusDailyCap: 10,
     /** Pomodoros que valem XP por dia, e o foco mínimo para valer */
@@ -43,7 +43,7 @@ export const gamificationConfig = {
   },
   boss: {
     /** HP do boss de nível n = round(hpBase * hpGrowth ^ (n - 1)); o do clã, vezes os membros ativos */
-    hpBase: 120,
+    hpBase: 300,
     hpGrowth: 1.2,
     /** O solo nunca tem menos que recentFactor × o dano médio semanal das últimas semanas */
     recentWeeks: 4,
@@ -58,7 +58,7 @@ export const gamificationConfig = {
   /** Boss diário (O1, V4 §1.1): nasce à meia-noite do fuso e vai até o fim do dia */
   dailyBoss: {
     /** HP do nível n = round(min(hpBase × hpGrowth^(n−1), hpBase × hpMaxFactor)) */
-    hpBase: 24,
+    hpBase: 60,
     hpGrowth: 1.05,
     hpMaxFactor: 3,
     /** Nunca menos que recentFactor × a média de dano dos dias ativos nos últimos recentDays */
@@ -72,14 +72,14 @@ export const gamificationConfig = {
     dropChance: 0.15,
   },
   damage: {
-    /** Dano base por tipo (antes dos atributos) */
-    task: 4,
-    habit: 3,
-    checklistItem: 2,
-    pageBonus: 8,
-    habitPlus: 2,
+    /** Dano base por tipo (antes dos atributos). O2: 2,5× os de antes */
+    task: 10,
+    habit: 8,
+    checklistItem: 5,
+    pageBonus: 20,
+    habitPlus: 5,
     /** Quanto um "−" num hábito ruim cura o boss (antes da Constituição) */
-    habitMinusHeal: 3,
+    habitMinusHeal: 8,
     /** +5% de dano por ponto de Força (tarefas) ou Inteligência (rotinas) */
     perPoint: 0.05,
     /** +2% de chance de crítico por ponto de Agilidade, até critMax */

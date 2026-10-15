@@ -31,10 +31,9 @@ create temp table r as select
   public.complete_task('c0000000-0000-0000-0000-000000000001') as leve,
   public.complete_task('c0000000-0000-0000-0000-000000000002') as pesada;
 select is((select (pesada ->> 'xp')::int from r), (select (leve ->> 'xp')::int from r), 'o XP é o mesmo');
--- Golpe base 4 (Força 1: ×1,05 → 4); peso 5 → 8; crítico dobra
-select ok((select (leve ->> 'damage')::int from r) in (4, 8), 'peso 1: golpe normal');
--- Crítico: 8 × 1,05 × 2 = 16,8 → 17
-select ok((select (pesada ->> 'damage')::int from r) in (8, 17), 'peso 5: golpe dobrado');
+-- Golpe base 10 (Força 1: ×1,05 → 10,5 → 11, crítico 21); peso 5 → 20 × 1,05 = 21 (crítico 42)
+select ok((select (leve ->> 'damage')::int from r) in (11, 21), 'peso 1: golpe normal');
+select ok((select (pesada ->> 'damage')::int from r) in (21, 42), 'peso 5: golpe dobrado');
 
 select * from finish();
 rollback;
