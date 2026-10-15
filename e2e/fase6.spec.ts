@@ -79,7 +79,9 @@ test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando',
   expect(background).toBe('27 26 23');
 });
 
-test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ page }, testInfo) => {
+test('assistente de primeiro uso: do seu jeito, captura, pasta inicial e gamificação', async ({
+  page,
+}, testInfo) => {
   await page.goto('/');
   await page.getByText('Não tenho conta').click();
   await page.getByPlaceholder('Seu nome').fill('Nova Pessoa');
@@ -88,6 +90,15 @@ test('onboarding em 3 passos: captura, pasta inicial e gamificação', async ({ 
     .fill(`e2e-onb-${testInfo.project.name}-${Date.now()}@teste.local`);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
   await page.getByRole('button', { name: 'Criar conta' }).click();
+
+  // 0. Do seu jeito (U4): tema e painel, e segue
+  await expect(page.getByRole('heading', { name: 'Do seu jeito' })).toBeVisible();
+  await expect(page.getByText('1/4')).toBeVisible();
+  await page.getByRole('radio', { name: 'Escuro' }).click();
+  await expect(page.getByRole('radio', { name: 'Escuro' })).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('radio', { name: 'Completo' }).click();
+  await expect(page.getByRole('button', { name: 'Testar aviso' })).toBeVisible();
+  await page.getByRole('button', { name: 'Próximo' }).click();
 
   // 1. Capturar
   await expect(page.getByRole('heading', { name: 'Anote em 2 segundos' })).toBeVisible();

@@ -14,26 +14,23 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
+import { LanguageChooser, PanelModeChooser, ThemeChooser } from '@/components/preference-choosers';
 import { PrivacySection } from '@/components/privacy-section';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
 import { Screen } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
-import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
-import { LOCALES, type LocalePreference } from '@/i18n/locale';
-import { useLocalePreference } from '@/i18n/use-locale';
-import { clearPrefs, type ThemePreference } from '@/lib/prefs';
+import { clearPrefs } from '@/lib/prefs';
 import { disablePush } from '@/lib/push';
 import { useProfile, useUpdateProfile, type Profile } from '@/lib/queries/profile';
 import { supabase } from '@/lib/supabase';
 import { useIsOnline } from '@/providers/online';
 import { clearQueryCache } from '@/providers/query';
 import { useSession } from '@/providers/session';
-import { useThemePreference } from '@/providers/theme';
 
 const deviceTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -125,6 +122,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
         <Group title={t('profile.appearance')}>
           <ThemeChooser />
           <LanguageChooser />
+          <PanelModeChooser />
         </Group>
 
         <Group title={t('profile.notifications')}>
@@ -223,56 +221,6 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
       {hint && <Text className="text-sm text-ink-muted">{hint}</Text>}
       {children}
     </View>
-  );
-}
-
-const THEMES = [
-  { value: 'system', label: 'profile.themeSystem' },
-  { value: 'light', label: 'profile.themeLight' },
-  { value: 'dark', label: 'profile.themeDark' },
-] as const satisfies readonly { value: ThemePreference; label: string }[];
-
-/** Tema do aparelho: "Sistema" segue o claro/escuro do celular ou do computador. */
-function ThemeChooser() {
-  const { t } = useTranslation();
-  const { preference, setPreference } = useThemePreference();
-  return (
-    <Field label={t('profile.theme')}>
-      <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-        {THEMES.map((theme) => (
-          <Chip
-            key={theme.value}
-            role="radio"
-            label={t(theme.label)}
-            selected={preference === theme.value}
-            onPress={() => setPreference(theme.value)}
-          />
-        ))}
-      </View>
-    </Field>
-  );
-}
-
-const LANGUAGE_OPTIONS: LocalePreference[] = ['system', ...LOCALES];
-
-/** Idioma: muda na hora e vai para o perfil, valendo nos outros aparelhos. */
-function LanguageChooser() {
-  const { t } = useTranslation();
-  const { preference, choose } = useLocalePreference();
-  return (
-    <Field label={t('language.label')}>
-      <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-        {LANGUAGE_OPTIONS.map((value) => (
-          <Chip
-            key={value}
-            role="radio"
-            label={t(`language.${value}`)}
-            selected={preference === value}
-            onPress={() => choose(value)}
-          />
-        ))}
-      </View>
-    </Field>
   );
 }
 

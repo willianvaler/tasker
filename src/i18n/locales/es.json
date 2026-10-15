@@ -754,7 +754,7 @@
     "prereqNone": "^{{term}}: ninguna tarea, no se vincula"
   },
   "onboarding": {
-    "step": "Paso {{n}} de 3",
+    "step": "Paso {{n}} de 4",
     "skip": "Saltar introducción",
     "next": "Siguiente",
     "start": "Empezar",
@@ -783,7 +783,9 @@
     "habitWater": "Tomar un vaso de agua",
     "habitMeditate": "Meditar 5 minutos",
     "habitRead": "Leer 10 páginas",
-    "habitEat": "Comer bien"
+    "habitEat": "Comer bien",
+    "setupTitle": "A tu manera",
+    "setupText": "Elige el idioma, el tema y cuánto muestra el panel de la tarea. Para que el fin del descanso y del foco avise incluso con la app cerrada, permite las notificaciones. Todo esto se cambia después en el Perfil."
   },
   "extras": {
     "noRepeat": "No se repite",

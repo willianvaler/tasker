@@ -754,7 +754,7 @@
     "prereqNone": "^{{term}}: nenhuma tarefa, não liga"
   },
   "onboarding": {
-    "step": "Passo {{n}} de 3",
+    "step": "Passo {{n}} de 4",
     "skip": "Pular introdução",
     "next": "Próximo",
     "start": "Começar",
@@ -783,7 +783,9 @@
     "habitWater": "Beber um copo de água",
     "habitMeditate": "Meditar 5 minutos",
     "habitRead": "Ler 10 páginas",
-    "habitEat": "Comer bem"
+    "habitEat": "Comer bem",
+    "setupTitle": "Do seu jeito",
+    "setupText": "Escolha o idioma, o tema e quanto o painel da tarefa mostra. Para o fim do descanso e do foco avisarem mesmo com o app fechado, permita as notificações. Tudo isso muda depois no Perfil."
   },
   "extras": {
     "noRepeat": "Não repete",

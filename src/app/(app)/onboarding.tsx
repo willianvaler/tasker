@@ -1,13 +1,22 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { uuidv7 } from '@/lib/uuid';
 import { router } from 'expo-router';
-import { Check, Folder, Swords, Zap, type LucideIcon } from 'lucide-react-native';
+import {
+  Check,
+  Folder,
+  SlidersHorizontal,
+  Swords,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ItemIcon } from '@/components/item-icon';
+import { LanguageChooser, PanelModeChooser, ThemeChooser } from '@/components/preference-choosers';
+import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
@@ -24,11 +33,12 @@ import { parseQuickInput } from '@/lib/parser/quick';
 import { STARTER_TEMPLATES, templateData } from '@/lib/templates';
 import { useToast } from '@/providers/toast';
 
-const STEPS = 3;
+const STEPS = 4;
 
 /**
- * Onboarding guiado em 3 passos: capturar rápido, organizar em pastas,
- * entender a gamificação. Aparece uma vez por conta; dá para pular a qualquer momento.
+ * Assistente de primeiro uso em 4 passos (U4, D160): deixar do seu jeito (idioma, tema, painel e
+ * avisos), capturar rápido, organizar em pastas e o jogo (liga/desliga). Aparece uma vez por
+ * conta; dá para pular a qualquer momento e refazer pela Ajuda.
  */
 export default function OnboardingScreen() {
   const { t } = useTranslation();
@@ -52,16 +62,19 @@ export default function OnboardingScreen() {
             className="flex-1 flex-row items-center gap-3"
             accessibilityLabel={t('onboarding.step', { n: step + 1 })}
           >
-            <Text className="font-mono text-xs text-ink-muted">{step + 1}/3</Text>
+            <Text className="font-mono text-xs text-ink-muted">
+              {step + 1}/{STEPS}
+            </Text>
             <ProgressBar className="flex-1" value={(step + 1) / STEPS} label="" />
           </View>
           <Button variant="ghost" className="ml-3" label={t('onboarding.skip')} onPress={finish} />
         </View>
 
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-4 pb-8 pt-4">
-          {step === 0 && <CaptureStep />}
-          {step === 1 && <OrganizeStep />}
-          {step === 2 && <GameStep />}
+          {step === 0 && <SetupStep />}
+          {step === 1 && <CaptureStep />}
+          {step === 2 && <OrganizeStep />}
+          {step === 3 && <GameStep />}
         </ScrollView>
 
         <View className="flex-row justify-between py-4">
@@ -262,6 +275,22 @@ function OrganizeStep() {
           );
         })}
       </View>
+    </>
+  );
+}
+
+/** Do seu jeito: o que muda a cara do app, antes de usar (U4) */
+function SetupStep() {
+  const { t } = useTranslation();
+  return (
+    <>
+      <Title icon={SlidersHorizontal} title={t('onboarding.setupTitle')}>
+        {t('onboarding.setupText')}
+      </Title>
+      <LanguageChooser />
+      <ThemeChooser />
+      <PanelModeChooser />
+      <TimerAlertSetting />
     </>
   );
 }

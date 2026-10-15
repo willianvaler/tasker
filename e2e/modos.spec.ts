@@ -7,12 +7,7 @@ test('modo: descanso e foco pelo seletor', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
   // Celular: ícone no topo da Hoje; computador: botão da barra lateral
   await page.getByRole('button', { name: 'Modo: treino, foco ou descanso' }).first().click();
-  await expect(
-    page
-      .getByRole('header', { name: 'Treino' })
-      .or(page.getByText('Treino', { exact: true }))
-      .first(),
-  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Treino' })).toBeVisible();
   await expect(page.getByText(/^Nenhuma página de treino ainda/)).toBeVisible();
 
   await page.getByRole('button', { name: '1:30' }).click();

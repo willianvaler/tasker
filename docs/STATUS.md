@@ -143,7 +143,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **U1** Seletor de modo: Treino, Foco (pomodoro) e Descanso num lugar só (D159)
 - [x] **U2** Painel da tarefa simples × completo (D158)
 - [x] **U3** Sem foco automático (teclado) ao abrir telas no toque (D154)
-- [ ] **U4** Assistente de primeiro uso
+- [x] **U4** Assistente de primeiro uso (D160)
 - [x] **U5** Permissão de notificações no navegador (Perfil) (D156)
 - [x] **U6** Vibrar ao fim do timer (D157)
 - [ ] **U7** APK para Android e botão de baixar no Perfil
