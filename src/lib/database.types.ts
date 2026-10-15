@@ -1237,7 +1237,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "_app_caller":
+            "_activate_share":
+{ Args: { "p_folder_name": string,"p_share_id": string }; Returns: Json
+                           },
+"_app_caller":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
 "_attack":
@@ -1266,6 +1269,9 @@ isOneToOne: false
                            },
 "_clan_log":
 { Args: { "p_action": string,"p_clan_id": string,"p_payload": Json,"p_user": string }; Returns: undefined
+                           },
+"_copy_page_for_me":
+{ Args: { "p_folder_name": string,"p_page_id": string }; Returns: string
                            },
 "_dependency_ok":
 { Args: { "p_dep": Omit<Database["public"]['Tables']["task_dependencies"]['Row'], Database["public"]['Tables']["task_dependencies"]['ComputedFields']>,"p_now": string }; Returns: boolean
@@ -1354,6 +1360,12 @@ isOneToOne: false
 "accept_invite":
 { Args: { "p_token": string }; Returns: Json
                            },
+"accept_page_share":
+{ Args: { "p_folder_name"?: string,"p_share_id": string }; Returns: Json
+                           },
+"accept_page_share_link":
+{ Args: { "p_folder_name"?: string,"p_token": string }; Returns: Json
+                           },
 "accept_team_invite":
 { Args: { "p_token": string }; Returns: Json
                            },
@@ -1427,6 +1439,23 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"create_share_link":
+{ Args: { "p_mode"?: string,"p_page_id": string }; Returns: {
+              "created_at": string,
+"created_by": string,
+"expires_at": string,
+"id": string,
+"mode": string,
+"page_id": string,
+"revoked_at": string | null,
+"token": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "page_share_links"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "create_tasks_batch":
 { Args: { "p_items": Json,"p_page_id": string }; Returns: {
               "actual_minutes": number,
@@ -1493,6 +1522,9 @@ isOneToOne: false
                            },
 "decide_join_request":
 { Args: { "p_approve": boolean,"p_request_id": string }; Returns: undefined
+                           },
+"decline_page_share":
+{ Args: { "p_share_id": string }; Returns: undefined
                            },
 "delete_my_account":
 { Args: Record<PropertyKey, never>; Returns: undefined
@@ -1678,6 +1710,9 @@ isOneToOne: false
               "done": number,"total": number
             }[]
                            },
+"page_share_preview":
+{ Args: { "p_token": string }; Returns: Json
+                           },
 "patch_task_labels":
 { Args: { "p_add": (string)[],"p_remove": (string)[],"p_task_id": string }; Returns: undefined
                            },
@@ -1725,6 +1760,12 @@ isOneToOne: false
 "revoke_invites":
 { Args: { "p_folder_id": string }; Returns: number
                            },
+"revoke_page_share":
+{ Args: { "p_share_id": string }; Returns: undefined
+                           },
+"revoke_share_link":
+{ Args: { "p_link_id": string }; Returns: undefined
+                           },
 "revoke_team_invite":
 { Args: { "p_invite_id": string }; Returns: undefined
                            },
@@ -1754,6 +1795,9 @@ isOneToOne: false
                            },
 "set_team_member_role":
 { Args: { "p_role": Database["public"]['Enums']["team_role"],"p_team_id": string,"p_user_id": string }; Returns: undefined
+                           },
+"share_page_by_email":
+{ Args: { "p_emails": (string)[],"p_mode"?: string,"p_page_id": string }; Returns: number
                            },
 "start_project_boss":
 { Args: { "p_deadline": string,"p_folder_id": string }; Returns: {

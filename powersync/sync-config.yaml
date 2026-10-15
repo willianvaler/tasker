@@ -63,8 +63,11 @@ streams:
     auto_subscribe: true
     with:
       shared: SELECT page_id FROM page_shares WHERE recipient_id = auth.user_id() AND status = 'active' AND mode = 'live'
+      senders: SELECT owner_id FROM page_shares WHERE recipient_id = auth.user_id()
     queries:
       - SELECT * FROM pages WHERE id IN shared
+      # Nome e avatar de quem me enviou ("Recebida de Ana")
+      - SELECT people.id, people.display_name, people.avatar_url FROM profiles AS people WHERE people.id IN senders
       - SELECT * FROM tasks WHERE page_id IN shared
       - SELECT * FROM page_shares WHERE recipient_id = auth.user_id()
       - SELECT * FROM share_checks WHERE user_id = auth.user_id()

@@ -11,6 +11,7 @@ import { PageDependencyEditor } from '@/components/page-dependency-editor';
 import { Related } from '@/components/related';
 import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
+import { SendPageDialog } from '@/components/send-page';
 import { ScreenHeader } from '@/components/screen-header';
 import { PageView } from '@/components/tasks/page-view';
 import { Button, IconButton } from '@/components/ui/button';
@@ -21,6 +22,7 @@ import { actorCan } from '@/lib/permissions';
 import { rootFolder, useFolderActor } from '@/lib/queries/projects';
 import { saveTextFile } from '@/lib/download';
 import { setLastPageId } from '@/lib/prefs';
+import { useReceivedPages } from '@/lib/queries/shares';
 import { usePageTasks } from '@/lib/queries/tasks';
 import { wbsOutline } from '@/lib/task-tree';
 import { findFolder, pageLabel, useTree, useTreeMutations } from '@/lib/queries/tree';
@@ -28,10 +30,10 @@ import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
-type DialogState = 'menu' | 'settings' | 'duplicate';
+type DialogState = 'menu' | 'settings' | 'duplicate' | 'send';
 
 export default function PageScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
   const tree = useTree();
   const m = useTreeMutations();
   const online = useIsOnline();
@@ -39,7 +41,10 @@ export default function PageScreen() {
   const [dialog, setDialog, closeDialog] = useDialog<DialogState>();
   const [folderActions, folderDialog] = useFolderActions();
   const { t } = useTranslation();
-  const page = tree.data?.pages.find((p) => p.id === id);
+  // Página recebida (L): não está na árvore; vem do envio
+  const received = useReceivedPages();
+  const receivedPage = received.data?.find((p) => p.id === id);
+  const page = tree.data?.pages.find((p) => p.id === id) ?? receivedPage;
   const pageTasks = usePageTasks(id);
   // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
   const [relating, setRelating] = useState(false);
@@ -52,7 +57,19 @@ export default function PageScreen() {
     if (page) setLastPageId(page.id);
   }, [page]);
 
-  if (tree.data && !page) {
+  const sharable =
+    !!page &&
+    !receivedPage &&
+    online &&
+    actorCan(pageActor, 'page.share') &&
+    !page.is_inbox &&
+    !page.is_habits;
+  // Paleta: "Enviar esta página"
+  useEffect(() => {
+    if (send && sharable) setDialog('send');
+  }, [send, sharable, setDialog]);
+
+  if (tree.data && !page && !received.isPending) {
     return (
       <Screen>
         <ScreenHeader title={t('page.fallbackTitle')} back />
@@ -64,9 +81,13 @@ export default function PageScreen() {
   const onError = (err: Error) => toast({ message: t('page.error', { message: err.message }) });
   // Caminho acima do título: "MERCADO" ou "CASA / COZINHA"
   const place = page ? findFolder(tree.data, page.folder_id) : null;
-  const eyebrow = place
-    ? [place.parent?.name, place.folder.name].filter(Boolean).join(' / ')
-    : undefined;
+  const eyebrow = receivedPage
+    ? receivedPage.owner_name
+      ? t('received.from', { name: receivedPage.owner_name })
+      : t('received.title')
+    : place
+      ? [place.parent?.name, place.folder.name].filter(Boolean).join(' / ')
+      : undefined;
 
   // Cards e kanban aproveitam a tela toda; lista e hábitos ficam numa coluna de leitura
   const size = page?.view_type === 'cards' || page?.view_type === 'kanban' ? 'wide' : 'medium';
@@ -92,8 +113,8 @@ export default function PageScreen() {
         }
         back
         right={
-          // Página de hábitos de sistema: sem configurar nem duplicar
-          page && online && !page.is_habits ? (
+          // Página de hábitos de sistema: sem configurar nem duplicar; recebida: só executar
+          page && online && !page.is_habits && !receivedPage ? (
             <>
               <IconButton
                 icon={SlidersHorizontal}
@@ -109,7 +130,7 @@ export default function PageScreen() {
           ) : null
         }
       />
-      {page && !page.is_habits && !page.is_inbox && (
+      {page && !page.is_habits && !page.is_inbox && !receivedPage && (
         <View className="pb-3">
           <Related
             key={relating ? 'relating' : 'idle'}
@@ -140,6 +161,7 @@ export default function PageScreen() {
           actions={[
             { label: t('page.settings'), onPress: () => setDialog('settings') },
             { label: t('page.duplicate'), onPress: () => setDialog('duplicate') },
+            ...(sharable ? [{ label: t('send.menu'), onPress: () => setDialog('send') }] : []),
             ...(relatable
               ? [
                   {
@@ -168,6 +190,7 @@ export default function PageScreen() {
           ]}
         />
       )}
+      {page && dialog === 'send' && <SendPageDialog page={page} onClose={closeDialog} />}
       {page && dialog === 'settings' && (
         <PageDialog
           title={t('page.settings')}

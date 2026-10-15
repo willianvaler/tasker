@@ -60,6 +60,7 @@ src/
     privacidade.tsx           # Política de privacidade, pública (as lojas pedem o endereço)
     (app)/onboarding.tsx      # Introdução em 3 passos (conta nova sem profiles.onboarded_at)
     invite/[token].tsx        # Link de convite, FORA do login: prévia, cria conta, entra, escolhe o nome pendente
+    enviada/[token].tsx       # Link de página enviada, FORA do login: recebe e cai na página (D135)
     (app)/page/[id].tsx       # Página (lista, cards ou hábitos) + menu: configurar, duplicar
     (app)/task/[id].tsx       # Detalhes da tarefa (modal): notas, data, prioridade, etiquetas, subtarefas, mover, apagar
     (app)/capture.tsx         # Captura rápida com seletor de página

@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import {
   CheckSquare,
   CircleHelp,
@@ -15,6 +15,7 @@ import {
   Shield,
   ShoppingBag,
   SlidersHorizontal,
+  Send,
   SunMoon,
   Timer,
   Watch,
@@ -97,6 +98,8 @@ function Palette({
 
   const go = (href: Parameters<typeof router.navigate>[0]) => () => router.navigate(href);
   const startTimer = useStartTimer();
+  // Página aberta: "Enviar esta página" (L3)
+  const openPage = /^\/page\/([^/?]+)/.exec(usePathname() ?? '')?.[1];
   const pomodoro = usePomodoro();
   const icon = (glyph: LucideIcon) => <Icon icon={glyph} tone="ink-muted" />;
 
@@ -157,6 +160,17 @@ function Palette({
       group: 0,
       run: toggleSidebar,
     },
+    ...(openPage
+      ? [
+          {
+            id: 'send-page',
+            label: t('send.paletteSend'),
+            icon: icon(Send),
+            group: 0 as const,
+            run: () => router.push({ pathname: '/page/[id]', params: { id: openPage, send: '1' } }),
+          },
+        ]
+      : []),
     {
       id: 'pomodoro-settings',
       label: t('pomodoro.settingsLabel'),

@@ -100,6 +100,7 @@ function RootNavigator() {
       <Stack.Screen name="invite/[token]" />
       <Stack.Screen name="clan-invite/[token]" />
       <Stack.Screen name="team-invite/[token]" />
+      <Stack.Screen name="enviada/[token]" />
       {/* Política de privacidade: pública (as lojas pedem o endereço) */}
       <Stack.Screen name="privacidade" />
     </Stack>

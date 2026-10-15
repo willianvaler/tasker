@@ -6,10 +6,19 @@ import { Button } from './button';
 import { Input } from './input';
 import { MenuItem } from './popover';
 import { Text } from './text';
+import { cn } from '@/lib/cn';
 
 // Diálogos próprios: o Alert do React Native não tem botões na web.
 
-function Backdrop({ onClose, children }: { onClose: () => void; children: ReactNode }) {
+function Backdrop({
+  onClose,
+  wide,
+  children,
+}: {
+  onClose: () => void;
+  wide?: boolean;
+  children: ReactNode;
+}) {
   const { t } = useTranslation();
   return (
     <Modal transparent animationType="fade" onRequestClose={onClose}>
@@ -22,13 +31,21 @@ function Backdrop({ onClose, children }: { onClose: () => void; children: ReactN
           className="absolute inset-0"
           onPress={onClose}
         />
-        <View className="w-full max-w-sm gap-4 rounded-lg border border-line bg-surface p-4">
+        <View
+          className={cn(
+            'max-h-[90%] w-full gap-4 rounded-lg border border-line bg-surface p-4',
+            wide ? 'max-w-lg' : 'max-w-sm',
+          )}
+        >
           {children}
         </View>
       </KeyboardAvoidingView>
     </Modal>
   );
 }
+
+/** Diálogo livre (conteúdo próprio), com o mesmo fundo e fechamento dos outros. */
+export const DialogFrame = Backdrop;
 
 export type PromptField = {
   key: string;

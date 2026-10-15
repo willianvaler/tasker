@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { Tables } from '../db';
 import { todayIn } from '../parser/dates';
@@ -207,4 +207,180 @@ export async function localCycleKey(pageId: string, recurrence: unknown) {
     todayIn(tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone),
     page.manual_cycle,
   );
+}
+
+// ---------- Quem envia ----------
+
+export type ShareRow = PageShare & { recipient_name: string | null };
+export type ShareLink = Tables<'page_share_links'>;
+const sharesKey = (pageId: string) => ['page-shares', pageId] as const;
+
+/** Envios e links de uma página (quem gerencia). Precisa de conexão. */
+export function usePageShares(pageId: string | undefined) {
+  return useQuery({
+    queryKey: sharesKey(pageId ?? ''),
+    enabled: !!pageId,
+    queryFn: async () => {
+      const [shares, links] = await Promise.all([
+        supabase
+          .from('page_shares')
+          .select('*, recipient:profiles!page_shares_recipient_id_fkey(display_name)')
+          .eq('page_id', pageId ?? '')
+          .in('status', ['pending', 'active'])
+          .order('created_at'),
+        supabase
+          .from('page_share_links')
+          .select('*')
+          .eq('page_id', pageId ?? '')
+          .is('revoked_at', null)
+          .gt('expires_at', new Date().toISOString())
+          .order('created_at', { ascending: false }),
+      ]);
+      if (shares.error) throw shares.error;
+      if (links.error) throw links.error;
+      return {
+        shares: shares.data.map(({ recipient, ...s }) => ({
+          ...s,
+          recipient_name: (recipient as { display_name: string } | null)?.display_name ?? null,
+        })) as ShareRow[],
+        links: links.data,
+      };
+    },
+  });
+}
+
+export function useShareMutations(pageId: string) {
+  const queryClient = useQueryClient();
+  const settle = () => queryClient.invalidateQueries({ queryKey: sharesKey(pageId) });
+  return {
+    createLink: useMutation({
+      mutationFn: async (mode: 'live' | 'copy') => {
+        const { data, error } = await supabase.rpc('create_share_link', {
+          p_page_id: pageId,
+          p_mode: mode,
+        });
+        if (error) throw error;
+        return data;
+      },
+      onSettled: settle,
+    }),
+    byEmail: useMutation({
+      mutationFn: async ({ emails, mode }: { emails: string[]; mode: 'live' | 'copy' }) => {
+        const { data, error } = await supabase.rpc('share_page_by_email', {
+          p_page_id: pageId,
+          p_emails: emails,
+          p_mode: mode,
+        });
+        if (error) throw error;
+        return data;
+      },
+      onSettled: settle,
+    }),
+    revoke: useMutation({
+      mutationFn: async (shareId: string) => {
+        const { error } = await supabase.rpc('revoke_page_share', { p_share_id: shareId });
+        if (error) throw error;
+      },
+      onSettled: settle,
+    }),
+    revokeLink: useMutation({
+      mutationFn: async (linkId: string) => {
+        const { error } = await supabase.rpc('revoke_share_link', { p_link_id: linkId });
+        if (error) throw error;
+      },
+      onSettled: settle,
+    }),
+  };
+}
+
+// ---------- Quem recebe ----------
+
+export type SharePreview =
+  | { valid: false; reason: string }
+  | {
+      valid: true;
+      page_name: string;
+      page_icon: string | null;
+      view_type: string;
+      mode: 'live' | 'copy';
+      items: number;
+      owner_name: string | null;
+      own: boolean;
+      opened_page_id: string | null;
+    };
+
+export function useSharePreview(token: string, loggedIn: boolean) {
+  return useQuery({
+    queryKey: ['share-preview', token, loggedIn],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('page_share_preview', { p_token: token });
+      if (error) throw error;
+      return data as unknown as SharePreview;
+    },
+  });
+}
+
+/** Convites pendentes para mim (inclusive os mandados para o meu e-mail antes de eu ter conta). */
+export function usePendingShares() {
+  return useQuery({
+    queryKey: ['pending-shares'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('page_shares')
+        .select(
+          'id, mode, page:pages!page_shares_page_id_fkey(name, icon, view_type), owner:profiles!page_shares_owner_id_fkey(display_name)',
+        )
+        .eq('status', 'pending');
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export function useAcceptShare() {
+  const queryClient = useQueryClient();
+  const settle = () => {
+    for (const key of [receivedKey, ['pending-shares'], ['tree'], ['tasks']])
+      queryClient.invalidateQueries({ queryKey: key });
+  };
+  return {
+    byLink: useMutation({
+      mutationFn: async ({ token, folderName }: { token: string; folderName: string }) => {
+        const { data, error } = await supabase.rpc('accept_page_share_link', {
+          p_token: token,
+          p_folder_name: folderName,
+        });
+        if (error) throw error;
+        return data as { page_id: string; mode: 'live' | 'copy' };
+      },
+      onSettled: settle,
+    }),
+    pending: useMutation({
+      mutationFn: async ({ shareId, folderName }: { shareId: string; folderName: string }) => {
+        const { data, error } = await supabase.rpc('accept_page_share', {
+          p_share_id: shareId,
+          p_folder_name: folderName,
+        });
+        if (error) throw error;
+        return data as { page_id: string; mode: 'live' | 'copy' };
+      },
+      onSettled: settle,
+    }),
+    decline: useMutation({
+      mutationFn: async (shareId: string) => {
+        const { error } = await supabase.rpc('decline_page_share', { p_share_id: shareId });
+        if (error) throw error;
+      },
+      onSettled: settle,
+    }),
+  };
+}
+
+/** Endereço do link de envio (na web, o atual; no app, EXPO_PUBLIC_WEB_URL). */
+export function shareUrl(token: string) {
+  const base =
+    process.env.EXPO_PUBLIC_WEB_URL ||
+    (typeof window !== 'undefined' && window.location?.origin) ||
+    'http://localhost:8082';
+  return `${base.replace(/\/$/, '')}/enviada/${encodeURIComponent(token)}`;
 }
