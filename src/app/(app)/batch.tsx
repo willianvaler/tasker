@@ -1,4 +1,5 @@
 import { uuidv7 } from '@/lib/uuid';
+import { isTouchScreen } from '@/lib/touch';
 import { router } from 'expo-router';
 import { Check, Dot, X } from 'lucide-react-native';
 import { useMemo, useRef, useState } from 'react';
@@ -181,7 +182,7 @@ export default function BatchScreen() {
       <TextInput
         ref={inputRef}
         multiline
-        autoFocus={!draft.text}
+        autoFocus={!draft.text && !isTouchScreen()}
         value={text}
         onChangeText={(value) => {
           changeText(value);

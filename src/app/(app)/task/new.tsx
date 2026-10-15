@@ -1,4 +1,5 @@
 import { uuidv7 } from '@/lib/uuid';
+import { isTouchScreen } from '@/lib/touch';
 import { router, useLocalSearchParams } from 'expo-router';
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
@@ -115,7 +116,7 @@ export default function NewTaskScreen() {
       }
     >
       <TextInput
-        autoFocus
+        autoFocus={!isTouchScreen()}
         value={title}
         onChangeText={setTitle}
         placeholder={t('advanced.newTask')}

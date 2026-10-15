@@ -138,6 +138,16 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **F4** Acessibilidade (contraste AA no tema claro com teste, foco, teclado, reduzir movimento) e desempenho (filtro por pastas nas consultas pelo servidor, pendência D70) (D148)
 - [x] **F5** Capturas finais (48, inclusive treino, pomodoro e ajuda) e revisão contra o checklist anti "cara de IA" com correções (D149). **Fase F concluída: V2/V3 completos**
 
+## Fase U — Pedidos do dono (15/10, antes da Fase O)
+
+- [ ] **U1** Seletor de modo: Treino, Foco (pomodoro) e Descanso num lugar só
+- [ ] **U2** Painel da tarefa simples × completo
+- [x] **U3** Sem foco automático (teclado) ao abrir telas no toque (D154)
+- [ ] **U4** Assistente de primeiro uso
+- [ ] **U5** Permissão de notificações no navegador (Perfil)
+- [ ] **U6** Vibrar ao fim do timer
+- [ ] **U7** APK para Android e botão de baixar no Perfil
+
 ## ESCOPO_V4 (plano em `docs/CRONOGRAMA.md`)
 
 - [x] **N1** Storage + `task_attachments` + RLS (D150)

@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { isTouchScreen } from '@/lib/touch';
 import {
   ChevronDown,
   ChevronRight,
@@ -198,7 +199,7 @@ export function PageView({ page }: { page: Page | undefined }) {
             pageId={page?.id}
             parseMeta={viewType === 'cards'}
             placeholder={viewType === 'habits' ? t('page.habitPlaceholder') : undefined}
-            autoFocus={viewType === 'list'}
+            autoFocus={viewType === 'list' && !isTouchScreen()}
           />
         </View>
         {viewType === 'list' && gutter && (
