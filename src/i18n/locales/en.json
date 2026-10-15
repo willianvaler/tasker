@@ -221,7 +221,7 @@
     "reopen": "Reopen",
     "complete": "Complete",
     "titleField": "Title",
-    "notes": "Notes",
+    "notes": "Description",
     "notesPlaceholder": "Details, links, whatever you need…",
     "habitKind": "Habit type",
     "history": "History",
@@ -261,7 +261,8 @@
     "estimatePlaceholder": "How long it takes (e.g. 30m, 1h30)",
     "estimateRollup": "{{time}} (sum of subtasks)",
     "estimateNone": "No estimate in the subtasks",
-    "time": "Time"
+    "time": "Time",
+    "addDescription": "Add description"
   },
   "home": {
     "title": "Home",

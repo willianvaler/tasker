@@ -2,11 +2,11 @@
 
 **Rápido:** el campo Nueva tarea. Escribe y pulsa Enter. Sirve para casi todo.
 
-**Con detalles:** el botón junto al campo, el menú **Nuevo** o `Alt+Shift+N`. Abre un panel con página, notas, vencimiento, prioridad, repetición, series y etiquetas. `Ctrl+Enter` crea.
+**Con detalles:** el botón junto al campo, el menú **Nuevo** o `Alt+Shift+N`. Abre un panel con página, descripción, vencimiento, prioridad, repetición, series y etiquetas. `Ctrl+Enter` crea.
 
 ## Editar después
 
-Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: notas, fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la página y comentarios. Cada campo se guarda al salir de él.
+Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 4.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la página y comentarios. Cada campo se guarda al salir de él.
 
 Arriba del panel, **Simple ▾** muestra solo lo esencial; cambia a **Completo** para ver tiempo, series, peso, dependencias, campos, aprobación, Mi día e historial. Lo que la tarea ya usa aparece incluso en Simple.
 

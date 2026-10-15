@@ -1,6 +1,6 @@
 import { uuidv7 } from '@/lib/uuid';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ChevronDown, FolderInput, Trash2, X } from 'lucide-react-native';
+import { ChevronDown, FolderInput, Plus, Trash2, X } from 'lucide-react-native';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
@@ -101,6 +101,9 @@ export default function TaskScreen() {
 }
 
 /** Topo do painel: caminho em mono e o botão de fechar ("Voltar", como o resto do app). */
+/** Descrição da tarefa (W4): o mesmo limite do banco (tasks_notes_check) */
+const NOTES_MAX = 4000;
+
 function PanelHeader({
   path,
   mode,
@@ -204,6 +207,7 @@ function TaskDetails({ task }: { task: Task }) {
 
   const [title, setTitle] = useState(task.title);
   const [notes, setNotes] = useState(task.notes ?? '');
+  const [showNotes, setShowNotes] = useState(false);
   const [labels, setLabels] = useState(task.labels.map((l) => `#${l}`).join(' '));
   const [dateText, setDateText] = useState('');
   const [moving, setMoving] = useState(false);
@@ -316,30 +320,48 @@ function TaskDetails({ task }: { task: Task }) {
           />
         )}
 
-        <Section title={t('taskDetail.notes')}>
-          <TextInput
-            value={notes}
-            onChangeText={setNotes}
-            onBlur={() => notes !== (task.notes ?? '') && save({ notes: notes.trim() || null })}
-            editable={writable}
-            multiline
-            placeholder={t('taskDetail.notesPlaceholder')}
-            placeholderTextColor={colors['ink-muted']}
-            accessibilityLabel={t('taskDetail.notes')}
-            textAlignVertical="top"
-            className={textClass(
-              'min-h-20 rounded border border-line bg-paper p-3 text-base text-ink focus:border-accent',
-            )}
-          />
-          <ConflictNotice
-            taskId={task.id}
-            writable={writable}
-            onRestore={(body) => {
-              setNotes(body);
-              save({ notes: body });
-            }}
-          />
-        </Section>
+        {/* W4: descrição vazia é só um botão; aberta, até 4.000 caracteres */}
+        {!notes && !showNotes ? (
+          writable && (
+            <Button
+              variant="ghost"
+              icon={Plus}
+              label={t('taskDetail.addDescription')}
+              className="self-start"
+              onPress={() => setShowNotes(true)}
+            />
+          )
+        ) : (
+          <Section
+            title={t('taskDetail.notes')}
+            count={notes.length > NOTES_MAX * 0.8 ? `${notes.length}/${NOTES_MAX}` : undefined}
+          >
+            <TextInput
+              value={notes}
+              onChangeText={setNotes}
+              onBlur={() => notes !== (task.notes ?? '') && save({ notes: notes.trim() || null })}
+              editable={writable}
+              autoFocus={showNotes && !task.notes}
+              maxLength={NOTES_MAX}
+              multiline
+              placeholder={t('taskDetail.notesPlaceholder')}
+              placeholderTextColor={colors['ink-muted']}
+              accessibilityLabel={t('taskDetail.notes')}
+              textAlignVertical="top"
+              className={textClass(
+                'min-h-20 rounded border border-line bg-paper p-3 text-base text-ink focus:border-accent',
+              )}
+            />
+            <ConflictNotice
+              taskId={task.id}
+              writable={writable}
+              onRestore={(body) => {
+                setNotes(body);
+                save({ notes: body });
+              }}
+            />
+          </Section>
+        )}
 
         {isHabit && !task.parent_task_id && (
           <Section title={t('taskDetail.habitKind')}>

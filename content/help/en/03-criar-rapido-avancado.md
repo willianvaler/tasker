@@ -2,11 +2,11 @@
 
 **Quick:** the New task field. Type and press Enter. It covers almost everything.
 
-**Detailed:** the button next to the field, the **New** menu or `Alt+Shift+N`. It opens a panel with page, notes, due date, priority, repeat, sets and labels. `Ctrl+Enter` creates.
+**Detailed:** the button next to the field, the **New** menu or `Alt+Shift+N`. It opens a panel with page, description, due date, priority, repeat, sets and labels. `Ctrl+Enter` creates.
 
 ## Editing later
 
-Tap the task's arrow (or `Enter` with it selected) to open the **panel**: notes, date, priority, weight, time, subtasks, assignees, dependencies, page fields and comments. Each field saves when you leave it.
+Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 4,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, page fields and comments. Each field saves when you leave it.
 
 At the top of the panel, **Simple ▾** shows only the essentials; switch to **Full** to see time, sets, weight, dependencies, fields, approval, My day and history. Whatever the task already uses shows even in Simple.
 

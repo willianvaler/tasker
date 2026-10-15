@@ -154,6 +154,7 @@ export default function NewTaskScreen() {
           value={notes}
           onChangeText={setNotes}
           multiline
+          maxLength={4000}
           placeholder={t('taskDetail.notesPlaceholder')}
           placeholderTextColor={colors['ink-muted']}
           accessibilityLabel={t('taskDetail.notes')}

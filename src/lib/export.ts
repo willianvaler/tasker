@@ -21,7 +21,7 @@ const COLUMNS: [keyof ExportTask, string][] = [
   ['priority', 'Prioridade'],
   ['due_date', 'Vencimento'],
   ['labels', 'Etiquetas'],
-  ['notes', 'Notas'],
+  ['notes', 'Descrição'],
   ['created_at', 'Criada em'],
   ['completed_at', 'Concluída em'],
 ];

@@ -221,7 +221,7 @@
     "reopen": "Reabrir",
     "complete": "Concluir",
     "titleField": "Título",
-    "notes": "Notas",
+    "notes": "Descrição",
     "notesPlaceholder": "Detalhes, links, o que precisar…",
     "habitKind": "Tipo de hábito",
     "history": "Histórico",
@@ -261,7 +261,8 @@
     "estimatePlaceholder": "Quanto tempo leva (ex.: 30m, 1h30)",
     "estimateRollup": "{{time}} (soma das subtarefas)",
     "estimateNone": "Sem estimativa nas subtarefas",
-    "time": "Tempo"
+    "time": "Tempo",
+    "addDescription": "Adicionar descrição"
   },
   "home": {
     "title": "Início",

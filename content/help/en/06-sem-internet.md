@@ -12,7 +12,7 @@ Tap it (or Profile → Sync) to see the queue and force a send.
 
 ## Conflicts
 
-If you and someone else change the same task offline, the last change **for each field** wins. For notes, the losing version is kept: "See previous version" shows up.
+If you and someone else change the same task offline, the last change **for each field** wins. For the description, the losing version is kept: "See previous version" shows up.
 
 ## What needs a connection
 

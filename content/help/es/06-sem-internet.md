@@ -12,7 +12,7 @@ Tócalo (o Perfil → Sincronización) para ver la cola y forzar el envío.
 
 ## Conflictos
 
-Si tú y otra persona cambian la misma tarea sin internet, gana el último cambio **de cada campo**. En las notas, la versión que perdió queda guardada: aparece "Ver versión anterior".
+Si tú y otra persona cambian la misma tarea sin internet, gana el último cambio **de cada campo**. En la descripción, la versión que perdió queda guardada: aparece "Ver versión anterior".
 
 ## Lo que necesita conexión
 

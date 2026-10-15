@@ -179,7 +179,7 @@ test('criação avançada: todos os campos e Ctrl+Enter', async ({ page }, testI
   // Pelo botão ao lado da captura (no computador também há Alt+Shift+N)
   await page.getByRole('button', { name: 'Criação avançada' }).click();
   await page.getByRole('textbox', { name: 'Título', exact: true }).fill('Orçamento do pintor');
-  await page.getByRole('textbox', { name: 'Notas' }).fill('Pedir 3 orçamentos');
+  await page.getByRole('textbox', { name: 'Descrição' }).fill('Pedir 3 orçamentos');
   await page.getByRole('radio', { name: '!!! Alta' }).click();
   await page.getByRole('button', { name: 'Amanhã' }).click();
   const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
@@ -196,7 +196,7 @@ test('criação avançada: todos os campos e Ctrl+Enter', async ({ page }, testI
   await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveValue(
     'Orçamento do pintor',
   );
-  await expect(page.getByRole('textbox', { name: 'Notas' })).toHaveValue('Pedir 3 orçamentos');
+  await expect(page.getByRole('textbox', { name: 'Descrição' })).toHaveValue('Pedir 3 orçamentos');
   await created;
   await noted;
   await page.goto(`/page/${pageId}`);

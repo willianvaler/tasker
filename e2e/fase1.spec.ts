@@ -115,7 +115,8 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
   await sub.press('Enter');
   await expect(page.getByText('4x12 · 20kg')).toBeVisible();
   await page.getByRole('button', { name: 'Sem data' }).click();
-  await page.getByRole('textbox', { name: 'Notas' }).fill('Descer até 90 graus');
+  await page.getByRole('button', { name: 'Adicionar descrição' }).click();
+  await page.getByRole('textbox', { name: 'Descrição' }).fill('Descer até 90 graus');
   await page.getByRole('button', { name: 'Voltar' }).click();
 
   await expect(page.getByLabel('0 de 1 subtarefas')).toBeVisible();

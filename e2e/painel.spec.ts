@@ -16,7 +16,7 @@ test('painel da tarefa: simples, completo e o que a tarefa já usa', async ({ pa
   await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
 
   // Simples: o essencial, sem tempo nem peso
-  await expect(page.getByRole('textbox', { name: 'Notas' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Adicionar descrição' })).toBeVisible();
   await expect(page.getByText('Peso', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('textbox', { name: 'Estimativa' })).toHaveCount(0);
 

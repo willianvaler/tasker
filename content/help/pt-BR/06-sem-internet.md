@@ -12,7 +12,7 @@ Toque nele (ou em Perfil → Sincronização) para ver a fila e forçar o envio.
 
 ## Conflitos
 
-Se você e outra pessoa mudarem a mesma tarefa sem internet, vale a última mudança **de cada campo**. Nas notas, a versão que perdeu fica guardada: aparece "Ver versão anterior".
+Se você e outra pessoa mudarem a mesma tarefa sem internet, vale a última mudança **de cada campo**. Na descrição, a versão que perdeu fica guardada: aparece "Ver versão anterior".
 
 ## O que precisa de conexão
 
