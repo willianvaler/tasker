@@ -61,7 +61,8 @@
     "goFlow": "Ir a la vista Flujo del proyecto",
     "workoutDone": "Marcar la serie hecha",
     "workoutSkipRest": "Saltar el descanso",
-    "taskPomodoro": "Empezar un pomodoro en la tarea"
+    "taskPomodoro": "Empezar un pomodoro en la tarea",
+    "taskStopwatch": "Iniciar o detener el cronómetro de la tarea"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -1382,5 +1383,21 @@
     "ideasReset": "Volver a las ideas por defecto",
     "openSettings": "Duraciones, ideas de pausa y números",
     "settingsLabel": "Configurar pomodoro"
+  },
+  "time": {
+    "done": "Hecho: {{done}}",
+    "doneOf": "Hecho: {{done}} de {{estimate}}",
+    "startStopwatch": "Iniciar cronómetro",
+    "stopStopwatch": "Detener cronómetro ({{time}})",
+    "placeholder": "Registrar tiempo: 45m, 1h30 ayer…",
+    "logField": "Registrar tiempo",
+    "log": "Registrar",
+    "invalid": "Escribe el tiempo (45m, 1h30) y, si quieres, el día (ayer, 14/10).",
+    "more": "y {{count}} más",
+    "sourcePomodoro": "pomodoro",
+    "sourceStopwatch": "cronómetro",
+    "sourceManual": "registrado",
+    "remove": "Borrar {{entry}}",
+    "rollup": "Hecho en subtareas: {{done}}"
   }
 }

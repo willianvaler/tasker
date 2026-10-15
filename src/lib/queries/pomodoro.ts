@@ -4,7 +4,8 @@ import type { Json, Tables } from '../db';
 import { DEFAULT_POMODORO, type PomodoroSettings } from '../pomodoro';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
-import { isLocal } from '../sync/local';
+import { isLocal, runCommand, sessionUserId } from '../sync/local';
+import { uuidv7 } from '../uuid';
 import { keys } from './keys';
 
 // Pomodoro e tempo (K, D129). A configuração é do servidor (com o cache do TanStack para abrir
@@ -82,3 +83,84 @@ export function useTaskTime(taskId: string | undefined) {
     },
   });
 }
+
+export type LogTimeVars = {
+  id: string;
+  taskId: string;
+  minutes: number;
+  /** 'YYYY-MM-DD'; sem dia, agora */
+  day?: string | null;
+  note?: string | null;
+};
+
+/** Lançar tempo à mão e apagar um registro (K3): pela fila do aparelho ou pelo run_once. */
+export function useTimeEntryActions() {
+  const queryClient = useQueryClient();
+  const settle = () => {
+    queryClient.invalidateQueries({ queryKey: keys.timeEntries });
+    queryClient.invalidateQueries({ queryKey: keys.tasks });
+  };
+  const send = async (name: string, args: Record<string, unknown>, local: LocalChange) => {
+    if (isLocal()) {
+      await runCommand(name, args, local);
+      return;
+    }
+    const { error } = await supabase.rpc('run_once', {
+      p_key: uuidv7(),
+      p_name: name,
+      p_args: args as Json,
+    });
+    if (error) throw error;
+  };
+  const networkMode = isLocal() ? ('always' as const) : ('online' as const);
+
+  const log = useMutation({
+    networkMode,
+    mutationFn: async ({ id, taskId, minutes, day, note }: LogTimeVars) => {
+      const userId = await sessionUserId();
+      const end = day ? `${day}T12:00:00.000Z` : new Date().toISOString();
+      const start = new Date(Date.parse(end) - minutes * 60_000).toISOString();
+      await send(
+        'log_time',
+        {
+          p_id: id,
+          p_task_id: taskId,
+          p_minutes: minutes,
+          p_day: day ?? null,
+          p_note: note ?? null,
+        },
+        async (tx) => {
+          await tx.execute(
+            `insert into time_entries (id, user_id, task_id, source, started_at, ended_at, minutes, note, created_at)
+             values (?, ?, ?, 'manual', ?, ?, ?, ?, ?)`,
+            [id, userId, taskId, start, end, minutes, note ?? null, new Date().toISOString()],
+          );
+          await tx.execute('update tasks set actual_minutes = actual_minutes + ? where id = ?', [
+            minutes,
+            taskId,
+          ]);
+        },
+      );
+    },
+    onSettled: settle,
+  });
+
+  const remove = useMutation({
+    networkMode,
+    mutationFn: async (entry: TimeEntry) => {
+      await send('delete_time_entry', { p_id: entry.id }, async (tx) => {
+        await tx.execute('delete from time_entries where id = ?', [entry.id]);
+        if (entry.task_id)
+          await tx.execute(
+            'update tasks set actual_minutes = max(0, actual_minutes - ?) where id = ?',
+            [entry.minutes, entry.task_id],
+          );
+      });
+    },
+    onSettled: settle,
+  });
+
+  return { log, remove };
+}
+
+type LocalChange = NonNullable<Parameters<typeof runCommand>[2]>;

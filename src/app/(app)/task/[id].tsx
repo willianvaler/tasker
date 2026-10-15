@@ -37,6 +37,7 @@ import { useForceTask, useStartTask, useTaskFlow } from '@/lib/queries/dependenc
 import {
   dueAfterParent,
   formatDuration,
+  leafActuals,
   leafEstimates,
   leafProgress,
   parseDuration,
@@ -379,7 +380,13 @@ function TaskDetails({ task }: { task: Task }) {
                 accessibilityLabel={t('taskDetail.estimate')}
               />
             )}
-            {!leaves && (
+            {leaves ? (
+              <Text className="text-sm text-ink">
+                {t('time.rollup', {
+                  done: formatDuration(leafActuals(siblings.data ?? []).get(task.id) ?? 0),
+                })}
+              </Text>
+            ) : (
               <TaskTime task={task} disabled={!allowed.complete || (blocked && !flow.forceable)} />
             )}
           </Section>

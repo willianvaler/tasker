@@ -35,17 +35,20 @@ export function leafProgress(tasks: readonly Node[]): Map<string, LeafProgress> 
 
 type EstimateNode = Node & { estimate_minutes: number | null };
 
-/** Estimativa de cada mãe = soma das estimativas das folhas do galho (só as que têm valor). */
-export function leafEstimates(tasks: readonly EstimateNode[]): Map<string, number> {
-  const byParent = new Map<string, EstimateNode[]>();
+/** Valor de cada mãe = soma do valor das folhas do galho (estimativa, tempo feito). */
+export function leafSum<T extends { id: string; parent_task_id: string | null }>(
+  tasks: readonly T[],
+  value: (task: T) => number,
+): Map<string, number> {
+  const byParent = new Map<string, T[]>();
   for (const t of tasks) {
     if (!t.parent_task_id) continue;
     byParent.set(t.parent_task_id, [...(byParent.get(t.parent_task_id) ?? []), t]);
   }
   const result = new Map<string, number>();
-  const visit = (task: EstimateNode, seen: Set<string>): number => {
+  const visit = (task: T, seen: Set<string>): number => {
     const kids = byParent.get(task.id);
-    if (!kids?.length) return task.estimate_minutes ?? 0;
+    if (!kids?.length) return value(task);
     let sum = 0;
     for (const kid of kids) if (!seen.has(kid.id)) sum += visit(kid, new Set(seen).add(kid.id));
     result.set(task.id, sum);
@@ -54,6 +57,15 @@ export function leafEstimates(tasks: readonly EstimateNode[]): Map<string, numbe
   for (const t of tasks) if (byParent.has(t.id) && !result.has(t.id)) visit(t, new Set([t.id]));
   return result;
 }
+
+/** Estimativa de cada mãe = soma das estimativas das folhas (só as que têm valor). */
+export const leafEstimates = (tasks: readonly EstimateNode[]) =>
+  leafSum(tasks, (t) => t.estimate_minutes ?? 0);
+
+/** Tempo feito (K3): a mãe soma o das folhas, como a estimativa. */
+export const leafActuals = (
+  tasks: readonly { id: string; parent_task_id: string | null; actual_minutes?: number | null }[],
+) => leafSum(tasks, (t) => t.actual_minutes ?? 0);
 
 /** "90", "90m", "1h30", "1h 30min", "1,5h" → minutos; texto que não é duração → null. */
 export function parseDuration(text: string): number | null {

@@ -61,7 +61,8 @@
     "goFlow": "Go to the project Flow view",
     "workoutDone": "Mark the set as done",
     "workoutSkipRest": "Skip the rest",
-    "taskPomodoro": "Start a pomodoro on the task"
+    "taskPomodoro": "Start a pomodoro on the task",
+    "taskStopwatch": "Start or stop the task stopwatch"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -1382,5 +1383,21 @@
     "ideasReset": "Back to the default ideas",
     "openSettings": "Durations, break ideas and numbers",
     "settingsLabel": "Pomodoro settings"
+  },
+  "time": {
+    "done": "Done: {{done}}",
+    "doneOf": "Done: {{done}} of {{estimate}}",
+    "startStopwatch": "Start stopwatch",
+    "stopStopwatch": "Stop stopwatch ({{time}})",
+    "placeholder": "Log time: 45m, 1h30 yesterday…",
+    "logField": "Log time",
+    "log": "Log",
+    "invalid": "Type the time (45m, 1h30) and, if you want, the day (yesterday, 10/14).",
+    "more": "and {{count}} more",
+    "sourcePomodoro": "pomodoro",
+    "sourceStopwatch": "stopwatch",
+    "sourceManual": "logged",
+    "remove": "Delete {{entry}}",
+    "rollup": "Done in subtasks: {{done}}"
   }
 }

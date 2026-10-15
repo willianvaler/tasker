@@ -1389,6 +1389,9 @@ isOneToOne: false
 "delete_my_account":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"delete_time_entry":
+{ Args: { "p_id": string }; Returns: undefined
+                           },
 "dependency_path":
 { Args: { "p_from": string,"p_to": string }; Returns: (string)[]
                            },
@@ -1509,6 +1512,26 @@ isOneToOne: false
 "log_rep":
 { Args: { "p_delta": number,"p_task_id": string,"p_values"?: Json }; Returns: Json
                            },
+"log_time":
+{ Args: { "p_day"?: string,"p_id": string,"p_minutes": number,"p_note"?: string,"p_task_id": string }; Returns: {
+              "created_at": string,
+"ended_at": string,
+"folder_id": string | null,
+"id": string,
+"minutes": number,
+"note": string | null,
+"source": string,
+"started_at": string,
+"task_id": string | null,
+"timer_id": string | null,
+"user_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "time_entries"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "members_matching":
 { Args: { "p_name": string,"p_root": string }; Returns: string[]
                            },

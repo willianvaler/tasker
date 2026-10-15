@@ -20,7 +20,8 @@ import { treeState } from '@/lib/tree-state';
 import { useStartTask } from '@/lib/queries/dependencies';
 import { selection } from '@/lib/selection';
 import { focusCaptureField, toggleSidebar } from '@/lib/ui-state';
-import { usePomodoro } from '@/components/timer-bar';
+import { usePomodoro, useStartTimer } from '@/components/timer-bar';
+import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import { readRepeatPlan } from '@/lib/repeat';
 import { useShortcut } from '@/lib/use-shortcut';
 import { undoLast, useToast } from '@/providers/toast';
@@ -48,6 +49,9 @@ export function ListKeys() {
   const tree = useTree();
   const start = useStartTask();
   const pomodoro = usePomodoro();
+  const startTimer = useStartTimer();
+  const activeTimer = useActiveTimer().data;
+  const timerActions = useTimerActions();
 
   useEffect(
     () =>
@@ -100,6 +104,18 @@ export function ListKeys() {
     if (!selection.get().selectedId) return false;
     selection.select(null);
   });
+
+  // Shift+T: cronômetro da tarefa selecionada (liga ou, se for o dela, para e guarda)
+  useShortcut(
+    'task.stopwatch',
+    onSelected((task) => {
+      if (activeTimer?.kind === 'stopwatch' && activeTimer.task_id === task.id) {
+        timerActions.act(activeTimer, 'done').catch(() => {});
+        return;
+      }
+      void startTimer({ kind: 'stopwatch', taskId: task.id, config: { label: task.title } });
+    }),
+  );
 
   // P: pomodoro na tarefa selecionada (D129)
   useShortcut(

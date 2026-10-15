@@ -2,6 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import {
   branchHeight,
+  leafActuals,
   branchRows,
   childrenMap,
   dueAfterParent,
@@ -168,4 +169,13 @@ describe('códigos WBS', () => {
     );
     expect(parentIds(tasks).sort()).toEqual(['a', 'a1']);
   });
+});
+
+test('tempo feito sobe pelas folhas (K3)', () => {
+  const sums = leafActuals([
+    { id: 'm', parent_task_id: null, actual_minutes: 999 },
+    { id: 'a', parent_task_id: 'm', actual_minutes: 25 },
+    { id: 'b', parent_task_id: 'm', actual_minutes: 50 },
+  ]);
+  expect(sums.get('m')).toBe(75);
 });

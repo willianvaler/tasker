@@ -92,6 +92,13 @@ export const SHORTCUTS = [
     scope: 'list',
   },
   {
+    id: 'task.stopwatch',
+    combos: ['shift+t'],
+    description: 'shortcuts.taskStopwatch',
+    scope: 'list',
+    permission: 'timer.use',
+  },
+  {
     id: 'task.pomodoro',
     combos: ['p'],
     description: 'shortcuts.taskPomodoro',
