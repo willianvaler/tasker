@@ -71,3 +71,22 @@ describe('escalas', () => {
     ).toEqual([]);
   });
 });
+
+describe('contraste AA (F4)', () => {
+  const lum = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+    const f = (c: number) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+  };
+  const ratio = (a: string, b: string) => {
+    const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
+    return (x + 0.05) / (y + 0.05);
+  };
+  test.each(['light', 'dark'] as const)('texto %s tem pelo menos 4,5:1 nos fundos', (scheme) => {
+    const c = COLORS[scheme];
+    for (const fg of ['ink', 'ink-muted', 'accent', 'ok', 'warn', 'danger'] as const)
+      for (const bg of ['paper', 'surface', 'wash'] as const)
+        expect([fg, bg, ratio(c[fg], c[bg]) >= 4.5]).toEqual([fg, bg, true]);
+    expect(ratio(c['on-accent'], c.accent)).toBeGreaterThanOrEqual(4.5);
+  });
+});

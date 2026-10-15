@@ -12,6 +12,7 @@ import { estimateCompletionXp } from '../sync/pending-xp';
 import {
   isLocal,
   localTasks,
+  myFolderIds,
   refreshCyclesInBackground,
   runCommand,
   sessionUserId,
@@ -80,6 +81,7 @@ export function useTodayTasks(today: string) {
       const { data, error } = await supabase
         .from('tasks')
         .select(TASK_WITH_PAGE)
+        .in('folder_id', await myFolderIds())
         .is('parent_task_id', null)
         .neq('status', 'done')
         .lte('due_date', today)
@@ -109,6 +111,7 @@ export function useUpcomingTasks(today: string, until: string) {
       const { data, error } = await supabase
         .from('tasks')
         .select(TASK_WITH_PAGE)
+        .in('folder_id', await myFolderIds())
         .is('parent_task_id', null)
         .neq('status', 'done')
         .gt('due_date', today)

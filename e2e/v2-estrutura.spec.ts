@@ -213,7 +213,7 @@ test('ajuda: "?" abre a tabela de atalhos, gerada do registro, com busca', async
   await page.keyboard.press('?');
   await expect(page.getByRole('heading', { name: 'Ajuda' })).toBeVisible();
   await expect(page.getByText('Abrir o menu Novo', { exact: true })).toBeVisible();
-  await page.getByRole('textbox', { name: /Buscar atalho/ }).fill('renomear');
+  await page.getByRole('textbox', { name: /Buscar na ajuda/ }).fill('renomear');
   await expect(page.getByLabel(/^Renomear o item selecionado.*: F2$/)).toBeVisible();
   await expect(page.getByText('Abrir o menu Novo', { exact: true })).toHaveCount(0);
 });

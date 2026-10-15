@@ -16,11 +16,11 @@ Definidas uma vez em `src/global.css` (variáveis RGB) e espelhadas em `src/lib/
 | `ink` | texto | `#1F1D1A` | `#ECE6DA` |
 | `ink-muted` | metadados, rótulos, placeholder | `#6B655B` | `#9B9487` |
 | `line` | divisórias e bordas (1 px) | `#E2DBCD` | `#34312B` |
-| `accent` | estado ativo, foco, progresso, botão primário | `#D8452B` | `#F0644A` |
+| `accent` | estado ativo, foco, progresso, botão primário | `#BB3C25` | `#F0644A` |
 | `accent-soft` | fundo de destaque leve (chip ativo, aviso) | `#F6D9D2` | `#3A2420` |
 | `on-accent` | texto sobre `accent` | `#FBF8F2` | `#1B1A17` |
-| `ok` | concluído, sincronizado | `#3F7D4E` | `#6DB27D` |
-| `warn` | atraso, atenção | `#C58A12` | `#E0A93A` |
+| `ok` | concluído, sincronizado | `#3A7448` | `#6DB27D` |
+| `warn` | atraso, atenção | `#89600C` | `#E0A93A` |
 | `danger` | erro e ação destrutiva | `#B3261E` | `#F2766B` |
 | `scrim` | fundo escurecido atrás de diálogo e folha (com opacidade) | `#1B1A17` | `#0E0D0B` |
 

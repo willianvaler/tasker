@@ -8,7 +8,14 @@ import type { MemberName } from '../members';
 import { ROLE_PRESET, type Actor } from '../permissions';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
-import { isLocal, localInsert, TASK_WITH_PAGE_SQL, toTask, toTaskWithPage } from '../sync/local';
+import {
+  isLocal,
+  localInsert,
+  myFolderIds,
+  TASK_WITH_PAGE_SQL,
+  toTask,
+  toTaskWithPage,
+} from '../sync/local';
 import { useSession } from '@/providers/session';
 import { keys } from './keys';
 import type { TaskWithPage } from './tasks';
@@ -429,6 +436,7 @@ export function useMyTasks({ enabled = true }: { enabled?: boolean } = {}) {
       const { data, error } = await supabase
         .from('tasks')
         .select('*, page:pages(name, icon, view_type), task_assignees!inner(user_id)')
+        .in('folder_id', await myFolderIds())
         .eq('task_assignees.user_id', session?.user.id ?? '')
         .neq('status', 'done')
         .order('due_date', { nullsFirst: false })

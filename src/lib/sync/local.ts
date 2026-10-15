@@ -158,3 +158,25 @@ export async function localUpdate(table: string, id: string, patch: Record<strin
 
 export const sessionUserId = async () =>
   (await supabase.auth.getSession()).data.session?.user.id ?? null;
+
+let folderCache: { userId: string; at: number; ids: string[] } | null = null;
+
+/**
+ * Pastas da pessoa (raízes de que é membro e as subpastas), para as consultas pelo servidor
+ * filtrarem `folder_id in (...)`: sem isso a RLS confere todas as tarefas do banco (D70, F4).
+ * Cache de 1 minuto em memória.
+ */
+export async function myFolderIds(): Promise<string[]> {
+  const userId = await sessionUserId();
+  if (!userId) return [];
+  if (folderCache && folderCache.userId === userId && Date.now() - folderCache.at < 60_000)
+    return folderCache.ids;
+  const roots = await supabase.from('folder_members').select('folder_id').eq('user_id', userId);
+  const rootIds = (roots.data ?? []).map((r) => r.folder_id);
+  const children = rootIds.length
+    ? await supabase.from('folders').select('id').in('parent_id', rootIds)
+    : { data: [] as { id: string }[] };
+  const ids = [...rootIds, ...(children.data ?? []).map((c) => c.id)];
+  folderCache = { userId, at: Date.now(), ids };
+  return ids;
+}
