@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -14,6 +15,7 @@ import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { ProjectTime } from '@/components/time-report';
+import { Button } from '@/components/ui/button';
 import { describeActivity } from '@/lib/activity';
 import { projectProgress } from '@/lib/progress';
 import {
@@ -114,6 +116,15 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
       <ProjectMilestones rootId={root.id} />
 
       <ProjectBoss rootId={root.id} />
+
+      {actorCan(actor, 'automation.manage') && (
+        <Button
+          variant="ghost"
+          className="self-start"
+          label={t('auto.open')}
+          onPress={() => router.push({ pathname: '/automacoes/[id]', params: { id: root.id } })}
+        />
+      )}
 
       {actorCan(actor, 'settings.max_depth') && (
         <View className="gap-2">

@@ -47,6 +47,7 @@ export default function AppLayout() {
               <Stack.Screen name="lixeira" />
               <Stack.Screen name="pomodoro" />
               <Stack.Screen name="alunos/[id]" />
+              <Stack.Screen name="automacoes/[id]" />
               <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
               <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
               {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}

@@ -176,6 +176,18 @@ export default function PageScreen() {
             ...(actorCan(pageActor, 'page.manage') && !page.is_inbox && !page.is_habits
               ? [{ label: t('fields.menu'), onPress: () => setDialog('fields') }]
               : []),
+            ...(actorCan(pageActor, 'automation.manage') && !page.is_inbox && !page.is_habits
+              ? [
+                  {
+                    label: t('auto.menu'),
+                    onPress: () => {
+                      const root = rootFolder(tree.data, page.folder_id);
+                      if (root)
+                        router.push({ pathname: '/automacoes/[id]', params: { id: root.id } });
+                    },
+                  },
+                ]
+              : []),
             ...(relatable
               ? [
                   {

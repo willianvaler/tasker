@@ -127,3 +127,52 @@ test('campos personalizados: moeda e seleção na página, preenchidos no painel
   await page.getByRole('button', { name: 'Voltar' }).click();
   await expect(shown(page, /^Valor R\$\s1\.200,00 · Fase Compra$/)).toBeVisible();
 });
+
+test('automação: concluir em "Dia" cria a tarefa seguinte em "Depois"', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Projeto pelo menu Novo (Alt+N)');
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await page.keyboard.press('Alt+n');
+  await page.keyboard.press('j');
+  await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Churrasco');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
+  const project = page.url();
+  for (const name of ['Dia', 'Depois']) {
+    await page.goto(project);
+    await page.getByRole('button', { name: 'Nova lista' }).click();
+    await page.getByPlaceholder('Nome (ex.: Treino A)').fill(name);
+    await page.getByRole('button', { name: 'Salvar' }).click();
+    await expect(page.getByRole('heading', { name: new RegExp(`${name}$`) })).toBeVisible();
+  }
+  const depois = page.url();
+
+  await page.goto(project);
+  await page.getByRole('button', { name: 'Automações' }).click();
+  await page.getByRole('radio', { name: 'Dia', exact: true }).first().click();
+  await page.getByRole('textbox', { name: 'Título da tarefa nova' }).fill('Limpar a churrasqueira');
+  await page.getByRole('radio', { name: 'Depois', exact: true }).last().click();
+  await page.getByRole('button', { name: 'Criar automação' }).click();
+  await expect(
+    page.getByText(
+      'Quando uma tarefa for concluída em Dia, criar "Limpar a churrasqueira" em Depois',
+    ),
+  ).toBeVisible();
+
+  await page.goto(project);
+  await page.getByRole('link', { name: 'Dia' }).last().click();
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Assar a carne');
+  await input.press('Enter');
+  const done = page.waitForResponse(
+    (r) => r.url().includes('rpc/') && r.request().postData()?.includes('complete_task') === true,
+  );
+  await page.getByRole('checkbox', { name: 'Concluir Assar a carne' }).click();
+  await done;
+  await page.goto(depois);
+  await expect(page.getByRole('checkbox', { name: 'Concluir Limpar a churrasqueira' })).toBeVisible(
+    { timeout: 20_000 },
+  );
+});

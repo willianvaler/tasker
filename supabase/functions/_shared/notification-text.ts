@@ -53,6 +53,11 @@ export function describeNotification(n: NotificationLike): {
         text: `"${p.prereq}" foi reaberta: "${p.title}" voltou a esperar`,
         taskId: String(p.task_id),
       };
+    case 'automation':
+      return {
+        text: p.message ? `${p.message}: "${p.title}"` : `Automação: "${p.title}"`,
+        taskId: String(p.task_id),
+      };
     case 'page_reminder':
       return {
         text: Number(p.days)

@@ -91,6 +91,58 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"automation_log": {
+                  Row: {
+                    "at": string,"id": string,"message": string | null,"ok": boolean,"rule_id": string,"task_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "at"?: string,"id"?: string,"message"?: string | null,"ok": boolean,"rule_id": string,"task_id"?: string | null
+                  }
+                  Update: {
+                    "at"?: string,"id"?: string,"message"?: string | null,"ok"?: boolean,"rule_id"?: string,"task_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "automation_log_rule_id_fkey"
+      columns: ["rule_id"]
+isOneToOne: false
+      referencedRelation: "automation_rules"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"automation_rules": {
+                  Row: {
+                    "action": string,"created_at": string,"created_by": string | null,"enabled": boolean,"folder_id": string,"id": string,"last_run_at": string | null,"page_id": string | null,"params": NonNullable<Json>,"runs": number,"trigger": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "action": string,"created_at"?: string,"created_by"?: string | null,"enabled"?: boolean,"folder_id": string,"id"?: string,"last_run_at"?: string | null,"page_id"?: string | null,"params"?: NonNullable<Json>,"runs"?: number,"trigger": string
+                  }
+                  Update: {
+                    "action"?: string,"created_at"?: string,"created_by"?: string | null,"enabled"?: boolean,"folder_id"?: string,"id"?: string,"last_run_at"?: string | null,"page_id"?: string | null,"params"?: NonNullable<Json>,"runs"?: number,"trigger"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "automation_rules_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "automation_rules_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "automation_rules_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"boss_damage": {
                   Row: {
                     "amount": number,"boss_id": string,"created_at": string,"id": string,"user_id": string,"xp_event_id": string
@@ -1298,6 +1350,9 @@ isOneToOne: false
 "_attack":
 { Args: { "p_base": number,"p_category": string,"p_overdue": boolean,"p_user": string }; Returns: Record<string, unknown>
                            },
+"_automation_act":
+{ Args: { "p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: undefined
+                           },
 "_award_completion":
 { Args: { "p_completion_id": string,"p_created_done": boolean,"p_cycle_kind": string,"p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
                            },
@@ -1381,6 +1436,9 @@ isOneToOne: false
                            },
 "_roll_drop":
 { Args: { "p_level": number,"p_user": string }; Returns: string
+                           },
+"_run_automations":
+{ Args: { "p_task_id": string,"p_trigger": string }; Returns: undefined
                            },
 "_settle_boss":
 { Args: { "p_boss_id": string }; Returns: boolean
@@ -1841,6 +1899,9 @@ isOneToOne: false
                            },
 "run_once":
 { Args: { "p_args": Json,"p_key": string,"p_name": string }; Returns: Json
+                           },
+"run_overdue_automations":
+{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "save_folder_as_template":
 { Args: { "p_folder_id": string,"p_name": string }; Returns: string
