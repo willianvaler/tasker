@@ -151,7 +151,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## ESCOPO_V5 (pedido do dono em 16/10: tela de bloqueio e usabilidade primeiro)
 
 - [x] **X1** Treino pela tela de bloqueio (Android 14+): notificação fixa com Feita, Pular descanso e +30 s (D173)
-- [ ] **Y1** Revisão de usabilidade: percorrer as tarefas principais e anotar os atritos
+- [x] **Y1** Revisão de usabilidade: percorrer as tarefas principais e anotar os atritos (`docs/USABILIDADE.md`)
 - [ ] **Y2** Corrigir os atritos encontrados
 
 ## Fase W — Correções do dono (15/10, noite)
