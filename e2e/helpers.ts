@@ -140,8 +140,16 @@ export async function waitForSync(page: Page) {
         page.evaluate(async () => {
           const db = (window as unknown as { questlistDb?: any }).questlistDb;
           if (!db) return true;
-          const { n } = await db.get('select count(*) as n from ps_crud');
-          return n === 0 && !db.currentStatus.dataFlowStatus.downloading;
+          // Duas leituras seguidas: logo depois de um toque, a mudança ainda pode não ter entrado
+          // na fila (ela vazia não quer dizer "enviado")
+          const idle = async () => {
+            const { n } = await db.get('select count(*) as n from ps_crud');
+            const flow = db.currentStatus.dataFlowStatus;
+            return n === 0 && !flow.downloading && !flow.uploading;
+          };
+          if (!(await idle())) return false;
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          return idle();
         }),
       { timeout: 20_000 },
     )

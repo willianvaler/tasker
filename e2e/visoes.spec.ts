@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { isRpc, openTab, signUp, waitForSync } from './helpers';
+import { adminRest, isRpc, openTab, signUp, waitForSync } from './helpers';
 
 // Aceite da Fase I (V3 §2.6 e §2.7): as visões do projeto (Fluxo, Pessoas, Linha do tempo) e o
 // histórico da tarefa.
@@ -99,8 +99,21 @@ test('Linha do tempo e histórico da tarefa: quem fez o quê, filtros e CSV', as
   await page.goto(compras);
   await page.getByRole('checkbox', { name: 'Concluir Comprar carvão' }).click();
   await expect(page.getByText('Aguardando: Comprar carvão')).toHaveCount(0, { timeout: 15_000 });
-  // O histórico é do servidor: espera a conclusão chegar lá
+  // O histórico é do servidor: espera a conclusão chegar lá (a fila vazia logo depois do toque
+  // não garante isso)
   await waitForSync(page);
+  const pageId = compras.split('/page/')[1]?.split(/[?#]/)[0];
+  await expect
+    .poll(
+      async () =>
+        (
+          await adminRest(
+            `tasks?page_id=eq.${pageId}&title=eq.${encodeURIComponent('Comprar carvão')}&select=status`,
+          )
+        )[0]?.status,
+      { timeout: 20_000 },
+    )
+    .toBe('done');
 
   // No painel do fogo, o histórico conta a história
   await page.getByRole('button', { name: 'Detalhes de Acender o fogo' }).click();
