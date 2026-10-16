@@ -31,6 +31,10 @@ Para valer (ou depois de trocar): `npx supabase stop && npx supabase start` (os 
 
 **HTTPS** é configurado no painel do **domínio** `wavdev.org` na Cloudflare, não no túnel: SSL/TLS → Edge Certificates → "Always Use HTTPS" ligado e "Minimum TLS Version" 1.2. O endereço de origem do túnel continua `http://localhost:8081`: o trecho Cloudflare → PC já vai cifrado dentro do túnel, e o `serve.mjs` não tem certificado (com `https://` na origem, o túnel não conecta).
 
+## Levar para outro servidor
+
+Passo a passo em `docs/SERVIDOR.md` (`scripts/servidor/empacotar.sh` e `instalar.sh`, D177).
+
 ## Backup
 
 O que importa é o banco `postgres` (dados e contas). O `powersync_storage` é derivado e se refaz sozinho.
