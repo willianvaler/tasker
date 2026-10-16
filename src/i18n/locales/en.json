@@ -1750,5 +1750,13 @@
     "titleField": "Note title",
     "bodyPlaceholder": "Write here…",
     "bodyField": "Note text"
+  },
+  "lock": {
+    "channel": "Workout on the lock screen",
+    "done": "Done",
+    "skipRest": "Skip rest",
+    "plus30": "+30 s",
+    "resting": "Rest until {{until}} · then: {{next}}",
+    "now": "{{counter}} · exercise {{exercise}} of {{total}}"
   }
 }

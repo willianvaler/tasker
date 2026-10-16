@@ -1750,5 +1750,13 @@
     "titleField": "Título da anotação",
     "bodyPlaceholder": "Escreva aqui…",
     "bodyField": "Texto da anotação"
+  },
+  "lock": {
+    "channel": "Treino na tela de bloqueio",
+    "done": "Feita",
+    "skipRest": "Pular descanso",
+    "plus30": "+30 s",
+    "resting": "Descanso até {{until}} · depois: {{next}}",
+    "now": "{{counter}} · exercício {{exercise}} de {{total}}"
   }
 }

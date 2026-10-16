@@ -1,8 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { ChevronLeft, Pause, Play, SkipForward, X } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Platform, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useLogSet } from '@/components/tasks/repeat';
@@ -21,7 +21,13 @@ import { pageLabel, useTree } from '@/lib/queries/tree';
 import { selection } from '@/lib/selection';
 import { localStore } from '@/lib/storage';
 import { formatClock } from '@/lib/timers';
+import { ensureAlertPermission } from '@/lib/timer-alerts';
 import { useShortcut } from '@/lib/use-shortcut';
+import {
+  clearWorkoutNotification,
+  onWorkoutAction,
+  showWorkoutNotification,
+} from '@/lib/workout-notification';
 import { useWakeLock } from '@/lib/wake-lock';
 import {
   adjustWeight,
@@ -89,6 +95,10 @@ export default function WorkoutScreen() {
   // Atalhos de lista (Espaço marca a selecionada) não podem disputar com os do treino
   useEffect(() => selection.select(null), []);
   useWakeLock(true);
+  // X1: a série na tela de bloqueio precisa da permissão de notificação
+  useEffect(() => {
+    if (Platform.OS !== 'web') ensureAlertPermission().catch(() => false);
+  }, []);
 
   const [chosen, setChosen] = useState<number | null>(null);
   const pending = nextPending(items, 0, session.skipped);
@@ -265,6 +275,43 @@ function Running({
         total: item.plan.total,
       })
     : t('workout.single');
+
+  // X1: a mesma série na tela de bloqueio, com os botões que não pedem para destravar
+  const lockTitle = `${task.title}${metaLabel(meta) ? ` · ${metaLabel(meta)}` : ''}`;
+  const restUntil =
+    resting?.ends_at && resting.state === 'running'
+      ? new Intl.DateTimeFormat(i18n.language, { hour: '2-digit', minute: '2-digit' }).format(
+          new Date(resting.ends_at),
+        )
+      : null;
+  const lockBody = restUntil
+    ? t('lock.resting', { until: restUntil, next: counter })
+    : t('lock.now', { counter, exercise: index + 1, total: items.length });
+  useEffect(() => {
+    showWorkoutNotification({ title: lockTitle, body: lockBody, resting: !!restUntil }).catch(
+      () => {},
+    );
+  }, [lockTitle, lockBody, restUntil]);
+  // Sai do treino (ou ele acaba): a notificação some
+  useEffect(() => () => void clearWorkoutNotification(), []);
+  // Os botões da notificação chamam a versão mais nova das ações
+  const lockActions = useRef({ done, skipRest: () => {}, plus30: () => {} });
+  useEffect(() => {
+    lockActions.current = {
+      done,
+      skipRest: () => resting && rest.act('skip'),
+      plus30: () => resting && rest.act('adjust', 30),
+    };
+  });
+  useEffect(
+    () =>
+      onWorkoutAction((action) => {
+        if (action === 'done') lockActions.current.done();
+        else if (action === 'skip_rest') lockActions.current.skipRest();
+        else lockActions.current.plus30();
+      }),
+    [],
+  );
 
   return (
     <Shell

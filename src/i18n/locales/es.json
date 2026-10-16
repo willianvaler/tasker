@@ -1750,5 +1750,13 @@
     "titleField": "Título de la nota",
     "bodyPlaceholder": "Escribe aquí…",
     "bodyField": "Texto de la nota"
+  },
+  "lock": {
+    "channel": "Entrenamiento en la pantalla de bloqueo",
+    "done": "Hecha",
+    "skipRest": "Saltar descanso",
+    "plus30": "+30 s",
+    "resting": "Descanso hasta las {{until}} · después: {{next}}",
+    "now": "{{counter}} · ejercicio {{exercise}} de {{total}}"
   }
 }
