@@ -5,6 +5,8 @@ import { adminRest, createPage, openTab, shown, signUp } from './helpers';
 test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na selecionada', async ({
   page,
 }, testInfo) => {
+  // Espera o servidor e recarrega: no CI lento, 30 s não bastavam
+  test.setTimeout(60_000);
   await signUp(page, testInfo);
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   const title = `Pagar boleto ${testInfo.project.name} ${Date.now()}`;

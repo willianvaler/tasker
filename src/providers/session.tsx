@@ -14,8 +14,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     supabase.auth
       .getSession()
       .then(({ data }) => setState({ session: data.session, isLoading: false }));
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      setState({ session, isLoading: false });
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      // Sessão nula sem ter saído (a renovação do token falhou sem internet) não derruba quem
+      // está usando: o Stack.Protected desmontava e montava o app inteiro a cada tentativa
+      // (painel aberto perdia o que estava sendo feito). Só o "sair" de verdade limpa
+      setState((prev) =>
+        !session && event !== 'SIGNED_OUT' && prev.session
+          ? { ...prev, isLoading: false }
+          : { session, isLoading: false },
+      );
     });
     return () => data.subscription.unsubscribe();
   }, []);
