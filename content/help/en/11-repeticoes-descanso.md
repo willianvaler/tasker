@@ -10,6 +10,8 @@ After each set a **rest** starts (60 s by default; change it under "How many tim
 
 On card pages or pages with tasks that have sets, **Start workout** opens full screen: current exercise, set, load, a big **Done** button (or `Space`), `R` skips the rest. At the end, a summary with time, sets, volume and XP. Works offline and keeps the screen on.
 
+**Without unlocking the phone (Android):** with Workout Mode open, the set shows on the lock screen with **Done**, **Skip rest** and **+30 s**. Tap the notification's arrow to see the buttons. While the phone is locked, what you mark stays on the device and syncs when you open the app again.
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.
