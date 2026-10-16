@@ -93,8 +93,9 @@ test('tour de usabilidade', async ({ page }, testInfo) => {
 
   // 4. Hábitos
   await step('habitos', async () => {
-    if (p !== 'desktop') await page.getByRole('button', { name: 'Voltar' }).first().click();
-    await openTab(page, 'Hábitos');
+    // No celular a página está duas telas acima das abas: vai direto
+    if (p !== 'desktop') await page.goto('/habits');
+    else await openTab(page, 'Hábitos');
   });
   await step('novo-habito', async () => {
     const input = page.getByRole('textbox').first();

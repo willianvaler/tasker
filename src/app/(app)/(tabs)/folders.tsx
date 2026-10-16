@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { LayoutTemplate, Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { FolderSection, PageRow } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
@@ -28,6 +28,7 @@ export default function FoldersScreen() {
   const received = useReceivedPages();
   const pending = usePendingShares();
 
+  const narrow = useWindowDimensions().width < 768;
   return (
     <Screen size="medium">
       <ScreenHeader
@@ -35,13 +36,23 @@ export default function FoldersScreen() {
         title={t('folder.title')}
         right={
           <>
-            <Button
-              variant="ghost"
-              icon={LayoutTemplate}
-              label={t('folder.useTemplate')}
-              disabled={!online}
-              onPress={() => router.push('/templates')}
-            />
+            {/* Y2 (#4): no celular, "Usar modelo" só com o ícone (o título "Pastas" ficava cortado) */}
+            {narrow ? (
+              <IconButton
+                icon={LayoutTemplate}
+                label={t('folder.useTemplate')}
+                disabled={!online}
+                onPress={() => router.push('/templates')}
+              />
+            ) : (
+              <Button
+                variant="ghost"
+                icon={LayoutTemplate}
+                label={t('folder.useTemplate')}
+                disabled={!online}
+                onPress={() => router.push('/templates')}
+              />
+            )}
             <Button
               icon={Plus}
               label={t('folder.newFolder')}

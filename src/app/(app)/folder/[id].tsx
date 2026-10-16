@@ -1,5 +1,12 @@
 import { Link, router, useIsFocused, useLocalSearchParams } from 'expo-router';
-import { ArrowUpRight as ItemArrow, FolderPlus, Plus, Users } from 'lucide-react-native';
+import {
+  ArrowUpRight as ItemArrow,
+  ChevronDown,
+  FolderPlus,
+  Plus,
+  Users,
+} from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
@@ -39,6 +46,9 @@ export default function FolderScreen() {
   const [actions, dialog] = useFolderActions();
   const found = findFolder(tree.data, id);
   const missing = useConfirmedMissing(id, !!found);
+  // Y2 (#9): projeto sem listas mostra primeiro o convite para criar a primeira; o resto
+  // (relacionados, progresso, marcos, boss, automações, níveis) fica recolhido até lá
+  const [showSetup, setShowSetup] = useState(false);
   // Leitor do projeto só vê (e comenta nas tarefas)
   // Listas, subpastas e nome mexem na estrutura: pedem page.manage (o Colaborador não tem)
   const actor = useFolderActor(id);
@@ -163,7 +173,7 @@ export default function FolderScreen() {
         </ScrollView>
       ) : (
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-          {folder && 'children' in folder && project && (
+          {folder && 'children' in folder && project && (!empty || showSetup) && (
             <View className="mb-4">
               <View className="mb-6">
                 <Related
@@ -187,13 +197,22 @@ export default function FolderScreen() {
           </View>
           {empty && (
             <View className="items-center">
-              <EmptyState title={t('folder.emptyFolder')} />
+              <EmptyState title={t(project ? 'project.emptyHint' : 'folder.emptyFolder')} />
               {writable && folder && (
                 <Button
-                  variant="ghost"
+                  variant={project ? 'primary' : 'ghost'}
                   icon={Plus}
-                  label={t('folder.firstPage')}
+                  label={t(project ? 'project.firstList' : 'folder.firstPage')}
                   onPress={() => actions.newPage(folder.id)}
+                />
+              )}
+              {project && !showSetup && (
+                <Button
+                  variant="ghost"
+                  icon={ChevronDown}
+                  label={t('project.showSetup')}
+                  className="mt-6"
+                  onPress={() => setShowSetup(true)}
                 />
               )}
             </View>

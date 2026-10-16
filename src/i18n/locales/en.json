@@ -134,7 +134,8 @@
     "mentionPick": "Assign to {{name}}",
     "prereqList": "Project tasks",
     "prereqPick": "Depend on {{name}}",
-    "prereqUnresolved": "Did not link {{names}}: no task or more than one with that name."
+    "prereqUnresolved": "Did not link {{names}}: no task or more than one with that name.",
+    "placeholderShort": "New task…"
   },
   "boss": {
     "level": "lv {{level}}",
@@ -372,7 +373,8 @@
     "projects": "Projects",
     "moveTo": "Move to…",
     "moveTitle": "Move \"{{name}}\" to",
-    "moved": "Moved to {{name}}"
+    "moved": "Moved to {{name}}",
+    "pages_zero": "No pages"
   },
   "pageDialog": {
     "new": "New page",
@@ -397,7 +399,8 @@
     "resetAuto": "Checks come back on their own; the history is kept.",
     "labelDaily": "Resets every day",
     "labelWeekly": "Resets every Monday",
-    "labelManual": "Manual reset"
+    "labelManual": "Manual reset",
+    "more": "More options (icon, reset, levels)"
   },
   "profile": {
     "title": "Profile",
@@ -604,7 +607,8 @@
     "item": {
       "new": "New list",
       "count_one": "{{count}} list",
-      "count_other": "{{count}} lists"
+      "count_other": "{{count}} lists",
+      "count_zero": "No lists"
     },
     "milestones": "Milestones",
     "milestonesEmpty": "No milestones yet. Milestones are the key dates of the project.",
@@ -627,7 +631,10 @@
     "people": "People",
     "team": "Team {{name}}",
     "autoCompleteParent": "Complete the parent task automatically",
-    "autoCompleteParentHint": "When the last subtask is done, the parent is completed too."
+    "autoCompleteParentHint": "When the last subtask is done, the parent is completed too.",
+    "emptyHint": "New project. Start with the first list: the project's tasks live in lists.",
+    "firstList": "Create the first list",
+    "showSetup": "Project settings (milestones, boss, automations…)"
   },
   "auth": {
     "signInTitle": "Sign in to your account",
@@ -1682,7 +1689,9 @@
     "allow": "Allow notifications",
     "test": "Test alert",
     "testTitle": "Alert test",
-    "testBody": "This is how the end of rest and focus is announced."
+    "testBody": "This is how the end of rest and focus is announced.",
+    "deniedWeb": "Blocked in this browser. Tap the lock next to the address → Notifications → Allow.",
+    "deniedApp": "Blocked. Open Settings → Apps → Questlist → Notifications and turn them on."
   },
   "panelMode": {
     "title": "Show in the panel",

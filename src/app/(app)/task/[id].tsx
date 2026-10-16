@@ -305,7 +305,9 @@ function TaskDetails({ task }: { task: Task }) {
           />
         </View>
 
-        {!done && !isHabit && (
+        {/* Y2 (#2): "Iniciar" sozinho numa tarefa comum confundia: no Simples, só em projeto, com
+            dependência ou com a tarefa já em andamento */}
+        {!done && !isHabit && (mode === 'full' || project || blocked || flow.state === 'doing') && (
           <View className="flex-row flex-wrap items-center gap-2">
             {blocked ? (
               <Text className="flex-1 text-sm text-ink-muted">

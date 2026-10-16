@@ -27,7 +27,10 @@ export function TimerAlertSetting() {
       <Text className="text-sm font-semibold text-ink">{t('alerts.title')}</Text>
       {state && (
         <Text className={state === 'denied' ? 'text-sm text-warn' : 'text-sm text-ink-muted'}>
-          {t(`alerts.${state}`)}
+          {/* Y2 (#11): bloqueado explica só o caminho da plataforma em uso */}
+          {state === 'denied'
+            ? t(Platform.OS === 'web' ? 'alerts.deniedWeb' : 'alerts.deniedApp')
+            : t(`alerts.${state}`)}
           {Platform.OS === 'web' && !canVibrate() ? ` ${t('alerts.noVibration')}` : ''}
         </Text>
       )}

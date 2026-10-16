@@ -151,7 +151,7 @@ test('lista que depende de outra: bloqueada até a anterior chegar ao percentual
   const { project } = await churrasco(page);
 
   // Uma lista nova com duas tarefas: Alvenaria
-  await page.getByRole('button', { name: 'Nova lista' }).click();
+  await page.getByRole('button', { name: 'Nova lista' }).first().click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Alvenaria');
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('heading', { name: /Alvenaria$/ })).toBeVisible();

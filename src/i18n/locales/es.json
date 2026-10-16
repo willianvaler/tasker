@@ -134,7 +134,8 @@
     "mentionPick": "Asignar a {{name}}",
     "prereqList": "Tareas del proyecto",
     "prereqPick": "Depender de {{name}}",
-    "prereqUnresolved": "No vinculé {{names}}: ninguna tarea o más de una con ese nombre."
+    "prereqUnresolved": "No vinculé {{names}}: ninguna tarea o más de una con ese nombre.",
+    "placeholderShort": "Nueva tarea…"
   },
   "boss": {
     "level": "nv {{level}}",
@@ -372,7 +373,8 @@
     "projects": "Proyectos",
     "moveTo": "Mover a…",
     "moveTitle": "Mover \"{{name}}\" a",
-    "moved": "Movida a {{name}}"
+    "moved": "Movida a {{name}}",
+    "pages_zero": "Ninguna página"
   },
   "pageDialog": {
     "new": "Nueva página",
@@ -397,7 +399,8 @@
     "resetAuto": "Los checks vuelven solos; el historial queda guardado.",
     "labelDaily": "Se reinicia todos los días",
     "labelWeekly": "Se reinicia todos los lunes",
-    "labelManual": "Reinicio manual"
+    "labelManual": "Reinicio manual",
+    "more": "Más opciones (icono, reinicio, niveles)"
   },
   "profile": {
     "title": "Perfil",
@@ -604,7 +607,8 @@
     "item": {
       "new": "Nueva lista",
       "count_one": "{{count}} lista",
-      "count_other": "{{count}} listas"
+      "count_other": "{{count}} listas",
+      "count_zero": "Ninguna lista"
     },
     "milestones": "Hitos",
     "milestonesEmpty": "Todavía no hay hitos. Los hitos son las fechas clave del proyecto.",
@@ -627,7 +631,10 @@
     "people": "Personas",
     "team": "Equipo {{name}}",
     "autoCompleteParent": "Completar la tarea madre sola",
-    "autoCompleteParentHint": "Cuando termina la última subtarea, la madre también se completa."
+    "autoCompleteParentHint": "Cuando termina la última subtarea, la madre también se completa.",
+    "emptyHint": "Proyecto nuevo. Empieza por la primera lista: las tareas del proyecto viven en las listas.",
+    "firstList": "Crear la primera lista",
+    "showSetup": "Configuración del proyecto (hitos, jefe, automatizaciones…)"
   },
   "auth": {
     "signInTitle": "Entra en tu cuenta",
@@ -1682,7 +1689,9 @@
     "allow": "Permitir notificaciones",
     "test": "Probar aviso",
     "testTitle": "Prueba del aviso",
-    "testBody": "Así se avisa el fin del descanso y del foco."
+    "testBody": "Así se avisa el fin del descanso y del foco.",
+    "deniedWeb": "Bloqueado en este navegador. Toca el candado junto a la dirección → Notificaciones → Permitir.",
+    "deniedApp": "Bloqueado. Abre Ajustes → Apps → Questlist → Notificaciones y actívalas."
   },
   "panelMode": {
     "title": "Mostrar en el panel",

@@ -6,6 +6,7 @@ import { DepthPicker } from '@/components/depth-picker';
 import { DEFAULT_MAX_DEPTH } from '@/config/limits';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
 
+import { ChevronDown } from 'lucide-react-native';
 import { IconPicker } from '@/components/icon-picker';
 import type { ItemKind } from '@/components/item-icon';
 import { Button } from '@/components/ui/button';
@@ -56,6 +57,9 @@ export function PageDialog({
   );
   const effectiveReset = resetCycle ?? (viewType === 'cards' ? 'weekly' : 'none');
   const [maxDepth, setMaxDepth] = useState<number | null>(initial?.max_depth ?? null);
+  // Y2 (#6): ao criar, só nome e tipo; ícone, reinício e níveis ficam em "Mais opções" (ao
+  // configurar uma página que já existe, tudo aberto)
+  const [more, setMore] = useState(!!initial?.name);
 
   function confirm() {
     if (!name.trim()) return;
@@ -92,13 +96,6 @@ export function PageDialog({
               autoFocus
               maxLength={100}
             />
-            <Label>{t('iconPicker.label')}</Label>
-            <IconPicker
-              value={icon || null}
-              kind={viewType as ItemKind}
-              onChange={(value) => setIcon(value ?? '')}
-            />
-
             <Label>{t('pageDialog.type')}</Label>
             <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
               {VIEW_TYPES.map((v) => (
@@ -115,7 +112,27 @@ export function PageDialog({
               {t(VIEW_TYPES.find((v) => v.value === viewType)?.hint ?? 'pageDialog.listHint')}
             </Text>
 
-            {viewType !== 'habits' && viewType !== 'kanban' && (
+            {!more && (
+              <Button
+                variant="ghost"
+                icon={ChevronDown}
+                label={t('pageDialog.more')}
+                className="self-start"
+                onPress={() => setMore(true)}
+              />
+            )}
+            {more && (
+              <>
+                <Label>{t('iconPicker.label')}</Label>
+                <IconPicker
+                  value={icon || null}
+                  kind={viewType as ItemKind}
+                  onChange={(value) => setIcon(value ?? '')}
+                />
+              </>
+            )}
+
+            {more && viewType !== 'habits' && viewType !== 'kanban' && (
               <>
                 <Label>{t('pageDialog.reset')}</Label>
                 <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
@@ -141,7 +158,7 @@ export function PageDialog({
               </>
             )}
 
-            {viewType !== 'habits' && (
+            {more && viewType !== 'habits' && (
               <>
                 <Label>{t('tree.depthLimit')}</Label>
                 <DepthPicker value={maxDepth} inherited={inheritedDepth} onChange={setMaxDepth} />

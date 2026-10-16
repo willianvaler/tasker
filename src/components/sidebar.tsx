@@ -37,6 +37,7 @@ import { PendingXp } from '@/components/game-bar';
 import { SidebarResizer } from '@/components/sidebar-resizer';
 import { SyncDot } from '@/components/sync-dot';
 import { Icon } from '@/components/ui/icon';
+import { rootFolder } from '@/lib/queries/projects';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
@@ -140,7 +141,14 @@ export function Sidebar() {
                 onPress={() => actions.newPage(folder.id)}
               >
                 <Icon icon={Plus} tone="ink-muted" />
-                <Text className="text-sm text-ink-muted">{t('nav.newPage')}</Text>
+                {/* Y2 (#10): no projeto, "Nova lista", como na tela do projeto */}
+                <Text className="text-sm text-ink-muted">
+                  {t(
+                    rootFolder(tree.data, folder.id)?.kind === 'project'
+                      ? 'project.item.new'
+                      : 'nav.newPage',
+                  )}
+                </Text>
               </Pressable>
             )}
           </>

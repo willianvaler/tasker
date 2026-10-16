@@ -62,7 +62,19 @@ export function SyncDot({ floating }: { floating?: boolean }) {
       accessibilityRole="link"
       accessibilityLabel={label}
       onPress={() => router.push('/sync')}
-      style={floating ? { position: 'absolute', left: 8, bottom: insets.bottom + 72 } : undefined}
+      // Y2 (#3): no celular, em dia, o ponto some (flutuava por cima do conteúdo). Fica na página,
+      // invisível e sem pegar toques, para quem lê a tela saber o estado
+      pointerEvents={floating && syncState === 'synced' ? 'none' : 'auto'}
+      style={
+        floating
+          ? {
+              position: 'absolute',
+              left: 8,
+              bottom: insets.bottom + 72,
+              opacity: syncState === 'synced' ? 0 : 1,
+            }
+          : undefined
+      }
       className={cn(
         'min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash',
         floating && 'min-w-8 justify-center',

@@ -18,4 +18,6 @@ Gravidade: **A** atrapalha a tarefa ou confunde; **M** incomoda; **B** acabament
 | 10 | Projeto, barra lateral | Dentro do projeto a barra diz "Nova página" e a tela diz "Nova lista" | B | "Nova lista" nos dois |
 | 11 | Introdução, celular | O aviso de permissão bloqueada mistura instruções da web e do celular | B | Instrução só da plataforma em uso |
 
+**Y2 (16/10):** corrigidos #2 a #11 (D174); #1 mantido. Na segunda passada do roteiro, as telas conferem: título "Pastas" inteiro, "Nenhuma página", diálogo de página com nome e tipo e "Mais opções", projeto novo com "Criar a primeira lista" em destaque.
+
 Ficou de fora desta rodada: testar com 3 a 5 pessoas usando de verdade (observar sem ajudar) e medir tempo e toques antes e depois (ESCOPO_V5 §2).

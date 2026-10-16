@@ -184,7 +184,8 @@ export function QuickAdd({
             !pageId
               ? t('quickAdd.loading')
               : online
-                ? (placeholder ?? t('quickAdd.placeholder'))
+                ? // Y2 (#7): no celular, o texto curto (o longo ficava cortado)
+                  (placeholder ?? t(wide ? 'quickAdd.placeholder' : 'quickAdd.placeholderShort'))
                 : t('quickAdd.offline')
           }
           placeholderTextColor={colors['ink-muted']}
@@ -215,7 +216,8 @@ export function QuickAdd({
           aria-disabled={!ready}
           className={textClass('min-h-10 flex-1 text-base text-ink md:text-sm')}
         />
-        {wide && ready && !text && (
+        {/* Y2 (#8): hábito tem as dicas próprias, embaixo do campo (data e @pessoa não servem) */}
+        {wide && ready && !text && !habit && (
           <Text className="font-mono text-xs text-ink-muted">{t('quickAdd.hint')}</Text>
         )}
         {ready && !habit && (

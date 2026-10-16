@@ -63,7 +63,7 @@ test('eu levo: em projeto, tarefa sem responsável vira minha num toque', async 
   await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Churrasco');
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
-  await page.getByRole('button', { name: 'Nova lista' }).click();
+  await page.getByRole('button', { name: 'Nova lista' }).first().click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Compras');
   await page.getByRole('button', { name: 'Salvar' }).click();
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
@@ -169,7 +169,7 @@ test('automação: concluir em "Dia" cria a tarefa seguinte em "Depois"', async 
   const project = page.url();
   for (const name of ['Dia', 'Depois']) {
     await page.goto(project);
-    await page.getByRole('button', { name: 'Nova lista' }).click();
+    await page.getByRole('button', { name: 'Nova lista' }).first().click();
     await page.getByPlaceholder('Nome (ex.: Treino A)').fill(name);
     await page.getByRole('button', { name: 'Salvar' }).click();
     await expect(page.getByRole('heading', { name: new RegExp(`${name}$`) })).toBeVisible();
@@ -213,7 +213,7 @@ test('aprovação: a tarefa mostra quem aprova e quem pode, conclui', async ({ p
   await page.keyboard.press('j');
   await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill('Reforma');
   await page.keyboard.press('Enter');
-  await page.getByRole('button', { name: 'Nova lista' }).click();
+  await page.getByRole('button', { name: 'Nova lista' }).first().click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Compras');
   await page.getByRole('button', { name: 'Salvar' }).click();
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });

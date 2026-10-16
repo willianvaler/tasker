@@ -134,7 +134,8 @@
     "mentionPick": "Atribuir a {{name}}",
     "prereqList": "Tarefas do projeto",
     "prereqPick": "Depender de {{name}}",
-    "prereqUnresolved": "Não liguei {{names}}: nenhuma tarefa ou mais de uma com esse nome."
+    "prereqUnresolved": "Não liguei {{names}}: nenhuma tarefa ou mais de uma com esse nome.",
+    "placeholderShort": "Nova tarefa…"
   },
   "boss": {
     "level": "nv {{level}}",
@@ -372,7 +373,8 @@
     "projects": "Projetos",
     "moveTo": "Mover para…",
     "moveTitle": "Mover \"{{name}}\" para",
-    "moved": "Movida para {{name}}"
+    "moved": "Movida para {{name}}",
+    "pages_zero": "Nenhuma página"
   },
   "pageDialog": {
     "new": "Nova página",
@@ -397,7 +399,8 @@
     "resetAuto": "Os checks voltam sozinhos; o histórico fica guardado.",
     "labelDaily": "Reinicia todo dia",
     "labelWeekly": "Reinicia toda segunda",
-    "labelManual": "Reinício manual"
+    "labelManual": "Reinício manual",
+    "more": "Mais opções (ícone, reinício, níveis)"
   },
   "profile": {
     "title": "Perfil",
@@ -604,7 +607,8 @@
     "item": {
       "new": "Nova lista",
       "count_one": "{{count}} lista",
-      "count_other": "{{count}} listas"
+      "count_other": "{{count}} listas",
+      "count_zero": "Nenhuma lista"
     },
     "milestones": "Marcos",
     "milestonesEmpty": "Nenhum marco ainda. Marcos são as datas-chave do projeto.",
@@ -627,7 +631,10 @@
     "people": "Pessoas",
     "team": "Time {{name}}",
     "autoCompleteParent": "Concluir a tarefa-mãe sozinha",
-    "autoCompleteParentHint": "Quando a última subtarefa termina, a mãe também é concluída."
+    "autoCompleteParentHint": "Quando a última subtarefa termina, a mãe também é concluída.",
+    "emptyHint": "Projeto novo. Comece pela primeira lista: as tarefas do projeto ficam nas listas.",
+    "firstList": "Criar a primeira lista",
+    "showSetup": "Configurações do projeto (marcos, boss, automações…)"
   },
   "auth": {
     "signInTitle": "Entre na sua conta",
@@ -1682,7 +1689,9 @@
     "allow": "Permitir notificações",
     "test": "Testar aviso",
     "testTitle": "Teste do aviso",
-    "testBody": "Assim avisa o fim do descanso e do foco."
+    "testBody": "Assim avisa o fim do descanso e do foco.",
+    "deniedWeb": "Bloqueado neste navegador. Toque no cadeado ao lado do endereço → Notificações → Permitir.",
+    "deniedApp": "Bloqueado. Abra Configurações → Apps → Questlist → Notificações e ligue."
   },
   "panelMode": {
     "title": "Mostrar no painel",
