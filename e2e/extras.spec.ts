@@ -173,11 +173,22 @@ test('automação: concluir em "Dia" cria a tarefa seguinte em "Depois"', async 
     await page.getByPlaceholder('Nome (ex.: Treino A)').fill(name);
     await page.getByRole('button', { name: 'Salvar' }).click();
     await expect(page.getByRole('heading', { name: new RegExp(`${name}$`) })).toBeVisible();
+    // Recarregar antes de a lista chegar ao servidor cancela o envio (no CI, "Dia" sumia às vezes)
+    const pageId = page.url().split('/page/')[1]?.split(/[?#]/)[0];
+    await expect
+      .poll(async () => (await adminRest(`pages?id=eq.${pageId}&select=id`)).length, {
+        timeout: 20_000,
+      })
+      .toBe(1);
   }
   const depois = page.url();
 
   await page.goto(project);
-  await page.getByRole('button', { name: 'Automações' }).click();
+  // A tela do projeto troca o layout quando as listas carregam (Y2): o primeiro clique pode se perder
+  await expect(async () => {
+    await page.getByRole('button', { name: 'Automações' }).click({ timeout: 5_000 });
+    await expect(page.getByRole('heading', { name: 'Automações' })).toBeVisible({ timeout: 3_000 });
+  }).toPass({ timeout: 30_000 });
   await page.getByRole('radio', { name: 'Dia', exact: true }).first().click();
   await page.getByRole('textbox', { name: 'Título da tarefa nova' }).fill('Limpar a churrasqueira');
   await page.getByRole('radio', { name: 'Depois', exact: true }).last().click();
