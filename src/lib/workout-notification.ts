@@ -11,7 +11,17 @@ import { tr } from '@/lib/i18n-ref';
 
 export type WorkoutAction = 'done' | 'skip_rest' | 'plus30';
 
-const ID = 'questlist-workout';
+// Cada atualização ganha um id novo (e a anterior sai): o Android reaproveitava os botões da versão
+// anterior da notificação e o toque em "Pular descanso"/"+30 s" não chegava
+const ID_PREFIX = 'questlist-workout-';
+let currentId: string | null = null;
+let seq = 0;
+// Mostrar e apagar em fila, na ordem: um "apagar" atrasado não pode levar a notificação nova
+let chain: Promise<unknown> = Promise.resolve();
+const enqueue = (job: () => Promise<void>) => {
+  chain = chain.then(job, job).catch(() => {});
+  return chain;
+};
 const CHANNEL = 'workout';
 const CATEGORY_SET = 'workout_set';
 const CATEGORY_REST = 'workout_rest';
@@ -57,31 +67,39 @@ export async function showWorkoutNotification(content: {
   body: string;
   resting: boolean;
 }) {
-  if (!(await Notifications.getPermissionsAsync()).granted) return;
-  await setup();
-  await Notifications.scheduleNotificationAsync({
-    identifier: ID,
-    content: {
-      title: content.title,
-      body: content.body,
-      categoryIdentifier: content.resting ? CATEGORY_REST : CATEGORY_SET,
-      sticky: true,
-      autoDismiss: false,
-      sound: false,
-      data: { workout: true },
-    },
-    trigger: Platform.OS === 'android' ? { channelId: CHANNEL } : null,
+  return enqueue(async () => {
+    if (!(await Notifications.getPermissionsAsync()).granted) return;
+    await setup();
+    const id = `${ID_PREFIX}${Date.now()}-${++seq}`;
+    await Notifications.scheduleNotificationAsync({
+      identifier: id,
+      content: {
+        title: content.title,
+        body: content.body,
+        categoryIdentifier: content.resting ? CATEGORY_REST : CATEGORY_SET,
+        sticky: true,
+        autoDismiss: false,
+        sound: false,
+        data: { workout: true },
+      },
+      trigger: Platform.OS === 'android' ? { channelId: CHANNEL } : null,
+    });
+    if (currentId) await Notifications.dismissNotificationAsync(currentId).catch(() => {});
+    currentId = id;
   });
 }
 
-export async function clearWorkoutNotification() {
-  await Notifications.dismissNotificationAsync(ID).catch(() => {});
+export function clearWorkoutNotification() {
+  return enqueue(async () => {
+    if (currentId) await Notifications.dismissNotificationAsync(currentId).catch(() => {});
+    currentId = null;
+  });
 }
 
 /** Toques nos botões da notificação do treino; devolve a função de parar de ouvir */
 export function onWorkoutAction(handler: (action: WorkoutAction) => void) {
   const sub = Notifications.addNotificationResponseReceivedListener((response) => {
-    if (response.notification.request.identifier !== ID) return;
+    if (!response.notification.request.identifier.startsWith(ID_PREFIX)) return;
     const action = response.actionIdentifier as WorkoutAction;
     if (ACTIONS.includes(action)) handler(action);
   });

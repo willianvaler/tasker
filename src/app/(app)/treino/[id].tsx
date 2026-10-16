@@ -100,10 +100,18 @@ export default function WorkoutScreen() {
     if (Platform.OS !== 'web') ensureAlertPermission().catch(() => false);
   }, []);
 
+  // X1: sair do treino (fechar a tela) tira a série da tela de bloqueio. Fica aqui, e não na tela
+  // da série, porque ela remonta (ex.: quando a primeira sincronização termina)
+  useEffect(() => () => void clearWorkoutNotification(), []);
+
   const [chosen, setChosen] = useState<number | null>(null);
   const pending = nextPending(items, 0, session.skipped);
   const index = chosen != null && chosen < items.length ? chosen : pending;
   const finished = pending === -1 && (chosen == null || items[chosen]?.done !== false);
+  // Treino terminado (resumo na tela): a série sai da tela de bloqueio
+  useEffect(() => {
+    if (finished) void clearWorkoutNotification();
+  }, [finished]);
 
   if (tasks.isPending) return <Shell title={page ? pageLabel(page) : ''}>{null}</Shell>;
   if (items.length === 0)
@@ -292,8 +300,6 @@ function Running({
       () => {},
     );
   }, [lockTitle, lockBody, restUntil]);
-  // Sai do treino (ou ele acaba): a notificação some
-  useEffect(() => () => void clearWorkoutNotification(), []);
   // Os botões da notificação chamam a versão mais nova das ações
   const lockActions = useRef({ done, skipRest: () => {}, plus30: () => {} });
   useEffect(() => {
