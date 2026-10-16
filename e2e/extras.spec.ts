@@ -25,7 +25,8 @@ test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na sele
       { timeout: 20_000 },
     )
     .toBe(1);
-  const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+  // Dois dias atrás: "ontem" em UTC pode ser hoje no fuso da conta (São Paulo) perto da meia-noite
+  const yesterday = new Date(Date.now() - 2 * 86_400_000).toISOString().slice(0, 10);
   await adminRest(`tasks?title=eq.${encodeURIComponent(title)}`, {
     method: 'PATCH',
     body: JSON.stringify({ due_date: yesterday }),
