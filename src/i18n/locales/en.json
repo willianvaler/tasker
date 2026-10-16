@@ -1379,12 +1379,11 @@
     "elapsed": "Workout time: {{time}}",
     "progress": "{{done}} of {{total}} sets",
     "finishedTitle": "Workout complete",
-    "summaryTime": "Time",
-    "summarySets": "Sets",
-    "summaryVolume": "Volume",
-    "summaryXp": "XP",
-    "summarySkipped": "Skipped",
-    "finish": "Finish"
+    "allDone": "Everything on this list is done.",
+    "toastSets_one": "{{count}} set",
+    "toastSets_other": "{{count}} sets",
+    "toastSkipped_one": "{{count}} skipped",
+    "toastSkipped_other": "{{count}} skipped"
   },
   "pomodoro": {
     "title": "Pomodoro",

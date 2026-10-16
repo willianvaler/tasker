@@ -154,6 +154,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **Y1** Revisão de usabilidade: percorrer as tarefas principais e anotar os atritos (`docs/USABILIDADE.md`)
 - [x] **Y2** Corrigir os atritos encontrados (D174)
 - [x] **Z1** Segurança do servidor no PC (D175): portão do `/supabase` e segredos próprios do Supabase local (`docs/OPERACOES.md`, "Segurança")
+- [x] **Z2** Treino fecha sozinho com aviso de resumo; aviso preto fecha em 10 s sem reabrir (D176)
 
 ## Fase W — Correções do dono (15/10, noite)
 

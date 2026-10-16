@@ -69,13 +69,14 @@ export function useToggleWithUndo() {
       label: t('common.undo'),
       onPress: () => toggle.mutate({ id: task.id, done: false }),
     };
-    toast({ message, action: undo });
+    const key = `done:${task.id}`;
+    toast({ message, action: undo, key });
     // A recompensa entra no mesmo aviso, sem perder o "Desfazer". mutateAsync, não onSuccess: a
     // linha concluída pode sair da lista antes da resposta, e o onSuccess de quem desmontou não roda
     toggle.mutateAsync({ id: task.id, done, nextDue }).then(
       (summary) => {
         const reward = summary && game.data?.enabled !== false ? rewardMessage(summary) : null;
-        if (reward) toast({ message: `${message} · ${reward}`, action: undo });
+        if (reward) toast({ message: `${message} · ${reward}`, action: undo, key, update: true });
       },
       () => {},
     );

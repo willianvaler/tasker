@@ -6,11 +6,24 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
 import { DURATION } from '@/lib/tokens';
 
-type Toast = { id: number; message: string; action?: { label: string; onPress: () => void } };
+type Toast = {
+  id: number;
+  message: string;
+  action?: { label: string; onPress: () => void };
+  /** Identifica o aviso para uma atualização depois (ex.: a recompensa que chega do servidor) */
+  key?: string;
+  /**
+   * Só atualiza o aviso com a mesma `key` se ele ainda estiver na tela, sem reiniciar o tempo;
+   * se já saiu, não volta (a recompensa atrasada reabria o aviso e ele parecia não fechar)
+   */
+  update?: boolean;
+};
+export type ToastInput = Omit<Toast, 'id'>;
 
-const ToastContext = createContext<(toast: Omit<Toast, 'id'>) => void>(() => {});
+const ToastContext = createContext<(toast: ToastInput) => void>(() => {});
 
-const DURATION_MS = 5000;
+/** Pedido do dono (16/10): o aviso fecha sozinho em 10 s, contados de quando apareceu */
+export const TOAST_MS = 10_000;
 
 /** Ação do aviso na tela (o "Desfazer"), para o Ctrl+Z. */
 let visibleAction: (() => void) | null = null;
@@ -25,27 +38,41 @@ export function undoLast() {
 /** Aviso curto no rodapé, com ação opcional (ex.: "Desfazer"). Um por vez; o novo substitui o anterior. */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toast, setToast] = useState<Toast | null>(null);
+  const current = useRef<Toast | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const wide = width >= 768;
   const reduced = useReducedMotion();
 
-  const show = useCallback((next: Omit<Toast, 'id'>) => {
+  const show = useCallback((next: ToastInput) => {
+    const visible = current.current;
+    if (next.update) {
+      // Atualiza o que está na tela, no mesmo tempo; o que já saiu não volta
+      if (!visible || !next.key || visible.key !== next.key) return;
+      const updated = { ...visible, message: next.message, action: next.action ?? visible.action };
+      current.current = updated;
+      setToast(updated);
+      return;
+    }
     if (timer.current) clearTimeout(timer.current);
     const id = Date.now();
-    setToast({ ...next, id });
+    const shown = { ...next, id };
+    current.current = shown;
+    setToast(shown);
     visibleAction = next.action
       ? () => {
           next.action?.onPress();
           visibleAction = null;
+          if (current.current?.id === id) current.current = null;
           setToast((t) => (t?.id === id ? null : t));
         }
       : null;
     timer.current = setTimeout(() => {
+      if (current.current?.id === id) current.current = null;
       setToast((t) => (t?.id === id ? null : t));
       if (visibleAction && next.action) visibleAction = null;
-    }, DURATION_MS);
+    }, TOAST_MS);
   }, []);
 
   return (
@@ -76,6 +103,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   className="min-h-11 justify-center rounded px-3 md:min-h-8"
                   onPress={() => {
                     toast.action?.onPress();
+                    current.current = null;
                     setToast(null);
                   }}
                 >

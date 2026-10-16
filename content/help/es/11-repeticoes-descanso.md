@@ -8,7 +8,7 @@ Tras cada serie empieza el **descanso** (60 s por defecto; cámbialo en "Cuánta
 
 ## Modo Entrenamiento
 
-En páginas de tarjetas o con tareas que tienen series, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al final, un resumen con tiempo, series, volumen y XP. Funciona sin internet y mantiene la pantalla encendida.
+En páginas de tarjetas o con tareas que tienen series, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al terminar el último ejercicio, el entrenamiento se cierra solo y un aviso corto muestra series, tiempo, volumen y XP. Funciona sin internet y mantiene la pantalla encendida.
 
 **Sin desbloquear el móvil (Android):** con el Modo Entrenamiento abierto, la serie aparece en la pantalla de bloqueo con **Hecha**, **Saltar descanso** y **+30 s**. Toca la flecha de la notificación para ver los botones. Con el móvil bloqueado, lo que marques queda en el dispositivo y se sube cuando vuelvas a abrir la app.
 

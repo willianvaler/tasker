@@ -82,12 +82,14 @@ export function useHabitTickWithToast() {
     const action = plusminus
       ? { label: t('common.undo'), onPress: () => undo.mutate(vars) }
       : undefined;
-    if (plusminus) toast({ message, action });
+    const key = `habit:${task.id}`;
+    if (plusminus) toast({ message, action, key });
     // mutateAsync: a recompensa chega mesmo se a linha sair da tela antes (ver useToggleWithUndo)
     tick.mutateAsync(vars).then(
       (summary) => {
         const reward = summary && game.data?.enabled !== false ? rewardMessage(summary) : null;
-        if (reward) toast({ message: `${message} · ${reward}`, action });
+        // Contador: o aviso nasce com a recompensa; bom/ruim: atualiza o que já está na tela
+        if (reward) toast({ message: `${message} · ${reward}`, action, key, update: plusminus });
       },
       () => {},
     );

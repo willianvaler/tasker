@@ -1379,12 +1379,11 @@
     "elapsed": "Tempo de treino: {{time}}",
     "progress": "{{done}} de {{total}} séries",
     "finishedTitle": "Treino concluído",
-    "summaryTime": "Tempo",
-    "summarySets": "Séries",
-    "summaryVolume": "Volume",
-    "summaryXp": "XP",
-    "summarySkipped": "Pulados",
-    "finish": "Concluir"
+    "allDone": "Tudo feito nesta lista.",
+    "toastSets_one": "{{count}} série",
+    "toastSets_other": "{{count}} séries",
+    "toastSkipped_one": "{{count}} pulado",
+    "toastSkipped_other": "{{count}} pulados"
   },
   "pomodoro": {
     "title": "Pomodoro",

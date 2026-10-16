@@ -1,6 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { ChevronLeft, Pause, Play, SkipForward, X } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
+import i18next, { type TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,6 +16,7 @@ import { cn } from '@/lib/cn';
 import type { Json } from '@/lib/db';
 import { metaLabel } from '@/components/tasks/task-meta';
 import type { TaskMeta } from '@/lib/parser/quick';
+import { useGameState } from '@/lib/queries/game';
 import { useMyProgress } from '@/lib/queries/repeat';
 import { usePageTasks, useToggleTask, useUpdateTask } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
@@ -39,11 +41,13 @@ import {
   workoutProgress,
   type WorkoutItem,
 } from '@/lib/workout';
+import { useToast } from '@/providers/toast';
 import { useTaskCan } from '@/providers/write';
 
 // Modo Treino (J5, D127): a página em sequência guiada, em tela cheia. Cada "Feita" conta uma
 // série pelo log_rep (offline também), o descanso começa sozinho e, terminado o exercício, passa
-// para o próximo. O andamento do treino (tempo, volume, pulados) fica no aparelho até "Concluir".
+// para o próximo. O andamento do treino (tempo, volume, pulados) fica no aparelho até o fim: feito
+// o último exercício, o treino fecha sozinho com um aviso curto do que foi feito (16/10).
 
 type Session = {
   startedAt: number;
@@ -108,10 +112,35 @@ export default function WorkoutScreen() {
   const pending = nextPending(items, 0, session.skipped);
   const index = chosen != null && chosen < items.length ? chosen : pending;
   const finished = pending === -1 && (chosen == null || items[chosen]?.done !== false);
-  // Treino terminado (resumo na tela): a série sai da tela de bloqueio
+
+  // Fim do treino: espera (no máximo 1,5 s) a resposta da última série para o XP entrar no aviso,
+  // tira a série da tela de bloqueio, encerra o descanso que sobrou e sai com o resumo num aviso
+  const toast = useToast();
+  const game = useGameState();
+  const rest = useLiveTimer();
+  const lastResult = useRef<Promise<unknown>>(Promise.resolve());
+  const latest = useRef(session);
   useEffect(() => {
-    if (finished) void clearWorkoutNotification();
-  }, [finished]);
+    latest.current = session;
+  });
+  useEffect(() => {
+    if (!finished || tasks.isPending || items.length === 0) return;
+    void clearWorkoutNotification();
+    if (rest.timer?.kind === 'rest') rest.act('cancel');
+    let gone = false;
+    const wait = new Promise((resolve) => setTimeout(resolve, 1500));
+    void Promise.race([lastResult.current.catch(() => {}), wait]).then(() => {
+      if (gone) return;
+      const s = latest.current;
+      toast({ message: finishedMessage(s, game.data?.enabled !== false, t) });
+      localStore.removeItem(sessionKey(id));
+      close();
+    });
+    return () => {
+      gone = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [finished, tasks.isPending]);
 
   if (tasks.isPending) return <Shell title={page ? pageLabel(page) : ''}>{null}</Shell>;
   if (items.length === 0)
@@ -122,15 +151,11 @@ export default function WorkoutScreen() {
     );
   if (finished)
     return (
-      <Summary
-        title={page ? pageLabel(page) : ''}
-        session={session}
-        skipped={session.skipped.length}
-        onFinish={() => {
-          localStore.removeItem(sessionKey(id));
-          close();
-        }}
-      />
+      <Shell title={page ? pageLabel(page) : ''}>
+        <Text className="text-xl font-semibold text-ink" accessibilityRole="header">
+          {t('workout.finishedTitle')}
+        </Text>
+      </Shell>
     );
   return (
     <Running
@@ -141,6 +166,9 @@ export default function WorkoutScreen() {
       session={session}
       setSession={setSession}
       goTo={setChosen}
+      onResult={(result) => {
+        lastResult.current = result;
+      }}
     />
   );
 }
@@ -191,6 +219,7 @@ function Running({
   session,
   setSession,
   goTo,
+  onResult,
 }: {
   title: string;
   cards: boolean;
@@ -199,6 +228,8 @@ function Running({
   session: Session;
   setSession: (update: (s: Session) => Session) => void;
   goTo: (index: number | null) => void;
+  /** A resposta da série (o fim do treino espera a última, para o XP) */
+  onResult: (result: Promise<unknown>) => void;
 }) {
   const { t, i18n } = useTranslation();
   const item = items[index];
@@ -231,13 +262,16 @@ function Running({
     if (item.repeats) {
       const values = { weight: meta.weight ?? null, reps: meta.reps ?? null };
       const { next, result } = logSet(task, item.plan, item.reps, 1, values);
+      onResult(result);
       result.then(
         (r) => addXp(r?.summary?.xp),
         () => {},
       );
       if (next >= item.plan.total) advance();
     } else {
-      toggle.mutateAsync({ id: task.id, done: true }).then(
+      const result = toggle.mutateAsync({ id: task.id, done: true });
+      onResult(result);
+      result.then(
         (s) => addXp(s?.xp),
         () => {},
       );
@@ -446,49 +480,21 @@ function Running({
   );
 }
 
-function Summary({
-  title,
-  session,
-  skipped,
-  onFinish,
-}: {
-  title: string;
-  session: Session;
-  skipped: number;
-  onFinish: () => void;
-}) {
-  const { t, i18n } = useTranslation();
-  // Na hora em que o resumo abriu (o treino acabou)
-  const [elapsed] = useState(() => workoutElapsed(session, Date.now()));
-  const volume = new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 1 }).format(
+/** "Treino concluído · 12 séries · 42:10 · 1.250 kg · +60 XP · 1 pulado" */
+function finishedMessage(session: Session, game: boolean, t: TFunction) {
+  const elapsed = workoutElapsed(session, Date.now());
+  if (session.sets === 0 && session.skipped.length === 0) return t('workout.allDone');
+  const volume = new Intl.NumberFormat(i18next.language, { maximumFractionDigits: 1 }).format(
     session.volume,
   );
-  const rows = [
-    { label: t('workout.summaryTime'), value: formatClock(elapsed) },
-    { label: t('workout.summarySets'), value: String(session.sets) },
-    ...(session.volume > 0 ? [{ label: t('workout.summaryVolume'), value: `${volume} kg` }] : []),
-    { label: t('workout.summaryXp'), value: `+${session.xp}` },
-    ...(skipped ? [{ label: t('workout.summarySkipped'), value: String(skipped) }] : []),
-  ];
-  return (
-    <Shell title={title}>
-      <Text className="text-xl font-semibold text-ink" accessibilityRole="header">
-        {t('workout.finishedTitle')}
-      </Text>
-      <View className="gap-1" accessibilityRole="list">
-        {rows.map((row) => (
-          <View
-            key={row.label}
-            accessibilityRole="text"
-            accessibilityLabel={`${row.label}: ${row.value}`}
-            className="min-h-11 flex-row items-center border-b border-line"
-          >
-            <Text className="flex-1 text-base text-ink">{row.label}</Text>
-            <Text className="font-mono text-base text-ink">{row.value}</Text>
-          </View>
-        ))}
-      </View>
-      <Button label={t('workout.finish')} onPress={onFinish} />
-    </Shell>
-  );
+  return [
+    t('workout.finishedTitle'),
+    t('workout.toastSets', { count: session.sets }),
+    formatClock(elapsed),
+    session.volume > 0 ? `${volume} kg` : null,
+    game && session.xp > 0 ? `+${session.xp} XP` : null,
+    session.skipped.length ? t('workout.toastSkipped', { count: session.skipped.length }) : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 }

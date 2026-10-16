@@ -124,12 +124,14 @@ export function useRepWithToast() {
     const { next, result } = logSet(task, plan, reps, delta);
     const action = { label: t('common.undo'), onPress: () => undo(task, plan, next) };
     const message = t('repeat.logged', { title: task.title, done: next, total: plan.total });
-    if (delta === 1) toast({ message, action });
+    const key = `rep:${task.id}`;
+    if (delta === 1) toast({ message, action, key });
     result.then(
       (rep) => {
         const reward =
           rep?.summary && game.data?.enabled !== false ? rewardMessage(rep.summary) : null;
-        if (reward && delta === 1) toast({ message: `${message} · ${reward}`, action });
+        if (reward && delta === 1)
+          toast({ message: `${message} · ${reward}`, action, key, update: true });
       },
       (err: Error) => toast({ message: err.message }),
     );

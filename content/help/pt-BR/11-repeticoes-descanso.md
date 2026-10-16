@@ -8,7 +8,7 @@ Depois de cada série começa o **descanso** (60 s por padrão; mude em "Quantas
 
 ## Modo Treino
 
-Em páginas de cards ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. No fim, um resumo com tempo, séries, volume e XP. Funciona sem internet e mantém a tela acesa.
+Em páginas de cards ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o treino fecha sozinho e um aviso curto mostra séries, tempo, volume e XP. Funciona sem internet e mantém a tela acesa.
 
 **Sem destravar o celular (Android):** com o Modo Treino aberto, a série aparece na tela de bloqueio, com **Feita**, **Pular descanso** e **+30 s**. Toque na setinha da notificação para ver os botões. Com o celular travado, o que você marca fica no aparelho e sobe quando você abrir o app de novo.
 
