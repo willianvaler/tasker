@@ -182,11 +182,12 @@ test('automação: concluir em "Dia" cria a tarefa seguinte em "Depois"', async 
   await page.getByRole('textbox', { name: 'Título da tarefa nova' }).fill('Limpar a churrasqueira');
   await page.getByRole('radio', { name: 'Depois', exact: true }).last().click();
   await page.getByRole('button', { name: 'Criar automação' }).click();
+  // A lista relê depois do servidor responder (no CI, mais de 5 s às vezes)
   await expect(
     page.getByText(
       'Quando uma tarefa for concluída em Dia, criar "Limpar a churrasqueira" em Depois',
     ),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 15_000 });
 
   await page.goto(project);
   await page.getByRole('link', { name: 'Dia' }).last().click();

@@ -30,7 +30,9 @@ test('anexar foto e arquivo na tarefa', async ({ page }, testInfo) => {
   let chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Anexar' }).click();
   await page.getByRole('menuitem', { name: 'Foto ou imagem' }).click();
-  await (await chooser).setFiles({
+  await (
+    await chooser
+  ).setFiles({
     name: 'parede.png',
     mimeType: 'image/png',
     buffer: Buffer.from(png, 'base64'),
@@ -41,9 +43,11 @@ test('anexar foto e arquivo na tarefa', async ({ page }, testInfo) => {
   // Foi reduzida: lado maior 2048, WebP, com miniatura
   type Row = { width: number; height: number; mime: string; thumb_path: string | null };
   const latest = async () =>
-    ((await adminRest(
-      `task_attachments?select=*&name=eq.parede.png&order=created_at.desc&limit=1`,
-    )) as Row[])[0];
+    (
+      (await adminRest(
+        `task_attachments?select=*&name=eq.parede.png&order=created_at.desc&limit=1`,
+      )) as Row[]
+    )[0];
   await expect.poll(latest, { timeout: 20_000 }).toBeTruthy();
   const row = await latest();
   expect(row).toMatchObject({ width: 2048, height: 1365, mime: 'image/webp' });
@@ -57,7 +61,9 @@ test('anexar foto e arquivo na tarefa', async ({ page }, testInfo) => {
   chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Anexar' }).click();
   await page.getByRole('menuitem', { name: 'Arquivo' }).click();
-  await (await chooser).setFiles({
+  await (
+    await chooser
+  ).setFiles({
     name: 'orcamento.pdf',
     mimeType: 'application/pdf',
     buffer: Buffer.from('%PDF-1.4\n% teste\n'),
@@ -90,6 +96,23 @@ test('anexo sem internet entra na fila e sobe depois', async ({ page, context },
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   await input.fill(title);
   await input.press('Enter');
+  // A tarefa precisa estar no banco do aparelho antes de cair a internet (no CI lento, ela ainda
+  // estava descendo e o painel dizia que não existia)
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          async (t) =>
+            (await (
+              window as unknown as {
+                questlistDb: { getOptional: (q: string, p: unknown[]) => Promise<unknown> };
+              }
+            ).questlistDb.getOptional('select 1 from tasks where title = ?', [t])) != null,
+          title,
+        ),
+      { timeout: 20_000 },
+    )
+    .toBe(true);
   await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
 
   await context.setOffline(true);
@@ -97,7 +120,9 @@ test('anexo sem internet entra na fila e sobe depois', async ({ page, context },
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Anexar' }).click();
   await page.getByRole('menuitem', { name: 'Arquivo' }).click();
-  await (await chooser).setFiles({
+  await (
+    await chooser
+  ).setFiles({
     name,
     mimeType: 'application/pdf',
     buffer: Buffer.from('%PDF-1.4\n% recibo\n'),
@@ -130,17 +155,23 @@ test('limite por arquivo e uso no Perfil', async ({ page }, testInfo) => {
   let chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Anexar' }).click();
   await page.getByRole('menuitem', { name: 'Arquivo' }).click();
-  await (await chooser).setFiles({
+  await (
+    await chooser
+  ).setFiles({
     name: 'planta.zip',
     mimeType: 'application/zip',
     buffer: Buffer.alloc(11 * 1024 * 1024, 1),
   });
-  await expect(page.getByText('Não deu para anexar: Arquivo maior que 10 MB.').first()).toBeVisible();
+  await expect(
+    page.getByText('Não deu para anexar: Arquivo maior que 10 MB.').first(),
+  ).toBeVisible();
 
   chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Anexar' }).click();
   await page.getByRole('menuitem', { name: 'Arquivo' }).click();
-  await (await chooser).setFiles({
+  await (
+    await chooser
+  ).setFiles({
     name: 'planta.txt',
     mimeType: 'text/plain',
     buffer: Buffer.alloc(2048, 65),
