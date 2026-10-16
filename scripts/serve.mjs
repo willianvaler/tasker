@@ -7,6 +7,8 @@ import http from 'node:http';
 import net from 'node:net';
 import { extname, join, normalize } from 'node:path';
 
+import { checkSupabase } from './supabase-gate.mjs';
+
 const PORT = Number(process.env.PORT ?? 8081);
 const DIST = process.env.DIST ?? join(import.meta.dirname, '..', 'dist-remote');
 // APK do Android (npm run apk, U7): fica fora do dist-remote, que o deploy apaga
@@ -58,9 +60,11 @@ function serveFile(req, res) {
 // Segurança (W9): quem chega pela Cloudflare em http:// vai para https://, e as respostas do app
 // levam os cabeçalhos de proteção. HSTS só quando a visita veio por HTTPS (nunca no localhost).
 const viaHttp = (req) =>
-  req.headers['x-forwarded-proto'] === 'http' || /"scheme":"http"/.test(req.headers['cf-visitor'] ?? '');
+  req.headers['x-forwarded-proto'] === 'http' ||
+  /"scheme":"http"/.test(req.headers['cf-visitor'] ?? '');
 const viaHttps = (req) =>
-  req.headers['x-forwarded-proto'] === 'https' || /"scheme":"https"/.test(req.headers['cf-visitor'] ?? '');
+  req.headers['x-forwarded-proto'] === 'https' ||
+  /"scheme":"https"/.test(req.headers['cf-visitor'] ?? '');
 function securityHeaders(req) {
   return {
     'X-Content-Type-Options': 'nosniff',
@@ -113,21 +117,39 @@ function proxy(target, req, res) {
   req.pipe(upstream);
 }
 
+// D175: o /supabase passa pelo portão (rotas, apikey e token); o PowerSync confere o token sozinho
+async function guarded(target, req) {
+  if (target.prefix !== '/supabase') return null;
+  const denied = await checkSupabase(req.url.slice(target.prefix.length) || '/', req.headers).catch(
+    () => [500, 'erro no portão'],
+  );
+  if (denied) {
+    const who = req.headers['cf-connecting-ip'] ?? req.socket.remoteAddress;
+    console.warn(`Recusado (${denied[1]}): ${req.method} ${req.url.split('?')[0]} de ${who}`);
+  }
+  return denied;
+}
+
 const server = http.createServer((req, res) => {
   if (viaHttp(req) && req.headers.host) {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
     return res.end();
   }
   const target = upstreamFor(req.url);
-  if (target) proxy(target, req, res);
+  if (target)
+    guarded(target, req).then((denied) => {
+      if (!denied) return proxy(target, req, res);
+      res.writeHead(denied[0], { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end(denied[1]);
+    });
   else if (req.url.startsWith('/downloads/')) serveDownload(req, res);
   else serveFile(req, res);
 });
 
 // Websocket (Realtime, sync): repassa o pedido de upgrade e depois só copia os bytes
-server.on('upgrade', (req, socket, head) => {
+server.on('upgrade', async (req, socket, head) => {
   const target = upstreamFor(req.url);
-  if (!target) return socket.destroy();
+  if (!target || (await guarded(target, req))) return socket.destroy();
   const upstream = net.connect(target.port, target.host, () => {
     const headers = Object.entries({ ...req.headers, host: `${target.host}:${target.port}` })
       .map(([k, v]) => `${k}: ${v}`)

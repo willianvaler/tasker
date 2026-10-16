@@ -153,6 +153,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **X1** Treino pela tela de bloqueio (Android 14+): notificação fixa com Feita, Pular descanso e +30 s (D173)
 - [x] **Y1** Revisão de usabilidade: percorrer as tarefas principais e anotar os atritos (`docs/USABILIDADE.md`)
 - [x] **Y2** Corrigir os atritos encontrados (D174)
+- [ ] **Z1** Segurança do servidor no PC (D175): portão do `/supabase` no ar; segredos próprios prontos em `supabase/.env.local` e `signing_keys.json`, valem no próximo reinício do Supabase (`docs/OPERACOES.md`, "Segurança")
 
 ## Fase W — Correções do dono (15/10, noite)
 

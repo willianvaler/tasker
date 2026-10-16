@@ -57,3 +57,6 @@ public/@powersync/
 
 # APK gerado por npm run apk (U7)
 /downloads
+
+# Chave de assinatura dos logins (segredo desta máquina)
+supabase/signing_keys.json

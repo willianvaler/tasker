@@ -14,6 +14,23 @@ Como o Questlist roda nesta máquina e como guardar e recuperar os dados.
 
 `systemctl --user status tasker-db tasker-powersync tasker-web tasker-tunnel tasker-quick`. O linger está ligado: sobem no boot, sem login.
 
+## Segurança (D175)
+
+O túnel só expõe a porta 8081 (`tasker-web`). O resto (Postgres 54322, Studio 54323, Mailpit 54324, PowerSync 8095) não sai da máquina: o `ufw` recusa por padrão o que chega da rede (`DEFAULT_INPUT_POLICY="DROP"`; só o KDE Connect tem porta aberta). Não abra essas portas no firewall nem crie rotas para elas no painel da Cloudflare.
+
+**Portão do `/supabase`** (`scripts/supabase-gate.mjs`, usado pelo `serve.mjs`): só passam auth, rest, realtime e storage (nunca `/auth/v1/admin`, `/pg`, `/functions`...); `apikey` só a publicável; `Authorization: Bearer` só a publicável ou um login ES256 assinado por uma chave do JWKS do Auth local, com papel `authenticated`/`anon` e dentro da validade. Recusas aparecem no log: `journalctl --user -u tasker-web | grep Recusado`.
+
+**Segredos próprios desta máquina.** A chave secreta, o segredo de JWT e a chave de assinatura padrão do CLI são públicos (estão na documentação do Supabase). Por isso esta máquina usa os seus, fora do git:
+
+- `supabase/.env.local`: `SUPABASE_AUTH_JWT_SECRET`, `SUPABASE_AUTH_SECRET_KEY` (`sb_secret_...`) e `SUPABASE_AUTH_SIGNING_KEYS_PATH=./signing_keys.json`;
+- `supabase/signing_keys.json`: chave ES256 dos logins (`npx supabase gen signing-key --algorithm ES256`, guardada como lista `[{...}]`, permissão 600).
+
+Para valer (ou depois de trocar): `npx supabase stop && npx supabase start` (os dados ficam nos volumes), atualize a `storage_key` (seção Anexos), `systemctl --user restart tasker-powersync tasker-web` e confira com `npx supabase status` que a chave secreta não é mais a padrão. **Todos precisam entrar de novo** (os logins antigos foram assinados pela chave padrão). A chave publicável continua a padrão: ela é pública de propósito e vai dentro do app.
+
+**O PC.** O túnel sai daqui para a Cloudflare (nada entra pelo roteador). Mesmo assim: mantenha o sistema atualizado, deixe o ufw ligado, use senha forte e 2FA no RustDesk e na conta da Cloudflare, e faça backups (seção Backup) fora da máquina. Se o app crescer, o caminho é tirá-lo deste PC: um servidor dedicado ou uma VM, ou o Supabase hospedado (`PUBLICACAO.md`).
+
+**HTTPS** é configurado no painel do **domínio** `wavdev.org` na Cloudflare, não no túnel: SSL/TLS → Edge Certificates → "Always Use HTTPS" ligado e "Minimum TLS Version" 1.2. O endereço de origem do túnel continua `http://localhost:8081`: o trecho Cloudflare → PC já vai cifrado dentro do túnel, e o `serve.mjs` não tem certificado (com `https://` na origem, o túnel não conecta).
+
 ## Backup
 
 O que importa é o banco `postgres` (dados e contas). O `powersync_storage` é derivado e se refaz sozinho.
