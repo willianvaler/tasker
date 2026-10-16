@@ -66,7 +66,7 @@ Sem isso, a fila só cresce (nada se perde; apaga quando configurar). Em produç
 - **Ferramentas** (já instaladas nesta máquina, fora do sistema): JDK 17 em `~/.local/share/android-build/jdk-17*` e Android SDK em `~/Android/Sdk` (plataforma 36, build-tools 36, NDK e CMake que o Gradle baixou). Leva uns 10 min do zero; depois, menos.
 - **Chave de assinatura:** `~/.config/questlist/release.keystore`, com a senha em `~/.config/questlist/keystore.env` (criadas no primeiro build, **fora do repositório**). Faça backup das duas: com outra chave, o Android não instala por cima e quem tem o app precisa desinstalar (perde o que não sincronizou).
 - **Endereços:** o APK fala com `https://tasker.wavdev.org/supabase` e `/powersync` (mude com `QUESTLIST_URL=... npm run apk`).
-- **Arquitetura:** só `arm64-v8a` (todo Android dos últimos anos). Para um emulador x86_64: `APK_ARCHS=arm64-v8a,x86_64 npm run apk`.
+- **Arquitetura:** `arm64-v8a` e `armeabi-v7a` (celulares de entrada que rodam em 32 bits, como Motorolas com chip Unisoc). Para um emulador x86_64: `APK_ARCHS=armeabi-v7a,arm64-v8a,x86_64 npm run apk`.
 - **Versão:** o código da versão é o número de commits; o app instalado compara com o `apk.json` para avisar que há versão nova.
 - Push (notificação vinda do servidor) não funciona no APK: precisa do Firebase, que depende da conta do dono. Os avisos do timer (locais) funcionam.
 

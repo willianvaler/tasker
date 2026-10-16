@@ -60,9 +60,9 @@ CI=1 npx expo prebuild --platform android --clean --no-install >/dev/null
 sed -i -E "s/versionCode [0-9]+/versionCode $CODE/; s/versionName \"[^\"]+\"/versionName \"$VERSION ($COMMIT)\"/" \
   android/app/build.gradle
 
-# Só arm64-v8a (praticamente todo Android atual): ~1/3 do tamanho do APK com as quatro arquiteturas
+# arm64-v8a (a maioria) e armeabi-v7a (celulares de entrada em 32 bits, ex.: Motorola com Unisoc e Android Go)
 (cd android && ./gradlew --no-daemon -q assembleRelease \
-  -PreactNativeArchitectures="${APK_ARCHS:-arm64-v8a}" \
+  -PreactNativeArchitectures="${APK_ARCHS:-armeabi-v7a,arm64-v8a}" \
   -Pandroid.injected.signing.store.file="$KEYSTORE" \
   -Pandroid.injected.signing.store.password="$STORE_PASSWORD" \
   -Pandroid.injected.signing.key.alias=questlist \
