@@ -97,6 +97,16 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 Já feitos no commit `9e03581`: telas mais largas no computador (listas até 1152 px), barra lateral redimensionável, espaço entre a contagem do hábito bom/ruim e o nome da página, e respiro no hover dos bosses no Início. Continuar revendo as telas no computador para aproveitar a largura (duas colunas onde fizer sentido).
 
+## 7.1 Sessão que sobrevive ao servidor fora do ar (pedido do dono em 17/10/2026)
+
+Hoje, quando o APK não consegue falar com o servidor (servidor desligado, reiniciando, túnel caído), o app **desloga** e a pessoa precisa entrar de novo. O certo:
+
+- **Não sair da conta por falta de servidor.** Só sai por "Sair" ou quando o servidor responde de fato que a sessão acabou (senha trocada, conta apagada, sessão revogada). Erro de rede, tempo esgotado, 5xx ou túnel fora do ar **não** contam.
+- **Continuar usando com o que está no aparelho:** o banco local (PowerSync) e a fila já existem (D86). Criar, marcar e editar seguem gravando no aparelho, com o aviso "sem conexão com o servidor".
+- **Sincronizar sozinho quando o servidor voltar:** renovar o token assim que der e enviar a fila, sem pedir login. Token vencido sem servidor não é motivo para sair: espera e tenta de novo (com intervalo crescente).
+- **Mostrar o estado:** distinguir "sem internet" de "servidor fora do ar", e "sessão expirada, entre de novo" (só quando o servidor disse isso).
+- Aceite: com o servidor parado por 1 h (mais que a validade do token), o app aberto e fechado várias vezes continua logado e usável; ao religar o servidor, tudo o que foi feito sobe sem login.
+
 ---
 
 ## 8. Decisões em aberto (perguntar quando chegar a hora)
