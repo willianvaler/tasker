@@ -40,7 +40,8 @@ for kind in db storage; do
   # uma fotografia consistente (como uma queda de energia: o Postgres se recupera pelo WAL)
   copiar() { docker run --rm -v "$src:/de:ro" -v "$dst:/para" alpine:3.20 sh -c \
     'apk add -q --no-cache rsync >/dev/null && rsync -a --delete /de/ /para/'; }
-  copiar
+  # Rodando, o Postgres apaga arquivos no meio da cópia (rsync sai com 24): a passada pausada acerta
+  copiar 2>/dev/null || [ $? -eq 24 ]
   docker pause "$src" >/dev/null
   inicio=$(date +%s)
   copiar
