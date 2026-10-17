@@ -332,7 +332,8 @@ else
 fi
 sudo sshd -t
 sudo systemctl enable --now ssh
-sudo systemctl reload ssh
+# No Mint 22 o SSH pode estar ativado por socket (sem o serviço rodando): reload falharia
+sudo systemctl restart ssh || sudo systemctl restart ssh.socket || true
 sudo systemctl enable --now fail2ban
 
 # ---------------------------------------------------------------------------------------------
@@ -347,7 +348,27 @@ fi
 if [ "$NGINX" = 1 ] && [ -n "$LAN" ]; then
   sudo ufw allow from "$LAN" to any port 80 proto tcp comment 'Questlist na rede de casa'
 fi
+# O Docker publica portas por fora do ufw (e o Supabase CLI pede 0.0.0.0, ignorando o
+# daemon.json): o que chega da rede para um container é descartado; só o próprio servidor e os
+# containers entre si passam (conferido em 17/10: Postgres e Studio estavam abertos na rede)
+if ! sudo grep -q "BEGIN questlist-docker" /etc/ufw/after.rules; then
+  cat <<'RULES' | sudo tee -a /etc/ufw/after.rules >/dev/null
+
+# BEGIN questlist-docker: portas publicadas pelo Docker só para o próprio servidor
+*filter
+:DOCKER-USER - [0:0]
+-A DOCKER-USER -m conntrack --ctstate RELATED,ESTABLISHED -j RETURN
+-A DOCKER-USER -i lo -j RETURN
+-A DOCKER-USER -i docker0 -j RETURN
+-A DOCKER-USER -i br-+ -j RETURN
+-A DOCKER-USER -j DROP
+COMMIT
+# END questlist-docker
+RULES
+fi
+sudo systemctl enable ufw
 sudo ufw --force enable
+sudo ufw reload
 sudo ufw status verbose
 
 # ---------------------------------------------------------------------------------------------

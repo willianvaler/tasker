@@ -3,8 +3,9 @@
 #
 #   bash scripts/servidor/alpha-copiar-producao.sh
 #
-# Apaga o banco e os anexos do alpha e põe no lugar uma cópia dos da produção. A produção fica
-# "pausada" (não parada) durante a cópia do banco, uns 10 a 30 s: os pedidos esperam e seguem.
+# Apaga o banco e os anexos do alpha e põe no lugar uma cópia dos da produção. Copia com a
+# produção rodando e depois a "pausa" (não para) só para acertar a diferença, alguns segundos: os
+# pedidos esperam e seguem.
 # Depois limpa o que não pode valer no alpha: sessões (todo mundo entra de novo no alpha, com a
 # mesma senha), aparelhos de push (o alpha nunca avisa o celular de ninguém), o endereço do push e
 # o estado do PowerSync (refeito do zero).
@@ -35,10 +36,14 @@ for kind in db storage; do
   docker volume rm -f "$dst" >/dev/null 2>&1 || true
   docker volume create --label "com.supabase.cli.project=$SUPABASE_PROJECT_ID" \
     --label "com.docker.compose.project=$SUPABASE_PROJECT_ID" "$dst" >/dev/null
-  # Pausa = fotografia consistente (como uma queda de energia: o Postgres se recupera pelo WAL)
+  # 1ª passada com a produção rodando (o grosso); 2ª com ela pausada, só a diferença. A pausa dá
+  # uma fotografia consistente (como uma queda de energia: o Postgres se recupera pelo WAL)
+  copiar() { docker run --rm -v "$src:/de:ro" -v "$dst:/para" alpine:3.20 sh -c \
+    'apk add -q --no-cache rsync >/dev/null && rsync -a --delete /de/ /para/'; }
+  copiar
   docker pause "$src" >/dev/null
   inicio=$(date +%s)
-  docker run --rm -v "$src:/de:ro" -v "$dst:/para" alpine:3.20 sh -c 'cp -a /de/. /para/'
+  copiar
   docker unpause "$src" >/dev/null
   echo "produção pausada por $(($(date +%s) - inicio)) s"
 done

@@ -29,7 +29,7 @@ Voltar a produção para uma versão anterior: no servidor, `cd ~/projects/task_
 
 - Criar (uma vez, no servidor): `bash ~/projects/task_tracking/scripts/servidor/criar-alpha.sh` (com cópia da produção) ou `--vazio`.
 - Rota no painel da Cloudflare (uma vez): Zero Trust → Networks → Tunnels → túnel do tasker → Public Hostnames → Add: subdomínio `alpha`, domínio `wavdev.org`, tipo HTTP, URL `localhost:8091`.
-- Recopiar os dados da produção: `cd ~/projects/task_tracking-alpha && bash scripts/servidor/alpha-copiar-producao.sh`. Apaga os dados do alpha. A produção fica pausada de 10 a 30 segundos (os pedidos esperam e seguem). No alpha, todos entram de novo, com o mesmo e-mail e senha; o alpha nunca manda push.
+- Recopiar os dados da produção: `cd ~/projects/task_tracking-alpha && bash scripts/servidor/alpha-copiar-producao.sh`. Apaga os dados do alpha. Copia com a produção rodando e só a pausa para acertar a diferença, alguns segundos (os pedidos esperam e seguem; a primeira cópia, de 17/10, ainda sem isso, pausou 59 s). No alpha, todos entram de novo, com o mesmo e-mail e senha; o alpha nunca manda push.
 - Segredos próprios: um login do alpha não vale na produção, e vice-versa.
 - Sem Studio, funções e logs, para economizar memória no servidor.
 - Logs: `journalctl --user -u tasker-alpha-web` (ou `-db`, `-powersync`, `-atualizar`).
