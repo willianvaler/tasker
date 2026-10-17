@@ -11,7 +11,7 @@ import { createPublicKey, verify } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const AUTH = 'http://127.0.0.1:54321/auth/v1/.well-known/jwks.json';
+const AUTH = `http://127.0.0.1:${process.env.SUPABASE_API_PORT ?? 54321}/auth/v1/.well-known/jwks.json`;
 const ALLOWED = ['/auth/v1/', '/rest/v1/', '/realtime/v1/', '/storage/v1/'];
 const BLOCKED = ['/auth/v1/admin'];
 const ROLES = new Set(['authenticated', 'anon']);

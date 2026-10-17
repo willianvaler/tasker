@@ -60,3 +60,6 @@ public/@powersync/
 
 # Chave de assinatura dos logins (segredo desta máquina)
 supabase/signing_keys.json
+
+# Ambiente da pasta: produção, alpha ou lab (D178)
+.ambiente.local

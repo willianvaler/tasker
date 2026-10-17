@@ -9,19 +9,20 @@ import { extname, join, normalize } from 'node:path';
 
 import { checkSupabase } from './supabase-gate.mjs';
 
-const PORT = Number(process.env.PORT ?? 8081);
+// Portas do ambiente (D178): a produção usa os padrões; alpha e lab trocam pelo .ambiente.local
+const PORT = Number(process.env.PORT ?? process.env.WEB_PORT ?? 8081);
 const DIST = process.env.DIST ?? join(import.meta.dirname, '..', 'dist-remote');
 // APK do Android (npm run apk, U7): fica fora do dist-remote, que o deploy apaga
 const DOWNLOADS = join(import.meta.dirname, '..', 'downloads');
 const UPSTREAMS = {
   '/supabase': {
     host: '127.0.0.1',
-    port: 54321,
+    port: Number(process.env.SUPABASE_API_PORT ?? 54321),
     down: 'Supabase local fora do ar (npm run db:start)',
   },
   '/powersync': {
     host: '127.0.0.1',
-    port: 8095,
+    port: Number(process.env.POWERSYNC_PORT ?? 8095),
     down: 'PowerSync fora do ar (npm run sync:start)',
   },
 };

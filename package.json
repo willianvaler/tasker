@@ -99,7 +99,9 @@
     "postinstall": "npm run sync:assets",
     "endereco": "bash scripts/endereco.sh",
     "help:build": "node scripts/help-build.mjs",
-    "apk": "bash scripts/build-apk.sh"
+    "apk": "bash scripts/build-apk.sh",
+    "lab": "bash scripts/lab.sh",
+    "promover": "bash scripts/promover.sh"
   },
   "private": true,
   "jest": {
