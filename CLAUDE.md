@@ -36,6 +36,8 @@ O npm desta máquina (v12) bloqueia scripts de instalação de pacotes sem aprov
 
 ## Acesso remoto (túnel da Cloudflare)
 
+**Desde 17/10/2026 a produção roda no servidor Linux Mint da rede de casa** (`ssh` com chave; projeto em `~/projects/task_tracking`; instalado por `scripts/servidor/instalar.sh`, D177, `docs/SERVIDOR.md`; atualizar: `git pull`, `npm ci` se mudou dependência, `npx supabase migration up` se houver migração, `npm run deploy`). **Este PC é só de desenvolvimento**: banco local vazio com as chaves padrão, sem túnel e sem os serviços `tasker-*`; o PowerSync local sobe à mão (`npm run sync:start`). O que segue descreve o servidor (lá o container é o Docker, não o Podman).
+
 `https://tasker.wavdev.org` → túnel `tasker-tunnel.service` (cloudflared em `~/.local/bin`, token em `~/.config/cloudflared/tasker.token`, **nunca no repositório**) → `tasker-web.service` (`scripts/serve.mjs`, porta 8081, a da rota no painel da Cloudflare), que entrega `dist-remote/` e repassa `/supabase/*` (HTTP e websocket) para o Supabase local e `/powersync/*` para o PowerSync. O build remoto usa `EXPO_PUBLIC_SUPABASE_URL=/supabase` (relativo ao endereço do app). Serviços de usuário do systemd com linger: `systemctl --user status tasker-web tasker-tunnel tasker-quick tasker-powersync`. `tasker-quick` dá um endereço `*.trycloudflare.com` provisório (muda a cada reinício; `npm run endereco` mostra o atual). Depois de mudar o app: `npm run deploy`.
 
 ## Estrutura
