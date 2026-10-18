@@ -12,6 +12,10 @@ Every day a **daily boss** is born (about 6 tasks) and every week a **weekly bos
 - Pomodoro gives a small bonus, up to 4 a day.
 - Each "good and bad" habit counts up to 10 "+" a day, and tasks created and completed within a few minutes have a daily cap. When a limit is reached, the notice says so.
 
+## Achievements
+
+There are 68, from **common** to **legendary** (the rarity name is written out, along with 1 to 5 dots). Profile → **See all achievements** lists them all, with filters by rarity and category, the % of players who have each one and how far you are from the next one in each track (tasks, streak, bosses, levels…). Some are **secret**: they only show a hint until you unlock them.
+
 ## Character
 
 Pick a **class**, spend **attributes** and use one skill a day. Gold buys items in the **shop** (cosmetic only).

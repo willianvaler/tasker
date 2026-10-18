@@ -12,6 +12,10 @@ Todo dia nasce um **boss do dia** (umas 6 tarefas) e toda semana um **boss da se
 - Pomodoro dá um bônus pequeno, até 4 por dia.
 - Cada hábito "bom e ruim" vale até 10 "+" por dia, e tarefas criadas e concluídas em poucos minutos têm um teto diário. Quando um limite chega, o aviso diz.
 
+## Conquistas
+
+São 68, de **comum** a **lendária** (o nome da raridade aparece escrito, junto com pontos de 1 a 5). Perfil → **Ver todas as conquistas** mostra todas, com filtro por raridade e categoria, quantos % dos jogadores têm cada uma e quanto falta para a próxima de cada faixa (tarefas, sequência, bosses, níveis…). Algumas são **secretas**: aparecem só com uma dica até você conquistá-las.
+
 ## Personagem
 
 Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O ouro compra itens na **loja** (só visual).

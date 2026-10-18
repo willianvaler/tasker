@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
+import { myAchievementsSchema } from '../achievements';
 import { supabase } from '../supabase';
 import { useSession } from '@/providers/session';
 import { keys } from './keys';
@@ -231,5 +232,17 @@ export function useEquipItem() {
       if (context?.previous) queryClient.setQueryData(keys.game, context.previous);
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: keys.game }),
+  });
+}
+
+/** Tela de conquistas (P3, D180): catálogo, as da pessoa, % de jogadores e progresso das séries. */
+export function useMyAchievements() {
+  return useQuery({
+    queryKey: ['achievements'],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('my_achievements');
+      if (error) throw error;
+      return myAchievementsSchema.parse(data);
+    },
   });
 }

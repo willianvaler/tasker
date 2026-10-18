@@ -12,6 +12,10 @@ Cada día nace un **jefe del día** (unas 6 tareas) y cada semana un **jefe de l
 - El pomodoro da un bono pequeño, hasta 4 al día.
 - Cada hábito "bueno y malo" vale hasta 10 "+" al día, y las tareas creadas y completadas en pocos minutos tienen un tope diario. Cuando se llega a un límite, el aviso lo dice.
 
+## Logros
+
+Son 68, de **común** a **legendaria** (el nombre de la rareza aparece escrito, junto con puntos de 1 a 5). Perfil → **Ver todos los logros** los muestra todos, con filtros por rareza y categoría, el % de jugadores que tiene cada uno y cuánto falta para el siguiente de cada serie (tareas, racha, jefes, niveles…). Algunos son **secretos**: solo muestran una pista hasta que los consigues.
+
 ## Personaje
 
 Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro compra objetos en la **tienda** (solo estéticos).

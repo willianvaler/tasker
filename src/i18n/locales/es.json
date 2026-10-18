@@ -1772,6 +1772,23 @@
     "ended": "Tu sesión terminó (cambió la contraseña o se cerró en otro lugar). Vuelve a entrar."
   },
   "achievements": {
+    "title": "Logros",
+    "count": "{{done}} de {{total}}",
+    "next": "Próximos",
+    "nextItem": "{{name}}: {{value}} de {{goal}}",
+    "all": "Todos",
+    "unlocked": "Conseguidos",
+    "locked": "Faltan",
+    "filterRarity": "Rareza",
+    "filterCategory": "Categoría",
+    "pct": "{{pct}}% de los jugadores",
+    "pctNone": "todavía nadie",
+    "secretName": "Logro secreto",
+    "unlockedOn": "Conseguido el {{date}}",
+    "empty": "Ningún logro con estos filtros.",
+    "seeAll": "Ver todos los logros",
+    "rarityLabel": "Rareza: {{rarity}}",
+    "offline": "Los logros necesitan conexión.",
     "rarity": {
       "common": "Común",
       "uncommon": "Poco común",

@@ -115,11 +115,15 @@ from (values
 ) as v(key, name, description)
 where a.key = v.key;
 
--- Ordem do catálogo: por categoria, depois a faixa (meta) e por fim a de antes
+-- Ordem do catálogo: por categoria, a série principal antes das outras, a meta, e por fim as
+-- especiais (sem série) na ordem de antes
 with ordered as (
   select key, row_number() over (
     order by array_position(array['tasks', 'streak', 'bosses', 'levels', 'character', 'habits', 'projects', 'special'], category),
-             series nulls last, goal nulls last, position) as n
+             array_position(array['tasks', 'estimates', 'streak', 'bosses', 'daily_bosses', 'daily_streak', 'level',
+                                  'attributes', 'items', 'gold', 'habit_plus', 'habits', 'projects', 'delegated',
+                                  'teams', 'team_size'], series) nulls last,
+             goal nulls last, position) as n
   from public.achievements
 )
 update public.achievements a set position = o.n from ordered o where o.key = a.key;

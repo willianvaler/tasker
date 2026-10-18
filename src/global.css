@@ -21,6 +21,12 @@
     --warn: 137 96 12;
     --danger: 179 38 30;
     --scrim: 27 26 23;
+    /* Raridade das conquistas e itens (D180): cinza, verde, azul, roxo, dourado; AA nos fundos */
+    --rarity-common: 107 101 91;
+    --rarity-uncommon: 58 116 72;
+    --rarity-rare: 46 94 140;
+    --rarity-epic: 111 74 147;
+    --rarity-legendary: 138 95 0;
   }
 
   .dark:root {
@@ -37,6 +43,11 @@
     --warn: 224 169 58;
     --danger: 242 118 107;
     --scrim: 14 13 11;
+    --rarity-common: 155 148 135;
+    --rarity-uncommon: 109 178 125;
+    --rarity-rare: 127 176 227;
+    --rarity-epic: 188 156 230;
+    --rarity-legendary: 226 181 76;
   }
 }
 

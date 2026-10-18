@@ -1772,6 +1772,23 @@
     "ended": "Sua sessão terminou (a senha mudou ou a sessão foi encerrada em outro lugar). Entre de novo."
   },
   "achievements": {
+    "title": "Conquistas",
+    "count": "{{done}} de {{total}}",
+    "next": "Próximas",
+    "nextItem": "{{name}}: {{value}} de {{goal}}",
+    "all": "Todas",
+    "unlocked": "Conquistadas",
+    "locked": "Faltam",
+    "filterRarity": "Raridade",
+    "filterCategory": "Categoria",
+    "pct": "{{pct}}% dos jogadores",
+    "pctNone": "ainda ninguém",
+    "secretName": "Conquista secreta",
+    "unlockedOn": "Conquistada em {{date}}",
+    "empty": "Nenhuma conquista com esses filtros.",
+    "seeAll": "Ver todas as conquistas",
+    "rarityLabel": "Raridade: {{rarity}}",
+    "offline": "As conquistas precisam de conexão.",
     "rarity": {
       "common": "Comum",
       "uncommon": "Incomum",

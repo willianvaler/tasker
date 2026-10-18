@@ -183,7 +183,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **V1** Sessão que sobrevive ao servidor fora do ar (V4 §7.1, D179)
 - [x] **P1** Raridade das conquistas, % de jogadores e progresso das séries (D180)
 - [x] **P2** 35 conquistas novas (68 no total), 4 secretas, concessão pelas séries e textos nos 3 idiomas (D180)
-- [ ] **P3** Tela de conquistas
+- [x] **P3** Tela de conquistas com filtros, próximas da faixa, secretas e cores de raridade no tema (D180)
 - [ ] **Q1** Inventário e raridade dos itens
 - [ ] **Q2** Configurações só no Perfil
 - [ ] **R1** Renascer

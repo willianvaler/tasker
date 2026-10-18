@@ -84,7 +84,19 @@ describe('contraste AA (F4)', () => {
   };
   test.each(['light', 'dark'] as const)('texto %s tem pelo menos 4,5:1 nos fundos', (scheme) => {
     const c = COLORS[scheme];
-    for (const fg of ['ink', 'ink-muted', 'accent', 'ok', 'warn', 'danger'] as const)
+    for (const fg of [
+      'ink',
+      'ink-muted',
+      'accent',
+      'ok',
+      'warn',
+      'danger',
+      'rarity-common',
+      'rarity-uncommon',
+      'rarity-rare',
+      'rarity-epic',
+      'rarity-legendary',
+    ] as const)
       for (const bg of ['paper', 'surface', 'wash'] as const)
         expect([fg, bg, ratio(c[fg], c[bg]) >= 4.5]).toEqual([fg, bg, true]);
     expect(ratio(c['on-accent'], c.accent)).toBeGreaterThanOrEqual(4.5);

@@ -1772,6 +1772,23 @@
     "ended": "Your session ended (the password changed or the session was ended elsewhere). Please sign in again."
   },
   "achievements": {
+    "title": "Achievements",
+    "count": "{{done}} of {{total}}",
+    "next": "Up next",
+    "nextItem": "{{name}}: {{value}} of {{goal}}",
+    "all": "All",
+    "unlocked": "Unlocked",
+    "locked": "Missing",
+    "filterRarity": "Rarity",
+    "filterCategory": "Category",
+    "pct": "{{pct}}% of players",
+    "pctNone": "nobody yet",
+    "secretName": "Secret achievement",
+    "unlockedOn": "Unlocked on {{date}}",
+    "empty": "No achievements with these filters.",
+    "seeAll": "See all achievements",
+    "rarityLabel": "Rarity: {{rarity}}",
+    "offline": "Achievements need a connection.",
     "rarity": {
       "common": "Common",
       "uncommon": "Uncommon",

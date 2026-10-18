@@ -1,7 +1,9 @@
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { BossLine, ProgressBar } from '@/components/game-bar';
+import { Button } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { ToggleRow } from '@/components/ui/toggle-row';
@@ -93,34 +95,44 @@ export function GameProfile() {
               className="pt-2"
             />
             <View className="flex-row flex-wrap">
-              {game.achievements.map((a) => {
-                const { name, description } = achievementText(a);
-                return (
-                  <View
-                    key={a.key}
-                    accessibilityLabel={t(
-                      a.unlocked_at
-                        ? 'gameProfile.achievementLabel'
-                        : 'gameProfile.achievementLocked',
-                      { name, description },
-                    )}
-                    className={cn(
-                      'min-h-12 w-full flex-row items-center gap-3 border-b border-line py-2 md:w-1/2 md:pr-4',
-                      !a.unlocked_at && 'opacity-40',
-                    )}
-                  >
-                    {/* Ícone da conquista: conteúdo do jogo, como o personagem */}
-                    <Text className="w-6 text-center text-base">
-                      {a.unlocked_at ? a.icon : '·'}
-                    </Text>
-                    <View className="flex-1">
-                      <Text className="text-sm text-ink">{name}</Text>
-                      <Text className="text-xs text-ink-muted">{description}</Text>
+              {/* As 4 mais recentes; todas, com raridade e filtros, na tela de conquistas (P3) */}
+              {game.achievements
+                .filter((a) => a.unlocked_at)
+                .sort((a, b) => (b.unlocked_at ?? '').localeCompare(a.unlocked_at ?? ''))
+                .slice(0, 4)
+                .map((a) => {
+                  const { name, description } = achievementText(a);
+                  return (
+                    <View
+                      key={a.key}
+                      accessibilityLabel={t(
+                        a.unlocked_at
+                          ? 'gameProfile.achievementLabel'
+                          : 'gameProfile.achievementLocked',
+                        { name, description },
+                      )}
+                      className={cn(
+                        'min-h-12 w-full flex-row items-center gap-3 border-b border-line py-2 md:w-1/2 md:pr-4',
+                        !a.unlocked_at && 'opacity-40',
+                      )}
+                    >
+                      {/* Ícone da conquista: conteúdo do jogo, como o personagem */}
+                      <Text className="w-6 text-center text-base">
+                        {a.unlocked_at ? a.icon : '·'}
+                      </Text>
+                      <View className="flex-1">
+                        <Text className="text-sm text-ink">{name}</Text>
+                        <Text className="text-xs text-ink-muted">{description}</Text>
+                      </View>
                     </View>
-                  </View>
-                );
-              })}
+                  );
+                })}
             </View>
+            <Button
+              variant="ghost"
+              label={t('achievements.seeAll')}
+              onPress={() => router.push('/conquistas')}
+            />
           </View>
         </>
       )}

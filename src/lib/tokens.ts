@@ -19,6 +19,11 @@ export const COLORS = {
     warn: '#89600C',
     danger: '#B3261E',
     scrim: '#1B1A17',
+    'rarity-common': '#6B655B',
+    'rarity-uncommon': '#3A7448',
+    'rarity-rare': '#2E5E8C',
+    'rarity-epic': '#6F4A93',
+    'rarity-legendary': '#8A5F00',
   },
   dark: {
     paper: '#1B1A17',
@@ -34,6 +39,11 @@ export const COLORS = {
     warn: '#E0A93A',
     danger: '#F2766B',
     scrim: '#0E0D0B',
+    'rarity-common': '#9B9487',
+    'rarity-uncommon': '#6DB27D',
+    'rarity-rare': '#7FB0E3',
+    'rarity-epic': '#BC9CE6',
+    'rarity-legendary': '#E2B54C',
   },
 } as const;
 
