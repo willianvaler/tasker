@@ -47,8 +47,9 @@ SRC="${APK_WORKTREE:-$HOME/.cache/questlist-apk-src}"
 if [ ! -d "$SRC/.git" ] && [ ! -f "$SRC/.git" ]; then
   git worktree add -q --detach "$SRC" HEAD
 else
-  git -C "$SRC" checkout -q --detach "$(git rev-parse HEAD)"
+  # O prebuild do build anterior reescreve o package.json: limpa antes de trocar de commit
   git -C "$SRC" reset -q --hard
+  git -C "$SRC" checkout -q --detach "$(git rev-parse HEAD)"
 fi
 ln -sfn "$ROOT/node_modules" "$SRC/node_modules"
 cp "$ROOT/.env.local" "$SRC/.env.local"
