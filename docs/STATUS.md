@@ -184,8 +184,8 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **P1** Raridade das conquistas, % de jogadores e progresso das séries (D180)
 - [x] **P2** 35 conquistas novas (68 no total), 4 secretas, concessão pelas séries e textos nos 3 idiomas (D180)
 - [x] **P3** Tela de conquistas com filtros, próximas da faixa, secretas e cores de raridade no tema (D180)
-- [ ] **Q1** Inventário e raridade dos itens
-- [ ] **Q2** Configurações só no Perfil
+- [x] **Q1** Inventário (tela própria) e itens com 5 raridades no i18n e nos tokens (D181)
+- [x] **Q2** Configurações só no Perfil (já estava); Perfil e Personagem levam a Inventário e Conquistas (D181)
 - [ ] **R1** Renascer
 - [ ] **S1** Página de entrada
 - [ ] **T1** Planos e assinaturas (modelo)

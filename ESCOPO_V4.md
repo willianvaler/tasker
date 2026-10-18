@@ -41,7 +41,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 2. Conquistas — pendente (P1 a P3)
+## 2. Conquistas — ✅ done (P1 a P3, D180)
 
 - **Raridade** em todas as conquistas: comum, incomum, rara, épica e lendária, com cor e selo próprios (sem depender só da cor: o nome da raridade aparece escrito). A raridade sai da dificuldade real; se der, mostrar a porcentagem de jogadores que têm a conquista.
 - **Muitas conquistas novas**, pensadas para uso intenso. As 33 de hoje continuam. Faixas novas (exemplos):
@@ -56,7 +56,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 3. Personagem, inventário e configurações — pendente (Q1, Q2)
+## 3. Personagem, inventário e configurações — ✅ done (Q1, Q2, D181)
 
 - **Inventário** (tela própria): tudo o que a pessoa tem (itens da loja, drops de boss, cosméticos), com filtro por espaço (cabeça, corpo, acessório…), raridade e onde equipar. A loja continua sendo o lugar de comprar; o inventário é o lugar de ver e equipar.
 - **Separar configurações da tela de Personagem**: o Personagem mostra classe, atributos, habilidades, bosses e equipamento atual; as configurações (ligar/desligar o jogo, avisos, idioma, tema, privacidade) ficam só no Perfil/Configurações.

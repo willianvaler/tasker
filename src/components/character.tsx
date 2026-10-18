@@ -1,5 +1,5 @@
 import { Link } from 'expo-router';
-import { Check, Plus, RotateCcw, ShoppingBag, Zap } from 'lucide-react-native';
+import { Backpack, Check, Plus, RotateCcw, ShoppingBag, Zap } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
@@ -443,15 +443,26 @@ export function EquipmentPanel({ game }: { game: GameState }) {
     <Panel
       title={t('character.equipment')}
       right={
-        <Link href="/shop" asChild>
-          <Pressable
-            accessibilityRole="link"
-            className="min-h-8 flex-row items-center gap-1 rounded px-2 hover:bg-wash"
-          >
-            <Icon icon={ShoppingBag} tone="ink" />
-            <Text className="text-xs font-semibold text-ink">{t('character.shop')}</Text>
-          </Pressable>
-        </Link>
+        <View className="flex-row gap-1">
+          <Link href="/inventario" asChild>
+            <Pressable
+              accessibilityRole="link"
+              className="min-h-8 flex-row items-center gap-1 rounded px-2 hover:bg-wash"
+            >
+              <Icon icon={Backpack} tone="ink" />
+              <Text className="text-xs font-semibold text-ink">{t('inventory.open')}</Text>
+            </Pressable>
+          </Link>
+          <Link href="/shop" asChild>
+            <Pressable
+              accessibilityRole="link"
+              className="min-h-8 flex-row items-center gap-1 rounded px-2 hover:bg-wash"
+            >
+              <Icon icon={ShoppingBag} tone="ink" />
+              <Text className="text-xs font-semibold text-ink">{t('character.shop')}</Text>
+            </Pressable>
+          </Link>
+        </View>
       }
     >
       {SLOTS.map((slot) => {

@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import {
+  Backpack,
   FolderKanban,
   LogOut,
   RefreshCw,
@@ -8,6 +9,7 @@ import {
   Swords,
   Timer,
   Trash2,
+  Trophy,
   Users,
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
@@ -210,6 +212,18 @@ function ProfileForm({ profile }: { profile: Profile }) {
               icon={ShoppingBag}
               label={t('nav.shop')}
               onPress={() => router.push('/shop')}
+            />
+            <Button
+              variant="ghost"
+              icon={Backpack}
+              label={t('inventory.open')}
+              onPress={() => router.push('/inventario')}
+            />
+            <Button
+              variant="ghost"
+              icon={Trophy}
+              label={t('achievements.title')}
+              onPress={() => router.push('/conquistas')}
             />
             <Button
               variant="ghost"
