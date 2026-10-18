@@ -205,7 +205,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **AC1.9** "Vai usar para treinar?" no Início (uma vez, depois da introdução, enquanto `gym_enabled` é nulo) e o interruptor Modo academia no Perfil; E2E `e2e/academia.spec.ts` e Ajuda nos 3 idiomas
 - [x] **AC10.1** Sessão de treino no servidor (`workout_sessions`, `workout_session_members`): convite com aviso e push, entrar/sair, série do grupo (`log_group_set`, quem marca a última conclui), exercício atual e descanso iguais nos aparelhos pelo Realtime; E2E `e2e/treino-junto.spec.ts` (D183)
 - [x] **AC10.2** Seletor "Quem está treinando junto agora?" no Modo Treino de pasta compartilhada (D183)
-- [ ] **AC10.3** `lib/gym/leaderboard.ts`: dias ativos, pontos, empates, sequência
+- [x] **AC10.3** `lib/gym/leaderboard.ts`: dias ativos (um por dia), pontos opcionais, empates dividindo a posição, sequência atual e maior; `challengeProgress` (feito pelo Claude, tirado da fila local)
 - [ ] **AC10.4** Desafios (projeto ou time), dia de treino, check-ins com foto, mural e chat do grupo
 - [ ] **AC10.5** Telas de desafio: ranking, mural e chat
 
