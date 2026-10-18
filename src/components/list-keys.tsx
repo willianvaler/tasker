@@ -4,6 +4,7 @@ import { router, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useMoveInTree } from '@/components/folder-actions';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
 import { ActionMenu, useDialog } from '@/components/ui/dialog';
 import { addDays } from '@/lib/parser/dates';
@@ -86,6 +87,16 @@ export function ListKeys() {
     if (!match) return false;
     selection.rename({ kind: match[1] as 'page' | 'folder', id: match[2] });
   });
+
+  // V6 §15.2: Alt+↑/↓ sobe/desce a pasta ou página aberta
+  const moves = useMoveInTree();
+  const moveCurrent = (dir: -1 | 1) => () => {
+    const match = /^\/(page|folder)\/([^/]+)/.exec(pathname);
+    if (!match) return false;
+    return moves.move({ kind: match[1] as 'page' | 'folder', id: match[2] }, dir);
+  };
+  useShortcut('tree.moveUp', moveCurrent(-1));
+  useShortcut('tree.moveDown', moveCurrent(1));
 
   useShortcut(
     'item.open',

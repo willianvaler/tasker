@@ -99,6 +99,21 @@ export const SHORTCUTS = [
     description: 'shortcuts.taskMoveDown',
     scope: 'list',
   },
+  // V6 §15.2: a pasta ou página aberta sobe/desce entre as irmãs (Ctrl+↑↓ é das tarefas)
+  {
+    id: 'tree.moveUp',
+    combos: ['alt+arrowup'],
+    description: 'shortcuts.treeMoveUp',
+    scope: 'global',
+    permission: 'page.manage',
+  },
+  {
+    id: 'tree.moveDown',
+    combos: ['alt+arrowdown'],
+    description: 'shortcuts.treeMoveDown',
+    scope: 'global',
+    permission: 'page.manage',
+  },
   {
     id: 'task.stopwatch',
     combos: ['shift+t'],

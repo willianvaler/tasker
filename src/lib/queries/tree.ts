@@ -346,6 +346,27 @@ export function useTreeMutations() {
     },
   });
 
+  /** Nova posição de uma pasta ou página entre as irmãs (subir/descer, V6 §15.2). */
+  const reorder = useMutation({
+    mutationFn: async ({
+      kind,
+      id,
+      position,
+    }: {
+      kind: 'folder' | 'page';
+      id: string;
+      position: number;
+    }) => {
+      if (isLocal()) return localUpdate(kind === 'folder' ? 'folders' : 'pages', id, { position });
+      const { error } =
+        kind === 'folder'
+          ? await supabase.from('folders').update({ position }).eq('id', id)
+          : await supabase.from('pages').update({ position }).eq('id', id);
+      if (error) throw error;
+    },
+    onSettled,
+  });
+
   const duplicatePage = useMutation({
     mutationFn: async ({ id, name }: { id: string; name: string }) => {
       const { data, error } = await supabase.rpc('duplicate_page', { p_page_id: id, p_name: name });
@@ -389,6 +410,7 @@ export function useTreeMutations() {
     createPage,
     updatePage,
     movePage,
+    reorder,
     deletePage,
     duplicatePage,
     resetPage,

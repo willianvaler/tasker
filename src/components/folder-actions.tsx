@@ -11,9 +11,18 @@ import {
   useDialog,
   type MenuAction,
 } from '@/components/ui/dialog';
-import { useSetGymMode } from '@/lib/queries/profile';
+import { moveSibling } from '@/lib/move-sibling';
+import { useProfile, useSetGymMode } from '@/lib/queries/profile';
 import { rootFolder, useTemplateMutations } from '@/lib/queries/projects';
-import { pageLabel, useTree, useTreeMutations, type Folder, type Page } from '@/lib/queries/tree';
+import {
+  findFolder,
+  pageLabel,
+  splitRoots,
+  useTree,
+  useTreeMutations,
+  type Folder,
+  type Page,
+} from '@/lib/queries/tree';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 
@@ -45,6 +54,16 @@ export function useFolderActions() {
   const { t } = useTranslation();
 
   const onError = (err: Error) => toast({ message: t('page.error', { message: err.message }) });
+  const moves = useMoveInTree();
+
+  /** "Mover para cima / para baixo" no menu, só quando há para onde ir */
+  const moveActions = (target: TreeTarget): MenuAction[] =>
+    ([-1, 1] as const)
+      .filter((dir) => moves.positionFor(target, dir) != null)
+      .map((dir) => ({
+        label: t(dir < 0 ? 'folder.moveUp' : 'folder.moveDown'),
+        onPress: () => moves.move(target, dir),
+      }));
 
   const actions = {
     newFolder: (parentId?: string) => setDialog({ kind: 'new-folder', parentId }),
@@ -81,6 +100,7 @@ export function useFolderActions() {
             },
           ]),
       { label: t('folder.rename'), onPress: () => setDialog({ kind: 'edit-folder', folder }) },
+      ...moveActions({ kind: 'folder', id: folder.id }),
       ...(isOwner
         ? [
             {
@@ -97,6 +117,7 @@ export function useFolderActions() {
     return [
       { label: t('folder.configure'), onPress: () => setDialog({ kind: 'edit-page', page }) },
       { label: t('folder.moveTo'), onPress: () => setDialog({ kind: 'move-page', page }) },
+      ...moveActions({ kind: 'page', id: page.id }),
       {
         label: t('folder.deletePage'),
         destructive: true,
@@ -283,4 +304,44 @@ export function useFolderActions() {
   }
 
   return [actions, element] as const;
+}
+
+export type TreeTarget = { kind: 'folder' | 'page'; id: string };
+
+/**
+ * Subir e descer pasta ou página entre as irmãs (V6 §15.2), sem arrastar: as irmãs são as do
+ * mesmo bloco da barra lateral (Pastas, Projetos, Academia) ou da mesma pasta-mãe.
+ */
+export function useMoveInTree() {
+  const tree = useTree();
+  const gymOn = useProfile().data?.gym_enabled === true;
+  const m = useTreeMutations();
+
+  function siblings(target: TreeTarget) {
+    const data = tree.data;
+    if (!data) return [];
+    if (target.kind === 'page') {
+      const folderId = data.pages.find((p) => p.id === target.id)?.folder_id;
+      return data.pages.filter((p) => p.folder_id === folderId);
+    }
+    const found = findFolder(data, target.id);
+    if (!found) return [];
+    if (found.parent) return found.parent.children;
+    const { personal, projects, gym } = splitRoots(data, gymOn);
+    if (gym?.id === target.id) return [gym];
+    return found.folder.kind === 'project' ? projects : personal;
+  }
+
+  const positionFor = (target: TreeTarget, dir: -1 | 1) =>
+    moveSibling(siblings(target), target.id, dir);
+
+  /** Devolve false quando não há para onde ir (a tecla segue para a tela). */
+  function move(target: TreeTarget, dir: -1 | 1) {
+    const position = positionFor(target, dir);
+    if (position == null) return false;
+    m.reorder.mutate({ ...target, position });
+    return true;
+  }
+
+  return { positionFor, move };
 }
