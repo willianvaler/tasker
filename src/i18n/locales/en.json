@@ -2086,5 +2086,37 @@
       "fifty_day": "A very, very productive day.",
       "pomodoro_8": "Tomatoes, lots of tomatoes."
     }
+  },
+  "items": {
+    "rarity": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic",
+      "legendary": "Legendary"
+    },
+    "slot": {
+      "head": "Head",
+      "hand": "Hand",
+      "pet": "Companion",
+      "aura": "Aura",
+      "title": "Title"
+    }
+  },
+  "inventory": {
+    "title": "Inventory",
+    "count": "{{count}} of {{total}} items",
+    "hint": "Everything you own: what you bought in the shop and what bosses dropped. Tap to equip or remove.",
+    "all": "All",
+    "fromShop": "From the shop",
+    "fromBoss": "From bosses",
+    "shopOn": "Bought on {{date}}",
+    "dropOn": "Dropped by a boss on {{date}}",
+    "equip": "Equip",
+    "equipped": "Equipped",
+    "empty": "Your inventory is empty. Buy in the shop or defeat bosses to get items.",
+    "goShop": "Go to the shop",
+    "itemLabel": "{{name}}, {{slot}}, {{rarity}}",
+    "open": "Inventory"
   }
 }

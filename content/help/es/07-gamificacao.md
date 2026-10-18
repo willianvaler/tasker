@@ -18,7 +18,7 @@ Son 68, de **común** a **legendaria** (el nombre de la rareza aparece escrito, 
 
 ## Personaje
 
-Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro compra objetos en la **tienda** (solo estéticos).
+Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro compra objetos en la **tienda** (solo estéticos). El **inventario** (Perfil o Personaje) muestra todo lo que tienes, de la tienda y de los jefes, con filtros por espacio, rareza (de común a legendario) y origen, y equipa con un toque.
 
 ## Apagar
 

@@ -18,7 +18,7 @@ There are 68, from **common** to **legendary** (the rarity name is written out, 
 
 ## Character
 
-Pick a **class**, spend **attributes** and use one skill a day. Gold buys items in the **shop** (cosmetic only).
+Pick a **class**, spend **attributes** and use one skill a day. Gold buys items in the **shop** (cosmetic only). The **inventory** (Profile or Character) shows everything you own, from the shop and from bosses, with filters by slot, rarity (common to legendary) and origin, and equips with one tap.
 
 ## Turning it off
 

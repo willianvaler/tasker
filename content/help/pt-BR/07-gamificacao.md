@@ -18,7 +18,7 @@ São 68, de **comum** a **lendária** (o nome da raridade aparece escrito, junto
 
 ## Personagem
 
-Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O ouro compra itens na **loja** (só visual).
+Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O ouro compra itens na **loja** (só visual). O **inventário** (Perfil ou Personagem) mostra tudo o que você tem, da loja e dos bosses, com filtro por espaço, raridade (de comum a lendária) e origem, e equipa com um toque.
 
 ## Desligar
 

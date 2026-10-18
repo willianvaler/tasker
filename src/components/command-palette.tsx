@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { router, usePathname } from 'expo-router';
 import {
+  Backpack,
   CheckSquare,
   CircleHelp,
   Folder,
@@ -258,6 +259,13 @@ function Palette({
       run: go('/character'),
     },
     { id: 'go-shop', label: t('nav.shop'), icon: icon(ShoppingBag), group: 0, run: go('/shop') },
+    {
+      id: 'go-inventory',
+      label: t('inventory.title'),
+      icon: icon(Backpack),
+      group: 0,
+      run: go('/inventario'),
+    },
     {
       id: 'go-achievements',
       label: t('achievements.title'),

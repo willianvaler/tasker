@@ -2086,5 +2086,37 @@
       "fifty_day": "Um dia muito, muito produtivo.",
       "pomodoro_8": "Tomates, muitos tomates."
     }
+  },
+  "items": {
+    "rarity": {
+      "common": "Comum",
+      "uncommon": "Incomum",
+      "rare": "Raro",
+      "epic": "Épico",
+      "legendary": "Lendário"
+    },
+    "slot": {
+      "head": "Cabeça",
+      "hand": "Mão",
+      "pet": "Companheiro",
+      "aura": "Aura",
+      "title": "Título"
+    }
+  },
+  "inventory": {
+    "title": "Inventário",
+    "count": "{{count}} de {{total}} itens",
+    "hint": "Tudo o que você tem: o que comprou na loja e o que caiu dos bosses. Toque para equipar ou tirar.",
+    "all": "Todos",
+    "fromShop": "Da loja",
+    "fromBoss": "De boss",
+    "shopOn": "Comprado em {{date}}",
+    "dropOn": "Ganho de um boss em {{date}}",
+    "equip": "Equipar",
+    "equipped": "Equipado",
+    "empty": "Seu inventário está vazio. Compre na loja ou derrote bosses para ganhar itens.",
+    "goShop": "Ir à loja",
+    "itemLabel": "{{name}}, {{slot}}, {{rarity}}",
+    "open": "Inventário"
   }
 }

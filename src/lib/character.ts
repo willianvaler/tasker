@@ -1,4 +1,5 @@
 import { gamificationConfig as config } from './gamification.config';
+import { tr } from './i18n-ref';
 
 // Personagem: classes, atributos e a conta do dano. Quem calcula de verdade é o banco
 // (public._attack, _gold_for, habit_tick); estas funções são o espelho para a ficha mostrar os
@@ -211,29 +212,38 @@ export function goldFor(base: number, cls: ClassKey | null, attrs: Attributes) {
 // ------------------------------------------------------------
 
 export type Slot = 'head' | 'hand' | 'pet' | 'aura' | 'title';
-export type Rarity = 'common' | 'rare' | 'epic' | 'legendary';
+export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
+// Nomes no idioma da pessoa, lidos na hora (o módulo carrega antes do i18n)
+const slot = (key: Slot) => ({
+  key,
+  get label() {
+    return tr(`items.slot.${key}`);
+  },
+});
 export const SLOTS: { key: Slot; label: string }[] = [
-  { key: 'head', label: 'Cabeça' },
-  { key: 'hand', label: 'Mão' },
-  { key: 'pet', label: 'Companheiro' },
-  { key: 'aura', label: 'Aura' },
-  { key: 'title', label: 'Título' },
+  slot('head'),
+  slot('hand'),
+  slot('pet'),
+  slot('aura'),
+  slot('title'),
 ];
 
+// A mesma escala e as mesmas cores das conquistas (D181): tokens rarity-* do tema. Classes por
+// extenso: o Tailwind só gera o que encontra escrito no código
+const rarity = (key: Rarity, text: string, border: string) => ({
+  get label() {
+    return tr(`items.rarity.${key}`);
+  },
+  text,
+  border,
+});
 export const RARITY: Record<Rarity, { label: string; text: string; border: string }> = {
-  common: { label: 'Comum', text: 'text-ink-muted', border: 'border-line' },
-  rare: { label: 'Raro', text: 'text-ok', border: 'border-ok/60' },
-  epic: {
-    label: 'Épico',
-    text: 'text-warn',
-    border: 'border-warn/70',
-  },
-  legendary: {
-    label: 'Lendário',
-    text: 'text-accent',
-    border: 'border-accent/80',
-  },
+  common: rarity('common', 'text-rarity-common', 'border-rarity-common'),
+  uncommon: rarity('uncommon', 'text-rarity-uncommon', 'border-rarity-uncommon'),
+  rare: rarity('rare', 'text-rarity-rare', 'border-rarity-rare'),
+  epic: rarity('epic', 'text-rarity-epic', 'border-rarity-epic'),
+  legendary: rarity('legendary', 'text-rarity-legendary', 'border-rarity-legendary'),
 };
 
 /** Fundo do personagem para cada aura, só com tokens do tema. */

@@ -155,7 +155,7 @@ const itemSchema = z.object({
   name: z.string(),
   icon: z.string(),
   slot: z.enum(['head', 'hand', 'pet', 'aura', 'title']),
-  rarity: z.enum(['common', 'rare', 'epic', 'legendary']),
+  rarity: z.enum(['common', 'uncommon', 'rare', 'epic', 'legendary']),
   price: z.number().nullable(),
   drop: z.boolean(),
   position: z.number(),
@@ -197,6 +197,9 @@ function useGameRpc<V>(call: (vars: V) => PromiseLike<{ data: unknown; error: un
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: keys.game });
       queryClient.invalidateQueries({ queryKey: keys.profile });
+      // Comprar dá item (inventário) e pode dar conquista
+      queryClient.invalidateQueries({ queryKey: ['my-items'] });
+      queryClient.invalidateQueries({ queryKey: ['achievements'] });
     },
   });
 }
@@ -243,6 +246,30 @@ export function useMyAchievements() {
       const { data, error } = await supabase.rpc('my_achievements');
       if (error) throw error;
       return myAchievementsSchema.parse(data);
+    },
+  });
+}
+
+const myItemSchema = z.object({
+  item_key: z.string(),
+  source: z.string(),
+  acquired_at: z.string(),
+});
+export type MyItem = z.infer<typeof myItemSchema>;
+
+/** Inventário (Q1, D181): o que a pessoa tem, de onde veio e quando. */
+export function useMyItems() {
+  const { session } = useSession();
+  return useQuery({
+    queryKey: ['my-items'],
+    enabled: !!session,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('user_items')
+        .select('item_key, source, acquired_at')
+        .order('acquired_at', { ascending: false });
+      if (error) throw error;
+      return z.array(myItemSchema).parse(data);
     },
   });
 }
