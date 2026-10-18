@@ -141,11 +141,51 @@ O V6 transforma isso num **diário de treino de verdade**: cada exercício sabe 
 
 AC1 a AC5 são o núcleo (sem eles o resto não tem dados); AC6 a AC13 podem ir na ordem que o dono preferir.
 
-## 14. Decisões em aberto (do dono)
+## 14. Decisões (respostas do dono em 18/10/2026)
 
-1. **Mídia dos exercícios**: (a) gerar ilustrações próprias no ComfyUI, no mesmo estilo do Modo Jogo (V5 §7), (b) licenciar as da Gym visual, (c) procurar outra base com licença livre, ou (d) sem mídia (mapa muscular + instruções).
-2. **Tradução das instruções** para pt-BR: feita por nós (IA + revisão) e mantida no repositório?
-3. Unidade e regra de progressão padrão para quem começa (proposta: kg e progressão dupla).
-4. Programação por porcentagem (5/3/1) entra no V6 ou fica para depois?
-5. **Treinador por IA**: provedor (API do Claude, modelos locais no servidor, ou os dois) e se é recurso de plano pago.
-6. Peso e medidas: o treinador pode pedir para ver? (padrão proposto: só com a pessoa liberando, por treinador).
+1. **Mídia dos exercícios: procurar outra base livre; se não houver boa, gerar no ComfyUI.** Avaliação: [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (Unlicense, 800+ exercícios, 2 fotos cada, com músculos principais e secundários, equipamento, nível, mecânica). **Risco:** ela vem de outra base (exercises.json) cujas fotos e textos parecem copiados de um site comercial de musculação; o "domínio público" pode não valer. Plano: usar dela e do dataset MIT só os **dados técnicos** (nome, músculos, equipamento, nível), que não têm direito autoral relevante; **reescrever as instruções** na tradução (não traduzir literalmente); **fotos** só se a origem for confirmada livre; senão, gerar no ComfyUI (estilo do V5 §7), começando pelos ~150 exercícios mais comuns.
+2. **Tradução para pt-BR:** sim, pelos modelos locais do dono (`scripts/delegar`), com revisão por amostragem.
+3. **Padrão para quem começa** (unidade e regra de progressão de quem ainda não escolheu): proposta mantida, **kg e progressão dupla** (8–12 reps); a pessoa troca no Perfil e em cada treino.
+4. **Programação por porcentagem (5/3/1):** avaliar depois.
+5. **Treinador por IA:** avaliar preço por token e modelos antes (comparar API do Claude e de outros provedores com os modelos locais do servidor).
+6. **Imagens:** a IA precisa aceitar **upload de imagens** e interpretar o que há nelas (foto de progresso, foto de uma ficha de treino em papel, foto do aparelho para achar o exercício). Exige modelo multimodal; entra na avaliação do item 5. Peso e medidas continuam só com a pessoa, a não ser que ela libere para o treinador.
+
+## 15. O app para quem treina (pedido do dono em 18/10/2026)
+
+Hoje, para montar um treino, é preciso criar uma pasta, uma página de cards e os itens, com opções que não servem para treino. O V6 deixa isso direto.
+
+### 15.1 Primeira vez: "Vai usar para treinar?"
+
+- No primeiro acesso (e a qualquer hora no Perfil), uma pergunta: **vai usar o Questlist também para treinar?** Sim liga o **modo academia** da conta.
+- Ligado, a barra lateral (e a aba Pastas no celular) ganha o bloco **Academia**, logo acima de Projetos, com os treinos da pessoa e um "+ Novo treino".
+- "Novo treino" cria a página de treino direto no lugar certo (sem montar pasta à mão); pode começar de um plano pronto (§10).
+
+### 15.2 Organizar a barra lateral
+
+- Os **blocos** (Anotações, Academia, Pastas, Projetos, Recebidas) podem ser **reordenados** e escondidos; a ordem fica salva no perfil (vale em todos os aparelhos).
+- **Pastas e páginas sobem e descem** por botões "Mover para cima / para baixo" no menu de cada uma (e Alt+↑/↓ no teclado), além do arrastar que já existe, sem precisar entender a árvore WBS.
+
+### 15.3 Criar exercício sem ruído
+
+- Numa página de treino, criar um item mostra só o que importa para treinar: **exercício** (busca na biblioteca), **séries × repetições** (ou tempo), **carga**, **descanso**, **regra de progressão** e **observação**.
+- O resto (data, prioridade, etiquetas, responsáveis, dependências, estimativa, campos personalizados) fica fora; quem precisar acha em "Mais opções".
+- O painel do item numa página de treino segue o mesmo corte.
+
+### 15.4 Treinar junto (sessão compartilhada)
+
+- Ao iniciar o Modo Treino numa página compartilhada, escolher **quem está treinando junto agora** (membros da pasta).
+- A sessão começa para todos os escolhidos: quem estiver com o app aberto recebe "Fulano começou o treino com você: entrar"; o aviso também vai para o celular.
+- **Qualquer participante pode marcar séries de qualquer outro** naquela sessão (um celular só para a dupla, ou cada um no seu); cada pessoa continua com o próprio diário, cargas e recordes.
+- Descanso, exercício atual e o "Feita" ficam sincronizados entre os aparelhos da sessão, em tempo real.
+- A sessão termina quando todos saem ou acabam; o resumo mostra cada participante.
+
+### 15.5 Modo competição do grupo (como o GymRats)
+
+- Num grupo de treino (pasta compartilhada de Academia ou time), um **desafio** com início e fim: **ranking de dias ativos** (e, opcional, pontos por treino, volume ou minutos).
+- **Check-in** do treino do dia com foto opcional (Storage), que aparece no mural do grupo; reações e comentários.
+- **Chat do grupo de treino**.
+- Prêmio simbólico no jogo (conquista e item) para os primeiros do desafio.
+
+## 16. Tarefas
+
+A lista completa, com quem faz cada uma (modelos locais ou Claude) e as dependências, está em `docs/TAREFAS_V6.md`.
