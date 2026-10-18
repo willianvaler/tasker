@@ -9,7 +9,7 @@ import { db } from '@/lib/sync/db';
 import { isLocal } from '@/lib/sync/local';
 import { pendingXp } from '@/lib/sync/pending-xp';
 import { supabase } from '@/lib/supabase';
-import { getSyncUser, setSyncUser } from '@/lib/prefs';
+import { getSyncUser, setSyncReady, setSyncUser } from '@/lib/prefs';
 import { queryClient } from '@/providers/query';
 import { useSession } from '@/providers/session';
 
@@ -51,6 +51,7 @@ if (typeof window !== 'undefined')
 
 async function clearLocal() {
   pendingXp.clear();
+  setSyncReady(false);
   await db.disconnectAndClear();
 }
 
@@ -117,6 +118,7 @@ export function SyncProvider({ children }: { children: ReactNode }) {
     let settleTimer: ReturnType<typeof setTimeout> | undefined;
     const stopStatus = db.registerListener({
       statusChanged: (status) => {
+        if (status.hasSynced) setSyncReady(true);
         if (status.hasSynced && !synced) {
           // Tudo que passa a ler do aparelho (o resto continua no Supabase). Faltando uma chave,
           // a consulta fica com o que o servidor tinha antes da fila subir (ex.: a lista que

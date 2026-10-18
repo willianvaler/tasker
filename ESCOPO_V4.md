@@ -97,7 +97,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 Já feitos no commit `9e03581`: telas mais largas no computador (listas até 1152 px), barra lateral redimensionável, espaço entre a contagem do hábito bom/ruim e o nome da página, e respiro no hover dos bosses no Início. Continuar revendo as telas no computador para aproveitar a largura (duas colunas onde fizer sentido).
 
-## 7.1 Sessão que sobrevive ao servidor fora do ar (pedido do dono em 17/10/2026) — pendente
+## 7.1 Sessão que sobrevive ao servidor fora do ar (pedido do dono em 17/10/2026) — ✅ done (V1, D179)
 
 Hoje, quando o APK não consegue falar com o servidor (servidor desligado, reiniciando, túnel caído), o app **desloga** e a pessoa precisa entrar de novo. O certo:
 

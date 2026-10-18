@@ -971,6 +971,7 @@
     "state_synced": "Synced",
     "state_syncing": "Syncing…",
     "state_offline": "Offline: changes will go when you're back",
+    "state_server": "Server unavailable: keep using the app, changes will go when it's back",
     "state_error": "Sync error",
     "force": "Sync now",
     "discard": "Discard local changes",
@@ -1766,5 +1767,8 @@
     "plus30": "+30 s",
     "resting": "Rest until {{until}} · then: {{next}}",
     "now": "{{counter}} · exercise {{exercise}} of {{total}}"
+  },
+  "session": {
+    "ended": "Your session ended (the password changed or the session was ended elsewhere). Please sign in again."
   }
 }

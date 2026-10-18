@@ -13,7 +13,7 @@ import { clearPrefs } from '@/lib/prefs';
 import { formatBytes, MAX_ACCOUNT_BYTES } from '@/lib/attachments';
 import { useAttachmentUsage } from '@/lib/queries/attachments';
 import { deleteMyAccount, exportMyData } from '@/lib/queries/clan';
-import { supabase } from '@/lib/supabase';
+import { signOut as endSession } from '@/lib/session';
 import { useIsOnline } from '@/providers/online';
 import { clearQueryCache } from '@/providers/query';
 import { useToast } from '@/providers/toast';
@@ -56,7 +56,7 @@ export function PrivacySection() {
     setBusy('delete');
     try {
       await deleteMyAccount();
-      await supabase.auth.signOut();
+      await endSession();
       clearQueryCache();
       clearPrefs();
     } catch (err) {

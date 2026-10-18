@@ -11,7 +11,8 @@ import { taskMutationKey } from '@/lib/queries/keys';
 import { POWERSYNC_URL } from '@/lib/sync/connector';
 import { useIsOnline } from '@/providers/online';
 
-export type SyncState = 'synced' | 'syncing' | 'offline' | 'error';
+// server: há internet, mas o servidor não responde (D179); diferente de estar sem internet
+export type SyncState = 'synced' | 'syncing' | 'offline' | 'server' | 'error';
 
 /** Alterações esperando a conexão: a fila do sync (cada ação é uma transação) ou a antiga. */
 export function usePendingChanges() {
@@ -30,8 +31,10 @@ export function useSyncState(): SyncState {
   if (!online) return 'offline';
   if (!POWERSYNC_URL) return pending > 0 ? 'syncing' : 'synced';
   const flow = status.dataFlowStatus;
+  // Sem conexão com o sync e com erro na conexão: o servidor está fora (as tentativas seguem)
+  if (!status.connected && flow.downloadError) return 'server';
   if (flow.uploadError || flow.downloadError) return 'error';
-  if (!status.connected) return status.connecting ? 'syncing' : 'offline';
+  if (!status.connected) return status.connecting ? 'syncing' : 'server';
   if (flow.uploading || flow.downloading || pending > 0 || !status.hasSynced) return 'syncing';
   return 'synced';
 }
@@ -41,6 +44,7 @@ const COLOR: Record<SyncState, string> = {
   synced: 'bg-ok',
   syncing: 'bg-warn',
   offline: 'bg-danger',
+  server: 'bg-danger',
   error: 'bg-danger',
 };
 

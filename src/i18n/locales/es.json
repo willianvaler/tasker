@@ -971,6 +971,7 @@
     "state_synced": "Sincronizado",
     "state_syncing": "Sincronizando…",
     "state_offline": "Sin conexión: los cambios se enviarán al volver",
+    "state_server": "Servidor no disponible: sigue usando la app, los cambios se enviarán cuando vuelva",
     "state_error": "Error al sincronizar",
     "force": "Forzar sincronización",
     "discard": "Descartar cambios locales",
@@ -1766,5 +1767,8 @@
     "plus30": "+30 s",
     "resting": "Descanso hasta las {{until}} · después: {{next}}",
     "now": "{{counter}} · ejercicio {{exercise}} de {{total}}"
+  },
+  "session": {
+    "ended": "Tu sesión terminó (cambió la contraseña o se cerró en otro lugar). Vuelve a entrar."
   }
 }

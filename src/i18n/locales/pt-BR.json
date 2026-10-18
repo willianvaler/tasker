@@ -971,6 +971,7 @@
     "state_synced": "Sincronizado",
     "state_syncing": "Sincronizando…",
     "state_offline": "Sem conexão: as mudanças vão quando voltar",
+    "state_server": "Servidor fora do ar: você continua usando, e as mudanças vão quando ele voltar",
     "state_error": "Erro ao sincronizar",
     "force": "Forçar sincronização",
     "discard": "Descartar mudanças locais",
@@ -1766,5 +1767,8 @@
     "plus30": "+30 s",
     "resting": "Descanso até {{until}} · depois: {{next}}",
     "now": "{{counter}} · exercício {{exercise}} de {{total}}"
+  },
+  "session": {
+    "ended": "Sua sessão terminou (a senha mudou ou a sessão foi encerrada em outro lugar). Entre de novo."
   }
 }

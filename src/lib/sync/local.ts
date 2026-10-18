@@ -2,6 +2,8 @@ import type { Transaction } from '@powersync/common';
 import { onlineManager } from '@tanstack/react-query';
 
 import type { Tables } from '@/lib/db';
+import { getSyncReady } from '@/lib/prefs';
+import { currentSession } from '@/lib/session';
 import { supabase } from '@/lib/supabase';
 import { uuidv7 } from '@/lib/uuid';
 
@@ -13,7 +15,9 @@ import { pendingXp } from './pending-xp';
  * As telas leem e gravam no banco do aparelho depois da primeira sincronização completa; antes
  * disso (ou sem sync configurado), continuam no Supabase.
  */
-export const isLocal = () => !!POWERSYNC_URL && !!db.currentStatus?.hasSynced;
+// Já sincronizou alguma vez nesta conta (marca do aparelho) também vale: sem servidor, o PowerSync
+// só diz "sincronizado" depois de conectar (D179)
+export const isLocal = () => !!POWERSYNC_URL && (!!db.currentStatus?.hasSynced || getSyncReady());
 
 type Row = Record<string, unknown>;
 
@@ -156,8 +160,9 @@ export async function localUpdate(table: string, id: string, patch: Record<strin
   );
 }
 
-export const sessionUserId = async () =>
-  (await supabase.auth.getSession()).data.session?.user.id ?? null;
+// Quem está logado sai da sessão guardada, sem falar com o servidor (D179): o getSession() fica até
+// 30 s tentando renovar o token quando o servidor não responde, e as listas esperavam por isso
+export const sessionUserId = async () => (await currentSession({ local: true }))?.user.id ?? null;
 
 let folderCache: { userId: string; at: number; ids: string[] } | null = null;
 

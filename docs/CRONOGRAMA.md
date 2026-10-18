@@ -253,6 +253,12 @@ Valores marcados "provisório" são propostas minhas para não parar o trabalho;
 | O3 | Aviso de conclusão com o dano no diário e no semanal, e "limite diário atingido" |
 | O4 | Boss diário no Início, na Hoje e no Personagem, acima do semanal; sequência de diários derrotados |
 
+### Fase V — Sessão sem servidor (V4 §7.1)
+
+| Id | Tarefa |
+|---|---|
+| V1 | Continuar logado e usando o aparelho com o servidor fora do ar; enviar quando ele voltar |
+
 ### Fase P — Conquistas com raridade
 
 | # | Tarefa |

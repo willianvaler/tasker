@@ -100,6 +100,22 @@ export function setSyncUser(userId: string | null) {
   else localStore.removeItem(SYNC_USER_KEY);
 }
 
+const SYNC_READY_KEY = 'questlist-sync-ready';
+
+/**
+ * O banco do aparelho já terminou uma sincronização completa para a conta atual (D179). Ao abrir
+ * sem servidor, o PowerSync só diz "sincronizado" depois de conectar; com esta marca o app usa o
+ * aparelho desde o começo (senão a tarefa criada nesse meio-tempo ia pelo servidor e se perdia).
+ */
+export function getSyncReady() {
+  return localStore.getItem(SYNC_READY_KEY) === '1';
+}
+
+export function setSyncReady(ready: boolean) {
+  if (ready) localStore.setItem(SYNC_READY_KEY, '1');
+  else localStore.removeItem(SYNC_READY_KEY);
+}
+
 /** Id deste aparelho (timers: de onde veio o ativo). Gerado uma vez. */
 export function getDeviceId(): string {
   let id = localStore.getItem(DEVICE_KEY);

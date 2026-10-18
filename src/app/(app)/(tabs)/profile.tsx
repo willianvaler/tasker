@@ -29,7 +29,7 @@ import { Text } from '@/components/ui/text';
 import { clearPrefs } from '@/lib/prefs';
 import { disablePush } from '@/lib/push';
 import { useProfile, useUpdateProfile, type Profile } from '@/lib/queries/profile';
-import { supabase } from '@/lib/supabase';
+import { signOut as endSession } from '@/lib/session';
 import { useIsOnline } from '@/providers/online';
 import { clearQueryCache } from '@/providers/query';
 import { useSession } from '@/providers/session';
@@ -68,7 +68,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
   async function signOut() {
     // O próximo a usar este aparelho não recebe os avisos de quem saiu
     await disablePush().catch(() => {});
-    await supabase.auth.signOut();
+    await endSession();
     // O próximo usuário deste aparelho não pode ver o cache do anterior
     clearQueryCache();
     clearPrefs();
