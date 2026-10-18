@@ -2,7 +2,7 @@
 
 **Questlist** (nome provisório): app de tarefas e projetos colaborativos com gamificação leve, para Android, iOS e web com um único código. O escopo está em `ESCOPO.md` (v1), `ESCOPO_V2.md`, `ESCOPO_V3.md`, `ESCOPO_V4.md`, `ESCOPO_V5.md` e `ESCOPO_V6.md` (academia; em conflito, o mais recente vence); as decisões tomadas, em `DECISIONS.md`; o plano da V2/V3, em `docs/CRONOGRAMA.md`, e o andamento, em `docs/STATUS.md`. Leia antes de mudar comportamento.
 
-**Sempre que concluir uma tarefa do cronograma, atualize `docs/STATUS.md` no mesmo commit** (feito / em andamento / pendente / decisões). Um commit por tarefa, em Conventional Commits e pt-BR, com o id no fim: `feat(i18n): infraestrutura [A3]`. Interface, mensagens, comentários e commits em **português (pt-BR)**.
+**Sempre que concluir uma tarefa do cronograma, atualize `docs/STATUS.md` no mesmo commit** (feito / em andamento / pendente / decisões), e também as tabelas de leitura rápida `docs/PENDENTES.md` (o que falta) e `docs/FEITOS.md` (histórico): a tarefa concluída sai de uma e entra na outra. Um commit por tarefa, em Conventional Commits e pt-BR, com o id no fim: `feat(i18n): infraestrutura [A3]`. Interface, mensagens, comentários e commits em **português (pt-BR)**.
 
 `AGENTS.md` (veio do template do Expo) vale também: **o Expo muda a cada SDK, não confie na memória**. Confira a doc da versão instalada (`https://docs.expo.dev/versions/v57.0.0/`, índice em `https://docs.expo.dev/llms.txt`) antes de usar uma API do Expo/React Native. Instale pacotes com `npx expo install`, não com `npm install`.
 
