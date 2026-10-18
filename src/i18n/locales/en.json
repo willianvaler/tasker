@@ -65,7 +65,9 @@
     "taskPomodoro": "Start a pomodoro on the task",
     "taskStopwatch": "Start or stop the task stopwatch",
     "taskSnooze": "Snooze the task to tomorrow",
-    "taskMyDay": "Add to or remove from My day"
+    "taskMyDay": "Add to or remove from My day",
+    "treeMoveUp": "Move the open folder or page up",
+    "treeMoveDown": "Move the open folder or page down"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -374,7 +376,9 @@
     "moveTo": "Move to…",
     "moveTitle": "Move \"{{name}}\" to",
     "moved": "Moved to {{name}}",
-    "pages_zero": "No pages"
+    "pages_zero": "No pages",
+    "moveUp": "Move up",
+    "moveDown": "Move down"
   },
   "pageDialog": {
     "new": "New page",
@@ -2124,5 +2128,22 @@
     "useDark": "Use dark theme",
     "light": "Light",
     "dark": "Dark"
+  },
+  "gym": {
+    "block": "Gym",
+    "newWorkout": "New workout",
+    "workoutPlaceholder": "Workout name (e.g. Workout A)",
+    "firstWorkout": "Create your first workout",
+    "toggle": "Gym mode",
+    "toggleHint": "Shows the Gym block in the sidebar, with your workouts."
+  },
+  "sidebarPrefs": {
+    "title": "Sidebar",
+    "hint": "The order of the blocks and which ones show. Applies on all your devices.",
+    "up": "Move {{name}} up",
+    "down": "Move {{name}} down",
+    "show": "Show {{name}}",
+    "hide": "Hide {{name}}",
+    "hidden": "hidden"
   }
 }

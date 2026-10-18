@@ -395,6 +395,20 @@ export function useTreeMutations() {
   };
 }
 
+/**
+ * As raízes por bloco da barra lateral e da aba Pastas: com o modo academia ligado, a pasta
+ * Academia sai de Pastas e vai para o bloco dela (desligado, fica em Pastas: nada some).
+ */
+export function splitRoots(tree: Tree | undefined, gymOn: boolean) {
+  const folders = tree?.folders ?? [];
+  const gym = gymOn ? (tree?.gym ?? null) : null;
+  return {
+    personal: folders.filter((f) => f.kind !== 'project' && f.id !== gym?.id),
+    projects: folders.filter((f) => f.kind === 'project'),
+    gym,
+  };
+}
+
 /** Nome da página para texto (o ícone é desenhado à parte, pelo components/item-icon.tsx). */
 export function pageLabel(page: Pick<Page, 'name'>) {
   return page.name;

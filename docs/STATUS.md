@@ -199,7 +199,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [ ] **AC1.3** `lib/move-sibling.ts` (modelo local)
 - [ ] **AC1.4** Componente `GymQuestion` (modelo local)
 - [x] **AC1.5** Pasta de sistema Academia (`folders.is_gym`, uma por conta, não vira projeto nem subpasta), criada ao ligar; `tree.gym` (D182)
-- [ ] **AC1.6** Bloco Academia na barra lateral e na aba Pastas, "+ Novo treino"
+- [x] **AC1.6** Bloco Academia na barra lateral e na aba Pastas (acima de Projetos, com os treinos direto), "+ Novo treino" cria página de cards com reinício semanal (D182)
 - [ ] **AC1.7** Perfil → "Barra lateral": reordenar e esconder blocos
 - [ ] **AC1.8** Mover para cima / para baixo no menu de pasta e página, Alt+↑/↓
 - [ ] **AC1.9** Pergunta no primeiro acesso e interruptor no Perfil

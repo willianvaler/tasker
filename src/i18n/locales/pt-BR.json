@@ -65,7 +65,9 @@
     "taskPomodoro": "Iniciar pomodoro na tarefa",
     "taskStopwatch": "Iniciar ou parar o cronômetro da tarefa",
     "taskSnooze": "Adiar a tarefa para amanhã",
-    "taskMyDay": "Pôr ou tirar do Meu dia"
+    "taskMyDay": "Pôr ou tirar do Meu dia",
+    "treeMoveUp": "Subir a pasta ou página aberta",
+    "treeMoveDown": "Descer a pasta ou página aberta"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -374,7 +376,9 @@
     "moveTo": "Mover para…",
     "moveTitle": "Mover \"{{name}}\" para",
     "moved": "Movida para {{name}}",
-    "pages_zero": "Nenhuma página"
+    "pages_zero": "Nenhuma página",
+    "moveUp": "Mover para cima",
+    "moveDown": "Mover para baixo"
   },
   "pageDialog": {
     "new": "Nova página",
@@ -2124,5 +2128,22 @@
     "useDark": "Usar tema escuro",
     "light": "Claro",
     "dark": "Escuro"
+  },
+  "gym": {
+    "block": "Academia",
+    "newWorkout": "Novo treino",
+    "workoutPlaceholder": "Nome do treino (ex.: Treino A)",
+    "firstWorkout": "Criar o primeiro treino",
+    "toggle": "Modo academia",
+    "toggleHint": "Mostra o bloco Academia na barra lateral, com os seus treinos."
+  },
+  "sidebarPrefs": {
+    "title": "Barra lateral",
+    "hint": "A ordem dos blocos e quais aparecem. Vale em todos os seus aparelhos.",
+    "up": "Subir {{name}}",
+    "down": "Descer {{name}}",
+    "show": "Mostrar {{name}}",
+    "hide": "Esconder {{name}}",
+    "hidden": "escondido"
   }
 }

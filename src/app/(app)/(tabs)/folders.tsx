@@ -13,7 +13,8 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { usePendingShares, useReceivedPages } from '@/lib/queries/shares';
-import { useTree } from '@/lib/queries/tree';
+import { useProfile } from '@/lib/queries/profile';
+import { splitRoots, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 
 // Todas as pastas, como linhas: cada pasta com as páginas logo abaixo.
@@ -23,8 +24,8 @@ export default function FoldersScreen() {
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
   const folders = tree.data?.folders ?? [];
-  const personal = folders.filter((f) => f.kind !== 'project');
-  const projects = folders.filter((f) => f.kind === 'project');
+  const gymOn = useProfile().data?.gym_enabled === true;
+  const { personal, projects, gym } = splitRoots(tree.data, gymOn);
   const received = useReceivedPages();
   const pending = usePendingShares();
 
@@ -75,6 +76,17 @@ export default function FoldersScreen() {
             list: personal,
             add: () => actions.newFolder(),
           },
+          // V6 §15.1: Academia acima de Projetos; o "+" cria um treino, não uma pasta
+          ...(gym
+            ? [
+                {
+                  kind: 'gym',
+                  title: t('gym.block'),
+                  list: [gym],
+                  add: actions.newWorkout,
+                },
+              ]
+            : []),
           {
             kind: 'project',
             title: t('folder.projects'),
@@ -87,12 +99,18 @@ export default function FoldersScreen() {
             <View key={section.kind} className="gap-6">
               <SectionLabel
                 title={section.title}
-                count={section.list.length}
+                count={section.kind === 'gym' ? gym?.pages.length : section.list.length}
                 className="pt-0"
                 right={
                   <IconButton
                     icon={Plus}
-                    label={t(section.kind === 'project' ? 'folder.newProject' : 'folder.newFolder')}
+                    label={t(
+                      section.kind === 'project'
+                        ? 'folder.newProject'
+                        : section.kind === 'gym'
+                          ? 'gym.newWorkout'
+                          : 'folder.newFolder',
+                    )}
                     disabled={!online}
                     onPress={section.add}
                   />
@@ -113,7 +131,13 @@ export default function FoldersScreen() {
                   key={folder.id}
                   folder={folder}
                   onMenu={online ? () => actions.folderMenu(folder) : undefined}
-                  onNewPage={online ? () => actions.newPage(folder.id) : undefined}
+                  onNewPage={
+                    !online
+                      ? undefined
+                      : folder.is_gym
+                        ? actions.newWorkout
+                        : () => actions.newPage(folder.id)
+                  }
                 />
               ))}
             </View>

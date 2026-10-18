@@ -43,7 +43,8 @@ import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { getOpenFolders, getSidebarWidth, setOpenFolders, setSidebarWidth } from '@/lib/prefs';
 import { useGameState } from '@/lib/queries/game';
-import { useTree, type Page, type SubFolder } from '@/lib/queries/tree';
+import { useProfile } from '@/lib/queries/profile';
+import { splitRoots, useTree, type Page, type SubFolder } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { PendingShares } from '@/components/received';
 import { usePendingShares, useReceivedPages } from '@/lib/queries/shares';
@@ -170,9 +171,8 @@ export function Sidebar() {
     );
   }
 
-  const folders = tree.data?.folders ?? [];
-  const personal = folders.filter((f) => f.kind !== 'project');
-  const projects = folders.filter((f) => f.kind === 'project');
+  const gymOn = useProfile().data?.gym_enabled === true;
+  const { personal, projects, gym } = splitRoots(tree.data, gymOn);
   // Páginas recebidas (L4): não estão em pasta nenhuma do usuário
   const received = useReceivedPages();
   const pending = usePendingShares();
@@ -250,7 +250,7 @@ export function Sidebar() {
             }
           />
           {personal.map((folder) => renderFolder(folder, 0))}
-          {tree.data && folders.length === 0 && (
+          {tree.data && personal.length + projects.length === 0 && (
             <Pressable
               accessibilityRole="button"
               disabled={!online}
@@ -262,6 +262,36 @@ export function Sidebar() {
             </Pressable>
           )}
         </View>
+        {/* V6 §15.1: Academia logo acima de Projetos, com os treinos direto (sem abrir a pasta) */}
+        {gymOn && (
+          <View>
+            <SectionHeader
+              label={t('gym.block')}
+              action={
+                <IconButton
+                  icon={Plus}
+                  label={t('gym.newWorkout')}
+                  disabled={!online}
+                  aria-disabled={!online}
+                  onPress={actions.newWorkout}
+                />
+              }
+            />
+            {gym?.pages.map((page) => renderPage(page, 0))}
+            {gym?.children.map((child) => renderFolder(child, 0))}
+            {tree.data && !gym?.pages.length && !gym?.children.length && (
+              <Pressable
+                accessibilityRole="button"
+                disabled={!online}
+                className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+                onPress={actions.newWorkout}
+              >
+                <Icon icon={Plus} tone="ink-muted" />
+                <Text className="text-sm text-ink-muted">{t('gym.firstWorkout')}</Text>
+              </Pressable>
+            )}
+          </View>
+        )}
         {/* W2: Projetos sempre à vista, com o "+" para criar direto daqui */}
         <View>
           <SectionHeader

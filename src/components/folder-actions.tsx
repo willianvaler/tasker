@@ -11,6 +11,7 @@ import {
   useDialog,
   type MenuAction,
 } from '@/components/ui/dialog';
+import { useSetGymMode } from '@/lib/queries/profile';
 import { rootFolder, useTemplateMutations } from '@/lib/queries/projects';
 import { pageLabel, useTree, useTreeMutations, type Folder, type Page } from '@/lib/queries/tree';
 import { useSession } from '@/providers/session';
@@ -22,6 +23,7 @@ type FolderDialog =
   | { kind: 'move-page'; page: Page }
   | { kind: 'new-folder'; parentId?: string; project?: boolean }
   | { kind: 'new-page'; folderId: string }
+  | { kind: 'new-workout' }
   | { kind: 'edit-folder'; folder: Folder }
   | { kind: 'edit-page'; page: Page }
   | { kind: 'delete-folder'; folder: Folder }
@@ -38,6 +40,7 @@ export function useFolderActions() {
   const { session } = useSession();
   const tree = useTree();
   const toast = useToast();
+  const setGymMode = useSetGymMode();
   const [dialog, setDialog, close] = useDialog<FolderDialog>();
   const { t } = useTranslation();
 
@@ -47,6 +50,8 @@ export function useFolderActions() {
     newFolder: (parentId?: string) => setDialog({ kind: 'new-folder', parentId }),
     newProject: () => setDialog({ kind: 'new-folder', project: true }),
     newPage: (folderId: string) => setDialog({ kind: 'new-page', folderId }),
+    /** Página de treino na pasta Academia (V6 §15.1), sem passar pelo diálogo de página */
+    newWorkout: () => setDialog({ kind: 'new-workout' }),
     folderMenu: (folder: Folder) => setDialog({ kind: 'folder-menu', folder }),
     pageMenu: (page: Page) => setDialog({ kind: 'page-menu', page }),
     movePage: (page: Page) => setDialog({ kind: 'move-page', page }),
@@ -199,6 +204,32 @@ export function useFolderActions() {
               },
             );
           close();
+        }}
+      />
+    );
+  } else if (dialog?.kind === 'new-workout') {
+    element = (
+      <PromptDialog
+        title={t('gym.newWorkout')}
+        fields={[{ key: 'name', placeholder: t('gym.workoutPlaceholder') }]}
+        onClose={close}
+        onConfirm={async ({ name }) => {
+          close();
+          try {
+            // A pasta pode ter sido apagada: ligar de novo a recria
+            const folderId = tree.data?.gym?.id ?? (await setGymMode.mutateAsync(true));
+            if (!folderId) return;
+            const id = await m.createPage.mutateAsync({
+              folderId,
+              name,
+              icon: 'lucide:dumbbell',
+              view_type: 'cards',
+              reset_cycle: 'weekly',
+            });
+            router.navigate({ pathname: '/page/[id]', params: { id } });
+          } catch (err) {
+            onError(err as Error);
+          }
         }}
       />
     );
