@@ -2145,5 +2145,11 @@
     "show": "Show {{name}}",
     "hide": "Hide {{name}}",
     "hidden": "hidden"
+  },
+  "gymMode": {
+    "title": "Will you use Questlist to work out?",
+    "body": "If you turn it on, the sidebar gets the Gym block, with your workouts, sets and loads and Workout Mode. You can change it later in Profile.",
+    "yes": "Yes, I'll work out",
+    "no": "Not now"
   }
 }

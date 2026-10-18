@@ -195,9 +195,9 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 - [x] **AC0** Decisões do V6, app para quem treina, lista de tarefas e tipos comuns
 - [x] **AC1.1** `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP (D182)
-- [ ] **AC1.2** `lib/sidebar-blocks.ts` (modelo local)
-- [ ] **AC1.3** `lib/move-sibling.ts` (modelo local)
-- [ ] **AC1.4** Componente `GymQuestion` (modelo local)
+- [x] **AC1.2** `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada)
+- [x] **AC1.3** `lib/move-sibling.ts`: nova posição para subir/descer entre irmãs (feito pelo Claude)
+- [x] **AC1.4** Componente `GymQuestion` com os textos nos 3 idiomas (feito pelo Claude)
 - [x] **AC1.5** Pasta de sistema Academia (`folders.is_gym`, uma por conta, não vira projeto nem subpasta), criada ao ligar; `tree.gym` (D182)
 - [x] **AC1.6** Bloco Academia na barra lateral e na aba Pastas (acima de Projetos, com os treinos direto), "+ Novo treino" cria página de cards com reinício semanal (D182)
 - [ ] **AC1.7** Perfil → "Barra lateral": reordenar e esconder blocos

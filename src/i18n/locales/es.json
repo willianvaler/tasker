@@ -2145,5 +2145,11 @@
     "show": "Mostrar {{name}}",
     "hide": "Ocultar {{name}}",
     "hidden": "oculto"
+  },
+  "gymMode": {
+    "title": "¿Vas a usar Questlist para entrenar?",
+    "body": "Si lo activas, la barra lateral gana el bloque Gimnasio, con tus entrenamientos, series y cargas y el Modo Entrenamiento. Puedes cambiarlo después en el Perfil.",
+    "yes": "Sí, voy a entrenar",
+    "no": "Ahora no"
   }
 }

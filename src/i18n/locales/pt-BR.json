@@ -2145,5 +2145,11 @@
     "show": "Mostrar {{name}}",
     "hide": "Esconder {{name}}",
     "hidden": "escondido"
+  },
+  "gymMode": {
+    "title": "Vai usar o Questlist para treinar?",
+    "body": "Ligando, a barra lateral ganha o bloco Academia, com seus treinos, séries e cargas e o Modo Treino. Dá para mudar depois no Perfil.",
+    "yes": "Sim, vou treinar",
+    "no": "Agora não"
   }
 }
