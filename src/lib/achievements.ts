@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { tr } from './i18n-ref';
+
 // Conquistas (V4 §2, D180): raridade, categoria, séries e o progresso até a próxima. Funções
 // puras; o catálogo e a concessão são do servidor (my_achievements, _check_achievements).
 
@@ -75,4 +77,15 @@ export function filterAchievements(items: readonly AchievementItem[], filter: Ac
       (!filter.category || item.category === filter.category) &&
       (!filter.state || (filter.state === 'unlocked') === !!item.unlocked_at),
   );
+}
+
+/** Nome e descrição no idioma da pessoa; o do servidor (pt) se a chave não existir no app. */
+export function achievementText(a: { key?: string; name?: string; description?: string }) {
+  const read = (field: 'name' | 'description', fallback: string | undefined) => {
+    if (!a.key) return fallback ?? '';
+    const path = `achievements.items.${a.key}.${field}`;
+    const text = tr(path);
+    return text === path ? (fallback ?? '') : text;
+  };
+  return { name: read('name', a.name), description: read('description', a.description) };
 }

@@ -1770,5 +1770,304 @@
   },
   "session": {
     "ended": "Your session ended (the password changed or the session was ended elsewhere). Please sign in again."
+  },
+  "achievements": {
+    "rarity": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic",
+      "legendary": "Legendary"
+    },
+    "category": {
+      "tasks": "Tasks",
+      "streak": "Streak",
+      "bosses": "Bosses",
+      "levels": "Levels",
+      "character": "Character",
+      "habits": "Habits",
+      "projects": "Projects and teams",
+      "special": "Special"
+    },
+    "items": {
+      "first_task": {
+        "name": "First step",
+        "description": "Complete your first task"
+      },
+      "tasks_10": {
+        "name": "10 tasks",
+        "description": "10 tasks completed"
+      },
+      "tasks_100": {
+        "name": "100 tasks",
+        "description": "100 tasks completed"
+      },
+      "tasks_500": {
+        "name": "500 tasks",
+        "description": "500 tasks completed"
+      },
+      "tasks_1000": {
+        "name": "1,000 tasks",
+        "description": "1,000 tasks completed"
+      },
+      "tasks_2500": {
+        "name": "2,500 tasks",
+        "description": "2,500 tasks completed"
+      },
+      "tasks_5000": {
+        "name": "5,000 tasks",
+        "description": "5,000 tasks completed"
+      },
+      "tasks_10000": {
+        "name": "10,000 tasks",
+        "description": "10,000 tasks completed"
+      },
+      "tasks_25000": {
+        "name": "25,000 tasks",
+        "description": "25,000 tasks completed"
+      },
+      "page_complete": {
+        "name": "Full page",
+        "description": "Check off an entire card page"
+      },
+      "estimates_100": {
+        "name": "Good estimator",
+        "description": "Complete 100 tasks with an estimate"
+      },
+      "tree_5": {
+        "name": "Deep roots",
+        "description": "Complete a task on the 5th level of a tree"
+      },
+      "streak_3": {
+        "name": "3-day streak",
+        "description": "Complete tasks 3 days in a row"
+      },
+      "streak_7": {
+        "name": "One week",
+        "description": "Complete tasks 7 days in a row"
+      },
+      "streak_30": {
+        "name": "One month",
+        "description": "Complete tasks 30 days in a row"
+      },
+      "streak_60": {
+        "name": "60-day streak",
+        "description": "Complete tasks 60 days in a row"
+      },
+      "streak_100": {
+        "name": "100-day streak",
+        "description": "Complete tasks 100 days in a row"
+      },
+      "streak_180": {
+        "name": "180-day streak",
+        "description": "Complete tasks 180 days in a row"
+      },
+      "streak_365": {
+        "name": "A whole year",
+        "description": "Complete tasks 365 days in a row"
+      },
+      "first_boss": {
+        "name": "First boss",
+        "description": "Defeat your first boss"
+      },
+      "boss_5": {
+        "name": "5 bosses",
+        "description": "Defeat 5 weekly, clan or project bosses"
+      },
+      "boss_10": {
+        "name": "10 bosses",
+        "description": "Defeat 10 weekly, clan or project bosses"
+      },
+      "boss_25": {
+        "name": "25 bosses",
+        "description": "Defeat 25 weekly, clan or project bosses"
+      },
+      "boss_50": {
+        "name": "50 bosses",
+        "description": "Defeat 50 weekly, clan or project bosses"
+      },
+      "boss_100": {
+        "name": "100 bosses",
+        "description": "Defeat 100 weekly, clan or project bosses"
+      },
+      "daily_1": {
+        "name": "First daily boss",
+        "description": "Defeat the daily boss for the first time"
+      },
+      "daily_30": {
+        "name": "30 daily bosses",
+        "description": "Defeat 30 daily bosses"
+      },
+      "daily_100": {
+        "name": "100 daily bosses",
+        "description": "Defeat 100 daily bosses"
+      },
+      "daily_365": {
+        "name": "365 daily bosses",
+        "description": "Defeat 365 daily bosses"
+      },
+      "daily_streak_7": {
+        "name": "No day off",
+        "description": "Defeat the daily boss 7 days in a row"
+      },
+      "daily_streak_30": {
+        "name": "A month without a break",
+        "description": "Defeat the daily boss 30 days in a row"
+      },
+      "boss_level_5": {
+        "name": "Heavyweight",
+        "description": "Defeat a level 5 boss or higher"
+      },
+      "clan_boss": {
+        "name": "Together",
+        "description": "Defeat a clan boss"
+      },
+      "clan_top": {
+        "name": "Front line",
+        "description": "Be the top contributor to defeat a clan boss"
+      },
+      "level_3": {
+        "name": "Level 3",
+        "description": "Reach level 3"
+      },
+      "level_5": {
+        "name": "Level 5",
+        "description": "Reach level 5"
+      },
+      "level_10": {
+        "name": "Level 10",
+        "description": "Reach level 10"
+      },
+      "level_20": {
+        "name": "Level 20",
+        "description": "Reach level 20"
+      },
+      "level_30": {
+        "name": "Level 30",
+        "description": "Reach level 30"
+      },
+      "level_40": {
+        "name": "Level 40",
+        "description": "Reach level 40"
+      },
+      "level_50": {
+        "name": "Level 50",
+        "description": "Reach level 50"
+      },
+      "level_75": {
+        "name": "Level 75",
+        "description": "Reach level 75"
+      },
+      "level_100": {
+        "name": "Level 100",
+        "description": "Reach level 100"
+      },
+      "class_chosen": {
+        "name": "Path chosen",
+        "description": "Choose a class"
+      },
+      "first_skill": {
+        "name": "First skill",
+        "description": "Use your class skill"
+      },
+      "attr_5": {
+        "name": "In shape",
+        "description": "Spend 5 attribute points"
+      },
+      "first_crit": {
+        "name": "Critical",
+        "description": "Land a critical hit on a boss"
+      },
+      "big_hit": {
+        "name": "Big hit",
+        "description": "Deal 15 or more damage in a single hit"
+      },
+      "first_purchase": {
+        "name": "First purchase",
+        "description": "Buy an item in the shop"
+      },
+      "first_drop": {
+        "name": "Loot",
+        "description": "Get an item from a boss"
+      },
+      "collector": {
+        "name": "Collector",
+        "description": "Own 10 items"
+      },
+      "gold_500": {
+        "name": "Full purse",
+        "description": "Earn 500 gold in total"
+      },
+      "counter_goal": {
+        "name": "Goal reached",
+        "description": "Reach the goal of a counter habit"
+      },
+      "plus_50": {
+        "name": "Good habits",
+        "description": "Log a good habit 50 times"
+      },
+      "habits_1000": {
+        "name": "A thousand checks",
+        "description": "Check habits 1,000 times"
+      },
+      "habits_5000": {
+        "name": "Five thousand checks",
+        "description": "Check habits 5,000 times"
+      },
+      "project_done": {
+        "name": "Ahead of schedule",
+        "description": "Defeat a project boss before the deadline"
+      },
+      "projects_10": {
+        "name": "10 projects",
+        "description": "Finish 10 projects (5 tasks or more)"
+      },
+      "projects_50": {
+        "name": "50 projects",
+        "description": "Finish 50 projects (5 tasks or more)"
+      },
+      "delegated_100": {
+        "name": "Delegate to advance",
+        "description": "100 tasks you created were completed by someone else"
+      },
+      "team_create": {
+        "name": "Team formed",
+        "description": "Create a team"
+      },
+      "team_10": {
+        "name": "Full team",
+        "description": "Have a team with 10 people"
+      },
+      "early_bird": {
+        "name": "Early bird",
+        "description": "Complete a task before 7 a.m."
+      },
+      "night_owl": {
+        "name": "Night owl",
+        "description": "Complete a task after 11 p.m."
+      },
+      "midnight": {
+        "name": "Turn of the day",
+        "description": "Complete a task in the first 5 minutes after midnight"
+      },
+      "comeback": {
+        "name": "Back again",
+        "description": "Complete tasks again after 30 days away"
+      },
+      "fifty_day": {
+        "name": "Marathon day",
+        "description": "Complete 50 tasks in a single day"
+      },
+      "pomodoro_8": {
+        "name": "Total focus",
+        "description": "Do 8 pomodoros in a single day"
+      }
+    },
+    "hints": {
+      "midnight": "It has to do with the clock.",
+      "comeback": "Sometimes you disappear for a while.",
+      "fifty_day": "A very, very productive day.",
+      "pomodoro_8": "Tomatoes, lots of tomatoes."
+    }
   }
 }

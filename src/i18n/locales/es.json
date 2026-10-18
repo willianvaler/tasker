@@ -1770,5 +1770,304 @@
   },
   "session": {
     "ended": "Tu sesión terminó (cambió la contraseña o se cerró en otro lugar). Vuelve a entrar."
+  },
+  "achievements": {
+    "rarity": {
+      "common": "Común",
+      "uncommon": "Poco común",
+      "rare": "Rara",
+      "epic": "Épica",
+      "legendary": "Legendaria"
+    },
+    "category": {
+      "tasks": "Tareas",
+      "streak": "Racha",
+      "bosses": "Jefes",
+      "levels": "Niveles",
+      "character": "Personaje",
+      "habits": "Hábitos",
+      "projects": "Proyectos y equipos",
+      "special": "Especiales"
+    },
+    "items": {
+      "first_task": {
+        "name": "Primer paso",
+        "description": "Completar la primera tarea"
+      },
+      "tasks_10": {
+        "name": "10 tareas",
+        "description": "10 tareas completadas"
+      },
+      "tasks_100": {
+        "name": "100 tareas",
+        "description": "100 tareas completadas"
+      },
+      "tasks_500": {
+        "name": "500 tareas",
+        "description": "500 tareas completadas"
+      },
+      "tasks_1000": {
+        "name": "1.000 tareas",
+        "description": "1.000 tareas completadas"
+      },
+      "tasks_2500": {
+        "name": "2.500 tareas",
+        "description": "2.500 tareas completadas"
+      },
+      "tasks_5000": {
+        "name": "5.000 tareas",
+        "description": "5.000 tareas completadas"
+      },
+      "tasks_10000": {
+        "name": "10.000 tareas",
+        "description": "10.000 tareas completadas"
+      },
+      "tasks_25000": {
+        "name": "25.000 tareas",
+        "description": "25.000 tareas completadas"
+      },
+      "page_complete": {
+        "name": "Página completa",
+        "description": "Marcar una página de tarjetas entera"
+      },
+      "estimates_100": {
+        "name": "Buen estimador",
+        "description": "Completar 100 tareas con tiempo estimado"
+      },
+      "tree_5": {
+        "name": "Raíz profunda",
+        "description": "Completar una tarea en el 5.º nivel de un árbol"
+      },
+      "streak_3": {
+        "name": "3 días seguidos",
+        "description": "3 días seguidos completando tareas"
+      },
+      "streak_7": {
+        "name": "Una semana",
+        "description": "7 días seguidos completando tareas"
+      },
+      "streak_30": {
+        "name": "Un mes",
+        "description": "30 días seguidos completando tareas"
+      },
+      "streak_60": {
+        "name": "60 días seguidos",
+        "description": "60 días seguidos completando tareas"
+      },
+      "streak_100": {
+        "name": "100 días seguidos",
+        "description": "100 días seguidos completando tareas"
+      },
+      "streak_180": {
+        "name": "180 días seguidos",
+        "description": "180 días seguidos completando tareas"
+      },
+      "streak_365": {
+        "name": "Un año entero",
+        "description": "365 días seguidos completando tareas"
+      },
+      "first_boss": {
+        "name": "Primer jefe",
+        "description": "Derrotar al primer jefe"
+      },
+      "boss_5": {
+        "name": "5 jefes",
+        "description": "Derrotar 5 jefes semanales, de clan o de proyecto"
+      },
+      "boss_10": {
+        "name": "10 jefes",
+        "description": "Derrotar 10 jefes semanales, de clan o de proyecto"
+      },
+      "boss_25": {
+        "name": "25 jefes",
+        "description": "Derrotar 25 jefes semanales, de clan o de proyecto"
+      },
+      "boss_50": {
+        "name": "50 jefes",
+        "description": "Derrotar 50 jefes semanales, de clan o de proyecto"
+      },
+      "boss_100": {
+        "name": "100 jefes",
+        "description": "Derrotar 100 jefes semanales, de clan o de proyecto"
+      },
+      "daily_1": {
+        "name": "Primer jefe del día",
+        "description": "Derrotar al jefe del día por primera vez"
+      },
+      "daily_30": {
+        "name": "30 jefes del día",
+        "description": "Derrotar 30 jefes del día"
+      },
+      "daily_100": {
+        "name": "100 jefes del día",
+        "description": "Derrotar 100 jefes del día"
+      },
+      "daily_365": {
+        "name": "365 jefes del día",
+        "description": "Derrotar 365 jefes del día"
+      },
+      "daily_streak_7": {
+        "name": "Semana sin descanso",
+        "description": "Derrotar al jefe del día 7 días seguidos"
+      },
+      "daily_streak_30": {
+        "name": "Mes sin descanso",
+        "description": "Derrotar al jefe del día 30 días seguidos"
+      },
+      "boss_level_5": {
+        "name": "Jefe de peso",
+        "description": "Derrotar a un jefe de nivel 5 o más"
+      },
+      "clan_boss": {
+        "name": "En grupo",
+        "description": "Derrotar a un jefe de clan"
+      },
+      "clan_top": {
+        "name": "Primera línea",
+        "description": "Ser quien más contribuyó a derrotar a un jefe de clan"
+      },
+      "level_3": {
+        "name": "Nivel 3",
+        "description": "Llegar al nivel 3"
+      },
+      "level_5": {
+        "name": "Nivel 5",
+        "description": "Llegar al nivel 5"
+      },
+      "level_10": {
+        "name": "Nivel 10",
+        "description": "Llegar al nivel 10"
+      },
+      "level_20": {
+        "name": "Nivel 20",
+        "description": "Llegar al nivel 20"
+      },
+      "level_30": {
+        "name": "Nivel 30",
+        "description": "Llegar al nivel 30"
+      },
+      "level_40": {
+        "name": "Nivel 40",
+        "description": "Llegar al nivel 40"
+      },
+      "level_50": {
+        "name": "Nivel 50",
+        "description": "Llegar al nivel 50"
+      },
+      "level_75": {
+        "name": "Nivel 75",
+        "description": "Llegar al nivel 75"
+      },
+      "level_100": {
+        "name": "Nivel 100",
+        "description": "Llegar al nivel 100"
+      },
+      "class_chosen": {
+        "name": "Con rumbo",
+        "description": "Elegir una clase"
+      },
+      "first_skill": {
+        "name": "Primera habilidad",
+        "description": "Usar la habilidad de tu clase"
+      },
+      "attr_5": {
+        "name": "En forma",
+        "description": "Repartir 5 puntos de atributo"
+      },
+      "first_crit": {
+        "name": "Crítico",
+        "description": "Acertar un crítico al jefe"
+      },
+      "big_hit": {
+        "name": "Golpe fuerte",
+        "description": "Causar 15 de daño o más en un solo golpe"
+      },
+      "first_purchase": {
+        "name": "Primera compra",
+        "description": "Comprar un objeto en la tienda"
+      },
+      "first_drop": {
+        "name": "Botín",
+        "description": "Ganar un objeto de un jefe"
+      },
+      "collector": {
+        "name": "Coleccionista",
+        "description": "Tener 10 objetos"
+      },
+      "gold_500": {
+        "name": "Bolsa llena",
+        "description": "Ganar 500 de oro en total"
+      },
+      "counter_goal": {
+        "name": "Meta cumplida",
+        "description": "Cumplir la meta de un hábito contador"
+      },
+      "plus_50": {
+        "name": "Buenos hábitos",
+        "description": "Registrar 50 veces un hábito bueno"
+      },
+      "habits_1000": {
+        "name": "Mil marcas",
+        "description": "Marcar hábitos 1.000 veces"
+      },
+      "habits_5000": {
+        "name": "Cinco mil marcas",
+        "description": "Marcar hábitos 5.000 veces"
+      },
+      "project_done": {
+        "name": "Antes de plazo",
+        "description": "Derrotar al jefe de un proyecto antes del plazo"
+      },
+      "projects_10": {
+        "name": "10 proyectos",
+        "description": "Terminar 10 proyectos (con 5 tareas o más)"
+      },
+      "projects_50": {
+        "name": "50 proyectos",
+        "description": "Terminar 50 proyectos (con 5 tareas o más)"
+      },
+      "delegated_100": {
+        "name": "Delegar es avanzar",
+        "description": "100 tareas creadas por ti y completadas por otra persona"
+      },
+      "team_create": {
+        "name": "Equipo formado",
+        "description": "Crear un equipo"
+      },
+      "team_10": {
+        "name": "Equipo completo",
+        "description": "Tener un equipo con 10 personas"
+      },
+      "early_bird": {
+        "name": "Madrugador",
+        "description": "Completar una tarea antes de las 7"
+      },
+      "night_owl": {
+        "name": "Búho",
+        "description": "Completar una tarea después de las 23"
+      },
+      "midnight": {
+        "name": "Cambio de día",
+        "description": "Completar una tarea en los primeros 5 minutos después de la medianoche"
+      },
+      "comeback": {
+        "name": "De vuelta",
+        "description": "Volver a completar tareas después de 30 días sin hacerlo"
+      },
+      "fifty_day": {
+        "name": "Día de maratón",
+        "description": "Completar 50 tareas en un solo día"
+      },
+      "pomodoro_8": {
+        "name": "Foco total",
+        "description": "Hacer 8 pomodoros en un solo día"
+      }
+    },
+    "hints": {
+      "midnight": "Tiene que ver con el reloj.",
+      "comeback": "A veces uno desaparece un tiempo.",
+      "fifty_day": "Un día muy, muy productivo.",
+      "pomodoro_8": "Tomates, muchos tomates."
+    }
   }
 }

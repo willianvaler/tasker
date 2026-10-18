@@ -1,7 +1,7 @@
 -- V4 §2 (P1 a P3, D180): conquistas com raridade, % de jogadores, séries e secretas.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(12);
+select plan(18);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
@@ -53,6 +53,26 @@ set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", 
 select is((select x ->> 'icon' from jsonb_array_elements(public.my_achievements() -> 'items') x
            where x ->> 'key' = 'night_owl'), null, 'secreta bloqueada não mostra o ícone');
 reset role;
+
+-- P2: catálogo com 68 e concessão pelas séries e pelas especiais
+reset role;
+select is((select count(*)::int from public.achievements), 68, 'catálogo com 68 conquistas');
+select is((select count(*)::int from public.achievements where secret and key <> 'night_owl'), 4,
+  '4 secretas (a night_owl virou secreta só neste teste)');
+-- Bia: 50 tarefas hoje (maratona) e a primeira há 40 dias (de volta depois de 30 parada)
+insert into public.xp_events (user_id, kind, amount, day, created_at)
+select '22222222-2222-2222-2222-222222222222', 'task', 1, current_date, now() from generate_series(1, 50);
+insert into public.xp_events (user_id, kind, amount, day, created_at) values
+  ('22222222-2222-2222-2222-222222222222', 'task', 1, current_date - 40, now() - interval '40 days');
+create temp table got as select public._check_achievements('22222222-2222-2222-2222-222222222222') as r;
+select ok(exists (select 1 from public.user_achievements where user_id = '22222222-2222-2222-2222-222222222222'
+                  and achievement_key = 'tasks_10'), 'faixa: 52 tarefas dão a de 10');
+select ok(not exists (select 1 from public.user_achievements where user_id = '22222222-2222-2222-2222-222222222222'
+                      and achievement_key = 'tasks_100'), 'e não a de 100');
+select ok(exists (select 1 from public.user_achievements where user_id = '22222222-2222-2222-2222-222222222222'
+                  and achievement_key = 'fifty_day'), 'secreta: 50 tarefas num dia');
+select ok(exists (select 1 from public.user_achievements where user_id = '22222222-2222-2222-2222-222222222222'
+                  and achievement_key = 'comeback'), 'secreta: voltou depois de 30 dias');
 
 -- Sem login, nada
 set local request.jwt.claims = '{"role": "anon"}';

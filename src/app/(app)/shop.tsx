@@ -11,6 +11,7 @@ import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Grid } from '@/components/ui/grid';
 import { Text } from '@/components/ui/text';
+import { achievementText } from '@/lib/achievements';
 import { RARITY, SLOTS, type Slot } from '@/lib/character';
 import { cn } from '@/lib/cn';
 import { useBuyItem, useEquipItem, useGameState, useItems, type Item } from '@/lib/queries/game';
@@ -134,7 +135,9 @@ export default function ShopScreen() {
             closeConfirm();
             buy.mutate(item.key, {
               onSuccess: (achievements) => {
-                const extra = achievements.map((a) => ` · ${a.icon} ${a.name}`).join('');
+                const extra = achievements
+                  .map((a) => ` · ${a.icon} ${achievementText(a).name}`)
+                  .join('');
                 toast({
                   message: t('shop.bought', { name: item.name, extra }),
                   action: {

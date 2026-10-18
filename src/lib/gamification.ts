@@ -1,3 +1,4 @@
+import { achievementText } from './achievements';
 import { tr } from './i18n-ref';
 import { gamificationConfig } from './gamification.config';
 
@@ -30,7 +31,7 @@ export function rewardMessage(summary: {
   level: number | null;
   level_up: boolean;
   boss_defeated: boolean;
-  achievements: { name: string; icon: string }[];
+  achievements: { key?: string; name: string; icon: string }[];
   damage?: number;
   crit?: boolean;
   heal?: number;
@@ -65,7 +66,7 @@ export function rewardMessage(summary: {
   } else if (summary.boss_defeated) parts.push(tr('reward.bossDefeated'));
   for (const d of summary.drops ?? [])
     parts.push(tr('reward.drop', { icon: d.icon, name: d.name }));
-  for (const a of summary.achievements) parts.push(`${a.icon} ${a.name}`);
+  for (const a of summary.achievements) parts.push(`${a.icon} ${achievementText(a).name}`);
   if (summary.limit === 'quick') parts.push(tr('reward.limitQuick'));
   if (summary.limit === 'habit')
     parts.push(tr('reward.limitHabit', { count: gamificationConfig.antiFarm.habitPlusDailyCap }));

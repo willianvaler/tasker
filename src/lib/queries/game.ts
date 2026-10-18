@@ -177,7 +177,11 @@ export function useItems() {
 }
 
 const newAchievements = z
-  .object({ achievements: z.array(z.object({ name: z.string(), icon: z.string() })).optional() })
+  .object({
+    achievements: z
+      .array(z.object({ key: z.string().optional(), name: z.string(), icon: z.string() }))
+      .optional(),
+  })
   .passthrough();
 
 /** Chama uma função do personagem e recarrega o estado do jogo. Devolve as conquistas novas. */
