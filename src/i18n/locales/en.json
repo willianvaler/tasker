@@ -2118,5 +2118,11 @@
     "goShop": "Go to the shop",
     "itemLabel": "{{name}}, {{slot}}, {{rarity}}",
     "open": "Inventory"
+  },
+  "themeToggle": {
+    "useLight": "Use light theme",
+    "useDark": "Use dark theme",
+    "light": "Light",
+    "dark": "Dark"
   }
 }
