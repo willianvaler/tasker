@@ -28,7 +28,7 @@ Repositório: https://github.com/willianvaler/tasker
 
 ---
 
-## 2. Estratégia de sincronização local ↔ servidor
+## 2. Estratégia de sincronização local ↔ servidor — ✅ done (PowerSync, D75 a D89)
 
 ### 2.1 Visão geral
 
@@ -104,7 +104,7 @@ Seja qual for a escolha, o **modelo de dados e as regras abaixo valem igual**.
 
 ---
 
-## 3. Banco de dados do servidor
+## 3. Banco de dados do servidor — ✅ done
 
 - **PostgreSQL** (gerenciado, com backups automáticos e point-in-time recovery). Se o projeto já usa Supabase, manter; senão, Postgres + camada de auth.
 - Migrations versionadas, sempre reversíveis quando possível.
@@ -115,7 +115,7 @@ Seja qual for a escolha, o **modelo de dados e as regras abaixo valem igual**.
 
 ---
 
-## 4. Times (grupos) e cargos
+## 4. Times (grupos) e cargos — ✅ done (Fase E)
 
 ### 4.1 Conceito
 
@@ -152,7 +152,7 @@ Seja qual for a escolha, o **modelo de dados e as regras abaixo valem igual**.
 
 ---
 
-## 5. Estrutura: Pastas, Projetos e Páginas
+## 5. Estrutura: Pastas, Projetos e Páginas — ✅ done (Fase C)
 
 ### 5.1 Modelo mental
 
@@ -190,7 +190,7 @@ milestones(id, project_id, name, due_at, ...)    -- só projetos
 
 ---
 
-## 6. Criação rápida (continua sendo a prioridade)
+## 6. Criação rápida (continua sendo a prioridade) — ✅ done
 
 - Campo de captura sempre visível; Enter cria; foco permanece.
 - Sintaxe rápida e criação em lote do `ESCOPO.md` seguem valendo, **agora com as mesmas regras de permissão** (o campo some/desabilita para Leitor).
@@ -198,7 +198,7 @@ milestones(id, project_id, name, due_at, ...)    -- só projetos
 
 ---
 
-## 7. Criação/edição avançada
+## 7. Criação/edição avançada — ✅ done (C8)
 
 - Botão **"Criação avançada"** (ícone de sliders) ao lado do campo rápido e no menu "+ Novo"; atalho `Ctrl/Cmd + Shift + N`. Na edição, o mesmo painel abre com `Ctrl/Cmd + E` ou pelo botão "Mais opções".
 - Abre um **painel lateral** (desktop) ou **tela cheia deslizante** (celular). Nunca um modal que bloqueia tudo.
@@ -213,7 +213,7 @@ milestones(id, project_id, name, due_at, ...)    -- só projetos
 
 ---
 
-## 8. Edição inline (edição rápida)
+## 8. Edição inline (edição rápida) — ✅ done (C5)
 
 - Selecionar qualquer item (pasta, projeto, página, tarefa) e pressionar **`F2`** (ou duplo clique / toque longo no celular) habilita edição inline:
   - o nome vira um campo editável com o texto selecionado;
@@ -223,7 +223,7 @@ milestones(id, project_id, name, due_at, ...)    -- só projetos
 - Edição inline também para: prioridade (`1`–`3`), data (`D` abre seletor rápido com "hoje / amanhã / próxima semana / escolher"), responsável (`A`).
 - Otimista + sincronizado: edição aparece imediatamente.
 
-### 8.1 Ícones
+### 8.1 Ícones — ✅ done (C4)
 
 - Biblioteca de ícones curada (**Phosphor** ou **Lucide**, escolher uma e manter consistência) com **busca por nome em pt/en/es** e categorias (casa, trabalho, saúde/academia, estudo, finanças, viagem, comida, pessoas, etc.).
 - Aceitar também **emoji** como ícone.
@@ -233,7 +233,7 @@ milestones(id, project_id, name, due_at, ...)    -- só projetos
 
 ---
 
-## 9. Atalhos de teclado
+## 9. Atalhos de teclado — ✅ done (C6; faltam Shift+Z para refazer e remapear atalhos)
 
 Implementar um **registro central de atalhos** (`shortcuts.ts`): cada atalho tem `id`, tecla(s), descrição (chave i18n), escopo (global / lista / editor) e condição de permissão. A página de ajuda e a paleta de comandos leem desse mesmo registro (nunca duplicar a lista à mão).
 
@@ -267,7 +267,7 @@ Implementar um **registro central de atalhos** (`shortcuts.ts`): cada atalho tem
 
 ---
 
-## 10. Página Wiki / Ajuda
+## 10. Página Wiki / Ajuda — ✅ done (F1, F2)
 
 - Rota `/ajuda` (também acessível por `?` e pela paleta de comandos).
 - **Texto simples, direto, sem jargão**, com frases curtas, exemplos reais e, quando útil, GIFs/imagens curtas.
@@ -287,7 +287,7 @@ Implementar um **registro central de atalhos** (`shortcuts.ts`): cada atalho tem
 
 ---
 
-## 11. Internacionalização (pt-BR, en, es)
+## 11. Internacionalização (pt-BR, en, es) — ✅ done (falta o texto das notificações push em en/es)
 
 - Usar uma biblioteca madura de i18n compatível com a stack (ex.: `next-intl`/`react-i18next`), com **chaves semânticas** (`task.create.placeholder`), nunca texto fixo em componentes.
 - Arquivos: `locales/pt-BR.json`, `locales/en.json`, `locales/es.json`. **Todos os três completos** ao fim da Fase 1 do V2, e todo texto novo nasce nos três.
@@ -299,7 +299,7 @@ Implementar um **registro central de atalhos** (`shortcuts.ts`): cada atalho tem
 
 ---
 
-## 12. Redesign visual
+## 12. Redesign visual — ✅ done (Fase B; a aprovação formal dos mockups ficou para as capturas)
 
 ### 12.1 Problema a resolver
 
@@ -396,35 +396,35 @@ Interface de ferramenta séria e calma, inspirada em papelaria/cadernos e em edi
 
 ## 13. Plano de entrega por fases (V2)
 
-**Fase A — Auditoria e fundação**
+**Fase A — Auditoria e fundação** — ✅ done
 - Auditoria do repo, `CLAUDE.md`, `DECISIONS.md`, `docs/STATUS.md`.
 - Spike de sync (seção 2.2) e decisão registrada.
 - Infra de i18n com os 3 idiomas e teste de chaves.
 - Registro central de atalhos e função única `can()`.
 
-**Fase B — Redesign**
+**Fase B — Redesign** — ✅ done
 - Tokens, página `/design`, componentes-base, telas-chave (seção 12). Capturas em `docs/screenshots/`.
 - *Aceite:* o usuário aprova visualmente Hoje, Página (lista e cards) e Sidebar antes de seguir.
 
-**Fase C — Estrutura e velocidade**
+**Fase C — Estrutura e velocidade** — ✅ done
 - Modelo `containers` (Pasta/Projeto), menu "+ Novo", mover itens.
 - Edição inline (`F2`), seletor de ícones, atalhos da seção 9, paleta de comandos.
 - Criação avançada (seção 7).
 - *Aceite:* criar pasta + página + 10 tarefas em lote, renomear com `F2` e trocar ícone **sem usar o mouse**.
 
-**Fase D — Offline-first e sync**
+**Fase D — Offline-first e sync** — ✅ done (com Expo + PowerSync no lugar do Capacitor; falta repetir o aceite com o celular em modo avião)
 - `LocalStore`, outbox, pull por cursor, tempo real como aviso, tombstones, lixeira.
 - Capacitor (Android/iOS) com SQLite nativo.
 - Testes de sync da seção 2.8.
 - *Aceite:* editar no celular em modo avião e no navegador ao mesmo tempo, reconectar e os dois chegarem ao mesmo estado.
 
-**Fase E — Times, cargos e projetos**
+**Fase E — Times, cargos e projetos** — ✅ done
 - Times, convites, cargos padrão e personalizados, matriz de permissões, auditoria.
 - Projetos com marcos, atribuição, "Minhas tarefas", templates.
 - Teste de isolamento entre times (deve falhar ao acessar dados alheios).
 - *Aceite:* o cenário "Churrasco" completo (criar projeto, convidar 2 pessoas com cargos diferentes, delegar, cada um vê só o que pode).
 
-**Fase F — Ajuda, polimento e idiomas**
+**Fase F — Ajuda, polimento e idiomas** — ✅ done
 - Página Wiki/Ajuda nos 3 idiomas, tour opcional, ajuda contextual.
 - Revisão de acessibilidade, performance e traduções.
 - Gamificação adaptada ao novo visual (faixa do boss, XP discreto), respeitando o sync server-authoritative.

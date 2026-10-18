@@ -73,7 +73,7 @@ Workspace do usuário
 
 ## 4. Funcionalidades
 
-### 4.1 Criação rápida de tarefas (CRÍTICO)
+### 4.1 Criação rápida de tarefas (CRÍTICO) — ✅ done
 
 - **Campo de entrada sempre visível** no topo (ou rodapé no mobile) de cada página: digita e dá Enter → cria. O foco permanece no campo para criar a próxima.
 - **Atalho global** (`N` ou `Ctrl/Cmd+K` na web; botão flutuante no celular) abre captura rápida de qualquer tela, com seletor de destino (página) — padrão: última página usada ou uma "Caixa de entrada".
@@ -94,7 +94,7 @@ Workspace do usuário
   - Detectar automaticamente quando o usuário **cola** múltiplas linhas no campo rápido e oferecer a pré-visualização (ver diferenças entre plataformas na seção 2).
   - Implementar o parser como **função pura e testada** (`parseBatchInput(text, opts)`), com testes unitários cobrindo casos de borda.
 
-### 4.2 Tarefas
+### 4.2 Tarefas — ✅ done
 
 - Campos: título, notas (markdown simples), status, data de vencimento, prioridade, etiquetas, responsável(is), subtarefas (checklist), recorrência, ordem.
 - Marcar como feita com 1 toque/clique; desfazer via toast ("Desfazer") por alguns segundos.
@@ -103,7 +103,7 @@ Workspace do usuário
 - Filtros e visões globais: **Hoje**, **Próximos 7 dias**, **Atrasadas**, **Atribuídas a mim**, **Concluídas**.
 - Busca global por título/notas.
 
-### 4.3 Páginas do tipo "cards" (ex.: Academia)
+### 4.3 Páginas do tipo "cards" (ex.: Academia) — ✅ done
 
 - Cada item é um **card grande**, com título, detalhe opcional (ex.: "4x12 · 20kg") e checkbox grande.
 - Toque em qualquer parte do card marca/desmarca, com feedback visual claro (cor + animação curta + vibração leve via `expo-haptics` no celular).
@@ -112,14 +112,14 @@ Workspace do usuário
 - Campos opcionais por item: séries, repetições, carga (para o caso de treino). Manter genérico (`meta` JSON ou campos opcionais), não acoplar ao domínio "academia".
 - Permitir **duplicar página** (ex.: Treino A → Treino B).
 
-### 4.4 Hábitos e recorrência
+### 4.4 Hábitos e recorrência — ✅ done
 
 - Tarefas recorrentes: diária, dias da semana específicos, semanal, mensal.
 - Hábitos (página tipo `habitos`): itens que podem ser marcados 1x por período; mostram **streak** e histórico (mini-calendário).
 - Ao concluir tarefa recorrente, gerar a próxima ocorrência automaticamente (ou considerar o item "feito hoje" e resetar no próximo ciclo, no caso de hábitos).
 - Fuso horário do usuário respeitado para virada de dia (padrão: `America/Sao_Paulo`, configurável).
 
-### 4.5 Projetos colaborativos
+### 4.5 Projetos colaborativos — ✅ done
 
 - Criar projeto (pasta compartilhada) → convidar membros por **link de convite** e/ou e-mail.
 - Papéis: **Dono** (tudo), **Editor** (cria/edita/atribui/conclui), **Visualizador** (só vê e comenta). Padrão ao convidar: Editor.
@@ -135,7 +135,7 @@ Workspace do usuário
 - Exemplo de fluxo alvo: criar projeto "Churrasco" → colar lista em lote `carne @gregory; cerveja @cris; carvão; gelo` (Gregory e Cris viram responsáveis pendentes) → convidar a galera por link → cada um entra, se identifica e vê "minhas tarefas".
 - Um usuário que entra pelo link de convite, sem conta, deve poder criar conta em poucos passos e cair direto no projeto. Sem o app instalado, o link abre a versão web, que oferece instalar o app sem bloquear o uso.
 
-### 4.6 Gamificação
+### 4.6 Gamificação — ✅ done
 
 **Princípio:** simples, recompensadora, desativável (`settings.gamification_enabled`).
 
@@ -310,26 +310,26 @@ Casos mínimos (entrada → saída esperada):
 
 ## 11. Ideias futuras (backlog)
 
-- Notificações push e lembretes por horário.
+- Notificações push e lembretes por horário. ✅ done (push D59, timers J2)
 - Integração com Google Calendar.
-- Visão kanban e calendário.
+- Visão kanban e calendário. Kanban ✅ done (D54); calendário pendente
 - Import de listas por foto/áudio (OCR / voz → lote).
 - Desafios entre amigos (competição saudável).
 - Widgets para tela inicial do celular.
-- Modo "foco" (pomodoro) que dá XP extra.
+- Modo "foco" (pomodoro) que dá XP extra. ✅ done (K1, K4)
 
 ---
 
 ## 12. Plano de entrega por fases
 
-### Fase 0 — Setup
+### Fase 0 — Setup — ✅ done
 
 - Repo Expo (Expo Router) + TS + NativeWind + React Native Reusables, ESLint/Prettier, CI.
 - Rodando nas três plataformas: Expo Go / development build no Android, web no navegador (iOS precisa de Mac ou do EAS Build).
 - Projeto Supabase, auth (e-mail + Google, com deep link no nativo), migrations iniciais, RLS base com `is_folder_member`.
 - `CLAUDE.md` e `DECISIONS.md`.
 
-### Fase 1 — Núcleo de tarefas (MVP solo)
+### Fase 1 — Núcleo de tarefas (MVP solo) — ✅ done
 
 - Auth, perfil, pastas, páginas (lista), tarefas (CRUD, subtarefas, prioridade, data).
 - Captura rápida (campo sempre visível + atalho) e **Caixa de entrada**.
@@ -337,30 +337,30 @@ Casos mínimos (entrada → saída esperada):
 - Telas Hoje / Caixa de entrada / Página. Tema claro/escuro. App abre offline com o cache (somente leitura).
 - **Critério de aceite:** criar 10 tarefas colando uma lista em < 10 segundos; marcar tarefa com 1 toque; funcionando no Android e na web (e no iOS, se houver como testar).
 
-### Fase 2 — Páginas de cards, hábitos e recorrência
+### Fase 2 — Páginas de cards, hábitos e recorrência — ✅ done
 
 - View `cards` com toque no card inteiro, barra de progresso, reset por ciclo, histórico.
 - Hábitos com streak, recorrência, duplicar página.
 - **Critério de aceite:** montar a página "Treino A" com 8 exercícios em lote, marcar tudo no celular e ver o reset automático na semana seguinte.
 
-### Fase 3 — Gamificação solo
+### Fase 3 — Gamificação solo — ✅ done
 
 - XP, níveis, streak (com congelamento), ledger, anti-farm, conquistas, perfil.
 - Boss solo semanal com barra de HP e recompensa.
 - Toggle para desativar gamificação.
 - **Critério de aceite:** concluir/desmarcar tarefas altera XP e HP do boss de forma consistente e reversível.
 
-### Fase 4 — Projetos colaborativos
+### Fase 4 — Projetos colaborativos — ✅ done
 
 - Pastas compartilhadas, convites por link, papéis, atribuição de tarefas, "Minhas tarefas", comentários, log de atividade, realtime, notificações in-app, templates (Churrasco etc.).
 - **Critério de aceite:** criar "Churrasco" via template, colar a lista com `@nomes` antes de convidar, convidar 2 pessoas por link (uma pelo app, outra pela web), elas reivindicarem os nomes pendentes e o progresso mudar em tempo real nos dispositivos.
 
-### Fase 5 — Clã e boss cooperativo
+### Fase 5 — Clã e boss cooperativo — ✅ done
 
 - Clãs, boss de projeto (com prazo) e boss de clã, quadro de contribuição, recompensas.
 - Offline/sincronização (se ainda não feito), exportação de dados.
 
-### Fase 6 — Polimento
+### Fase 6 — Polimento — ✅ done (menos a publicação nas lojas e o login com Google: dependem das contas do dono, `PUBLICACAO.md`)
 
 - Acessibilidade, performance, animações, onboarding guiado (3 passos), e-mail/push (`expo-notifications`), kanban, publicação nas lojas.
 

@@ -6,7 +6,7 @@ Antes de começar: releia `CLAUDE.md`, `DECISIONS.md` e `docs/STATUS.md`. Ao con
 
 ---
 
-## 0. PRIORIDADE ZERO — Correção do design
+## 0. PRIORIDADE ZERO — Correção do design — ✅ done (Fase B)
 
 **Problema relatado pelo usuário:** o resultado visual da V2 parece "front-end feito por dev de back-end": estranho, sem acabamento, sem hierarquia. A causa mais provável é implementar visual **a partir de texto**, sem referência visual. Portanto, daqui em diante:
 
@@ -51,7 +51,7 @@ Aplicar a direção "Caderno de bolso" (papel, tinta, um acento) da V2. Se os mo
 
 ---
 
-## 1. Subtarefas e estrutura WBS
+## 1. Subtarefas e estrutura WBS — ✅ done (Fase G)
 
 ### 1.1 Regras
 
@@ -78,7 +78,7 @@ Aplicar a direção "Caderno de bolso" (papel, tinta, um acento) da V2. Se os mo
 
 ---
 
-## 2. Dependências e fluxo de trabalho (BPM-lite)
+## 2. Dependências e fluxo de trabalho (BPM-lite) — ✅ done (Fases H e I, automações na M6)
 
 > **Escopo:** acompanhamento de fluxo com dependências, estados, responsáveis, auditoria e automações simples. **Não é** um motor BPMN completo (sem gateways complexos, sem simulação).
 
@@ -151,7 +151,7 @@ Regras "**quando** X **então** Y", configuradas na criação avançada do proje
 
 ---
 
-## 3. Projetos simplificados — "Página enviada" (Treinador → Aluno)
+## 3. Projetos simplificados — "Página enviada" (Treinador → Aluno) — ✅ done (Fase L)
 
 ### 3.1 Conceito
 
@@ -195,7 +195,7 @@ Preset **Executor** (para destinatário em modo ao vivo), construído com permis
 
 ---
 
-## 4. Repetições, descanso e temporizadores
+## 4. Repetições, descanso e temporizadores — ✅ done (Fase J)
 
 ### 4.1 Tarefas com repetição (conclusão só após N repetições)
 
@@ -249,7 +249,7 @@ Comportamento:
 
 ---
 
-## 5. Pomodoro e tempo
+## 5. Pomodoro e tempo — ✅ done (Fase K)
 
 ### 5.1 Pomodoro
 
@@ -276,19 +276,19 @@ Comportamento:
 
 | Pri. | Funcionalidade | Descrição |
 |:-:|---|---|
-| A | **Meu dia** | Escolher, entre tudo que está pronto, o que fazer hoje; reordenar; mostra tempo estimado total vs. disponível |
-| A | **Próxima ação** | Sugere o que fazer agora, respeitando dependências, prioridade, prazo e estado `pronta` |
-| A | **Adiar (snooze)** | Adiar para depois/amanhã/próxima semana com 1 gesto |
-| A | **Reivindicar tarefa** | Em projeto: botão "**eu levo**" em tarefa sem responsável (ótimo para churrasco/eventos) |
-| A | **Estimativa e peso** | Tempo estimado e peso por tarefa (alimentam WBS, caminho crítico e dano ao boss) |
-| A | **Campos personalizados por página** | Texto, número, seleção, data, pessoa, moeda (versão enxuta, estilo Notion-lite) |
+| A ✅ | **Meu dia** | Escolher, entre tudo que está pronto, o que fazer hoje; reordenar; mostra tempo estimado total vs. disponível |
+| A ✅ | **Próxima ação** | Sugere o que fazer agora, respeitando dependências, prioridade, prazo e estado `pronta` |
+| A ✅ | **Adiar (snooze)** | Adiar para depois/amanhã/próxima semana com 1 gesto |
+| A ✅ | **Reivindicar tarefa** | Em projeto: botão "**eu levo**" em tarefa sem responsável (ótimo para churrasco/eventos) |
+| A ✅ | **Estimativa e peso** | Tempo estimado e peso por tarefa (alimentam WBS, caminho crítico e dano ao boss) |
+| A ✅ | **Campos personalizados por página** | Texto, número, seleção, data, pessoa, moeda (versão enxuta, estilo Notion-lite) |
 | B | **Custos e orçamento** | Valor estimado vs. real por tarefa, somado por página/projeto (reforma, evento); **racha de contas** entre membros (churrasco) |
 | B | **Lista de compras gerada** | De uma página de cardápio, gerar a lista de compras consolidada |
 | B | **Kits por domínio** | Pacotes prontos: Treino, Cardápio semanal, Reforma (etapas dependentes + orçamento), Viagem, Estudos, Evento |
 | B | **Registro de medidas** | Peso, cargas, medidas corporais, com gráfico de evolução (ligado a hábitos/treinos) |
 | B | **Revisão semanal guiada** | Assistente: o que concluí, o que ficou, o que mover, o que arquivar |
-| B | **Matriz de Eisenhower e Kanban** | Visões alternativas da mesma página |
-| B | **Aprovações e handoff** | Passar tarefa para outra pessoa com nota; pedir revisão |
+| B (Kanban ✅) | **Matriz de Eisenhower e Kanban** | Visões alternativas da mesma página |
+| B (Aprovação ✅, M7) | **Aprovações e handoff** | Passar tarefa para outra pessoa com nota; pedir revisão |
 | B | **Reações e comentários curtos** | Reagir a tarefas concluídas (motivação em time) |
 | B | **Recompensas personalizadas** | O usuário define um prêmio real ao bater uma meta ("pizza se fechar a reforma") |
 | B | **Captura por voz e Share Target** | Falar uma lista e virar tarefas; compartilhar texto de outros apps direto para a Caixa de entrada |
@@ -389,34 +389,34 @@ Presets:
 
 ## 10. Plano de entrega (V3)
 
-**Fase 0 — Correção visual (obrigatória primeiro)**
+**Fase 0 — Correção visual (obrigatória primeiro)** — ✅ done
 - Mockups em `docs/mockups/` aprovados, tokens e componentes validados em `/design`, telas-chave refeitas com ciclo de captura/comparação (seção 0).
 - *Aceite:* o usuário aprova visualmente Hoje, Página (lista e cards), Sidebar e Painel da tarefa.
 
-**Fase G — Subtarefas e WBS**
+**Fase G — Subtarefas e WBS** — ✅ done
 - Árvore com limite configurável, rollup de progresso/estimativa, códigos WBS, teclado (`Tab`), visão Estrutura, lote com indentação limitada.
 - *Aceite:* tentar criar o 5º nível (limite 4) é bloqueado com mensagem clara, no cliente e no servidor.
 
-**Fase H — Dependências e estados**
+**Fase H — Dependências e estados** — ✅ done
 - `task_dependencies`, estados derivados (offline), modo estrito/flexível, notificações de desbloqueio, sintaxe `^`, campo "Depende de/Libera", detecção de ciclo.
 - *Aceite:* cenário "carvão → fogo": Willian vê a tarefa bloqueada; Greg conclui; Willian é notificado e a tarefa fica pronta, **também funcionando após sincronização offline**.
 
-**Fase I — Fluxo, pessoas e auditoria**
+**Fase I — Fluxo, pessoas e auditoria** — ✅ done
 - Visão Fluxo (grafo com raias), visão Pessoas, linha do tempo, `task_events`, indicadores, dependência entre páginas, vínculos "Relacionados".
 - *Aceite:* num projeto com 20 tarefas e 4 pessoas, o usuário identifica em 10 segundos quem está fazendo o quê, o que está travado e por quê.
 
-**Fase J — Repetições, descanso e Modo Treino**
+**Fase J — Repetições, descanso e Modo Treino** — ✅ done (aviso com o celular bloqueado conferido no emulador, X1)
 - `repeat_plan`, timers com timestamps absolutos, notificações locais, vibração, Wake Lock, Modo Treino, sincronização do timer ativo.
 - *Aceite:* iniciar descanso, bloquear a tela/trocar de app e **ser avisado no horário correto** (nativo e PWA com as limitações documentadas).
 
-**Fase K — Pomodoro e tempo**
+**Fase K — Pomodoro e tempo** — ✅ done
 - Pomodoro com lista de pausas personalizável, registro de tempo, rollup, estatísticas simples.
 
-**Fase L — Página enviada (Treinador → Aluno)**
+**Fase L — Página enviada (Treinador → Aluno)** — ✅ done
 - `page_shares`, preset Executor, progresso por usuário, envio para vários, painel "Alunos", modo offline do aluno.
 - *Aceite:* treinador cria "Treino A" em lote, envia para 2 alunos; cada aluno marca no celular sem ver o outro; o treinador vê aderência e valores registrados.
 
-**Fase M — Extras "A" e automações**
+**Fase M — Extras "A" e automações** — ✅ done
 - Meu dia, Próxima ação, adiar, reivindicar tarefa, estimativa/peso, campos personalizados, regras "quando… então…", etapa de aprovação.
 
 ---

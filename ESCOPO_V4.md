@@ -10,7 +10,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ## 1. Jogo: bosses, dano e progressão
 
-### 1.1 Boss diário (novo)
+### 1.1 Boss diário (novo) — ✅ done (O1, O4)
 
 - Além do boss semanal (solo e do clã), existe um **boss diário**: nasce à meia-noite no fuso do perfil e vai até o fim do dia.
 - HP calibrado para um dia normal de uso (ex.: 5 a 8 tarefas comuns), crescendo com o nível do boss diário (bosses diários derrotados), como os outros.
@@ -18,20 +18,20 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 - Todo golpe vale para os bosses ativos ao mesmo tempo (diário, semanal e o do clã), como já acontece com o semanal e o do clã.
 - Aparece no Início, na Hoje e no Personagem, acima do semanal.
 
-### 1.2 Calibragem do dano
+### 1.2 Calibragem do dano — ✅ done (O2)
 
 - Relato: "antes estava muito alto, agora está muito baixo". O boss semanal pede uns 5 dias de uso, o que faz sentido, mas o golpe individual parece fraco.
 - Revisar a fórmula (`_attack`, `lib/character.ts`) com números de um usuário intenso: o golpe deve "sentir" (um golpe médio tira algo perceptível da barra do boss diário) sem derrubar o semanal no primeiro dia.
 - Mostrar no aviso de conclusão o dano no boss diário e no semanal.
 - A mudança é feita nos dois espelhos (banco e app), com os mesmos casos de teste.
 
-### 1.3 Limites anti-farm (manter, explicar)
+### 1.3 Limites anti-farm (manter, explicar) — ✅ done (O3)
 
 - **Como está e fica:** cada hábito "bom e ruim" vale XP, dano e ouro em até **10 "+" por dia** (`habitPlusDailyCap`). Tarefas concluídas em até 5 minutos depois de criadas somam no máximo **50 XP e 20 de dano por dia**, e em menos de 30 segundos valem 0 XP (o golpe no boss continua valendo).
 - Isso explica por que "alguns hábitos param de dar XP e dano": não tem a ver com o nível 1. Decisão do dono: **manter assim por enquanto**.
 - Novo: quando um limite é atingido, o aviso de conclusão diz isso ("limite diário deste hábito atingido") em vez de simplesmente não dar nada.
 
-### 1.4 Rebirth (renascer)
+### 1.4 Rebirth (renascer) — pendente (R1)
 
 - O personagem pode **renascer** a partir de um nível mínimo (proposta: 20): o nível volta a 1 e os níveis de dificuldade dos bosses (solo, diário; o do clã não) voltam ao início.
 - O que fica: conquistas, itens da loja e do inventário, ouro (a decidir: fica todo ou uma parte), histórico.
@@ -41,7 +41,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 2. Conquistas
+## 2. Conquistas — pendente (P1 a P3)
 
 - **Raridade** em todas as conquistas: comum, incomum, rara, épica e lendária, com cor e selo próprios (sem depender só da cor: o nome da raridade aparece escrito). A raridade sai da dificuldade real; se der, mostrar a porcentagem de jogadores que têm a conquista.
 - **Muitas conquistas novas**, pensadas para uso intenso. As 33 de hoje continuam. Faixas novas (exemplos):
@@ -56,7 +56,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 3. Personagem, inventário e configurações
+## 3. Personagem, inventário e configurações — pendente (Q1, Q2)
 
 - **Inventário** (tela própria): tudo o que a pessoa tem (itens da loja, drops de boss, cosméticos), com filtro por espaço (cabeça, corpo, acessório…), raridade e onde equipar. A loja continua sendo o lugar de comprar; o inventário é o lugar de ver e equipar.
 - **Separar configurações da tela de Personagem**: o Personagem mostra classe, atributos, habilidades, bosses e equipamento atual; as configurações (ligar/desligar o jogo, avisos, idioma, tema, privacidade) ficam só no Perfil/Configurações.
@@ -64,7 +64,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 4. Anexos
+## 4. Anexos — ✅ done (N1 a N4; anexo em comentário ainda não)
 
 - Anexar arquivos e imagens a tarefas (e, depois, a comentários): foto do recibo, PDF, print.
 - Armazenamento no Supabase Storage, com RLS igual à da tarefa (quem vê a tarefa vê o anexo; quem edita pode anexar e remover).
@@ -75,7 +75,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 5. Página de entrada (antes do login)
+## 5. Página de entrada (antes do login) — pendente (S1)
 
 - Quem abre o app sem conta vê uma **página de apresentação** listando as funcionalidades (captura rápida, projetos e times, árvore de tarefas, offline, jogo) com capturas de tela, e só então o botão de entrar ou criar conta.
 - Rápida e acessível, nos 3 idiomas, com o visual do app (`docs/DESIGN.md`).
@@ -83,7 +83,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 6. Monetização e assinaturas
+## 6. Monetização e assinaturas — pendente (T1, T2: depende de decisões do dono)
 
 - **Planos (tipos de assinatura):** proposta inicial de grátis, pessoal e time. O que muda entre eles fica a definir (ex.: número de projetos ou de pessoas por time, espaço de anexos, histórico, automações).
 - **Assinaturas:** mensal e anual, com **validade** (início, fim, renovação, período de carência quando o pagamento falha, cancelamento que vale até o fim do período pago).
@@ -93,11 +93,11 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 7. Acabamento visual (pedidos já feitos em 14/10/2026)
+## 7. Acabamento visual (pedidos já feitos em 14/10/2026) — ✅ done (revisão contínua)
 
 Já feitos no commit `9e03581`: telas mais largas no computador (listas até 1152 px), barra lateral redimensionável, espaço entre a contagem do hábito bom/ruim e o nome da página, e respiro no hover dos bosses no Início. Continuar revendo as telas no computador para aproveitar a largura (duas colunas onde fizer sentido).
 
-## 7.1 Sessão que sobrevive ao servidor fora do ar (pedido do dono em 17/10/2026)
+## 7.1 Sessão que sobrevive ao servidor fora do ar (pedido do dono em 17/10/2026) — pendente
 
 Hoje, quando o APK não consegue falar com o servidor (servidor desligado, reiniciando, túnel caído), o app **desloga** e a pessoa precisa entrar de novo. O certo:
 
