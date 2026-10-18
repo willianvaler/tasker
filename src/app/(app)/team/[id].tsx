@@ -1,6 +1,16 @@
 import * as Clipboard from 'expo-clipboard';
 import { Link, router, useLocalSearchParams } from 'expo-router';
-import { Copy, FolderPlus, Import, Link2, LogOut, Mail, Pencil, Trash2 } from 'lucide-react-native';
+import {
+  Copy,
+  FolderPlus,
+  Import,
+  Link2,
+  LogOut,
+  Mail,
+  Pencil,
+  Trash2,
+  Trophy,
+} from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -132,6 +142,16 @@ export default function TeamScreen() {
         title={data.icon ? `${data.icon} ${data.name}` : data.name}
         eyebrow={t('team.eyebrow')}
         back
+        right={
+          <Button
+            variant="ghost"
+            icon={Trophy}
+            label={t('group.title')}
+            onPress={() =>
+              router.push({ pathname: '/grupo/[kind]/[id]', params: { kind: 'time', id: data.id } })
+            }
+          />
+        }
       />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
         <View>

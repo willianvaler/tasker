@@ -4,6 +4,7 @@ import {
   ChevronDown,
   FolderPlus,
   Plus,
+  Trophy,
   Users,
 } from 'lucide-react-native';
 import { useState } from 'react';
@@ -132,6 +133,21 @@ export default function FolderScreen() {
               label={folder.is_shared ? t('folder.people') : t('folder.share')}
               disabled={!online}
               onPress={() => router.push({ pathname: '/share/[id]', params: { id: folder.id } })}
+            />
+          )}
+          {/* V6 §15.5: desafios, mural e chat do grupo (projeto compartilhado) */}
+          {!folder.parent_id && folder.is_shared && (
+            <Button
+              variant="ghost"
+              icon={Trophy}
+              label={t('group.title')}
+              disabled={!online}
+              onPress={() =>
+                router.push({
+                  pathname: '/grupo/[kind]/[id]',
+                  params: { kind: 'projeto', id: folder.id },
+                })
+              }
             />
           )}
           {!folder.parent_id && writable && (

@@ -19,3 +19,7 @@ El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de
 ## Entrenar juntos
 
 En un entrenamiento de proyecto, el Modo Entrenamiento pregunta **quién entrena contigo ahora**. Quien marques recibe el aviso (en 🔔 y en el móvil) y entra con **Entrar**. Durante la sesión, las series valen para el grupo: cualquiera toca **Hecha** en el móvil que tenga a mano, y todos ven el mismo conteo, el mismo ejercicio y el mismo descanso. Quien marca la última serie completa el ejercicio y se lleva el XP, como en las tareas de proyecto. La sesión termina cuando todos salen.
+
+## Desafíos en grupo
+
+En un proyecto compartido (o en un equipo), **Entrenamiento en grupo** abre los desafíos, el muro y el chat. **Iniciar nuevo desafío** pide el nombre y cuántos días dura; gana quien entrene más días hasta el final. Cuenta como día de entrenamiento **completar una página de entrenamiento** o **pasar 30 minutos o más en el Modo Entrenamiento** (uno por día). En el **Muro**, haz el check-in del entrenamiento del día con una foto, si quieres; los demás reaccionan y comentan. El **Chat** es para lo demás.

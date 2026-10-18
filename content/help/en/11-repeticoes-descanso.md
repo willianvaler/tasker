@@ -19,3 +19,7 @@ The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and
 ## Working out together
 
 In a project workout, Workout mode asks **who is working out with you now**. Whoever you check gets a notice (in 🔔 and on the phone) and joins with **Join**. During the session, sets count for the group: anyone taps **Done** on whatever phone is at hand, and everyone sees the same count, the same exercise and the same rest. Whoever logs the last set completes the exercise and gets the XP, as with project tasks. The session ends when everyone leaves.
+
+## Group challenges
+
+In a shared project (or a team), **Group training** opens the challenges, the wall and the chat. **Start a new challenge** asks for the name and how many days it lasts; whoever works out on the most days by the end wins. A workout day counts when you **complete a workout page** or **spend 30 minutes or more in Workout mode** (one per day). On the **Wall**, check in today's workout with a photo if you like; the others react and comment. The **Chat** is for everything else.

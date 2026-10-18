@@ -19,3 +19,7 @@ O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do 
 ## Treinar junto
 
 Num treino de projeto, o Modo Treino pergunta **quem está treinando junto agora**. Quem você marcar recebe o aviso (no 🔔 e no celular) e entra com **Entrar**. Durante a sessão, as séries valem para o grupo: qualquer um marca **Feita** no celular que estiver à mão, e todos veem a mesma contagem, o mesmo exercício e o mesmo descanso. Quem marca a última série conclui o exercício e leva o XP, como nas tarefas de projeto. A sessão acaba quando todos saem.
+
+## Desafios em grupo
+
+Num projeto compartilhado (ou num time), **Treino em grupo** abre os desafios, o mural e o chat. **Iniciar novo desafio** pede o nome e quantos dias ele dura; ganha quem treinar em mais dias até o fim. Conta como dia de treino **concluir uma página de treino** ou **ficar 30 minutos ou mais no Modo Treino** (um por dia). No **Mural**, faça o check-in do treino do dia com uma foto, se quiser; os outros reagem e comentam. O **Chat** é para combinar o resto.
