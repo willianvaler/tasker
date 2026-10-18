@@ -63,3 +63,58 @@ export function useUpdateProfile() {
     },
   });
 }
+
+/** Preferências de interface salvas no perfil (valem em todos os aparelhos, V6 §15.2). */
+export type UiPrefs = { sidebar?: { order?: string[]; hidden?: string[] } };
+
+export function useUiPrefs(): UiPrefs {
+  const prefs = useProfile().data?.ui_prefs;
+  return prefs && typeof prefs === 'object' && !Array.isArray(prefs) ? (prefs as UiPrefs) : {};
+}
+
+/** Troca uma parte das preferências (ex.: { sidebar }), já na tela antes da resposta. */
+export function useUpdateUiPrefs() {
+  const queryClient = useQueryClient();
+  const { session } = useSession();
+  return useMutation({
+    mutationFn: async (patch: UiPrefs) => {
+      const current = queryClient.getQueryData<Profile>(keys.profile)?.ui_prefs;
+      const next = { ...(current && typeof current === 'object' ? current : {}), ...patch };
+      const { error } = await supabase
+        .from('profiles')
+        .update({ ui_prefs: next })
+        .eq('id', session?.user.id ?? '');
+      if (error) throw error;
+    },
+    onMutate: async (patch) => {
+      await queryClient.cancelQueries({ queryKey: keys.profile });
+      const previous = queryClient.getQueryData<Profile>(keys.profile);
+      if (previous) {
+        const base =
+          previous.ui_prefs && typeof previous.ui_prefs === 'object' ? previous.ui_prefs : {};
+        queryClient.setQueryData(keys.profile, { ...previous, ui_prefs: { ...base, ...patch } });
+      }
+      return { previous };
+    },
+    onError: (_error, _patch, context) => {
+      if (context?.previous) queryClient.setQueryData(keys.profile, context.previous);
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: keys.profile }),
+  });
+}
+
+/** Liga ou desliga o modo academia (V6 §15.1); ligar cria a pasta Academia no servidor. */
+export function useSetGymMode() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (enabled: boolean) => {
+      const { data, error } = await supabase.rpc('set_gym_mode', { p_enabled: enabled });
+      if (error) throw error;
+      return data;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: keys.profile });
+      queryClient.invalidateQueries({ queryKey: keys.tree });
+    },
+  });
+}

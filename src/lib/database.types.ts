@@ -413,14 +413,14 @@ isOneToOne: false
                   ]
                 },"folders": {
                   Row: {
-                    "archived": boolean,"auto_complete_parent": boolean,"color": string | null,"created_at": string,"dependency_mode": string,"icon": string | null,"id": string,"is_inbox": boolean,"is_shared": boolean,"kind": string,"max_depth": number | null,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
+                    "archived": boolean,"auto_complete_parent": boolean,"color": string | null,"created_at": string,"dependency_mode": string,"icon": string | null,"id": string,"is_gym": boolean,"is_inbox": boolean,"is_shared": boolean,"kind": string,"max_depth": number | null,"name": string,"owner_id": string,"parent_id": string | null,"position": number,"team_id": string | null,"updated_at": string,"updated_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"dependency_mode"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"dependency_mode"?: string,"icon"?: string | null,"id"?: string,"is_gym"?: boolean,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name": string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Update: {
-                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"dependency_mode"?: string,"icon"?: string | null,"id"?: string,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
+                    "archived"?: boolean,"auto_complete_parent"?: boolean,"color"?: string | null,"created_at"?: string,"dependency_mode"?: string,"icon"?: string | null,"id"?: string,"is_gym"?: boolean,"is_inbox"?: boolean,"is_shared"?: boolean,"kind"?: string,"max_depth"?: number | null,"name"?: string,"owner_id"?: string,"parent_id"?: string | null,"position"?: number,"team_id"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -751,14 +751,14 @@ isOneToOne: true
                   ]
                 },"profiles": {
                   Row: {
-                    "attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar_url": string | null,"class": string | null,"coins": number,"created_at": string,"display_name": string,"equipped": NonNullable<Json>,"gamification_enabled": boolean,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"onboarded_at": string | null,"skill_day": string | null,"streak": number,"streak_best": number,"timezone": string,"xp": number
+                    "attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar_url": string | null,"class": string | null,"coins": number,"created_at": string,"display_name": string,"equipped": NonNullable<Json>,"gamification_enabled": boolean,"gym_enabled": boolean | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"onboarded_at": string | null,"skill_day": string | null,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"xp": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
+                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"xp"?: number
                   }
                   Update: {
-                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"xp"?: number
+                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"xp"?: number
                   }
                   Relationships: [
                     
@@ -2058,6 +2058,9 @@ isOneToOne: false
                            },
 "set_class":
 { Args: { "p_class": string }; Returns: Json
+                           },
+"set_gym_mode":
+{ Args: { "p_enabled": boolean }; Returns: string
                            },
 "set_member_custom_role":
 { Args: { "p_folder_id": string,"p_role_id": string,"p_user_id": string }; Returns: undefined

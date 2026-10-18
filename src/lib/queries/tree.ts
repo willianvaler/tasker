@@ -31,10 +31,11 @@ export type PageSettings = {
 
 export type SubFolder = Folder & { pages: Page[] };
 export type FolderNode = SubFolder & { children: SubFolder[] };
-/** inbox e habits: as páginas de sistema */
+/** inbox e habits: as páginas de sistema; gym: a pasta de sistema Academia (V6 §15.1) */
 export type Tree = {
   inbox: Page | null;
   habits: Page | null;
+  gym: FolderNode | null;
   folders: FolderNode[];
   pages: Page[];
 };
@@ -78,6 +79,8 @@ export function useTree() {
       return {
         inbox: pages.data.find((p) => p.is_inbox) ?? null,
         habits: pages.data.find((p) => p.is_habits) ?? null,
+        // Fica também em folders (findFolder, mover página); as telas a tiram de Pastas
+        gym: roots.find((f) => f.is_gym) ?? null,
         folders: roots,
         pages: pages.data,
       };
@@ -184,6 +187,7 @@ export function useTreeMutations() {
           owner_id: owner,
           is_shared: 0,
           is_inbox: 0,
+          is_gym: 0,
           archived: 0,
         });
         // A participação nasce no servidor (trigger); aqui, para a pasta já aparecer como minha

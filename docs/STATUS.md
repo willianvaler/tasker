@@ -191,6 +191,19 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [ ] **T1** Planos e assinaturas (modelo)
 - [ ] **T2** Provedor de pagamento (bloqueado: decisão e contas do dono)
 
+## ESCOPO_V6 — academia (tarefas em `docs/TAREFAS_V6.md`)
+
+- [x] **AC0** Decisões do V6, app para quem treina, lista de tarefas e tipos comuns
+- [x] **AC1.1** `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP (D182)
+- [ ] **AC1.2** `lib/sidebar-blocks.ts` (modelo local)
+- [ ] **AC1.3** `lib/move-sibling.ts` (modelo local)
+- [ ] **AC1.4** Componente `GymQuestion` (modelo local)
+- [x] **AC1.5** Pasta de sistema Academia (`folders.is_gym`, uma por conta, não vira projeto nem subpasta), criada ao ligar; `tree.gym` (D182)
+- [ ] **AC1.6** Bloco Academia na barra lateral e na aba Pastas, "+ Novo treino"
+- [ ] **AC1.7** Perfil → "Barra lateral": reordenar e esconder blocos
+- [ ] **AC1.8** Mover para cima / para baixo no menu de pasta e página, Alt+↑/↓
+- [ ] **AC1.9** Pergunta no primeiro acesso e interruptor no Perfil
+
 ## Decisões em aberto
 
 | # | Pergunta | Quando | Resposta |

@@ -11,6 +11,7 @@ const folders = new Table(
     color: column.text,
     is_shared: column.integer,
     is_inbox: column.integer,
+    is_gym: column.integer,
     position: column.real,
     archived: column.integer,
     created_at: column.text,
@@ -385,6 +386,8 @@ const profiles = new Table({
   skill_day: column.text,
   equipped: column.text,
   locale: column.text,
+  gym_enabled: column.integer,
+  ui_prefs: column.text,
 });
 
 // Ações que viram RPC (concluir, habit_tick...): não ficam no SQLite, só na fila; o uploadData as
