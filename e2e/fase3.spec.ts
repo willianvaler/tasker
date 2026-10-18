@@ -51,7 +51,8 @@ test('critério de aceite: concluir e desmarcar mudam XP e HP do boss, e voltam'
   // Perfil: conquista e desligar a gamificação
   await openTab(page, 'Perfil');
   await expect(page.getByLabel('Primeiro passo: Concluir a primeira tarefa')).toBeVisible();
-  await expect(page.getByLabel('Centena: 100 tarefas concluídas (bloqueada)')).toBeVisible();
+  // O Perfil mostra as recentes; todas (com as que faltam) ficam na tela de conquistas (P3)
+  await expect(page.getByRole('button', { name: 'Ver todas as conquistas' })).toBeVisible();
   const saved = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
   await page.getByRole('switch', { name: 'Gamificação' }).click();
   await saved;
