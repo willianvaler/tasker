@@ -23,16 +23,36 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "achievements": {
+            "achievement_stats": {
                   Row: {
-                    "description": string,"icon": string,"key": string,"name": string,"position": number
+                    "achievement_key": string,"holders": number,"players": number,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "description": string,"icon": string,"key": string,"name": string,"position": number
+                    "achievement_key": string,"holders"?: number,"players"?: number,"updated_at"?: string
                   }
                   Update: {
-                    "description"?: string,"icon"?: string,"key"?: string,"name"?: string,"position"?: number
+                    "achievement_key"?: string,"holders"?: number,"players"?: number,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "achievement_stats_achievement_key_fkey"
+      columns: ["achievement_key"]
+isOneToOne: true
+      referencedRelation: "achievements"
+      referencedColumns: ["key"]
+    }
+                  ]
+                },"achievements": {
+                  Row: {
+                    "category": string,"description": string,"goal": number | null,"icon": string,"key": string,"name": string,"position": number,"rarity": string,"secret": boolean,"series": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "category"?: string,"description": string,"goal"?: number | null,"icon": string,"key": string,"name": string,"position": number,"rarity"?: string,"secret"?: boolean,"series"?: string | null
+                  }
+                  Update: {
+                    "category"?: string,"description"?: string,"goal"?: number | null,"icon"?: string,"key"?: string,"name"?: string,"position"?: number,"rarity"?: string,"secret"?: boolean,"series"?: string | null
                   }
                   Relationships: [
                     
@@ -1413,7 +1433,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "_activate_share":
+            "_achievement_progress":
+{ Args: { "p_user": string }; Returns: Json
+                           },
+"_activate_share":
 { Args: { "p_folder_name": string,"p_share_id": string }; Returns: Json
                            },
 "_app_caller":
@@ -1911,6 +1934,9 @@ isOneToOne: false
 "members_matching":
 { Args: { "p_name": string,"p_root": string }; Returns: string[]
                            },
+"my_achievements":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
 "my_clan":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
@@ -1973,6 +1999,9 @@ isOneToOne: false
                            },
 "purge_trash":
 { Args: Record<PropertyKey, never>; Returns: number
+                           },
+"refresh_achievement_stats":
+{ Args: Record<PropertyKey, never>; Returns: undefined
                            },
 "refresh_cycles":
 { Args: { "p_page_id"?: string }; Returns: number
