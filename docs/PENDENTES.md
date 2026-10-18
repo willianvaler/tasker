@@ -2,7 +2,7 @@
 
 O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V6.md`), numa tabela só, para ler rápido. O detalhe fica em `docs/STATUS.md`, `docs/TAREFAS_V6.md` e nos escopos; o que já foi feito, em `docs/FEITOS.md`.
 
-**Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui e vai para o `FEITOS.md`; parcial muda a situação.
+**Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
 Atualizado em 18/10/2026.
 

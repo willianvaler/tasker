@@ -101,7 +101,8 @@
     "help:build": "node scripts/help-build.mjs",
     "apk": "bash scripts/build-apk.sh",
     "lab": "bash scripts/lab.sh",
-    "promover": "bash scripts/promover.sh"
+    "promover": "bash scripts/promover.sh",
+    "feitos": "node scripts/feitos.mjs"
   },
   "private": true,
   "jest": {
