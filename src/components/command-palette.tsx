@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { router, usePathname } from 'expo-router';
 import {
   Backpack,
+  CalendarDays,
   CheckSquare,
   CircleHelp,
   Folder,
@@ -235,6 +236,14 @@ function Palette({
       run: go('/inbox'),
     },
     { id: 'go-habits', label: t('nav.habits'), icon: icon(Repeat), group: 0, run: go('/habits') },
+    {
+      id: 'go-calendar',
+      label: t('nav.calendar'),
+      hint: 'G C',
+      icon: icon(CalendarDays),
+      group: 0,
+      run: go('/calendario'),
+    },
     {
       id: 'go-mine',
       label: t('nav.mine'),

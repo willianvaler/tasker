@@ -1,13 +1,13 @@
 // Servidor da versão web para acesso remoto (túnel da Cloudflare): entrega o build em dist/ com
 // fallback de SPA e repassa /supabase/* (HTTP e websocket do Realtime) para o Supabase local e
-// /powersync/* para o serviço de sync.
+// /powersync/* para o serviço de sync. /calendario/<token>.ics é o feed do calendário (C1).
 //   npm run deploy (gera dist-remote/ e reinicia o serviço) · PORT=8081 node scripts/serve.mjs
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import http from 'node:http';
 import net from 'node:net';
 import { extname, join, normalize } from 'node:path';
 
-import { checkSupabase } from './supabase-gate.mjs';
+import { checkSupabase, PUBLISHABLE } from './supabase-gate.mjs';
 
 // Portas do ambiente (D178): a produção usa os padrões; alpha e lab trocam pelo .ambiente.local
 const PORT = Number(process.env.PORT ?? process.env.WEB_PORT ?? 8081);
@@ -97,6 +97,44 @@ function serveDownload(req, res) {
   createReadStream(file).pipe(res);
 }
 
+/**
+ * Feed do calendário (C1): /calendario/<token>.ics, assinado por URL no Google Agenda, no Apple e no
+ * Outlook. Vem sem login; o banco monta o .ics (calendar_ics) e o token é a única credencial.
+ */
+async function serveCalendar(req, res) {
+  const token = /^\/calendario\/([\w-]{20,64})(?:\.ics)?$/.exec(
+    new URL(req.url, 'http://x').pathname,
+  )?.[1];
+  const notFound = () => {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Calendário não encontrado (o link pode ter sido trocado).');
+  };
+  if (!token || !PUBLISHABLE) return notFound();
+  const origin = `${viaHttps(req) ? 'https' : 'http'}://${req.headers.host}`;
+  try {
+    const up = await fetch(
+      `http://127.0.0.1:${UPSTREAMS['/supabase'].port}/rest/v1/rpc/calendar_ics`,
+      {
+        method: 'POST',
+        headers: { apikey: PUBLISHABLE, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_token: token, p_origin: origin }),
+      },
+    );
+    const ics = up.ok ? await up.json() : null;
+    if (typeof ics !== 'string') return notFound();
+    res.writeHead(200, {
+      ...securityHeaders(req),
+      'Content-Type': 'text/calendar; charset=utf-8',
+      'Content-Disposition': 'inline; filename="questlist.ics"',
+      'Cache-Control': 'no-cache',
+    });
+    res.end(req.method === 'HEAD' ? undefined : ics);
+  } catch {
+    res.writeHead(502, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end(UPSTREAMS['/supabase'].down);
+  }
+}
+
 function proxy(target, req, res) {
   const upstream = http.request(
     {
@@ -144,6 +182,7 @@ const server = http.createServer((req, res) => {
       res.end(denied[1]);
     });
   else if (req.url.startsWith('/downloads/')) serveDownload(req, res);
+  else if (req.url.startsWith('/calendario/')) void serveCalendar(req, res);
   else serveFile(req, res);
 });
 

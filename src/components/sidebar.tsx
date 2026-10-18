@@ -1,6 +1,7 @@
 import { Link, router, usePathname, type Href } from 'expo-router';
 import {
   Bell,
+  CalendarDays,
   ChevronDown,
   ChevronRight,
   CircleHelp,
@@ -58,13 +59,14 @@ export function useIsWide() {
   return useWindowDimensions().width >= WIDE;
 }
 
-type NavKey = 'home' | 'today' | 'inbox' | 'habits' | 'mine' | 'folders';
+type NavKey = 'home' | 'today' | 'inbox' | 'habits' | 'calendar' | 'mine' | 'folders';
 
 const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; projectsOnly?: boolean }[] = [
   { href: '/', key: 'home', icon: House },
   { href: '/today', key: 'today', icon: Sun },
   { href: '/inbox', key: 'inbox', icon: Inbox },
   { href: '/habits', key: 'habits', icon: Repeat },
+  { href: '/calendario', key: 'calendar', icon: CalendarDays },
   // Só para quem participa de algum projeto
   { href: '/mine', key: 'mine', icon: UserCheck, projectsOnly: true },
   { href: '/folders', key: 'folders', icon: LayoutGrid },

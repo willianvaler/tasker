@@ -67,7 +67,8 @@
     "taskSnooze": "Snooze the task to tomorrow",
     "taskMyDay": "Add to or remove from My day",
     "treeMoveUp": "Move the open folder or page up",
-    "treeMoveDown": "Move the open folder or page down"
+    "treeMoveDown": "Move the open folder or page down",
+    "goCalendar": "Go to Calendar"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -122,7 +123,8 @@
     "teams": "Teams",
     "resizeSidebar": "Sidebar width (drag or use ← →)",
     "newProjectHere": "New project",
-    "firstProject": "Create the first project"
+    "firstProject": "Create the first project",
+    "calendar": "Calendar"
   },
   "quickAdd": {
     "label": "New task",
@@ -293,7 +295,8 @@
     "allHabits": "All habits",
     "habitsNone": "No habits yet.",
     "habitsAllDone": "All done today!",
-    "more": "and {{count}} more"
+    "more": "and {{count}} more",
+    "openCalendar": "Calendar"
   },
   "hero": {
     "label": "Character and boss of the week",
@@ -2209,5 +2212,38 @@
     "days_zero": "0 days",
     "rankRow_zero": "#{{rank}}, {{name}}, no workout days",
     "react_zero": "{{emoji}}, no reactions"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "view": "Calendar view",
+    "month": "Month",
+    "week": "Week",
+    "previous": "Previous",
+    "next": "Next",
+    "today": "Today",
+    "dayWithItems_one": "{{date}}: {{count}} item",
+    "dayWithItems_other": "{{date}}: {{count}} items",
+    "more": "+{{count}}",
+    "empty": "Nothing due on this day.",
+    "exercises_one": "{{count}} exercise",
+    "exercises_other": "{{count}} exercises",
+    "feedTitle": "In Google Calendar (or another calendar)",
+    "feedIntro": "Create a secret link and subscribe to it in your calendar: tasks with a date show up there, and each workout shows up once on its day, with a link to the page.",
+    "feedOffline": "Offline: the calendar link can only change with internet.",
+    "feedLink": "Calendar link",
+    "feedOn": "Create calendar link",
+    "feedGoogle": "Add to Google Calendar",
+    "feedCopy": "Copy link",
+    "feedCopied": "Link copied",
+    "feedRotate": "Change link",
+    "feedRotateTitle": "Change the calendar link?",
+    "feedRotateMessage": "The current link stops working. Wherever it was added, you will need to add the new one.",
+    "feedRotated": "Link changed. Add the new one to your calendar.",
+    "feedOff": "Turn off",
+    "feedOffTitle": "Turn off the calendar link?",
+    "feedOffMessage": "The calendar using this link stops receiving your tasks.",
+    "feedHow": "On a computer, in Google Calendar: Other calendars → + → From URL, and paste the link. Google updates it on its own, but a change may take a few hours to show.",
+    "feedPrivate": "Anyone with the link can see your task titles. If it leaks, change the link.",
+    "feedError": "Could not change the link: {{message}}"
   }
 }

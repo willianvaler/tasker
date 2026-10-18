@@ -13,6 +13,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V1 | Fase 5 | Clã, bosses cooperativos, fila offline, privacidade | D49 a D53 |
 | V1 | Fase 6 | Kanban, tema, onboarding, acessibilidade e desempenho, push, publicação | D54 a D59 |
 | V1 | Fase 7 | RPG leve, telas largas, Início e tela Hábitos | D60 a D70 |
+| V1 | C1 | Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas | D185 |
 | **V2** | A1 | `docs/AUDITORIA.md`: stack real, o que existe do ESCOPO, lacunas, dívidas (inclui a pendência da D70) | D70 |
 | V2 | A2 | `CLAUDE.md` aponta para V2/V3 e para a regra "ao concluir, atualize `docs/STATUS.md`"; `DECISIONS.md` com a tabela "Ajustes à stack real" do cronograma | — |
 | V2 | A3 | Infra de i18n: `i18next` + `react-i18next` + `expo-localization`, `locales/pt-BR.json`, `en.json`, `es.json`, detecção de idioma | — |

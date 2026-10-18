@@ -311,13 +311,18 @@ export function useAcceptInvite() {
   });
 }
 
-/** Link do convite. Na web, o endereço atual; no app, EXPO_PUBLIC_WEB_URL (cai na web sem o app). */
-export function inviteUrl(token: string, route: 'invite' | 'team-invite' = 'invite') {
+/** Endereço na web. Na web, o atual; no app, EXPO_PUBLIC_WEB_URL (cai na web sem o app). */
+export function webUrl(path: string) {
   const base =
     process.env.EXPO_PUBLIC_WEB_URL ||
     (typeof window !== 'undefined' && window.location?.origin) ||
     'http://localhost:8082';
-  return `${base.replace(/\/$/, '')}/${route}/${token}`;
+  return `${base.replace(/\/$/, '')}${path}`;
+}
+
+/** Link do convite. */
+export function inviteUrl(token: string, route: 'invite' | 'team-invite' = 'invite') {
+  return webUrl(`/${route}/${token}`);
 }
 
 // ============================================================

@@ -26,7 +26,7 @@ function publishableKey() {
     return undefined;
   }
 }
-const PUBLISHABLE = publishableKey();
+export const PUBLISHABLE = publishableKey();
 if (!PUBLISHABLE)
   console.warn(
     'Portão do Supabase: chave publicável não encontrada; tudo com apikey será recusado',

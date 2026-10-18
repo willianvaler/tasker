@@ -73,6 +73,50 @@ const MONTH_SHORT: Record<DateLocale, string[]> = {
   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'],
 };
+const MONTH_LONG: Record<DateLocale, string[]> = {
+  'pt-BR': [
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro',
+  ],
+  en: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ],
+  es: [
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+    'julio',
+    'agosto',
+    'septiembre',
+    'octubre',
+    'noviembre',
+    'diciembre',
+  ],
+};
 const RELATIVE: Record<DateLocale, [string, string, string]> = {
   'pt-BR': ['Hoje', 'Amanhã', 'Ontem'],
   en: ['Today', 'Tomorrow', 'Yesterday'],
@@ -87,6 +131,17 @@ export function formatShortDate(date: IsoDate, locale: DateLocale = current): st
   return locale === 'en'
     ? `${day}, ${month} ${d.getUTCDate()}`
     : `${day}, ${d.getUTCDate()} ${month}`;
+}
+
+/** Dia da semana curto (0 = domingo): "dom" · "Sun" · "dom" */
+export function weekdayShort(weekday: number, locale: DateLocale = current): string {
+  return WEEKDAY_SHORT[locale][weekday];
+}
+
+/** "novembro de 2026" · "November 2026" · "noviembre de 2026" (mês 'YYYY-MM') */
+export function formatMonthYear(month: string, locale: DateLocale = current): string {
+  const name = MONTH_LONG[locale][Number(month.slice(5, 7)) - 1];
+  return locale === 'en' ? `${name} ${month.slice(0, 4)}` : `${name} de ${month.slice(0, 4)}`;
 }
 
 /** Rótulo curto para a interface: "Hoje", "Amanhã", "Ontem", "sex, 17 out" (ano só se for outro). */

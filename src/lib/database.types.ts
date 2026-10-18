@@ -209,6 +209,26 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"calendar_feeds": {
+                  Row: {
+                    "created_at": string,"token": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"token"?: string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"token"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "calendar_feeds_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"challenges": {
                   Row: {
                     "created_at": string,"created_by": string | null,"days": number,"ends_on": string | null,"folder_id": string | null,"id": string,"name": string,"starts_on": string,"team_id": string | null
@@ -1682,6 +1702,15 @@ isOneToOne: false
 "_group_members":
 { Args: { "p_folder_id": string,"p_team_id": string }; Returns: string[]
                            },
+"_ics_fold":
+{ Args: { "p_line": string }; Returns: string
+                           },
+"_ics_rrule":
+{ Args: { "p_due": string,"p_recurrence": Json }; Returns: string
+                           },
+"_ics_text":
+{ Args: { "p_text": string }; Returns: string
+                           },
 "_insert_batch_branch":
 { Args: { "p_item": Json,"p_page_id": string,"p_parent_id": string,"p_position": number }; Returns: string[]
                            },
@@ -1813,6 +1842,15 @@ isOneToOne: false
                            },
 "buy_item":
 { Args: { "p_item": string }; Returns: Json
+                           },
+"calendar_feed_link":
+{ Args: { "p_rotate"?: boolean }; Returns: string
+                           },
+"calendar_feed_off":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
+"calendar_ics":
+{ Args: { "p_origin"?: string,"p_token": string }; Returns: string
                            },
 "can_approve":
 { Args: { "p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']>,"p_user": string }; Returns: boolean

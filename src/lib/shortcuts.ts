@@ -174,6 +174,7 @@ export const SHORTCUTS = [
   { id: 'go.today', combos: ['g h'], description: 'shortcuts.goToday', scope: 'global' },
   { id: 'go.inbox', combos: ['g i'], description: 'shortcuts.goInbox', scope: 'global' },
   { id: 'go.mine', combos: ['g m'], description: 'shortcuts.goMine', scope: 'global' },
+  { id: 'go.calendar', combos: ['g c'], description: 'shortcuts.goCalendar', scope: 'global' },
   { id: 'go.flow', combos: ['g f'], description: 'shortcuts.goFlow', scope: 'global' },
   {
     id: 'item.open',

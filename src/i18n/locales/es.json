@@ -67,7 +67,8 @@
     "taskSnooze": "Posponer la tarea para mañana",
     "taskMyDay": "Poner o quitar de Mi día",
     "treeMoveUp": "Subir la carpeta o página abierta",
-    "treeMoveDown": "Bajar la carpeta o página abierta"
+    "treeMoveDown": "Bajar la carpeta o página abierta",
+    "goCalendar": "Ir al Calendario"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -122,7 +123,8 @@
     "teams": "Equipos",
     "resizeSidebar": "Ancho de la barra lateral (arrastra o usa ← →)",
     "newProjectHere": "Nuevo proyecto",
-    "firstProject": "Crear el primer proyecto"
+    "firstProject": "Crear el primer proyecto",
+    "calendar": "Calendario"
   },
   "quickAdd": {
     "label": "Nueva tarea",
@@ -293,7 +295,8 @@
     "allHabits": "Todos los hábitos",
     "habitsNone": "Aún no hay hábitos.",
     "habitsAllDone": "¡Todos hechos hoy!",
-    "more": "y {{count}} más"
+    "more": "y {{count}} más",
+    "openCalendar": "Calendario"
   },
   "hero": {
     "label": "Personaje y jefe de la semana",
@@ -2209,5 +2212,38 @@
     "days_zero": "0 días",
     "rankRow_zero": "{{rank}}º, {{name}}, ningún día de entrenamiento",
     "react_zero": "{{emoji}}, ninguna reacción"
+  },
+  "calendar": {
+    "title": "Calendario",
+    "view": "Vista del calendario",
+    "month": "Mes",
+    "week": "Semana",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "today": "Hoy",
+    "dayWithItems_one": "{{date}}: {{count}} elemento",
+    "dayWithItems_other": "{{date}}: {{count}} elementos",
+    "more": "+{{count}}",
+    "empty": "Nada con fecha este día.",
+    "exercises_one": "{{count}} ejercicio",
+    "exercises_other": "{{count}} ejercicios",
+    "feedTitle": "En Google Calendar (u otro calendario)",
+    "feedIntro": "Genera un enlace secreto y suscríbete en tu calendario: las tareas con fecha aparecen allí, y cada entrenamiento aparece una vez en su día, con el enlace a la página.",
+    "feedOffline": "Sin conexión: el enlace del calendario solo cambia con internet.",
+    "feedLink": "Enlace del calendario",
+    "feedOn": "Generar enlace del calendario",
+    "feedGoogle": "Añadir a Google Calendar",
+    "feedCopy": "Copiar enlace",
+    "feedCopied": "Enlace copiado",
+    "feedRotate": "Cambiar enlace",
+    "feedRotateTitle": "¿Cambiar el enlace del calendario?",
+    "feedRotateMessage": "El enlace actual deja de funcionar. Donde se añadió, habrá que añadir el nuevo.",
+    "feedRotated": "Enlace cambiado. Añade el nuevo en tu calendario.",
+    "feedOff": "Desactivar",
+    "feedOffTitle": "¿Desactivar el enlace del calendario?",
+    "feedOffMessage": "El calendario que usa este enlace deja de recibir tus tareas.",
+    "feedHow": "En el ordenador, en Google Calendar: Otros calendarios → + → Desde URL, y pega el enlace. Google lo actualiza solo, pero un cambio puede tardar unas horas en aparecer.",
+    "feedPrivate": "Quien tenga el enlace ve los títulos de tus tareas. Si se filtra, cambia el enlace.",
+    "feedError": "No se pudo cambiar el enlace: {{message}}"
   }
 }

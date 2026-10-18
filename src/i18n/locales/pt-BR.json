@@ -67,7 +67,8 @@
     "taskSnooze": "Adiar a tarefa para amanhã",
     "taskMyDay": "Pôr ou tirar do Meu dia",
     "treeMoveUp": "Subir a pasta ou página aberta",
-    "treeMoveDown": "Descer a pasta ou página aberta"
+    "treeMoveDown": "Descer a pasta ou página aberta",
+    "goCalendar": "Ir para o Calendário"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -122,7 +123,8 @@
     "teams": "Times",
     "resizeSidebar": "Largura da barra lateral (arraste ou use ← →)",
     "newProjectHere": "Novo projeto",
-    "firstProject": "Criar o primeiro projeto"
+    "firstProject": "Criar o primeiro projeto",
+    "calendar": "Calendário"
   },
   "quickAdd": {
     "label": "Nova tarefa",
@@ -293,7 +295,8 @@
     "allHabits": "Todos os hábitos",
     "habitsNone": "Nenhum hábito ainda.",
     "habitsAllDone": "Todos feitos hoje!",
-    "more": "e mais {{count}}"
+    "more": "e mais {{count}}",
+    "openCalendar": "Calendário"
   },
   "hero": {
     "label": "Personagem e boss da semana",
@@ -2209,5 +2212,38 @@
     "days_zero": "0 dias",
     "rankRow_zero": "{{rank}}º, {{name}}, nenhum dia de treino",
     "react_zero": "{{emoji}}, nenhuma reação"
+  },
+  "calendar": {
+    "title": "Calendário",
+    "view": "Visão do calendário",
+    "month": "Mês",
+    "week": "Semana",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "today": "Hoje",
+    "dayWithItems_one": "{{date}}: {{count}} item",
+    "dayWithItems_other": "{{date}}: {{count}} itens",
+    "more": "+{{count}}",
+    "empty": "Nada com data neste dia.",
+    "exercises_one": "{{count}} exercício",
+    "exercises_other": "{{count}} exercícios",
+    "feedTitle": "No Google Agenda (ou outro calendário)",
+    "feedIntro": "Gere um link secreto e assine no seu calendário: as tarefas com data aparecem lá, e cada treino aparece uma vez no dia, com o link da página.",
+    "feedOffline": "Sem conexão: o link do calendário só muda com internet.",
+    "feedLink": "Link do calendário",
+    "feedOn": "Gerar link do calendário",
+    "feedGoogle": "Adicionar ao Google Agenda",
+    "feedCopy": "Copiar link",
+    "feedCopied": "Link copiado",
+    "feedRotate": "Trocar link",
+    "feedRotateTitle": "Trocar o link do calendário?",
+    "feedRotateMessage": "O link atual para de funcionar. Onde ele foi adicionado, será preciso adicionar o novo.",
+    "feedRotated": "Link trocado. Adicione o novo no seu calendário.",
+    "feedOff": "Desligar",
+    "feedOffTitle": "Desligar o link do calendário?",
+    "feedOffMessage": "O calendário que usa este link para de receber as tarefas.",
+    "feedHow": "No computador, no Google Agenda: Outras agendas → + → Do URL, e cole o link. O Google atualiza sozinho, mas pode levar algumas horas para mostrar uma mudança.",
+    "feedPrivate": "Quem tiver o link vê os títulos das suas tarefas. Se ele vazar, troque o link.",
+    "feedError": "Não deu para mudar o link: {{message}}"
   }
 }

@@ -321,6 +321,7 @@ export function ListKeys() {
   useShortcut('go.today', () => router.navigate('/today'));
   useShortcut('go.inbox', () => router.navigate('/inbox'));
   useShortcut('go.mine', () => router.navigate('/mine'));
+  useShortcut('go.calendar', () => router.navigate('/calendario'));
 
   if (!dating) return null;
   const setDue = (due: string | null) => () =>

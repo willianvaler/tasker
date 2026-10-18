@@ -6,7 +6,7 @@ import path from 'node:path';
 const root = path.join(import.meta.dirname, '..');
 const status = readFileSync(path.join(root, 'docs/STATUS.md'), 'utf8');
 
-// As fases do ESCOPO.md (v1) não estão no STATUS
+// As fases do ESCOPO.md (v1) não estão no STATUS; o que veio depois do backlog dele, sim ("ESCOPO v1")
 const V1 = [
   ['Fase 0', 'Base do app, login, pastas e páginas, RLS', 'D1 a D12'],
   ['Fase 1', 'Captura rápida, lote, datas, etiquetas', 'D13 a D23'],
@@ -37,6 +37,7 @@ function escopoDa(titulo) {
   if (fase === 'U' || fase === 'W' || titulo.includes('ESCOPO_V5')) return 'V5';
   if (titulo.includes('ESCOPO_V4')) return 'V4';
   if (titulo.includes('ESCOPO_V6')) return 'V6';
+  if (titulo.includes('ESCOPO v1')) return 'V1';
   return null;
 }
 
@@ -67,7 +68,7 @@ function linhasDoStatus() {
     const m = /^- \[x\] \*\*([^*]+)\*\* (.*)$/.exec(linha);
     if (m && escopo) porEscopo[escopo].push({ id: m[1], ...linhaDa(m[2]) });
   }
-  porEscopo.V1 = V1.map(([id, tarefa, decisoes]) => ({ id, tarefa, decisoes }));
+  porEscopo.V1 = [...V1.map(([id, tarefa, decisoes]) => ({ id, tarefa, decisoes })), ...porEscopo.V1];
   return porEscopo;
 }
 

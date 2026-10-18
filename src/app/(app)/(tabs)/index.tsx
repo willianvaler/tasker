@@ -119,6 +119,7 @@ export default function HomeScreen() {
       <Section
         title={t('home.upcoming')}
         count={(upcoming.data ?? []).length}
+        link={{ href: '/calendario', label: t('home.openCalendar') }}
         empty={(upcoming.data ?? []).length === 0 ? t('home.upcomingEmpty') : undefined}
       >
         {(upcoming.data ?? []).slice(0, PREVIEW).map((task) => (
