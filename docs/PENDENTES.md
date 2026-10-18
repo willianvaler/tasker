@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V6.md`), numa tabela só,
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 18/10/2026.
+Atualizado em 18/10/2026 (produção v2026.10.18).
 
 | Escopo | Id / seção | Tarefa | Situação | Depende de |
 |---|---|---|---|---|
@@ -57,3 +57,6 @@ Atualizado em 18/10/2026.
 | V5-3 | Provedor de e-mail e domínio de envio | V5 §5, §6 |
 | V5-4 | Carência da exclusão de conta (proposta: 30 dias) | V5 §6 |
 | V5-5 | Modo Jogo: estilo de arte, consequência de zerar a vida, vocabulário, se é recurso pago | V5 §7 |
+| V7-1 | Conta de desenvolvedor no Strava (nome do app, domínio de retorno do OAuth) | V7 §2 |
+| V7-2 | Escrever no Health Connect/Strava por padrão ou só ler | V7 §2 |
+| V7-3 | Quais atividades contam como treino (corrida, caminhada, bike, musculação, todas) | V7 §2 |
