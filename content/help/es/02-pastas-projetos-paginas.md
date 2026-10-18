@@ -17,3 +17,13 @@ Una página puede **reiniciar** sus marcas cada día, cada semana o cuando digas
 ## Mover
 
 En el menú de la página, **Mover a…** lleva la página (con sus tareas) a otra carpeta o proyecto.
+
+Para cambiar el orden sin arrastrar, usa **Mover arriba** y **Mover abajo** en el menú de la carpeta o de la página (en el teclado, **Alt+↑** y **Alt+↓** con ella abierta).
+
+## Gimnasio
+
+Si respondiste que vas a usar la app para entrenar (o activaste el **Modo gimnasio** en el Perfil), la barra lateral gana el bloque **Gimnasio**, con tus entrenamientos. **+ Nuevo entrenamiento** crea la página de entrenamiento ahí mismo, ya en tarjetas y reiniciándose cada semana. Desactivar el modo no borra nada: la carpeta Gimnasio vuelve a Carpetas.
+
+## Barra lateral
+
+En **Perfil → Barra lateral** cambias el orden de los bloques (Notas, Carpetas, Gimnasio, Proyectos, Recibidas) y ocultas los que no usas. Vale en todos tus dispositivos.

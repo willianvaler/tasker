@@ -17,3 +17,13 @@ A page can **reset** its checks every day, every week or when you say so. Great 
 ## Moving
 
 In the page menu, **Move to…** takes the page (with its tasks) to another folder or project.
+
+To change the order without dragging, use **Move up** and **Move down** in the folder or page menu (on the keyboard, **Alt+↑** and **Alt+↓** with it open).
+
+## Gym
+
+If you said you will use the app to work out (or turned on **Gym mode** in Profile), the sidebar gets the **Gym** block, with your workouts. **+ New workout** creates the workout page right there, already as cards and resetting every week. Turning the mode off deletes nothing: the Gym folder goes back to Folders.
+
+## Sidebar
+
+In **Profile → Sidebar** you change the order of the blocks (Notes, Folders, Gym, Projects, Received) and hide the ones you don't use. It applies on all your devices.

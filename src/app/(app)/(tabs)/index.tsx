@@ -8,6 +8,7 @@ import { HeroPanel } from '@/components/hero-panel';
 import { NotificationsBell } from '@/components/notifications-bell';
 import { NextActionCard } from '@/components/my-day';
 import { Screen } from '@/components/screen';
+import { GymPrompt } from '@/components/gym-prompt';
 import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { TaskRow } from '@/components/tasks/task-row';
@@ -190,6 +191,7 @@ export default function HomeScreen() {
             }
           />
           {summary}
+          <GymPrompt />
           <View className="pt-4">
             <NextActionCard tasks={[...overdue, ...dueToday]} today={today} />
           </View>

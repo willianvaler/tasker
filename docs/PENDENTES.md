@@ -32,8 +32,7 @@ Atualizado em 18/10/2026.
 | V5 | §5 | E-mails: provedor, SPF/DKIM/DMARC, SMTP; modelos em 3 idiomas; preferências e descadastro | **bloqueado** | provedor (dono) |
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias, troca de e-mail, lixeira para anotações e anexos | pendente | carência (dono), e-mail |
 | V5 | §7 | Modo Jogo completo: 3 níveis, Início "acampamento", vida e diárias, recompensas, mascotes, missões, avatar em camadas, arte pelo ComfyUI | pendente | estilo de arte e regras (dono) |
-| **V6** | AC1.1–1.9 | Modo academia: `gym_enabled`, pasta Academia, bloco na barra lateral, reordenar e esconder blocos, mover para cima/baixo, pergunta no primeiro acesso | em andamento | — |
-| V6 | AC2.1–2.2 | Criar exercício sem ruído (campos da página de treino) | pendente | AC1.5 |
+| **V6** | AC2.1–2.2 | Criar exercício sem ruído (campos da página de treino) | pendente | AC1.5 |
 | V6 | AC3.1–3.9 | Biblioteca de exercícios: montar a base, traduzir, busca e filtros, tabelas, RLS e sync, tela, `exercise_id`, `NOTICE.md` | pendente | AC3.3 roda na máquina do dono |
 | V6 | AC4.1–4.6 | Registro por série: unidades, RIR/RPE, `workout_sets` + `log_set`, `SetRow`, Modo Treino, histórico | pendente | AC3.6 |
 | V6 | AC5.1–5.4 | Recordes e 1RM (aviso, crítico no boss, gráfico, calculadora) | pendente | AC4 |

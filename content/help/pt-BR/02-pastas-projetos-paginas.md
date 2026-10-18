@@ -17,3 +17,13 @@ Uma página pode **reiniciar** os checks todo dia, toda semana ou quando você m
 ## Mover
 
 No menu da página, **Mover para…** leva a página (com as tarefas) para outra pasta ou projeto.
+
+Para mudar a ordem sem arrastar, use **Mover para cima** e **Mover para baixo** no menu da pasta ou da página (no teclado, **Alt+↑** e **Alt+↓** com ela aberta).
+
+## Academia
+
+Se você respondeu que vai usar o app para treinar (ou ligou o **Modo academia** no Perfil), a barra lateral ganha o bloco **Academia**, com os seus treinos. **+ Novo treino** cria a página de treino direto ali, já em cards e reiniciando toda semana. Desligar o modo não apaga nada: a pasta Academia volta para Pastas.
+
+## Barra lateral
+
+Em **Perfil → Barra lateral** você muda a ordem dos blocos (Anotações, Pastas, Academia, Projetos, Recebidas) e esconde os que não usa. Vale em todos os seus aparelhos.
