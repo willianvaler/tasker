@@ -13,8 +13,8 @@ PROD=projects/task_tracking
 ALPHA=projects/task_tracking-alpha
 
 git fetch --quiet --tags origin
-ALPHA_COMMIT=$(ssh "$SERVIDOR" "git -C $ALPHA rev-parse HEAD")
-PROD_COMMIT=$(ssh "$SERVIDOR" "git -C $PROD rev-parse HEAD")
+ALPHA_COMMIT=$(ssh -n "$SERVIDOR" "git -C $ALPHA rev-parse HEAD")
+PROD_COMMIT=$(ssh -n "$SERVIDOR" "git -C $PROD rev-parse HEAD")
 if [ "$ALPHA_COMMIT" = "$PROD_COMMIT" ]; then
   echo "A produção já está na mesma versão do alpha ($(git log -1 --format='%h %s' "$ALPHA_COMMIT"))."
   exit 0
