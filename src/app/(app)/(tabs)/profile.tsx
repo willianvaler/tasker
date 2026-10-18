@@ -23,6 +23,7 @@ import { PrivacySection } from '@/components/privacy-section';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
 import { Screen } from '@/components/screen';
+import { SidebarSettings } from '@/components/sidebar-settings';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -128,6 +129,10 @@ function ProfileForm({ profile }: { profile: Profile }) {
           <ThemeChooser />
           <LanguageChooser />
           <PanelModeChooser />
+        </Group>
+
+        <Group title={t('sidebarPrefs.title')}>
+          <SidebarSettings />
         </Group>
 
         <Group title={t('profile.notifications')}>
