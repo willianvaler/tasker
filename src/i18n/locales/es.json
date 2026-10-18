@@ -2151,5 +2151,17 @@
     "body": "Si lo activas, la barra lateral gana el bloque Gimnasio, con tus entrenamientos, series y cargas y el Modo Entrenamiento. Puedes cambiarlo después en el Perfil.",
     "yes": "Sí, voy a entrenar",
     "no": "Ahora no"
+  },
+  "together": {
+    "title": "¿Quién entrena contigo ahora?",
+    "hint": "Quien marques recibe el aviso para entrar. Las series valen para el grupo: cualquiera marca en el móvil que tenga a mano.",
+    "startAlone": "Entrenar solo",
+    "startWith_one": "Empezar con 1 persona",
+    "startWith_other": "Empezar con {{count}} personas",
+    "with": "con {{names}}",
+    "rest": "Descanso del grupo",
+    "invite": "{{name}} empezó \"{{page}}\" contigo",
+    "join": "Entrar",
+    "decline": "Ahora no"
   }
 }

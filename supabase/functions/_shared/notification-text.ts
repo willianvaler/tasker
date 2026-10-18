@@ -14,6 +14,8 @@ export function describeNotification(n: NotificationLike): {
   teamInvite?: string;
   /** Página (lembrete de página recebida) */
   pageId?: string;
+  /** Outro destino no app (ex.: entrar no treino junto, abrir o desafio) */
+  url?: string;
 } {
   const p = (n.payload ?? {}) as Record<string, string | number | undefined>;
   const by = p.by ? String(p.by) : 'Alguém';
@@ -65,6 +67,16 @@ export function describeNotification(n: NotificationLike): {
           : `${by} lembrou você de "${p.page_name}"`,
         pageId: String(p.page_id),
       };
+    case 'workout_invite':
+      return {
+        text: `${by} começou o treino "${p.page_name}" com você: entrar`,
+        url: `/treino/${p.page_id}?sessao=${p.session_id}`,
+      };
+    case 'challenge_started':
+      return {
+        text: `${by} começou o desafio "${p.name}" (${p.days} ${Number(p.days) === 1 ? 'dia' : 'dias'})`,
+        url: `/desafio/${p.challenge_id}`,
+      };
     default:
       return { text: 'Novidade' };
   }
@@ -72,18 +84,28 @@ export function describeNotification(n: NotificationLike): {
 
 /** Mensagem do push (formato da API da Expo) para os tokens do usuário. */
 export function pushMessages(n: NotificationLike, tokens: string[]) {
-  const { text, taskId, folderId, teamId, teamInvite, pageId } = describeNotification(n);
-  const url = taskId
-    ? `/task/${taskId}`
-    : pageId
-      ? `/page/${pageId}`
-      : folderId
-        ? `/folder/${folderId}`
-        : teamId
-          ? `/team/${teamId}`
-          : teamInvite
-            ? `/team-invite/${teamInvite}`
-            : '/notifications';
+  const {
+    text,
+    taskId,
+    folderId,
+    teamId,
+    teamInvite,
+    pageId,
+    url: direct,
+  } = describeNotification(n);
+  const url = direct
+    ? direct
+    : taskId
+      ? `/task/${taskId}`
+      : pageId
+        ? `/page/${pageId}`
+        : folderId
+          ? `/folder/${folderId}`
+          : teamId
+            ? `/team/${teamId}`
+            : teamInvite
+              ? `/team-invite/${teamInvite}`
+              : '/notifications';
   return tokens.map((to) => ({
     to,
     title: 'Questlist',

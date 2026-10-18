@@ -15,3 +15,7 @@ On card pages or pages with tasks that have sets, **Start workout** opens full s
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.
+
+## Working out together
+
+In a project workout, Workout mode asks **who is working out with you now**. Whoever you check gets a notice (in 🔔 and on the phone) and joins with **Join**. During the session, sets count for the group: anyone taps **Done** on whatever phone is at hand, and everyone sees the same count, the same exercise and the same rest. Whoever logs the last set completes the exercise and gets the XP, as with project tasks. The session ends when everyone leaves.

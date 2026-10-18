@@ -15,3 +15,7 @@ En páginas de tarjetas o con tareas que tienen series, **Empezar entrenamiento*
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.
+
+## Entrenar juntos
+
+En un entrenamiento de proyecto, el Modo Entrenamiento pregunta **quién entrena contigo ahora**. Quien marques recibe el aviso (en 🔔 y en el móvil) y entra con **Entrar**. Durante la sesión, las series valen para el grupo: cualquiera toca **Hecha** en el móvil que tenga a mano, y todos ven el mismo conteo, el mismo ejercicio y el mismo descanso. Quien marca la última serie completa el ejercicio y se lleva el XP, como en las tareas de proyecto. La sesión termina cuando todos salen.

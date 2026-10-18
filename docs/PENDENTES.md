@@ -40,11 +40,12 @@ Atualizado em 18/10/2026.
 | V6 | AC7.1–7.3 | Peso e medidas (dado sensível, consentimento) | pendente | — |
 | V6 | AC8.1–8.5 | Estatísticas: mapa de calor, mapa muscular, volume | pendente | AC4.3 |
 | V6 | AC9.1–9.5 | Anilhas, aquecimento, supersets, plano da semana e lembrete | pendente | AC4.5, AC1.6 |
-| V6 | AC10.1–10.5 | Treinar junto (sessão compartilhada), desafios, ranking, mural, chat | pendente | AC4.3, AC1.5 |
+| V6 | AC10.3–10.5 | Desafios (projeto ou time, duração em dias; dia de treino = página concluída ou 30 min de Modo Treino), ranking, check-in com foto, mural e chat | em andamento | — |
 | V6 | AC11 | Conquistas de academia e recorde crítico | pendente | AC5.3 |
 | V6 | AC12.1–12.2 | Planos prontos e importadores (Strong, Hevy, FitNotes) | pendente | arquivos de exemplo do dono |
 | V6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | pendente | AC5.2, AC6.3 |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
+| **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora conta como dia de treino | pendente | conta de desenvolvedor do Strava, development build (dono) |
 
 ## Decisões do dono em aberto
 

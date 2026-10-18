@@ -24,6 +24,9 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   bosses: [keys.game, ['project-boss'], ['board']],
   clan_activity: [keys.clan],
   clan_members: [keys.clan, keys.game],
+  // Treinar junto (AC10.1): exercício atual, descanso e séries do grupo
+  workout_sessions: [['workout-session']],
+  workout_session_members: [['workout-session'], ['workout-invites']],
 };
 
 /**

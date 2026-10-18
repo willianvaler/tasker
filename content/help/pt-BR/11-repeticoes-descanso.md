@@ -15,3 +15,7 @@ Em páginas de cards ou com tarefas que têm séries, **Iniciar treino** abre a 
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
+
+## Treinar junto
+
+Num treino de projeto, o Modo Treino pergunta **quem está treinando junto agora**. Quem você marcar recebe o aviso (no 🔔 e no celular) e entra com **Entrar**. Durante a sessão, as séries valem para o grupo: qualquer um marca **Feita** no celular que estiver à mão, e todos veem a mesma contagem, o mesmo exercício e o mesmo descanso. Quem marca a última série conclui o exercício e leva o XP, como nas tarefas de projeto. A sessão acaba quando todos saem.

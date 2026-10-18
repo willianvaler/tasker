@@ -2151,5 +2151,17 @@
     "body": "Ligando, a barra lateral ganha o bloco Academia, com seus treinos, séries e cargas e o Modo Treino. Dá para mudar depois no Perfil.",
     "yes": "Sim, vou treinar",
     "no": "Agora não"
+  },
+  "together": {
+    "title": "Quem está treinando junto agora?",
+    "hint": "Quem você marcar recebe o aviso para entrar. As séries valem para o grupo: qualquer um marca no celular que estiver à mão.",
+    "startAlone": "Treinar sozinho",
+    "startWith_one": "Começar com 1 pessoa",
+    "startWith_other": "Começar com {{count}} pessoas",
+    "with": "com {{names}}",
+    "rest": "Descanso do grupo",
+    "invite": "{{name}} começou \"{{page}}\" com você",
+    "join": "Entrar",
+    "decline": "Agora não"
   }
 }

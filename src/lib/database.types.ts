@@ -1383,6 +1383,70 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"workout_session_members": {
+                  Row: {
+                    "invited_by": string | null,"joined_at": string | null,"left_at": string | null,"session_id": string,"status": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "invited_by"?: string | null,"joined_at"?: string | null,"left_at"?: string | null,"session_id": string,"status"?: string,"user_id": string
+                  }
+                  Update: {
+                    "invited_by"?: string | null,"joined_at"?: string | null,"left_at"?: string | null,"session_id"?: string,"status"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "workout_session_members_invited_by_fkey"
+      columns: ["invited_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_session_members_session_id_fkey"
+      columns: ["session_id"]
+isOneToOne: false
+      referencedRelation: "workout_sessions"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_session_members_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"workout_sessions": {
+                  Row: {
+                    "ended_at": string | null,"folder_id": string,"id": string,"page_id": string,"progress": NonNullable<Json>,"started_at": string,"started_by": string,"state": NonNullable<Json>,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "ended_at"?: string | null,"folder_id": string,"id"?: string,"page_id": string,"progress"?: NonNullable<Json>,"started_at"?: string,"started_by": string,"state"?: NonNullable<Json>,"updated_at"?: string
+                  }
+                  Update: {
+                    "ended_at"?: string | null,"folder_id"?: string,"id"?: string,"page_id"?: string,"progress"?: NonNullable<Json>,"started_at"?: string,"started_by"?: string,"state"?: NonNullable<Json>,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "workout_sessions_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_sessions_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_sessions_started_by_fkey"
+      columns: ["started_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"xp_events": {
                   Row: {
                     "amount": number,"boss_id": string | null,"completion_id": string | null,"created_at": string,"crit": boolean,"cycle_key": string | null,"damage": number,"day": string,"gold": number,"id": string,"kind": string,"page_id": string | null,"quick": boolean,"reverted": boolean,"reverted_at": string | null,"task_id": string | null,"user_id": string
@@ -1502,6 +1566,9 @@ isOneToOne: false
 "_invite_problem":
 { Args: { "p_invite": Omit<Database["public"]['Tables']["invites"]['Row'], Database["public"]['Tables']["invites"]['ComputedFields']> }; Returns: string
                            },
+"_is_member_of":
+{ Args: { "p_folder_id": string,"p_user": string }; Returns: boolean
+                           },
 "_item_folder":
 { Args: { "p_id": string,"p_type": string }; Returns: string
                            },
@@ -1511,6 +1578,24 @@ isOneToOne: false
 "_log_activity":
 { Args: { "p_action": string,"p_folder_id": string,"p_payload": Json }; Returns: undefined
                            },
+"_my_active_session":
+{ Args: { "p_session_id": string }; Returns: {
+              "ended_at": string | null,
+"folder_id": string,
+"id": string,
+"page_id": string,
+"progress": NonNullable<Json>,
+"started_at": string,
+"started_by": string,
+"state": NonNullable<Json>,
+"updated_at": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "workout_sessions"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "_my_email":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
@@ -1888,6 +1973,9 @@ isOneToOne: false
 "is_page_recipient":
 { Args: { "p_page_id": string }; Returns: boolean
                            },
+"is_session_member":
+{ Args: { "p_session_id": string }; Returns: boolean
+                           },
 "is_task_assignee":
 { Args: { "p_task_id": string,"p_user_id": string }; Returns: boolean
                            },
@@ -1902,11 +1990,20 @@ isOneToOne: false
 "join_clan":
 { Args: { "p_token": string }; Returns: string
                            },
+"join_workout_session":
+{ Args: { "p_session_id": string }; Returns: undefined
+                           },
 "leave_clan":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"leave_workout_session":
+{ Args: { "p_session_id": string }; Returns: undefined
+                           },
 "level_for_xp":
 { Args: { "p_xp": number }; Returns: Record<string, unknown>
+                           },
+"log_group_set":
+{ Args: { "p_delta": number,"p_session_id": string,"p_task_id": string,"p_values"?: Json }; Returns: Json
                            },
 "log_rep":
 { Args: { "p_delta": number,"p_task_id": string,"p_values"?: Json }; Returns: Json
@@ -1946,6 +2043,11 @@ isOneToOne: false
 "my_pending_shares":
 { Args: Record<PropertyKey, never>; Returns: {
               "created_at": string,"id": string,"mode": string,"owner_name": string,"page_icon": string,"page_name": string,"view_type": string
+            }[]
+                           },
+"my_workout_invites":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "by_name": string,"page_id": string,"page_name": string,"session_id": string,"started_at": string
             }[]
                            },
 "name_key":
@@ -2080,6 +2182,9 @@ isOneToOne: false
 "set_team_member_role":
 { Args: { "p_role": Database["public"]['Enums']["team_role"],"p_team_id": string,"p_user_id": string }; Returns: undefined
                            },
+"set_workout_state":
+{ Args: { "p_session_id": string,"p_state": Json }; Returns: undefined
+                           },
 "share_page_by_email":
 { Args: { "p_emails": (string)[],"p_mode"?: string,"p_page_id": string }; Returns: number
                            },
@@ -2173,6 +2278,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"start_workout_session":
+{ Args: { "p_page_id": string,"p_with"?: (string)[] }; Returns: string
+                           },
 "streak_stats":
 { Args: { "p_today": string,"p_user": string }; Returns: Record<string, unknown>
                            },

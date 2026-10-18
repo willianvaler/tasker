@@ -2151,5 +2151,17 @@
     "body": "If you turn it on, the sidebar gets the Gym block, with your workouts, sets and loads and Workout Mode. You can change it later in Profile.",
     "yes": "Yes, I'll work out",
     "no": "Not now"
+  },
+  "together": {
+    "title": "Who is working out with you now?",
+    "hint": "Whoever you check gets a notice to join. Sets count for the group: anyone can tap on whatever phone is at hand.",
+    "startAlone": "Work out alone",
+    "startWith_one": "Start with 1 person",
+    "startWith_other": "Start with {{count}} people",
+    "with": "with {{names}}",
+    "rest": "Group rest",
+    "invite": "{{name}} started \"{{page}}\" with you",
+    "join": "Join",
+    "decline": "Not now"
   }
 }

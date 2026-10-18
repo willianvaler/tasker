@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-**Questlist** (nome provisório): app de tarefas e projetos colaborativos com gamificação leve, para Android, iOS e web com um único código. O escopo está em `ESCOPO.md` (v1), `ESCOPO_V2.md`, `ESCOPO_V3.md`, `ESCOPO_V4.md`, `ESCOPO_V5.md` e `ESCOPO_V6.md` (academia; em conflito, o mais recente vence); as decisões tomadas, em `DECISIONS.md`; o plano da V2/V3, em `docs/CRONOGRAMA.md`, e o andamento, em `docs/STATUS.md`. Leia antes de mudar comportamento.
+**Questlist** (nome provisório): app de tarefas e projetos colaborativos com gamificação leve, para Android, iOS e web com um único código. O escopo está em `ESCOPO.md` (v1), `ESCOPO_V2.md`, `ESCOPO_V3.md`, `ESCOPO_V4.md`, `ESCOPO_V5.md`, `ESCOPO_V6.md` (academia) e `ESCOPO_V7.md` (integrações com apps de treino e saúde; em conflito, o mais recente vence); as decisões tomadas, em `DECISIONS.md`; o plano da V2/V3, em `docs/CRONOGRAMA.md`, e o andamento, em `docs/STATUS.md`. Leia antes de mudar comportamento.
 
 **Sempre que concluir uma tarefa do cronograma, atualize `docs/STATUS.md` no mesmo commit** (feito / em andamento / pendente / decisões), e também as tabelas de leitura rápida: tire a tarefa de `docs/PENDENTES.md` (o que falta, à mão) e rode `npm run feitos` (regenera `docs/FEITOS.md`, o histórico, a partir do STATUS). Um commit por tarefa, em Conventional Commits e pt-BR, com o id no fim: `feat(i18n): infraestrutura [A3]`. Interface, mensagens, comentários e commits em **português (pt-BR)**.
 

@@ -7,7 +7,8 @@ import { Platform, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useLogSet } from '@/components/tasks/repeat';
-import { AdjustButtons, useLiveTimer } from '@/components/timer-bar';
+import { TrainingPartners } from '@/components/training-partners';
+import { AdjustButtons, useLiveTimer, useStartTimer } from '@/components/timer-bar';
 import { Button, IconButton } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -17,9 +18,16 @@ import type { Json } from '@/lib/db';
 import { metaLabel } from '@/components/tasks/task-meta';
 import type { TaskMeta } from '@/lib/parser/quick';
 import { useGameState } from '@/lib/queries/game';
+import { rootFolder, useMembers } from '@/lib/queries/projects';
 import { useMyProgress } from '@/lib/queries/repeat';
 import { usePageTasks, useToggleTask, useUpdateTask } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
+import {
+  useWorkoutSession,
+  useWorkoutSessionActions,
+  type WorkoutSession,
+} from '@/lib/queries/workout-session';
+import { restAfterRep } from '@/lib/repeat';
 import { selection } from '@/lib/selection';
 import { localStore } from '@/lib/storage';
 import { formatClock } from '@/lib/timers';
@@ -41,6 +49,8 @@ import {
   workoutProgress,
   type WorkoutItem,
 } from '@/lib/workout';
+import { useIsOnline } from '@/providers/online';
+import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 import { useTaskCan } from '@/providers/write';
 
@@ -84,13 +94,68 @@ function loadSession(pageId: string): Session {
 const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
 export default function WorkoutScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, sessao } = useLocalSearchParams<{ id: string; sessao?: string }>();
   const { t } = useTranslation();
   const tree = useTree();
   const page = tree.data?.pages.find((p) => p.id === id);
   const tasks = usePageTasks(id);
   const progress = useMyProgress();
-  const items = workoutItems(tasks.data ?? [], progress.data ?? {});
+
+  // AC10.1: todo treino aberto é uma sessão no servidor (online); em pasta compartilhada, antes
+  // de começar, escolhe quem treina junto. Com mais de uma pessoa, a série vale para o grupo.
+  const online = useIsOnline();
+  const me = useSession().session?.user.id;
+  const root = rootFolder(tree.data, page?.folder_id);
+  const members = useMembers(root?.is_shared ? root.id : undefined);
+  const others = (members.data ?? []).filter((m) => m.userId !== me);
+  const sessionActions = useWorkoutSessionActions();
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  // Em pasta compartilhada, antes de começar: com quem (até escolher)
+  const [picked, setPicked] = useState(false);
+  const [partners, setPartners] = useState<string[]>([]);
+  const live = useWorkoutSession(sessionId);
+  const inSession = (live.data?.members ?? []).filter((m) => m.status !== 'left');
+  const group = live.data && !live.data.endedAt && inSession.length > 1 ? live.data : null;
+  const items = workoutItems(tasks.data ?? [], group ? group.progress : (progress.data ?? {}));
+  const partnerNames = inSession
+    .filter((m) => m.userId !== me)
+    .map((m) => (members.data ?? []).find((x) => x.userId === m.userId)?.displayName)
+    .filter((name): name is string => !!name);
+
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current || !online || !page) return;
+    if (sessao) {
+      started.current = true;
+      sessionActions.join.mutateAsync(sessao).then(setSessionId, () => {});
+      return;
+    }
+    if (root?.is_shared && (members.isPending || others.length > 0)) return;
+    started.current = true;
+    sessionActions.start.mutateAsync({ pageId: id, withUsers: [] }).then(setSessionId, () => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [online, page, sessao, root?.is_shared, members.isPending, others.length]);
+
+  // Fechar o treino sai da sessão (sem ninguém dentro, ela termina)
+  const sessionRef = useRef<string | null>(null);
+  useEffect(() => {
+    sessionRef.current = sessionId;
+  }, [sessionId]);
+  useEffect(
+    () => () => {
+      if (sessionRef.current) sessionActions.leave.mutateAsync(sessionRef.current).catch(() => {});
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  function startTogether() {
+    sessionActions.start
+      .mutateAsync({ pageId: id, withUsers: partners })
+      .then(setSessionId, () => {})
+      .finally(() => setPicked(true));
+  }
+  const picking = online && !sessao && !picked && !!root?.is_shared && others.length > 0;
 
   const [session, setSession] = useState(() => loadSession(id));
   useEffect(() => {
@@ -109,6 +174,20 @@ export default function WorkoutScreen() {
   useEffect(() => () => void clearWorkoutNotification(), []);
 
   const [chosen, setChosen] = useState<number | null>(null);
+  // No grupo, o exercício atual é o da sessão: quem avança leva os outros junto
+  const remoteTask = group?.state.task_id;
+  const [followed, setFollowed] = useState<string | undefined>(undefined);
+  if (remoteTask !== followed) {
+    setFollowed(remoteTask);
+    const at = items.findIndex((it) => it.task.id === remoteTask);
+    if (at >= 0) setChosen(at);
+  }
+  const goTo = (next: number | null) => {
+    setChosen(next);
+    const taskId = next != null ? items[next]?.task.id : undefined;
+    if (group && taskId)
+      sessionActions.setState.mutate({ id: group.id, state: { task_id: taskId } });
+  };
   const pending = nextPending(items, 0, session.skipped);
   const index = chosen != null && chosen < items.length ? chosen : pending;
   const finished = pending === -1 && (chosen == null || items[chosen]?.done !== false);
@@ -118,6 +197,22 @@ export default function WorkoutScreen() {
   const toast = useToast();
   const game = useGameState();
   const rest = useLiveTimer();
+  const startTimer = useStartTimer();
+  const remoteRest = group?.state.rest_ends_at ?? null;
+  const appliedRest = useRef<string | null>(null);
+  useEffect(() => {
+    if (!remoteRest || appliedRest.current === remoteRest) return;
+    appliedRest.current = remoteRest;
+    const left = Math.round((Date.parse(remoteRest) - Date.now()) / 1000);
+    if (left < 5) return;
+    startTimer({
+      kind: 'rest',
+      seconds: left,
+      taskId: remoteTask,
+      config: { label: t('together.rest') },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [remoteRest]);
   const lastResult = useRef<Promise<unknown>>(Promise.resolve());
   const latest = useRef(session);
   useEffect(() => {
@@ -132,7 +227,7 @@ export default function WorkoutScreen() {
     void Promise.race([lastResult.current.catch(() => {}), wait]).then(() => {
       if (gone) return;
       const s = latest.current;
-      toast({ message: finishedMessage(s, game.data?.enabled !== false, t) });
+      toast({ message: finishedMessage(s, game.data?.enabled !== false, t, partnerNames) });
       localStore.removeItem(sessionKey(id));
       close();
     });
@@ -142,6 +237,18 @@ export default function WorkoutScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [finished, tasks.isPending]);
 
+  if (picking)
+    return (
+      <Shell title={page ? pageLabel(page) : ''}>
+        <TrainingPartners
+          people={others}
+          selected={partners}
+          onChange={setPartners}
+          onStart={startTogether}
+          busy={sessionActions.start.isPending}
+        />
+      </Shell>
+    );
   if (tasks.isPending) return <Shell title={page ? pageLabel(page) : ''}>{null}</Shell>;
   if (items.length === 0)
     return (
@@ -165,9 +272,14 @@ export default function WorkoutScreen() {
       index={index === -1 ? 0 : index}
       session={session}
       setSession={setSession}
-      goTo={setChosen}
+      goTo={goTo}
       onResult={(result) => {
         lastResult.current = result;
+      }}
+      group={group}
+      partnerNames={partnerNames}
+      onRestShared={(iso) => {
+        appliedRest.current = iso;
       }}
     />
   );
@@ -220,6 +332,9 @@ function Running({
   setSession,
   goTo,
   onResult,
+  group,
+  partnerNames,
+  onRestShared,
 }: {
   title: string;
   cards: boolean;
@@ -230,12 +345,19 @@ function Running({
   goTo: (index: number | null) => void;
   /** A resposta da série (o fim do treino espera a última, para o XP) */
   onResult: (result: Promise<unknown>) => void;
+  /** Treino junto (AC10.1): a série vale para o grupo */
+  group: WorkoutSession | null;
+  partnerNames: string[];
+  /** O descanso que este aparelho mandou para a sessão (para não começá-lo duas vezes) */
+  onRestShared: (iso: string) => void;
 }) {
   const { t, i18n } = useTranslation();
   const item = items[index];
   const task = item.task;
   const allowed = useTaskCan(task);
   const { logSet } = useLogSet();
+  const sessionActions = useWorkoutSessionActions();
+  const startTimer = useStartTimer();
   const toggle = useToggleTask();
   const update = useUpdateTask();
   const rest = useLiveTimer();
@@ -259,7 +381,36 @@ function Running({
     if (paused || item.done || !allowed.complete) return false;
     const addXp = (xp: number | undefined) => xp && setSession((s) => ({ ...s, xp: s.xp + xp }));
     setSession((s) => ({ ...s, sets: s.sets + 1, volume: s.volume + setVolume(meta) }));
-    if (item.repeats) {
+    if (group) {
+      const values = { weight: meta.weight ?? null, reps: meta.reps ?? null };
+      const next = Math.min(item.plan.total, item.reps + 1);
+      const result = sessionActions.logGroupSet.mutateAsync({
+        id: group.id,
+        taskId: task.id,
+        delta: 1,
+        values,
+      });
+      onResult(result);
+      result.then(
+        (r) => addXp((r as { summary?: { xp?: number } })?.summary?.xp),
+        () => {},
+      );
+      const restInfo = item.repeats ? restAfterRep(item.plan, next) : null;
+      if (restInfo) {
+        startTimer({
+          kind: 'rest',
+          seconds: restInfo.seconds,
+          taskId: task.id,
+          config: {
+            label: `${task.title}, ${Math.min(next + 1, item.plan.total)}/${item.plan.total}`,
+          },
+        });
+        const iso = new Date(Date.now() + restInfo.seconds * 1000).toISOString();
+        onRestShared(iso);
+        sessionActions.setState.mutate({ id: group.id, state: { rest_ends_at: iso } });
+      }
+      if (next >= item.plan.total) advance();
+    } else if (item.repeats) {
       const values = { weight: meta.weight ?? null, reps: meta.reps ?? null };
       const { next, result } = logSet(task, item.plan, item.reps, 1, values);
       onResult(result);
@@ -381,6 +532,11 @@ function Running({
         <Text className="font-mono text-xs uppercase text-ink-muted">
           {t('workout.exercise', { n: index + 1, total: items.length })}
         </Text>
+        {partnerNames.length > 0 && (
+          <Text className="text-sm text-ink-muted">
+            {t('together.with', { names: partnerNames.join(', ') })}
+          </Text>
+        )}
         <Text className="text-xl font-semibold text-ink" accessibilityRole="header">
           {task.title}
         </Text>
@@ -481,7 +637,7 @@ function Running({
 }
 
 /** "Treino concluído · 12 séries · 42:10 · 1.250 kg · +60 XP · 1 pulado" */
-function finishedMessage(session: Session, game: boolean, t: TFunction) {
+function finishedMessage(session: Session, game: boolean, t: TFunction, partners: string[] = []) {
   const elapsed = workoutElapsed(session, Date.now());
   if (session.sets === 0 && session.skipped.length === 0) return t('workout.allDone');
   const volume = new Intl.NumberFormat(i18next.language, { maximumFractionDigits: 1 }).format(
@@ -494,6 +650,7 @@ function finishedMessage(session: Session, game: boolean, t: TFunction) {
     session.volume > 0 ? `${volume} kg` : null,
     game && session.xp > 0 ? `+${session.xp} XP` : null,
     session.skipped.length ? t('workout.toastSkipped', { count: session.skipped.length }) : null,
+    partners.length ? t('together.with', { names: partners.join(', ') }) : null,
   ]
     .filter(Boolean)
     .join(' · ');
