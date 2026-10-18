@@ -27,6 +27,10 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   // Treinar junto (AC10.1): exercício atual, descanso e séries do grupo
   workout_sessions: [['workout-session']],
   workout_session_members: [['workout-session'], ['workout-invites']],
+  // Desafios do grupo (AC10.4): ranking, mural e chat
+  challenges: [['challenges']],
+  group_posts: [['group-posts']],
+  group_post_reactions: [['group-posts']],
 };
 
 /**

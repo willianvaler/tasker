@@ -209,6 +209,38 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"challenges": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"days": number,"ends_on": string | null,"folder_id": string | null,"id": string,"name": string,"starts_on": string,"team_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"days": number,"ends_on"?: never,"folder_id"?: string | null,"id"?: string,"name": string,"starts_on": string,"team_id"?: string | null
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"days"?: number,"ends_on"?: never,"folder_id"?: string | null,"id"?: string,"name"?: string,"starts_on"?: string,"team_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "challenges_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "challenges_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "challenges_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"clan_activity": {
                   Row: {
                     "action": string,"clan_id": string,"created_at": string,"id": string,"payload": NonNullable<Json>,"user_id": string | null
@@ -440,6 +472,70 @@ isOneToOne: false
       columns: ["team_id"]
 isOneToOne: false
       referencedRelation: "teams"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"group_post_reactions": {
+                  Row: {
+                    "created_at": string,"emoji": string,"post_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"emoji": string,"post_id": string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"emoji"?: string,"post_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "group_post_reactions_post_id_fkey"
+      columns: ["post_id"]
+isOneToOne: false
+      referencedRelation: "group_posts"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "group_post_reactions_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"group_posts": {
+                  Row: {
+                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"kind": string,"parent_id": string | null,"photo_path": string | null,"team_id": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind": string,"parent_id"?: string | null,"photo_path"?: string | null,"team_id"?: string | null,"user_id"?: string
+                  }
+                  Update: {
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind"?: string,"parent_id"?: string | null,"photo_path"?: string | null,"team_id"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "group_posts_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "group_posts_parent_id_fkey"
+      columns: ["parent_id"]
+isOneToOne: false
+      referencedRelation: "group_posts"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "group_posts_team_id_fkey"
+      columns: ["team_id"]
+isOneToOne: false
+      referencedRelation: "teams"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "group_posts_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
       referencedColumns: ["id"]
     }
                   ]
@@ -1383,6 +1479,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"workout_days": {
+                  Row: {
+                    "created_at": string,"day": string,"minutes": number | null,"page_id": string | null,"source": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"day": string,"minutes"?: number | null,"page_id"?: string | null,"source": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"day"?: string,"minutes"?: number | null,"page_id"?: string | null,"source"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "workout_days_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_days_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"workout_session_members": {
                   Row: {
                     "invited_by": string | null,"joined_at": string | null,"left_at": string | null,"session_id": string,"status": string,"user_id": string
@@ -1557,6 +1679,9 @@ isOneToOne: false
 "_grant_event":
 { Args: { "p_amount": number,"p_completion_id": string,"p_crit": boolean,"p_cycle_key": string,"p_damage": number,"p_gold": number,"p_id"?: string,"p_kind": string,"p_page_id": string,"p_quick": boolean,"p_task_id": string,"p_user": string }; Returns: Record<string, unknown>
                            },
+"_group_members":
+{ Args: { "p_folder_id": string,"p_team_id": string }; Returns: string[]
+                           },
 "_insert_batch_branch":
 { Args: { "p_item": Json,"p_page_id": string,"p_parent_id": string,"p_position": number }; Returns: string[]
                            },
@@ -1568,6 +1693,9 @@ isOneToOne: false
                            },
 "_is_member_of":
 { Args: { "p_folder_id": string,"p_user": string }; Returns: boolean
+                           },
+"_is_workout_page":
+{ Args: { "p_page_id": string }; Returns: boolean
                            },
 "_item_folder":
 { Args: { "p_id": string,"p_type": string }; Returns: string
@@ -1602,8 +1730,14 @@ isOneToOne: false
 "_notify":
 { Args: { "p_kind": string,"p_payload": Json,"p_user": string }; Returns: undefined
                            },
+"_page_all_done":
+{ Args: { "p_page_id": string }; Returns: boolean
+                           },
 "_page_title":
 { Args: { "p_page_id": string }; Returns: string
+                           },
+"_record_workout_day":
+{ Args: { "p_minutes": number,"p_page": string,"p_source": string,"p_user": string }; Returns: undefined
                            },
 "_refresh_profile_stats":
 { Args: { "p_user": string }; Returns: undefined
@@ -1686,6 +1820,12 @@ isOneToOne: false
 "can_edit_task":
 { Args: { "p_task_id": string }; Returns: boolean
                            },
+"can_see_group_path":
+{ Args: { "p_name": string }; Returns: boolean
+                           },
+"can_see_post":
+{ Args: { "p_post_id": string }; Returns: boolean
+                           },
 "can_see_task":
 { Args: { "p_task_id": string }; Returns: boolean
                            },
@@ -1697,6 +1837,11 @@ isOneToOne: false
                            },
 "cancel_project_boss":
 { Args: { "p_folder_id": string }; Returns: undefined
+                           },
+"challenge_board":
+{ Args: { "p_challenge_id": string }; Returns: {
+              "days": (string)[],"display_name": string,"user_id": string
+            }[]
                            },
 "character_attributes":
 { Args: { "p_user": string }; Returns: Record<string, unknown>
@@ -1841,6 +1986,9 @@ isOneToOne: false
 "decline_page_share":
 { Args: { "p_share_id": string }; Returns: undefined
                            },
+"delete_challenge":
+{ Args: { "p_challenge_id": string }; Returns: undefined
+                           },
 "delete_my_account":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
@@ -1964,6 +2112,9 @@ isOneToOne: false
 "has_permission":
 { Args: { "p_folder_id": string,"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
                            },
+"in_group":
+{ Args: { "p_folder_id": string,"p_team_id": string }; Returns: boolean
+                           },
 "invite_preview":
 { Args: { "p_token": string }; Returns: Json
                            },
@@ -2033,6 +2184,11 @@ isOneToOne: false
                            },
 "my_achievements":
 { Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"my_challenges":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "days": number,"ends_on": string,"folder_id": string,"group_name": string,"id": string,"name": string,"starts_on": string,"team_id": string
+            }[]
                            },
 "my_clan":
 { Args: Record<PropertyKey, never>; Returns: string
@@ -2187,6 +2343,9 @@ isOneToOne: false
                            },
 "share_page_by_email":
 { Args: { "p_emails": (string)[],"p_mode"?: string,"p_page_id": string }; Returns: number
+                           },
+"start_challenge":
+{ Args: { "p_days": number,"p_folder_id": string,"p_name": string,"p_starts_on"?: string,"p_team_id": string }; Returns: string
                            },
 "start_project_boss":
 { Args: { "p_deadline": string,"p_folder_id": string }; Returns: {

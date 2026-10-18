@@ -206,8 +206,8 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **AC10.1** Sessão de treino no servidor (`workout_sessions`, `workout_session_members`): convite com aviso e push, entrar/sair, série do grupo (`log_group_set`, quem marca a última conclui), exercício atual e descanso iguais nos aparelhos pelo Realtime; E2E `e2e/treino-junto.spec.ts` (D183)
 - [x] **AC10.2** Seletor "Quem está treinando junto agora?" no Modo Treino de pasta compartilhada (D183)
 - [x] **AC10.3** `lib/gym/leaderboard.ts`: dias ativos (um por dia), pontos opcionais, empates dividindo a posição, sequência atual e maior; `challengeProgress` (feito pelo Claude, tirado da fila local)
-- [ ] **AC10.4** Desafios (projeto ou time), dia de treino, check-ins com foto, mural e chat do grupo
-- [ ] **AC10.5** Telas de desafio: ranking, mural e chat
+- [x] **AC10.4** Desafios de projeto ou time (`start_challenge` com duração em dias, `challenge_board`), dia de treino no servidor (`workout_days`: página de treino concluída ou 30 min ou mais na sessão), mural e chat (`group_posts`, reações, foto no bucket `group-photos`), RLS e pgTAP (D184)
+- [x] **AC10.5** Tela Treino em grupo (`/grupo/projeto|time/<id>`: Desafios com ranking e "Iniciar novo desafio", Mural com check-in, foto, reações e comentários, Chat), botão no projeto e no time, aviso `challenge_started`; E2E `e2e/desafios.spec.ts` e Ajuda nos 3 idiomas (D184). Prêmio para os primeiros fica com o AC11
 
 ## Decisões em aberto
 
