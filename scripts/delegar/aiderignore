@@ -1,0 +1,8 @@
+# Arquivos que o escritor nunca põe no contexto (grandes demais para os ~28 mil tokens dele).
+# O aider adiciona sozinho qualquer arquivo citado na mensagem; ignorado aqui, não entra.
+src/i18n/locales/
+src/lib/database.types.ts
+src/content/help.ts
+supabase/
+node_modules/
+package-lock.json

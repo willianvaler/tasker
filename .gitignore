@@ -63,3 +63,6 @@ supabase/signing_keys.json
 
 # Ambiente da pasta: produção, alpha ou lab (D178)
 .ambiente.local
+
+# Tarefas delegadas ao modelo local (scripts/delegar): specs, rodadas e pareceres
+.delegar/

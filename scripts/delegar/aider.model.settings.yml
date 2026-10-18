@@ -1,0 +1,8 @@
+# Escritor local (llama-escritor). No formato "diff" o modelo costuma devolver o arquivo solto e
+# nada é aplicado; o "whole" reescreve o arquivo inteiro e funciona.
+- name: openai/escritor
+  edit_format: whole
+  use_repo_map: true
+  examples_as_sys_msg: true
+  extra_params:
+    max_tokens: 16384
