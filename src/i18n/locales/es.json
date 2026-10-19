@@ -2612,5 +2612,37 @@
         "text": "Todo queda en el dispositivo y se sincroniza cuando vuelve la conexión. En el móvil y en la web, en portugués, inglés y español."
       }
     }
+  },
+  "legal": {
+    "terms": "Términos de uso",
+    "privacy": "Política de privacidad",
+    "and": "y la",
+    "acceptBefore": "Tengo {{age}} años o más y acepto los",
+    "acceptLabel": "Tengo {{age}} años o más y acepto los Términos de uso y la Política de privacidad",
+    "acceptNeeded": "Para crear la cuenta, confirma que tienes la edad mínima y aceptas los términos.",
+    "backToApp": "Volver",
+    "firstTitle": "Términos de uso y privacidad",
+    "updatedTitle": "Los términos cambiaron",
+    "gateText": "Para seguir, lee y acepta los Términos de uso y la Política de privacidad de Questlist. Explican qué guardamos, para qué, con quién y cuáles son tus derechos.",
+    "accept": "Leí y acepto",
+    "signOut": "Salir",
+    "acceptedOn": "Términos aceptados: versión {{version}}, el {{date}}."
+  },
+  "dataRequest": {
+    "hint": "¿Necesitas algo sobre tus datos que no está aquí (corregir, saber con quién los compartimos, eliminar algo concreto)? Haz una solicitud: respondemos en hasta 15 días.",
+    "new": "Solicitud sobre mis datos",
+    "message": "Cuéntanos qué necesitas (opcional)",
+    "messageHint": "La solicitud queda registrada aquí y se responde en hasta 15 días.",
+    "send": "Enviar solicitud",
+    "sent": "Solicitud enviada. La respuesta aparece aquí en el Perfil.",
+    "open": "Abierta · respuesta hasta el {{date}}",
+    "answered": "Respondida",
+    "kinds": {
+      "access": "Acceso a mis datos",
+      "correction": "Corregir datos",
+      "portability": "Llevar mis datos (portabilidad)",
+      "deletion": "Eliminar datos",
+      "other": "Otra solicitud"
+    }
   }
 }

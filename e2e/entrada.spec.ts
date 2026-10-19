@@ -21,6 +21,6 @@ test('entrada: apresentação, "Começar agora" abre o criar conta e a privacida
   await expect(page.getByPlaceholder('E-mail')).toBeVisible();
 
   await page.getByRole('link', { name: 'Política de privacidade' }).click();
-  await expect(page.getByText(/Dúvidas sobre privacidade/)).toBeVisible();
+  await expect(page.getByText('Quem cuida dos dados')).toBeVisible();
   await expect(page).toHaveURL(/privacidade/);
 });

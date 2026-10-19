@@ -38,7 +38,7 @@ Origem: anotações do dono em 15/10/2026 (o modo jogo, seção 7, em 18/10/2026
 - **Problemas achados:** `http://` respondia sem mandar para `https://`; faltavam HSTS e cabeçalhos de segurança. Corrigidos no servidor do app (W9). No painel da Cloudflare, o dono deve ligar também "Always Use HTTPS" e "TLS mínimo 1.2".
 - **A fazer:** política de conteúdo (CSP) para a web (o Expo usa estilos embutidos: começar em modo só relatório); revisar CORS do `/supabase`; quando sair desta máquina para produção, Supabase e PowerSync em servidores com TLS próprio, segredos fora do código e backups cifrados.
 
-## 4. LGPD — pendente
+## 4. LGPD — ✅ done em 19/10 (D213); falta o e-mail do encarregado (com o provedor do item 5) e a revisão por advogado
 
 - **Já existe:** política de privacidade pública, exportar os dados (JSON/CSV) e excluir a conta.
 - **Falta:** termos de uso; registro do consentimento (versão aceita e data) no cadastro; contato do encarregado de dados (DPO) na política; política de retenção explicada (lixeira 30 dias, backups, registros); atender pedidos do titular (acesso, correção, portabilidade, eliminação) com prazo; plano para incidente (avisar a ANPD e os titulares); revisar o que vai para terceiros (Cloudflare, provedor de e-mail, lojas) e transferência internacional; idade mínima.

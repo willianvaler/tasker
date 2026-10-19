@@ -89,6 +89,7 @@ test('assistente de primeiro uso: do seu jeito, captura, pasta inicial e gamific
     .getByPlaceholder('E-mail')
     .fill(`e2e-onb-${testInfo.project.name}-${Date.now()}@teste.local`);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
+  await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
 
   // 0. Do seu jeito (U4): tema e painel, e segue
@@ -224,5 +225,5 @@ test('avisos: na web, o Perfil explica que ficam no sino', async ({ page }, test
 test('política de privacidade é pública (sem login)', async ({ page }) => {
   await page.goto('/privacidade');
   await expect(page.getByRole('heading', { name: 'Política de privacidade' })).toBeVisible();
-  await expect(page.getByText(/Não vendemos nem compartilhamos seus dados/)).toBeVisible();
+  await expect(page.getByText(/Não vendemos dados/)).toBeVisible();
 });

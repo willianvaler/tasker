@@ -417,6 +417,46 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"consents": {
+                  Row: {
+                    "accepted_at": string,"id": string,"source": string,"user_id": string,"version": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "accepted_at"?: string,"id"?: string,"source": string,"user_id": string,"version": string
+                  }
+                  Update: {
+                    "accepted_at"?: string,"id"?: string,"source"?: string,"user_id"?: string,"version"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "consents_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"data_requests": {
+                  Row: {
+                    "answer": string | null,"answered_at": string | null,"created_at": string,"due_at": string,"id": string,"kind": string,"message": string,"status": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "answer"?: string | null,"answered_at"?: string | null,"created_at"?: string,"due_at"?: string,"id"?: string,"kind": string,"message"?: string,"status"?: string,"user_id": string
+                  }
+                  Update: {
+                    "answer"?: string | null,"answered_at"?: string | null,"created_at"?: string,"due_at"?: string,"id"?: string,"kind"?: string,"message"?: string,"status"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "data_requests_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"deleted_items": {
                   Row: {
                     "batch": number,"deleted_at": string,"deleted_by": string | null,"id": string,"kind": string,"payload": NonNullable<Json>,"root_folder_id": string | null,"row_id": string,"title": string | null
@@ -2010,6 +2050,9 @@ isOneToOne: false
 "accept_team_invite":
 { Args: { "p_token": string }; Returns: Json
                            },
+"accept_terms":
+{ Args: { "p_version": string }; Returns: undefined
+                           },
 "allocate_attribute":
 { Args: { "p_attr": string }; Returns: Json
                            },
@@ -2095,6 +2138,9 @@ isOneToOne: false
                            },
 "complete_tree":
 { Args: { "p_task_id": string }; Returns: number
+                           },
+"consent_status":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "create_clan":
 { Args: { "p_icon"?: string,"p_name": string }; Returns: string
@@ -2415,6 +2461,9 @@ isOneToOne: false
 "leave_workout_session":
 { Args: { "p_session_id": string }; Returns: undefined
                            },
+"legal_version":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
 "level_for_xp":
 { Args: { "p_xp": number }; Returns: Record<string, unknown>
                            },
@@ -2557,6 +2606,9 @@ isOneToOne: false
                            },
 "remove_team_member":
 { Args: { "p_team_id": string,"p_user_id": string }; Returns: undefined
+                           },
+"request_data_action":
+{ Args: { "p_kind": string,"p_message": string }; Returns: string
                            },
 "reset_attributes":
 { Args: Record<PropertyKey, never>; Returns: undefined

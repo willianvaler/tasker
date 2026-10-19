@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
+import { DataRequests } from '@/components/data-requests';
 import { Button } from '@/components/ui/button';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
@@ -116,11 +117,19 @@ export function PrivacySection() {
         />
       )}
       <Text className="text-xs text-ink-muted">{t('privacy.deleteHint')}</Text>
-      <Link href="/privacidade" asChild>
-        <Pressable accessibilityRole="link" className="min-h-8 justify-center self-start">
-          <Text className="text-sm text-ink underline">{t('privacy.policy')}</Text>
-        </Pressable>
-      </Link>
+      <DataRequests />
+      <View className="flex-row flex-wrap gap-4">
+        <Link href="/privacidade" asChild>
+          <Pressable accessibilityRole="link" className="min-h-8 justify-center self-start">
+            <Text className="text-sm text-ink underline">{t('privacy.policy')}</Text>
+          </Pressable>
+        </Link>
+        <Link href="/termos" asChild>
+          <Pressable accessibilityRole="link" className="min-h-8 justify-center self-start">
+            <Text className="text-sm text-ink underline">{t('legal.terms')}</Text>
+          </Pressable>
+        </Link>
+      </View>
     </View>
   );
 }

@@ -4,8 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { Platform, View } from 'react-native';
 
+import { Link } from 'expo-router';
+
 import { BrandMark } from '@/components/brand-mark';
 import { Button, IconButton } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { LEGAL_VERSION, MIN_AGE } from '@/content/legal';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { markReturningDevice } from '@/lib/prefs';
@@ -24,6 +28,8 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [sent, setSent] = useState(false);
+  // V5 §4 (D213): idade mínima e aceite dos termos, obrigatórios para criar conta
+  const [accepted, setAccepted] = useState(false);
 
   /** Esqueci minha senha (W1): o link do e-mail abre /nova-senha neste mesmo endereço */
   async function sendReset() {
@@ -41,6 +47,11 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
   }
 
   async function submit() {
+    // Enter no campo de senha também envia: sem o aceite, não cria a conta
+    if (mode === 'sign-up' && !accepted) {
+      setError(t('legal.acceptNeeded'));
+      return;
+    }
     setError(null);
     setLoading(true);
     const { error } =
@@ -49,7 +60,7 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
         : await supabase.auth.signUp({
             email: email.trim(),
             password,
-            options: { data: { display_name: name.trim() } },
+            options: { data: { display_name: name.trim(), accepted_terms: LEGAL_VERSION } },
           });
     setLoading(false);
     if (!error) markReturningDevice();
@@ -110,6 +121,30 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
         />
       )}
 
+      {mode === 'sign-up' && (
+        <View className="flex-row items-center gap-1">
+          <Checkbox
+            checked={accepted}
+            onChange={setAccepted}
+            label={t('legal.acceptLabel', { age: MIN_AGE })}
+          />
+          <Text className="flex-1 text-sm text-ink-muted">
+            {t('legal.acceptBefore', { age: MIN_AGE })}{' '}
+            <Link href="/termos" asChild>
+              <Text accessibilityRole="link" className="text-sm text-ink underline">
+                {t('legal.terms')}
+              </Text>
+            </Link>{' '}
+            {t('legal.and')}{' '}
+            <Link href="/privacidade" asChild>
+              <Text accessibilityRole="link" className="text-sm text-ink underline">
+                {t('legal.privacy')}
+              </Text>
+            </Link>
+          </Text>
+        </View>
+      )}
+
       {error && <Text className="text-sm text-danger">{error}</Text>}
 
       {mode === 'forgot' ? (
@@ -124,7 +159,7 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
           label={t(mode === 'sign-in' ? 'auth.signIn' : 'auth.signUp')}
           onPress={submit}
           loading={loading}
-          disabled={!email || password.length < 6}
+          disabled={!email || password.length < 6 || (mode === 'sign-up' && !accepted)}
         />
       )}
       {mode === 'sign-in' && (

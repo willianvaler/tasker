@@ -10,6 +10,8 @@
 
 **How do I export my data?** Profile → Privacy → Export (JSON or CSV).
 
+**And to correct it, know whom it's shared with or delete something?** Profile → Privacy → **Request about my data**. The request is recorded there and answered within 15 days. The **Terms of use** and the **Privacy policy** are in the same place and on the welcome screen.
+
 **How do I leave a project?** In the project, **People** → **Leave project**.
 
 **Can I use it without the game part?** Yes: Profile → Gamification.

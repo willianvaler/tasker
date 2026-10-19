@@ -10,6 +10,8 @@
 
 **¿Cómo exporto mis datos?** Perfil → Privacidad → Exportar (JSON o CSV).
 
+**¿Y para corregirlos, saber con quién se comparten o eliminar algo?** Perfil → Privacidad → **Solicitud sobre mis datos**. La solicitud queda registrada allí y se responde en hasta 15 días. Los **Términos de uso** y la **Política de privacidad** están en el mismo lugar y en la pantalla de entrada.
+
 **¿Cómo salgo de un proyecto?** En el proyecto, **Personas** → **Salir del proyecto**.
 
 **¿Se puede usar sin la parte de juego?** Sí: Perfil → Gamificación.

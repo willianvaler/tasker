@@ -12,6 +12,7 @@ async function joinTeam(browser: Browser, link: string, team: string, name: stri
     .getByPlaceholder('E-mail')
     .fill(`e2e-time-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
+  await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   return page;
 }

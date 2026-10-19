@@ -15,6 +15,7 @@ async function join(browser: Browser, link: string, name: string) {
     .getByPlaceholder('E-mail')
     .fill(`e2e-fluxo-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
+  await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   await page.getByRole('button', { name: 'Participar' }).click();
   await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
@@ -84,7 +85,10 @@ test('carvão → fogo: bloqueada até o pré-requisito, liberada depois do sync
   // O Willian vê o fogo liberado e é avisado
   await expect(page.getByText('Aguardando: Comprar lenha')).toHaveCount(0, { timeout: 20_000 });
   await expect(page.getByRole('checkbox', { name: 'Concluir Acender o fogo' })).toBeEnabled();
-  await page.getByRole('link', { name: /^Notificações/ }).first().click();
+  await page
+    .getByRole('link', { name: /^Notificações/ })
+    .first()
+    .click();
   await expect(
     page.getByText('"Comprar lenha" foi concluída: já pode "Acender o fogo"'),
   ).toBeVisible({

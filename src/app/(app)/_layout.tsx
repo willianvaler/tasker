@@ -9,6 +9,7 @@ import { Sidebar, useIsWide } from '@/components/sidebar';
 import { TimerBar } from '@/components/timer-bar';
 import { WorkoutInviteBanner } from '@/components/workout-invite';
 import { GameCelebrations } from '@/components/game-celebrations';
+import { ConsentGate } from '@/components/consent-gate';
 import { GameGate } from '@/components/game-mode';
 import { GameVocab } from '@/components/game-vocab';
 import { ReminderScheduler } from '@/components/reminder-scheduler';
@@ -88,6 +89,8 @@ export default function AppLayout() {
             <GameVocab />
             {!onboarding && <ReminderScheduler />}
           </View>
+          {/* V5 §4: aceite dos termos (conta antiga ou versão nova), por cima de tudo */}
+          <ConsentGate />
         </View>
       </NewMenuProvider>
     </CommandPaletteProvider>

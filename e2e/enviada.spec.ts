@@ -24,6 +24,7 @@ async function receive(browser: Browser, testInfo: TestInfo, link: string, name:
     .getByPlaceholder('E-mail')
     .fill(`e2e-aluno-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
+  await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   await page.getByRole('button', { name: 'Receber a página' }).click();
   return page;

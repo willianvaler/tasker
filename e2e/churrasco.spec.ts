@@ -15,6 +15,7 @@ async function join(browser: Browser, link: string, name: string) {
     .getByPlaceholder('E-mail')
     .fill(`e2e-churrasco-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
+  await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   await page.getByRole('button', { name: 'Participar' }).click();
   await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();

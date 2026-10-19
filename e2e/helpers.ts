@@ -8,6 +8,7 @@ export async function signUp(page: Page, testInfo: TestInfo) {
   await page.getByPlaceholder('Seu nome').fill('Teste E2E');
   await page.getByPlaceholder('E-mail').fill(email);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
+  await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   // Conta nova abre a introdução (fase6.spec.ts testa ela); aqui, pula
   await page.getByRole('button', { name: 'Pular introdução' }).click();

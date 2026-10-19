@@ -2612,5 +2612,37 @@
         "text": "Everything stays on the device and syncs when the connection comes back. On phone and web, in Portuguese, English and Spanish."
       }
     }
+  },
+  "legal": {
+    "terms": "Terms of use",
+    "privacy": "Privacy policy",
+    "and": "and the",
+    "acceptBefore": "I am {{age}} or older and accept the",
+    "acceptLabel": "I am {{age}} or older and accept the Terms of use and the Privacy policy",
+    "acceptNeeded": "To create the account, confirm you meet the minimum age and accept the terms.",
+    "backToApp": "Back",
+    "firstTitle": "Terms of use and privacy",
+    "updatedTitle": "The terms have changed",
+    "gateText": "To continue, read and accept Questlist's Terms of use and Privacy policy. They explain what we store, why, with whom and what your rights are.",
+    "accept": "I have read and accept",
+    "signOut": "Sign out",
+    "acceptedOn": "Terms accepted: version {{version}}, on {{date}}."
+  },
+  "dataRequest": {
+    "hint": "Need something about your data that isn't here (correct it, know whom we share it with, delete something specific)? Make a request: we answer within 15 days.",
+    "new": "Request about my data",
+    "message": "Tell us what you need (optional)",
+    "messageHint": "The request is recorded here and answered within 15 days.",
+    "send": "Send request",
+    "sent": "Request sent. The answer shows up here in the Profile.",
+    "open": "Open · answer by {{date}}",
+    "answered": "Answered",
+    "kinds": {
+      "access": "Access to my data",
+      "correction": "Correct data",
+      "portability": "Take my data (portability)",
+      "deletion": "Delete data",
+      "other": "Other request"
+    }
   }
 }

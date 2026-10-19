@@ -59,6 +59,7 @@ test('clã: convite por link, boss da semana e destaques', async ({ page, browse
     .getByPlaceholder('E-mail')
     .fill(`e2e-cla-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`);
   await friend.getByPlaceholder('Senha').fill('senha-forte-123');
+  await friend.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await friend.getByRole('button', { name: 'Criar conta' }).click();
   await friend.getByRole('button', { name: 'Entrar no clã' }).click();
   await expect(friend.getByRole('heading', { name: 'Os Produtivos' })).toBeVisible();

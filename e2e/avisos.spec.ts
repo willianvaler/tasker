@@ -13,7 +13,9 @@ test('Perfil: permissão de notificação e testar o aviso', async ({ page, cont
   await openTab(page, 'Perfil');
   // O texto segue o que o navegador diz (o Chromium sem tela pode continuar dizendo "bloqueado")
   const permission = await page.evaluate(() => Notification.permission);
-  const expected = { granted: /^Permitido/, denied: /^Bloqueado/, default: /^Ainda não/ }[permission];
+  const expected = { granted: /^Permitido/, denied: /^Bloqueado/, default: /^Ainda não/ }[
+    permission
+  ];
   await expect(shown(page, expected)).toBeVisible();
   await page.getByRole('button', { name: 'Testar aviso' }).click();
   await expect(page.getByRole('button', { name: 'Permitir notificações' })).toHaveCount(0);

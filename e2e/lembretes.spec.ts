@@ -14,10 +14,19 @@ test('horário e lembrete de tarefa', async ({ page }, testInfo) => {
   // A linha mostra a hora e o sino do lembrete (padrão: na hora)
   await expect(shown(page, /Hoje 23:00 🔔/).first()).toBeVisible();
 
-  await page.getByRole('button', { name: `Detalhes de ${title}` }).first().click();
-  await expect(page.getByRole('radio', { name: 'Na hora' })).toHaveAttribute('aria-checked', 'true');
+  await page
+    .getByRole('button', { name: `Detalhes de ${title}` })
+    .first()
+    .click();
+  await expect(page.getByRole('radio', { name: 'Na hora' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
   const saved = page.waitForResponse((r) => r.url().includes('/rest/v1/tasks') && r.ok());
   await page.getByRole('radio', { name: '15 min antes' }).click();
   await saved;
-  await expect(page.getByRole('radio', { name: '15 min antes' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: '15 min antes' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
 });

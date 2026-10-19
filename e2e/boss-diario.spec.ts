@@ -30,5 +30,4 @@ test('boss do dia: aparece antes do semanal, apanha junto e o aviso mostra as ba
   ).toBeVisible();
   await expect(game.getByText(/^(49|39)\/60 HP$/)).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath('hoje.png') });
-
 });

@@ -45,7 +45,7 @@ O que importa é o banco `postgres` (dados e contas). O `powersync_storage` é d
 podman exec supabase_db_task_tracking pg_dump -U postgres -Fc -d postgres > backup-$(date +%F).dump
 ```
 
-Guarde fora da máquina. Rotina sugerida: diário, mantendo 14.
+Guarde fora da máquina. Rotina: diário, mantendo 14. No servidor, `bash scripts/servidor/backup.sh --instalar` liga o timer `tasker-backup.timer` (03:30, em `~/backups/<ambiente>/`, D213); a política de privacidade conta com ele (dados excluídos saem das cópias em até 30 dias). Copiar para fora do servidor continua sendo à mão.
 
 ## Restauração
 

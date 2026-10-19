@@ -35,6 +35,7 @@ test('tour de usabilidade', async ({ page }, testInfo) => {
   await page.getByPlaceholder('E-mail').fill(`ux-${p}-${Date.now()}@teste.local`);
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
   await shot('cadastro');
+  await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   await page.getByRole('heading', { name: 'Do seu jeito' }).waitFor();
   await shot('onboarding-1');
