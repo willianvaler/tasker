@@ -99,7 +99,7 @@ export function ScreenHeader({
             <IconButton
               icon={CircleHelp}
               label={t('help.contextual')}
-              onPress={() => router.push({ pathname: '/ajuda/[slug]', params: { slug: help } })}
+              onPress={() => router.push({ pathname: '/ajuda', params: { artigo: help } })}
             />
           )}
         </View>

@@ -1,38 +1,7 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { useTranslation } from 'react-i18next';
-import { ScrollView } from 'react-native';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { Markdown } from '@/components/markdown';
-import { Screen } from '@/components/screen';
-import { ScreenHeader } from '@/components/screen-header';
-import { Button } from '@/components/ui/button';
-import { EmptyState } from '@/components/ui/empty-state';
-import { HELP } from '@/content/help';
-
-/** Um artigo da Ajuda (F1, D145), no idioma do app (português se faltar). */
-export default function HelpArticleScreen() {
+/** Endereço antigo de um artigo (F1): a Ajuda agora abre o artigo no lugar, na lista (D188). */
+export default function HelpArticleRedirect() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
-  const { t, i18n } = useTranslation();
-  const article =
-    (HELP[i18n.language] ?? HELP['pt-BR']).find((a) => a.slug === slug) ??
-    HELP['pt-BR'].find((a) => a.slug === slug);
-  return (
-    <Screen>
-      <ScrollView contentContainerClassName="gap-4 pb-12">
-        <ScreenHeader
-          title={article?.title ?? t('help.title')}
-          eyebrow={t('help.title')}
-          back
-          wrap
-        />
-        {article ? <Markdown source={article.body} /> : <EmptyState title={t('help.missing')} />}
-        <Button
-          variant="ghost"
-          className="self-start"
-          label={t('help.all')}
-          onPress={() => router.replace('/ajuda')}
-        />
-      </ScrollView>
-    </Screen>
-  );
+  return <Redirect href={{ pathname: '/ajuda', params: { artigo: slug } }} />;
 }
