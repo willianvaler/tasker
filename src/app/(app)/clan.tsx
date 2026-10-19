@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import { BossBoard } from '@/components/boss-board';
 import { BossLine } from '@/components/game-bar';
-import { Screen, ScreenScroll } from '@/components/screen';
+import { READABLE, Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { PersonRow } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/cn';
 import { describeClanActivity } from '@/lib/activity';
 import { clanInviteUrl, useClan, useClanMutations } from '@/lib/queries/clan';
 import { useGameState } from '@/lib/queries/game';
@@ -51,27 +52,30 @@ export default function ClanScreen() {
         <ScreenHeader title={t('clan.title')} back />
         <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
           <Text className="text-sm text-ink-muted">{t('clan.intro')}</Text>
-          <Input
-            value={name}
-            onChangeText={setName}
-            maxLength={60}
-            placeholder={t('clan.namePlaceholder')}
-            accessibilityLabel={t('clan.name')}
-          />
-          <Input
-            value={icon}
-            onChangeText={setIcon}
-            maxLength={8}
-            placeholder={t('clan.emojiPlaceholder')}
-            accessibilityLabel={t('clan.emoji')}
-          />
-          <Button
-            className="self-start"
-            label={t('clan.create')}
-            disabled={!name.trim() || !online}
-            loading={m.create.isPending}
-            onPress={() => m.create.mutate({ name: name.trim(), icon: icon.trim() }, { onError })}
-          />
+          {/* Formulário curto: largura de leitura, não a tela inteira (D214) */}
+          <View className={cn(READABLE, 'gap-3')}>
+            <Input
+              value={name}
+              onChangeText={setName}
+              maxLength={60}
+              placeholder={t('clan.namePlaceholder')}
+              accessibilityLabel={t('clan.name')}
+            />
+            <Input
+              value={icon}
+              onChangeText={setIcon}
+              maxLength={8}
+              placeholder={t('clan.emojiPlaceholder')}
+              accessibilityLabel={t('clan.emoji')}
+            />
+            <Button
+              className="self-start"
+              label={t('clan.create')}
+              disabled={!name.trim() || !online}
+              loading={m.create.isPending}
+              onPress={() => m.create.mutate({ name: name.trim(), icon: icon.trim() }, { onError })}
+            />
+          </View>
           <Text className="text-sm text-ink-muted">{t('clan.gotInvite')}</Text>
         </ScreenScroll>
       </Screen>

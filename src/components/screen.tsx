@@ -16,10 +16,13 @@ const GUTTER: Record<Size, { pad: string; bleed: string }> = {
 const SizeContext = createContext<Size>('narrow');
 
 /**
- * Área da tela. "narrow" (formulários, detalhes, texto) usa até 1024 px; "medium" (listas) até
- * 1152 px, para a linha mostrar título e detalhes lado a lado; "wide" (Início, pastas, cards,
- * kanban, personagem, loja) usa a largura do computador para colunas e grades (D67, D189).
+ * Área da tela: ocupa a largura da janela (até 1680 px) em todos os tamanhos (D214). O tamanho
+ * escolhe a margem lateral (narrow: formulários e texto; medium: listas; wide/full: painéis) e diz
+ * à tela o que ela é (D67, D189).
  */
+
+/** Largura de leitura para texto corrido e formulários dentro de uma tela larga (D214). */
+export const READABLE = 'w-full max-w-3xl';
 export function Screen({
   children,
   size = 'narrow',
@@ -32,15 +35,11 @@ export function Screen({
     <SafeAreaView edges={['top', 'left', 'right']} className="flex-1 bg-paper">
       <View
         className={cn(
-          'w-full flex-1 self-center',
+          // Toda tela usa a largura da janela até 1680 px (Full HD com a barra lateral = 100%,
+          // pedido do dono em 19/10, D214); o tamanho só muda a margem. Texto corrido e
+          // formulários limitam a própria largura por dentro (READABLE)
+          'w-full max-w-[1680px] flex-1 self-center',
           GUTTER[size].pad,
-          size === 'full'
-            ? 'max-w-[1680px]'
-            : size === 'wide'
-              ? 'max-w-7xl'
-              : size === 'medium'
-                ? 'max-w-6xl'
-                : 'max-w-5xl',
         )}
       >
         <SizeContext.Provider value={size}>{children}</SizeContext.Provider>

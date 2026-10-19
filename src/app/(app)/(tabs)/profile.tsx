@@ -14,7 +14,7 @@ import {
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, View } from 'react-native';
+import { Platform, useWindowDimensions, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
 import { LanguageChooser, PanelModeChooser, ThemeChooser } from '@/components/preference-choosers';
@@ -46,10 +46,8 @@ export default function ProfileScreen() {
   return (
     <Screen size="wide">
       <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-        <View className="w-full max-w-[1120px] self-center">
-          <ScreenHeader title={t('profile.title')} eyebrow={session?.user.email} />
-          {profile.data ? <ProfileForm key={profile.data.id} profile={profile.data} /> : null}
-        </View>
+        <ScreenHeader title={t('profile.title')} eyebrow={session?.user.email} />
+        {profile.data ? <ProfileForm key={profile.data.id} profile={profile.data} /> : null}
       </ScreenScroll>
     </Screen>
   );
@@ -77,169 +75,189 @@ function ProfileForm({ profile }: { profile: Profile }) {
     clearPrefs();
   }
 
-  return (
-    <View className="gap-8 lg:flex-row lg:items-start lg:gap-12">
-      <View className="gap-2 lg:flex-1">
-        <Group title={t('profile.account')}>
-          <Field label={t('profile.name')}>
-            <Input
-              value={name}
-              onChangeText={setName}
-              maxLength={50}
-              editable={online}
-              accessibilityLabel={t('profile.name')}
-            />
-          </Field>
-          <Field label={t('profile.timezone')} hint={t('profile.timezoneHint')}>
-            <Input
-              value={timezone}
-              onChangeText={setTimezone}
-              autoCapitalize="none"
-              editable={online}
-              accessibilityLabel={t('profile.timezone')}
-              className="font-mono"
-            />
-            {!validTimezone && (
-              <Text className="text-sm text-danger">{t('profile.timezoneInvalid')}</Text>
-            )}
-            {deviceTimezone && deviceTimezone !== timezone && (
-              <Button
-                variant="ghost"
-                className="self-start"
-                label={t('profile.useDeviceTimezone', { tz: deviceTimezone })}
-                onPress={() => setTimezone(deviceTimezone)}
-              />
-            )}
-          </Field>
-          {update.error && (
-            <Text className="text-sm text-danger">
-              {t('profile.saveError', { message: update.error.message })}
-            </Text>
+  // Monitor largo (D214): conta e aparência | avisos e dados | jogo, em três colunas
+  const three = useWindowDimensions().width >= 1600;
+  const accountGroups = (
+    <>
+      <Group title={t('profile.account')}>
+        <Field label={t('profile.name')}>
+          <Input
+            value={name}
+            onChangeText={setName}
+            maxLength={50}
+            editable={online}
+            accessibilityLabel={t('profile.name')}
+          />
+        </Field>
+        <Field label={t('profile.timezone')} hint={t('profile.timezoneHint')}>
+          <Input
+            value={timezone}
+            onChangeText={setTimezone}
+            autoCapitalize="none"
+            editable={online}
+            accessibilityLabel={t('profile.timezone')}
+            className="font-mono"
+          />
+          {!validTimezone && (
+            <Text className="text-sm text-danger">{t('profile.timezoneInvalid')}</Text>
           )}
-          <Button
-            label={t('common.save')}
-            className="self-start"
-            disabled={!changed || !validTimezone || !name.trim() || !online}
-            loading={update.isPending}
-            onPress={() => update.mutate({ display_name: name.trim(), timezone: timezone.trim() })}
-          />
-        </Group>
-
-        <Group title={t('profile.appearance')}>
-          <ThemeChooser />
-          <LanguageChooser />
-          <PanelModeChooser />
-        </Group>
-
-        <Group title={t('sidebarPrefs.title')}>
-          <SidebarSettings />
-        </Group>
-
-        <Group title={t('profile.notifications')}>
-          <PushSetting />
-          <TimerAlertSetting />
-        </Group>
-
-        {Platform.OS !== 'ios' && !!apk.data && (
-          <Group title={t('apk.title')}>
-            <AppDownload />
-          </Group>
+          {deviceTimezone && deviceTimezone !== timezone && (
+            <Button
+              variant="ghost"
+              className="self-start"
+              label={t('profile.useDeviceTimezone', { tz: deviceTimezone })}
+              onPress={() => setTimezone(deviceTimezone)}
+            />
+          )}
+        </Field>
+        {update.error && (
+          <Text className="text-sm text-danger">
+            {t('profile.saveError', { message: update.error.message })}
+          </Text>
         )}
+        <Button
+          label={t('common.save')}
+          className="self-start"
+          disabled={!changed || !validTimezone || !name.trim() || !online}
+          loading={update.isPending}
+          onPress={() => update.mutate({ display_name: name.trim(), timezone: timezone.trim() })}
+        />
+      </Group>
 
-        {/* W2: projetos e times têm configuração própria (Times saiu do bloco do jogo) */}
-        <Group title={t('profile.projectsGroup')}>
-          <View className="flex-row flex-wrap gap-1">
-            <Button
-              variant="ghost"
-              icon={FolderKanban}
-              label={t('projectsHub.link')}
-              onPress={() => router.push('/projetos')}
-            />
-            <Button
-              variant="ghost"
-              icon={Users}
-              label={t('nav.teams')}
-              onPress={() => router.push('/teams')}
-            />
-          </View>
+      <Group title={t('profile.appearance')}>
+        <ThemeChooser />
+        <LanguageChooser />
+        <PanelModeChooser />
+      </Group>
+
+      <Group title={t('sidebarPrefs.title')}>
+        <SidebarSettings />
+      </Group>
+    </>
+  );
+  const dataGroups = (
+    <>
+      <Group title={t('profile.notifications')}>
+        <PushSetting />
+        <TimerAlertSetting />
+      </Group>
+
+      {Platform.OS !== 'ios' && !!apk.data && (
+        <Group title={t('apk.title')}>
+          <AppDownload />
         </Group>
+      )}
 
-        <Group title={t('pomodoro.settings')}>
+      {/* W2: projetos e times têm configuração própria (Times saiu do bloco do jogo) */}
+      <Group title={t('profile.projectsGroup')}>
+        <View className="flex-row flex-wrap gap-1">
           <Button
             variant="ghost"
-            icon={Timer}
-            className="self-start"
-            label={t('pomodoro.openSettings')}
-            onPress={() => router.push('/pomodoro')}
+            icon={FolderKanban}
+            label={t('projectsHub.link')}
+            onPress={() => router.push('/projetos')}
           />
-        </Group>
-
-        <Group title={t('privacy.title')}>
-          <View className="flex-row flex-wrap gap-1">
-            <Button
-              variant="ghost"
-              icon={Trash2}
-              label={t('trash.link')}
-              onPress={() => router.push('/lixeira')}
-            />
-            <Button
-              variant="ghost"
-              icon={RefreshCw}
-              label={t('sync.title')}
-              onPress={() => router.push('/sync')}
-            />
-          </View>
-          <PrivacySection />
-        </Group>
-
-        <View className="pt-6">
           <Button
             variant="ghost"
-            icon={LogOut}
-            className="self-start"
-            label={t('profile.signOut')}
-            onPress={signOut}
+            icon={Users}
+            label={t('nav.teams')}
+            onPress={() => router.push('/teams')}
           />
         </View>
-      </View>
+      </Group>
 
-      <View className="gap-2 lg:flex-1">
-        <Group title={t('profile.game')}>
-          <View className="flex-row flex-wrap gap-1">
-            <Button
-              variant="ghost"
-              icon={Swords}
-              label={t('nav.character')}
-              onPress={() => router.push('/character')}
-            />
-            <Button
-              variant="ghost"
-              icon={ShoppingBag}
-              label={t('nav.shop')}
-              onPress={() => router.push('/shop')}
-            />
-            <Button
-              variant="ghost"
-              icon={Backpack}
-              label={t('inventory.open')}
-              onPress={() => router.push('/inventario')}
-            />
-            <Button
-              variant="ghost"
-              icon={Trophy}
-              label={t('achievements.title')}
-              onPress={() => router.push('/conquistas')}
-            />
-            <Button
-              variant="ghost"
-              icon={Shield}
-              label={t('nav.clan')}
-              onPress={() => router.push('/clan')}
-            />
-          </View>
-          <GameProfile />
-        </Group>
+      <Group title={t('pomodoro.settings')}>
+        <Button
+          variant="ghost"
+          icon={Timer}
+          className="self-start"
+          label={t('pomodoro.openSettings')}
+          onPress={() => router.push('/pomodoro')}
+        />
+      </Group>
+
+      <Group title={t('privacy.title')}>
+        <View className="flex-row flex-wrap gap-1">
+          <Button
+            variant="ghost"
+            icon={Trash2}
+            label={t('trash.link')}
+            onPress={() => router.push('/lixeira')}
+          />
+          <Button
+            variant="ghost"
+            icon={RefreshCw}
+            label={t('sync.title')}
+            onPress={() => router.push('/sync')}
+          />
+        </View>
+        <PrivacySection />
+      </Group>
+
+      <View className="pt-6">
+        <Button
+          variant="ghost"
+          icon={LogOut}
+          className="self-start"
+          label={t('profile.signOut')}
+          onPress={signOut}
+        />
       </View>
+    </>
+  );
+  const gameGroups = (
+    <>
+      <Group title={t('profile.game')}>
+        <View className="flex-row flex-wrap gap-1">
+          <Button
+            variant="ghost"
+            icon={Swords}
+            label={t('nav.character')}
+            onPress={() => router.push('/character')}
+          />
+          <Button
+            variant="ghost"
+            icon={ShoppingBag}
+            label={t('nav.shop')}
+            onPress={() => router.push('/shop')}
+          />
+          <Button
+            variant="ghost"
+            icon={Backpack}
+            label={t('inventory.open')}
+            onPress={() => router.push('/inventario')}
+          />
+          <Button
+            variant="ghost"
+            icon={Trophy}
+            label={t('achievements.title')}
+            onPress={() => router.push('/conquistas')}
+          />
+          <Button
+            variant="ghost"
+            icon={Shield}
+            label={t('nav.clan')}
+            onPress={() => router.push('/clan')}
+          />
+        </View>
+        <GameProfile />
+      </Group>
+    </>
+  );
+
+  return three ? (
+    <View className="flex-row items-start gap-12">
+      <View className="flex-1 gap-2">{accountGroups}</View>
+      <View className="flex-1 gap-2">{dataGroups}</View>
+      <View className="flex-1 gap-2">{gameGroups}</View>
+    </View>
+  ) : (
+    <View className="gap-8 lg:flex-row lg:items-start lg:gap-12">
+      <View className="gap-2 lg:flex-1">
+        {accountGroups}
+        {dataGroups}
+      </View>
+      <View className="gap-2 lg:flex-1">{gameGroups}</View>
     </View>
   );
 }

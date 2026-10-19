@@ -65,50 +65,57 @@ export default function HelpScreen() {
           placeholder={t('help.search')}
           accessibilityLabel={t('help.search')}
         />
-        <SectionLabel title={t('help.articles')} />
-        <View
-          className="gap-2"
-          onLayout={(e) => {
-            articlesTop.current = e.nativeEvent.layout.y;
-          }}
-        >
-          {articles.map((a) => {
-            const expanded = open.includes(a.slug);
-            return (
-              <View
-                key={a.slug}
-                className="rounded border border-line bg-surface"
-                onLayout={(e) => {
-                  if (a.slug !== artigo || scrolled.current) return;
-                  scrolled.current = true;
-                  scroll.current?.scrollTo({
-                    y: articlesTop.current + e.nativeEvent.layout.y - 8,
-                    animated: false,
-                  });
-                }}
-              >
-                <Pressable
-                  accessibilityRole="button"
-                  aria-expanded={expanded}
-                  onPress={() => toggle(a.slug)}
-                  className="min-h-12 flex-row items-center gap-3 rounded px-3 hover:bg-wash active:bg-wash"
-                >
-                  <Icon icon={expanded ? ChevronDown : ChevronRight} tone="ink-muted" />
-                  <Text className="flex-1 text-base font-semibold text-ink">{a.title}</Text>
-                </Pressable>
-                {expanded && (
-                  <View className="gap-4 border-t border-line px-4 pb-4 pt-2">
-                    <Markdown source={a.body} />
+        {/* Monitor largo (D214): artigos à esquerda, atalhos à direita */}
+        <View className="gap-4 xl:flex-row xl:items-start xl:gap-12">
+          <View className="gap-4 xl:flex-1">
+            <SectionLabel title={t('help.articles')} />
+            <View
+              className="gap-2"
+              onLayout={(e) => {
+                articlesTop.current = e.nativeEvent.layout.y;
+              }}
+            >
+              {articles.map((a) => {
+                const expanded = open.includes(a.slug);
+                return (
+                  <View
+                    key={a.slug}
+                    className="rounded border border-line bg-surface"
+                    onLayout={(e) => {
+                      if (a.slug !== artigo || scrolled.current) return;
+                      scrolled.current = true;
+                      scroll.current?.scrollTo({
+                        y: articlesTop.current + e.nativeEvent.layout.y - 8,
+                        animated: false,
+                      });
+                    }}
+                  >
+                    <Pressable
+                      accessibilityRole="button"
+                      aria-expanded={expanded}
+                      onPress={() => toggle(a.slug)}
+                      className="min-h-12 flex-row items-center gap-3 rounded px-3 hover:bg-wash active:bg-wash"
+                    >
+                      <Icon icon={expanded ? ChevronDown : ChevronRight} tone="ink-muted" />
+                      <Text className="flex-1 text-base font-semibold text-ink">{a.title}</Text>
+                    </Pressable>
+                    {expanded && (
+                      <View className="gap-4 border-t border-line px-4 pb-4 pt-2">
+                        <Markdown source={a.body} />
+                      </View>
+                    )}
                   </View>
-                )}
-              </View>
-            );
-          })}
+                );
+              })}
+            </View>
+          </View>
+          <View className="gap-4 xl:flex-1">
+            <SectionLabel title={t('help.shortcuts')} className="pt-4 xl:pt-6" />
+            <ShortcutTable query={query} />
+            <Text className="pt-4 text-xs text-ink-muted">{t('help.typingNote')}</Text>
+            <Text className="text-xs text-ink-muted">{t('help.browserNote')}</Text>
+          </View>
         </View>
-        <SectionLabel title={t('help.shortcuts')} className="pt-4" />
-        <ShortcutTable query={query} />
-        <Text className="pt-4 text-xs text-ink-muted">{t('help.typingNote')}</Text>
-        <Text className="text-xs text-ink-muted">{t('help.browserNote')}</Text>
       </ScreenScroll>
     </Screen>
   );

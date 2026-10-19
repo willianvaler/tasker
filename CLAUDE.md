@@ -186,7 +186,7 @@ e2e/                          # Playwright (helpers.ts: signUp, openTab, paste, 
 - **Classes do NativeWind não pegam em `Animated.View`**: ponha a classe num `View` comum dentro dele (ProgressBar, Checkbox).
 - **`mutate(..., { onSuccess })` não dispara se o componente desmontar antes da resposta** (ex.: card que muda de coluna no kanban, tarefa concluída que sai da lista): use `mutateAsync(...).then(...)`, cuja promessa resolve mesmo assim.
 - **Rolagem da tela:** a rolagem principal é o `ScreenScroll` de `components/screen.tsx` (ou `useScreenGutter()` numa lista/rolagem animada), nunca um `ScrollView` solto dentro do `Screen`: senão a barra de rolagem fica por cima do texto (D189).
-- **Tela larga:** escolha o `size` do `Screen` (D67); grades com `Grid`; layouts de colunas a partir de `lg:` ou por `useWindowDimensions` (a Hoje vira duas colunas em ≥ 1024 px).
+- **Tela larga:** toda tela ocupa a largura da janela até 1680 px (D214); o `size` do `Screen` só muda a margem (D67). Use a largura com colunas (`lg:`/`xl:` ou `useWindowDimensions`) e grades com `Grid`; formulário curto ou texto corrido limita a própria largura com `READABLE`.
 - **Estilos com classes do NativeWind** usando as cores do tema (`bg-background`, `text-foreground`, `text-muted-foreground`, `border-border`, `bg-primary`...). Nada de cor fixa, para o modo escuro funcionar.
 - **Campos de captura rápida** usam `submitBehavior="submit"` para não perder o foco no Enter; o `Input` traduz isso para a web (o react-native-web só entende o antigo `blurOnSubmit`).
 - **Diferenças de plataforma** vão em arquivos `.web.ts(x)` / `.native.ts(x)` ou `Platform.OS`, nunca quebrando a outra plataforma.
