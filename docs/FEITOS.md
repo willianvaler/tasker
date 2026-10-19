@@ -141,6 +141,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | W3.1 | Anotações em Markdown: barra de formatação, visualização com `react-native-marked`, editor ocupando a tela; reabrir logo depois de criar não fica mais em branco | D187 |
 | V5 | W10 | Ajuda: artigos como botões que abrem o texto no lugar, "?" das telas com o artigo aberto | D188 |
 | V5 | W11 | Revisão das telas: rolagem principal com `ScreenScroll` (a barra de rolagem fica na margem, fora do texto) e telas de detalhe até 1024 px | D189 |
+| V5 | W12 | Treino em grupo: o seletor "quem treina junto" aparece desde o grupo novo, e sozinho oferece o convite | D193 |
 | V5 | W4 | Descrição em tarefas e hábitos ("+ adicionar descrição", até 4.000 caracteres) | D168 |
 | V5 | W5 | Painel da tarefa mais largo; busca de Relacionar legível | D169 |
 | V5 | W6 | Clicar fora do painel fecha e salva | D170 |
@@ -164,4 +165,5 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC10.5 | Tela Treino em grupo (`/grupo/projeto\|time/<id>`: Desafios com ranking e "Iniciar novo desafio", Mural com check-in, foto, reações e comentários, Chat), botão no projeto e no time, aviso `challenge_started`; E2E `e2e/desafios.spec.ts` e Ajuda nos 3 idiomas | D184 |
 | V6 | AC10.6 | Correções do dono (18/10): grupo de treino no bloco Academia (`folders.gym_group`, convite pelo link, treinos do grupo, seletor de quem treina junto), Séries · Repetições · Carga · Descanso no painel do exercício gravando o plano do Modo Treino (descanso e aviso na tela de bloqueio de volta), sem pomodoro e cronômetro em página de treino; pgTAP, E2E `e2e/grupo-treino.spec.ts` e Ajuda nos 3 idiomas | D186 |
 | **V8** | HB0 | Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral | D190 |
+| V8 | HB0.1 | Acento laranja da marca nos tokens do app: `#A94604` no claro (AA), `#FF8A3D` no escuro | D192 |
 | V8 | HB1 | Hábitos: − e + lado a lado na direita (`hábito  \|−\| \|+\|`), no bom/ruim e no contador | D191 |

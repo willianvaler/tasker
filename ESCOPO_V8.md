@@ -4,12 +4,12 @@ Pedido do dono em 19/10/2026: **trazer mais do Habitica** e ter um **modo de vis
 
 Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** (D33, D60 a D64); o app só espelha. Nada infantil nem pixelado (V5 §7, pedido de 18/10).
 
-## 0. Identidade visual — ✅ done em parte (HB0)
+## 0. Identidade visual — ✅ done (HB0, HB0.1)
 
 - **Logo escolhido:** o "Q" de anel verde com a montanha, a bandeira laranja e a cauda laranja (painel de identidade do dono, 19/10). O gerado tinha defeitos (mancha onde a cauda encontra a montanha, zigue-zague cortado, grão, círculo torto): foi limpo no ComfyUI e redesenhado em vetor.
 - **Paleta da marca:** verde floresta `#0F3D32` (principal), laranja `#FF8A3D` (destaque), creme `#F8F7F4` (fundo claro). Tipografia da marca: Montserrat (ou similar) **só no logotipo e nas lojas**; o app segue com as fontes do `docs/DESIGN.md`.
 - **Arquivos** em `assets/brand/` (SVG mestre, PNGs) e aplicados em `assets/images/` (ícone, ícone adaptativo do Android, splash, favicon). Para as lojas: ícone 512×512 e imagem de destaque 1024×500 da Google Play.
-- **Falta (HB0.1):** decidir se as cores da marca entram nos tokens do app (acento laranja, verde no tema escuro). É mudança do "Caderno de bolso" (D-B1): pedir aprovação com captura antes.
+- **Acento do app (HB0.1, D192):** o laranja da marca virou o `accent` do "Caderno de bolso" (`#A94604` no claro, por contraste; `#FF8A3D` no escuro).
 
 ## 1. Hábitos como no Habitica — ✅ done em parte (HB1)
 
@@ -67,7 +67,7 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 
 ## Decisões em aberto (do dono)
 
-1. Cores da marca nos tokens do app (HB0.1)?
+1. ~~Cores da marca nos tokens do app?~~ Respondida em 19/10: sim, o laranja (D192).
 2. Consequência de zerar a vida (proposta no §3).
 3. Estilo de arte: escolher entre 3 amostras geradas no ComfyUI.
 4. Vocabulário de jogo ligado por padrão no Completo?

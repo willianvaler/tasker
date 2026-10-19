@@ -166,6 +166,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **W3.1** Anotações em Markdown: barra de formatação, visualização com `react-native-marked`, editor ocupando a tela; reabrir logo depois de criar não fica mais em branco (D187)
 - [x] **W10** Ajuda: artigos como botões que abrem o texto no lugar, "?" das telas com o artigo aberto (D188)
 - [x] **W11** Revisão das telas: rolagem principal com `ScreenScroll` (a barra de rolagem fica na margem, fora do texto) e telas de detalhe até 1024 px (D189)
+- [x] **W12** Treino em grupo: o seletor "quem treina junto" aparece desde o grupo novo, e sozinho oferece o convite (D193)
 - [x] **W4** Descrição em tarefas e hábitos ("+ adicionar descrição", até 4.000 caracteres) (D168)
 - [x] **W5** Painel da tarefa mais largo; busca de Relacionar legível (D169)
 - [x] **W6** Clicar fora do painel fecha e salva (D170)
@@ -216,7 +217,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## ESCOPO_V8 — modo jogo e identidade visual (pedido do dono em 19/10)
 
 - [x] **HB0** Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral (D190)
-- [ ] **HB0.1** Cores da marca nos tokens do app (decisão do dono)
+- [x] **HB0.1** Acento laranja da marca nos tokens do app: `#A94604` no claro (AA), `#FF8A3D` no escuro (D192)
 - [x] **HB1** Hábitos: − e + lado a lado na direita (`hábito  |−| |+|`), no bom/ruim e no contador (D191)
 - [ ] **HB2** Força do hábito (cor pelo histórico) e hábito só bom ou só ruim
 - [ ] **HB3** Três níveis de jogo no Perfil (Desligado, Leve, Completo)

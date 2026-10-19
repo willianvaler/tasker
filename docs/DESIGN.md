@@ -16,13 +16,15 @@ Definidas uma vez em `src/global.css` (variáveis RGB) e espelhadas em `src/lib/
 | `ink` | texto | `#1F1D1A` | `#ECE6DA` |
 | `ink-muted` | metadados, rótulos, placeholder | `#6B655B` | `#9B9487` |
 | `line` | divisórias e bordas (1 px) | `#E2DBCD` | `#34312B` |
-| `accent` | estado ativo, foco, progresso, botão primário | `#BB3C25` | `#F0644A` |
-| `accent-soft` | fundo de destaque leve (chip ativo, aviso) | `#F6D9D2` | `#3A2420` |
+| `accent` | estado ativo, foco, progresso, botão primário | `#A94604` | `#FF8A3D` |
+| `accent-soft` | fundo de destaque leve (chip ativo, aviso) | `#FBE3D2` | `#3D2A1C` |
 | `on-accent` | texto sobre `accent` | `#FBF8F2` | `#1B1A17` |
 | `ok` | concluído, sincronizado | `#3A7448` | `#6DB27D` |
 | `warn` | atraso, atenção | `#89600C` | `#E0A93A` |
 | `danger` | erro e ação destrutiva | `#B3261E` | `#F2766B` |
 | `scrim` | fundo escurecido atrás de diálogo e folha (com opacidade) | `#1B1A17` | `#0E0D0B` |
+
+Acento laranja da marca desde 19/10/2026 (D192, ESCOPO_V8 §0): no claro, o laranja queimado `#A94604`, porque o `#FF8A3D` da marca não passa no contraste AA sobre o papel; no escuro, o próprio `#FF8A3D`. Antes era o vermelho `#BB3C25`/`#F0644A`, que se confundia com o `danger`.
 
 - Fundo nunca branco puro nem preto puro; escuro é carvão quente, não azul-marinho.
 - **No máximo um acento por tela** em uso forte. `danger` só para erro e "apagar".

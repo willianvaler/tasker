@@ -44,8 +44,7 @@ Atualizado em 19/10/2026 (produção v2026.10.18). **Prioridade agora: ESCOPO_V8
 | V6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | pendente | AC5.2, AC6.3 |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora conta como dia de treino | pendente | conta de desenvolvedor do Strava, development build (dono) |
-| **V8** | HB0.1 | Cores da marca nos tokens do app | pendente | decisão V8-1 |
-| V8 | HB2 | Força do hábito (cor pelo histórico) e hábito só bom ou só ruim | pendente | — |
+| **V8** | HB2 | Força do hábito (cor pelo histórico) e hábito só bom ou só ruim | pendente | — |
 | V8 | HB3 | Três níveis de jogo no Perfil (Desligado, Leve, Completo) | pendente | — |
 | V8 | HB4 | Início como acampamento | pendente | HB3 |
 | V8 | HB5 | Vida e diárias, "o que você fez ontem?", taverna | pendente | decisão V8-2 |
@@ -67,7 +66,6 @@ Atualizado em 19/10/2026 (produção v2026.10.18). **Prioridade agora: ESCOPO_V8
 | V7-1 | Conta de desenvolvedor no Strava (nome do app, domínio de retorno do OAuth) | V7 §2 |
 | V7-2 | Escrever no Health Connect/Strava por padrão ou só ler | V7 §2 |
 | V7-3 | Quais atividades contam como treino (corrida, caminhada, bike, musculação, todas) | V7 §2 |
-| V8-1 | Cores da marca (verde e laranja) nos tokens do app? | HB0.1 |
 | V8-2 | Consequência de zerar a vida (proposta: perde o ouro do dia e um nível de XP) | HB5 |
 | V8-3 | Estilo de arte (3 amostras do ComfyUI) | HB8–HB10 |
 | V8-4 | Vocabulário de jogo ligado por padrão no Completo? O Completo é recurso pago? | HB11, V4 §6 |
