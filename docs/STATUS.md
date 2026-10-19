@@ -219,7 +219,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **HB0** Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral (D190)
 - [x] **HB0.1** Acento laranja da marca nos tokens do app: `#A94604` no claro (AA), `#FF8A3D` no escuro (D192)
 - [x] **HB1** Hábitos: − e + lado a lado na direita (`hábito  |−| |+|`), no bom/ruim e no contador (D191)
-- [ ] **HB2** Força do hábito (cor pelo histórico) e hábito só bom ou só ruim
+- [x] **HB2** Força do hábito bom/ruim (barra de cor pelo valor, regra do Habitica) e hábito só bom ou só ruim (D194)
 - [ ] **HB3** Três níveis de jogo no Perfil (Desligado, Leve, Completo)
 - [ ] **HB4** Início como acampamento (Completo)
 - [ ] **HB5** Vida e diárias, "o que você fez ontem?", taverna

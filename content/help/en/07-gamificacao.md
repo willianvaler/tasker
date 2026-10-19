@@ -11,6 +11,7 @@ Every day a **daily boss** is born (about 6 tasks) and every week a **weekly bos
 - A parent task with subtasks gives no XP: the subtasks do.
 - Pomodoro gives a small bonus, up to 4 a day.
 - Each "good and bad" habit counts up to 10 "+" a day, and tasks created and completed within a few minutes have a daily cap. When a limit is reached, the notice says so.
+- **Habit strength:** the small bar to the left of a "good and bad" habit changes color with use, from red (many "−" or neglected) to blue (many "+"). When the habit is weak, each "+" pulls the strength up faster (the XP is the same). In the habit panel you can make it **good only** or **bad only**: the other button goes away, and the strength halves each day it isn't used.
 
 ## Achievements
 

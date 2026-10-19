@@ -192,7 +192,23 @@
     "todayCounts": "Hoy: {{up}} buenos, {{down}} malos",
     "streak": "Racha de {{count}}",
     "streakShort": "{{count}} d",
-    "last7": "Últimos 7 días"
+    "last7": "Últimos 7 días",
+    "strength": {
+      "worst": "Fuerza del hábito: muy débil",
+      "bad": "Fuerza del hábito: débil",
+      "weak": "Fuerza del hábito: bajando",
+      "neutral": "Fuerza del hábito: neutra",
+      "good": "Fuerza del hábito: buena",
+      "strong": "Fuerza del hábito: fuerte",
+      "best": "Fuerza del hábito: muy fuerte"
+    },
+    "sides": {
+      "label": "Lados",
+      "both": "Bueno y malo",
+      "up": "Solo bueno (+)",
+      "down": "Solo malo (−)",
+      "hint": "Con un solo lado, la fuerza baja a la mitad cada día sin uso."
+    }
   },
   "page": {
     "fallbackTitle": "Página",

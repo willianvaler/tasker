@@ -95,6 +95,21 @@ test('hábitos: contador com meta e bom/ruim com + e −', async ({ page }, test
   await page.getByRole('button', { name: 'Desfazer' }).click();
   await undo;
   await expect(onScreen(page.getByLabel('Hoje: 1 bons, 0 ruins'))).toBeVisible();
+  // HB2: depois de um + (desfeito o −), a força é "neutra" (valor 1)
+  await expect(onScreen(page.getByLabel('Força do hábito: neutra'))).toBeVisible();
+
+  // HB2: só ruim esconde o + e o − baixa a força
+  await page.getByRole('button', { name: `Detalhes de ${food}` }).click();
+  const side = page.waitForResponse((r) => r.url().includes('/rest/v1/tasks') && r.ok());
+  await page.getByRole('radio', { name: 'Só ruim (−)' }).click();
+  await side;
+  await page.getByRole('button', { name: 'Voltar' }).click();
+  await expect(page.getByRole('button', { name: `Hábito bom: ${food}` })).toHaveCount(0);
+  const minus = page.waitForResponse((r) => isRpc(r, 'habit_tick'));
+  await page.getByRole('button', { name: `Hábito ruim: ${food}` }).click();
+  await minus;
+  await page.getByRole('button', { name: `Hábito ruim: ${food}` }).click();
+  await expect(onScreen(page.getByLabel('Força do hábito: em queda'))).toBeVisible();
 });
 
 test('atalho de tema claro/escuro', async ({ page }, testInfo) => {

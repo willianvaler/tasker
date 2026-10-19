@@ -11,6 +11,7 @@ Todo dia nasce um **boss do dia** (umas 6 tarefas) e toda semana um **boss da se
 - Tarefa-mãe com subtarefas não dá XP: as subtarefas dão.
 - Pomodoro dá um bônus pequeno, até 4 por dia.
 - Cada hábito "bom e ruim" vale até 10 "+" por dia, e tarefas criadas e concluídas em poucos minutos têm um teto diário. Quando um limite chega, o aviso diz.
+- **Força do hábito:** a barrinha à esquerda de um hábito "bom e ruim" muda de cor conforme o uso, do vermelho (muitos "−" ou abandonado) ao azul (muitos "+"). Quando o hábito anda fraco, cada "+" puxa a força para cima mais depressa (o XP é o mesmo). No painel do hábito dá para deixar **só bom** ou **só ruim**: o outro botão some, e a força cai pela metade a cada dia sem uso.
 
 ## Conquistas
 

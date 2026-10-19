@@ -10,6 +10,12 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { rewardMessage } from '@/lib/gamification';
+import {
+  habitStrength,
+  habitValueNow,
+  type HabitSides,
+  type HabitStrength,
+} from '@/lib/habit-value';
 import { addDays, type IsoDate } from '@/lib/parser/dates';
 import { useGameState } from '@/lib/queries/game';
 import { useTimeZone, useToday } from '@/lib/queries/profile';
@@ -125,6 +131,17 @@ function TickButton({
   );
 }
 
+/** Cor da barra pela força (do vermelho ao azul, como no Habitica), nas cores do tema. */
+const STRENGTH_BAR: Record<HabitStrength, string> = {
+  worst: 'bg-danger',
+  bad: 'bg-danger/60',
+  weak: 'bg-warn',
+  neutral: 'bg-line',
+  good: 'bg-ok/60',
+  strong: 'bg-ok',
+  best: 'bg-rarity-rare',
+};
+
 export function HabitRow({
   task,
   dates,
@@ -149,6 +166,11 @@ export function HabitRow({
   const streak = habitStreak(r, dates, today);
   const doneSet = new Set(dates);
   const week = Array.from({ length: 7 }, (_, i) => addDays(today, i - 6));
+  // HB2: força do hábito bom/ruim (cor da barra) e lados que existem
+  const sides = (task.habit_sides ?? 'both') as HabitSides;
+  const strength = habitStrength(
+    habitValueNow(Number(task.habit_value ?? 0), sides, task.habit_value_day, today),
+  );
 
   return (
     <View className="min-h-[52px] flex-row items-center border-b border-line md:min-h-10">
@@ -161,7 +183,14 @@ export function HabitRow({
           onChange={(checked) => toggle(task, checked)}
         />
       )}
-      {kind !== 'check' && <View className="w-3" />}
+      {kind === 'plusminus' ? (
+        <View
+          className={cn('mr-2 w-1 self-stretch', STRENGTH_BAR[strength])}
+          accessibilityLabel={t(`habit.strength.${strength}`)}
+        />
+      ) : (
+        kind !== 'check' && <View className="w-3" />
+      )}
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={t('task.details', { title: task.title })}
@@ -192,18 +221,22 @@ export function HabitRow({
             <Text className="font-mono text-danger">−{task.count_down}</Text>
           </Text>
           {/* − à esquerda do +, os dois na direita (como no Habitica) */}
-          <TickButton
-            sign="−"
-            label={t('habit.bad', { title: task.title })}
-            disabled={!writable}
-            onPress={() => tick(task, -1)}
-          />
-          <TickButton
-            sign="+"
-            label={t('habit.good', { title: task.title })}
-            disabled={!writable}
-            onPress={() => tick(task, 1)}
-          />
+          {sides !== 'up' && (
+            <TickButton
+              sign="−"
+              label={t('habit.bad', { title: task.title })}
+              disabled={!writable}
+              onPress={() => tick(task, -1)}
+            />
+          )}
+          {sides !== 'down' && (
+            <TickButton
+              sign="+"
+              label={t('habit.good', { title: task.title })}
+              disabled={!writable}
+              onPress={() => tick(task, 1)}
+            />
+          )}
         </View>
       ) : kind === 'counter' ? (
         <View className="flex-row items-center gap-2 pl-2 pr-1">
@@ -214,7 +247,10 @@ export function HabitRow({
             {t('habit.streakShort', { count: streak })}
           </Text>
           <Text
-            className={cn('min-w-10 text-right font-mono text-xs', done ? 'text-accent' : 'text-ink')}
+            className={cn(
+              'min-w-10 text-right font-mono text-xs',
+              done ? 'text-accent' : 'text-ink',
+            )}
             accessibilityLabel={t('habit.progress', { count: task.count_up, target })}
             accessibilityLiveRegion="polite"
           >

@@ -44,8 +44,7 @@ Atualizado em 19/10/2026 (produção v2026.10.18). **Prioridade agora: ESCOPO_V8
 | V6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | pendente | AC5.2, AC6.3 |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora conta como dia de treino | pendente | conta de desenvolvedor do Strava, development build (dono) |
-| **V8** | HB2 | Força do hábito (cor pelo histórico) e hábito só bom ou só ruim | pendente | — |
-| V8 | HB3 | Três níveis de jogo no Perfil (Desligado, Leve, Completo) | pendente | — |
+| **V8** | HB3 | Três níveis de jogo no Perfil (Desligado, Leve, Completo) | pendente | — |
 | V8 | HB4 | Início como acampamento | pendente | HB3 |
 | V8 | HB5 | Vida e diárias, "o que você fez ontem?", taverna | pendente | decisão V8-2 |
 | V8 | HB6 | Mana e habilidades por classe, dia perfeito | pendente | HB5 |

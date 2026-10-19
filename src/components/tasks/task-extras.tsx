@@ -270,7 +270,7 @@ export function HabitKindEditor({
   onSave,
 }: {
   task: Task;
-  onSave: (patch: Pick<Task, 'habit_kind' | 'habit_target'>) => void;
+  onSave: (patch: Partial<Pick<Task, 'habit_kind' | 'habit_target' | 'habit_sides'>>) => void;
 }) {
   const { t } = useTranslation();
   const writable = useCanWrite();
@@ -303,6 +303,27 @@ export function HabitKindEditor({
         ))}
       </View>
       <Text className="text-sm text-ink-muted">{t(current.hint)}</Text>
+      {task.habit_kind === 'plusminus' && (
+        <View className="gap-2">
+          <View
+            className="flex-row flex-wrap gap-2"
+            accessibilityRole="radiogroup"
+            accessibilityLabel={t('habit.sides.label')}
+          >
+            {(['both', 'up', 'down'] as const).map((side) => (
+              <Chip
+                key={side}
+                role="radio"
+                label={t(`habit.sides.${side}`)}
+                selected={(task.habit_sides ?? 'both') === side}
+                disabled={!writable}
+                onPress={() => onSave({ habit_sides: side })}
+              />
+            ))}
+          </View>
+          <Text className="text-sm text-ink-muted">{t('habit.sides.hint')}</Text>
+        </View>
+      )}
       {task.habit_kind === 'counter' && (
         <View className="flex-row items-center gap-2">
           <Text className="text-sm text-ink-muted">{t('extras.target')}</Text>

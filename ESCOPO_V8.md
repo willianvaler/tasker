@@ -11,11 +11,11 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 - **Arquivos** em `assets/brand/` (SVG mestre, PNGs) e aplicados em `assets/images/` (ícone, ícone adaptativo do Android, splash, favicon). Para as lojas: ícone 512×512 e imagem de destaque 1024×500 da Google Play.
 - **Acento do app (HB0.1, D192):** o laranja da marca virou o `accent` do "Caderno de bolso" (`#A94604` no claro, por contraste; `#FF8A3D` no escuro).
 
-## 1. Hábitos como no Habitica — ✅ done em parte (HB1)
+## 1. Hábitos como no Habitica — ✅ done (HB1, HB2)
 
 - **Botões à direita, − à esquerda do +:** `hábito X   |−| |+|`, no bom/ruim e no contador (antes o + ficava antes do título). ✅ HB1.
-- **Força do hábito (HB2):** a cor da linha muda com o histórico, como o "valor" das tarefas do Habitica: muito + recente → azul/verde; muito − → laranja/vermelho; parado → neutro. Calculada no servidor a partir dos `habit_tick` (decai com o tempo), espelhada em `lib/`.
-- **Hábito só bom ou só ruim (HB2):** opção de esconder o + ou o − (ex.: "fumou um cigarro" só tem −).
+- ✅ **Força do hábito (HB2, D194):** a cor da linha muda com o histórico, como o "valor" das tarefas do Habitica: muito + recente → azul/verde; muito − → laranja/vermelho; parado → neutro. Calculada no servidor a partir dos `habit_tick` (decai com o tempo), espelhada em `lib/`.
+- ✅ **Hábito só bom ou só ruim (HB2, D194):** opção de esconder o + ou o − (ex.: "fumou um cigarro" só tem −).
 
 ## 2. Três níveis de jogo, por pessoa (HB3)
 

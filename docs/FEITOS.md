@@ -167,3 +167,4 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | **V8** | HB0 | Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral | D190 |
 | V8 | HB0.1 | Acento laranja da marca nos tokens do app: `#A94604` no claro (AA), `#FF8A3D` no escuro | D192 |
 | V8 | HB1 | Hábitos: − e + lado a lado na direita (`hábito  \|−\| \|+\|`), no bom/ruim e no contador | D191 |
+| V8 | HB2 | Força do hábito bom/ruim (barra de cor pelo valor, regra do Habitica) e hábito só bom ou só ruim | D194 |

@@ -11,6 +11,7 @@ Cada día nace un **jefe del día** (unas 6 tareas) y cada semana un **jefe de l
 - Una tarea madre con subtareas no da XP: lo dan las subtareas.
 - El pomodoro da un bono pequeño, hasta 4 al día.
 - Cada hábito "bueno y malo" vale hasta 10 "+" al día, y las tareas creadas y completadas en pocos minutos tienen un tope diario. Cuando se llega a un límite, el aviso lo dice.
+- **Fuerza del hábito:** la barrita a la izquierda de un hábito "bueno y malo" cambia de color con el uso, del rojo (muchos "−" o abandonado) al azul (muchos "+"). Cuando el hábito está débil, cada "+" sube la fuerza más rápido (el XP es el mismo). En el panel del hábito puedes dejarlo **solo bueno** o **solo malo**: el otro botón desaparece y la fuerza baja a la mitad cada día sin uso.
 
 ## Logros
 

@@ -192,7 +192,23 @@
     "todayCounts": "Hoje: {{up}} bons, {{down}} ruins",
     "streak": "Sequência de {{count}}",
     "streakShort": "{{count}} d",
-    "last7": "Últimos 7 dias"
+    "last7": "Últimos 7 dias",
+    "strength": {
+      "worst": "Força do hábito: muito fraca",
+      "bad": "Força do hábito: fraca",
+      "weak": "Força do hábito: em queda",
+      "neutral": "Força do hábito: neutra",
+      "good": "Força do hábito: boa",
+      "strong": "Força do hábito: forte",
+      "best": "Força do hábito: muito forte"
+    },
+    "sides": {
+      "label": "Lados",
+      "both": "Bom e ruim",
+      "up": "Só bom (+)",
+      "down": "Só ruim (−)",
+      "hint": "Com um lado só, a força cai pela metade a cada dia sem uso."
+    }
   },
   "page": {
     "fallbackTitle": "Página",

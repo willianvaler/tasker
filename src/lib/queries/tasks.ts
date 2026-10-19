@@ -10,6 +10,7 @@ import { uuidv7 } from '@/lib/uuid';
 import type { Json, Tables } from '../db';
 import type { ParsedTask } from '../parser/quick';
 import { todayIn } from '../parser/dates';
+import { habitStep } from '../habit-value';
 import { asRecurrence, nextDueDate } from '../recurrence';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
@@ -383,6 +384,9 @@ function optimisticTask(
     count_up: 0,
     count_down: 0,
     count_key: null,
+    habit_value: 0,
+    habit_value_day: null,
+    habit_sides: 'both',
     created_by: '',
     completed_by: null,
     completed_at: item.done ? now : null,
@@ -556,6 +560,7 @@ export type TaskPatch = Partial<
     | 'repeat_plan'
     | 'habit_kind'
     | 'habit_target'
+    | 'habit_sides'
     | 'estimate_minutes'
     | 'weight'
     | 'custom'
@@ -834,8 +839,8 @@ export async function habitTickFn({
         if (!row) return;
         const next = applyHabitTick(toTask(row), delta);
         await tx.execute(
-          'update tasks set count_up = ?, count_down = ?, status = ?, completed_at = ? where id = ?',
-          [next.count_up, next.count_down, next.status, next.completed_at, taskId],
+          'update tasks set count_up = ?, count_down = ?, habit_value = ?, status = ?, completed_at = ? where id = ?',
+          [next.count_up, next.count_down, next.habit_value, next.status, next.completed_at, taskId],
         );
       },
       before ? estimateHabitTickXp(toTask(before), delta) : 0,
@@ -858,9 +863,16 @@ export async function habitTickFn({
 export async function undoHabitTickFn({ id, taskId, delta }: HabitTickVars) {
   if (isLocal()) {
     const column = delta === 1 ? 'count_up' : 'count_down';
-    await runCommand('undo_habit_tick', { p_event_id: id }, (tx) =>
-      tx.execute(`update tasks set ${column} = max(0, ${column} - 1) where id = ?`, [taskId]),
-    );
+    await runCommand('undo_habit_tick', { p_event_id: id }, async (tx) => {
+      const row = await tx.getOptional<{ habit_value: number | null }>(
+        'select habit_value from tasks where id = ?',
+        [taskId],
+      );
+      await tx.execute(
+        `update tasks set ${column} = max(0, ${column} - 1), habit_value = ? where id = ?`,
+        [habitStep(Number(row?.habit_value ?? 0), delta === 1 ? -1 : 1), taskId],
+      );
+    });
     return;
   }
   const { error } = await supabase.rpc('undo_habit_tick', { p_event_id: id });
@@ -918,9 +930,11 @@ export function applyHabitTick(task: Task, delta: 1 | -1): Task {
       completed_at: done ? (task.completed_at ?? new Date().toISOString()) : null,
     };
   }
+  // Força (HB2): o servidor ainda aplica o decaimento de um lado só; aqui é só para a cor mudar na hora
+  const habit_value = habitStep(Number(task.habit_value ?? 0), delta);
   return delta === 1
-    ? { ...task, count_up: task.count_up + 1 }
-    : { ...task, count_down: task.count_down + 1 };
+    ? { ...task, count_up: task.count_up + 1, habit_value }
+    : { ...task, count_down: task.count_down + 1, habit_value };
 }
 
 export function useHabitTick() {
@@ -952,9 +966,13 @@ export function useUndoHabitTick() {
       patchTaskLists(queryClient, (t) =>
         t.id !== taskId
           ? t
-          : delta === 1
-            ? { ...t, count_up: Math.max(0, t.count_up - 1) }
-            : { ...t, count_down: Math.max(0, t.count_down - 1) },
+          : {
+              ...t,
+              ...(delta === 1
+                ? { count_up: Math.max(0, t.count_up - 1) }
+                : { count_down: Math.max(0, t.count_down - 1) }),
+              habit_value: habitStep(Number(t.habit_value ?? 0), delta === 1 ? -1 : 1),
+            },
       );
       return { saved };
     },
