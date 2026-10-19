@@ -60,7 +60,7 @@ import {
   type Task,
   type TaskPatch,
 } from '@/lib/queries/tasks';
-import { findFolder, pageLabel, useTree } from '@/lib/queries/tree';
+import { findFolder, isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
@@ -240,6 +240,9 @@ function TaskDetails({ task }: { task: Task }) {
   const page = tree.data?.pages.find((p) => p.id === task.page_id);
   const place = page ? findFolder(tree.data, page.folder_id) : null;
   const isHabit = page?.view_type === 'habits';
+  // Exercício: séries, repetições, carga e descanso; sem pomodoro, cronômetro nem plano à parte
+  const isWorkout = !!page && isWorkoutPage(tree.data, page);
+  const repeatPlan = readRepeatPlan(task.repeat_plan);
   const habitDates = useHabitDates(isHabit ? [task] : []);
   // Projeto (pasta compartilhada): responsáveis e comentários
   const project = !!rootFolder(tree.data, task.folder_id)?.is_shared;
@@ -400,9 +403,15 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {page?.view_type === 'cards' && (
+        {isWorkout && !leaves && (
           <Section title={t('taskDetail.exercise')}>
-            <MetaEditor task={task} onSave={(meta) => save({ meta })} />
+            <MetaEditor task={task} onSave={save} />
+            {repeatPlan?.mode === 'sets' && (
+              <RepeatCounter
+                task={task}
+                disabled={!allowed.complete || (blocked && !flow.forceable)}
+              />
+            )}
           </Section>
         )}
 
@@ -480,7 +489,7 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {!isHabit && (show('time') || !!leaves) && (
+        {!isHabit && !isWorkout && (show('time') || !!leaves) && (
           <Section title={t('taskDetail.time')}>
             {leaves ? (
               <Text className="text-sm text-ink">
@@ -511,19 +520,23 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {!isHabit && !leaves && show('repeat') && (
-          <Section title={t('repeat.section')}>
-            <RepeatCounter
-              task={task}
-              disabled={!allowed.complete || (blocked && !flow.forceable)}
-            />
-            <RepeatPlanEditor
-              value={readRepeatPlan(task.repeat_plan)}
-              onChange={(plan) => save({ repeat_plan: plan as Json })}
-              disabled={!writable}
-            />
-          </Section>
-        )}
+        {!isHabit &&
+          !leaves &&
+          show('repeat') &&
+          // No treino, as séries ficam em Exercício; contador e cronometrado seguem aqui
+          (!isWorkout || (repeatPlan && repeatPlan.mode !== 'sets')) && (
+            <Section title={t('repeat.section')}>
+              <RepeatCounter
+                task={task}
+                disabled={!allowed.complete || (blocked && !flow.forceable)}
+              />
+              <RepeatPlanEditor
+                value={readRepeatPlan(task.repeat_plan)}
+                onChange={(plan) => save({ repeat_plan: plan as Json })}
+                disabled={!writable}
+              />
+            </Section>
+          )}
 
         {!task.parent_task_id && task.habit_kind !== 'plusminus' && (
           <Section title={t('taskDetail.repeat')}>

@@ -158,6 +158,7 @@ export function useTreeMutations() {
       parentId,
       kind = 'folder',
       color,
+      gymGroup = false,
     }: {
       name: string;
       icon?: string | null;
@@ -165,6 +166,8 @@ export function useTreeMutations() {
       parentId?: string;
       /** Projeto só na raiz */
       kind?: 'folder' | 'project';
+      /** Grupo de treino (D186): projeto na raiz que aparece no bloco Academia */
+      gymGroup?: boolean;
     }) => {
       const siblings = parentId
         ? (tree()?.folders.find((f) => f.id === parentId)?.children ?? [])
@@ -175,9 +178,10 @@ export function useTreeMutations() {
         name,
         icon: icon || null,
         parent_id: parentId ?? null,
-        kind: parentId ? 'folder' : kind,
+        kind: parentId ? 'folder' : gymGroup ? 'project' : kind,
         color: color ?? null,
         position: nextPosition(siblings),
+        ...(gymGroup && !parentId ? { gym_group: true } : {}),
       };
       if (isLocal()) {
         const owner = await sessionUserId();
@@ -188,6 +192,7 @@ export function useTreeMutations() {
           is_shared: 0,
           is_inbox: 0,
           is_gym: 0,
+          gym_group: gymGroup && !parentId ? 1 : 0,
           archived: 0,
         });
         // A participação nasce no servidor (trigger); aqui, para a pasta já aparecer como minha
@@ -424,11 +429,26 @@ export function useTreeMutations() {
 export function splitRoots(tree: Tree | undefined, gymOn: boolean) {
   const folders = tree?.folders ?? [];
   const gym = gymOn ? (tree?.gym ?? null) : null;
+  // Grupos de treino (D186) ficam no bloco Academia; com o modo desligado, em Projetos
+  const isGroup = (f: FolderNode) => gymOn && !!f.gym_group;
   return {
     personal: folders.filter((f) => f.kind !== 'project' && f.id !== gym?.id),
-    projects: folders.filter((f) => f.kind === 'project'),
+    projects: folders.filter((f) => f.kind === 'project' && !isGroup(f)),
     gym,
+    groups: folders.filter(isGroup),
   };
+}
+
+/**
+ * Página de treino: de cards, da Academia ou de um grupo de treino (a pasta ou a pasta-mãe). O
+ * mesmo que public._is_workout_page no banco.
+ */
+export function isWorkoutPage(tree: Tree | undefined, page: Pick<Page, 'view_type' | 'folder_id'>) {
+  if (page.view_type === 'cards') return true;
+  const found = findFolder(tree, page.folder_id);
+  const gymLike = (f: Pick<Folder, 'is_gym' | 'gym_group'> | null | undefined) =>
+    !!f && (f.is_gym || f.gym_group);
+  return gymLike(found?.folder) || gymLike(found?.parent);
 }
 
 /** Nome da página para texto (o ícone é desenhado à parte, pelo components/item-icon.tsx). */

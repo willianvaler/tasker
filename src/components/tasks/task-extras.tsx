@@ -11,6 +11,8 @@ import type { Recurrence, TaskMeta } from '@/lib/parser/quick';
 import type { Json } from '@/lib/db';
 import type { Task } from '@/lib/queries/tasks';
 import { asRecurrence, habitStreak, isHabitDueOn, recurrenceLabel } from '@/lib/recurrence';
+import { readRepeatPlan } from '@/lib/repeat';
+import { formatRest, parseRest, planFromSets } from '@/lib/workout';
 import { useCanWrite } from '@/providers/write';
 
 // Ordem de exibição: segunda primeiro
@@ -92,14 +94,27 @@ export function RecurrenceEditor({
   );
 }
 
-/** Séries, repetições e carga (cards). Salva ao sair de cada campo. */
-export function MetaEditor({ task, onSave }: { task: Task; onSave: (meta: Json) => void }) {
+/**
+ * Séries, repetições, carga e descanso (página de treino). Salva ao sair de cada campo. As séries
+ * e o descanso vão também para o plano do Modo Treino (`repeat_plan`): é ele que conta as séries e
+ * começa o descanso, com o aviso na tela de bloqueio no fim.
+ */
+export function MetaEditor({
+  task,
+  onSave,
+}: {
+  task: Task;
+  onSave: (patch: { meta: Json; repeat_plan: Json }) => void;
+}) {
   const { t } = useTranslation();
   const writable = useCanWrite();
   const meta = (task.meta && typeof task.meta === 'object' ? task.meta : {}) as TaskMeta;
-  const [sets, setSets] = useState(meta.sets?.toString() ?? '');
+  const plan = readRepeatPlan(task.repeat_plan);
+  const setsPlan = plan?.mode === 'sets' ? plan : null;
+  const [sets, setSets] = useState((setsPlan?.total ?? meta.sets)?.toString() ?? '');
   const [reps, setReps] = useState(meta.reps?.toString() ?? '');
   const [weight, setWeight] = useState(meta.weight ?? '');
+  const [rest, setRest] = useState(formatRest(setsPlan?.rest_seconds));
 
   function save() {
     const next: TaskMeta = {};
@@ -108,18 +123,29 @@ export function MetaEditor({ task, onSave }: { task: Task; onSave: (meta: Json) 
     if (s > 0) next.sets = s;
     if (r > 0) next.reps = r;
     if (weight.trim()) next.weight = weight.trim();
-    if (JSON.stringify(next) !== JSON.stringify(meta))
-      onSave(Object.keys(next).length ? next : null);
+    const restSeconds = parseRest(rest);
+    const nextPlan = planFromSets(plan, s > 0 ? s : null, restSeconds);
+    // Volta o texto ao que foi entendido ("90" → "1:30"; vazio com séries → o padrão)
+    setRest(formatRest(nextPlan?.mode === 'sets' ? nextPlan.rest_seconds : null));
+    if (
+      JSON.stringify(next) !== JSON.stringify(meta) ||
+      JSON.stringify(nextPlan) !== JSON.stringify(plan)
+    )
+      onSave({
+        meta: Object.keys(next).length ? next : null,
+        repeat_plan: nextPlan as Json,
+      });
   }
 
   return (
     <View className="flex-row gap-2">
       {[
-        { label: t('extras.sets'), value: sets, set: setSets, numeric: true },
-        { label: t('extras.reps'), value: reps, set: setReps, numeric: true },
-        { label: t('extras.weight'), value: weight, set: setWeight, numeric: false },
+        { label: t('extras.sets'), value: sets, set: setSets, kind: 'number' as const },
+        { label: t('extras.reps'), value: reps, set: setReps, kind: 'number' as const },
+        { label: t('extras.weight'), value: weight, set: setWeight, kind: 'weight' as const },
+        { label: t('extras.rest'), value: rest, set: setRest, kind: 'rest' as const },
       ].map((field) => (
-        <View key={field.label} className="flex-1 gap-1">
+        <View key={field.label} className="min-w-0 flex-1 gap-1">
           <Text className="text-xs text-ink-muted">{field.label}</Text>
           <Input
             value={field.value}
@@ -127,10 +153,10 @@ export function MetaEditor({ task, onSave }: { task: Task; onSave: (meta: Json) 
             onBlur={save}
             onSubmitEditing={save}
             editable={writable}
-            keyboardType={field.numeric ? 'number-pad' : 'default'}
-            placeholder={field.numeric ? '0' : '20kg'}
+            keyboardType={field.kind === 'number' ? 'number-pad' : 'default'}
+            placeholder={field.kind === 'number' ? '0' : field.kind === 'weight' ? '20kg' : '1:00'}
             accessibilityLabel={field.label}
-            maxLength={field.numeric ? 4 : 20}
+            maxLength={field.kind === 'number' ? 4 : field.kind === 'rest' ? 6 : 20}
             className="font-mono"
           />
         </View>

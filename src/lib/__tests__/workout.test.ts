@@ -3,6 +3,9 @@ import { describe, expect, it } from '@jest/globals';
 import type { Task } from '../queries/tasks';
 import {
   adjustWeight,
+  formatRest,
+  parseRest,
+  planFromSets,
   nextPending,
   setVolume,
   workoutElapsed,
@@ -60,3 +63,35 @@ it('tempo sem as pausas', () =>
   expect(workoutElapsed({ startedAt: 0, pausedMs: 30_000, pausedAt: null }, 90_000)).toBe(60));
 
 it('em inglês, ponto', () => expect(adjustWeight('20lb', 2.5, false)).toBe('22.5lb'));
+
+describe('descanso no painel', () => {
+  it('lê o descanso digitado', () => {
+    expect(parseRest('90')).toBe(90);
+    expect(parseRest('90s')).toBe(90);
+    expect(parseRest('1:30')).toBe(90);
+    expect(parseRest('2min')).toBe(120);
+    expect(parseRest(' 2 m ')).toBe(120);
+    expect(parseRest('')).toBeNull();
+    expect(parseRest('abc')).toBeNull();
+    expect(parseRest('0')).toBeNull();
+    expect(parseRest('61:00')).toBeNull();
+  });
+
+  it('mostra o descanso', () => {
+    expect(formatRest(45)).toBe('45s');
+    expect(formatRest(90)).toBe('1:30');
+    expect(formatRest(120)).toBe('2:00');
+    expect(formatRest(null)).toBe('');
+  });
+
+  it('séries viram o plano, com o descanso', () => {
+    expect(planFromSets(null, 3, null)).toEqual({ mode: 'sets', total: 3, rest_seconds: 60 });
+    expect(planFromSets(null, 4, 90)).toEqual({ mode: 'sets', total: 4, rest_seconds: 90 });
+    const plan = { mode: 'sets' as const, total: 3, rest_seconds: 45, rest_after_seconds: 120 };
+    expect(planFromSets(plan, 5, null)).toEqual({ ...plan, total: 5 });
+    expect(planFromSets(plan, null, 90)).toBeNull();
+    const count = { mode: 'count' as const, total: 10 };
+    expect(planFromSets(count, null, null)).toBe(count);
+    expect(planFromSets(count, 3, 60)).toEqual({ mode: 'sets', total: 3, rest_seconds: 60 });
+  });
+});

@@ -4,7 +4,7 @@ Escribe `Press banca 4x12` y la tarea pide **4 series**. En la fila aparece **0/
 
 ## Descanso
 
-Tras cada serie empieza el **descanso** (60 s por defecto; cámbialo en "Cuántas veces", en el panel). La cuenta aparece abajo, con **−30**, **+30** y **Saltar**. En el teléfono te avisa incluso con la pantalla bloqueada. En el navegador, el aviso llega si la pestaña está abierta, aunque esté oculta.
+Tras cada serie empieza el **descanso** (60 s por defecto). En un entrenamiento, el panel del ejercicio tiene **Series · Repeticiones · Carga · Descanso** lado a lado: escribe el descanso en segundos o minutos (`90`, `1:30`, `2min`). La cuenta aparece abajo, con **−30**, **+30** y **Saltar**. En el teléfono te avisa incluso con la pantalla bloqueada. En el navegador, el aviso llega si la pestaña está abierta, aunque esté oculta.
 
 ## Modo Entrenamiento
 
@@ -18,7 +18,7 @@ El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de
 
 ## Entrenar juntos
 
-En un entrenamiento de proyecto, el Modo Entrenamiento pregunta **quién entrena contigo ahora**. Quien marques recibe el aviso (en 🔔 y en el móvil) y entra con **Entrar**. Durante la sesión, las series valen para el grupo: cualquiera toca **Hecha** en el móvil que tenga a mano, y todos ven el mismo conteo, el mismo ejercicio y el mismo descanso. Quien marca la última serie completa el ejercicio y se lleva el XP, como en las tareas de proyecto. La sesión termina cuando todos salen.
+Para entrenar con otras personas, crea un **grupo de entrenamiento**: en el bloque Gimnasio (barra lateral o pestaña Carpetas), toca **Nuevo grupo de entrenamiento**, ponle nombre e invita con el enlace. El grupo aparece en el bloque Gimnasio de quien entra, y los entrenamientos creados en él son de todos. En un entrenamiento del grupo (o de proyecto), el Modo Entrenamiento pregunta **quién entrena contigo ahora**. Quien marques recibe el aviso (en 🔔 y en el móvil) y entra con **Entrar**. Durante la sesión, las series valen para el grupo: cualquiera toca **Hecha** en el móvil que tenga a mano, y todos ven el mismo conteo, el mismo ejercicio y el mismo descanso. Quien marca la última serie completa el ejercicio y se lleva el XP, como en las tareas de proyecto. La sesión termina cuando todos salen.
 
 ## Desafíos en grupo
 

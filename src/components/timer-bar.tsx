@@ -19,6 +19,7 @@ import {
 } from '@/lib/pomodoro';
 import { useGameState } from '@/lib/queries/game';
 import { usePomodoroSettings } from '@/lib/queries/pomodoro';
+import { SIZE } from '@/lib/tokens';
 import { useTask } from '@/lib/queries/tasks';
 import { useActiveTimer, useTimerActions, type StartTimerVars } from '@/lib/queries/timers';
 import {
@@ -293,7 +294,11 @@ export function TimerBar({ floating }: { floating?: boolean }) {
     <View
       accessibilityRole="timer"
       accessibilityLabel={t(paused ? 'timer.pausedLabel' : 'timer.label', { label, time: clock })}
-      style={floating ? { position: 'absolute', right: 8, bottom: insets.bottom + 72 } : undefined}
+      style={
+        floating
+          ? { position: 'absolute', right: 8, bottom: insets.bottom + SIZE.timerBar }
+          : undefined
+      }
       className="max-w-[360px] flex-row items-center gap-1 rounded-lg border border-line bg-surface pl-3 pr-1"
     >
       <Text className="shrink text-sm text-ink" numberOfLines={1}>

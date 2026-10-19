@@ -88,9 +88,11 @@ export function Sheet({
             <View className="h-1 w-8 rounded-full bg-line" />
           </View>
           {header}
+          {/* A barra do timer (descanso) flutua por cima do fim do painel no celular */}
           <ScrollView
             keyboardShouldPersistTaps="handled"
-            contentContainerClassName="gap-6 p-4 pb-8"
+            contentContainerClassName="gap-6 p-4"
+            contentContainerStyle={{ paddingBottom: SIZE.timerBarClear }}
           >
             {children}
           </ScrollView>

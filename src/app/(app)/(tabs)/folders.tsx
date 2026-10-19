@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { LayoutTemplate, Plus } from 'lucide-react-native';
+import { LayoutTemplate, Plus, Users } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 
@@ -26,7 +26,7 @@ export default function FoldersScreen() {
   const [actions, dialog] = useFolderActions();
   const folders = tree.data?.folders ?? [];
   const gymOn = useProfile().data?.gym_enabled === true;
-  const { personal, projects, gym } = splitRoots(tree.data, gymOn);
+  const { personal, projects, gym, groups } = splitRoots(tree.data, gymOn);
   const sectionOrder = resolveBlocks(
     { order: useUiPrefs().sidebar?.order },
     gymOn ? ['folders', 'gym', 'projects'] : ['folders', 'projects'],
@@ -89,7 +89,7 @@ export default function FoldersScreen() {
                   kind: 'gym',
                   block: 'gym' as const,
                   title: t('gym.block'),
-                  list: [gym],
+                  list: [gym, ...groups],
                   add: actions.newWorkout,
                 },
               ]
@@ -147,10 +147,22 @@ export default function FoldersScreen() {
                         ? undefined
                         : folder.is_gym
                           ? actions.newWorkout
-                          : () => actions.newPage(folder.id)
+                          : folder.gym_group
+                            ? () => actions.newGroupWorkout(folder.id)
+                            : () => actions.newPage(folder.id)
                     }
                   />
                 ))}
+                {section.kind === 'gym' && (
+                  <Button
+                    variant="ghost"
+                    icon={Users}
+                    label={t('gym.newGroup')}
+                    className="self-start"
+                    disabled={!online}
+                    onPress={actions.newGymGroup}
+                  />
+                )}
               </View>
             ),
           )}

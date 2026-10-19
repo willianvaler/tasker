@@ -143,15 +143,19 @@ export function Sidebar() {
                 accessibilityRole="button"
                 className="min-h-8 flex-row items-center gap-2 rounded hover:bg-wash active:bg-wash"
                 style={{ paddingLeft: 28 + (depth + 1) * 12 }}
-                onPress={() => actions.newPage(folder.id)}
+                onPress={() =>
+                  folder.gym_group ? actions.newGroupWorkout(folder.id) : actions.newPage(folder.id)
+                }
               >
                 <Icon icon={Plus} tone="ink-muted" />
                 {/* Y2 (#10): no projeto, "Nova lista", como na tela do projeto */}
                 <Text className="text-sm text-ink-muted">
                   {t(
-                    rootFolder(tree.data, folder.id)?.kind === 'project'
-                      ? 'project.item.new'
-                      : 'nav.newPage',
+                    folder.gym_group
+                      ? 'gym.newWorkout'
+                      : rootFolder(tree.data, folder.id)?.kind === 'project'
+                        ? 'project.item.new'
+                        : 'nav.newPage',
                   )}
                 </Text>
               </Pressable>
@@ -177,7 +181,7 @@ export function Sidebar() {
 
   const gymOn = useProfile().data?.gym_enabled === true;
   const sidebarPrefs = useUiPrefs().sidebar;
-  const { personal, projects, gym } = splitRoots(tree.data, gymOn);
+  const { personal, projects, gym, groups } = splitRoots(tree.data, gymOn);
   // Páginas recebidas (L4): não estão em pasta nenhuma do usuário
   const received = useReceivedPages();
   const pending = usePendingShares();
@@ -258,6 +262,17 @@ export function Sidebar() {
                 <Text className="text-sm text-ink-muted">{t('gym.firstWorkout')}</Text>
               </Pressable>
             )}
+            {/* D186: grupos de treino (compartilhados), com os treinos de cada um */}
+            {groups.map((group) => renderFolder(group, 0))}
+            <Pressable
+              accessibilityRole="button"
+              disabled={!online}
+              className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+              onPress={actions.newGymGroup}
+            >
+              <Icon icon={Users} tone="ink-muted" />
+              <Text className="text-sm text-ink-muted">{t('gym.newGroup')}</Text>
+            </Pressable>
           </View>
         )}
       </>

@@ -4,7 +4,7 @@ Type `Bench press 4x12` and the task asks for **4 sets**. The row shows **0/4**:
 
 ## Rest
 
-After each set a **rest** starts (60 s by default; change it under "How many times" in the panel). The countdown shows at the bottom, with **−30**, **+30** and **Skip**. On the phone you're notified even with the screen locked. In the browser, the notice comes if the tab is open, even hidden.
+After each set a **rest** starts (60 s by default). In a workout, the exercise panel has **Sets · Reps · Weight · Rest** side by side: type the rest in seconds or minutes (`90`, `1:30`, `2min`). The countdown shows at the bottom, with **−30**, **+30** and **Skip**. On the phone you're notified even with the screen locked. In the browser, the notice comes if the tab is open, even hidden.
 
 ## Workout mode
 
@@ -18,7 +18,7 @@ The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and
 
 ## Working out together
 
-In a project workout, Workout mode asks **who is working out with you now**. Whoever you check gets a notice (in 🔔 and on the phone) and joins with **Join**. During the session, sets count for the group: anyone taps **Done** on whatever phone is at hand, and everyone sees the same count, the same exercise and the same rest. Whoever logs the last set completes the exercise and gets the XP, as with project tasks. The session ends when everyone leaves.
+To work out with other people, create a **training group**: in the Gym block (sidebar or Folders tab), tap **New training group**, name it and invite people with the link. The group shows up in the Gym block of whoever joins, and the workouts created in it belong to everyone. In a group workout (or a project one), Workout mode asks **who is working out with you now**. Whoever you check gets a notice (in 🔔 and on the phone) and joins with **Join**. During the session, sets count for the group: anyone taps **Done** on whatever phone is at hand, and everyone sees the same count, the same exercise and the same rest. Whoever logs the last set completes the exercise and gets the XP, as with project tasks. The session ends when everyone leaves.
 
 ## Group challenges
 

@@ -32,7 +32,8 @@ type FolderDialog =
   | { kind: 'move-page'; page: Page }
   | { kind: 'new-folder'; parentId?: string; project?: boolean }
   | { kind: 'new-page'; folderId: string }
-  | { kind: 'new-workout' }
+  | { kind: 'new-workout'; folderId?: string }
+  | { kind: 'new-gym-group' }
   | { kind: 'edit-folder'; folder: Folder }
   | { kind: 'edit-page'; page: Page }
   | { kind: 'delete-folder'; folder: Folder }
@@ -71,6 +72,10 @@ export function useFolderActions() {
     newPage: (folderId: string) => setDialog({ kind: 'new-page', folderId }),
     /** Página de treino na pasta Academia (V6 §15.1), sem passar pelo diálogo de página */
     newWorkout: () => setDialog({ kind: 'new-workout' }),
+    /** Treino dentro de um grupo de treino (D186) */
+    newGroupWorkout: (folderId: string) => setDialog({ kind: 'new-workout', folderId }),
+    /** Grupo de treino (D186): pasta compartilhável que fica no bloco Academia */
+    newGymGroup: () => setDialog({ kind: 'new-gym-group' }),
     folderMenu: (folder: Folder) => setDialog({ kind: 'folder-menu', folder }),
     pageMenu: (page: Page) => setDialog({ kind: 'page-menu', page }),
     movePage: (page: Page) => setDialog({ kind: 'move-page', page }),
@@ -82,8 +87,15 @@ export function useFolderActions() {
     const isOwner = owner === session?.user.id;
     return [
       {
-        label: t(folder.kind === 'project' ? 'project.item.new' : 'folder.newPage'),
-        onPress: () => actions.newPage(folder.id),
+        label: t(
+          folder.gym_group
+            ? 'gym.newWorkout'
+            : folder.kind === 'project'
+              ? 'project.item.new'
+              : 'folder.newPage',
+        ),
+        onPress: () =>
+          folder.gym_group ? actions.newGroupWorkout(folder.id) : actions.newPage(folder.id),
       },
       // Máximo de 2 níveis de pasta
       ...(folder.parent_id
@@ -228,6 +240,25 @@ export function useFolderActions() {
         }}
       />
     );
+  } else if (dialog?.kind === 'new-gym-group') {
+    element = (
+      <PromptDialog
+        title={t('gym.newGroup')}
+        fields={[{ key: 'name', placeholder: t('gym.groupPlaceholder') }]}
+        onClose={close}
+        onConfirm={({ name }) => {
+          close();
+          m.createFolder.mutate(
+            { name, icon: 'lucide:users', gymGroup: true },
+            // Abre o convite: o próximo passo é chamar quem treina junto
+            {
+              onError,
+              onSuccess: (id) => router.navigate({ pathname: '/share/[id]', params: { id } }),
+            },
+          );
+        }}
+      />
+    );
   } else if (dialog?.kind === 'new-workout') {
     element = (
       <PromptDialog
@@ -238,7 +269,8 @@ export function useFolderActions() {
           close();
           try {
             // A pasta pode ter sido apagada: ligar de novo a recria
-            const folderId = tree.data?.gym?.id ?? (await setGymMode.mutateAsync(true));
+            const folderId =
+              dialog.folderId ?? tree.data?.gym?.id ?? (await setGymMode.mutateAsync(true));
             if (!folderId) return;
             const id = await m.createPage.mutateAsync({
               folderId,
@@ -327,8 +359,9 @@ export function useMoveInTree() {
     const found = findFolder(data, target.id);
     if (!found) return [];
     if (found.parent) return found.parent.children;
-    const { personal, projects, gym } = splitRoots(data, gymOn);
+    const { personal, projects, gym, groups } = splitRoots(data, gymOn);
     if (gym?.id === target.id) return [gym];
+    if (groups.some((g) => g.id === target.id)) return groups;
     return found.folder.kind === 'project' ? projects : personal;
   }
 

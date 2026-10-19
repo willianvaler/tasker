@@ -161,9 +161,17 @@ export default function FolderScreen() {
           {writable && (
             <Button
               icon={Plus}
-              label={t(project ? 'project.item.new' : 'folder.newPage')}
+              label={t(
+                folder.gym_group
+                  ? 'gym.newWorkout'
+                  : project
+                    ? 'project.item.new'
+                    : 'folder.newPage',
+              )}
               className="ml-auto"
-              onPress={() => actions.newPage(folder.id)}
+              onPress={() =>
+                folder.gym_group ? actions.newGroupWorkout(folder.id) : actions.newPage(folder.id)
+              }
             />
           )}
         </View>
@@ -218,8 +226,18 @@ export default function FolderScreen() {
                 <Button
                   variant={project ? 'primary' : 'ghost'}
                   icon={Plus}
-                  label={t(project ? 'project.firstList' : 'folder.firstPage')}
-                  onPress={() => actions.newPage(folder.id)}
+                  label={t(
+                    folder.gym_group
+                      ? 'gym.newWorkout'
+                      : project
+                        ? 'project.firstList'
+                        : 'folder.firstPage',
+                  )}
+                  onPress={() =>
+                    folder.gym_group
+                      ? actions.newGroupWorkout(folder.id)
+                      : actions.newPage(folder.id)
+                  }
                 />
               )}
               {project && !showSetup && (

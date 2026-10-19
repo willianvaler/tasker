@@ -56,6 +56,7 @@ export function toFolder(row: Row): Tables<'folders'> {
     is_shared: !!row.is_shared,
     is_inbox: !!row.is_inbox,
     is_gym: !!row.is_gym,
+    gym_group: !!row.gym_group,
     archived: !!row.archived,
     // Linha que chegou antes da coluna existir: vale o padrão do banco (ligado)
     auto_complete_parent: row.auto_complete_parent == null ? true : !!row.auto_complete_parent,

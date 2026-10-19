@@ -1,5 +1,5 @@
 import type { Task } from './queries/tasks';
-import { effectiveReps, readRepeatPlan, type RepeatPlan } from './repeat';
+import { DEFAULT_REST_SECONDS, effectiveReps, readRepeatPlan, type RepeatPlan } from './repeat';
 import type { TaskMeta } from './parser/quick';
 
 // Modo Treino (J5, D127): a sequência guiada de uma página. Funções puras; a tela só chama.
@@ -106,4 +106,44 @@ export function workoutElapsed(
 ) {
   const end = session.pausedAt ?? now;
   return Math.max(0, Math.floor((end - session.startedAt - session.pausedMs) / 1000));
+}
+
+/** Descanso digitado: "90", "90s", "1:30", "2min", "2m". Vazio ou estranho: null. Até 1 h. */
+export function parseRest(text: string): number | null {
+  const v = text.trim().toLowerCase().replace(/\s+/g, '');
+  let m = /^(\d{1,2}):([0-5]\d)$/.exec(v);
+  const seconds = m
+    ? Number(m[1]) * 60 + Number(m[2])
+    : (m = /^(\d{1,4})(s|seg)?$/.exec(v))
+      ? Number(m[1])
+      : (m = /^(\d{1,2})(m|min)$/.exec(v))
+        ? Number(m[1]) * 60
+        : null;
+  return seconds && seconds <= 3600 ? seconds : null;
+}
+
+/** "45s", "1:30", "2:00" */
+export function formatRest(seconds: number | null | undefined): string {
+  if (!seconds) return '';
+  if (seconds < 60) return `${seconds}s`;
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+}
+
+/**
+ * Séries do painel viram o plano do Modo Treino (com o descanso entre elas). Sem séries, o plano de
+ * séries sai; um plano de outro tipo (vezes, intervalo, cronometrado) só muda se houver séries.
+ */
+export function planFromSets(
+  current: RepeatPlan | null,
+  sets: number | null,
+  rest: number | null,
+): RepeatPlan | null {
+  if (!sets || sets < 1) return current?.mode === 'sets' ? null : current;
+  const base = current?.mode === 'sets' ? current : null;
+  return {
+    ...(base ?? {}),
+    mode: 'sets',
+    total: Math.min(sets, 99),
+    rest_seconds: rest ?? base?.rest_seconds ?? DEFAULT_REST_SECONDS,
+  };
 }

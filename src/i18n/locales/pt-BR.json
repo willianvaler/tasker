@@ -856,7 +856,8 @@
     "hintCheck": "Feito ou não feito no período.",
     "hintCounter": "Uma meta por período (ex.: 8 copos de água). + soma, − desfaz; bater a meta conclui.",
     "hintPlusminus": "Sem meta: + quando fizer o bom (XP e dano no boss), − quando escorregar (o boss se cura um pouco).",
-    "target": "Meta por período"
+    "target": "Meta por período",
+    "rest": "Descanso"
   },
   "collab": {
     "nobody": "Ninguém ainda.",
@@ -2138,7 +2139,9 @@
     "workoutPlaceholder": "Nome do treino (ex.: Treino A)",
     "firstWorkout": "Criar o primeiro treino",
     "toggle": "Modo academia",
-    "toggleHint": "Mostra o bloco Academia na barra lateral, com os seus treinos."
+    "toggleHint": "Mostra o bloco Academia na barra lateral, com os seus treinos.",
+    "newGroup": "Novo grupo de treino",
+    "groupPlaceholder": "Nome (ex.: Treino com a Ana)"
   },
   "sidebarPrefs": {
     "title": "Barra lateral",

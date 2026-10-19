@@ -12,6 +12,7 @@ const folders = new Table(
     is_shared: column.integer,
     is_inbox: column.integer,
     is_gym: column.integer,
+    gym_group: column.integer,
     position: column.real,
     archived: column.integer,
     created_at: column.text,

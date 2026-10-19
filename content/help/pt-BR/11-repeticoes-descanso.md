@@ -4,7 +4,7 @@ Escreva `Supino 4x12` e a tarefa pede **4 séries**. Na linha aparece **0/4**: c
 
 ## Descanso
 
-Depois de cada série começa o **descanso** (60 s por padrão; mude em "Quantas vezes", no painel). A contagem aparece embaixo, com **−30**, **+30** e **Pular**. No celular, você é avisado mesmo com a tela bloqueada. No navegador, o aviso vem se a aba estiver aberta, mesmo escondida.
+Depois de cada série começa o **descanso** (60 s por padrão). Num treino, o painel do exercício tem **Séries · Repetições · Carga · Descanso** lado a lado: escreva o descanso em segundos ou minutos (`90`, `1:30`, `2min`). A contagem aparece embaixo, com **−30**, **+30** e **Pular**. No celular, você é avisado mesmo com a tela bloqueada. No navegador, o aviso vem se a aba estiver aberta, mesmo escondida.
 
 ## Modo Treino
 
@@ -18,7 +18,7 @@ O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do 
 
 ## Treinar junto
 
-Num treino de projeto, o Modo Treino pergunta **quem está treinando junto agora**. Quem você marcar recebe o aviso (no 🔔 e no celular) e entra com **Entrar**. Durante a sessão, as séries valem para o grupo: qualquer um marca **Feita** no celular que estiver à mão, e todos veem a mesma contagem, o mesmo exercício e o mesmo descanso. Quem marca a última série conclui o exercício e leva o XP, como nas tarefas de projeto. A sessão acaba quando todos saem.
+Para treinar com outras pessoas, crie um **grupo de treino**: no bloco Academia (barra lateral ou aba Pastas), toque em **Novo grupo de treino**, dê um nome e convide pelo link. O grupo aparece no bloco Academia de quem entra, e os treinos criados nele são de todos. Num treino do grupo (ou de projeto), o Modo Treino pergunta **quem está treinando junto agora**. Quem você marcar recebe o aviso (no 🔔 e no celular) e entra com **Entrar**. Durante a sessão, as séries valem para o grupo: qualquer um marca **Feita** no celular que estiver à mão, e todos veem a mesma contagem, o mesmo exercício e o mesmo descanso. Quem marca a última série conclui o exercício e leva o XP, como nas tarefas de projeto. A sessão acaba quando todos saem.
 
 ## Desafios em grupo
 

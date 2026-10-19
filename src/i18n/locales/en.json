@@ -856,7 +856,8 @@
     "hintCheck": "Done or not done for the period.",
     "hintCounter": "A goal per period (e.g. 8 glasses of water). + adds, − undoes; reaching the goal completes it.",
     "hintPlusminus": "No goal: + when you do the good one (XP and damage to the boss), − when you slip (the boss heals a little).",
-    "target": "Goal per period"
+    "target": "Goal per period",
+    "rest": "Rest"
   },
   "collab": {
     "nobody": "Nobody yet.",
@@ -2138,7 +2139,9 @@
     "workoutPlaceholder": "Workout name (e.g. Workout A)",
     "firstWorkout": "Create your first workout",
     "toggle": "Gym mode",
-    "toggleHint": "Shows the Gym block in the sidebar, with your workouts."
+    "toggleHint": "Shows the Gym block in the sidebar, with your workouts.",
+    "newGroup": "New training group",
+    "groupPlaceholder": "Name (e.g. Training with Ana)"
   },
   "sidebarPrefs": {
     "title": "Sidebar",

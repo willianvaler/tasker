@@ -50,7 +50,7 @@ import {
   useCalendarTasks,
 } from '@/lib/queries/calendar';
 import { useToday } from '@/lib/queries/profile';
-import { pageLabel, useTree } from '@/lib/queries/tree';
+import { isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
@@ -78,14 +78,11 @@ export default function CalendarScreen() {
   const to = weeks[weeks.length - 1][6];
   const tasks = useCalendarTasks(from, to);
 
-  // Página de treino: de cards ou da pasta Academia (como public._is_workout_page)
-  const gym = tree.data?.gym;
-  const gymFolders = gym ? [gym.id, ...gym.children.map((c) => c.id)] : [];
   const pages: Record<string, CalendarPage> = {};
   for (const page of tree.data?.pages ?? [])
     pages[page.id] = {
       name: pageLabel(page),
-      workout: page.view_type === 'cards' || gymFolders.includes(page.folder_id),
+      workout: isWorkoutPage(tree.data, page),
       habits: page.view_type === 'habits',
     };
   const days = calendarDays(tasks.data ?? [], pages, from, to);
@@ -211,7 +208,7 @@ function MonthGrid({
                 }
                 onPress={() => onSelect(date)}
                 className={cn(
-                  'gap-1 min-w-0 flex-1 border-b border-r border-line p-1 hover:bg-wash',
+                  'min-w-0 flex-1 gap-1 border-b border-r border-line p-1 hover:bg-wash',
                   compact ? 'min-h-14' : 'min-h-24',
                   date === week[0] && 'border-l',
                   isSelected && 'bg-accent-soft hover:bg-accent-soft',
@@ -234,7 +231,7 @@ function MonthGrid({
                 </View>
                 {compact ? (
                   // Celular: só pontinhos, a lista do dia fica embaixo
-                  <View className="gap-1 flex-row flex-wrap justify-center">
+                  <View className="flex-row flex-wrap justify-center gap-1">
                     {entries.slice(0, CELL_ITEMS).map((e) => (
                       <View
                         key={e.id}

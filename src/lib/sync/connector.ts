@@ -20,7 +20,7 @@ export const POWERSYNC_URL = envUrl?.startsWith('/')
 // aparelho (status, contagens, XP) é efeito de uma RPC da tabela `commands` e volta pelo sync.
 const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   folders: {
-    insert: ['name', 'parent_id', 'icon', 'color', 'position', 'kind'],
+    insert: ['name', 'parent_id', 'icon', 'color', 'position', 'kind', 'gym_group'],
     update: [
       'name',
       'icon',

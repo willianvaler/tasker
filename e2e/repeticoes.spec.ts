@@ -71,6 +71,10 @@ test('repetições: no card, "0/2" conta a série; "x8" vira contador', async ({
   await page.getByRole('checkbox', { name: 'Supino', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Mais uma em Supino (1 de 2)' })).toBeVisible();
 
+  // O descanso da série do Supino fica flutuando por cima do painel no celular: pula
+  await page.getByRole('timer').getByRole('button', { name: 'Pular' }).click();
+  await expect(page.getByRole('timer')).toHaveCount(0);
+
   // Contador: o plano muda no painel
   await input.fill('Beber água x8');
   await input.press('Enter');
