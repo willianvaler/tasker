@@ -136,6 +136,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | Z1 | Segurança do servidor no PC: portão do `/supabase` e segredos próprios do Supabase local (`docs/OPERACOES.md`, "Segurança") | D175 |
 | V5 | Z2 | Treino fecha sozinho com aviso de resumo; aviso preto fecha em 10 s sem reabrir | D176 |
 | V5 | Z3 | Scripts para levar o app a um servidor com Linux Mint: empacotar e instalar (D177, `docs/SERVIDOR.md`) | D177 |
+| V5 | Z5 | Segurança da web (V5 §3): CSP só relatando, testada para valer sem violação, e CORS do `/supabase` e `/powersync` só para o próprio endereço (19/10, D212) | D212 |
 | V5 | Z4 | Ambientes: alpha no servidor (segue a main), produção por tag (`npm run promover`) e lab no PC (`npm run lab`) (D178, `docs/AMBIENTES.md`) | D178 |
 | V5 | W1 | Esqueci minha senha e olhinho na senha | D165 |
 | V5 | W2 | Bloco Projetos fixo com "+", configurações de projetos (Times sai do jogo) | D166 |

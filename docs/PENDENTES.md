@@ -21,7 +21,6 @@ Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | **V5** | §1.2 | App para relógio Wear OS (companheiro do celular, em Kotlin) | pendente | estimar antes |
 | V5 | §1.1 | Tela de bloqueio: botões com o app encerrado e atualizações ao vivo do Android 16 | depois | — |
 | V5 | §2 | Usabilidade: medir toques e tempo, teste com 3 a 5 pessoas | parcial | dono |
-| V5 | §3 | Segurança: CSP (começando só com relatório) e revisão do CORS do `/supabase` | parcial | — |
 | V5 | §4 | LGPD: termos de uso, registro do consentimento, contato do DPO, retenção, pedidos do titular, plano de incidente, terceiros, idade mínima | pendente | — |
 | V5 | §5 | E-mails: provedor, SPF/DKIM/DMARC, SMTP; modelos em 3 idiomas; preferências e descadastro | **bloqueado** | provedor (dono) |
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias, troca de e-mail, lixeira para anotações e anexos | pendente | carência (dono), e-mail |

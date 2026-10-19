@@ -20,6 +20,8 @@ O túnel só expõe a porta 8081 (`tasker-web`). O resto (Postgres 54322, Studio
 
 **Portão do `/supabase`** (`scripts/supabase-gate.mjs`, usado pelo `serve.mjs`): só passam auth, rest, realtime e storage (nunca `/auth/v1/admin`, `/pg`, `/functions`...); `apikey` só a publicável; `Authorization: Bearer` só a publicável ou um login ES256 assinado por uma chave do JWKS do Auth local, com papel `authenticated`/`anon` e dentro da validade. Recusas aparecem no log: `journalctl --user -u tasker-web | grep Recusado`.
 
+**CSP e CORS (D212).** As páginas saem com `Content-Security-Policy-Report-Only` (a política está no `serve.mjs`): só o próprio endereço, WASM e workers do sync, estilos embutidos. As violações chegam em `/csp-report` e vão para o log (`journalctl --user -u tasker-web | grep CSP`). Testada para valer com o build de produção: nenhuma violação. Depois de alguns dias sem nada no log, ligue o bloqueio com `CSP_ENFORCE=1` no serviço (`systemctl --user edit tasker-web`, `Environment=CSP_ENFORCE=1`, e reinicie). O CORS do `/supabase` e do `/powersync` só libera o próprio endereço: outra origem fica sem os cabeçalhos `Access-Control-*`, o preflight dela recebe 403 e o websocket dela é derrubado; o app do celular não manda `Origin` e passa normalmente.
+
 **Segredos próprios desta máquina.** A chave secreta, o segredo de JWT e a chave de assinatura padrão do CLI são públicos (estão na documentação do Supabase). Por isso esta máquina usa os seus, fora do git:
 
 - `supabase/.env.local`: `SUPABASE_AUTH_JWT_SECRET`, `SUPABASE_AUTH_SECRET_KEY` (`sb_secret_...`) e `SUPABASE_AUTH_SIGNING_KEYS_PATH=./signing_keys.json`;

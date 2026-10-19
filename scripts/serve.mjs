@@ -52,6 +52,7 @@ function serveFile(req, res) {
   const hashed = /\/_expo\/|\/assets\//.test(path);
   res.writeHead(200, {
     ...securityHeaders(req),
+    ...(extname(file) === '.html' && { [CSP_HEADER]: CSP }),
     'Content-Type': TYPES[extname(file)] ?? 'application/octet-stream',
     'Cache-Control': hashed ? 'public, max-age=31536000, immutable' : 'no-cache',
   });
@@ -74,6 +75,72 @@ function securityHeaders(req) {
     'Permissions-Policy': 'camera=(self), microphone=(), geolocation=(), payment=()',
     ...(viaHttps(req) && { 'Strict-Transport-Security': 'max-age=15552000' }),
   };
+}
+
+// CSP (V5 §3, D212). Começou só relatando (Report-Only): as violações chegam em /csp-report e vão
+// para o log do serviço. CSP_ENFORCE=1 passa a bloquear. O app só fala com o próprio endereço
+// (/supabase, /powersync); o SQLite do sync roda em WASM num worker; o react-native-web põe estilos
+// embutidos (por isso o 'unsafe-inline' só em style-src).
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'wasm-unsafe-eval'",
+  "worker-src 'self' blob:",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "connect-src 'self'",
+  "media-src 'self' data: blob:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  'report-uri /csp-report',
+].join('; ');
+const CSP_HEADER =
+  process.env.CSP_ENFORCE === '1' ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+
+// Relatórios de violação: uma linha no log por relatório, no máximo 60 por minuto
+let reports = { minute: 0, count: 0 };
+function cspReport(req, res) {
+  let body = '';
+  req.on('data', (chunk) => {
+    body += chunk;
+    if (body.length > 8192) req.destroy();
+  });
+  req.on('end', () => {
+    res.writeHead(204).end();
+    const minute = Math.floor(Date.now() / 60_000);
+    if (reports.minute !== minute) reports = { minute, count: 0 };
+    if (++reports.count > 60) return;
+    try {
+      const r = JSON.parse(body)['csp-report'] ?? {};
+      const page = (r['document-uri'] ?? '').replace(/^https?:\/\/[^/]+/, '').split('?')[0];
+      console.warn(`CSP: ${r['violated-directive']} bloquearia ${r['blocked-uri']} em ${page}`);
+    } catch {
+      // relatório malformado: ignora
+    }
+  });
+}
+
+/**
+ * CORS do /supabase e do /powersync (V5 §3, D212): o app web é do mesmo endereço e o do celular
+ * não manda Origin, então só o próprio endereço recebe permissão de CORS. Outra origem fica sem
+ * os cabeçalhos Access-Control-* (o navegador barra a leitura) e o preflight dela é recusado.
+ */
+function sameOrigin(req) {
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try {
+    return new URL(origin).host === req.headers.host;
+  } catch {
+    return false;
+  }
+}
+function corsHeaders(req, headers) {
+  if (sameOrigin(req)) return headers;
+  return Object.fromEntries(
+    Object.entries(headers).filter(([k]) => !k.toLowerCase().startsWith('access-control-')),
+  );
 }
 
 /** /downloads/questlist.apk e /downloads/apk.json (ou 404, sem cair no index.html) */
@@ -150,7 +217,7 @@ function proxy(target, req, res) {
       headers: { ...req.headers, host: `${target.host}:${target.port}` },
     },
     (up) => {
-      res.writeHead(up.statusCode ?? 502, up.headers);
+      res.writeHead(up.statusCode ?? 502, corsHeaders(req, up.headers));
       up.pipe(res);
     },
   );
@@ -181,6 +248,11 @@ const server = http.createServer((req, res) => {
     return res.end();
   }
   const target = upstreamFor(req.url);
+  if (target && req.method === 'OPTIONS' && !sameOrigin(req)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end('Origem não permitida');
+  }
+  if (req.url === '/csp-report' && req.method === 'POST') return cspReport(req, res);
   if (target)
     guarded(target, req).then((denied) => {
       if (!denied) return proxy(target, req, res);
@@ -195,7 +267,8 @@ const server = http.createServer((req, res) => {
 // Websocket (Realtime, sync): repassa o pedido de upgrade e depois só copia os bytes
 server.on('upgrade', async (req, socket, head) => {
   const target = upstreamFor(req.url);
-  if (!target || (await guarded(target, req))) return socket.destroy();
+  // Websocket de outra origem (sequestro de sessão pelo navegador): recusa
+  if (!target || !sameOrigin(req) || (await guarded(target, req))) return socket.destroy();
   const upstream = net.connect(target.port, target.host, () => {
     const headers = Object.entries({ ...req.headers, host: `${target.host}:${target.port}` })
       .map(([k, v]) => `${k}: ${v}`)

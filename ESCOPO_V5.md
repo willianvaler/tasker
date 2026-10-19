@@ -32,7 +32,7 @@ Origem: anotações do dono em 15/10/2026 (o modo jogo, seção 7, em 18/10/2026
 - Medir: tempo e número de toques das tarefas principais antes e depois.
 - Testar com 3 a 5 pessoas usando o app de verdade (o dono e quem treina com ele), observando sem ajudar.
 
-## 3. Segurança: HTTPS e certificados — ✅ done em parte (W9; portão do `/supabase` e segredos próprios, D175; servidor próprio com firewall, D177 e D178). Faltam a CSP e a revisão de CORS
+## 3. Segurança: HTTPS e certificados — ✅ done em parte (W9; portão do `/supabase` e segredos próprios, D175; servidor próprio com firewall, D177 e D178). CSP (só relatando, pronta para bloquear) e CORS restrito ao próprio endereço em 19/10 (D212)
 
 - **Avaliação (15/10/2026):** o endereço público passa pela Cloudflare (túnel `cloudflared`), com certificado Let's Encrypt renovado sozinho (válido até jan/2027), TLS 1.3, HTTP/2 e HTTP/3; TLS 1.1 é recusado. Do túnel até o servidor, o tráfego vai cifrado pelo próprio túnel.
 - **Problemas achados:** `http://` respondia sem mandar para `https://`; faltavam HSTS e cabeçalhos de segurança. Corrigidos no servidor do app (W9). No painel da Cloudflare, o dono deve ligar também "Always Use HTTPS" e "TLS mínimo 1.2".

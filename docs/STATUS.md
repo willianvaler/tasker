@@ -156,6 +156,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **Z1** Segurança do servidor no PC (D175): portão do `/supabase` e segredos próprios do Supabase local (`docs/OPERACOES.md`, "Segurança")
 - [x] **Z2** Treino fecha sozinho com aviso de resumo; aviso preto fecha em 10 s sem reabrir (D176)
 - [x] **Z3** Scripts para levar o app a um servidor com Linux Mint: empacotar e instalar (D177, `docs/SERVIDOR.md`)
+- [x] **Z5** Segurança da web (V5 §3): CSP só relatando, testada para valer sem violação, e CORS do `/supabase` e `/powersync` só para o próprio endereço (19/10, D212)
 - [x] **Z4** Ambientes: alpha no servidor (segue a main), produção por tag (`npm run promover`) e lab no PC (`npm run lab`) (D178, `docs/AMBIENTES.md`)
 
 ## Fase W — Correções do dono (15/10, noite)
