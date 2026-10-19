@@ -3,7 +3,7 @@
 | Ambiente | Onde | Endereço | Versão | Dados |
 |---|---|---|---|---|
 | **Produção** | Servidor, `~/projects/task_tracking` | https://tasker.wavdev.org | Uma tag `vAAAA.MM.DD` | Os de verdade |
-| **Alpha** (pré-produção) | Servidor, `~/projects/task_tracking-alpha` | https://alpha.tasker.wavdev.org | A última `main` (atualiza sozinho a cada 5 min) | Cópia da produção, quando você pedir |
+| **Alpha** (pré-produção) | Servidor, `~/projects/task_tracking-alpha` | https://alpha-questlist.wavdev.org | A última `main` (atualiza sozinho a cada 5 min) | Cópia da produção, quando você pedir |
 | **Desenvolvimento** | PC, `~/projects/task_tracking` | http://localhost:8082 | O que está sendo feito | Banco local de testes |
 | **Lab** (experimental) | PC, `~/projects/task_tracking-lab` (branch `lab`) | http://localhost:8083 | O que você quiser testar | Banco próprio, mínimo |
 
@@ -20,7 +20,7 @@ Cada pasta diz qual ambiente ela é em dois arquivos fora do git: `.ambiente.loc
 
 1. Desenvolve no PC e faz `git push` na `main`.
 2. Em até 5 minutos, o alpha atualiza sozinho (`tasker-alpha-atualizar.timer` → `scripts/servidor/atualizar.sh`): baixa a `main`, instala dependências se mudaram, aplica as migrações no banco do alpha e publica. Se o Telegram estiver configurado no servidor, avisa.
-3. Testa em https://alpha.tasker.wavdev.org.
+3. Testa em https://alpha-questlist.wavdev.org.
 4. Aprovado? No PC: `npm run promover`. Ele mostra o que muda (commits e migrações), pede confirmação, cria a tag do dia no commit que está **no alpha** e atualiza a produção.
 
 Voltar a produção para uma versão anterior: no servidor, `cd ~/projects/task_tracking && bash scripts/servidor/atualizar.sh vAAAA.MM.DD`. Cuidado: uma migração que já rodou não é desfeita.
@@ -28,10 +28,11 @@ Voltar a produção para uma versão anterior: no servidor, `cd ~/projects/task_
 ## Alpha
 
 - Criar (uma vez, no servidor): `bash ~/projects/task_tracking/scripts/servidor/criar-alpha.sh` (com cópia da produção) ou `--vazio`.
-- Rota no painel da Cloudflare (uma vez): Zero Trust → Networks → Tunnels → túnel do tasker → Public Hostnames → Add: subdomínio `alpha`, domínio `wavdev.org`, tipo HTTP, URL `localhost:8091`.
+- Rota no painel da Cloudflare (uma vez): Zero Trust → Networks → Tunnels → túnel do tasker → Public Hostnames → Add: subdomínio `alpha-questlist`, domínio `wavdev.org`, tipo HTTP, URL `localhost:8091`.
 - Recopiar os dados da produção: `cd ~/projects/task_tracking-alpha && bash scripts/servidor/alpha-copiar-producao.sh`. Apaga os dados do alpha. Copia com a produção rodando e só a pausa para acertar a diferença, alguns segundos (os pedidos esperam e seguem; a primeira cópia, de 17/10, ainda sem isso, pausou 59 s). No alpha, todos entram de novo, com o mesmo e-mail e senha; o alpha nunca manda push.
 - Segredos próprios: um login do alpha não vale na produção, e vice-versa.
-- Sem Studio, funções e logs, para economizar memória no servidor.
+- Sem Studio e logs, para economizar memória no servidor. As funções sobem (leitura de foto, D219): a chave do Gemini vai em `supabase/functions/.env` do alpha, e o `systemctl --user restart tasker-alpha-db` aplica.
+- Endereço com um nível só (`alpha-questlist`, não `alpha.questlist`): o certificado gratuito da Cloudflare cobre só `*.wavdev.org`. A produção responde por `tasker.wavdev.org` e por `questlist.wavdev.org` (mesma rota, porta 8081).
 - Logs: `journalctl --user -u tasker-alpha-web` (ou `-db`, `-powersync`, `-atualizar`).
 
 ## Lab (PC)

@@ -51,7 +51,7 @@ done
 trap - EXIT
 
 passo "Subindo o banco do alpha"
-npx supabase start -x studio,edge-runtime,vector,logflare >/dev/null
+npx supabase start -x studio,vector,logflare >/dev/null
 
 passo "Limpando o que não vale no alpha"
 KEY=$(npx supabase status -o env 2>/dev/null | sed -n 's/^SERVICE_ROLE_KEY="\(.*\)"$/\1/p')

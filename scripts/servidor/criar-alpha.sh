@@ -8,7 +8,7 @@
 # O alpha fica em ~/projects/task_tracking-alpha (clone próprio do GitHub, segue a main), com
 # Supabase próprio (projeto task_tracking_alpha, portas 544xx, segredos próprios), PowerSync na
 # 8096, web na 8091 e os serviços tasker-alpha-*. Um timer atualiza a cada 5 min com a main.
-# Endereço: https://alpha.tasker.wavdev.org (falta criar a rota no painel da Cloudflare; o script
+# Endereço: https://alpha-questlist.wavdev.org (falta criar a rota no painel da Cloudflare; o script
 # explica no fim). Pode rodar de novo: não recria o que já existe.
 set -euo pipefail
 
@@ -54,7 +54,7 @@ AMBIENTE=alpha
 SERVICO=tasker-alpha
 WEB_PORT=8091
 POWERSYNC_PORT=8096
-WEB_URL=https://alpha.tasker.wavdev.org
+WEB_URL=https://alpha-questlist.wavdev.org
 EOF
 fi
 # Chave publicável do app (a padrão do CLI, pública de propósito)
@@ -80,10 +80,10 @@ SUPABASE_DB_POOLER_PORT=54429
 SUPABASE_STUDIO_PORT=54423
 SUPABASE_LOCAL_SMTP_PORT=54424
 SUPABASE_ANALYTICS_PORT=54427
-SUPABASE_AUTH_SITE_URL=https://alpha.tasker.wavdev.org
-SUPABASE_AUTH_EXTERNAL_URL=https://alpha.tasker.wavdev.org/supabase/auth/v1
-SUPABASE_AUTH_JWT_ISSUER=https://alpha.tasker.wavdev.org/supabase/auth/v1
-SUPABASE_AUTH_ADDITIONAL_REDIRECT_URLS=https://alpha.tasker.wavdev.org,https://alpha.tasker.wavdev.org/**,questlist://
+SUPABASE_AUTH_SITE_URL=https://alpha-questlist.wavdev.org
+SUPABASE_AUTH_EXTERNAL_URL=https://alpha-questlist.wavdev.org/supabase/auth/v1
+SUPABASE_AUTH_JWT_ISSUER=https://alpha-questlist.wavdev.org/supabase/auth/v1
+SUPABASE_AUTH_ADDITIONAL_REDIRECT_URLS=https://alpha-questlist.wavdev.org,https://alpha-questlist.wavdev.org/**,questlist://
 SUPABASE_AUTH_JWT_SECRET=$(python3 -c 'import secrets; print(secrets.token_hex(32))')
 SUPABASE_AUTH_SECRET_KEY=sb_secret_$(python3 -c 'import secrets; print(secrets.token_urlsafe(24))')
 SUPABASE_AUTH_SIGNING_KEYS_PATH=./signing_keys.json
@@ -105,8 +105,8 @@ RemainAfterExit=yes
 WorkingDirectory=$ALPHA
 Environment=PATH=/usr/local/bin:/usr/bin:/bin
 ExecStartPre=/bin/sh -c 'for i in \$(seq 60); do docker info >/dev/null 2>&1 && exit 0; sleep 2; done; exit 1'
-# Sem Studio, funções e logs: o alpha economiza memória (a produção continua completa)
-ExecStart=$RUN npx supabase start -x studio,edge-runtime,vector,logflare
+# Sem Studio e logs: o alpha economiza memória. As funções sobem (leitura de foto, D219)
+ExecStart=$RUN npx supabase start -x studio,vector,logflare
 ExecStop=$RUN npx supabase stop
 TimeoutStartSec=900
 
@@ -183,12 +183,12 @@ systemctl --user restart tasker-alpha-web tasker-alpha-powersync
 
 passo "Túnel"
 CONFIG=$HOME/.cloudflared/config.yml
-if [ -f "$CONFIG" ] && ! grep -q 'alpha.tasker.wavdev.org' "$CONFIG"; then
+if [ -f "$CONFIG" ] && ! grep -q 'alpha-questlist.wavdev.org' "$CONFIG"; then
   python3 - "$CONFIG" <<'EOF'
 import sys
 p = sys.argv[1]
 s = open(p).read()
-s = s.replace("  - service: http_status:404", "  - hostname: alpha.tasker.wavdev.org\n    service: http://localhost:8091\n  - service: http_status:404")
+s = s.replace("  - service: http_status:404", "  - hostname: alpha-questlist.wavdev.org\n    service: http://localhost:8091\n  - service: http_status:404")
 open(p, "w").write(s)
 EOF
   systemctl --user restart tasker-tunnel
@@ -199,8 +199,8 @@ for _ in $(seq 30); do curl -sf -o /dev/null http://127.0.0.1:8091/ && break; sl
 curl -sf -o /dev/null http://127.0.0.1:8091/supabase/auth/v1/.well-known/jwks.json && echo "  ok  alpha em http://127.0.0.1:8091" || echo "  FALHOU  (journalctl --user -u tasker-alpha-web)"
 for _ in $(seq 60); do curl -sf -o /dev/null http://127.0.0.1:8096/probes/liveness && break; sleep 2; done
 curl -sf -o /dev/null http://127.0.0.1:8096/probes/liveness && echo "  ok  PowerSync do alpha" || echo "  FALHOU  (journalctl --user -u tasker-alpha-powersync)"
-if curl -sf -o /dev/null https://alpha.tasker.wavdev.org/; then
-  echo "  ok  https://alpha.tasker.wavdev.org"
+if curl -sf -o /dev/null https://alpha-questlist.wavdev.org/; then
+  echo "  ok  https://alpha-questlist.wavdev.org"
 else
   cat <<'EOF'
 
