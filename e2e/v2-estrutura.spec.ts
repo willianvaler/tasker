@@ -118,6 +118,15 @@ test('atalhos de lista: prioridade, concluir, apagar e desfazer, navegar', async
   await page.keyboard.press('Control+z');
   await undone;
   await expect(page.getByRole('checkbox', { name: 'Concluir Lavar louça' })).toBeVisible();
+  // Shift+Z refaz (conclui de novo) e Ctrl+Z desfaz outra vez
+  const redone = page.waitForResponse((r) => isRpc(r, 'complete_task'));
+  await page.keyboard.press('Shift+Z');
+  await redone;
+  await expect(page.getByRole('checkbox', { name: 'Concluir Lavar louça' })).toHaveCount(0);
+  const undoneAgain = page.waitForResponse((r) => isRpc(r, 'uncomplete_task'));
+  await page.keyboard.press('Control+z');
+  await undoneAgain;
+  await expect(page.getByRole('checkbox', { name: 'Concluir Lavar louça' })).toBeVisible();
 
   // Delete apaga (some na hora) e Ctrl+Z traz de volta
   await page.keyboard.press('j');
@@ -275,4 +284,28 @@ test('aceite da Fase C: pasta, página, 10 tarefas em lote, F2 e ícone sem mous
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Treino de peito' })).toBeVisible();
   await expect(page.getByText('Exercício 1', { exact: true })).toBeVisible();
+});
+
+test('trocar um atalho na Ajuda vale na hora e volta ao de fábrica', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Atalhos de teclado são do computador');
+  await signUp(page, testInfo);
+  await page.goto('/ajuda');
+  await page
+    .getByRole('button', { name: 'Trocar a tecla de "Ir para a Caixa de entrada"' })
+    .click();
+  await expect(page.getByText('Aperte a nova tecla (Esc cancela)')).toBeVisible();
+  // Tecla já usada por outro atalho global: avisa e não troca
+  await page.keyboard.press('q');
+  await expect(page.getByText(/já é de/)).toBeVisible();
+  await page.keyboard.press('Alt+i');
+  await expect(page.getByText('Aperte a nova tecla (Esc cancela)')).toHaveCount(0);
+  await page.locator('body').click({ position: { x: 5, y: 500 } });
+  await page.keyboard.press('Alt+i');
+  await expect(page.getByRole('heading', { name: 'Caixa de entrada' })).toBeVisible();
+  // De volta ao de fábrica (G I)
+  await page.goto('/ajuda');
+  await page.getByRole('button', { name: 'Voltar todos os atalhos ao padrão' }).click();
+  await expect(page.getByRole('button', { name: 'Voltar todos os atalhos ao padrão' })).toHaveCount(
+    0,
+  );
 });

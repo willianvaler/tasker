@@ -120,9 +120,13 @@ export function useRepWithToast() {
   const game = useGameState();
   const { t } = useTranslation();
 
-  return (task: Task, plan: RepeatPlan, reps: number, delta: 1 | -1) => {
+  const run = (task: Task, plan: RepeatPlan, reps: number, delta: 1 | -1) => {
     const { next, result } = logSet(task, plan, reps, delta);
-    const action = { label: t('common.undo'), onPress: () => undo(task, plan, next) };
+    const action = {
+      label: t('common.undo'),
+      onPress: () => undo(task, plan, next),
+      redo: () => run(task, plan, reps, delta),
+    };
     const message = t('repeat.logged', { title: task.title, done: next, total: plan.total });
     const key = `rep:${task.id}`;
     if (delta === 1) toast({ message, action, key });
@@ -136,6 +140,7 @@ export function useRepWithToast() {
       (err: Error) => toast({ message: err.message }),
     );
   };
+  return run;
 }
 
 /** Descanso desta tarefa em contagem grande, com −30/+30 e Pular (painel). */

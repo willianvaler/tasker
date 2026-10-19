@@ -15,7 +15,10 @@ export function useSnooze() {
   const update = useUpdateTask();
   const toast = useToast();
   const today = useToday();
-  return (task: Pick<Task, 'id' | 'title' | 'due_date'>, target: SnoozeTarget = 'tomorrow') => {
+  const run = (
+    task: Pick<Task, 'id' | 'title' | 'due_date'>,
+    target: SnoozeTarget = 'tomorrow',
+  ) => {
     const before = task.due_date;
     const date = snoozeDate(target, today);
     update.mutate({ id: task.id, patch: { due_date: date } });
@@ -24,9 +27,11 @@ export function useSnooze() {
       action: {
         label: t('common.undo'),
         onPress: () => update.mutate({ id: task.id, patch: { due_date: before } }),
+        redo: () => run(task, target),
       },
     });
   };
+  return run;
 }
 
 /** Botão da linha: só para o que vence hoje ou já venceu. */

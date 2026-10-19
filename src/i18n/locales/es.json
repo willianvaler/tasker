@@ -42,6 +42,7 @@
     "taskDelete": "Eliminar la tarea (con deshacer)",
     "taskDuplicate": "Duplicar la tarea",
     "appUndo": "Deshacer la última acción",
+    "appRedo": "Rehacer lo que se deshizo",
     "appSidebar": "Mostrar u ocultar la barra lateral",
     "goToday": "Ir a Hoy",
     "goInbox": "Ir a la Bandeja de entrada",
@@ -992,7 +993,12 @@
     "all": "Todos los artículos",
     "contextual": "Ayuda sobre esta pantalla",
     "tour": "Repetir la introducción",
-    "tourHint": "Los 3 pasos del inicio: escribir rápido, organizar y el juego."
+    "tourHint": "Los 3 pasos del inicio: escribir rápido, organizar y el juego.",
+    "remap": "Cambiar la tecla de \"{{name}}\"",
+    "remapReset": "Volver a la tecla original de \"{{name}}\"",
+    "remapPress": "Pulsa la nueva tecla (Esc cancela)",
+    "remapConflict": "{{keys}} ya es de \"{{other}}\". Elige otra.",
+    "remapResetAll": "Volver todos los atajos al original"
   },
   "sync": {
     "title": "Sincronización",

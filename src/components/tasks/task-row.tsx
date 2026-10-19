@@ -54,7 +54,7 @@ export function useToggleWithUndo() {
   const today = useToday();
   const game = useGameState();
   const { t } = useTranslation();
-  return (task: Task, done: boolean) => {
+  const run = (task: Task, done: boolean) => {
     const page = tree.data?.pages.find((p) => p.id === task.page_id);
     const nextDue = done ? advanceOnComplete(task, page, today) : null;
     if (done && Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -68,6 +68,8 @@ export function useToggleWithUndo() {
     const undo = {
       label: t('common.undo'),
       onPress: () => toggle.mutate({ id: task.id, done: false }),
+      // Shift+Z: conclui de novo (a recompensa volta pelo servidor)
+      redo: () => run(task, true),
     };
     const key = `done:${task.id}`;
     toast({ message, action: undo, key });
@@ -81,6 +83,7 @@ export function useToggleWithUndo() {
       () => {},
     );
   };
+  return run;
 }
 
 function TaskRowView({

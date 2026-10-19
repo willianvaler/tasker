@@ -27,7 +27,7 @@ import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import { readRepeatPlan } from '@/lib/repeat';
 import { useShortcut } from '@/lib/use-shortcut';
-import { undoLast, useToast } from '@/providers/toast';
+import { redoLast, undoLast, useToast } from '@/providers/toast';
 
 const DELETE_DELAY_MS = 5000;
 
@@ -258,30 +258,30 @@ export function ListKeys() {
     }),
   );
 
-  useShortcut(
-    'task.delete',
-    onSelected((task) => {
-      selection.move(1);
-      if (selection.get().selectedId === task.id) selection.select(null);
-      pendingDeletes.add(task.id);
-      queryClient.setQueriesData({ queryKey: keys.tasks }, withoutPending);
-      const timer = setTimeout(
-        () => remove.mutate(task.id, { onSettled: () => pendingDeletes.delete(task.id) }),
-        DELETE_DELAY_MS,
-      );
-      toast({
-        message: t('task.deleted', { title: task.title }),
-        action: {
-          label: t('common.undo'),
-          onPress: () => {
-            clearTimeout(timer);
-            pendingDeletes.delete(task.id);
-            queryClient.invalidateQueries({ queryKey: keys.tasks });
-          },
+  // Apagar com "Desfazer" (o envio espera o prazo do aviso); o Shift+Z apaga de novo
+  const deleteWithUndo = (task: Task) => {
+    if (selection.get().selectedId === task.id) selection.move(1);
+    if (selection.get().selectedId === task.id) selection.select(null);
+    pendingDeletes.add(task.id);
+    queryClient.setQueriesData({ queryKey: keys.tasks }, withoutPending);
+    const timer = setTimeout(
+      () => remove.mutate(task.id, { onSettled: () => pendingDeletes.delete(task.id) }),
+      DELETE_DELAY_MS,
+    );
+    toast({
+      message: t('task.deleted', { title: task.title }),
+      action: {
+        label: t('common.undo'),
+        onPress: () => {
+          clearTimeout(timer);
+          pendingDeletes.delete(task.id);
+          queryClient.invalidateQueries({ queryKey: keys.tasks });
         },
-      });
-    }),
-  );
+        redo: () => deleteWithUndo(task),
+      },
+    });
+  };
+  useShortcut('task.delete', onSelected(deleteWithUndo));
 
   useShortcut(
     'task.duplicate',
@@ -315,6 +315,11 @@ export function ListKeys() {
     const el = typeof document !== 'undefined' ? document.activeElement : null;
     if (el && ['INPUT', 'TEXTAREA'].includes(el.tagName)) return false;
     return undoLast();
+  });
+  useShortcut('app.redo', () => {
+    const el = typeof document !== 'undefined' ? document.activeElement : null;
+    if (el && ['INPUT', 'TEXTAREA'].includes(el.tagName)) return false;
+    return redoLast();
   });
   useShortcut('app.sidebar', () => toggleSidebar());
   useShortcut('help.open', () => router.navigate('/ajuda'));

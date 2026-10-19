@@ -1,9 +1,10 @@
 import { useEffect, useEffectEvent } from 'react';
 import { Platform } from 'react-native';
 
-import { allowedWhileTyping, findShortcut, matchesCombo, type ShortcutId } from './shortcuts';
+import { getShortcutOverrides } from './prefs';
+import { allowedWhileTyping, effectiveCombos, matchesCombo, type ShortcutId } from './shortcuts';
 
-const isMac =
+export const isMac =
   Platform.OS === 'web' &&
   typeof navigator !== 'undefined' &&
   /Mac|iPhone|iPad/.test(navigator.userAgent);
@@ -29,6 +30,12 @@ function onControl(target: EventTarget | null, event: KeyboardEvent) {
     role === 'menuitem' ||
     role === 'switch'
   );
+}
+
+// Enquanto a Ajuda grava uma tecla nova para um atalho (C6), nenhum atalho dispara
+let recording = false;
+export function setShortcutRecording(on: boolean) {
+  recording = on;
 }
 
 // Sequências ("g h"): a primeira tecla fica guardada por 1 segundo
@@ -65,8 +72,10 @@ export function useShortcut(id: ShortcutId, onTrigger: () => void | boolean, ena
   const trigger = useEffectEvent(onTrigger);
   useEffect(() => {
     if (Platform.OS !== 'web' || !enabled) return;
-    const { combos } = findShortcut(id);
     const onKeyDown = (event: KeyboardEvent) => {
+      if (recording) return;
+      // Lido a cada tecla: a troca feita na Ajuda vale na hora, sem recarregar
+      const combos = effectiveCombos(id, getShortcutOverrides());
       const typing = isTyping(event.target);
       if (onControl(event.target, event)) return;
       const hit = combos.some(

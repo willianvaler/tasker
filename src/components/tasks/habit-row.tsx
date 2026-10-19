@@ -76,7 +76,7 @@ export function useHabitTickWithToast() {
   const toast = useToast();
   const game = useGameState();
   const { t } = useTranslation();
-  return (task: Task, delta: 1 | -1) => {
+  const run = (task: Task, delta: 1 | -1) => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     const vars: HabitTickVars = { taskId: task.id, delta, id: uuidv7() };
     const plusminus = task.habit_kind === 'plusminus';
@@ -86,7 +86,7 @@ export function useHabitTickWithToast() {
         : `👎 ${task.title}`
       : `${task.title}: ${Math.max(0, Math.min(task.habit_target ?? 1, task.count_up + delta))}/${task.habit_target ?? 1}`;
     const action = plusminus
-      ? { label: t('common.undo'), onPress: () => undo.mutate(vars) }
+      ? { label: t('common.undo'), onPress: () => undo.mutate(vars), redo: () => run(task, delta) }
       : undefined;
     const key = `habit:${task.id}`;
     if (plusminus) toast({ message, action, key });
@@ -100,6 +100,7 @@ export function useHabitTickWithToast() {
       () => {},
     );
   };
+  return run;
 }
 
 /** Botão quadrado de + / − (44 px no celular, 32 no computador). */

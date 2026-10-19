@@ -4,9 +4,12 @@ import ptBR from '@/i18n/locales/pt-BR.json';
 
 import {
   allowedWhileTyping,
+  comboFromEvent,
+  effectiveCombos,
   formatCombo,
   matchesCombo,
   SHORTCUTS,
+  shortcutConflicts,
   type KeyLike,
 } from '../shortcuts';
 
@@ -90,4 +93,45 @@ test('letra com Alt/⌘ vale pela tecla física (no Mac, Option+N gera "˜")', (
   expect(matchesCombo('alt+n', key('˜', { altKey: true, code: 'KeyM' }), true)).toBe(false);
   // Sem modificador, vale o caractere (layouts diferentes do QWERTY)
   expect(matchesCombo('n', key('j', { code: 'KeyN' }), false)).toBe(false);
+});
+
+describe('trocar atalhos (C6)', () => {
+  test('a troca substitui as teclas de fábrica', () => {
+    expect(effectiveCombos('palette.open', {})).toEqual(['mod+k', '/']);
+    expect(effectiveCombos('palette.open', { 'palette.open': 'mod+p' })).toEqual(['mod+p']);
+  });
+
+  test('comboFromEvent grava no formato do registro', () => {
+    expect(comboFromEvent(key('k', { ctrlKey: true }), false)).toBe('mod+k');
+    expect(comboFromEvent(key('K', { metaKey: true, shiftKey: true, code: 'KeyK' }), true)).toBe(
+      'mod+shift+k',
+    );
+    expect(comboFromEvent(key('˜', { altKey: true, code: 'KeyN' }), true)).toBe('alt+n');
+    expect(comboFromEvent(key('?', { shiftKey: true }), false)).toBe('?');
+    expect(comboFromEvent(key('ArrowUp', { altKey: true }), false)).toBe('alt+arrowup');
+    expect(comboFromEvent(key('Shift', { shiftKey: true }), false)).toBeNull();
+    expect(comboFromEvent(key('Escape'), false)).toBeNull();
+  });
+
+  test('a combinação gravada dispara o atalho', () => {
+    const event = key('P', { ctrlKey: true, shiftKey: true, code: 'KeyP' });
+    const combo = comboFromEvent(event, false);
+    expect(combo).toBe('mod+shift+p');
+    expect(matchesCombo(combo ?? '', event, false)).toBe(true);
+  });
+
+  test('conflito: mesma área ou global', () => {
+    expect(shortcutConflicts('task.date', 'x', {}).map((s) => s.id)).toEqual(['task.toggle']);
+    // "q" é global (captura): briga com qualquer área
+    expect(shortcutConflicts('task.date', 'q', {}).map((s) => s.id)).toEqual(['capture.focus']);
+    // Áreas diferentes e nenhuma global: pode
+    expect(shortcutConflicts('new.task', 'd', {})).toEqual([]);
+    // Depois de trocado, a tecla antiga fica livre
+    expect(shortcutConflicts('task.date', 'x', { 'task.toggle': 'y' })).toEqual([]);
+  });
+});
+
+test('Shift+Z refaz e não briga com o Z de adiar', () => {
+  expect(matchesCombo('shift+z', key('Z', { shiftKey: true }), false)).toBe(true);
+  expect(matchesCombo('z', key('Z', { shiftKey: true }), false)).toBe(false);
 });

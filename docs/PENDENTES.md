@@ -12,7 +12,6 @@ Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V1 | PUBLICACAO | Receber push num aparelho de verdade | pendente | dono |
 | V1 | PUBLICACAO | Contas das lojas e do EAS, nome e ícone, domínio | pendente | dono |
 | **V2** | B3 | Aprovar os mockups (revisão nas capturas) | em andamento | dono |
-| V2 | C6 | Atalhos que faltam: →← (expandir/recolher), Shift+Z (refazer), remapear atalhos | parcial | — |
 | V2 | F3 | Texto das notificações push em en/es (hoje só em pt) | parcial | — |
 | V2 | D10 | Aceite do offline com o celular em modo avião (op-sqlite nunca rodou num aparelho) | parcial | development build |
 | V2 | D10 / D89 | Cortar a rede logo depois de criar uma tarefa a esconde até reconectar (janela de ~1 s) | pendência conhecida | — |

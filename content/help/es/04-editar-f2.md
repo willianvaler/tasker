@@ -12,5 +12,11 @@ Sin tarea seleccionada, **F2** renombra la página o carpeta abierta, y ahí mis
 - `M` — poner en Mi día
 - `S` — iniciar · `P` — pomodoro · `Shift+T` — cronómetro
 - `Supr` — borrar (con Deshacer)
+- `Ctrl+Z` — deshacer · `Shift+Z` — rehacer lo que se deshizo
+- `→` y `←` — abrir y cerrar las subtareas
 
 La lista completa está en **Atajos**, más abajo, o pulsa `?`.
+
+## Cambiar un atajo
+
+En el ordenador, en la tabla de **Atajos**, pulsa el lápiz junto al atajo y presiona la tecla nueva (Esc cancela). Si otra acción de la misma área ya usa esa tecla, la app avisa y no la cambia. El cambio vale al momento y queda en este dispositivo; la flecha circular vuelve a la tecla original.

@@ -42,6 +42,7 @@
     "taskDelete": "Delete the task (with undo)",
     "taskDuplicate": "Duplicate the task",
     "appUndo": "Undo the last action",
+    "appRedo": "Redo what was undone",
     "appSidebar": "Show or hide the sidebar",
     "goToday": "Go to Today",
     "goInbox": "Go to the Inbox",
@@ -992,7 +993,12 @@
     "all": "All articles",
     "contextual": "Help about this screen",
     "tour": "Replay the introduction",
-    "tourHint": "The 3 starting steps: quick typing, organizing and the game."
+    "tourHint": "The 3 starting steps: quick typing, organizing and the game.",
+    "remap": "Change the key for \"{{name}}\"",
+    "remapReset": "Restore the default key for \"{{name}}\"",
+    "remapPress": "Press the new key (Esc cancels)",
+    "remapConflict": "{{keys}} is already used by \"{{other}}\". Pick another.",
+    "remapResetAll": "Restore all shortcuts to default"
   },
   "sync": {
     "title": "Sync",

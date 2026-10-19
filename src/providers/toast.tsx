@@ -9,7 +9,8 @@ import { DURATION } from '@/lib/tokens';
 type Toast = {
   id: number;
   message: string;
-  action?: { label: string; onPress: () => void };
+  /** `redo`: refaz o que o "Desfazer" desfez (Shift+Z, C6); sem ele, não há o que refazer */
+  action?: { label: string; onPress: () => void; redo?: () => void };
   /** Identifica o aviso para uma atualização depois (ex.: a recompensa que chega do servidor) */
   key?: string;
   /**
@@ -28,10 +29,22 @@ export const TOAST_MS = 10_000;
 /** Ação do aviso na tela (o "Desfazer"), para o Ctrl+Z. */
 let visibleAction: (() => void) | null = null;
 
+/** O que o último "Desfazer" desfez, para o Shift+Z; vale enquanto o aviso valeria. */
+let redoAction: { run: () => void; until: number } | null = null;
+
 /** Roda o "Desfazer" do aviso que está na tela; devolve false se não há o que desfazer. */
 export function undoLast() {
   if (!visibleAction) return false;
   visibleAction();
+  return true;
+}
+
+/** Refaz o último "Desfazer" (que, refeito, volta a mostrar o aviso com "Desfazer"). */
+export function redoLast() {
+  if (!redoAction || Date.now() > redoAction.until) return false;
+  const { run } = redoAction;
+  redoAction = null;
+  run();
   return true;
 }
 
@@ -60,10 +73,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     const shown = { ...next, id };
     current.current = shown;
     setToast(shown);
+    if (next.action) redoAction = null;
     visibleAction = next.action
       ? () => {
           next.action?.onPress();
           visibleAction = null;
+          const redo = next.action?.redo;
+          redoAction = redo ? { run: redo, until: Date.now() + TOAST_MS } : null;
           if (current.current?.id === id) current.current = null;
           setToast((t) => (t?.id === id ? null : t));
         }
@@ -102,6 +118,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   accessibilityRole="button"
                   className="min-h-11 justify-center rounded px-3 md:min-h-8"
                   onPress={() => {
+                    // Pelo mesmo caminho do Ctrl+Z, para o Shift+Z poder refazer
+                    if (undoLast()) return;
                     toast.action?.onPress();
                     current.current = null;
                     setToast(null);

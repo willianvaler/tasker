@@ -170,6 +170,12 @@ export const SHORTCUTS = [
     scope: 'list',
   },
   { id: 'app.undo', combos: ['mod+z'], description: 'shortcuts.appUndo', scope: 'global' },
+  {
+    id: 'app.redo',
+    combos: ['shift+z', 'mod+shift+z', 'mod+y'],
+    description: 'shortcuts.appRedo',
+    scope: 'global',
+  },
   { id: 'app.sidebar', combos: ['mod+b'], description: 'shortcuts.appSidebar', scope: 'global' },
   { id: 'go.today', combos: ['g h'], description: 'shortcuts.goToday', scope: 'global' },
   { id: 'go.inbox', combos: ['g i'], description: 'shortcuts.goInbox', scope: 'global' },
@@ -195,6 +201,56 @@ export type ShortcutId = (typeof SHORTCUTS)[number]['id'];
 
 export function findShortcut(id: ShortcutId): Shortcut {
   return SHORTCUTS.find((s) => s.id === id) as Shortcut;
+}
+
+/** Atalhos trocados pela pessoa (C6): id → a combinação nova, que substitui as de fábrica. */
+export type ShortcutOverrides = Partial<Record<string, Combo>>;
+
+/** As combinações que valem para o atalho, já com a troca da pessoa. */
+export function effectiveCombos(id: string, overrides: ShortcutOverrides): readonly Combo[] {
+  const custom = overrides[id];
+  if (custom) return [custom];
+  return SHORTCUTS.find((s) => s.id === id)?.combos ?? [];
+}
+
+const BARE_KEYS = new Set(['control', 'meta', 'alt', 'shift', 'altgraph', 'capslock', 'dead']);
+
+/**
+ * A combinação de uma tecla apertada, no formato do registro (para gravar a troca). Só
+ * modificadores, ou uma tecla que não dá para usar sozinha (Esc é de fechar), devolvem null.
+ */
+export function comboFromEvent(event: KeyLike, isMac: boolean): Combo | null {
+  const raw = event.key.toLowerCase();
+  if (BARE_KEYS.has(raw)) return null;
+  const letter = /^Key([A-Z])$/.exec(event.code ?? '')?.[1]?.toLowerCase();
+  const digit = /^Digit([0-9])$/.exec(event.code ?? '')?.[1];
+  // Alt/⌥ muda o caractere no Mac ("˜"): vale a tecla física
+  const physical = letter ?? digit;
+  const key = (event.altKey || event.metaKey) && physical ? physical : raw;
+  const mods: string[] = [];
+  if (isMac ? event.metaKey : event.ctrlKey) mods.push('mod');
+  if (isMac && event.ctrlKey) mods.push('ctrl');
+  if (event.altKey) mods.push('alt');
+  // Shift só entra em letras e teclas nomeadas ("?" já é Shift+/)
+  if (event.shiftKey && (key.length > 1 || /[a-z0-9]/.test(key))) mods.push('shift');
+  if (key === 'escape' && mods.length === 0) return null;
+  return [...mods, key].join('+');
+}
+
+/** Outros atalhos que já usam a combinação e brigariam com ela (mesma área ou um deles global). */
+export function shortcutConflicts(
+  id: string,
+  combo: Combo,
+  overrides: ShortcutOverrides,
+): Shortcut[] {
+  const self = SHORTCUTS.find((s) => s.id === id);
+  if (!self) return [];
+  return SHORTCUTS.filter(
+    (s) =>
+      s.id !== id &&
+      (s.scope === self.scope || s.scope === 'global' || self.scope === 'global') &&
+      effectiveCombos(s.id, overrides).includes(combo),
+  );
 }
 
 /** O pedaço do KeyboardEvent que interessa (para testar sem DOM). */

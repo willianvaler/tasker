@@ -11,6 +11,7 @@ const LOCALE_KEY = 'questlist:locale';
 const RECENT_ICONS_KEY = 'questlist:recent-icons';
 const DEVICE_KEY = 'questlist:device';
 const GAME_SOUNDS_KEY = 'questlist:game-sounds';
+const SHORTCUTS_KEY = 'questlist:shortcuts';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -31,6 +32,49 @@ export function getGameSounds(): boolean {
 
 export function setGameSounds(on: boolean) {
   localStore.setItem(GAME_SOUNDS_KEY, on ? 'on' : 'off');
+}
+
+/** Atalhos trocados (C6): id → combinação. É do aparelho (cada teclado é um). */
+let shortcutCache: Record<string, string> | null = null;
+const shortcutListeners = new Set<() => void>();
+
+export function getShortcutOverrides(): Record<string, string> {
+  if (shortcutCache) return shortcutCache;
+  try {
+    const value: unknown = JSON.parse(localStore.getItem(SHORTCUTS_KEY) ?? '{}');
+    shortcutCache =
+      value && typeof value === 'object' && !Array.isArray(value)
+        ? Object.fromEntries(
+            Object.entries(value).filter(([, v]) => typeof v === 'string' && v.length > 0),
+          )
+        : {};
+  } catch {
+    shortcutCache = {};
+  }
+  return shortcutCache;
+}
+
+/** Troca (ou, com null, devolve ao de fábrica) a tecla de um atalho. */
+export function setShortcutOverride(id: string, combo: string | null) {
+  const next = { ...getShortcutOverrides() };
+  if (combo) next[id] = combo;
+  else delete next[id];
+  shortcutCache = next;
+  localStore.setItem(SHORTCUTS_KEY, JSON.stringify(next));
+  shortcutListeners.forEach((fn) => fn());
+}
+
+export function resetShortcutOverrides() {
+  shortcutCache = {};
+  localStore.setItem(SHORTCUTS_KEY, '{}');
+  shortcutListeners.forEach((fn) => fn());
+}
+
+export function subscribeShortcutOverrides(fn: () => void) {
+  shortcutListeners.add(fn);
+  return () => {
+    shortcutListeners.delete(fn);
+  };
 }
 
 /** Idioma escolhido no aparelho ('system' = o do aparelho). */
