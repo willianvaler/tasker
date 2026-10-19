@@ -7,6 +7,10 @@ import { Button } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { Chip } from '@/components/ui/chip';
+import { ToggleRow } from '@/components/ui/toggle-row';
+import { getGameSounds, setGameSounds } from '@/lib/prefs';
+import { useSetGamePref } from '@/lib/queries/game-mode';
+import { useState } from 'react';
 import { achievementText } from '@/lib/achievements';
 import { cn } from '@/lib/cn';
 import { useGameLevel, useGameState, useSetGameLevel, type GameLevel } from '@/lib/queries/game';
@@ -47,6 +51,7 @@ export function GameProfile() {
         </View>
         <Text className="text-sm text-ink-muted">{t(`gameProfile.levelHints.${level}`)}</Text>
       </View>
+      {level === 'full' && <FullModeToggles vocab={game.vocab} />}
 
       {game.enabled && (
         <>
@@ -162,5 +167,33 @@ function Stat({ value, label }: { value: number; label: string }) {
     <Text className="font-mono text-xs text-ink-muted">
       <Text className="font-mono text-xs text-ink">{value}</Text> {label}
     </Text>
+  );
+}
+
+/** Modo Completo: vocabulário de jogo (no servidor) e sons (no aparelho). */
+function FullModeToggles({ vocab }: { vocab: boolean }) {
+  const { t } = useTranslation();
+  const online = useIsOnline();
+  const pref = useSetGamePref();
+  const [sounds, setSounds] = useState(getGameSounds);
+  return (
+    <View className="gap-2">
+      <ToggleRow
+        title={t('game.vocab')}
+        hint={t('game.vocabHint')}
+        value={vocab}
+        disabled={!online}
+        onChange={(value) => pref.mutate({ game_vocab: value })}
+      />
+      <ToggleRow
+        title={t('gameProfile.sounds')}
+        hint={t('gameProfile.soundsHint')}
+        value={sounds}
+        onChange={(value) => {
+          setGameSounds(value);
+          setSounds(value);
+        }}
+      />
+    </View>
   );
 }

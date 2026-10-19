@@ -37,6 +37,7 @@ export function rewardMessage(summary: {
   heal?: number;
   gold?: number;
   drops?: { name: string; icon: string }[];
+  loot?: { kind: string; key: string }[] | null;
   pending?: boolean;
   bosses?: { daily?: BossHp; weekly?: BossHp } | null;
   defeated_now?: string[] | null;
@@ -61,14 +62,29 @@ export function rewardMessage(summary: {
   if (summary.level_up && summary.level) parts.push(tr('reward.levelUp', { level: summary.level }));
   const fallen = summary.defeated_now ?? [];
   if (fallen.length) {
-    for (const scope of ['daily', 'user', 'clan'])
+    for (const scope of ['daily', 'user', 'clan', 'quest'])
       if (fallen.includes(scope)) parts.push(tr(`reward.defeated_${scope}`));
   } else if (summary.boss_defeated) parts.push(tr('reward.bossDefeated'));
   for (const d of summary.drops ?? [])
     parts.push(tr('reward.drop', { icon: d.icon, name: d.name }));
+  for (const l of summary.loot ?? []) parts.push(lootText(l));
   for (const a of summary.achievements) parts.push(`${a.icon} ${achievementText(a).name}`);
   if (summary.limit === 'quick') parts.push(tr('reward.limitQuick'));
   if (summary.limit === 'habit')
     parts.push(tr('reward.limitHabit', { count: gamificationConfig.antiFarm.habitPlusDailyCap }));
   return parts.length ? parts.join(' · ') : null;
+}
+
+/** Nome de um item de mascote ou missão (HB8, HB9): "🥚 Ovo de lobo", "📜 Missão: Rei Esqueleto". */
+export function lootText(l: { kind: string; key: string }) {
+  switch (l.kind) {
+    case 'egg':
+      return tr('pets.lootEgg', { name: tr(`pets.species.${l.key}` as 'pets.species.lobo') });
+    case 'potion':
+      return tr('pets.lootPotion', { name: tr(`pets.potions.${l.key}` as 'pets.potions.comum') });
+    case 'food':
+      return tr('pets.lootFood', { name: tr(`pets.foods.${l.key}` as 'pets.foods.carne') });
+    default:
+      return tr('pets.lootScroll', { name: tr(`quests.${l.key}.name` as 'quests.rei-esqueleto.name') });
+  }
 }

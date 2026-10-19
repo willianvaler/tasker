@@ -77,6 +77,14 @@ export function describeNotification(n: NotificationLike): {
         text: `${by} começou o desafio "${p.name}" (${p.days} ${Number(p.days) === 1 ? 'dia' : 'dias'})`,
         url: `/desafio/${p.challenge_id}`,
       };
+    case 'task_reminder': {
+      // Lembrete de tarefa com horário (D206): "⏰ 15:00 · Ligar para o banco"
+      const [, m, d] = String(p.due_date ?? '').split('-');
+      return {
+        text: `⏰ ${m && d ? `${d}/${m} ` : ''}${p.due_time ?? ''} · ${p.title}`,
+        taskId: String(p.task_id),
+      };
+    }
     default:
       return { text: 'Novidade' };
   }

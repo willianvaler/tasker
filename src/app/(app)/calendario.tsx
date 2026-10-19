@@ -257,7 +257,7 @@ function MonthGrid({
                               : 'text-ink',
                         )}
                       >
-                        {e.title}
+                        {e.kind === 'task' && e.time ? `${e.time} ${e.title}` : e.title}
                       </Text>
                     ))}
                     {entries.length > CELL_ITEMS && (
@@ -320,7 +320,7 @@ function DayList({
                 e.kind === 'task' && e.done ? 'text-ink-muted line-through' : 'text-ink',
               )}
             >
-              {e.title}
+              {e.kind === 'task' && e.time ? `${e.time} · ${e.title}` : e.title}
             </Text>
             <Text numberOfLines={1} className="max-w-[40%] font-mono text-xs text-ink-muted">
               {e.kind === 'workout'

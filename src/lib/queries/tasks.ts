@@ -296,7 +296,11 @@ export function restore(
 /** Responsável no formato do create_tasks_batch (membro ou nome pendente). */
 export type NewAssignee = { user_id: string } | { pending_name: string };
 
-type NewTask = ParsedTask & {
+// Horário e lembrete são opcionais na criação (o parser preenche; quem monta à mão pode omitir)
+type NewTask = Omit<ParsedTask, 'dueTime'> & {
+  dueTime?: string | null;
+  /** Minutos antes do horário para avisar; com horário e sem isto, avisa na hora (D206) */
+  remindBefore?: number | null;
   done?: boolean;
   /** Hábito: tipo e meta já na criação */
   habitKind?: Task['habit_kind'];
@@ -305,7 +309,8 @@ type NewTask = ParsedTask & {
   children?: NewSubtask[];
 };
 /** Subtarefa do lote: pode ter subtarefas também (árvore, V3 §1). */
-type NewSubtask = ParsedTask & {
+type NewSubtask = Omit<ParsedTask, 'dueTime'> & {
+  dueTime?: string | null;
   /** Id do aparelho (o lote gera antes, para ligar pré-requisitos "^2" entre itens) */
   id?: string;
   done?: boolean;
@@ -318,6 +323,8 @@ type RpcItem = {
   title: string;
   priority: number;
   due_date: string | null;
+  due_time: string | null;
+  remind_before: number | null;
   labels: string[];
   recurrence: ParsedTask['recurrence'];
   meta: ParsedTask['meta'];
@@ -335,6 +342,9 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     title: item.title,
     priority: item.priority,
     due_date: item.dueDate,
+    due_time: item.dueDate ? (item.dueTime ?? null) : null,
+    remind_before:
+      item.dueDate && item.dueTime ? ('remindBefore' in item ? (item.remindBefore ?? null) : 0) : null,
     labels: item.labels,
     recurrence: item.recurrence,
     meta: item.meta,
@@ -384,6 +394,9 @@ function optimisticTask(
     count_up: 0,
     count_down: 0,
     count_key: null,
+    due_time: item.dueDate && item.dueTime ? `${item.dueTime}:00` : null,
+    remind_before: item.dueDate && item.dueTime ? (item.remindBefore ?? 0) : null,
+    reminded_at: null,
     habit_value: 0,
     habit_value_day: null,
     habit_sides: 'both',
@@ -551,6 +564,8 @@ export type TaskPatch = Partial<
     | 'notes'
     | 'priority'
     | 'due_date'
+    | 'due_time'
+    | 'remind_before'
     | 'labels'
     | 'page_id'
     | 'parent_task_id'
@@ -1021,6 +1036,8 @@ type LocalTaskInsert = {
   depth?: number;
   priority?: number;
   due_date?: string | null;
+  due_time?: string | null;
+  remind_before?: number | null;
   labels?: string[];
   recurrence?: unknown;
   meta?: unknown;
@@ -1036,8 +1053,8 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
   await tx.execute(
     `insert into tasks (id, page_id, folder_id, parent_task_id, depth, title, status, priority, due_date,
        labels, recurrence, meta, repeat_plan, position, habit_kind, habit_target, count_up, count_down,
-       created_by, created_at, updated_at, version)
-     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1)`,
+       created_by, created_at, updated_at, version, due_time, remind_before)
+     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?)`,
     [
       task.id,
       task.page_id,
@@ -1058,6 +1075,8 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
       userId,
       now,
       now,
+      task.due_date ? (task.due_time ?? null) : null,
+      task.due_date && task.due_time ? (task.remind_before ?? 0) : null,
     ],
   );
 }
@@ -1100,6 +1119,8 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
           position: ++position,
           priority: item.priority,
           due_date: item.dueDate,
+          due_time: item.dueTime ?? null,
+          remind_before: 'remindBefore' in item ? (item.remindBefore ?? null) : undefined,
           labels: item.labels,
           recurrence: item.recurrence,
           meta: item.meta,

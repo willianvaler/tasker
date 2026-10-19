@@ -4,6 +4,7 @@ import { Pressable, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 import { Avatar } from '@/components/character';
+import { ArtImage, bossArtId } from '@/components/game-art';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
@@ -36,6 +37,8 @@ export function BossArt({ size = 28 }: { size?: 28 | 48 }) {
  */
 export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
   const { t, i18n } = useTranslation();
+  const art = bossArtId(boss);
+  const icon = art ? <ArtImage group="bosses" id={art} size={36} fallback={boss.icon} /> : <BossArt />;
   const scope = boss.scope ?? 'user';
   const name = prefix ? `${prefix}: ${boss.name}` : boss.name;
   if (boss.status === 'defeated') {
@@ -44,10 +47,11 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
       daily: 'boss.defeatedDaily',
       clan: 'boss.defeatedClan',
       folder: 'boss.defeatedFolder',
+      quest: 'boss.defeatedQuest',
     } as const;
     return (
       <View className="flex-row items-center gap-3">
-        <BossArt />
+        {icon}
         <Text className="flex-1 text-sm text-ink">
           {t('boss.defeated', { name })} {t(tail[scope])}
         </Text>
@@ -63,7 +67,7 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
   const unit = t(scope === 'folder' ? 'boss.unitTasks' : 'boss.unitHp');
   return (
     <View className="flex-row items-center gap-3">
-      <BossArt />
+      {icon}
       <View className="flex-1 gap-1">
         <View className="flex-row items-baseline gap-2">
           <Text className="shrink font-serif text-base text-ink" numberOfLines={1}>

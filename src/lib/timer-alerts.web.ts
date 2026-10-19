@@ -78,7 +78,7 @@ async function notify(timer: Timer) {
   await show(alertText(timer), timer.id);
 }
 
-async function show({ title, body }: { title: string; body: string }, tag: string) {
+export async function show({ title, body }: { title: string; body: string }, tag: string) {
   if (!hasNotification() || Notification.permission !== 'granted') return;
   // `vibrate` vale para a notificação no Chrome do Android, mesmo com a aba escondida
   const options = { body, tag, icon: '/favicon.ico', vibrate: PATTERN } as NotificationOptions;

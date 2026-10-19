@@ -13,6 +13,7 @@ import {
   SkillsPanel,
 } from '@/components/character';
 import { BossLine } from '@/components/game-bar';
+import { AppearancePanel, ManaSkillsPanel, VitalBars } from '@/components/game-mode';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
 import { bossHpForLevel, dailyBossHp } from '@/lib/character';
 import { gamificationConfig as config } from '@/lib/gamification.config';
-import { useGameState } from '@/lib/queries/game';
+import { useGameLevel, useGameState } from '@/lib/queries/game';
 import { useProfile } from '@/lib/queries/profile';
 
 // Ficha do personagem: classe, atributos, habilidades, conta do dano, boss e equipamento.
@@ -30,6 +31,7 @@ export default function CharacterScreen() {
   const { data: game } = useGameState();
   const profile = useProfile();
   const [choosing, setChoosing] = useState(false);
+  const full = useGameLevel() === 'full';
 
   if (!game) return <Screen size="wide">{null}</Screen>;
   const cls = classOf(game);
@@ -70,7 +72,9 @@ export default function CharacterScreen() {
         <View className="flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
           <View className="gap-6 lg:flex-1">
             <HeroCard game={game} name={profile.data?.display_name} />
+            {full && <VitalBars game={game} />}
             <SkillsPanel game={game} />
+            {full && <ManaSkillsPanel game={game} />}
             <Button
               variant="ghost"
               className="self-start"
@@ -116,6 +120,7 @@ export default function CharacterScreen() {
               <Stat value={game.damage_today} label={t('character.damageToday')} />
             </View>
             <EquipmentPanel game={game} />
+            {full && <AppearancePanel game={game} />}
           </View>
         </View>
       </ScreenScroll>

@@ -1,0 +1,477 @@
+{
+ "bosses/aranha-das-mensagens": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a giant spider weaving a web hung with sealed envelopes menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/basilisco-dos-detalhes": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a basilisk serpent with a deadly gaze coiled among tiny gears menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/behemoth-da-caixa-de-entrada": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a massive behemoth carrying a mountain of sealed letters and crates on its back menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/bruxa-do-pantano": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a swamp witch stirring a bubbling cauldron of distractions among will-o-wisps menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/cavaleiro-sem-fim": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a hollow black knight whose armor stretches into endless shadow menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/colosso-da-bagunca": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a towering colossus built from collapsed market stalls and debris menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/diabrete-do-dia": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a small mischievous imp with horns perched on a candlelit desk menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/dragao-anciao-do-adiamento": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, an ancient enormous black dragon with grey scales sleeping on a hoard of hourglasses menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/dragao-do-adiamento": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a sleepy red dragon coiled around a giant hourglass menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/dragao-do-prazo-perdido": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a scarred bronze dragon guarding a broken clock tower menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/fantasma-da-soneca": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a pale drowsy ghost floating over an unmade bed in a dark chamber menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/goblin-das-miudezas": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a sneaky goblin hoarding tiny trinkets, buttons and coins menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/golem-da-bagunca": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a golem made of piled junk, broken furniture and scattered books menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/golem-da-lista": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a stone golem covered in carved endless lists menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/golem-de-ferro": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, an iron golem that marches in endless circles in a forge menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/gremlin-do-celular": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a gremlin clutching a glowing enchanted mirror, its face lit by the glow menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/grifo-do-prazo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a fierce griffin diving from a stormy sky over a castle menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/hidra-das-pendencias": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a many-headed swamp hydra tangled in old scrolls and unfinished parchment lists menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/hidra-das-reunioes": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a hydra whose heads argue around a long council table in a castle hall menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/kraken-das-notificacoes": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a kraken rising from a dark sea, tentacles holding ringing bells menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/leviata-dos-prazos": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a gigantic sea leviathan breaching near a harbor with a bell tower clock menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/lich-do-sofa": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, an undead lich king slouched on a moth-eaten velvet throne menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/minotauro-da-logistica": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a minotaur in a labyrinth of crates and wagons menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/morcego-da-distracao": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a large bat with glowing eyes swooping through a library menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/ogro-da-organizacao": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a brutish ogre swinging a club amid toppled shelves menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/procrastinossauro": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a huge lazy armored dinosaur lying on a pile of postponed letters menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/quimera-do-depois": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a chimera with lion, goat and serpent heads under a twilight sky menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/rato-das-pendencias": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a giant rat gnawing on piles of unfinished parchment menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/rei-esqueleto": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a skeleton king on a crumbling throne holding a rusted scepter menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/slime-da-rotina": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a dull grey slime creeping slowly across a stone floor menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "bosses/tita-da-preguica": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "dark fantasy creature boss, a colossal stone titan half asleep on a mountainside menacing, full body, in a gloomy medieval setting, cinematic composition medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "cenarios/acampamento": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "wide landscape painting of an adventurers camp at dusk with a campfire, tents and a forest edge atmospheric, no people, empty foreground medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "cenarios/castelo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "wide landscape painting of a stone castle courtyard with banners at morning atmospheric, no people, empty foreground medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "cenarios/floresta": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "wide landscape painting of an ancient misty forest with sunbeams and moss covered roots atmospheric, no people, empty foreground medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "cenarios/masmorra": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "wide landscape painting of a torch-lit dungeon corridor with stone arches atmospheric, no people, empty foreground medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "cenarios/montanha": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "wide landscape painting of a high mountain pass with snow peaks and a winding road atmospheric, no people, empty foreground medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "cenarios/taverna": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "wide landscape painting of the warm interior of a medieval tavern with a hearth, wooden tables and candles atmospheric, no people, empty foreground medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "itens/bau": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a single enchanted wooden armoire chest with iron bands and a faint magical glow from the keyhole as a game item, centered on a dark wooden table, still life, close-up medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "itens/comida": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a single small burlap sack of meat, apples and grain for animals as a game item, centered on a dark wooden table, still life, close-up medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "itens/ovo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a single speckled magical creature egg resting in straw as a game item, centered on a dark wooden table, still life, close-up medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "itens/pergaminho": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a single rolled quest scroll tied with a red ribbon and a wax seal as a game item, centered on a dark wooden table, still life, close-up medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "itens/pocao": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a single glass hatching potion bottle with glowing amber liquid and a cork as a game item, centered on a dark wooden table, still life, close-up medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "itens/vida": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a single red heart-shaped crystal phoenix feather potion that restores life as a game item, centered on a dark wooden table, still life, close-up medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "mascotes/cervo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young white stag as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "mascotes/coruja": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young snowy owl as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "mascotes/dragao": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young small green dragon as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "mascotes/grifo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young single eagle-headed griffin: the head is an eagle head with a hooked yellow beak and feathered neck, huge feathered eagle wings, golden lion body and lion tail, one creature only, no rider, no other animals as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 32
+ },
+ "mascotes/javali": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young wild boar as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "mascotes/lobo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young grey wolf pup as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "mascotes/raposa": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young red fox as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "mascotes/urso": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a young brown bear as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "montarias/cervo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a majestic adult white stag wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour, full body medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "montarias/coruja": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a majestic adult snowy owl wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour, full body medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "montarias/dragao": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a majestic adult small green dragon wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour, full body medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "montarias/grifo": {
+  "licenca": "Apache-2.0",
+  "modelo": "flux-2-klein-4b-Q8_0.gguf (edição de mascotes/grifo)",
+  "pos": "corte de 8% embaixo e à direita (assinatura falsa)",
+  "prompt": "Put an ornate brown leather riding saddle with stirrups and a bridle on this griffin's back, ready to be ridden. Change the background to a grassy hill at golden hour with an orange sunset sky. Keep the same griffin.",
+  "semente": 5
+ },
+ "montarias/javali": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a majestic adult wild boar wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour, full body medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "montarias/lobo": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a majestic adult grey wolf wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour, full body medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "montarias/raposa": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a majestic adult red fox wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour, full body medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "montarias/urso": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "a majestic adult brown bear wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour, full body medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/arqueiro-f-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned woman with braided auburn hair, a ranger archer in a leather hood and green cloak with a longbow and quiver facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/arqueiro-f-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned woman with short black curly hair, a ranger archer in a leather hood and green cloak with a longbow and quiver facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/arqueiro-m-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned bearded man with long brown hair, a ranger archer in a leather hood and green cloak with a longbow and quiver facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/arqueiro-m-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned man with a short beard and close-cropped hair, a ranger archer in a leather hood and green cloak with a longbow and quiver facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/ladino-f-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned woman with braided auburn hair, a rogue in dark leather armor with a hood half covering the face and twin daggers facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/ladino-f-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned woman with short black curly hair, a rogue in dark leather armor with a hood half covering the face and twin daggers facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/ladino-m-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned bearded man with long brown hair, a rogue in dark leather armor with a hood half covering the face and twin daggers facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/ladino-m-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned man with a short beard and close-cropped hair, a rogue in dark leather armor with a hood half covering the face and twin daggers facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/lutador-f-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned woman warrior with braided auburn hair, worn steel plate armor and a longsword on her shoulder facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/lutador-f-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned woman with short black curly hair, a warrior with a longsword and worn steel plate armor facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/lutador-m-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned bearded man with long brown hair, a warrior with a longsword and worn steel plate armor facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/lutador-m-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned man with a short beard and close-cropped hair, a warrior with a longsword and worn steel plate armor facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/mago-f-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned woman with braided auburn hair, a mage in a deep green hooded robe holding a gnarled wooden staff with a faint glowing rune facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/mago-f-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned woman with short black curly hair, a mage in a deep green hooded robe holding a gnarled wooden staff with a faint glowing rune facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/mago-m-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned bearded man with long brown hair, a mage in a deep green hooded robe holding a gnarled wooden staff with a faint glowing rune facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/mago-m-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned man with a short beard and close-cropped hair, a mage in a deep green hooded robe holding a gnarled wooden staff with a faint glowing rune facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/paladino-f-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned woman with braided auburn hair, a paladin in polished plate armor with a tabard and a heavy shield bearing a sun emblem facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/paladino-f-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned woman with short black curly hair, a paladin in polished plate armor with a tabard and a heavy shield bearing a sun emblem facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/paladino-m-clara": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a fair-skinned bearded man with long brown hair, a paladin in polished plate armor with a tabard and a heavy shield bearing a sun emblem facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ },
+ "retratos/paladino-m-escura": {
+  "licenca": "Apache-2.0",
+  "modelo": "z_image_turbo-Q8_0.gguf",
+  "prompt": "half-body portrait of a dark-skinned man with a short beard and close-cropped hair, a paladin in polished plate armor with a tabard and a heavy shield bearing a sun emblem facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow on the background, clean silhouette medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no letters, no watermark, no frame, no border",
+  "semente": 1910
+ }
+}

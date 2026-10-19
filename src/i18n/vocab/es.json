@@ -1,0 +1,17 @@
+{
+  "nav.today": "Misiones de hoy",
+  "today.title": "Misiones de hoy",
+  "nav.habits": "Hábitos y diarias",
+  "habits.title": "Hábitos y diarias",
+  "home.habitsToday": "Hábitos y diarias de hoy",
+  "nav.newTask": "Nueva misión",
+  "quickAdd.label": "Nueva misión",
+  "quickAdd.placeholder": "Nueva misión… (Enter para crear)",
+  "quickAdd.offline": "Nueva misión… (se envía al volver la conexión)",
+  "quickAdd.placeholderShort": "Nueva misión…",
+  "today.placeholder": "Nueva misión para hoy…",
+  "palette.newTask": "Nueva misión (captura rápida)",
+  "advanced.newTask": "Nueva misión",
+  "home.now": "Misiones para ahora",
+  "achievements.category.tasks": "Misiones"
+}

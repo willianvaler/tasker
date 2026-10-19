@@ -1,5 +1,6 @@
 import { Link } from 'expo-router';
 import { Backpack, Check, Plus, RotateCcw, ShoppingBag, Zap } from 'lucide-react-native';
+import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
@@ -26,6 +27,8 @@ import {
 } from '@/lib/character';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
+import { GAME_ART } from '@/lib/game-art';
+import { portraitKey } from '@/lib/game-mode';
 import { gamificationConfig as config } from '@/lib/gamification.config';
 import {
   useAllocateAttribute,
@@ -67,6 +70,34 @@ export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof ty
   const hand = icon('hand');
   const pet = icon('pet');
   const aura = game.equipped.aura ? AURA_BG[game.equipped.aura] : undefined;
+  // Modo Completo (HB10): retrato pintado da classe sobre o cenário escolhido
+  const portraitId = game.mode === 'full' ? portraitKey(cls, game.avatar.portrait) : null;
+  const portrait = portraitId
+    ? (GAME_ART.retratos as Record<string, number>)[portraitId]
+    : undefined;
+  if (portrait) {
+    const background = (GAME_ART.cenarios as Record<string, number>)[
+      game.avatar.background ?? 'acampamento'
+    ];
+    return (
+      <View
+        accessibilityRole="image"
+        accessibilityLabel={
+          cls ? t('character.avatar', { name: CLASSES[cls].name }) : t('game.portraitOf')
+        }
+        className={cn('overflow-hidden border border-line bg-wash', s.box)}
+      >
+        {background && (
+          <Image
+            source={background}
+            contentFit="cover"
+            style={{ position: 'absolute', inset: 0 }}
+          />
+        )}
+        <Image source={portrait} contentFit="contain" style={{ width: '100%', height: '100%' }} />
+      </View>
+    );
+  }
   const emoji = (size: number) => ({ fontSize: size, lineHeight: Math.round(size * 1.2) });
   return (
     <View

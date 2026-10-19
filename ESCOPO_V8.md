@@ -23,7 +23,7 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 - Troca a qualquer hora, sem perder nada: as regras do servidor são as mesmas nos três; o que muda é a apresentação e os sistemas do §3, que só agem no Completo.
 - Num projeto em time, cada pessoa usa o seu nível.
 
-## 3. O que vem do Habitica (só no Completo, salvo indicação)
+## 3. O que vem do Habitica (só no Completo, salvo indicação) — ✅ done (HB4 a HB11, D196 a D205)
 
 | Id | Sistema | Como fica aqui | Já existe |
 |---|---|---|---|
@@ -45,7 +45,7 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 | — | **Desafios com prêmio** | Generalizar os desafios da academia (D184) para qualquer projeto ou time | desafios da academia |
 | — | Gemas e assinatura | Ficam no V4 §6 (monetização) | — |
 
-## 4. Arte (vale para HB4, HB8 a HB10)
+## 4. Arte (vale para HB4, HB8 a HB10) — ✅ done (D205: 79 imagens no app, não no Storage)
 
 - **Direção:** ilustração pintada, fantasia sóbria e adulta (tinta e aquarela de caderno de campo, conversando com o `docs/DESIGN.md`), nas cores da marca do §0. Nada de pixel art nem fofo. Legível em 48 px, nos dois temas.
 - **ComfyUI do dono** (neste PC: RX 6750 XT, 12 GB; `~/projects/comfyui`, `comfy_run.py`): fluxo fixo e versionado em `art/workflows/`, prompt, semente e modelo de cada imagem em `art/prompts.yaml`; estilo travado (mesmo modelo e paleta; se preciso, LoRA de estilo treinada com imagens aprovadas pelo dono). Avatar em camadas: base fixa e cada peça por máscara (inpainting).
@@ -69,6 +69,6 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 
 1. ~~Cores da marca nos tokens do app?~~ Respondida em 19/10: sim, o laranja (D192).
 2. ~~Consequência de zerar a vida~~ Respondida em 19/10: volta ao início, ou vida por 500 de ouro (D197).
-3. Estilo de arte: escolher entre 3 amostras geradas no ComfyUI.
-4. Vocabulário de jogo ligado por padrão no Completo?
+3. ~~Estilo de arte~~ Respondida em 19/10: medieval, meio realista (D205).
+4. ~~Vocabulário de jogo ligado por padrão no Completo?~~ Respondida em 19/10: sim (D205).
 5. O Completo será recurso de plano pago (V4 §6)?

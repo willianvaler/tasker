@@ -115,8 +115,27 @@ describe('calendarDays', () => {
     expect(Object.keys(days)).toEqual(['2026-11-03']);
     expect(days['2026-11-03']).toEqual([
       { kind: 'workout', id: 'treino:2026-11-03', title: 'Treino A', count: 2, pageId: 'treino' },
-      { kind: 'task', id: 'Pagar luz', title: 'Pagar luz', done: false, pageId: 'lista' },
+      { kind: 'task', id: 'Pagar luz', title: 'Pagar luz', done: false, pageId: 'lista', time: null },
     ]);
+  });
+
+  it('com horário vem antes, pela hora (D206)', () => {
+    const t = (id: string, due_time: string | null) => ({
+      id,
+      title: id,
+      status: 'todo',
+      due_date: '2026-11-03',
+      due_time,
+      recurrence: null,
+      page_id: 'lista',
+    });
+    const days = calendarDays(
+      [t('Sem hora', null), t('Tarde', '15:00:00'), t('Manhã', '09:30:00')],
+      { lista: { name: 'Lista', workout: false, habits: false } },
+      '2026-11-03',
+      '2026-11-03',
+    );
+    expect(days['2026-11-03'].map((e) => e.title)).toEqual(['Manhã', 'Tarde', 'Sem hora']);
   });
 
   it('concluída sem recorrência aparece riscada; recorrente segue aberta', () => {

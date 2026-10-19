@@ -223,13 +223,14 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **HB2** Força do hábito bom/ruim (barra de cor pelo valor, regra do Habitica) e hábito só bom ou só ruim (D194)
 - [x] **HB3** Três níveis de jogo no Perfil: Desligado, Leve e Completo (D195)
 - [x] **HB4** Início como acampamento no Completo: personagem, bosses com fala, missões do dia (D196)
-- [ ] **HB5** Vida e diárias, "o que você fez ontem?", taverna; morte volta ao início, vida por 500 de ouro (D197)
-- [ ] **HB6** Mana e habilidades por classe, dia perfeito
-- [ ] **HB7** Recompensas personalizadas e baú encantado
-- [ ] **HB8** Mascotes e montarias
-- [ ] **HB9** Missões com história
-- [ ] **HB10** Avatar em camadas (batalha e fantasia)
-- [ ] **HB11** Vocabulário de jogo, animações e sons
+- [x] **HB5** Vida e diárias, "o que você fez ontem?", taverna, poção; morte: vida por 500 de ouro ou recomeçar do nível 1 (D197, D199)
+- [x] **HB6** Mana, 4 habilidades por classe e dia perfeito (D200)
+- [x] **HB7** Recompensas personalizadas e baú encantado (D201)
+- [x] **HB8** Mascotes e montarias: drops, chocar, alimentar, estábulo (D202)
+- [x] **HB9** Missões com história, sozinho ou com o clã (D203)
+- [x] **HB10** Retrato pintado sobre cenário, equipamento de batalha com atributos e fantasia (D204)
+- [x] **HB11** Arte no ComfyUI (79 imagens), vocabulário de jogo, celebrações e sons (D205)
+- [x] **LB1** Horário nas tarefas e lembretes (servidor, celular e web; feed .ics com hora) (D206)
 
 ## ESCOPO v1 — backlog (§11)
 

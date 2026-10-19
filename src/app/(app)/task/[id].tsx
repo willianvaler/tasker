@@ -37,7 +37,8 @@ import { Sheet } from '@/components/ui/sheet';
 import { cn } from '@/lib/cn';
 import { useColors } from '@/lib/tokens';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
-import { parseQuickInput } from '@/lib/parser/quick';
+import { parseQuickInput, parseTime } from '@/lib/parser/quick';
+import { shortTime } from '@/components/tasks/task-meta';
 import { useToday } from '@/lib/queries/profile';
 import { DependencyEditor } from '@/components/tasks/dependency-editor';
 import { useForceTask, useStartTask, useTaskFlow } from '@/lib/queries/dependencies';
@@ -83,6 +84,9 @@ const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 // Painel da tarefa: à direita no computador, sem travar a lista
 // ao lado; folha de baixo para cima no celular. Nunca obrigatório: notas, prioridade, data,
 // etiquetas, subtarefas, mover de página e apagar. Cada campo salva sozinho ao sair dele.
+/** Lembrete: minutos antes do horário (null: sem lembrete), D206 */
+const REMINDER_OPTIONS = [null, 0, 5, 15, 30, 60, 1440] as const;
+
 export default function TaskScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -217,6 +221,7 @@ function TaskDetails({ task }: { task: Task }) {
   const [showNotes, setShowNotes] = useState(false);
   const [labels, setLabels] = useState(task.labels.map((l) => `#${l}`).join(' '));
   const [dateText, setDateText] = useState('');
+  const [timeText, setTimeText] = useState('');
   const [moving, setMoving] = useState(false);
 
   const save = (patch: TaskPatch) => update.mutate({ id: task.id, patch });
@@ -250,9 +255,23 @@ function TaskDetails({ task }: { task: Task }) {
   function saveDateText() {
     const parsed = parseQuickInput(`x ${dateText}`, { today });
     if (parsed.dueDate) {
-      save({ due_date: parsed.dueDate });
+      save({
+        due_date: parsed.dueDate,
+        // "amanhã 15h": horário junto, com lembrete na hora se ainda não tinha
+        ...(parsed.dueTime
+          ? { due_time: parsed.dueTime, remind_before: task?.remind_before ?? 0 }
+          : {}),
+      });
       setDateText('');
     }
+  }
+
+  function saveTimeText() {
+    const text = timeText.trim();
+    if (!text) return;
+    const time = parseTime(text.replace(/\s+/g, ''));
+    if (time) save({ due_time: time, remind_before: task?.remind_before ?? 0 });
+    setTimeText('');
   }
 
   return (
@@ -486,6 +505,48 @@ function TaskDetails({ task }: { task: Task }) {
               placeholder={t('taskDetail.otherDatePlaceholder')}
               accessibilityLabel={t('taskDetail.otherDate')}
             />
+            {task.due_date && (
+              <View className="gap-2 pt-2">
+                <View className="flex-row items-center gap-2">
+                  <Text className="text-sm text-ink-muted">{t('reminders.time')}</Text>
+                  <Input
+                    value={timeText}
+                    onChangeText={setTimeText}
+                    onSubmitEditing={saveTimeText}
+                    onBlur={saveTimeText}
+                    editable={writable}
+                    placeholder={
+                      task.due_time ? shortTime(task.due_time) : t('reminders.timePlaceholder')
+                    }
+                    accessibilityLabel={t('reminders.time')}
+                    className="w-28 font-mono"
+                  />
+                  {task.due_time && (
+                    <Chip
+                      label={t('reminders.noTime')}
+                      onPress={() => save({ due_time: null, remind_before: null })}
+                    />
+                  )}
+                </View>
+                {task.due_time && (
+                  <View
+                    className="flex-row flex-wrap gap-2"
+                    accessibilityRole="radiogroup"
+                    accessibilityLabel={t('reminders.label')}
+                  >
+                    {REMINDER_OPTIONS.map((min) => (
+                      <UiChip
+                        key={String(min)}
+                        role="radio"
+                        label={t(`reminders.options.${min ?? 'none'}` as 'reminders.options.none')}
+                        selected={(task.remind_before ?? null) === min}
+                        onPress={() => save({ remind_before: min })}
+                      />
+                    ))}
+                  </View>
+                )}
+              </View>
+            )}
           </Section>
         )}
 

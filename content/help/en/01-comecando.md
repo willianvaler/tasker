@@ -7,6 +7,7 @@ Type in the **New task** field and press Enter. Done: the task goes to the Inbox
 The text itself fills in the details:
 
 - `tomorrow`, `friday`, `10/15` — due date
+- `3pm`, `at 9:30`, `14:05` — time (no date means today); it reminds you at that time, and you can change the reminder in the panel
 - `!`, `!!`, `!!!` — priority
 - `#groceries` — label
 - `/daily`, `/weekly`, `/mon,wed` — repeat

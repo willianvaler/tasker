@@ -10,6 +10,7 @@ const THEME_KEY = 'questlist:theme';
 const LOCALE_KEY = 'questlist:locale';
 const RECENT_ICONS_KEY = 'questlist:recent-icons';
 const DEVICE_KEY = 'questlist:device';
+const GAME_SOUNDS_KEY = 'questlist:game-sounds';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -21,6 +22,15 @@ export function getThemePreference(): ThemePreference {
 
 export function setThemePreference(value: ThemePreference) {
   localStore.setItem(THEME_KEY, value);
+}
+
+/** Sons do modo jogo (HB11): ligados por padrão, desligáveis no Perfil. É do aparelho. */
+export function getGameSounds(): boolean {
+  return localStore.getItem(GAME_SOUNDS_KEY) !== 'off';
+}
+
+export function setGameSounds(on: boolean) {
+  localStore.setItem(GAME_SOUNDS_KEY, on ? 'on' : 'off');
 }
 
 /** Idioma escolhido no aparelho ('system' = o do aparelho). */

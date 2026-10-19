@@ -138,6 +138,103 @@ export const gamificationConfig = {
     /** Meta máxima de um hábito contador */
     maxTarget: 100,
   },
+  /** Modo jogo Completo (ESCOPO_V8, HB5 a HB10; regras do Habitica em docs/HABITICA.md) */
+  game: {
+    /** Vida: máximo, e o que a virada do dia tira por diária perdida (× prioridade × redução da CON) */
+    maxHp: 50,
+    dailyDamage: 2,
+    /** Peso da prioridade da diária (0 a 3) no dano */
+    priorityWeight: [1, 1, 1.5, 2],
+    /** Cada ponto de CON tira 0,4% do dano, até sobrar 10% */
+    conReducePer: 0.004,
+    conReduceMin: 0.1,
+    /** Mana: 30 + 2 por INT; +1 por tarefa ou "+" com XP; na virada, até max(10; 10% do máximo) */
+    baseMp: 30,
+    mpPerInt: 2,
+    mpPerTask: 1,
+    mpRegenMin: 10,
+    mpRegenPct: 0.1,
+    /** Morte: comprar uma vida (mantém tudo) ou recomeçar do nível 1 (D197) */
+    revivePrice: 500,
+    /** Poção de vida, antes de morrer */
+    potionPrice: 25,
+    potionHeal: 15,
+    /** Dia perfeito: + ceil(nível / 2) em todos os atributos no dia seguinte */
+    perfectDayDivisor: 2,
+    /** Escudo (habilidade): a próxima virada tira só esta fração */
+    shieldFactor: 0.5,
+    /** Baú encantado (HB7) */
+    armoirePrice: 100,
+    /** Drops de mascote (HB8): chance por tarefa com XP, teto por dia */
+    dropChance: 0.15,
+    dropDailyCap: 5,
+    /** Alimentar: comida favorita (a da cor da poção) +5, outra +2; com 50 vira montaria */
+    feedFavorite: 5,
+    feedOther: 2,
+    feedToMount: 50,
+    /** Missões (HB9): pergaminho na loja, duração, chance de pergaminho num drop */
+    scrollPrice: 150,
+    questDays: 14,
+    scrollDropShare: 0.05,
+    /** Equipamento de batalha (HB10): bônus no atributo do espaço, pela raridade */
+    rarityBonus: { common: 0, rare: 1, epic: 2, legendary: 3 },
+    slotAttribute: { head: 'con', hand: 'str', pet: 'agi', aura: 'int', title: 'none' },
+    /** Mascotes (HB8): espécies (arte em assets/game), poções e a comida favorita de cada poção */
+    pets: {
+      species: ['lobo', 'raposa', 'coruja', 'cervo', 'urso', 'javali', 'grifo', 'dragao'],
+      potions: ['comum', 'sombra', 'dourada', 'gelo'],
+      foods: { comum: 'carne', sombra: 'cogumelo', dourada: 'mel', gelo: 'peixe' },
+    },
+    /** Missões (HB9): boss com capítulo (texto no i18n, arte em assets/game/bosses) */
+    quests: [
+      { key: 'dragao-do-prazo-perdido', name: 'Dragão do Prazo Perdido', hp: 400 },
+      { key: 'bruxa-do-pantano', name: 'Bruxa do Pântano', hp: 300 },
+      { key: 'cavaleiro-sem-fim', name: 'Cavaleiro Sem Fim', hp: 500 },
+      { key: 'aranha-das-mensagens', name: 'Aranha das Mensagens', hp: 350 },
+      { key: 'rei-esqueleto', name: 'Rei Esqueleto', hp: 600 },
+      { key: 'golem-de-ferro', name: 'Golem de Ferro', hp: 450 },
+    ],
+    /** Avatar (HB10): variações de retrato por classe e cenários de fundo */
+    portraits: ['f-clara', 'f-escura', 'm-clara', 'm-escura'],
+    backgrounds: ['acampamento', 'taverna', 'floresta', 'castelo', 'montanha', 'masmorra'],
+    /**
+     * Habilidades de mana (HB6): 4 por classe, liberadas por nível. Efeitos: strike (dano nos bosses,
+     * + FOR), heal (vida), healClan (vida de todos do clã), shield (próxima virada pela metade),
+     * stealth (evita N diárias perdidas na próxima virada), gold (ouro na hora).
+     */
+    manaSkills: {
+      lutador: [
+        { key: 'golpe_brutal', level: 3, mana: 10, effect: 'strike', power: 8 },
+        { key: 'pele_de_ferro', level: 5, mana: 20, effect: 'shield', power: 1 },
+        { key: 'folego', level: 8, mana: 15, effect: 'heal', power: 15 },
+        { key: 'investida', level: 11, mana: 30, effect: 'strike', power: 20 },
+      ],
+      mago: [
+        { key: 'bola_de_fogo', level: 3, mana: 10, effect: 'strike', power: 9 },
+        { key: 'escudo_arcano', level: 5, mana: 20, effect: 'shield', power: 1 },
+        { key: 'transmutacao', level: 8, mana: 25, effect: 'gold', power: 20 },
+        { key: 'meteoro', level: 11, mana: 35, effect: 'strike', power: 24 },
+      ],
+      arqueiro: [
+        { key: 'tiro_certeiro', level: 3, mana: 10, effect: 'strike', power: 8 },
+        { key: 'camuflagem', level: 5, mana: 25, effect: 'stealth', power: 1 },
+        { key: 'cacada', level: 8, mana: 20, effect: 'gold', power: 15 },
+        { key: 'chuva_de_flechas', level: 11, mana: 30, effect: 'strike', power: 20 },
+      ],
+      paladino: [
+        { key: 'luz_curativa', level: 3, mana: 15, effect: 'heal', power: 15 },
+        { key: 'egide', level: 5, mana: 20, effect: 'shield', power: 1 },
+        { key: 'bencao_do_grupo', level: 8, mana: 25, effect: 'healClan', power: 10 },
+        { key: 'julgamento', level: 11, mana: 30, effect: 'strike', power: 18 },
+      ],
+      ladino: [
+        { key: 'punhalada', level: 3, mana: 10, effect: 'strike', power: 8 },
+        { key: 'sombras', level: 5, mana: 30, effect: 'stealth', power: 2 },
+        { key: 'bater_carteira', level: 8, mana: 15, effect: 'gold', power: 15 },
+        { key: 'emboscada', level: 11, mana: 30, effect: 'strike', power: 22 },
+      ],
+    },
+  },
 } as const;
 
 export type GamificationConfig = typeof gamificationConfig;

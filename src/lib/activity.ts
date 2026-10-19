@@ -56,6 +56,8 @@ export function describeClanActivity(a: {
       return tr('activity.clanFinal', { who, name: p.name });
     case 'achievement':
       return tr('activity.clanAchievement', { who, icon: p.icon ?? '🏅', name: p.name });
+    case 'quest_started':
+      return tr('activity.clanQuest', { who, name: p.name });
     default:
       return tr('activity.clanOther', { who });
   }

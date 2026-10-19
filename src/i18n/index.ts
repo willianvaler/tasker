@@ -9,6 +9,9 @@ import { getLocalePreference, setLocalePreference } from '@/lib/prefs';
 import en from './locales/en.json';
 import es from './locales/es.json';
 import ptBR from './locales/pt-BR.json';
+import vocabEn from './vocab/en.json';
+import vocabEs from './vocab/es.json';
+import vocabPtBR from './vocab/pt-BR.json';
 import { DEFAULT_LOCALE, type Locale, type LocalePreference, resolveLocale } from './locale';
 
 export const resources = {
@@ -51,3 +54,29 @@ export function setLocale(preference: LocalePreference) {
 }
 
 export default i18n;
+
+/** Vocabulário de jogo (HB11): textos que o modo Completo troca ("tarefa" → "missão"). */
+export const GAME_VOCAB: Record<Locale, Record<string, string>> = {
+  'pt-BR': vocabPtBR,
+  en: vocabEn,
+  es: vocabEs,
+};
+
+function original(locale: Locale, key: string): string {
+  let node: unknown = resources[locale].translation;
+  for (const part of key.split('.')) node = (node as Record<string, unknown>)[part];
+  return node as string;
+}
+
+let vocabOn = false;
+
+/** Liga ou desliga o vocabulário de jogo em todos os idiomas e redesenha as telas. */
+export function setGameVocab(on: boolean) {
+  if (on === vocabOn) return;
+  vocabOn = on;
+  for (const locale of Object.keys(GAME_VOCAB) as Locale[])
+    for (const [key, value] of Object.entries(GAME_VOCAB[locale]))
+      i18n.addResource(locale, 'translation', key, on ? value : original(locale, key));
+  // O useTranslation() redesenha quando o idioma "muda"
+  void i18n.changeLanguage(i18n.language);
+}

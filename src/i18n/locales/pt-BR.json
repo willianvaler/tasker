@@ -168,7 +168,8 @@
     "weeklyPrefix": "Da semana",
     "dailyStreak_one": "🔥 {{count}} dia seguido derrotando o boss do dia",
     "dailyStreak_other": "🔥 {{count}} dias seguidos derrotando o boss do dia",
-    "dailyHint": "Nasce todo dia à meia-noite e foge no fim do dia. Todo golpe vale para ele e para o da semana."
+    "dailyHint": "Nasce todo dia à meia-noite e foge no fim do dia. Todo golpe vale para ele e para o da semana.",
+    "defeatedQuest": "Missão cumprida!"
   },
   "today": {
     "title": "Hoje",
@@ -472,7 +473,9 @@
       "off": "Só as listas: XP, personagem e bosses somem da tela (o histórico continua guardado).",
       "light": "XP, nível, personagem, bosses e loja, discretos ao lado das listas.",
       "full": "Modo jogo: o Início vira o acampamento do personagem, com os bosses e as missões do dia em destaque."
-    }
+    },
+    "sounds": "Sons do jogo",
+    "soundsHint": "Um som curto ao subir de nível, derrubar um boss e ganhar um item. Só neste aparelho."
   },
   "privacy": {
     "title": "Seus dados",
@@ -1677,7 +1680,8 @@
     "clanLeft": "{{who}} saiu do clã",
     "clanFinal": "⚔️ {{who}} deu o golpe final em {{name}}!",
     "clanAchievement": "{{icon}} {{who}} conquistou \"{{name}}\"",
-    "clanOther": "{{who}} fez algo"
+    "clanOther": "{{who}} fez algo",
+    "clanQuest": "{{who}} começou a missão \"{{name}}\" para o clã"
   },
   "attach": {
     "section": "Anexos",
@@ -1766,7 +1770,8 @@
     "defeated_clan": "🏆 Boss do clã derrotado!",
     "drop": "🎁 {{icon}} {{name}}",
     "limitQuick": "limite diário das tarefas rápidas atingido",
-    "limitHabit": "limite diário deste hábito atingido ({{count}} \"+\")"
+    "limitHabit": "limite diário deste hábito atingido ({{count}} \"+\")",
+    "defeated_quest": "📜 Missão cumprida!"
   },
   "projectsHub": {
     "title": "Configurações de projetos",
@@ -2299,5 +2304,241 @@
     "taunt3": "Você não vai terminar essa lista.",
     "taunt4": "Cada tarefa esquecida me deixa mais forte.",
     "tauntLow": "Não… só mais uma tarefa e eu caio!"
+  },
+  "pets": {
+    "title": "Estábulo",
+    "inventory": "Inventário",
+    "pets": "Mascotes",
+    "mounts": "Montarias",
+    "quests": "Missões",
+    "species": {
+      "lobo": "Lobo",
+      "raposa": "Raposa",
+      "coruja": "Coruja",
+      "cervo": "Cervo",
+      "urso": "Urso",
+      "javali": "Javali",
+      "grifo": "Grifo",
+      "dragao": "Dragão"
+    },
+    "potions": {
+      "comum": "comum",
+      "sombra": "das sombras",
+      "dourada": "dourada",
+      "gelo": "do gelo"
+    },
+    "foods": {
+      "carne": "Carne",
+      "cogumelo": "Cogumelo",
+      "mel": "Mel",
+      "peixe": "Peixe"
+    },
+    "lootEgg": "🥚 Ovo de {{name}}",
+    "lootPotion": "🧪 Poção {{name}}",
+    "lootFood": "🍖 {{name}}",
+    "lootScroll": "📜 Pergaminho: {{name}}",
+    "kinds": {
+      "egg": "Ovos",
+      "potion": "Poções de eclosão",
+      "food": "Comida",
+      "scroll": "Pergaminhos"
+    },
+    "eggOf": "Ovo de {{name}}",
+    "potionOf": "Poção {{name}}",
+    "petName": "{{species}} {{potion}}",
+    "emptyInventory": "Nada ainda. Ovos, poções, comida e pergaminhos caem ao concluir tarefas no modo Completo.",
+    "emptyPets": "Nenhum mascote. Junte um ovo e uma poção de eclosão para chocar.",
+    "emptyMounts": "Nenhuma montaria. Alimente um mascote até ele crescer.",
+    "hatchTitle": "Chocar um mascote",
+    "hatch": "Chocar {{name}}",
+    "hatched": "🐣 Nasceu: {{name}}!",
+    "feed": "Dar {{food}}",
+    "fed": "{{fed}}/{{max}} até virar montaria",
+    "favorite": "Comida favorita: {{food}}",
+    "ateFavorite": "{{name}} adorou! (+{{gain}})",
+    "ate": "{{name}} comeu (+{{gain}})",
+    "becameMount": "🐎 {{name}} cresceu e virou montaria!",
+    "active": "Com você",
+    "makeActive": "Levar junto",
+    "leave": "Deixar no estábulo",
+    "offline": "O estábulo precisa de conexão."
+  },
+  "quests": {
+    "title": "Missões",
+    "start": "Começar sozinho",
+    "startClan": "Começar com o clã",
+    "buy": "Comprar pergaminho ({{price}} de ouro)",
+    "bought": "Pergaminho comprado.",
+    "started": "📜 Missão começada: {{name}}",
+    "inProgress": "Missão em andamento",
+    "clanTag": "do clã",
+    "hint": "Cada tarefa concluída é um golpe no boss da missão. Você tem {{days}} dias.",
+    "owned": "{{count}} pergaminho(s)",
+    "dragao-do-prazo-perdido": {
+      "name": "Dragão do Prazo Perdido",
+      "chapter": "No alto da torre do relógio quebrado, um dragão de bronze dorme sobre os prazos que ninguém cumpriu. Cada dia de atraso lhe deu uma escama nova. Acorde-o com trabalho feito."
+    },
+    "bruxa-do-pantano": {
+      "name": "Bruxa do Pântano",
+      "chapter": "Luzes dançam sobre o pântano e chamam os viajantes para fora da estrada. A bruxa mexe o caldeirão das distrações. Siga em frente, uma tarefa de cada vez, e o feitiço se desfaz."
+    },
+    "cavaleiro-sem-fim": {
+      "name": "Cavaleiro Sem Fim",
+      "chapter": "Ele não tem rosto, só uma armadura que se estica em sombra: é o projeto que nunca termina. Só cai quando a última etapa for entregue."
+    },
+    "aranha-das-mensagens": {
+      "name": "Aranha das Mensagens",
+      "chapter": "Na cripta do correio, uma aranha tece a teia com cartas lacradas. Quanto mais você adia a resposta, mais fios ela ganha."
+    },
+    "rei-esqueleto": {
+      "name": "Rei Esqueleto",
+      "chapter": "O rei da procrastinação governa um reino em ruínas, com um cetro enferrujado de \"depois eu vejo\". Seu reinado acaba quando você agir."
+    },
+    "golem-de-ferro": {
+      "name": "Golem de Ferro",
+      "chapter": "Na forja abandonada, um golem marcha em círculos sem nunca sair do lugar. A rotina parada o alimenta; a rotina cumprida o derrete."
+    }
+  },
+  "game": {
+    "hp": "Vida",
+    "mp": "Mana",
+    "hpLabel": "{{hp}}/{{max}} de vida",
+    "mpLabel": "{{mp}}/{{max}} de mana",
+    "deadTitle": "Seu personagem caiu",
+    "deadBody": "A vida chegou a zero. Compre uma vida por {{price}} de ouro e mantenha tudo, ou recomece do nível 1 sem nada (nível, XP, ouro, itens, atributos e mascotes).",
+    "buyLife": "Comprar uma vida ({{price}} de ouro)",
+    "restart": "Recomeçar do nível 1",
+    "restartConfirm": "Recomeçar mesmo? Você perde nível, XP, ouro, itens, atributos e mascotes. As conquistas ficam.",
+    "revived": "❤️ De volta à luta!",
+    "restarted": "Uma nova jornada começa no nível 1.",
+    "noGold": "Você tem {{gold}} de ouro: não dá para comprar a vida.",
+    "dayStartTitle": "O que você fez ontem?",
+    "dayStartHint": "Estas diárias ficaram sem marcar. Marque as que você fez e só esqueceu de registrar: elas não tiram vida. As outras tiram.",
+    "dayStartResting": "Você está descansando na taverna: nada tira vida hoje.",
+    "dayStartGo": "Começar o dia",
+    "dayStartDamage_one": "Uma diária ficou para trás: −{{damage}} de vida.",
+    "dayStartDamage_other": "{{count}} diárias ficaram para trás: −{{damage}} de vida.",
+    "dayStartClean": "Nenhuma diária perdida ontem.",
+    "perfect": "✨ Dia perfeito! +{{buff}} em todos os atributos hoje.",
+    "mpGain": "+{{mp}} de mana",
+    "tavern": "Descansar na taverna",
+    "tavernHint": "Para viagem, doença ou folga: as diárias não tiram vida enquanto você descansa. O dano no boss também pausa.",
+    "tavernOn": "Você está descansando na taverna.",
+    "tavernLeave": "Sair da taverna",
+    "potion": "Poção de vida (+{{heal}}, {{price}} de ouro)",
+    "potionDone": "🧪 +{{heal}} de vida",
+    "stealth": "Furtividade: {{count}} diária(s) protegida(s) na próxima virada",
+    "shield": "Escudo: a próxima virada tira só metade",
+    "buff": "Dia perfeito: +{{buff}} em todos os atributos",
+    "manaTitle": "Habilidades de mana",
+    "manaHint": "A mana enche a cada tarefa concluída e na virada do dia.",
+    "cast": "Usar ({{mana}} de mana)",
+    "locked": "Libera no nível {{level}}",
+    "noMana": "Mana insuficiente",
+    "effects": {
+      "strike": "{{damage}} de dano nos bosses",
+      "heal": "+{{power}} de vida",
+      "healClan": "+{{power}} de vida para todo o clã",
+      "shield": "a próxima virada tira só metade da vida",
+      "stealth": "evita {{power}} diária(s) perdida(s) na próxima virada",
+      "gold": "+{{power}} de ouro"
+    },
+    "castDone": "{{name}}: {{effect}}",
+    "skills": {
+      "golpe_brutal": "Golpe brutal",
+      "pele_de_ferro": "Pele de ferro",
+      "folego": "Fôlego de batalha",
+      "investida": "Investida",
+      "bola_de_fogo": "Bola de fogo",
+      "escudo_arcano": "Escudo arcano",
+      "transmutacao": "Transmutação",
+      "meteoro": "Meteoro",
+      "tiro_certeiro": "Tiro certeiro",
+      "camuflagem": "Camuflagem",
+      "cacada": "Caçada",
+      "chuva_de_flechas": "Chuva de flechas",
+      "luz_curativa": "Luz curativa",
+      "egide": "Égide",
+      "bencao_do_grupo": "Bênção do grupo",
+      "julgamento": "Julgamento",
+      "punhalada": "Punhalada",
+      "sombras": "Sombras",
+      "bater_carteira": "Bater carteira",
+      "emboscada": "Emboscada"
+    },
+    "appearance": "Aparência",
+    "portrait": "Retrato",
+    "background": "Cenário",
+    "portraits": {
+      "f-clara": "Mulher, pele clara",
+      "f-escura": "Mulher, pele escura",
+      "m-clara": "Homem, pele clara",
+      "m-escura": "Homem, pele escura"
+    },
+    "backgrounds": {
+      "acampamento": "Acampamento",
+      "taverna": "Taverna",
+      "floresta": "Floresta",
+      "castelo": "Castelo",
+      "montanha": "Montanha",
+      "masmorra": "Masmorra"
+    },
+    "costume": "Usar fantasia",
+    "costumeHint": "O equipamento de batalha dá atributos (pela raridade); a fantasia muda só a aparência.",
+    "costumeTitle": "Fantasia",
+    "battleTitle": "Batalha",
+    "costumeNone": "Sem fantasia neste espaço",
+    "gearBonus": "+{{bonus}} {{attr}}",
+    "vocab": "Vocabulário de jogo",
+    "vocabHint": "Tarefas viram missões, recorrentes viram diárias.",
+    "rewardsLink": "Recompensas",
+    "stableLink": "Estábulo",
+    "portraitOf": "Retrato do personagem"
+  },
+  "rewards": {
+    "title": "Recompensas",
+    "hint": "Prêmios da vida real, pagos com o ouro do jogo. Crie os seus.",
+    "new": "Nova recompensa",
+    "name": "O que é (ex.: um episódio de série)",
+    "cost": "Preço em ouro",
+    "redeem": "Resgatar por {{cost}}",
+    "redeemed": "🎁 Aproveite: {{title}}",
+    "notEnough": "Falta ouro ({{gold}} de {{cost}})",
+    "empty": "Nenhuma recompensa ainda.",
+    "edit": "Editar",
+    "delete": "Apagar",
+    "deleteConfirm": "Apagar \"{{title}}\"?",
+    "armoire": "Baú encantado",
+    "armoireHint": "Um item da loja que você ainda não tem, por {{price}} de ouro. Se já tiver todos, cai comida para os mascotes.",
+    "armoireOpen": "Abrir o baú ({{price}} de ouro)",
+    "armoireItem": "🧰 Saiu: {{icon}} {{name}}",
+    "armoireFood": "🧰 Saiu comida: {{name}}",
+    "gold": "{{gold}} de ouro",
+    "offline": "Recompensas precisam de conexão.",
+    "costInvalid": "O preço vai de 1 a 100000."
+  },
+  "vocab": {
+    "today": "Missões de hoje",
+    "habits": "Diárias",
+    "tasks": "Missões",
+    "newTask": "Nova missão"
+  },
+  "reminders": {
+    "time": "Horário",
+    "timePlaceholder": "ex.: 15h",
+    "noTime": "Sem horário",
+    "label": "Lembrete",
+    "options": {
+      "none": "Sem lembrete",
+      "0": "Na hora",
+      "5": "5 min antes",
+      "15": "15 min antes",
+      "30": "30 min antes",
+      "60": "1 h antes",
+      "1440": "1 dia antes"
+    },
+    "channel": "Lembretes de tarefas",
+    "notifyTitle": "⏰ {{time}} · {{title}}",
+    "notifyBody": "Lembrete da tarefa"
   }
 }

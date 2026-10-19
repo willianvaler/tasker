@@ -7,6 +7,7 @@ Escribe en el campo **Nueva tarea** y pulsa Enter. Listo: la tarea va a la Bande
 El propio texto completa los detalles:
 
 - `mañana`, `viernes`, `15/10` — vencimiento
+- `15h`, `a las 9:30`, `14:05` — hora (sin fecha, vale hoy); avisa a la hora, y en el panel puedes cambiar el recordatorio
 - `!`, `!!`, `!!!` — prioridad
 - `#mercado` — etiqueta
 - `/diaria`, `/semanal`, `/lun,mie` — repetir

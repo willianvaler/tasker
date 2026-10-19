@@ -14,6 +14,14 @@ describe('textos das notificações (tela 🔔 e push)', () => {
       }),
     ).toEqual({ text: 'Ana te atribuiu "Carne" em Churrasco', taskId: 't1' });
   });
+  test('lembrete de tarefa com horário', () => {
+    expect(
+      describeNotification({
+        kind: 'task_reminder',
+        payload: { title: 'Ligar para o banco', task_id: 't9', due_date: '2026-10-20', due_time: '15:00' },
+      }),
+    ).toEqual({ text: '⏰ 20/10 15:00 · Ligar para o banco', taskId: 't9' });
+  });
   test('menção', () => {
     expect(
       describeNotification({

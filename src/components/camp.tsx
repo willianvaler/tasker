@@ -1,8 +1,10 @@
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
-import { Avatar, classOf, useEquippedTitle } from '@/components/character';
+import { classOf, useEquippedTitle } from '@/components/character';
+import { HeroPortrait, QuestCard, VitalActions, VitalBars } from '@/components/game-mode';
+import { Button } from '@/components/ui/button';
 import { BossLine } from '@/components/game-bar';
 import { SkillButton } from '@/components/hero-panel';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -55,7 +57,7 @@ export function CampView({ name, missions }: { name?: string; missions: number }
       <View className="flex-row items-center gap-4">
         <Link href="/character" asChild>
           <Pressable accessibilityRole="link" accessibilityLabel={t('hero.open')}>
-            <Avatar game={game} size="lg" />
+            <HeroPortrait game={game} />
           </Pressable>
         </Link>
         <View className="flex-1 gap-2">
@@ -84,9 +86,26 @@ export function CampView({ name, missions }: { name?: string; missions: number }
               {(game.points ?? 0) > 0 ? ` · ${t('hero.points', { count: game.points ?? 0 })}` : ''}
             </Text>
           </View>
+          <VitalBars game={game} />
           {cls && <SkillButton game={game} />}
         </View>
       </View>
+      <VitalActions game={game} />
+      <View className="flex-row flex-wrap gap-2">
+        <Button
+          variant="ghost"
+          label={`🎁 ${t('game.rewardsLink')}`}
+          onPress={() => router.push('/recompensas')}
+        />
+        <Button
+          variant="ghost"
+          label={`🐾 ${t('game.stableLink')}`}
+          onPress={() => router.push('/estabulo')}
+        />
+      </View>
+      {game.quests.map((q) => (
+        <QuestCard key={q.id} quest={q} />
+      ))}
 
       {(game.daily_boss || game.boss || game.clan_boss) && (
         <View className="gap-4">

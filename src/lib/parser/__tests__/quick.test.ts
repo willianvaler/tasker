@@ -121,6 +121,7 @@ describe('título', () => {
       repeatPlan: null,
       priority: 3,
       dueDate: '2026-10-09',
+      dueTime: null,
       labels: ['casa'],
       mentions: [],
       prereqs: [],
@@ -190,4 +191,33 @@ describe('inglês e espanhol (F3)', () => {
     expect(parseQuickInput('Dentist 10/15', { today, dateOrder: 'mdy' }).dueDate).toBe(
       '2026-10-15',
     ));
+});
+
+describe('horário (D206)', () => {
+  const p = (text: string) => parseQuickInput(text, { today, dateOrder: 'dmy' });
+  it.each([
+    ['Ligar para o banco 15h', 'Ligar para o banco', '15:00'],
+    ['Ligar às 9h30', 'Ligar', '09:30'],
+    ['Reunião as 14:05', 'Reunião', '14:05'],
+    ['Call at 3pm', 'Call', '15:00'],
+    ['Llamar a las 18:45', 'Llamar', '18:45'],
+    ['Dentista 7:30am', 'Dentista', '07:30'],
+  ])('%s', (text, title, time) => {
+    const r = p(text);
+    expect(r.title).toBe(title);
+    expect(r.dueTime).toBe(time);
+  });
+
+  it('horário sem data vale para hoje; com data, fica a data', () => {
+    expect(p('Ligar 15h').dueDate).toBe(today);
+    const r = p('Ligar amanhã 15h');
+    expect(r.dueDate).toBe('2026-10-09');
+    expect(r.dueTime).toBe('15:00');
+  });
+
+  it('não confunde com o que não é hora', () => {
+    expect(p('Rodar 25h').dueTime).toBeNull();
+    expect(p('Agachamento 3x12').dueTime).toBeNull();
+    expect(p('Ler 10 páginas').dueTime).toBeNull();
+  });
 });

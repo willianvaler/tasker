@@ -7,6 +7,7 @@ Escreva no campo **Nova tarefa** e aperte Enter. Pronto: a tarefa foi para a Cai
 O próprio texto já preenche os detalhes:
 
 - `amanhã`, `sexta`, `15/10` — vencimento
+- `15h`, `às 9h30`, `14:05` — horário (sem data, vale hoje); avisa na hora, e no painel dá para mudar o lembrete
 - `!`, `!!`, `!!!` — prioridade
 - `#mercado` — etiqueta
 - `/diaria`, `/semanal`, `/seg,qua` — repetir

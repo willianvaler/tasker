@@ -20,7 +20,8 @@ export function TaskMeta({
   pageLabel,
   hideRecurrence,
 }: {
-  task: Pick<Task, 'due_date' | 'priority' | 'labels' | 'status' | 'recurrence' | 'meta'>;
+  task: Pick<Task, 'due_date' | 'priority' | 'labels' | 'status' | 'recurrence' | 'meta'> &
+    Partial<Pick<Task, 'due_time' | 'remind_before'>>;
   today: string;
   subtasks?: { done: number; total: number };
   pageLabel?: string;
@@ -38,9 +39,15 @@ export function TaskMeta({
       <Text
         key="due"
         className={cn(meta, overdue && 'text-warn')}
-        accessibilityLabel={t('task.due', { date: formatDueDate(task.due_date, today) })}
+        accessibilityLabel={t('task.due', {
+          date: [formatDueDate(task.due_date, today), shortTime(task.due_time)]
+            .filter(Boolean)
+            .join(' '),
+        })}
       >
         {formatDueDate(task.due_date, today)}
+        {task.due_time ? ` ${shortTime(task.due_time)}` : ''}
+        {task.due_time && task.remind_before != null ? ' 🔔' : ''}
       </Text>
     ),
     task.priority > 0 && (
@@ -107,4 +114,9 @@ export function metaLabel(meta: unknown): string {
   else if (typeof m.reps === 'number') parts.push(`${m.reps} reps`);
   if (typeof m.weight === 'string' && m.weight) parts.push(m.weight);
   return parts.join(' · ');
+}
+
+/** '15:00:00' → '15:00' (horário da tarefa, D206). */
+export function shortTime(time: string | null | undefined) {
+  return time ? time.slice(0, 5) : '';
 }

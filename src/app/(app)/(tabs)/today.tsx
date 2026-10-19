@@ -48,7 +48,20 @@ export default function TodayScreen() {
   const habitsDone = withGoal.filter((h) => h.status === 'done').length;
 
   const overdue = (tasks.data ?? []).filter((task) => task.due_date! < today);
-  const dueToday = (tasks.data ?? []).filter((task) => task.due_date === today);
+  // Com horário primeiro, pela hora; as sem horário depois, na ordem de sempre (D206)
+  const dueToday = (tasks.data ?? [])
+    .filter((task) => task.due_date === today)
+    .map((task, i) => ({ task, i }))
+    .sort((a, b) =>
+      a.task.due_time && b.task.due_time
+        ? a.task.due_time.localeCompare(b.task.due_time)
+        : a.task.due_time
+          ? -1
+          : b.task.due_time
+            ? 1
+            : a.i - b.i,
+    )
+    .map(({ task }) => task);
   const keyboardOrder = useMemo(() => [...overdue, ...dueToday], [overdue, dueToday]);
   useSelectableList(keyboardOrder);
   const asRows = (list: TaskWithPage[]) => list.map((task) => ({ kind: 'task' as const, task }));

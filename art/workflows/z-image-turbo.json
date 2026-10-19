@@ -1,0 +1,114 @@
+{
+  "5": {
+    "class_type": "UnetLoaderGGUF",
+    "inputs": {
+      "unet_name": "z_image_turbo-Q8_0.gguf"
+    }
+  },
+  "7": {
+    "class_type": "ModelSamplingAuraFlow",
+    "inputs": {
+      "model": [
+        "5",
+        0
+      ],
+      "shift": 3.0
+    }
+  },
+  "8": {
+    "class_type": "CLIPLoaderGGUF",
+    "inputs": {
+      "clip_name": "Qwen3-4B-Q8_0.gguf",
+      "type": "lumina2"
+    }
+  },
+  "9": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "PROMPT",
+      "clip": [
+        "8",
+        0
+      ]
+    }
+  },
+  "10": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "9",
+        0
+      ]
+    }
+  },
+  "11": {
+    "class_type": "EmptySD3LatentImage",
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "Tamanho e QUANTIDADE (batch_size = imagens por vez)"
+    }
+  },
+  "12": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 42,
+      "steps": 8,
+      "cfg": 1.0,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "positive": [
+        "9",
+        0
+      ],
+      "negative": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "11",
+        0
+      ],
+      "model": [
+        "7",
+        0
+      ],
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "Passos (steps: 8 padr\u00e3o, at\u00e9 ~16)"
+    }
+  },
+  "13": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "12",
+        0
+      ],
+      "vae": [
+        "13",
+        0
+      ]
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ],
+      "filename_prefix": "questlist/art"
+    }
+  }
+}

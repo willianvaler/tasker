@@ -1,0 +1,17 @@
+{
+  "nav.today": "Today's quests",
+  "today.title": "Today's quests",
+  "nav.habits": "Habits & dailies",
+  "habits.title": "Habits & dailies",
+  "home.habitsToday": "Today's habits & dailies",
+  "nav.newTask": "New quest",
+  "quickAdd.label": "New quest",
+  "quickAdd.placeholder": "New quest… (Enter to create)",
+  "quickAdd.offline": "New quest… (sent when you are back online)",
+  "quickAdd.placeholderShort": "New quest…",
+  "today.placeholder": "New quest for today…",
+  "palette.newTask": "New quest (quick capture)",
+  "advanced.newTask": "New quest",
+  "home.now": "Quests for now",
+  "achievements.category.tasks": "Quests"
+}

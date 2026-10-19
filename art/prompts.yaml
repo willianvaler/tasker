@@ -1,0 +1,265 @@
+# Arte do jogo (ESCOPO_V8 §4). Estilo medieval meio realista, pedido do dono em 19/10/2026.
+# Gerar: art/gerar.py (precisa do ComfyUI do dono). Modelo: Z-Image Turbo (Apache 2.0).
+semente: 1910
+estilo: medieval fantasy, semi-realistic digital oil painting, painterly brushwork, soft dramatic lighting, muted
+  earthy palette with deep forest green and warm orange accents, highly detailed, serious adult tone, no text, no
+  letters, no watermark, no frame, no border
+grupos:
+  retratos:
+    tamanho:
+    - 1024
+    - 1024
+    chroma: true
+    antes: half-body portrait of a
+    depois: facing the viewer, centered, isolated on a flat solid pure bright green background (#00FF00), no shadow
+      on the background, clean silhouette
+    itens:
+    - id: lutador-f-clara
+      prompt: fair-skinned woman with braided auburn hair, a warrior with a longsword and worn steel plate armor
+    - id: lutador-f-escura
+      prompt: dark-skinned woman with short black curly hair, a warrior with a longsword and worn steel plate armor
+    - id: lutador-m-clara
+      prompt: fair-skinned bearded man with long brown hair, a warrior with a longsword and worn steel plate armor
+    - id: lutador-m-escura
+      prompt: dark-skinned man with a short beard and close-cropped hair, a warrior with a longsword and worn steel
+        plate armor
+    - id: mago-f-clara
+      prompt: fair-skinned woman with braided auburn hair, a mage in a deep green hooded robe holding a gnarled
+        wooden staff with a faint glowing rune
+    - id: mago-f-escura
+      prompt: dark-skinned woman with short black curly hair, a mage in a deep green hooded robe holding a gnarled
+        wooden staff with a faint glowing rune
+    - id: mago-m-clara
+      prompt: fair-skinned bearded man with long brown hair, a mage in a deep green hooded robe holding a gnarled
+        wooden staff with a faint glowing rune
+    - id: mago-m-escura
+      prompt: dark-skinned man with a short beard and close-cropped hair, a mage in a deep green hooded robe holding
+        a gnarled wooden staff with a faint glowing rune
+    - id: arqueiro-f-clara
+      prompt: fair-skinned woman with braided auburn hair, a ranger archer in a leather hood and green cloak with
+        a longbow and quiver
+    - id: arqueiro-f-escura
+      prompt: dark-skinned woman with short black curly hair, a ranger archer in a leather hood and green cloak
+        with a longbow and quiver
+    - id: arqueiro-m-clara
+      prompt: fair-skinned bearded man with long brown hair, a ranger archer in a leather hood and green cloak with
+        a longbow and quiver
+    - id: arqueiro-m-escura
+      prompt: dark-skinned man with a short beard and close-cropped hair, a ranger archer in a leather hood and
+        green cloak with a longbow and quiver
+    - id: paladino-f-clara
+      prompt: fair-skinned woman with braided auburn hair, a paladin in polished plate armor with a tabard and a
+        heavy shield bearing a sun emblem
+    - id: paladino-f-escura
+      prompt: dark-skinned woman with short black curly hair, a paladin in polished plate armor with a tabard and
+        a heavy shield bearing a sun emblem
+    - id: paladino-m-clara
+      prompt: fair-skinned bearded man with long brown hair, a paladin in polished plate armor with a tabard and
+        a heavy shield bearing a sun emblem
+    - id: paladino-m-escura
+      prompt: dark-skinned man with a short beard and close-cropped hair, a paladin in polished plate armor with
+        a tabard and a heavy shield bearing a sun emblem
+    - id: ladino-f-clara
+      prompt: fair-skinned woman with braided auburn hair, a rogue in dark leather armor with a hood half covering
+        the face and twin daggers
+    - id: ladino-f-escura
+      prompt: dark-skinned woman with short black curly hair, a rogue in dark leather armor with a hood half covering
+        the face and twin daggers
+    - id: ladino-m-clara
+      prompt: fair-skinned bearded man with long brown hair, a rogue in dark leather armor with a hood half covering
+        the face and twin daggers
+    - id: ladino-m-escura
+      prompt: dark-skinned man with a short beard and close-cropped hair, a rogue in dark leather armor with a hood
+        half covering the face and twin daggers
+  bosses:
+    tamanho:
+    - 1024
+    - 1024
+    antes: dark fantasy creature boss,
+    depois: menacing, full body, in a gloomy medieval setting, cinematic composition
+    itens:
+    - id: procrastinossauro
+      nome: Procrastinossauro
+      prompt: a huge lazy armored dinosaur lying on a pile of postponed letters
+    - id: hidra-das-pendencias
+      nome: Hidra das Pendências
+      prompt: a many-headed swamp hydra tangled in old scrolls and unfinished parchment lists
+    - id: golem-da-bagunca
+      nome: Golem da Bagunça
+      prompt: a golem made of piled junk, broken furniture and scattered books
+    - id: dragao-do-adiamento
+      nome: Dragão do Adiamento
+      prompt: a sleepy red dragon coiled around a giant hourglass
+    - id: kraken-das-notificacoes
+      nome: Kraken das Notificações
+      prompt: a kraken rising from a dark sea, tentacles holding ringing bells
+    - id: lich-do-sofa
+      nome: Lich do Sofá
+      prompt: an undead lich king slouched on a moth-eaten velvet throne
+    - id: quimera-do-depois
+      nome: Quimera do Depois
+      prompt: a chimera with lion, goat and serpent heads under a twilight sky
+    - id: tita-da-preguica
+      nome: Titã da Preguiça
+      prompt: a colossal stone titan half asleep on a mountainside
+    - id: leviata-dos-prazos
+      nome: Leviatã dos Prazos
+      prompt: a gigantic sea leviathan breaching near a harbor with a bell tower clock
+    - id: colosso-da-bagunca
+      nome: Colosso da Bagunça
+      prompt: a towering colossus built from collapsed market stalls and debris
+    - id: hidra-das-reunioes
+      nome: Hidra das Reuniões
+      prompt: a hydra whose heads argue around a long council table in a castle hall
+    - id: dragao-anciao-do-adiamento
+      nome: Dragão Ancião do Adiamento
+      prompt: an ancient enormous black dragon with grey scales sleeping on a hoard of hourglasses
+    - id: behemoth-da-caixa-de-entrada
+      nome: Behemoth da Caixa de Entrada
+      prompt: a massive behemoth carrying a mountain of sealed letters and crates on its back
+    - id: diabrete-do-dia
+      nome: Diabrete do Dia
+      prompt: a small mischievous imp with horns perched on a candlelit desk
+    - id: goblin-das-miudezas
+      nome: Goblin das Miudezas
+      prompt: a sneaky goblin hoarding tiny trinkets, buttons and coins
+    - id: slime-da-rotina
+      nome: Slime da Rotina
+      prompt: a dull grey slime creeping slowly across a stone floor
+    - id: morcego-da-distracao
+      nome: Morcego da Distração
+      prompt: a large bat with glowing eyes swooping through a library
+    - id: gremlin-do-celular
+      nome: Gremlin do Celular
+      prompt: a gremlin clutching a glowing enchanted mirror, its face lit by the glow
+    - id: rato-das-pendencias
+      nome: Rato das Pendências
+      prompt: a giant rat gnawing on piles of unfinished parchment
+    - id: fantasma-da-soneca
+      nome: Fantasma da Soneca
+      prompt: a pale drowsy ghost floating over an unmade bed in a dark chamber
+    - id: ogro-da-organizacao
+      nome: Ogro da Organização
+      prompt: a brutish ogre swinging a club amid toppled shelves
+    - id: golem-da-lista
+      nome: Golem da Lista
+      prompt: a stone golem covered in carved endless lists
+    - id: grifo-do-prazo
+      nome: Grifo do Prazo
+      prompt: a fierce griffin diving from a stormy sky over a castle
+    - id: basilisco-dos-detalhes
+      nome: Basilisco dos Detalhes
+      prompt: a basilisk serpent with a deadly gaze coiled among tiny gears
+    - id: minotauro-da-logistica
+      nome: Minotauro da Logística
+      prompt: a minotaur in a labyrinth of crates and wagons
+    - id: dragao-do-prazo-perdido
+      nome: Dragão do Prazo Perdido
+      prompt: a scarred bronze dragon guarding a broken clock tower
+    - id: bruxa-do-pantano
+      nome: Bruxa do Pântano
+      prompt: a swamp witch stirring a bubbling cauldron of distractions among will-o-wisps
+    - id: cavaleiro-sem-fim
+      nome: Cavaleiro Sem Fim
+      prompt: a hollow black knight whose armor stretches into endless shadow
+    - id: aranha-das-mensagens
+      nome: Aranha das Mensagens
+      prompt: a giant spider weaving a web hung with sealed envelopes
+    - id: rei-esqueleto
+      nome: Rei Esqueleto
+      prompt: a skeleton king on a crumbling throne holding a rusted scepter
+    - id: golem-de-ferro
+      nome: Golem de Ferro
+      prompt: an iron golem that marches in endless circles in a forge
+  mascotes:
+    tamanho:
+    - 1024
+    - 1024
+    antes: a young
+    depois: as a loyal companion pet, cute but realistic, sitting on mossy stones in a sunlit forest clearing
+    itens:
+    - id: lobo
+      prompt: grey wolf
+    - id: raposa
+      prompt: red fox
+    - id: coruja
+      prompt: snowy owl
+    - id: cervo
+      prompt: white stag
+    - id: urso
+      prompt: brown bear
+    - id: javali
+      prompt: wild boar
+    - id: grifo
+      prompt: 'single eagle-headed griffin: the head is an eagle head with a hooked yellow beak and feathered neck,
+        huge feathered eagle wings, golden lion body and lion tail, one creature only, no rider, no other animals'
+      semente: 32
+    - id: dragao
+      prompt: small green dragon
+  montarias:
+    tamanho:
+    - 1024
+    - 1024
+    antes: a majestic adult
+    depois: wearing an ornate leather saddle and bridle, ready to be ridden, standing on a hill at golden hour,
+      full body
+    itens:
+    - id: lobo
+      prompt: grey wolf
+    - id: raposa
+      prompt: red fox
+    - id: coruja
+      prompt: snowy owl
+    - id: cervo
+      prompt: white stag
+    - id: urso
+      prompt: brown bear
+    - id: javali
+      prompt: wild boar
+    - id: grifo
+      prompt: 'single eagle-headed griffin: the head is an eagle head with a hooked yellow beak and feathered neck,
+        huge feathered eagle wings, golden lion body and lion tail, one creature only, no rider, no other animals'
+      semente: 32
+      nota: 'o texto sozinho não acerta a montaria do grifo: veio de uma edição de mascotes/grifo no FLUX.2 klein
+        4B (ver lote.json)'
+    - id: dragao
+      prompt: small green dragon
+  cenarios:
+    tamanho:
+    - 1344
+    - 768
+    saida: 768
+    antes: wide landscape painting of
+    depois: atmospheric, no people, empty foreground
+    itens:
+    - id: acampamento
+      prompt: an adventurers camp at dusk with a campfire, tents and a forest edge
+    - id: taverna
+      prompt: the warm interior of a medieval tavern with a hearth, wooden tables and candles
+    - id: floresta
+      prompt: an ancient misty forest with sunbeams and moss covered roots
+    - id: castelo
+      prompt: a stone castle courtyard with banners at morning
+    - id: montanha
+      prompt: a high mountain pass with snow peaks and a winding road
+    - id: masmorra
+      prompt: a torch-lit dungeon corridor with stone arches
+  itens:
+    tamanho:
+    - 1024
+    - 1024
+    antes: a single
+    depois: as a game item, centered on a dark wooden table, still life, close-up
+    itens:
+    - id: ovo
+      prompt: speckled magical creature egg resting in straw
+    - id: pocao
+      prompt: glass hatching potion bottle with glowing amber liquid and a cork
+    - id: comida
+      prompt: small burlap sack of meat, apples and grain for animals
+    - id: pergaminho
+      prompt: rolled quest scroll tied with a red ribbon and a wax seal
+    - id: bau
+      prompt: enchanted wooden armoire chest with iron bands and a faint magical glow from the keyhole
+    - id: vida
+      prompt: red heart-shaped crystal phoenix feather potion that restores life

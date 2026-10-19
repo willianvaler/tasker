@@ -168,7 +168,8 @@
     "weeklyPrefix": "This week's",
     "dailyStreak_one": "🔥 {{count}} day in a row beating the daily boss",
     "dailyStreak_other": "🔥 {{count}} days in a row beating the daily boss",
-    "dailyHint": "Born every day at midnight and escapes at the end of the day. Every hit counts for it and for the weekly one."
+    "dailyHint": "Born every day at midnight and escapes at the end of the day. Every hit counts for it and for the weekly one.",
+    "defeatedQuest": "Quest complete!"
   },
   "today": {
     "title": "Today",
@@ -472,7 +473,9 @@
       "off": "Just the lists: XP, character and bosses leave the screen (your history is kept).",
       "light": "XP, level, character, bosses and shop, quietly beside the lists.",
       "full": "Game mode: Home becomes your character's camp, with the bosses and today's quests up front."
-    }
+    },
+    "sounds": "Game sounds",
+    "soundsHint": "A short sound when you level up, defeat a boss or get an item. This device only."
   },
   "privacy": {
     "title": "Your data",
@@ -1677,7 +1680,8 @@
     "clanLeft": "{{who}} left the clan",
     "clanFinal": "⚔️ {{who}} landed the final blow on {{name}}!",
     "clanAchievement": "{{icon}} {{who}} earned \"{{name}}\"",
-    "clanOther": "{{who}} did something"
+    "clanOther": "{{who}} did something",
+    "clanQuest": "{{who}} started the quest \"{{name}}\" for the clan"
   },
   "attach": {
     "section": "Attachments",
@@ -1766,7 +1770,8 @@
     "defeated_clan": "🏆 Clan boss defeated!",
     "drop": "🎁 {{icon}} {{name}}",
     "limitQuick": "daily limit for quick tasks reached",
-    "limitHabit": "daily limit for this habit reached ({{count}} \"+\")"
+    "limitHabit": "daily limit for this habit reached ({{count}} \"+\")",
+    "defeated_quest": "📜 Quest complete!"
   },
   "projectsHub": {
     "title": "Project settings",
@@ -2299,5 +2304,241 @@
     "taunt3": "You will never finish that list.",
     "taunt4": "Every forgotten task makes me stronger.",
     "tauntLow": "No… one more task and I fall!"
+  },
+  "pets": {
+    "title": "Stable",
+    "inventory": "Inventory",
+    "pets": "Pets",
+    "mounts": "Mounts",
+    "quests": "Quests",
+    "species": {
+      "lobo": "Wolf",
+      "raposa": "Fox",
+      "coruja": "Owl",
+      "cervo": "Stag",
+      "urso": "Bear",
+      "javali": "Boar",
+      "grifo": "Griffin",
+      "dragao": "Dragon"
+    },
+    "potions": {
+      "comum": "common",
+      "sombra": "shadow",
+      "dourada": "golden",
+      "gelo": "frost"
+    },
+    "foods": {
+      "carne": "Meat",
+      "cogumelo": "Mushroom",
+      "mel": "Honey",
+      "peixe": "Fish"
+    },
+    "lootEgg": "🥚 {{name}} egg",
+    "lootPotion": "🧪 {{name}} potion",
+    "lootFood": "🍖 {{name}}",
+    "lootScroll": "📜 Scroll: {{name}}",
+    "kinds": {
+      "egg": "Eggs",
+      "potion": "Hatching potions",
+      "food": "Food",
+      "scroll": "Scrolls"
+    },
+    "eggOf": "{{name}} egg",
+    "potionOf": "{{name}} potion",
+    "petName": "{{potion}} {{species}}",
+    "emptyInventory": "Nothing yet. Eggs, potions, food and scrolls drop when you complete tasks in Full mode.",
+    "emptyPets": "No pets. Combine an egg and a hatching potion to hatch one.",
+    "emptyMounts": "No mounts. Feed a pet until it grows up.",
+    "hatchTitle": "Hatch a pet",
+    "hatch": "Hatch {{name}}",
+    "hatched": "🐣 Hatched: {{name}}!",
+    "feed": "Give {{food}}",
+    "fed": "{{fed}}/{{max}} to become a mount",
+    "favorite": "Favorite food: {{food}}",
+    "ateFavorite": "{{name}} loved it! (+{{gain}})",
+    "ate": "{{name}} ate (+{{gain}})",
+    "becameMount": "🐎 {{name}} grew up and became a mount!",
+    "active": "With you",
+    "makeActive": "Take along",
+    "leave": "Leave in the stable",
+    "offline": "The stable needs a connection."
+  },
+  "quests": {
+    "title": "Quests",
+    "start": "Start solo",
+    "startClan": "Start with the clan",
+    "buy": "Buy scroll ({{price}} gold)",
+    "bought": "Scroll bought.",
+    "started": "📜 Quest started: {{name}}",
+    "inProgress": "Quest in progress",
+    "clanTag": "clan",
+    "hint": "Every completed task is a strike on the quest boss. You have {{days}} days.",
+    "owned": "{{count}} scroll(s)",
+    "dragao-do-prazo-perdido": {
+      "name": "Dragon of the Lost Deadline",
+      "chapter": "Atop the broken clock tower, a bronze dragon sleeps on deadlines nobody kept. Every late day gave it a new scale. Wake it with work done."
+    },
+    "bruxa-do-pantano": {
+      "name": "Swamp Witch",
+      "chapter": "Lights dance over the swamp, luring travelers off the road. The witch stirs a cauldron of distractions. Keep going, one task at a time, and the spell breaks."
+    },
+    "cavaleiro-sem-fim": {
+      "name": "The Endless Knight",
+      "chapter": "He has no face, just armor that stretches into shadow: the project that never ends. He only falls when the last step is delivered."
+    },
+    "aranha-das-mensagens": {
+      "name": "Spider of Messages",
+      "chapter": "In the crypt of the post, a spider weaves its web from sealed letters. The longer you put off replying, the more threads it gains."
+    },
+    "rei-esqueleto": {
+      "name": "Skeleton King",
+      "chapter": "The king of procrastination rules a kingdom in ruins with a rusted scepter of \"I'll see later\". His reign ends when you act."
+    },
+    "golem-de-ferro": {
+      "name": "Iron Golem",
+      "chapter": "In the abandoned forge, a golem marches in circles, never leaving its place. A stalled routine feeds it; a kept routine melts it."
+    }
+  },
+  "game": {
+    "hp": "Health",
+    "mp": "Mana",
+    "hpLabel": "{{hp}}/{{max}} health",
+    "mpLabel": "{{mp}}/{{max}} mana",
+    "deadTitle": "Your character fell",
+    "deadBody": "Health reached zero. Buy a life for {{price}} gold and keep everything, or start over at level 1 with nothing (level, XP, gold, items, attributes and pets).",
+    "buyLife": "Buy a life ({{price}} gold)",
+    "restart": "Start over at level 1",
+    "restartConfirm": "Start over? You lose level, XP, gold, items, attributes and pets. Achievements stay.",
+    "revived": "❤️ Back in the fight!",
+    "restarted": "A new journey begins at level 1.",
+    "noGold": "You have {{gold}} gold: not enough to buy a life.",
+    "dayStartTitle": "What did you do yesterday?",
+    "dayStartHint": "These dailies were left unchecked. Check the ones you did and just forgot to record: they won't cost health. The others will.",
+    "dayStartResting": "You are resting at the tavern: nothing costs health today.",
+    "dayStartGo": "Start the day",
+    "dayStartDamage_one": "One daily was missed: −{{damage}} health.",
+    "dayStartDamage_other": "{{count}} dailies were missed: −{{damage}} health.",
+    "dayStartClean": "No dailies missed yesterday.",
+    "perfect": "✨ Perfect day! +{{buff}} to all attributes today.",
+    "mpGain": "+{{mp}} mana",
+    "tavern": "Rest at the tavern",
+    "tavernHint": "For travel, illness or time off: dailies don't cost health while you rest. Boss damage pauses too.",
+    "tavernOn": "You are resting at the tavern.",
+    "tavernLeave": "Leave the tavern",
+    "potion": "Health potion (+{{heal}}, {{price}} gold)",
+    "potionDone": "🧪 +{{heal}} health",
+    "stealth": "Stealth: {{count}} daily(ies) protected at the next day start",
+    "shield": "Shield: the next day start costs only half",
+    "buff": "Perfect day: +{{buff}} to all attributes",
+    "manaTitle": "Mana skills",
+    "manaHint": "Mana refills with every completed task and at the start of the day.",
+    "cast": "Use ({{mana}} mana)",
+    "locked": "Unlocks at level {{level}}",
+    "noMana": "Not enough mana",
+    "effects": {
+      "strike": "{{damage}} damage to the bosses",
+      "heal": "+{{power}} health",
+      "healClan": "+{{power}} health for the whole clan",
+      "shield": "the next day start costs only half the health",
+      "stealth": "avoids {{power}} missed daily(ies) at the next day start",
+      "gold": "+{{power}} gold"
+    },
+    "castDone": "{{name}}: {{effect}}",
+    "skills": {
+      "golpe_brutal": "Brutal Strike",
+      "pele_de_ferro": "Iron Skin",
+      "folego": "Second Wind",
+      "investida": "Charge",
+      "bola_de_fogo": "Fireball",
+      "escudo_arcano": "Arcane Shield",
+      "transmutacao": "Transmutation",
+      "meteoro": "Meteor",
+      "tiro_certeiro": "True Shot",
+      "camuflagem": "Camouflage",
+      "cacada": "Hunt",
+      "chuva_de_flechas": "Arrow Rain",
+      "luz_curativa": "Healing Light",
+      "egide": "Aegis",
+      "bencao_do_grupo": "Party Blessing",
+      "julgamento": "Judgment",
+      "punhalada": "Stab",
+      "sombras": "Shadows",
+      "bater_carteira": "Pickpocket",
+      "emboscada": "Ambush"
+    },
+    "appearance": "Appearance",
+    "portrait": "Portrait",
+    "background": "Scene",
+    "portraits": {
+      "f-clara": "Woman, light skin",
+      "f-escura": "Woman, dark skin",
+      "m-clara": "Man, light skin",
+      "m-escura": "Man, dark skin"
+    },
+    "backgrounds": {
+      "acampamento": "Camp",
+      "taverna": "Tavern",
+      "floresta": "Forest",
+      "castelo": "Castle",
+      "montanha": "Mountain",
+      "masmorra": "Dungeon"
+    },
+    "costume": "Wear costume",
+    "costumeHint": "Battle gear gives attributes (by rarity); the costume only changes the look.",
+    "costumeTitle": "Costume",
+    "battleTitle": "Battle",
+    "costumeNone": "No costume in this slot",
+    "gearBonus": "+{{bonus}} {{attr}}",
+    "vocab": "Game vocabulary",
+    "vocabHint": "Tasks become quests, recurring ones become dailies.",
+    "rewardsLink": "Rewards",
+    "stableLink": "Stable",
+    "portraitOf": "Character portrait"
+  },
+  "rewards": {
+    "title": "Rewards",
+    "hint": "Real-life treats, paid with in-game gold. Create your own.",
+    "new": "New reward",
+    "name": "What is it (e.g. one episode of a show)",
+    "cost": "Price in gold",
+    "redeem": "Redeem for {{cost}}",
+    "redeemed": "🎁 Enjoy: {{title}}",
+    "notEnough": "Not enough gold ({{gold}} of {{cost}})",
+    "empty": "No rewards yet.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete \"{{title}}\"?",
+    "armoire": "Enchanted armoire",
+    "armoireHint": "A shop item you don't have yet, for {{price}} gold. If you have them all, you get pet food.",
+    "armoireOpen": "Open the armoire ({{price}} gold)",
+    "armoireItem": "🧰 You got: {{icon}} {{name}}",
+    "armoireFood": "🧰 You got food: {{name}}",
+    "gold": "{{gold}} gold",
+    "offline": "Rewards need a connection.",
+    "costInvalid": "The price goes from 1 to 100000."
+  },
+  "vocab": {
+    "today": "Today's quests",
+    "habits": "Dailies",
+    "tasks": "Quests",
+    "newTask": "New quest"
+  },
+  "reminders": {
+    "time": "Time",
+    "timePlaceholder": "e.g. 3pm",
+    "noTime": "No time",
+    "label": "Reminder",
+    "options": {
+      "none": "No reminder",
+      "0": "At time",
+      "5": "5 min before",
+      "15": "15 min before",
+      "30": "30 min before",
+      "60": "1 h before",
+      "1440": "1 day before"
+    },
+    "channel": "Task reminders",
+    "notifyTitle": "⏰ {{time}} · {{title}}",
+    "notifyBody": "Task reminder"
   }
 }

@@ -64,6 +64,15 @@
           "cameraPermission": "O app usa a câmera para anexar fotos às tarefas.",
           "microphonePermission": false
         }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": false,
+          "enableBackgroundRecording": false
+        }
       ]
     ],
     "experiments": {

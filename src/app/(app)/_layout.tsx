@@ -8,6 +8,10 @@ import { NewMenuProvider } from '@/components/new-menu';
 import { Sidebar, useIsWide } from '@/components/sidebar';
 import { TimerBar } from '@/components/timer-bar';
 import { WorkoutInviteBanner } from '@/components/workout-invite';
+import { GameCelebrations } from '@/components/game-celebrations';
+import { GameGate } from '@/components/game-mode';
+import { GameVocab } from '@/components/game-vocab';
+import { ReminderScheduler } from '@/components/reminder-scheduler';
 import { SyncDot } from '@/components/sync-dot';
 import { SyncRejections } from '@/components/sync-rejections';
 import { useLocaleSync } from '@/i18n/use-locale';
@@ -49,6 +53,8 @@ export default function AppLayout() {
               <Stack.Screen name="lixeira" />
               <Stack.Screen name="calendario" />
               <Stack.Screen name="pomodoro" />
+              <Stack.Screen name="recompensas" />
+              <Stack.Screen name="estabulo" />
               <Stack.Screen name="alunos/[id]" />
               <Stack.Screen name="automacoes/[id]" />
               <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
@@ -76,6 +82,11 @@ export default function AppLayout() {
             {!wide && !onboarding && <SyncDot floating />}
             {!onboarding && <TimerBar floating />}
             {!onboarding && <WorkoutInviteBanner />}
+            {/* ESCOPO_V8: virada do dia ("o que você fez ontem?"), morte e celebrações do modo Completo */}
+            {!onboarding && <GameGate />}
+            {!onboarding && <GameCelebrations />}
+            <GameVocab />
+            {!onboarding && <ReminderScheduler />}
           </View>
         </View>
       </NewMenuProvider>

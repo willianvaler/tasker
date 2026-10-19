@@ -75,6 +75,8 @@ export type CalendarTask = {
   title: string;
   status: string;
   due_date: string | null;
+  /** 'HH:MM[:SS]' (D206); sem horário, null */
+  due_time?: string | null;
   recurrence: unknown;
   page_id: string;
 };
@@ -82,7 +84,7 @@ export type CalendarTask = {
 export type CalendarPage = { name: string; workout: boolean; habits: boolean };
 
 export type CalendarEntry =
-  | { kind: 'task'; id: string; title: string; done: boolean; pageId: string }
+  | { kind: 'task'; id: string; title: string; done: boolean; pageId: string; time: string | null }
   /** Página de treino: um item só por dia, com quantos exercícios caem nele. */
   | { kind: 'workout'; id: string; title: string; count: number; pageId: string };
 
@@ -121,11 +123,19 @@ export function calendarDays(
           title: task.title,
           done: task.status === 'done' && !asRecurrence(task.recurrence),
           pageId: task.page_id,
+          time: task.due_time ? task.due_time.slice(0, 5) : null,
         });
       }
     }
   }
   for (const list of Object.values(days))
-    list.sort((a, b) => Number(b.kind === 'workout') - Number(a.kind === 'workout'));
+    // Treinos antes; depois as com horário, pela hora; as sem horário mantêm a ordem
+    list.sort(
+      (a, b) =>
+        Number(b.kind === 'workout') - Number(a.kind === 'workout') ||
+        (a.kind === 'task' && b.kind === 'task' && a.time && b.time
+          ? a.time.localeCompare(b.time)
+          : Number(!!(b.kind === 'task' && b.time)) - Number(!!(a.kind === 'task' && a.time))),
+    );
   return days;
 }

@@ -197,14 +197,14 @@ isOneToOne: false
                   ]
                 },"bosses": {
                   Row: {
-                    "created_at": string,"defeated_at": string | null,"ends_at": string,"hp": number,"icon": string,"id": string,"level": number,"max_hp": number,"name": string,"period_key": string,"scope": string,"scope_id": string,"starts_at": string,"status": string,"_boss_json": Json | null,"_sync_boss_rewards": undefined | null
+                    "created_at": string,"defeated_at": string | null,"ends_at": string,"hp": number,"icon": string,"id": string,"level": number,"max_hp": number,"name": string,"period_key": string,"quest_clan": boolean,"quest_key": string | null,"scope": string,"scope_id": string,"starts_at": string,"status": string,"_boss_json": Json | null,"_sync_boss_rewards": undefined | null
                   }
                   ComputedFields: "_boss_json" | "_sync_boss_rewards"
                   Insert: {
-                    "created_at"?: string,"defeated_at"?: string | null,"ends_at": string,"hp": number,"icon": string,"id"?: string,"level"?: number,"max_hp": number,"name": string,"period_key": string,"scope"?: string,"scope_id": string,"starts_at": string,"status"?: string
+                    "created_at"?: string,"defeated_at"?: string | null,"ends_at": string,"hp": number,"icon": string,"id"?: string,"level"?: number,"max_hp": number,"name": string,"period_key": string,"quest_clan"?: boolean,"quest_key"?: string | null,"scope"?: string,"scope_id": string,"starts_at": string,"status"?: string
                   }
                   Update: {
-                    "created_at"?: string,"defeated_at"?: string | null,"ends_at"?: string,"hp"?: number,"icon"?: string,"id"?: string,"level"?: number,"max_hp"?: number,"name"?: string,"period_key"?: string,"scope"?: string,"scope_id"?: string,"starts_at"?: string,"status"?: string
+                    "created_at"?: string,"defeated_at"?: string | null,"ends_at"?: string,"hp"?: number,"icon"?: string,"id"?: string,"level"?: number,"max_hp"?: number,"name"?: string,"period_key"?: string,"quest_clan"?: boolean,"quest_key"?: string | null,"scope"?: string,"scope_id"?: string,"starts_at"?: string,"status"?: string
                   }
                   Relationships: [
                     
@@ -495,6 +495,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"gold_spends": {
+                  Row: {
+                    "amount": number,"created_at": string,"id": string,"kind": string,"ref": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "amount": number,"created_at"?: string,"id"?: string,"kind": string,"ref"?: string | null,"user_id": string
+                  }
+                  Update: {
+                    "amount"?: number,"created_at"?: string,"id"?: string,"kind"?: string,"ref"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "gold_spends_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"group_post_reactions": {
                   Row: {
                     "created_at": string,"emoji": string,"post_id": string,"user_id": string
@@ -598,6 +618,26 @@ isOneToOne: false
                   }
                   Relationships: [
                     
+                  ]
+                },"loot_log": {
+                  Row: {
+                    "created_at": string,"day": string,"id": string,"key": string,"kind": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"day": string,"id"?: string,"key": string,"kind": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"day"?: string,"id"?: string,"key"?: string,"kind"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "loot_log_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
                   ]
                 },"milestones": {
                   Row: {
@@ -867,14 +907,14 @@ isOneToOne: true
                   ]
                 },"profiles": {
                   Row: {
-                    "attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar_url": string | null,"class": string | null,"coins": number,"created_at": string,"display_name": string,"equipped": NonNullable<Json>,"game_mode": string,"gamification_enabled": boolean,"gym_enabled": boolean | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"onboarded_at": string | null,"skill_day": string | null,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"xp": number
+                    "active_mount": string | null,"active_pet": string | null,"attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar": NonNullable<Json>,"avatar_url": string | null,"buff_amount": number,"buff_day": string | null,"class": string | null,"coins": number,"costume": NonNullable<Json>,"created_at": string,"dead": boolean,"died_at": string | null,"display_name": string,"equipped": NonNullable<Json>,"game_mode": string,"game_vocab": boolean,"gamification_enabled": boolean,"gym_enabled": boolean | null,"hp": number,"hp_day": string | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"mp": number,"onboarded_at": string | null,"resting": boolean,"shield": boolean,"skill_day": string | null,"stealth": number,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"use_costume": boolean,"xp": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"xp"?: number
+                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"xp"?: number
                   }
                   Update: {
-                    "attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar_url"?: string | null,"class"?: string | null,"coins"?: number,"created_at"?: string,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"onboarded_at"?: string | null,"skill_day"?: string | null,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"xp"?: number
+                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"xp"?: number
                   }
                   Relationships: [
                     
@@ -1153,14 +1193,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"weight": number | null
+                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"weight": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
                   }
                   Update: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
                   }
                   Relationships: [
                     {
@@ -1479,6 +1519,86 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"user_mounts": {
+                  Row: {
+                    "potion": string,"species": string,"tamed_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "potion": string,"species": string,"tamed_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "potion"?: string,"species"?: string,"tamed_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "user_mounts_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"user_pets": {
+                  Row: {
+                    "fed": number,"hatched_at": string,"potion": string,"species": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "fed"?: number,"hatched_at"?: string,"potion": string,"species": string,"user_id": string
+                  }
+                  Update: {
+                    "fed"?: number,"hatched_at"?: string,"potion"?: string,"species"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "user_pets_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"user_rewards": {
+                  Row: {
+                    "cost": number,"created_at": string,"icon": string | null,"id": string,"position": number,"title": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "cost": number,"created_at"?: string,"icon"?: string | null,"id"?: string,"position"?: number,"title": string,"user_id"?: string
+                  }
+                  Update: {
+                    "cost"?: number,"created_at"?: string,"icon"?: string | null,"id"?: string,"position"?: number,"title"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "user_rewards_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"user_stacks": {
+                  Row: {
+                    "key": string,"kind": string,"qty": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "key": string,"kind": string,"qty": number,"user_id": string
+                  }
+                  Update: {
+                    "key"?: string,"kind"?: string,"qty"?: number,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "user_stacks_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"user_templates": {
                   Row: {
                     "created_at": string,"data": NonNullable<Json>,"icon": string | null,"id": string,"name": string,"owner_id": string
@@ -1645,6 +1765,34 @@ isOneToOne: false
 "_activate_share":
 { Args: { "p_folder_name": string,"p_share_id": string }; Returns: Json
                            },
+"_active_quests":
+{ Args: { "p_user": string }; Returns: {
+              "created_at": string,
+"defeated_at": string | null,
+"ends_at": string,
+"hp": number,
+"icon": string,
+"id": string,
+"level": number,
+"max_hp": number,
+"name": string,
+"period_key": string,
+"quest_clan": boolean,
+"quest_key": string | null,
+"scope": string,
+"scope_id": string,
+"starts_at": string,
+"status": string
+            }[]
+                          SetofOptions: {
+        from: "*"
+        to: "bosses"
+        isOneToOne: false
+        isSetofReturn: true
+      } },
+"_add_stack":
+{ Args: { "p_key": string,"p_kind": string,"p_qty"?: number,"p_user": string }; Returns: undefined
+                           },
 "_app_caller":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
@@ -1689,6 +1837,9 @@ isOneToOne: false
                            },
 "_detach_member":
 { Args: { "p_root": string,"p_user_id": string }; Returns: undefined
+                           },
+"_full_game":
+{ Args: { "p_user": string }; Returns: boolean
                            },
 "_game_summary":
 { Args: { "p_boss_defeated": boolean,"p_level_before": number,"p_user": string,"p_xp": number }; Returns: Json
@@ -1738,6 +1889,14 @@ isOneToOne: false
 "_log_activity":
 { Args: { "p_action": string,"p_folder_id": string,"p_payload": Json }; Returns: undefined
                            },
+"_max_mp":
+{ Args: { "p_user": string }; Returns: number
+                           },
+"_missed_dailies":
+{ Args: { "p_day": string,"p_user": string }; Returns: {
+              "priority": number,"task_id": string,"title": string
+            }[]
+                           },
 "_my_active_session":
 { Args: { "p_session_id": string }; Returns: {
               "ended_at": string | null,
@@ -1768,6 +1927,9 @@ isOneToOne: false
 "_page_title":
 { Args: { "p_page_id": string }; Returns: string
                            },
+"_random_of":
+{ Args: { "p_list": Json }; Returns: string
+                           },
 "_record_workout_day":
 { Args: { "p_minutes": number,"p_page": string,"p_source": string,"p_user": string }; Returns: undefined
                            },
@@ -1797,6 +1959,9 @@ isOneToOne: false
                            },
 "_sync_team_access":
 { Args: { "p_folder_id"?: string,"p_team_id": string,"p_user_id": string }; Returns: undefined
+                           },
+"_take_stack":
+{ Args: { "p_key": string,"p_kind": string,"p_user": string }; Returns: boolean
                            },
 "_task_event":
 { Args: { "p_folder_id": string,"p_kind": string,"p_payload"?: Json,"p_task_id": string }; Returns: undefined
@@ -1846,6 +2011,12 @@ isOneToOne: false
 "buy_item":
 { Args: { "p_item": string }; Returns: Json
                            },
+"buy_potion":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"buy_scroll":
+{ Args: { "p_quest": string }; Returns: Json
+                           },
 "calendar_feed_link":
 { Args: { "p_rotate"?: boolean }; Returns: string
                            },
@@ -1878,6 +2049,9 @@ isOneToOne: false
                            },
 "cancel_project_boss":
 { Args: { "p_folder_id": string }; Returns: undefined
+                           },
+"cast_mana_skill":
+{ Args: { "p_key": string }; Returns: Json
                            },
 "challenge_board":
 { Args: { "p_challenge_id": string }; Returns: {
@@ -1964,6 +2138,7 @@ isOneToOne: false
 "depth": number,
 "done_cycle_key": string | null,
 "due_date": string | null,
+"due_time": string | null,
 "estimate_minutes": number | null,
 "folder_id": string,
 "habit_kind": string,
@@ -1980,6 +2155,8 @@ isOneToOne: false
 "position": number,
 "priority": number,
 "recurrence": Json | null,
+"remind_before": number | null,
+"reminded_at": string | null,
 "repeat_plan": Json | null,
 "started_at": string | null,
 "status": Database["public"]['Enums']["task_status"],
@@ -2024,6 +2201,12 @@ isOneToOne: false
 "daily_boss_streak":
 { Args: { "p_user": string }; Returns: number
                            },
+"day_start":
+{ Args: { "p_did"?: (string)[] }; Returns: Json
+                           },
+"day_start_preview":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
 "decide_join_request":
 { Args: { "p_approve": boolean,"p_request_id": string }; Returns: undefined
                            },
@@ -2057,6 +2240,8 @@ isOneToOne: false
 "max_hp": number,
 "name": string,
 "period_key": string,
+"quest_clan": boolean,
+"quest_key": string | null,
 "scope": string,
 "scope_id": string,
 "starts_at": string,
@@ -2080,6 +2265,8 @@ isOneToOne: false
 "max_hp": number,
 "name": string,
 "period_key": string,
+"quest_clan": boolean,
+"quest_key": string | null,
 "scope": string,
 "scope_id": string,
 "starts_at": string,
@@ -2103,6 +2290,8 @@ isOneToOne: false
 "max_hp": number,
 "name": string,
 "period_key": string,
+"quest_clan": boolean,
+"quest_key": string | null,
 "scope": string,
 "scope_id": string,
 "starts_at": string,
@@ -2114,11 +2303,17 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"equip_costume":
+{ Args: { "p_item": string,"p_slot": string }; Returns: undefined
+                           },
 "equip_item":
 { Args: { "p_item": string,"p_slot": string }; Returns: undefined
                            },
 "export_my_data":
 { Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"feed_pet":
+{ Args: { "p_food": string,"p_potion": string,"p_species": string }; Returns: Json
                            },
 "flush_storage_garbage":
 { Args: Record<PropertyKey, never>; Returns: number
@@ -2158,6 +2353,9 @@ isOneToOne: false
                            },
 "has_permission":
 { Args: { "p_folder_id": string,"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
+                           },
+"hatch_pet":
+{ Args: { "p_potion": string,"p_species": string }; Returns: Json
                            },
 "in_group":
 { Args: { "p_folder_id": string,"p_team_id": string }; Returns: boolean
@@ -2262,6 +2460,9 @@ isOneToOne: false
 "normalize_labels":
 { Args: { "p_labels": (string)[] }; Returns: (string)[]
                            },
+"open_armoire":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
 "page_blockers":
 { Args: { "p_page_id": string }; Returns: (string)[]
                            },
@@ -2305,6 +2506,9 @@ isOneToOne: false
 "purge_trash":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
+"redeem_reward":
+{ Args: { "p_id": string }; Returns: Json
+                           },
 "refresh_achievement_stats":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
@@ -2340,6 +2544,9 @@ isOneToOne: false
 "restore_deleted":
 { Args: { "p_id": string }; Returns: number
                            },
+"revive":
+{ Args: { "p_buy": boolean }; Returns: Json
+                           },
 "revoke_invites":
 { Args: { "p_folder_id": string }; Returns: number
                            },
@@ -2361,8 +2568,17 @@ isOneToOne: false
 "save_folder_as_template":
 { Args: { "p_folder_id": string,"p_name": string }; Returns: string
                            },
+"send_task_reminders":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
+"set_appearance":
+{ Args: { "p_background": string,"p_portrait": string }; Returns: undefined
+                           },
 "set_class":
 { Args: { "p_class": string }; Returns: Json
+                           },
+"set_companion":
+{ Args: { "p_kind": string,"p_value": string }; Returns: undefined
                            },
 "set_gym_mode":
 { Args: { "p_enabled": boolean }; Returns: string
@@ -2406,6 +2622,8 @@ isOneToOne: false
 "max_hp": number,
 "name": string,
 "period_key": string,
+"quest_clan": boolean,
+"quest_key": string | null,
 "scope": string,
 "scope_id": string,
 "starts_at": string,
@@ -2417,6 +2635,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"start_quest":
+{ Args: { "p_clan"?: boolean,"p_quest": string }; Returns: Json
+                           },
 "start_task":
 { Args: { "p_started"?: boolean,"p_task_id": string }; Returns: {
               "actual_minutes": number,
@@ -2434,6 +2655,7 @@ isOneToOne: false
 "depth": number,
 "done_cycle_key": string | null,
 "due_date": string | null,
+"due_time": string | null,
 "estimate_minutes": number | null,
 "folder_id": string,
 "habit_kind": string,
@@ -2450,6 +2672,8 @@ isOneToOne: false
 "position": number,
 "priority": number,
 "recurrence": Json | null,
+"remind_before": number | null,
+"reminded_at": string | null,
 "repeat_plan": Json | null,
 "started_at": string | null,
 "status": Database["public"]['Enums']["task_status"],

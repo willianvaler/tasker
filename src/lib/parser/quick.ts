@@ -35,6 +35,8 @@ export type ParsedTask = {
   repeatPlan: RepeatPlan | null;
   priority: Priority;
   dueDate: IsoDate | null;
+  /** "15h", "15:30", "3pm": horário 'HH:MM' (D206). Sem data, vale para hoje. */
+  dueTime: string | null;
   labels: string[];
   mentions: string[];
   /** "^carvão" / "^2": de quem esta tarefa depende (resolvido depois, lib/prereqs.ts) */
@@ -101,6 +103,25 @@ const RECURRENCE_DAYS: Record<string, number> = {
   jue: 4,
   vie: 5,
 };
+/** "às 15h" / "at 3pm" / "a las 15:00": a preposição sai do título junto com o horário */
+const TIME_PREPOSITIONS = new Set(['as', 'at', 'las']);
+
+/** "15h", "15h30", "9:05", "3pm", "3:30pm" → 'HH:MM' (ou null). */
+export function parseTime(token: string): string | null {
+  const t = token.toLowerCase();
+  let m = /^([01]?\d|2[0-3])(?:h(?:([0-5]\d))?|:([0-5]\d))$/.exec(t);
+  if (m) {
+    const min = m[2] ?? m[3] ?? '00';
+    return `${m[1].padStart(2, '0')}:${min}`;
+  }
+  m = /^(1[0-2]|0?[1-9])(?::([0-5]\d))?(am|pm)$/.exec(t);
+  if (m) {
+    const h = (Number(m[1]) % 12) + (m[3] === 'pm' ? 12 : 0);
+    return `${String(h).padStart(2, '0')}:${m[2] ?? '00'}`;
+  }
+  return null;
+}
+
 const DATE_PREPOSITIONS = new Set([
   'na',
   'no',
@@ -187,6 +208,7 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
     repeatPlan: null,
     priority: 0,
     dueDate: null,
+    dueTime: null,
     labels: [],
     mentions: [],
     prereqs: [],
@@ -247,6 +269,15 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
       result.recurrence = recurrence;
       continue;
     }
+    const time = result.dueTime ? null : parseTime(token);
+    if (time) {
+      result.dueTime = time;
+      if (kept.length > 0 && TIME_PREPOSITIONS.has(fold(kept[kept.length - 1]))) {
+        // "a las": tira o "a" também
+        if (fold(kept.pop() ?? '') === 'las' && kept.length > 0 && fold(kept[kept.length - 1]) === 'a') kept.pop();
+      }
+      continue;
+    }
     // Só a primeira data conta; as seguintes ficam no título
     const order = options.dateOrder ?? (dateLocale() === 'en' ? 'mdy' : 'dmy');
     const date = result.dueDate ? null : parseDateAt(tokens, i, options.today, order);
@@ -259,6 +290,8 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
     kept.push(token);
   }
 
+  // Horário sem data: hoje
+  if (result.dueTime && !result.dueDate) result.dueDate = options.today;
   result.title = kept.join(' ');
   // Sobrou só sintaxe ("amanhã", "#casa"): melhor manter o texto como título do que criar tarefa sem nome
   if (!result.title) {
@@ -269,6 +302,7 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
       repeatPlan: null,
       priority: 0,
       dueDate: null,
+      dueTime: null,
       labels: [],
       mentions: [],
       prereqs: [],
