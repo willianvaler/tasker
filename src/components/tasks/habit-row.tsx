@@ -161,42 +161,7 @@ export function HabitRow({
           onChange={(checked) => toggle(task, checked)}
         />
       )}
-      {kind === 'plusminus' && (
-        <View className="px-1">
-          <TickButton
-            sign="+"
-            label={t('habit.good', { title: task.title })}
-            disabled={!writable}
-            onPress={() => tick(task, 1)}
-          />
-        </View>
-      )}
-      {kind === 'counter' && (
-        <View className="flex-row items-center gap-1 px-1">
-          <TickButton
-            sign="−"
-            label={t('habit.less', { title: task.title })}
-            disabled={!writable || task.count_up === 0}
-            onPress={() => tick(task, -1)}
-          />
-          <Text
-            className={cn(
-              'min-w-12 text-center font-mono text-xs',
-              done ? 'text-accent' : 'text-ink',
-            )}
-            accessibilityLabel={t('habit.progress', { count: task.count_up, target })}
-            accessibilityLiveRegion="polite"
-          >
-            {task.count_up}/{target}
-          </Text>
-          <TickButton
-            sign="+"
-            label={t('habit.more', { title: task.title })}
-            disabled={!writable || task.count_up >= target}
-            onPress={() => tick(task, 1)}
-          />
-        </View>
-      )}
+      {kind !== 'check' && <View className="w-3" />}
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={t('task.details', { title: task.title })}
@@ -226,11 +191,46 @@ export function HabitRow({
             {'  '}
             <Text className="font-mono text-danger">−{task.count_down}</Text>
           </Text>
+          {/* − à esquerda do +, os dois na direita (como no Habitica) */}
           <TickButton
             sign="−"
             label={t('habit.bad', { title: task.title })}
             disabled={!writable}
             onPress={() => tick(task, -1)}
+          />
+          <TickButton
+            sign="+"
+            label={t('habit.good', { title: task.title })}
+            disabled={!writable}
+            onPress={() => tick(task, 1)}
+          />
+        </View>
+      ) : kind === 'counter' ? (
+        <View className="flex-row items-center gap-2 pl-2 pr-1">
+          <Text
+            className={cn('font-mono text-xs', streak > 0 ? 'text-ink' : 'text-ink-muted')}
+            accessibilityLabel={t('habit.streak', { count: streak })}
+          >
+            {t('habit.streakShort', { count: streak })}
+          </Text>
+          <Text
+            className={cn('min-w-10 text-right font-mono text-xs', done ? 'text-accent' : 'text-ink')}
+            accessibilityLabel={t('habit.progress', { count: task.count_up, target })}
+            accessibilityLiveRegion="polite"
+          >
+            {task.count_up}/{target}
+          </Text>
+          <TickButton
+            sign="−"
+            label={t('habit.less', { title: task.title })}
+            disabled={!writable || task.count_up === 0}
+            onPress={() => tick(task, -1)}
+          />
+          <TickButton
+            sign="+"
+            label={t('habit.more', { title: task.title })}
+            disabled={!writable || task.count_up >= target}
+            onPress={() => tick(task, 1)}
           />
         </View>
       ) : (
