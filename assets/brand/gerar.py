@@ -18,6 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 AQUI = os.path.dirname(os.path.abspath(__file__))
 IMAGENS = os.path.join(AQUI, '..', 'images')
 LOJA = os.path.join(AQUI, 'loja')
+PUBLICO = os.path.join(AQUI, '..', '..', 'public')
 
 VERDE = '#0F3D32'
 LARANJA = '#FF8A3D'
@@ -146,6 +147,12 @@ def main():
     png(simbolo(VERDE), os.path.join(IMAGENS, 'splash-icon.png'), 512)
     png(simbolo(CREME), os.path.join(IMAGENS, 'splash-icon-dark.png'), 512)
     png(simbolo(VERDE, viewbox=com_margem(0.92)), os.path.join(IMAGENS, 'favicon.png'), 96)
+
+    # Web (public/): manifesto do PWA e ícone da tela inicial do iPhone (sem transparência)
+    png(icone, os.path.join(PUBLICO, 'icon-192.png'), 192, VERDE)
+    png(icone, os.path.join(PUBLICO, 'icon-512.png'), 512, VERDE)
+    png(simbolo(CREME, viewbox=com_margem(0.58)), os.path.join(PUBLICO, 'icon-maskable-512.png'), 512, VERDE)
+    png(icone, os.path.join(PUBLICO, 'apple-touch-icon.png'), 180, VERDE)
 
     logotipo(os.path.join(AQUI, 'logotipo.png'), VERDE, VERDE, None)
     logotipo(os.path.join(AQUI, 'logotipo-escuro.png'), CREME, CREME, VERDE)
