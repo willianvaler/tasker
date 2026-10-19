@@ -111,6 +111,27 @@ export function useSetGamePref() {
   });
 }
 
+// ---------- Renascer (V4 §1.4, R1)
+
+export function useRebirth() {
+  const queryClient = useQueryClient();
+  const refresh = useRefreshGame();
+  return useMutation({
+    mutationFn: async () =>
+      z
+        .object({
+          rebirths: z.number(),
+          bonus: z.number(),
+          achievements: z.array(z.object({ key: z.string(), icon: z.string() })).default([]),
+        })
+        .parse(await rpc('rebirth')),
+    onSettled: () => {
+      refresh();
+      queryClient.invalidateQueries({ queryKey: ['achievements'] });
+    },
+  });
+}
+
 // ---------- HB6: habilidades de mana
 
 export function useCastManaSkill() {

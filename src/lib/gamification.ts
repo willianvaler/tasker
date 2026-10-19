@@ -8,6 +8,12 @@ export function xpToNext(level: number) {
   return Math.round(base * Math.pow(level, exponent));
 }
 
+/** Bônus de XP de quem renasceu, 0 a 0,25 (espelho de public.rebirth_bonus). */
+export function rebirthBonus(rebirths: number) {
+  const { bonusPerRebirth, maxBonus } = gamificationConfig.rebirth;
+  return Math.min(Math.max(0, rebirths) * bonusPerRebirth, maxBonus);
+}
+
 /** Nível a partir do XP total, com quanto já foi feito do nível atual (espelho de public.level_for_xp). */
 export function levelFromXp(xp: number) {
   let level = 1;

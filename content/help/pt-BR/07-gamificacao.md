@@ -25,6 +25,10 @@ São 68, de **comum** a **lendária** (o nome da raridade aparece escrito, junto
 
 Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O ouro compra itens na **loja** (só visual). O **inventário** (Perfil ou Personagem) mostra tudo o que você tem, da loja e dos bosses, com filtro por espaço, raridade (de comum a lendária) e origem, e equipa com um toque.
 
+## Renascer
+
+A partir do **nível 20**, o painel **Renascer** do Personagem leva você de volta ao nível 1. Os bosses do dia e da semana voltam à dificuldade inicial a partir do próximo período. Ficam o ouro, os itens, os mascotes, as conquistas e os atributos. Cada renascimento dá **+5% de XP para sempre**, até +25%, e tem conquistas próprias. Para confirmar, é preciso digitar "renascer".
+
 ## Desligar
 
 Perfil → **Gamificação** → **Desligado**. O app vira só lista de tarefas.

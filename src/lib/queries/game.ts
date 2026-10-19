@@ -39,6 +39,8 @@ const gameStateSchema = z.object({
   enabled: z.boolean(),
   xp: z.number(),
   level: z.number(),
+  /** Renascimentos (R1); o bônus de XP sai de rebirthBonus */
+  rebirths: z.number().default(0),
   into_level: z.number(),
   for_next: z.number(),
   streak: z.number(),

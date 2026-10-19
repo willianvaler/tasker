@@ -121,6 +121,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V4 | P3 | Tela de conquistas com filtros, próximas da faixa, secretas e cores de raridade no tema | D180 |
 | V4 | Q1 | Inventário (tela própria) e itens com 5 raridades no i18n e nos tokens | D181 |
 | V4 | Q2 | Configurações só no Perfil (já estava); Perfil e Personagem levam a Inventário e Conquistas | D181 |
+| V4 | R1 | Renascer: do nível 20, volta ao 1 com ouro, itens e conquistas; +5% de XP por renascimento até +25%; bosses solo recomeçam; conquistas próprias (19/10, D210) | D210 |
 | **V5** | U1 | Seletor de modo: Treino, Foco (pomodoro) e Descanso num lugar só | D159 |
 | V5 | U2 | Painel da tarefa simples × completo | D158 |
 | V5 | U3 | Sem foco automático (teclado) ao abrir telas no toque | D154 |

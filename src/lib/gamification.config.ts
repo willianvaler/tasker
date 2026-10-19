@@ -1,7 +1,9 @@
 // Valores da gamificação. Quem concede XP, dano e ouro é o banco: o mesmo JSON
-// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261139000000_calibragem_dano.sql) e o teste
+// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261159000000_renascer.sql) e o teste
 // gamification.test.ts falha se os dois divergirem. Mudou aqui? Mude lá numa migração nova.
 export const gamificationConfig = {
+  /** Renascer (V4 §1.4, R1): nível mínimo e bônus de XP permanente por renascimento, com teto */
+  rebirth: { minLevel: 20, bonusPerRebirth: 0.05, maxBonus: 0.25 },
   xp: {
     /** Tarefa comum (lista, Caixa de entrada) */
     task: 10,

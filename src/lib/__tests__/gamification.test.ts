@@ -10,7 +10,7 @@ import {
   totalAttributes,
   weightFactor,
 } from '../character';
-import { levelFromXp, rewardMessage, xpToNext } from '../gamification';
+import { levelFromXp, rebirthBonus, rewardMessage, xpToNext } from '../gamification';
 import { gamificationConfig } from '../gamification.config';
 
 declare const require: (id: string) => unknown;
@@ -180,5 +180,14 @@ describe('peso da tarefa (mesmos casos do pgTAP peso)', () => {
   test('sem peso 1×, peso 5 2×', () => {
     expect(weightFactor(null)).toBe(1);
     expect(weightFactor(5)).toBe(2);
+  });
+});
+
+describe('renascer (mesmos casos do pgTAP renascer)', () => {
+  test('+5% por renascimento, até +25%', () => {
+    expect(rebirthBonus(0)).toBe(0);
+    expect(rebirthBonus(1)).toBeCloseTo(0.05);
+    expect(rebirthBonus(3)).toBeCloseTo(0.15);
+    expect(rebirthBonus(9)).toBe(0.25);
   });
 });

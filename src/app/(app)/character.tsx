@@ -14,6 +14,7 @@ import {
 } from '@/components/character';
 import { BossLine } from '@/components/game-bar';
 import { AppearancePanel, ManaSkillsPanel, VitalBars } from '@/components/game-mode';
+import { RebirthPanel } from '@/components/rebirth-panel';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -75,6 +76,7 @@ export default function CharacterScreen() {
             {full && <VitalBars game={game} />}
             <SkillsPanel game={game} />
             {full && <ManaSkillsPanel game={game} />}
+            <RebirthPanel game={game} />
             <Button
               variant="ghost"
               className="self-start"

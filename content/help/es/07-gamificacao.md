@@ -25,6 +25,10 @@ Son 68, de **común** a **legendaria** (el nombre de la rareza aparece escrito, 
 
 Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro compra objetos en la **tienda** (solo estéticos). El **inventario** (Perfil o Personaje) muestra todo lo que tienes, de la tienda y de los jefes, con filtros por espacio, rareza (de común a legendario) y origen, y equipa con un toque.
 
+## Renacer
+
+A partir del **nivel 20**, el panel **Renacer** del Personaje te lleva de vuelta al nivel 1. Los bosses del día y de la semana vuelven a la dificultad inicial desde el próximo período. Conservas el oro, los objetos, las mascotas, los logros y los atributos. Cada renacimiento da **+5% de XP para siempre**, hasta +25%, y tiene logros propios. Para confirmar, hay que escribir "renacer".
+
 ## Apagar
 
 Perfil → **Gamificación** → **Apagado**. La app queda solo como lista de tareas.

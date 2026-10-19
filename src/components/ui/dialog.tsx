@@ -56,14 +56,20 @@ export type PromptField = {
 
 export function PromptDialog({
   title,
+  message,
   fields,
   confirmLabel,
+  validate,
   onConfirm,
   onClose,
 }: {
   title: string;
+  /** Texto acima dos campos (ex.: o que se perde numa ação forte) */
+  message?: string;
   fields: PromptField[];
   confirmLabel?: string;
+  /** Só confirma quando devolve true (ex.: digitar uma palavra para confirmar) */
+  validate?: (values: Record<string, string>) => boolean;
   onConfirm: (values: Record<string, string>) => void;
   onClose: () => void;
 }) {
@@ -72,7 +78,7 @@ export function PromptDialog({
     Object.fromEntries(fields.map((f) => [f.key, f.initial ?? ''])),
   );
   const first = fields[0]?.key;
-  const valid = !first || values[first].trim().length > 0;
+  const valid = validate ? validate(values) : !first || values[first].trim().length > 0;
 
   function confirm() {
     if (!valid) return;
@@ -82,6 +88,7 @@ export function PromptDialog({
   return (
     <Backdrop onClose={onClose}>
       <Text className="text-lg font-semibold text-ink">{title}</Text>
+      {message && <Text className="text-sm text-ink-muted">{message}</Text>}
       {fields.map((field, index) => (
         <Input
           key={field.key}

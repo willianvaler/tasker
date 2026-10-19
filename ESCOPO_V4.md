@@ -31,7 +31,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 - Isso explica por que "alguns hábitos param de dar XP e dano": não tem a ver com o nível 1. Decisão do dono: **manter assim por enquanto**.
 - Novo: quando um limite é atingido, o aviso de conclusão diz isso ("limite diário deste hábito atingido") em vez de simplesmente não dar nada.
 
-### 1.4 Rebirth (renascer) — pendente (R1)
+### 1.4 Rebirth (renascer) — ✅ done (R1, D210)
 
 - O personagem pode **renascer** a partir de um nível mínimo (proposta: 20): o nível volta a 1 e os níveis de dificuldade dos bosses (solo, diário; o do clã não) voltam ao início.
 - O que fica: conquistas, itens da loja e do inventário, ouro (a decidir: fica todo ou uma parte), histórico.

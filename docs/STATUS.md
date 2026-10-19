@@ -190,7 +190,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **P3** Tela de conquistas com filtros, próximas da faixa, secretas e cores de raridade no tema (D180)
 - [x] **Q1** Inventário (tela própria) e itens com 5 raridades no i18n e nos tokens (D181)
 - [x] **Q2** Configurações só no Perfil (já estava); Perfil e Personagem levam a Inventário e Conquistas (D181)
-- [ ] **R1** Renascer
+- [x] **R1** Renascer: do nível 20, volta ao 1 com ouro, itens e conquistas; +5% de XP por renascimento até +25%; bosses solo recomeçam; conquistas próprias (19/10, D210)
 - [ ] **S1** Página de entrada
 - [ ] **T1** Planos e assinaturas (modelo)
 - [ ] **T2** Provedor de pagamento (bloqueado: decisão e contas do dono)
@@ -251,7 +251,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 | V3-4 | Página enviada: ao vivo ou cópia por padrão? | antes da L | **Ao vivo** (D133, decidido na ausência do dono; a cópia continua no envio) |
 | V3-6 | Quais itens B sobem de prioridade | depois da M | |
 | V4-1 | Boss diário: HP base e recompensa | O1 | Provisório (D150+) |
-| V4-2 | Rebirth: nível mínimo, ouro, bônus | R1 | Provisório: 20, ouro fica, +5%/renascimento até +25% |
+| V4-2 | Rebirth: nível mínimo, ouro, bônus | R1 | Implementado com o provisório (D210): 20, ouro fica, +5%/renascimento até +25%; mudar é só `xp_rules -> rebirth` |
 | V4-3 | Raridades: dificuldade fixa ou % de jogadores | P1 | Provisório: dificuldade fixa, % mostrada à parte |
 | V4-4 | Anexos: limite por arquivo e por conta | N4 | Provisório: 10 MB / 1 GB |
 | V4-5 | Planos: o que cada um libera, preços, founder | T1 | |

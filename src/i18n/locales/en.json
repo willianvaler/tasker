@@ -2137,6 +2137,18 @@
       "pomodoro_8": {
         "name": "Total focus",
         "description": "Do 8 pomodoros in a single day"
+      },
+      "rebirth_1": {
+        "name": "Reborn",
+        "description": "Be reborn for the first time"
+      },
+      "rebirth_3": {
+        "name": "Phoenix",
+        "description": "Be reborn 3 times"
+      },
+      "rebirth_5": {
+        "name": "Eternal",
+        "description": "Be reborn 5 times"
       }
     },
     "hints": {
@@ -2550,5 +2562,16 @@
     "channel": "Task reminders",
     "notifyTitle": "⏰ {{time}} · {{title}}",
     "notifyBody": "Task reminder"
+  },
+  "rebirth": {
+    "title": "Rebirth",
+    "word": "rebirth",
+    "count": "Reborn {{count}}× · +{{bonus}}% XP",
+    "hint": "From level {{level}} you can be reborn: your level goes back to 1 and the daily and weekly bosses go back to the starting difficulty, but you keep your gold, items, pets, achievements and attributes, and get +5% XP forever (now it would be +{{bonus}}%, up to +{{max}}%).",
+    "action": "Be reborn",
+    "locked": "Rebirth at level {{level}}",
+    "confirmTitle": "Be reborn?",
+    "confirmMessage": "You leave level {{level}} and go back to level 1, with +{{bonus}}% XP from now on. To confirm, type \"{{word}}\".",
+    "done": "Reborn! {{count}}× · +{{bonus}}% XP"
   }
 }

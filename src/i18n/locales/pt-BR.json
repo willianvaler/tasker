@@ -2137,6 +2137,18 @@
       "pomodoro_8": {
         "name": "Foco total",
         "description": "Fazer 8 pomodoros num só dia"
+      },
+      "rebirth_1": {
+        "name": "Renascido",
+        "description": "Renascer pela primeira vez"
+      },
+      "rebirth_3": {
+        "name": "Fênix",
+        "description": "Renascer 3 vezes"
+      },
+      "rebirth_5": {
+        "name": "Eterno",
+        "description": "Renascer 5 vezes"
       }
     },
     "hints": {
@@ -2550,5 +2562,16 @@
     "channel": "Lembretes de tarefas",
     "notifyTitle": "⏰ {{time}} · {{title}}",
     "notifyBody": "Lembrete da tarefa"
+  },
+  "rebirth": {
+    "title": "Renascer",
+    "word": "renascer",
+    "count": "{{count}}× renascido · +{{bonus}}% de XP",
+    "hint": "A partir do nível {{level}}, dá para renascer: o nível volta a 1 e os bosses do dia e da semana voltam à dificuldade inicial, mas você fica com o ouro, os itens, os mascotes, as conquistas e os atributos, e ganha +5% de XP para sempre (agora seria +{{bonus}}%, até +{{max}}%).",
+    "action": "Renascer",
+    "locked": "Renascer no nível {{level}}",
+    "confirmTitle": "Renascer?",
+    "confirmMessage": "Você sai do nível {{level}} e volta ao nível 1, com +{{bonus}}% de XP daqui em diante. Para confirmar, digite \"{{word}}\".",
+    "done": "Renasceu! {{count}}× · +{{bonus}}% de XP"
   }
 }

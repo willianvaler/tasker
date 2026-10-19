@@ -13,6 +13,7 @@ import { useSetGamePref } from '@/lib/queries/game-mode';
 import { useState } from 'react';
 import { achievementText } from '@/lib/achievements';
 import { cn } from '@/lib/cn';
+import { rebirthBonus } from '@/lib/gamification';
 import { useGameLevel, useGameState, useSetGameLevel, type GameLevel } from '@/lib/queries/game';
 import { useIsOnline } from '@/providers/online';
 
@@ -59,6 +60,15 @@ export function GameProfile() {
             <View className="flex-row items-baseline justify-between">
               <Text className="font-serif text-lg text-ink">
                 {t('gameProfile.level', { level: game.level })}
+                {game.rebirths > 0 && (
+                  <Text className="font-mono text-xs text-ink-muted">
+                    {'  '}🔥{' '}
+                    {t('rebirth.count', {
+                      count: game.rebirths,
+                      bonus: Math.round(rebirthBonus(game.rebirths) * 100),
+                    })}
+                  </Text>
+                )}
               </Text>
               <Text className="font-mono text-xs text-ink-muted">
                 {t('gameProfile.totalXp', { xp: game.xp })}

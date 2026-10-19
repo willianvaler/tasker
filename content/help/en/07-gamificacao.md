@@ -25,6 +25,10 @@ There are 68, from **common** to **legendary** (the rarity name is written out, 
 
 Pick a **class**, spend **attributes** and use one skill a day. Gold buys items in the **shop** (cosmetic only). The **inventory** (Profile or Character) shows everything you own, from the shop and from bosses, with filters by slot, rarity (common to legendary) and origin, and equips with one tap.
 
+## Rebirth
+
+From **level 20**, the **Rebirth** panel on the Character screen takes you back to level 1. The daily and weekly bosses go back to the starting difficulty from the next period. You keep your gold, items, pets, achievements and attributes. Each rebirth gives **+5% XP forever**, up to +25%, and has its own achievements. To confirm, you type "rebirth".
+
 ## Turning it off
 
 Profile → **Gamification** → **Off**. The app becomes just a task list.
