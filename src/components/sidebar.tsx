@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { BrandMark } from '@/components/brand-mark';
 import { useCommandPalette } from '@/components/command-palette';
 import { useFolderActions } from '@/components/folder-actions';
 import { MenuButton } from '@/components/folder-cards';
@@ -330,7 +331,8 @@ export function Sidebar() {
     >
       <SidebarResizer width={width} onChange={setWidth} onCommit={setSidebarWidth} />
       <View className="gap-6 px-2 pt-3">
-        <View className="flex-row items-center pl-2">
+        <View className="flex-row items-center gap-2 pl-2">
+          <BrandMark size={24} />
           <Text className="flex-1 font-serif text-lg text-ink">Questlist</Text>
           <ThemeToggle />
         </View>

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { Platform, View } from 'react-native';
 
+import { BrandMark } from '@/components/brand-mark';
 import { Button, IconButton } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
@@ -56,9 +57,12 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
 
   return (
     <View className="w-full max-w-sm gap-3">
-      <View className="mb-6 gap-1">
-        <Text className="font-serif text-xl text-ink">Questlist</Text>
-        <Text className="text-sm text-ink-muted">{t('auth.tagline')}</Text>
+      <View className="mb-6 flex-row items-center gap-3">
+        <BrandMark size={48} />
+        <View className="flex-1 gap-1">
+          <Text className="font-serif text-xl text-ink">Questlist</Text>
+          <Text className="text-sm text-ink-muted">{t('auth.tagline')}</Text>
+        </View>
       </View>
       <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
         {t(

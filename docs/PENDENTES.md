@@ -1,10 +1,10 @@
 # Pendentes
 
-O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V6.md`), numa tabela só, para ler rápido. O detalhe fica em `docs/STATUS.md`, `docs/TAREFAS_V6.md` e nos escopos; o que já foi feito, em `docs/FEITOS.md`.
+O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V8.md`), numa tabela só, para ler rápido. O detalhe fica em `docs/STATUS.md`, `docs/TAREFAS_V6.md` e nos escopos; o que já foi feito, em `docs/FEITOS.md`.
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 18/10/2026 (produção v2026.10.18).
+Atualizado em 19/10/2026 (produção v2026.10.18). **Prioridade agora: ESCOPO_V8** (modo jogo).
 
 | Escopo | Id / seção | Tarefa | Situação | Depende de |
 |---|---|---|---|---|
@@ -30,7 +30,7 @@ Atualizado em 18/10/2026 (produção v2026.10.18).
 | V5 | §4 | LGPD: termos de uso, registro do consentimento, contato do DPO, retenção, pedidos do titular, plano de incidente, terceiros, idade mínima | pendente | — |
 | V5 | §5 | E-mails: provedor, SPF/DKIM/DMARC, SMTP; modelos em 3 idiomas; preferências e descadastro | **bloqueado** | provedor (dono) |
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias, troca de e-mail, lixeira para anotações e anexos | pendente | carência (dono), e-mail |
-| V5 | §7 | Modo Jogo completo: 3 níveis, Início "acampamento", vida e diárias, recompensas, mascotes, missões, avatar em camadas, arte pelo ComfyUI | pendente | estilo de arte e regras (dono) |
+| V5 | §8 | Login com o Google (Supabase Auth, nativo no Android/iOS) — **não fazer agora** | pendente | projeto no Google Cloud (dono) |
 | **V6** | AC2.1–2.2 | Criar exercício sem ruído (campos da página de treino) | pendente | AC1.5 |
 | V6 | AC3.1–3.9 | Biblioteca de exercícios: montar a base, traduzir, busca e filtros, tabelas, RLS e sync, tela, `exercise_id`, `NOTICE.md` | pendente | AC3.3 roda na máquina do dono |
 | V6 | AC4.1–4.6 | Registro por série: unidades, RIR/RPE, `workout_sets` + `log_set`, `SetRow`, Modo Treino, histórico | pendente | AC3.6 |
@@ -44,6 +44,15 @@ Atualizado em 18/10/2026 (produção v2026.10.18).
 | V6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | pendente | AC5.2, AC6.3 |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora conta como dia de treino | pendente | conta de desenvolvedor do Strava, development build (dono) |
+| **V8** | HB0.1 | Cores da marca nos tokens do app | pendente | decisão V8-1 |
+| V8 | HB2 | Força do hábito (cor pelo histórico) e hábito só bom ou só ruim | pendente | — |
+| V8 | HB3 | Três níveis de jogo no Perfil (Desligado, Leve, Completo) | pendente | — |
+| V8 | HB4 | Início como acampamento | pendente | HB3 |
+| V8 | HB5 | Vida e diárias, "o que você fez ontem?", taverna | pendente | decisão V8-2 |
+| V8 | HB6 | Mana e habilidades por classe, dia perfeito | pendente | HB5 |
+| V8 | HB7 | Recompensas personalizadas e baú encantado | pendente | — |
+| V8 | HB8–HB10 | Mascotes e montarias, missões com história, avatar em camadas | pendente | arte (decisão V8-3) |
+| V8 | HB11 | Vocabulário de jogo, animações e sons | pendente | decisão V8-4 |
 
 ## Decisões do dono em aberto
 
@@ -55,7 +64,10 @@ Atualizado em 18/10/2026 (produção v2026.10.18).
 | V4-6 | Provedor de pagamento e compras nas lojas | T2 |
 | V5-3 | Provedor de e-mail e domínio de envio | V5 §5, §6 |
 | V5-4 | Carência da exclusão de conta (proposta: 30 dias) | V5 §6 |
-| V5-5 | Modo Jogo: estilo de arte, consequência de zerar a vida, vocabulário, se é recurso pago | V5 §7 |
 | V7-1 | Conta de desenvolvedor no Strava (nome do app, domínio de retorno do OAuth) | V7 §2 |
 | V7-2 | Escrever no Health Connect/Strava por padrão ou só ler | V7 §2 |
 | V7-3 | Quais atividades contam como treino (corrida, caminhada, bike, musculação, todas) | V7 §2 |
+| V8-1 | Cores da marca (verde e laranja) nos tokens do app? | HB0.1 |
+| V8-2 | Consequência de zerar a vida (proposta: perde o ouro do dia e um nível de XP) | HB5 |
+| V8-3 | Estilo de arte (3 amostras do ComfyUI) | HB8–HB10 |
+| V8-4 | Vocabulário de jogo ligado por padrão no Completo? O Completo é recurso pago? | HB11, V4 §6 |

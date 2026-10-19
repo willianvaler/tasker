@@ -55,6 +55,9 @@ export function useColors() {
   return COLORS[colorScheme === 'dark' ? 'dark' : 'light'];
 }
 
+/** Cores da marca (logo, ícone, lojas; ESCOPO_V8 §0). Só no símbolo: o app usa as do tema. */
+export const BRAND = { green: '#0F3D32', orange: '#FF8A3D', cream: '#F8F7F4' } as const;
+
 /** Paleta curada para o marcador de pasta/projeto (tons de pigmento, nunca em fundo grande). */
 export const MARKER_COLORS = [
   '#A35D4A',

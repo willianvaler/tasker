@@ -59,51 +59,19 @@ Origem: anotações do dono em 15/10/2026 (o modo jogo, seção 7, em 18/10/2026
 
 ---
 
-## 7. Modo Jogo completo (estilo Habitica) — pendente
+## 7. Modo Jogo completo — movido para o ESCOPO_V8
 
-Pedido do dono em 18/10/2026: um modo em que o app fica **centrado no jogo**, como o Habitica, mas com imagens bonitas, menos pixeladas e **nada infantil**. Não é o mesmo que ligar ou desligar a gamificação: é um terceiro jeito de usar.
+Em 19/10/2026 o dono priorizou o modo jogo e pediu mais funcionalidades do Habitica: o conteúdo desta seção (três níveis, acampamento, vida e diárias, recompensas, mascotes, missões, avatar, arte pelo ComfyUI) passou para o `ESCOPO_V8.md`, que vence em conflito.
 
-### 7.1 Três níveis, por pessoa
+## 8. Login com o Google — pendente (não fazer agora; pedido do dono em 19/10/2026)
 
-- Perfil → Gamificação passa a ter **Desligado** (só lista, como hoje), **Leve** (o de hoje, padrão) e **Completo** (modo jogo).
-- Troca a qualquer hora, sem perder nada: as regras (XP, dano, ouro, itens) continuam no servidor (D33) e são as mesmas nos três; o que muda é a apresentação e os sistemas extras do 7.2, que só agem no Completo.
-- Quem está no Desligado ou no Leve não vê nada disso; num projeto em time, cada pessoa usa o seu nível.
-
-### 7.2 O que o Completo acrescenta
-
-- **Início como acampamento:** o personagem ilustrado em destaque, com o equipamento visível, vida, XP, mana e ouro; os bosses do dia e da semana com arte e uma fala curta; as missões do dia.
-- **Vocabulário de jogo (opcional):** tarefas viram missões, recorrentes viram "diárias", hábitos continuam hábitos. Liga e desliga à parte.
-- **Vida do personagem:** diária não cumprida tira vida na virada do dia, como no Habitica. "Descansar na taverna" pausa isso (viagem, doença). Sem punição pesada; a consequência de zerar a vida é decisão do dono.
-- **Recompensas personalizadas:** a pessoa cria prêmios da vida real com preço em ouro ("um episódio de série: 30 de ouro") e resgata (o item B "Recompensas personalizadas" do V3 §6).
-- **Mascotes e montarias:** ovos e poções saem nos drops; chocar, alimentar e montar. Só visual e colecionável.
-- **Missões com história:** bosses com um capítulo curto, para fazer sozinho ou com o clã.
-- **Equipamento em camadas no avatar**, ligado à loja e ao inventário (V4 §3), com raridade (V4 §2).
-- Animações e sons curtos, respeitando "reduzir movimento" e com som desligável.
-
-### 7.3 Arte
-
-- **Direção:** ilustração pintada, de fantasia sóbria e adulta, como tinta e aquarela de um caderno de campo, conversando com o "Caderno de bolso" (`docs/DESIGN.md`). Nada de pixel art, nada fofo ou infantil. Precisa ser legível pequeno (48 px) e funcionar no tema claro e no escuro.
-- **Geração com o ComfyUI do dono** (neste PC: AMD RX 6750 XT, 12 GB):
-  - fluxo de geração fixo e versionado no repositório (`art/workflows/`), com prompt, semente e modelo de cada imagem anotados (`art/prompts.yaml`), para refazer ou estender depois;
-  - estilo travado: mesmo modelo, mesma paleta e, se preciso, uma LoRA de estilo treinada a partir de poucas imagens aprovadas pelo dono;
-  - avatar em camadas pede pose e enquadramento idênticos: base fixa e cada peça de equipamento pintada por máscara (inpainting) sobre ela;
-  - pós-processo automático: tirar o fundo, recortar, WebP em dois tamanhos, otimizar. Cada lote passa pela aprovação do dono antes de entrar.
-- **Licença:** usar só modelos cujos termos permitam uso comercial das imagens (conferir antes de cada modelo: Z-Image Turbo e FLUX.2 klein 4B parecem permitir; o FLUX.1 dev tem licença não comercial). **Nunca** usar LoRA de pessoa real nem imitar o estilo de um artista vivo. Registrar modelo e licença de cada lote.
-- **Entrega:** as imagens ficam no servidor (Storage), baixadas sob demanda e guardadas no aparelho (o APK não cresce); um conjunto mínimo vem no app para funcionar sem internet.
-- **Acessibilidade:** texto alternativo em toda imagem; nenhuma informação só na imagem.
-- **Volume estimado:** avatar base com variações (~10), equipamentos (~60), bosses (~20), mascotes (~15, em 3 estágios), fundos de cenário (~6) e selos de conquista (~80).
-
-### 7.4 Ordem sugerida
-
-1. Os três níveis no Perfil e o esqueleto do Início do Completo, com arte provisória.
-2. Pipeline do ComfyUI e guia de estilo, com um primeiro lote (avatar base e 3 bosses) para o dono aprovar.
-3. Vida do personagem e diárias.
-4. Recompensas personalizadas.
-5. Mascotes e montarias.
-6. Missões com história.
-7. Lotes finais de arte e polimento.
-
-Depende das conquistas com raridade e do inventário (V4 §2 e §3), que vêm antes ou junto.
+- **Entrar com o Google** na tela de login, no cadastro e nos convites (projeto, clã, time), ao lado de e-mail e senha.
+- **Supabase Auth** com o provedor Google (OAuth). Web: redirecionamento para `https://tasker.wavdev.org` (e o alpha). Android/iOS: login nativo (Credential Manager no Android, o botão do Google no iOS) com `signInWithIdToken`, que pede development build; no Expo Go só o fluxo pelo navegador (`expo-auth-session`/`expo-web-browser`).
+- **Depende do dono:** projeto no Google Cloud com a tela de consentimento (nome, logo do ESCOPO_V8 §0, política de privacidade, domínio verificado) e os IDs de cliente web, Android (pacote `com.willianvaler.questlist` + SHA-1 da chave de assinatura da Play) e iOS.
+- **Conta que já existe com o mesmo e-mail:** ligar as identidades (o Supabase faz por e-mail confirmado), sem criar conta duplicada; no Perfil, ver e desligar o Google se houver senha.
+- Nome e foto do Google preenchem o perfil só na criação (a pessoa pode trocar).
+- LGPD (§4): registrar o consentimento também nesse caminho; a política diz o que vem do Google (nome, e-mail, foto).
+- Testes: e2e com o provedor simulado; pgTAP não muda (a conta é a mesma `auth.users`).
 
 ---
 
@@ -113,4 +81,5 @@ Depende das conquistas com raridade e do inventário (V4 §2 e §3), que vêm an
 2. ~~Relógio agora ou a tela de bloqueio primeiro?~~ Respondida: tela de bloqueio primeiro (feita). O Wear OS segue pendente.
 3. Provedor de e-mail e domínio de envio.
 4. Carência da exclusão de conta (proposta: 30 dias).
-5. Modo Jogo: estilo de arte (escolher entre 3 amostras geradas no ComfyUI), consequência de zerar a vida, vocabulário de jogo ligado por padrão no Completo e se o Completo será recurso de plano pago (V4 §6).
+5. ~~Modo Jogo~~: passou para o ESCOPO_V8 (decisões em aberto de lá).
+6. Login com o Google: quando fazer (precisa do projeto no Google Cloud).

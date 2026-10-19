@@ -213,6 +213,22 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **AC10.5** Tela Treino em grupo (`/grupo/projeto|time/<id>`: Desafios com ranking e "Iniciar novo desafio", Mural com check-in, foto, reações e comentários, Chat), botão no projeto e no time, aviso `challenge_started`; E2E `e2e/desafios.spec.ts` e Ajuda nos 3 idiomas (D184). Prêmio para os primeiros fica com o AC11
 - [x] **AC10.6** Correções do dono (18/10): grupo de treino no bloco Academia (`folders.gym_group`, convite pelo link, treinos do grupo, seletor de quem treina junto), Séries · Repetições · Carga · Descanso no painel do exercício gravando o plano do Modo Treino (descanso e aviso na tela de bloqueio de volta), sem pomodoro e cronômetro em página de treino; pgTAP, E2E `e2e/grupo-treino.spec.ts` e Ajuda nos 3 idiomas (D186)
 
+## ESCOPO_V8 — modo jogo e identidade visual (pedido do dono em 19/10)
+
+- [x] **HB0** Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral (D190)
+- [ ] **HB0.1** Cores da marca nos tokens do app (decisão do dono)
+- [x] **HB1** Hábitos: − e + lado a lado na direita (`hábito  |−| |+|`), no bom/ruim e no contador (D191)
+- [ ] **HB2** Força do hábito (cor pelo histórico) e hábito só bom ou só ruim
+- [ ] **HB3** Três níveis de jogo no Perfil (Desligado, Leve, Completo)
+- [ ] **HB4** Início como acampamento (Completo)
+- [ ] **HB5** Vida e diárias, "o que você fez ontem?", taverna
+- [ ] **HB6** Mana e habilidades por classe, dia perfeito
+- [ ] **HB7** Recompensas personalizadas e baú encantado
+- [ ] **HB8** Mascotes e montarias
+- [ ] **HB9** Missões com história
+- [ ] **HB10** Avatar em camadas (batalha e fantasia)
+- [ ] **HB11** Vocabulário de jogo, animações e sons
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar

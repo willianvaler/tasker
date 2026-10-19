@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="88 60 874 874">
+  <defs>
+    <clipPath id="disco"><circle cx="520" cy="480" r="410"/></clipPath>
+    <mask id="respiro" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <polyline points="232,858 468,612 526,668 640,552 760,676" fill="none" stroke="#000"
+        stroke-width="44" stroke-linejoin="miter" stroke-miterlimit="10"/>
+      <rect transform="rotate(-43.5 789 761)" x="723.5" y="600.5" width="131" height="321" rx="22" fill="#000"/>
+    </mask>
+  </defs>
+  <g mask="url(#respiro)" fill="#F8F7F4">
+    <circle cx="520" cy="480" r="344" fill="none" stroke="#F8F7F4" stroke-width="132"/>
+    <polygon clip-path="url(#disco)" points="485,398 612,530 660,486 960,800 960,960 80,960 80,840"/>
+  </g>
+  <rect transform="rotate(-43.5 789 761)" x="736.5" y="613.5" width="105" height="295" rx="12" fill="#FF8A3D"/>
+  <g fill="#FF8A3D">
+    <rect x="519" y="250" width="16" height="200" rx="4"/>
+    <path d="M527 250 L676 312 Q690 318 676 325 L527 392 Z" stroke="#FF8A3D" stroke-width="10"
+      stroke-linejoin="round"/>
+  </g>
+</svg>
