@@ -13,7 +13,6 @@ Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V1 | PUBLICACAO | Contas das lojas e do EAS, nome e ícone, domínio | pendente | dono |
 | **V2** | B3 | Aprovar os mockups (revisão nas capturas) | em andamento | dono |
 | V2 | D10 | Aceite do offline com o celular em modo avião (op-sqlite nunca rodou num aparelho) | parcial | development build |
-| V2 | D10 / D89 | Cortar a rede logo depois de criar uma tarefa a esconde até reconectar (janela de ~1 s) | pendência conhecida | — |
 | **V3** | J6 | Aviso do timer com o celular bloqueado, num development build | parcial | development build |
 | V3 | §6 itens B | Custos e orçamento (com racha de contas), lista de compras gerada, kits por domínio, revisão semanal, Eisenhower, reações, recompensas personalizadas, voz e Share Target, exportação CSV/Markdown/PDF e imprimir (o feed .ics saiu no C1) | backlog | decisão V3-6 |
 | V3 | §6 itens C | Lembrete por local, captura por foto (OCR), dependências entre projetos, Gantt, notas colaborativas (CRDT), importar de Habitica/Todoist, webhooks e API | backlog | — |

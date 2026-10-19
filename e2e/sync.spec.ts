@@ -228,7 +228,7 @@ test('sync: XP pendente offline, trocado pelo oficial ao voltar', async ({
     .toBe('todo');
   await ageTask(title);
   // Espera a versão do servidor (com a data envelhecida) chegar ao aparelho antes de cortar a rede:
-  // na troca da linha local pela do servidor há uma janela curta sem nenhuma das duas (D89)
+  // o XP pendente é estimado pela data de criação que está no aparelho
   await expect
     .poll(
       () =>
@@ -352,4 +352,55 @@ test('sync: removido do projeto com mudanças na fila', async ({ browser, page }
   await expect(member.getByText(title, { exact: false })).toHaveCount(0, { timeout: 20_000 });
   expect((await adminRest(`tasks?page_id=eq.${pageRow.id}&select=title`))[0].title).toBe(title);
   await other.close();
+});
+
+// D89: cortar a rede logo depois de uma criação subir não pode tirar a tarefa do aparelho. O banco
+// local é amostrado a cada 5 ms durante a troca da linha local pela do servidor, com o corte da
+// rede em momentos diferentes dessa janela (com e sem o servidor mexendo na tarefa em seguida).
+test('sync: tarefa recém-enviada não some do aparelho quando a rede cai (D89)', async ({
+  page,
+  context,
+}, testInfo) => {
+  test.setTimeout(120_000);
+  await signUp(page, testInfo);
+  await openSync(page);
+  await page.goto('/inbox');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  for (const [i, delay] of [0, 150, 400, 800, 1200].entries()) {
+    const title = `Janela ${testInfo.project.name} ${Date.now()} ${i}`;
+    await page.evaluate((t) => {
+      const w = window as any;
+      w.__gaps = [] as number[];
+      w.__watch = true;
+      let seen = false;
+      const tick = async () => {
+        if (!w.__watch) return;
+        const row = await w.questlistDb.getOptional(
+          'select count(*) as n from tasks where title = ?',
+          [t],
+        );
+        if (row?.n > 0) seen = true;
+        else if (seen) w.__gaps.push(Date.now());
+        setTimeout(tick, 5);
+      };
+      tick();
+    }, title);
+    await input.fill(title);
+    const sent = page.waitForResponse((r) => r.url().includes('create_tasks_batch'));
+    await input.press('Enter');
+    await sent;
+    if (i % 2 === 1) await ageTask(title);
+    await page.waitForTimeout(delay);
+    await context.setOffline(true);
+    await page.waitForTimeout(2000);
+    await expect(page.getByRole('checkbox', { name: `Concluir ${title}` })).toBeVisible();
+    const gaps = await page.evaluate(() => {
+      const w = window as any;
+      w.__watch = false;
+      return w.__gaps.length;
+    });
+    expect(gaps, `a tarefa saiu do aparelho (corte ${delay} ms após o envio)`).toBe(0);
+    // Volta a rede: o envio da próxima só sai conectado (o waitForResponse acima espera)
+    await context.setOffline(false);
+  }
 });
