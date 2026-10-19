@@ -241,7 +241,18 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **TR3** Séries avançadas: interruptor no painel do exercício, "+" no fim da linha, repetições e carga por série no Modo Treino (D217)
 - [x] **TR4** Bateria E2E de usabilidade do Modo Treino (`e2e/treino-bateria.spec.ts`) (D216)
 - [ ] **TR5** Memória e lentidão do APK: medir num aparelho (perfil do Hermes/Android Studio) antes de mexer; ver o relatório desta tarefa
-- [ ] **GA1** Página de gastos e fluxo de caixa no projeto, com lançamento por foto da nota (OCR) e exportação CSV/XLSX: escopo em `ESCOPO_V9.md`, esperando as decisões do dono
+
+## ESCOPO_V9 — gastos no projeto e leitura de foto (pedido do dono em 19/10)
+
+- [x] **GA1** Tabela `expenses`, permissão `expense.write`, RLS, sync, Realtime, lixeira, exportação de dados, fotos no bucket `receipts`, pgTAP (D218)
+- [x] **GA2** Página do tipo Gastos: totais do período, orçamento, por categoria, lançamento rápido, planilha e painel do lançamento (D218)
+- [x] **GA3** Exportar CSV e XLSX (gerado no app, sem dependência) (D218)
+- [x] **GA4** Edge Function `read-photo` com o Gemini (chave no servidor, leitor de exemplo sem chave), limite do mês, portão, política de privacidade (D219)
+- [x] **GA5** Foto da nota → conferir → lançamento (ou um por item), foto guardada, aviso de nota repetida (D219)
+- [x] **GA6** Foto de uma lista → criação em lote (o OCR do ESCOPO §11 e V3 §6 C) (D219)
+- [x] **GA7** Ajuda nos 3 idiomas, E2E (`e2e/gastos.spec.ts`) (D218, D219)
+- [ ] **GA8** Pôr a chave do Gemini no servidor e testar com notas de verdade. Pendente: chave do dono (`docs/OPERACOES.md`)
+- [ ] **GA9** Depois: editar célula a célula na planilha, ligar lançamento a tarefa pela tela, fila de fotos sem internet, apagar a foto quando a lixeira vence, racha de contas
 
 ## ESCOPO v1 — backlog (§11)
 

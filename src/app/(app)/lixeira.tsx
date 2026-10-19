@@ -18,6 +18,7 @@ const KINDS = {
   tasks: 'trash.kindTask',
   task_assignees: 'trash.kindAssignee',
   comments: 'trash.kindComment',
+  expenses: 'trash.kindExpense',
 } as const;
 
 // Fica no servidor (não no banco do aparelho): o que foi apagado já saiu do sync

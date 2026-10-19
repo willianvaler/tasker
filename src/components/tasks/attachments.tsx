@@ -4,13 +4,14 @@ import * as ImagePicker from 'expo-image-picker';
 import { CloudOff, Download, FileText, Paperclip, Trash2 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, Pressable, View } from 'react-native';
+import { Platform, Pressable, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { ActionMenu, ConfirmDialog, DialogFrame, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { formatBytes, isImage } from '@/lib/attachments';
+import { openUrl } from '@/lib/open-url';
 import {
   signedUrl,
   useAttachmentMutations,
@@ -25,11 +26,6 @@ import { useToast } from '@/providers/toast';
 
 // Anexos no painel da tarefa (N2, D150): miniaturas das imagens, arquivos como linha; tocar abre
 // a imagem grande (baixada só agora) ou o arquivo. Anexar e remover pedem conexão e poder editar.
-
-async function openUrl(url: string) {
-  if (Platform.OS === 'web') window.open(url, '_blank', 'noopener');
-  else await Linking.openURL(url);
-}
 
 export function Attachments({
   task,

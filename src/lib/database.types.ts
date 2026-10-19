@@ -471,6 +471,50 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"expenses": {
+                  Row: {
+                    "amount_cents": number,"category": string | null,"created_at": string,"created_by": string | null,"currency": string,"description": string,"folder_id": string | null,"id": string,"items": Json | null,"kind": string,"method": string | null,"nfce_key": string | null,"note": string | null,"page_id": string,"paid_by": string | null,"receipt_path": string | null,"spent_on": string,"task_id": string | null,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "amount_cents": number,"category"?: string | null,"created_at"?: string,"created_by"?: string | null,"currency"?: string,"description": string,"folder_id"?: string | null,"id"?: string,"items"?: Json | null,"kind"?: string,"method"?: string | null,"nfce_key"?: string | null,"note"?: string | null,"page_id": string,"paid_by"?: string | null,"receipt_path"?: string | null,"spent_on"?: string,"task_id"?: string | null,"updated_at"?: string
+                  }
+                  Update: {
+                    "amount_cents"?: number,"category"?: string | null,"created_at"?: string,"created_by"?: string | null,"currency"?: string,"description"?: string,"folder_id"?: string | null,"id"?: string,"items"?: Json | null,"kind"?: string,"method"?: string | null,"nfce_key"?: string | null,"note"?: string | null,"page_id"?: string,"paid_by"?: string | null,"receipt_path"?: string | null,"spent_on"?: string,"task_id"?: string | null,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "expenses_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "expenses_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "expenses_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "expenses_paid_by_fkey"
+      columns: ["paid_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "expenses_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"folder_members": {
                   Row: {
                     "aliases": (string)[],"custom_role_id": string | null,"folder_id": string,"joined_at": string,"role": Database["public"]['Enums']["folder_role"],"source": string,"user_id": string
@@ -907,14 +951,14 @@ isOneToOne: false
                   ]
                 },"pages": {
                   Row: {
-                    "created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"]
+                    "budget_cents": number | null,"created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"]
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "budget_cents"?: number | null,"created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Update: {
-                    "created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name"?: string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "budget_cents"?: number | null,"created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name"?: string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Relationships: [
                     {
@@ -922,6 +966,26 @@ isOneToOne: false
       columns: ["folder_id"]
 isOneToOne: false
       referencedRelation: "folders"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"photo_reads": {
+                  Row: {
+                    "created_at": string,"id": string,"kind": string,"model": string | null,"ok": boolean,"provider": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"kind": string,"model"?: string | null,"ok": boolean,"provider": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"kind"?: string,"model"?: string | null,"ok"?: boolean,"provider"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "photo_reads_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
       referencedColumns: ["id"]
     }
                   ]
@@ -2092,8 +2156,14 @@ isOneToOne: false
 "can_approve":
 { Args: { "p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']>,"p_user": string }; Returns: boolean
                            },
+"can_edit_expense":
+{ Args: { "p_expense_id": string }; Returns: boolean
+                           },
 "can_edit_task":
 { Args: { "p_task_id": string }; Returns: boolean
+                           },
+"can_see_expense":
+{ Args: { "p_expense_id": string }; Returns: boolean
                            },
 "can_see_group_path":
 { Args: { "p_name": string }; Returns: boolean
@@ -2566,6 +2636,12 @@ isOneToOne: false
 "permission_presets":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
+"photo_read_limit":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
+"photo_reads_left":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "preset_can":
 { Args: { "p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string,"p_preset": string }; Returns: boolean
                            },
@@ -2875,7 +2951,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
+            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban"|"expenses","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -2995,7 +3071,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
+            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban", "expenses"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
           }
         }
 } as const

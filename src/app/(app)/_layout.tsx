@@ -69,6 +69,11 @@ export default function AppLayout() {
                 name="task/new"
                 options={{ presentation: 'transparentModal', animation: 'none' }}
               />
+              {/* Lançamento de gasto (V9): o mesmo painel da tarefa */}
+              <Stack.Screen
+                name="gasto/[id]"
+                options={{ presentation: 'transparentModal', animation: 'none' }}
+              />
               <Stack.Screen
                 name="modos"
                 options={{ presentation: 'transparentModal', animation: 'none' }}

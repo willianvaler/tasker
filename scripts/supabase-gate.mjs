@@ -1,7 +1,8 @@
 // Portão do /supabase no endereço público (D175). O Supabase local foi feito para desenvolvimento:
 // a chave secreta e o segredo de JWT padrão do CLI são públicos, e rotas como /pg (SQL como
 // superusuário) não deveriam sair da máquina. Aqui, antes de repassar:
-//   - só passam as rotas que o app usa (auth, rest, realtime, storage), e nunca /auth/v1/admin;
+//   - só passam as rotas que o app usa (auth, rest, realtime, storage e as Edge Functions da lista
+//     FUNCTIONS, estas só com login), e nunca /auth/v1/admin;
 //   - `apikey` (cabeçalho ou ?apikey=) só a publicável;
 //   - `Authorization: Bearer` só a publicável ou um login de verdade: JWT ES256 assinado por uma
 //     chave do JWKS do Auth local, papel authenticated/anon e dentro da validade.
@@ -13,6 +14,8 @@ import { join } from 'node:path';
 
 const AUTH = `http://127.0.0.1:${process.env.SUPABASE_API_PORT ?? 54321}/auth/v1/.well-known/jwks.json`;
 const ALLOWED = ['/auth/v1/', '/rest/v1/', '/realtime/v1/', '/storage/v1/'];
+// Edge Functions que o app chama (V9: leitura de foto); só com login de verdade
+const FUNCTIONS = ['/functions/v1/read-photo'];
 const BLOCKED = ['/auth/v1/admin'];
 const ROLES = new Set(['authenticated', 'anon']);
 
@@ -92,7 +95,11 @@ async function validUserToken(token) {
 export async function checkSupabase(path, headers) {
   const url = new URL(path, 'http://x');
   const route = url.pathname;
-  if (!ALLOWED.some((p) => route.startsWith(p)) || BLOCKED.some((p) => route.startsWith(p)))
+  const fn = FUNCTIONS.includes(route);
+  if (
+    (!fn && !ALLOWED.some((p) => route.startsWith(p))) ||
+    BLOCKED.some((p) => route.startsWith(p))
+  )
     return [404, 'rota fechada'];
   const apikeys = [headers.apikey, url.searchParams.get('apikey')].flat().filter(Boolean);
   if (apikeys.some((k) => k !== PUBLISHABLE)) return [401, 'apikey recusada'];
@@ -101,6 +108,7 @@ export async function checkSupabase(path, headers) {
     const token = /^Bearer (.+)$/i.exec(auth)?.[1]?.trim();
     if (!token) return [401, 'authorization recusada'];
     if (token !== PUBLISHABLE && !(await validUserToken(token))) return [401, 'token recusado'];
-  }
+    if (fn && token === PUBLISHABLE) return [401, 'função pede login'];
+  } else if (fn) return [401, 'função pede login'];
   return null;
 }

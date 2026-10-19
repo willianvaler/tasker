@@ -53,6 +53,7 @@ const pages = new Table(
     position: column.real,
     manual_cycle: column.integer,
     max_depth: column.integer,
+    budget_cents: column.integer,
     created_at: column.text,
     updated_at: column.text,
     updated_by: column.text,
@@ -255,6 +256,31 @@ const comments = new Table(
   { indexes: { task: ['task_id'] } },
 );
 
+// Gastos (V9): um lançamento por linha, valor em centavos; a foto da nota fica no Storage
+const expenses = new Table(
+  {
+    page_id: column.text,
+    folder_id: column.text,
+    spent_on: column.text,
+    description: column.text,
+    category: column.text,
+    amount_cents: column.integer,
+    currency: column.text,
+    kind: column.text,
+    paid_by: column.text,
+    method: column.text,
+    task_id: column.text,
+    receipt_path: column.text,
+    nfce_key: column.text,
+    items: column.text,
+    note: column.text,
+    created_by: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { page: ['page_id', 'spent_on'] } },
+);
+
 // Anexos (N1): só os dados; o arquivo fica no Storage e baixa ao abrir
 const task_attachments = new Table(
   {
@@ -418,6 +444,7 @@ export const AppSchema = new Schema({
   task_assignees,
   comments,
   task_attachments,
+  expenses,
   pending_uploads,
   task_completions,
   conflict_copies,

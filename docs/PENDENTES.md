@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V8.md`), numa tabela só,
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 escrito em 19/10.
+Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10.
 
 | Escopo | Id / seção | Tarefa | Situação | Depende de |
 |---|---|---|---|---|
@@ -39,7 +39,8 @@ Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora conta como dia de treino | pendente | conta de desenvolvedor do Strava, development build (dono) |
 | **V6** | TR5 | Memória e lentidão do APK: medir num aparelho antes de mexer (suspeitos: cache do TanStack salvo inteiro e síncrono no SQLite, imagens do jogo) | pendente | aparelho do dono |
-| **V9** | GA1–GA7 | Página de gastos e fluxo no projeto, foto da nota (OCR), foto de lista → tarefas, CSV/XLSX (`ESCOPO_V9.md`) | pendente | V9-1, V9-2 |
+| **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com notas de verdade | pendente | chave do dono |
+| V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence, racha de contas | backlog | — |
 
 ## Decisões do dono em aberto
 
@@ -54,6 +55,4 @@ Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V7-1 | Conta de desenvolvedor no Strava (nome do app, domínio de retorno do OAuth) | V7 §2 |
 | V7-2 | Escrever no Health Connect/Strava por padrão ou só ler | V7 §2 |
 | V7-3 | Quais atividades contam como treino (corrida, caminhada, bike, musculação, todas) | V7 §2 |
-| V9-1 | Quem lê a foto da nota (modelo de visão no servidor, OCR no aparelho ou Tesseract) | GA4 |
-| V9-2 | Foto para um terceiro (LGPD): atualizar a política e pedir aceite de novo | GA4 |
-| V9-3 | Limite de leituras por conta (proposta: 100/mês) | GA4 |
+| V9-3 | Limite de leituras de foto por conta (provisório: 100/mês, `photo_read_limit()`) | GA8 |

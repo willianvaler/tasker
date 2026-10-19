@@ -209,7 +209,8 @@ test('grupo de treino: voltar ao treino não pergunta de novo com quem', async (
   await page.goto(`/page/${workout.id}`);
   await page.getByRole('button', { name: 'Continuar treino' }).click({ timeout: 20_000 });
   await expect(page.getByRole('heading', { name: 'Leg press' })).toBeVisible({ timeout: 20_000 });
-  await expect(shown(page, 'Série 2 de 3')).toBeVisible();
+  // Depois de recarregar, a contagem às vezes chega com o sync (D216)
+  await expect(shown(page, 'Série 2 de 3')).toBeVisible({ timeout: 15_000 });
   await expect(page.getByRole('heading', { name: 'Quem está treinando junto agora?' })).toHaveCount(
     0,
   );

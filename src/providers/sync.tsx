@@ -37,6 +37,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   my_day: [['my-day']],
   notes: [['notes']],
   page_fields: [['page-fields']],
+  expenses: [['expenses']],
 };
 
 // Consultas com ramo local: as do AFFECTS

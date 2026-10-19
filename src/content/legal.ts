@@ -2,7 +2,7 @@
 // texto de forma que importe para quem usa? Suba LEGAL_VERSION aqui **e** public.legal_version()
 // numa migração nova (o teste legal.test.ts compara); quem já usa aceita de novo ao abrir o app.
 
-export const LEGAL_VERSION = '2026-10-19';
+export const LEGAL_VERSION = '2026-10-19-2';
 
 /** Idade mínima para criar conta (LGPD art. 14: abaixo disso, só com os responsáveis). */
 export const MIN_AGE = 13;
@@ -52,7 +52,7 @@ const ptBR: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidade',
-    updated: 'Versão de 19 de outubro de 2026',
+    updated: 'Versão de 19 de outubro de 2026 (revisão 2: leitura de fotos)',
     sections: [
       {
         title: 'Quem cuida dos dados',
@@ -60,7 +60,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'O que guardamos',
-        body: 'Nome, e-mail, fuso horário e idioma; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; o histórico de conclusões, tempo e XP; o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
+        body: 'Nome, e-mail, fuso horário e idioma; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
       },
       {
         title: 'Para que usamos e com que base',
@@ -72,7 +72,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Terceiros e transferência internacional',
-        body: 'O servidor fica no Brasil. O tráfego passa pela Cloudflare (proteção e entrega, com servidores em vários países). Os avisos no celular passam pelo serviço de notificações da Expo e pelo Firebase (Google) ou pela Apple, que recebem só o texto do aviso e o identificador do aparelho. As lojas (Google Play e App Store) tratam os dados de quem instala o app segundo as políticas delas. Essas transferências seguem a LGPD (art. 33), com empresas que adotam cláusulas de proteção de dados.',
+        body: 'O servidor fica no Brasil. O tráfego passa pela Cloudflare (proteção e entrega, com servidores em vários países). Os avisos no celular passam pelo serviço de notificações da Expo e pelo Firebase (Google) ou pela Apple, que recebem só o texto do aviso e o identificador do aparelho. As lojas (Google Play e App Store) tratam os dados de quem instala o app segundo as políticas delas. Quando você usa “Foto da nota” ou “Foto de uma lista”, a foto é enviada ao Google (API Gemini) só para ser lida; nesta fase de testes usamos o plano gratuito do Google, em que o Google pode usar o que recebe para melhorar os produtos dele, inclusive com revisão humana. Por isso, evite fotografar documentos com dados de outras pessoas. A foto da nota fica guardada no nosso servidor, junto do lançamento. Essas transferências seguem a LGPD (art. 33), com empresas que adotam cláusulas de proteção de dados.',
       },
       {
         title: 'Por quanto tempo',
@@ -139,7 +139,7 @@ const en: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Privacy policy',
-    updated: 'Version of October 19, 2026',
+    updated: 'Version of October 19, 2026 (revision 2: photo reading)',
     sections: [
       {
         title: 'Who looks after the data',
@@ -147,7 +147,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'What we store',
-        body: 'Name, email, time zone and language; the folders, pages, tasks, notes, comments and attachments you create; the history of completions, time and XP; the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
+        body: 'Name, email, time zone and language; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
       },
       {
         title: 'What we use it for, and on what basis',
@@ -159,7 +159,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Third parties and international transfer',
-        body: "The server is in Brazil. Traffic goes through Cloudflare (protection and delivery, with servers in many countries). Phone notifications go through Expo's notification service and Firebase (Google) or Apple, which receive only the notification text and the device identifier. The app stores (Google Play and App Store) handle installer data under their own policies. These transfers follow the LGPD (art. 33), with companies that adopt data protection clauses.",
+        body: "The server is in Brazil. Traffic goes through Cloudflare (protection and delivery, with servers in many countries). Phone notifications go through Expo's notification service and Firebase (Google) or Apple, which receive only the notification text and the device identifier. The app stores (Google Play and App Store) handle installer data under their own policies. When you use “Receipt photo” or “Photo of a list”, the photo is sent to Google (Gemini API) only to be read; during this testing phase we use Google's free tier, under which Google may use what it receives to improve its products, including human review. So avoid photographing documents with other people's data. The receipt photo is stored on our server, with the entry. These transfers follow the LGPD (art. 33), with companies that adopt data protection clauses.",
       },
       {
         title: 'How long',
@@ -226,7 +226,7 @@ const es: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidad',
-    updated: 'Versión del 19 de octubre de 2026',
+    updated: 'Versión del 19 de octubre de 2026 (revisión 2: lectura de fotos)',
     sections: [
       {
         title: 'Quién cuida los datos',
@@ -234,7 +234,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Qué guardamos',
-        body: 'Nombre, correo, zona horaria e idioma; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; el historial de tareas completadas, tiempo y XP; el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
+        body: 'Nombre, correo, zona horaria e idioma; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
       },
       {
         title: 'Para qué los usamos y con qué base',
@@ -246,7 +246,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Terceros y transferencia internacional',
-        body: 'El servidor está en Brasil. El tráfico pasa por Cloudflare (protección y entrega, con servidores en varios países). Los avisos en el móvil pasan por el servicio de notificaciones de Expo y por Firebase (Google) o Apple, que reciben solo el texto del aviso y el identificador del dispositivo. Las tiendas (Google Play y App Store) tratan los datos de quien instala la app según sus propias políticas. Estas transferencias siguen la LGPD (art. 33), con empresas que adoptan cláusulas de protección de datos.',
+        body: 'El servidor está en Brasil. El tráfico pasa por Cloudflare (protección y entrega, con servidores en varios países). Los avisos en el móvil pasan por el servicio de notificaciones de Expo y por Firebase (Google) o Apple, que reciben solo el texto del aviso y el identificador del dispositivo. Las tiendas (Google Play y App Store) tratan los datos de quien instala la app según sus propias políticas. Cuando usas “Foto del ticket” o “Foto de una lista”, la foto se envía a Google (API Gemini) solo para leerla; en esta fase de pruebas usamos el plan gratuito de Google, en el que Google puede usar lo que recibe para mejorar sus productos, incluso con revisión humana. Por eso, evita fotografiar documentos con datos de otras personas. La foto del ticket queda guardada en nuestro servidor, junto al registro. Estas transferencias siguen la LGPD (art. 33), con empresas que adoptan cláusulas de protección de datos.',
       },
       {
         title: 'Por cuánto tiempo',

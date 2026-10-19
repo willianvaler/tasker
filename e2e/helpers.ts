@@ -62,7 +62,11 @@ export async function ageCycle(pageId: string) {
 /** Cria pasta + página pela aba Pastas e espera a página abrir. Devolve o id da página (da URL). */
 export async function createPage(
   page: Page,
-  { folder, name, type }: { folder: string; name: string; type: 'Lista' | 'Cards' | 'Hábitos' },
+  {
+    folder,
+    name,
+    type,
+  }: { folder: string; name: string; type: 'Lista' | 'Cards' | 'Hábitos' | 'Gastos' },
 ) {
   await openTab(page, 'Pastas');
   await page.getByRole('button', { name: 'Nova pasta' }).last().click();

@@ -51,3 +51,16 @@ export async function prepareImage(uri: string, width = 0, height = 0) {
   const thumb = await render(uri, width, height, THUMB_SIDE, THUMB_QUALITY);
   return { full, thumb };
 }
+
+/**
+ * Foto para ler (nota ou lista, V9): lado maior até 1600 px, o bastante para o texto miúdo de um
+ * cupom e leve para enviar. É também a que fica guardada como foto da nota.
+ */
+export async function prepareForReading(uri: string, width = 0, height = 0) {
+  if (!width || !height) {
+    const original = await ImageManipulator.manipulate(uri).renderAsync();
+    width = original.width;
+    height = original.height;
+  }
+  return render(uri, width, height, 1600, 0.75);
+}

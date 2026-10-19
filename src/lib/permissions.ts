@@ -29,6 +29,8 @@ export const PERMISSIONS = [
   'page.view_progress',
   'timer.use',
   'settings.max_depth',
+  // V9: lançar e editar gastos (ver é project.view)
+  'expense.write',
 ] as const;
 export type Permission = (typeof PERMISSIONS)[number];
 
@@ -43,6 +45,7 @@ export const OWN_RULE = {
   'item.log': 'assigned',
   'timer.use': 'assigned',
   'task.delete': 'created',
+  'expense.write': 'created',
 } as const satisfies Partial<Record<Permission, 'assigned' | 'created'>>;
 type OwnPermission = keyof typeof OWN_RULE;
 export type Grant = Permission | `${OwnPermission}:own`;
@@ -68,6 +71,7 @@ export const PRESETS = {
     'item.check:own',
     'item.log:own',
     'timer.use:own',
+    'expense.write:own',
   ],
   /** Leitor: vê e comenta. */
   viewer: ['project.view', 'comment.create'],

@@ -34,8 +34,26 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     ],
   },
   pages: {
-    insert: ['folder_id', 'name', 'icon', 'view_type', 'reset_cycle', 'position', 'max_depth'],
-    update: ['folder_id', 'name', 'icon', 'view_type', 'reset_cycle', 'position', 'max_depth'],
+    insert: [
+      'folder_id',
+      'name',
+      'icon',
+      'view_type',
+      'reset_cycle',
+      'position',
+      'max_depth',
+      'budget_cents',
+    ],
+    update: [
+      'folder_id',
+      'name',
+      'icon',
+      'view_type',
+      'reset_cycle',
+      'position',
+      'max_depth',
+      'budget_cents',
+    ],
   },
   tasks: {
     insert: [
@@ -112,6 +130,39 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['name', 'options', 'position'],
   },
   conflict_copies: { insert: [], update: [] },
+  expenses: {
+    insert: [
+      'page_id',
+      'spent_on',
+      'description',
+      'category',
+      'amount_cents',
+      'currency',
+      'kind',
+      'paid_by',
+      'method',
+      'task_id',
+      'receipt_path',
+      'nfce_key',
+      'items',
+      'note',
+    ],
+    update: [
+      'spent_on',
+      'description',
+      'category',
+      'amount_cents',
+      'currency',
+      'kind',
+      'paid_by',
+      'method',
+      'task_id',
+      'receipt_path',
+      'nfce_key',
+      'items',
+      'note',
+    ],
+  },
 };
 
 // task_progress e timers: o reflexo local do comando (quem grava no servidor é a RPC)
@@ -133,6 +184,7 @@ const JSON_COLUMNS = new Set([
   'custom',
   'options',
   'args',
+  'items',
 ]);
 
 function pick(data: Record<string, unknown>, columns: string[]) {

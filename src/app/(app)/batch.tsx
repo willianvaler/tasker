@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
 
 import { Screen, ScreenScroll } from '@/components/screen';
+import { ListPhotoButton } from '@/components/list-photo-button';
 import { ScreenHeader } from '@/components/screen-header';
 import { MentionChips } from '@/components/tasks/assignee-chips';
 import { TaskMeta } from '@/components/tasks/task-meta';
@@ -200,6 +201,12 @@ export default function BatchScreen() {
         )}
       />
       {autocomplete.list}
+      {/* V9 §3: foto de uma lista de papel; as linhas lidas entram no fim do texto */}
+      {writable && (
+        <ListPhotoButton
+          onLines={(lines) => changeText([text.trimEnd(), ...lines].filter(Boolean).join('\n'))}
+        />
+      )}
 
       <Text
         className="mt-6 border-b border-line pb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted"

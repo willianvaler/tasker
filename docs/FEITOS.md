@@ -187,3 +187,10 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V8 | HB10 | Retrato pintado sobre cenário, equipamento de batalha com atributos e fantasia | D204 |
 | V8 | HB11 | Arte no ComfyUI (79 imagens), vocabulário de jogo, celebrações e sons | D205 |
 | V8 | LB1 | Horário nas tarefas e lembretes (servidor, celular e web; feed .ics com hora) | D206 |
+| **V9** | GA1 | Tabela `expenses`, permissão `expense.write`, RLS, sync, Realtime, lixeira, exportação de dados, fotos no bucket `receipts`, pgTAP | D218 |
+| V9 | GA2 | Página do tipo Gastos: totais do período, orçamento, por categoria, lançamento rápido, planilha e painel do lançamento | D218 |
+| V9 | GA3 | Exportar CSV e XLSX (gerado no app, sem dependência) | D218 |
+| V9 | GA4 | Edge Function `read-photo` com o Gemini (chave no servidor, leitor de exemplo sem chave), limite do mês, portão, política de privacidade | D219 |
+| V9 | GA5 | Foto da nota → conferir → lançamento (ou um por item), foto guardada, aviso de nota repetida | D219 |
+| V9 | GA6 | Foto de uma lista → criação em lote (o OCR do ESCOPO §11 e V3 §6 C) | D219 |
+| V9 | GA7 | Ajuda nos 3 idiomas, E2E (`e2e/gastos.spec.ts`) | D218, D219 |

@@ -20,6 +20,7 @@ const VIEW_TYPES = [
   { value: 'cards', label: 'pageDialog.cards', hint: 'pageDialog.cardsHint' },
   { value: 'habits', label: 'pageDialog.habits', hint: 'pageDialog.habitsHint' },
   { value: 'kanban', label: 'pageDialog.kanban', hint: 'pageDialog.kanbanHint' },
+  { value: 'expenses', label: 'pageDialog.expenses', hint: 'pageDialog.expensesHint' },
 ] as const satisfies readonly { value: Page['view_type']; label: string; hint: string }[];
 
 const RESET_CYCLES = [
@@ -69,7 +70,10 @@ export function PageDialog({
       view_type: viewType,
       // Hábitos reiniciam pela recorrência de cada item; o ciclo da página não se aplica
       // Hábitos têm o ciclo de cada item; kanban é fluxo, não rotina: nunca reiniciam
-      reset_cycle: viewType === 'habits' || viewType === 'kanban' ? 'none' : effectiveReset,
+      reset_cycle:
+        viewType === 'habits' || viewType === 'kanban' || viewType === 'expenses'
+          ? 'none'
+          : effectiveReset,
       max_depth: maxDepth,
     });
   }
@@ -98,7 +102,12 @@ export function PageDialog({
             />
             <Label>{t('pageDialog.type')}</Label>
             <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-              {VIEW_TYPES.map((v) => (
+              {/* Gastos (V9) guardam lançamentos, não tarefas: só ao criar, e não vira outro tipo */}
+              {VIEW_TYPES.filter((v) =>
+                initial?.view_type === 'expenses'
+                  ? v.value === 'expenses'
+                  : v.value !== 'expenses' || !initial?.name,
+              ).map((v) => (
                 <Chip
                   key={v.value}
                   role="radio"
@@ -132,7 +141,7 @@ export function PageDialog({
               </>
             )}
 
-            {more && viewType !== 'habits' && viewType !== 'kanban' && (
+            {more && viewType !== 'habits' && viewType !== 'kanban' && viewType !== 'expenses' && (
               <>
                 <Label>{t('pageDialog.reset')}</Label>
                 <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
@@ -158,7 +167,7 @@ export function PageDialog({
               </>
             )}
 
-            {more && viewType !== 'habits' && (
+            {more && viewType !== 'habits' && viewType !== 'expenses' && (
               <>
                 <Label>{t('tree.depthLimit')}</Label>
                 <DepthPicker value={maxDepth} inherited={inheritedDepth} onChange={setMaxDepth} />

@@ -66,3 +66,6 @@ supabase/signing_keys.json
 
 # Tarefas delegadas ao modelo local (scripts/delegar): specs, rodadas e pareceres
 .delegar/
+
+# Segredos das Edge Functions (chave do Gemini etc.): nunca no repositório
+supabase/functions/.env

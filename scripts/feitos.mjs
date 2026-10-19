@@ -27,7 +27,7 @@ const V1 = [
   ['Fase 7', 'RPG leve, telas largas, Início e tela Hábitos', 'D60 a D70'],
 ];
 
-const ESCOPOS = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V8'];
+const ESCOPOS = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V8', 'V9'];
 
 /** Escopo de uma seção do STATUS pelo título; null = não entra na tabela. */
 function escopoDa(titulo) {
@@ -38,6 +38,7 @@ function escopoDa(titulo) {
   if (titulo.includes('ESCOPO_V4')) return 'V4';
   if (titulo.includes('ESCOPO_V6')) return 'V6';
   if (titulo.includes('ESCOPO_V8')) return 'V8';
+  if (titulo.includes('ESCOPO_V9')) return 'V9';
   if (titulo.includes('ESCOPO v1')) return 'V1';
   return null;
 }

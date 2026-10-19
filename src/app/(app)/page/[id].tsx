@@ -14,6 +14,7 @@ import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
 import { SendPageDialog } from '@/components/send-page';
 import { ScreenHeader } from '@/components/screen-header';
+import { ExpensesView } from '@/components/expenses/expenses-view';
 import { PageView } from '@/components/tasks/page-view';
 import { Button, IconButton } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
@@ -55,6 +56,7 @@ export default function PageScreen() {
   const page = tree.data?.pages.find((p) => p.id === id) ?? receivedPage;
   const missing = useConfirmedMissing(id, !!page);
   const pageTasks = usePageTasks(id);
+  const expensesPage = page?.view_type === 'expenses';
   // Treino começado e não terminado: o botão diz "Continuar treino"
   const resumable = useSyncExternalStore(subscribeWorkoutRuns, () => workoutInProgress(id));
   // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
@@ -104,7 +106,10 @@ export default function PageScreen() {
       : undefined;
 
   // Cards e kanban aproveitam a tela toda; lista e hábitos ficam numa coluna de leitura
-  const size = page?.view_type === 'cards' || page?.view_type === 'kanban' ? 'wide' : 'medium';
+  const size =
+    page?.view_type === 'cards' || page?.view_type === 'kanban' || page?.view_type === 'expenses'
+      ? 'wide'
+      : 'medium';
   return (
     <Screen size={size}>
       <ScreenHeader
@@ -175,7 +180,7 @@ export default function PageScreen() {
             />
           </View>
         )}
-      <PageView page={page} />
+      {page?.view_type === 'expenses' ? <ExpensesView page={page} /> : <PageView page={page} />}
       {folderDialog}
 
       {page && dialog === 'menu' && (
@@ -184,9 +189,17 @@ export default function PageScreen() {
           onClose={closeDialog}
           actions={[
             { label: t('page.settings'), onPress: () => setDialog('settings') },
-            { label: t('page.duplicate'), onPress: () => setDialog('duplicate') },
-            ...(sharable ? [{ label: t('send.menu'), onPress: () => setDialog('send') }] : []),
-            ...(actorCan(pageActor, 'page.manage') && !page.is_inbox && !page.is_habits
+            // Página de gastos (V9) não tem tarefas: duplicar, enviar e campos não se aplicam
+            ...(expensesPage
+              ? []
+              : [{ label: t('page.duplicate'), onPress: () => setDialog('duplicate') }]),
+            ...(sharable && !expensesPage
+              ? [{ label: t('send.menu'), onPress: () => setDialog('send') }]
+              : []),
+            ...(actorCan(pageActor, 'page.manage') &&
+            !page.is_inbox &&
+            !page.is_habits &&
+            !expensesPage
               ? [{ label: t('fields.menu'), onPress: () => setDialog('fields') }]
               : []),
             ...(actorCan(pageActor, 'automation.manage') && !page.is_inbox && !page.is_habits

@@ -2,6 +2,8 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 select plan(17);
+-- A fila de arquivos a apagar é do banco inteiro: começa vazia aqui (a transação desfaz)
+delete from public.storage_garbage;
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'dono@teste.local'),

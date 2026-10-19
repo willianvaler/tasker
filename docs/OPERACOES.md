@@ -82,6 +82,22 @@ printf "insert into public.app_config values ('storage_url', 'http://supabase_ko
 
 Sem isso, a fila só cresce (nada se perde; apaga quando configurar). Em produção, `storage_url` é `https://<projeto>.supabase.co/storage/v1`.
 
+## Leitura de fotos (Gemini, V9)
+
+**Foto da nota** e **Foto de uma lista** chamam a Edge Function `read-photo`, que manda a foto ao Gemini (API do Google AI Studio). O portão do `/supabase` só deixa passar essa função, e só com login de verdade. A chave **não vai para o repositório**: fica em `supabase/functions/.env` (no `.gitignore`), que o `supabase start` carrega:
+
+```bash
+# no servidor, uma vez (e de novo se trocar a chave)
+cat > supabase/functions/.env <<'FIM'
+GEMINI_API_KEY=<chave do aistudio.google.com>
+# opcional: outro modelo (padrão gemini-3.8-flash; o flash-lite tem mais cota grátis)
+# GEMINI_MODEL=gemini-3.5-flash-lite
+FIM
+npx supabase stop && npx supabase start   # os dados ficam; o app fica fora por ~1 min
+```
+
+Sem chave, a função responde "a leitura de fotos ainda não foi ligada no servidor". Neste PC de desenvolvimento o arquivo tem `PHOTO_READER=fake` (leitura de exemplo, usada pelos testes E2E). Cada leitura fica em `public.photo_reads` (quem, quando, deu certo ou não); o limite é `public.photo_read_limit()` (100 por mês, provisório). Plano gratuito do Gemini: poucas leituras por minuto e por dia (veja em aistudio.google.com/rate-limit); quando estoura, o app diz "ocupado, tente em um minuto". Para trocar por um plano pago, basta ativar o faturamento na mesma chave. A foto da nota fica no bucket privado `receipts` (o backup do Storage acima vale para ele também).
+
 ## APK do Android (fora da loja)
 
 `npm run apk` compila o último commit (numa cópia à parte, `~/.cache/questlist-apk-src`, para nada editado no meio entrar no build) e publica `downloads/questlist.apk` + `downloads/apk.json`, que o `scripts/serve.mjs` entrega em `https://tasker.wavdev.org/downloads/`. O Perfil (na web e no Android) mostra o botão de baixar ou o aviso de versão nova. Não precisa de deploy nem de reiniciar nada: o servidor lê a pasta a cada pedido.

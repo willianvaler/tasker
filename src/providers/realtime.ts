@@ -18,6 +18,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   folder_members: [['members'], keys.tree],
   folders: [keys.tree],
   pages: [keys.tree],
+  // Gastos (V9): o lançamento de outra pessoa aparece na planilha
+  expenses: [['expenses']],
   milestones: [['milestones']],
   task_dependencies: [keys.tasks, ['dependencies']],
   page_dependencies: [keys.tasks, ['dependencies'], ['page-dependencies']],

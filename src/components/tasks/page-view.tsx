@@ -169,6 +169,7 @@ export function PageView({ page }: { page: Page | undefined }) {
     cards: { title: t('page.emptyCards'), hint: t('page.emptyCardsHint') },
     habits: { title: t('page.emptyHabits') },
     kanban: { title: t('page.emptyKanban') },
+    expenses: { title: t('page.emptyList') },
   }[viewType] ?? { title: t('page.emptyList') };
 
   return (

@@ -50,11 +50,11 @@ A "especificação de OCR pendente" eram duas linhas de backlog: **ESCOPO §11**
 
 ## 7. Decisões do dono
 
-| # | Pergunta | Proposta |
+| # | Pergunta | Resposta |
 |---|---|---|
-| V9-1 | Quem lê a foto | **Modelo de visão no servidor** (Claude Haiku numa Edge Function, com saída estruturada: lê cupom amassado, nota escrita à mão e lista de papel; ~R$ 0,02 a 0,05 por foto). Alternativas: OCR no aparelho (ML Kit: grátis e offline, mas só texto cru, erra cupom térmico e exige development build; na web, Tesseract pesado) ou Tesseract no servidor (grátis, fraco em cupom) |
-| V9-2 | Terceiro novo (LGPD) | Se V9-1 for o modelo de visão: a foto vai para a Anthropic só para a leitura, sem treino e sem guardar; atualizar a política (D213) e pedir o aceite de novo |
-| V9-3 | Limite de leituras por conta | Proposta: 100 fotos por mês na conta gratuita (custo previsível até existirem os planos do V4) |
+| V9-1 | Quem lê a foto | **Gemini, com a chave gratuita do dono** (19/10), trocável por plano pago sem mudar código (D219) |
+| V9-2 | Terceiro novo (LGPD) | Política atualizada nos 3 idiomas dizendo do plano gratuito; aceite de novo (D219) |
+| V9-3 | Limite de leituras por conta | Provisório: 100 fotos por mês (`photo_read_limit()`) |
 | V9-4 | Racha de contas já na primeira entrega? | Não (§6) |
 
 ## 8. Ordem sugerida

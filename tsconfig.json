@@ -20,6 +20,7 @@
   ],
   "exclude": [
     "node_modules",
-    "supabase/functions/push"
+    "supabase/functions/push",
+    "supabase/functions/read-photo"
   ]
 }

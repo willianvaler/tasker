@@ -6,6 +6,7 @@ import {
   List,
   Repeat,
   Users,
+  Wallet,
   type LucideIcon,
 } from 'lucide-react-native';
 
@@ -14,7 +15,8 @@ import { Text } from '@/components/ui/text';
 import { lucideOf } from '@/lib/icons';
 import type { ColorToken } from '@/lib/tokens';
 
-export type ItemKind = 'folder' | 'project' | 'inbox' | 'list' | 'cards' | 'habits' | 'kanban';
+export type ItemKind =
+  'folder' | 'project' | 'inbox' | 'list' | 'cards' | 'habits' | 'kanban' | 'expenses';
 
 /** Ícone padrão de cada tipo. */
 export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
@@ -25,6 +27,7 @@ export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
   cards: LayoutGrid,
   habits: Repeat,
   kanban: Columns3,
+  expenses: Wallet,
 };
 
 /**
