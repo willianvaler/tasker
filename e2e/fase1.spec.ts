@@ -202,7 +202,7 @@ test('sair limpa os dados da tela', async ({ page }, testInfo) => {
 
   await openTab(page, 'Perfil');
   await page.getByRole('button', { name: 'Sair da conta' }).click();
-  await expect(page.getByRole('button', { name: 'Entrar' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Entrar', exact: true })).toBeVisible();
   const cache = await page.evaluate(() => localStorage.getItem('questlist-cache'));
   expect(cache ?? '').not.toContain('Segredo');
 });

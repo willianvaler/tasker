@@ -35,6 +35,7 @@ test('idioma: o do navegador vale para conta nova', async ({ browser }, testInfo
     .getByPlaceholder('Correo')
     .fill(`e2e-es-${Date.now()}-${testInfo.project.name}@teste.local`);
   await page.getByPlaceholder('Contraseña').fill('senha-forte-123');
+  await page.getByRole('checkbox', { name: /acepto los Términos/ }).click();
   await page.getByRole('button', { name: 'Crear cuenta' }).click();
   await page.getByRole('button', { name: 'Saltar introducción' }).click();
   // A navegação já está traduzida: aba (celular) ou link da barra lateral (computador)

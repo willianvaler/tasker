@@ -133,5 +133,5 @@ test('excluir a conta', async ({ page }, testInfo) => {
   await page.getByRole('button', { name: 'Excluir minha conta' }).click();
   await page.getByPlaceholder('Digite EXCLUIR para confirmar').fill('excluir');
   await page.getByRole('button', { name: 'Excluir para sempre' }).click();
-  await expect(page.getByRole('button', { name: 'Entrar' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Entrar', exact: true })).toBeVisible();
 });
