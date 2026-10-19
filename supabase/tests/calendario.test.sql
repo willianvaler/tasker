@@ -1,7 +1,7 @@
 -- C1: calendário. Link secreto do feed (.ics), quem entra no feed e o formato do iCalendar.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(25);
+select plan(26);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
@@ -86,7 +86,8 @@ select ok((select body from ics) like 'BEGIN:VCALENDAR' || E'\r\n' || '%END:VCAL
 select ok(strpos((select body from ics), 'SUMMARY:Pagar luz\; água\, gás') > 0, 'tarefa com data entra, com o texto escapado');
 select ok((select body from ics) like '%DTSTART;VALUE=DATE:20261103' || E'\r\n' || 'DTEND;VALUE=DATE:20261104%', 'dia inteiro');
 select ok((select body from ics) like '%URL:https://tasker.exemplo.org/task/c0000000-0000-0000-0000-000000000001%', 'link de volta para a tarefa');
-select ok((select body from ics) not like '%Sem data%' and (select body from ics) not like '%Já feita%', 'sem data e concluída ficam fora');
+select ok((select body from ics) not like '%Sem data%', 'sem data fica fora');
+select ok(strpos((select body from ics), 'SUMMARY:✓ Já feita') > 0, 'concluída fica, com ✓');
 select ok((select body from ics) like '%RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR%'
   and (select body from ics) like '%BYMONTHDAY=28,29,30,31;BYSETPOS=-1%', 'recorrência vira RRULE');
 select is((select count(*)::int from regexp_matches((select body from ics), 'SUMMARY:🏋 Treino A', 'g')), 1,

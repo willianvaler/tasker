@@ -121,6 +121,11 @@ async function serveCalendar(req, res) {
       },
     );
     const ics = up.ok ? await up.json() : null;
+    // Quem buscou e quantos eventos levou: dá para saber se o Google está vindo (sem o token)
+    const events = typeof ics === 'string' ? ics.split('BEGIN:VEVENT').length - 1 : 'nenhum';
+    console.log(
+      `Calendário ${token.slice(0, 4)}…: ${events} eventos para ${req.headers['user-agent'] ?? '?'}`,
+    );
     if (typeof ics !== 'string') return notFound();
     res.writeHead(200, {
       ...securityHeaders(req),
@@ -170,7 +175,8 @@ async function guarded(target, req) {
 }
 
 const server = http.createServer((req, res) => {
-  if (viaHttp(req) && req.headers.host) {
+  // O Google Agenda assina por webcal:// e busca por http://: o feed responde sem redirecionar
+  if (viaHttp(req) && req.headers.host && !req.url.startsWith('/calendario/')) {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
     return res.end();
   }

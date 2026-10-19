@@ -10,7 +10,7 @@ The **Calendar** (in the sidebar, under "Next 7 days" on Home, or with `G C`) sh
 
 Below the calendar, tap **Create calendar link** and then **Add to Google Calendar**. Or copy the link and, in Google Calendar on a computer, go to **Other calendars → + → From URL** and paste it. It also works in Apple Calendar and Outlook ("subscribe to calendar").
 
-- Open tasks with a date show up there (completed ones leave), and each workout as an all-day event, with the exercises and the page link.
+- Tasks with a date show up there (completed ones with a ✓ in front), and each workout as an all-day event, with the exercises and the page link.
 - It only goes one way: changing the event in Google does not change the task.
-- Google updates it on its own, but a change may take a few hours to show.
+- Google updates it on its own, but a change (or the first batch of tasks) may take from a few hours to a day to show. Tasks without a date don't show up: give them a date.
 - Anyone with the link can see your task titles. If it leaks, use **Change link** (the old one stops working) or **Turn off**.
