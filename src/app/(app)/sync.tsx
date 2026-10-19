@@ -1,9 +1,9 @@
 import { useQuery, useStatus } from '@powersync/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { useSyncState } from '@/components/sync-dot';
 import { Button } from '@/components/ui/button';
@@ -95,7 +95,7 @@ export default function SyncScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader help="sem-internet" title={t('sync.title')} back />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
+      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
         {!POWERSYNC_URL && <Text className="text-sm text-warn">{t('sync.disabled')}</Text>}
         <Text className="text-base text-ink">{t(`sync.state_${state}`)}</Text>
         <Text className="text-xs text-ink-muted">
@@ -156,7 +156,7 @@ export default function SyncScreen() {
             <Text className="flex-1 text-sm text-ink">{task.title}</Text>
           </View>
         ))}
-      </ScrollView>
+      </ScreenScroll>
       {discarding && (
         <ConfirmDialog
           title={t('sync.discardTitle')}

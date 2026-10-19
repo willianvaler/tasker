@@ -1,10 +1,10 @@
 import { router } from 'expo-router';
 import { Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useNewNote } from '@/components/notes-block';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -21,7 +21,7 @@ export default function NotesScreen() {
   const list = notes.data ?? [];
   return (
     <Screen>
-      <ScrollView contentContainerClassName="gap-4 pb-clear">
+      <ScreenScroll contentContainerClassName="gap-4 pb-clear">
         <ScreenHeader
           title={t('notes.title')}
           back
@@ -50,7 +50,7 @@ export default function NotesScreen() {
             )}
           </Pressable>
         ))}
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

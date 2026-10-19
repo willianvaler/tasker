@@ -1,12 +1,12 @@
 import { router } from 'expo-router';
 import { LayoutTemplate, Plus, Users } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 import { FolderSection, PageRow } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
 import { PendingShares } from '@/components/received';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -73,7 +73,7 @@ export default function FoldersScreen() {
           {t('common.loadError', { message: tree.error.message })}
         </Text>
       )}
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-12 pb-clear">
+      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-12 pb-clear">
         {[
           {
             kind: 'folder',
@@ -192,7 +192,7 @@ export default function FoldersScreen() {
             />
           </View>
         )}
-      </ScrollView>
+      </ScreenScroll>
       {dialog}
     </Screen>
   );

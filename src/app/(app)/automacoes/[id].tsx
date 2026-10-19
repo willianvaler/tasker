@@ -3,9 +3,9 @@ import type { TFunction } from 'i18next';
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
@@ -108,7 +108,7 @@ export default function AutomationsScreen() {
   const rules = data.data?.rules ?? [];
   return (
     <Screen>
-      <ScrollView contentContainerClassName="gap-6 pb-clear">
+      <ScreenScroll contentContainerClassName="gap-6 pb-clear">
         <ScreenHeader help="organizar-o-dia" title={t('auto.title')} eyebrow={folder?.name} back />
         <Text className="text-sm text-ink-muted">{t('auto.hint')}</Text>
         {rules.length === 0 && <Text className="text-sm text-ink-muted">{t('auto.empty')}</Text>}
@@ -288,7 +288,7 @@ export default function AutomationsScreen() {
             ))}
           </View>
         )}
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

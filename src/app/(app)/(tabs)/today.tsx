@@ -5,7 +5,8 @@ import { SectionList, useWindowDimensions, View } from 'react-native';
 import { GameHeader } from '@/components/game-bar';
 import { MyDaySection, NextActionCard } from '@/components/my-day';
 import { NotificationsBell } from '@/components/notifications-bell';
-import { Screen } from '@/components/screen';
+import { Screen, useScreenGutter } from '@/components/screen';
+import { cn } from '@/lib/cn';
 import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { QuickAdd } from '@/components/tasks/quick-add';
@@ -31,6 +32,7 @@ type Section = { title: string; count: string; tone?: 'warn'; data: Row[] };
 // outra data).
 export default function TodayScreen() {
   const { t } = useTranslation();
+  const gutter = useScreenGutter('medium');
   const today = useToday();
   const tree = useTree();
   const tasks = useTodayTasks(today);
@@ -77,7 +79,8 @@ export default function TodayScreen() {
         keyExtractor={(row) => row.task.id}
         keyboardShouldPersistTaps="handled"
         stickySectionHeadersEnabled={false}
-        contentContainerClassName="pb-clear"
+        className={gutter.bleed}
+        contentContainerClassName={cn('pb-clear', gutter.pad)}
         ListHeaderComponent={
           <View className="gap-4">
             <ScreenHeader

@@ -3,10 +3,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Copy, Link2, LogOut, Send, Users, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, Share, View } from 'react-native';
+import { Platform, Share, View } from 'react-native';
 
 import { folderLabel } from '@/components/folder-cards';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
@@ -112,7 +112,7 @@ export default function ShareScreen() {
         eyebrow={t('share.title')}
         back
       />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
+      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
         {canInvite && (
           <View className="gap-3">
             <SectionLabel title={t('share.link')} className="pt-0" />
@@ -342,7 +342,7 @@ export default function ShareScreen() {
             ))}
           </View>
         )}
-      </ScrollView>
+      </ScreenScroll>
 
       {pickingTeam && (
         <ActionMenu

@@ -13,9 +13,9 @@ import {
 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import { Linking, Pressable, useWindowDimensions, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/dialog';
@@ -96,7 +96,7 @@ export default function CalendarScreen() {
   return (
     <Screen size="wide">
       <ScreenHeader title={t('calendar.title')} help="calendario" back />
-      <ScrollView contentContainerClassName="gap-4 pb-12">
+      <ScreenScroll contentContainerClassName="gap-4 pb-12">
         <Tabs
           label={t('calendar.view')}
           value={view}
@@ -150,7 +150,7 @@ export default function CalendarScreen() {
         )}
 
         <FeedSection />
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

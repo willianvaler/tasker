@@ -1,9 +1,9 @@
 import { ArrowDown, ArrowUp, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { PomodoroStats } from '@/components/time-report';
 import { useBreakIdeas } from '@/components/timer-bar';
@@ -28,7 +28,7 @@ export default function PomodoroScreen() {
   const settings = usePomodoroSettings();
   return (
     <Screen>
-      <ScrollView contentContainerClassName="gap-6 pb-clear">
+      <ScreenScroll contentContainerClassName="gap-6 pb-clear">
         <ScreenHeader help="pomodoro" title={t('pomodoro.title')} back />
         <PomodoroStats />
         {settings.data && (
@@ -36,7 +36,7 @@ export default function PomodoroScreen() {
           // formulário (depois de salvar, é o mesmo, e nada muda)
           <SettingsForm key={JSON.stringify(settings.data)} initial={settings.data} />
         )}
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

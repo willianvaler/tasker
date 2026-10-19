@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Chip } from '@/components/ui/chip';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -67,7 +67,7 @@ export default function AchievementsScreen() {
         back
         help="xp-sequencia-bosses"
       />
-      <ScrollView contentContainerClassName="gap-6 pb-12">
+      <ScreenScroll contentContainerClassName="gap-6 pb-12">
         {!online && !data && <Text className="text-sm text-warn">{t('achievements.offline')}</Text>}
 
         {next.length > 0 && (
@@ -150,7 +150,7 @@ export default function AchievementsScreen() {
             <AchievementRow key={item.key} item={item} />
           ))}
         </View>
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

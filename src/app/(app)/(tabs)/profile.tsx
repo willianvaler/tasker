@@ -14,7 +14,7 @@ import {
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { GameProfile } from '@/components/game-profile';
 import { LanguageChooser, PanelModeChooser, ThemeChooser } from '@/components/preference-choosers';
@@ -22,7 +22,7 @@ import { AppDownload, useApkInfo } from '@/components/app-download';
 import { PrivacySection } from '@/components/privacy-section';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { SidebarSettings } from '@/components/sidebar-settings';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -45,12 +45,12 @@ export default function ProfileScreen() {
   const profile = useProfile();
   return (
     <Screen size="wide">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
+      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
         <View className="w-full max-w-[1120px] self-center">
           <ScreenHeader title={t('profile.title')} eyebrow={session?.user.email} />
           {profile.data ? <ProfileForm key={profile.data.id} profile={profile.data} /> : null}
         </View>
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

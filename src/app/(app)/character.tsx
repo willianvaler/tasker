@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import {
   AttributesPanel,
@@ -13,7 +13,7 @@ import {
   SkillsPanel,
 } from '@/components/character';
 import { BossLine } from '@/components/game-bar';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -47,7 +47,7 @@ export default function CharacterScreen() {
     return (
       <Screen size="wide">
         <ScreenHeader title={t(cls ? 'character.change' : 'character.pick')} back />
-        <ScrollView contentContainerClassName="gap-4 pb-12">
+        <ScreenScroll contentContainerClassName="gap-4 pb-12">
           <Text className="max-w-[760px] text-sm text-ink-muted">{t('character.pickHint')}</Text>
           <ClassPicker current={cls} onDone={() => setChoosing(false)} />
           {cls && (
@@ -58,7 +58,7 @@ export default function CharacterScreen() {
               onPress={() => setChoosing(false)}
             />
           )}
-        </ScrollView>
+        </ScreenScroll>
       </Screen>
     );
   }
@@ -66,7 +66,7 @@ export default function CharacterScreen() {
   return (
     <Screen size="wide">
       <ScreenHeader title={t('character.title')} back />
-      <ScrollView contentContainerClassName="pb-12">
+      <ScreenScroll contentContainerClassName="pb-12">
         <View className="flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
           <View className="gap-6 lg:flex-1">
             <HeroCard game={game} name={profile.data?.display_name} />
@@ -118,7 +118,7 @@ export default function CharacterScreen() {
             <EquipmentPanel game={game} />
           </View>
         </View>
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

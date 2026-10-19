@@ -1,13 +1,13 @@
 import { Link, useIsFocused, type Href } from 'expo-router';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import { Pressable, useWindowDimensions, View } from 'react-native';
 
 import { GameHeader } from '@/components/game-bar';
 import { HeroPanel } from '@/components/hero-panel';
 import { NotificationsBell } from '@/components/notifications-bell';
 import { NextActionCard } from '@/components/my-day';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { GymPrompt } from '@/components/gym-prompt';
 import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
@@ -176,7 +176,7 @@ export default function HomeScreen() {
 
   return (
     <Screen size="full">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
+      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
         <View className={cn('w-full self-center', !triple && 'max-w-[1120px]')}>
           <ScreenHeader
             eyebrow={`${formatShortDate(today)} · ${t(nothingPending ? 'home.nothing' : 'home.pending')}`}
@@ -229,7 +229,7 @@ export default function HomeScreen() {
             </View>
           )}
         </View>
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

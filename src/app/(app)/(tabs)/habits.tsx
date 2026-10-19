@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { ItemIcon } from '@/components/item-icon';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { QuickAdd } from '@/components/tasks/quick-add';
@@ -101,7 +101,7 @@ export default function HabitsScreen() {
         <Text className="font-mono text-xs text-ink-muted">{t('habits.syntax')}</Text>
       </View>
 
-      <ScrollView keyboardShouldPersistTaps="handled">
+      <ScreenScroll keyboardShouldPersistTaps="handled">
         {groups.map((g) => (
           <View key={g.title}>
             <SectionLabel title={g.title} count={g.data.length} />
@@ -119,7 +119,7 @@ export default function HabitsScreen() {
         ))}
         {!habits.isPending && all.length === 0 && <EmptyState title={t('habits.empty')} />}
         <View className="h-28" />
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

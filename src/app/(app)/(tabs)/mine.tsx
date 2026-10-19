@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { SectionList } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, useScreenGutter } from '@/components/screen';
+import { cn } from '@/lib/cn';
 import { ScreenHeader } from '@/components/screen-header';
 import { TaskRow } from '@/components/tasks/task-row';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -16,6 +17,7 @@ import { useSelectableList } from '@/lib/selection';
 // Atribuídas a mim: abertas e atribuídas a mim, de todos os projetos.
 export default function MineScreen() {
   const { t } = useTranslation();
+  const gutter = useScreenGutter('medium');
   const today = useToday();
   const tasks = useMyTasks();
   const all = tasks.data ?? [];
@@ -49,7 +51,8 @@ export default function MineScreen() {
         sections={groups}
         keyExtractor={(task) => task.id}
         stickySectionHeadersEnabled={false}
-        contentContainerClassName="pb-clear"
+        className={gutter.bleed}
+        contentContainerClassName={cn('pb-clear', gutter.pad)}
         renderSectionHeader={({ section }) => (
           <SectionLabel
             title={section.title}

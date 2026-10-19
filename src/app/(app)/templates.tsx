@@ -1,10 +1,10 @@
 import { router } from 'expo-router';
 import { X } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { ItemIcon } from '@/components/item-icon';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { IconButton } from '@/components/ui/button';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
@@ -31,7 +31,7 @@ export default function TemplatesScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader title={t('templates.title')} back />
-      <ScrollView contentContainerClassName="pb-12">
+      <ScreenScroll contentContainerClassName="pb-12">
         <View className="border-t border-line">
           {BUILT_IN_TEMPLATES.map((tpl) => (
             <TemplateRow
@@ -73,7 +73,7 @@ export default function TemplatesScreen() {
             />
           );
         })}
-      </ScrollView>
+      </ScreenScroll>
 
       {chosen && (
         <PromptDialog

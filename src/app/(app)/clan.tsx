@@ -2,11 +2,11 @@ import * as Clipboard from 'expo-clipboard';
 import { Copy, Link2, LogOut, Shield } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { BossBoard } from '@/components/boss-board';
 import { BossLine } from '@/components/game-bar';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
@@ -49,7 +49,7 @@ export default function ClanScreen() {
     return (
       <Screen>
         <ScreenHeader title={t('clan.title')} back />
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
+        <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-3 pb-12">
           <Text className="text-sm text-ink-muted">{t('clan.intro')}</Text>
           <Input
             value={name}
@@ -73,7 +73,7 @@ export default function ClanScreen() {
             onPress={() => m.create.mutate({ name: name.trim(), icon: icon.trim() }, { onError })}
           />
           <Text className="text-sm text-ink-muted">{t('clan.gotInvite')}</Text>
-        </ScrollView>
+        </ScreenScroll>
       </Screen>
     );
   }
@@ -94,7 +94,7 @@ export default function ClanScreen() {
         }
         back
       />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
+      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
         {boss && game.data?.enabled !== false && (
           <View className="gap-3">
             <SectionLabel title={t('clan.weeklyBoss')} className="pt-0" />
@@ -184,7 +184,7 @@ export default function ClanScreen() {
           disabled={!online}
           onPress={() => setConfirmLeave(true)}
         />
-      </ScrollView>
+      </ScreenScroll>
 
       {confirmLeave && (
         <ConfirmDialog

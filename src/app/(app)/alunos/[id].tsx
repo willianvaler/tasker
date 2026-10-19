@@ -1,9 +1,9 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import { Pressable, useWindowDimensions, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { SendPageDialog } from '@/components/send-page';
 import { Button } from '@/components/ui/button';
@@ -48,7 +48,7 @@ export default function StudentsScreen() {
 
   return (
     <Screen size="wide">
-      <ScrollView contentContainerClassName="gap-6 pb-clear">
+      <ScreenScroll contentContainerClassName="gap-6 pb-clear">
         <ScreenHeader
           help="enviar-pagina"
           title={t('students.title')}
@@ -95,7 +95,7 @@ export default function StudentsScreen() {
             )}
           </View>
         )}
-      </ScrollView>
+      </ScreenScroll>
       {archiving && (
         <ConfirmDialog
           title={t('students.archiveTitle', { name: archiving.name })}

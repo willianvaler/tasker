@@ -1,10 +1,10 @@
 import { Check } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Avatar } from '@/components/character';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
@@ -48,7 +48,7 @@ export default function ShopScreen() {
           </Text>
         }
       />
-      <ScrollView contentContainerClassName="gap-4 pb-12">
+      <ScreenScroll contentContainerClassName="gap-4 pb-12">
         <View className="flex-row items-center gap-4">
           {game && <Avatar game={game} size="md" />}
           <Text className="max-w-[640px] flex-1 text-sm text-ink-muted">{t('shop.hint')}</Text>
@@ -120,7 +120,7 @@ export default function ShopScreen() {
             {t('shop.loadError', { message: items.error.message })}
           </Text>
         )}
-      </ScrollView>
+      </ScreenScroll>
 
       {confirm && (
         <ConfirmDialog

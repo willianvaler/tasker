@@ -2,9 +2,9 @@ import { Link, router } from 'expo-router';
 import { Plus, Users } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { PromptDialog } from '@/components/ui/dialog';
@@ -50,7 +50,7 @@ export default function TeamsScreen() {
           />
         }
       />
-      <ScrollView contentContainerClassName="gap-6 pb-12">
+      <ScreenScroll contentContainerClassName="gap-6 pb-12">
         <Text className="text-sm text-ink-muted">{t('team.hint')}</Text>
 
         {pending.length > 0 && (
@@ -104,7 +104,7 @@ export default function TeamsScreen() {
             </Link>
           ))}
         </View>
-      </ScrollView>
+      </ScreenScroll>
 
       {creating && (
         <PromptDialog

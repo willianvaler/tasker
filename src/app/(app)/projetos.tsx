@@ -1,11 +1,11 @@
 import { router } from 'expo-router';
 import { Bot, MoreHorizontal, Plus, Users, UsersRound } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon } from '@/components/item-icon';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -26,7 +26,7 @@ export default function ProjectsSettingsScreen() {
 
   return (
     <Screen>
-      <ScrollView contentContainerClassName="gap-6 pb-clear">
+      <ScreenScroll contentContainerClassName="gap-6 pb-clear">
         <ScreenHeader help="pastas-projetos-paginas" title={t('projectsHub.title')} back />
         <Text className="text-sm text-ink-muted">{t('projectsHub.hint')}</Text>
         <View className="gap-1">
@@ -98,7 +98,7 @@ export default function ProjectsSettingsScreen() {
             onPress={() => router.push('/teams')}
           />
         </View>
-      </ScrollView>
+      </ScreenScroll>
       {dialog}
     </Screen>
   );

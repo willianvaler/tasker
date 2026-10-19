@@ -165,6 +165,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **W3** Anotações simples (bloco acima de Pastas e Projetos; no Início no celular) (D167)
 - [x] **W3.1** Anotações em Markdown: barra de formatação, visualização com `react-native-marked`, editor ocupando a tela; reabrir logo depois de criar não fica mais em branco (D187)
 - [x] **W10** Ajuda: artigos como botões que abrem o texto no lugar, "?" das telas com o artigo aberto (D188)
+- [x] **W11** Revisão das telas: rolagem principal com `ScreenScroll` (a barra de rolagem fica na margem, fora do texto) e telas de detalhe até 1024 px (D189)
 - [x] **W4** Descrição em tarefas e hábitos ("+ adicionar descrição", até 4.000 caracteres) (D168)
 - [x] **W5** Painel da tarefa mais largo; busca de Relacionar legível (D169)
 - [x] **W6** Clicar fora do painel fecha e salva (D170)

@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useScreenGutter } from '@/components/screen';
 import { isTouchScreen } from '@/lib/touch';
 import {
   ChevronDown,
@@ -54,6 +55,7 @@ export function PageView({ page }: { page: Page | undefined }) {
   const tasks = usePageTasks(page?.id);
   const writable = useCanWrite(page?.folder_id);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const screenGutter = useScreenGutter();
   const viewType = page?.view_type ?? 'list';
 
   const expanded = useExpanded();
@@ -231,7 +233,13 @@ export function PageView({ page }: { page: Page | undefined }) {
         </Text>
       )}
 
-      <Animated.ScrollView ref={scrollRef} className="flex-1" keyboardShouldPersistTaps="handled">
+      <Animated.ScrollView
+        ref={scrollRef}
+        className="flex-1"
+        style={{ marginHorizontal: -screenGutter.px }}
+        contentContainerStyle={{ paddingHorizontal: screenGutter.px }}
+        keyboardShouldPersistTaps="handled"
+      >
         {viewType === 'kanban' && page ? (
           <KanbanBoard tasks={all} folderId={page.folder_id} subtaskCount={subtaskCount} />
         ) : viewType === 'cards' && page ? (

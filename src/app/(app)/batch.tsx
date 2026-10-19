@@ -4,9 +4,9 @@ import { router } from 'expo-router';
 import { Check, Dot, X } from 'lucide-react-native';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { MentionChips } from '@/components/tasks/assignee-chips';
 import { TaskMeta } from '@/components/tasks/task-meta';
@@ -207,7 +207,7 @@ export default function BatchScreen() {
       >
         {total === 0 ? t('batch.none') : t('batch.willCreate', { count: total })}
       </Text>
-      <ScrollView className="mt-1 flex-1" keyboardShouldPersistTaps="handled">
+      <ScreenScroll className="mt-1 flex-1" keyboardShouldPersistTaps="handled">
         {flattened > 0 && (
           <Text className="py-2 text-sm text-warn" accessibilityLiveRegion="polite">
             {t('batch.flattened', { count: flattened, max: maxDepth })}
@@ -226,7 +226,7 @@ export default function BatchScreen() {
             prereqs={prereqsOf(item)}
           />
         ))}
-      </ScrollView>
+      </ScreenScroll>
 
       <View className="flex-row justify-end gap-2 py-3">
         <Button variant="ghost" label={t('common.cancel')} onPress={() => router.back()} />

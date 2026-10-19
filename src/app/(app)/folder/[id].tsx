@@ -9,7 +9,7 @@ import {
 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useFolderActions } from '@/components/folder-actions';
 import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
@@ -21,7 +21,7 @@ import { TimelineView } from '@/components/project/timeline-view';
 import { Tabs } from '@/components/ui/tabs';
 import { Related } from '@/components/related';
 import { useShortcut } from '@/lib/use-shortcut';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -184,19 +184,19 @@ export default function FolderScreen() {
       )}
 
       {folder && 'children' in folder && view === 'flow' ? (
-        <ScrollView contentContainerClassName="flex-grow pb-clear">
+        <ScreenScroll contentContainerClassName="flex-grow pb-clear">
           <FlowView root={folder} />
-        </ScrollView>
+        </ScreenScroll>
       ) : folder && 'children' in folder && view === 'people' ? (
-        <ScrollView contentContainerClassName="pb-clear">
+        <ScreenScroll contentContainerClassName="pb-clear">
           <PeopleView root={folder} />
-        </ScrollView>
+        </ScreenScroll>
       ) : folder && 'children' in folder && view === 'timeline' ? (
-        <ScrollView contentContainerClassName="pb-clear">
+        <ScreenScroll contentContainerClassName="pb-clear">
           <TimelineView root={folder} />
-        </ScrollView>
+        </ScreenScroll>
       ) : (
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
+        <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
           {folder && 'children' in folder && project && (!empty || showSetup) && (
             <View className="mb-4">
               <View className="mb-6">
@@ -294,7 +294,7 @@ export default function FolderScreen() {
               )}
             </View>
           ))}
-        </ScrollView>
+        </ScreenScroll>
       )}
       {dialog}
     </Screen>

@@ -6,7 +6,7 @@ import { Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { Markdown } from '@/components/markdown';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
@@ -64,7 +64,7 @@ export default function HelpScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader title={t('help.title')} back />
-      <ScrollView
+      <ScreenScroll
         ref={scroll}
         keyboardShouldPersistTaps="handled"
         contentContainerClassName="gap-4 pb-12"
@@ -159,7 +159,7 @@ export default function HelpScreen() {
         {rows.length === 0 && <Text className="text-sm text-ink-muted">{t('help.none')}</Text>}
         <Text className="pt-4 text-xs text-ink-muted">{t('help.typingNote')}</Text>
         <Text className="text-xs text-ink-muted">{t('help.browserNote')}</Text>
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

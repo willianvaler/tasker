@@ -1,11 +1,11 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { ChallengesPanel } from '@/components/group/challenges-panel';
 import { GroupChat, GroupWall } from '@/components/group/group-feed';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Tabs } from '@/components/ui/tabs';
@@ -66,7 +66,7 @@ export default function GroupScreen() {
       {!online ? (
         <EmptyState title={t('group.offline')} />
       ) : (
-        <ScrollView
+        <ScreenScroll
           keyboardShouldPersistTaps="handled"
           contentContainerClassName="gap-6 py-4 pb-clear"
         >
@@ -77,7 +77,7 @@ export default function GroupScreen() {
             {tab === 'wall' && <GroupWall group={group} names={names} />}
             {tab === 'chat' && <GroupChat group={group} names={names} />}
           </View>
-        </ScrollView>
+        </ScreenScroll>
       )}
     </Screen>
   );

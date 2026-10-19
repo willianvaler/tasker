@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -53,7 +53,7 @@ export default function TrashScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader title={t('trash.title')} back />
-      <ScrollView contentContainerClassName="gap-2 pb-12">
+      <ScreenScroll contentContainerClassName="gap-2 pb-12">
         <Text className="text-sm text-ink-muted">{t('trash.intro')}</Text>
         {!online && <Text className="text-sm text-warn">{t('trash.offline')}</Text>}
         {items.data?.length === 0 && <EmptyState title={t('trash.empty')} />}
@@ -81,7 +81,7 @@ export default function TrashScreen() {
             />
           </View>
         ))}
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

@@ -13,11 +13,11 @@ import {
 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { ItemIcon } from '@/components/item-icon';
 import { RoleEditor } from '@/components/role-editor';
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
@@ -153,7 +153,7 @@ export default function TeamScreen() {
           />
         }
       />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
+      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">
         <View>
           <SectionLabel title={t('team.people')} count={data.members.length} className="pt-0" />
           {data.members.map((member) => {
@@ -513,7 +513,7 @@ export default function TeamScreen() {
             ))}
           </View>
         )}
-      </ScrollView>
+      </ScreenScroll>
 
       {renaming && (
         <PromptDialog

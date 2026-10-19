@@ -1,9 +1,9 @@
 import { router, type Href } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
@@ -33,7 +33,7 @@ export default function NotificationsScreen() {
   return (
     <Screen size="medium">
       <ScreenHeader title={t('notifications.title')} back />
-      <ScrollView contentContainerClassName="pb-12">
+      <ScreenScroll contentContainerClassName="pb-12">
         {list.data?.length === 0 && <EmptyState title={t('notifications.empty')} />}
         {list.data?.map((n) => {
           const { text, taskId, folderId, teamId, teamInvite, pageId, url } =
@@ -66,7 +66,7 @@ export default function NotificationsScreen() {
             </Pressable>
           );
         })}
-      </ScrollView>
+      </ScreenScroll>
     </Screen>
   );
 }

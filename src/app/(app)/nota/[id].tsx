@@ -13,9 +13,9 @@ import {
 } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
+import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
 import { Button, IconButton } from '@/components/ui/button';
@@ -176,13 +176,13 @@ function Editor({ note }: { note: Note }) {
           className={textClass('min-h-64 flex-1 py-3 text-base leading-6 text-ink')}
         />
       ) : (
-        <ScrollView className="flex-1" contentContainerClassName="py-3 pb-clear">
+        <ScreenScroll className="flex-1" contentContainerClassName="py-3 pb-clear">
           {body.trim() ? (
             <NoteMarkdown value={body} />
           ) : (
             <Text className="text-ink-muted">{t('notes.bodyPlaceholder')}</Text>
           )}
-        </ScrollView>
+        </ScreenScroll>
       )}
       <View className="flex-row justify-between py-2">
         <Text className="text-xs text-ink-muted">{editing ? t('notes.markdownHint') : ''}</Text>
