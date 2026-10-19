@@ -77,7 +77,7 @@ export function HeroPanel() {
   );
 }
 
-function SkillButton({ game }: { game: GameState }) {
+export function SkillButton({ game }: { game: GameState }) {
   const { t } = useTranslation();
   const use = useUseSkill();
   const online = useIsOnline();

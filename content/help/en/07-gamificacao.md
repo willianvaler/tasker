@@ -4,6 +4,10 @@ Completing gives **XP**. XP raises your **level**. Doing something every day kee
 
 Every day a **daily boss** is born (about 6 tasks) and every week a **weekly boss** (about 5 days of use). Each task or habit is a hit that counts for both at once (and for the clan's). The daily one gives a smaller reward and has its own streak; the weekly one gives XP, gold and an item. The completion notice shows how much each has left.
 
+## Three game levels
+
+In **Profile → Gamification** you choose: **Off** (just the lists; your history is kept), **Light** (the default: XP, character and bosses quietly beside the lists) or **Full** (game mode: Home becomes your **camp**, with your character up front, the daily and weekly bosses and today's open quests). The rules are the same in all three: switching never gains or loses anything.
+
 ## Fair, no tricks
 
 - Creating and completing right away gives no XP (the hit still counts).
@@ -23,4 +27,4 @@ Pick a **class**, spend **attributes** and use one skill a day. Gold buys items 
 
 ## Turning it off
 
-Profile → **Gamification**. The app becomes just a task list.
+Profile → **Gamification** → **Off**. The app becomes just a task list.

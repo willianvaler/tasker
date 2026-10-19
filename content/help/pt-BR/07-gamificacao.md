@@ -4,6 +4,10 @@ Concluir dá **XP**. XP sobe o **nível**. Fazer algo todo dia mantém a **sequ�
 
 Todo dia nasce um **boss do dia** (umas 6 tarefas) e toda semana um **boss da semana** (uns 5 dias de uso). Cada tarefa ou hábito é um golpe que vale para os dois ao mesmo tempo (e para o do clã). O do dia dá uma recompensa menor e conta uma sequência própria; o da semana dá XP, ouro e um item. O aviso de conclusão mostra quanto sobrou de cada um.
 
+## Três níveis de jogo
+
+Em **Perfil → Gamificação** você escolhe: **Desligado** (só as listas; o histórico fica guardado), **Leve** (o padrão: XP, personagem e bosses discretos ao lado das listas) ou **Completo** (modo jogo: o Início vira o **acampamento**, com o personagem em destaque, os bosses do dia e da semana e as missões abertas de hoje). As regras são as mesmas nos três: trocar não ganha nem perde nada.
+
 ## Justo, sem truque
 
 - Criar e concluir na hora não vale XP (vale o golpe).
@@ -23,4 +27,4 @@ Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O 
 
 ## Desligar
 
-Perfil → **Gamificação**. O app vira só lista de tarefas.
+Perfil → **Gamificação** → **Desligado**. O app vira só lista de tarefas.

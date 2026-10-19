@@ -17,7 +17,7 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 - ✅ **Força do hábito (HB2, D194):** a cor da linha muda com o histórico, como o "valor" das tarefas do Habitica: muito + recente → azul/verde; muito − → laranja/vermelho; parado → neutro. Calculada no servidor a partir dos `habit_tick` (decai com o tempo), espelhada em `lib/`.
 - ✅ **Hábito só bom ou só ruim (HB2, D194):** opção de esconder o + ou o − (ex.: "fumou um cigarro" só tem −).
 
-## 2. Três níveis de jogo, por pessoa (HB3)
+## 2. Três níveis de jogo, por pessoa — ✅ done (HB3, D195)
 
 - Perfil → Gamificação: **Desligado** (só lista), **Leve** (o de hoje, padrão) e **Completo** (modo jogo).
 - Troca a qualquer hora, sem perder nada: as regras do servidor são as mesmas nos três; o que muda é a apresentação e os sistemas do §3, que só agem no Completo.
@@ -27,11 +27,11 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 
 | Id | Sistema | Como fica aqui | Já existe |
 |---|---|---|---|
-| HB4 | **Início como acampamento** | Personagem em destaque com o equipamento, barras de vida, XP, mana e ouro; bosses do dia e da semana com arte e uma fala curta; missões do dia | personagem, bosses, ouro (D60 a D64) |
+| HB4 ✅ | **Início como acampamento** (D196) | Personagem em destaque com o equipamento, barras de vida, XP, mana e ouro; bosses do dia e da semana com arte e uma fala curta; missões do dia | personagem, bosses, ouro (D60 a D64) |
 | HB5 | **Vida e diárias** | Tarefa recorrente e hábito de checagem viram "diárias"; diária não feita tira vida na virada do dia (`refresh_cycles`), proporcional à força dela e reduzida pela Constituição | ciclos (D24) |
 | HB5 | **"O que você fez ontem?"** | Na primeira abertura do dia, antes de tirar a vida, a lista das diárias de ontem para marcar o que ficou esquecido (como o "Record Yesterday's Activity") | — |
 | HB5 | **Descansar na taverna** | Pausa o dano das diárias (viagem, doença); o dano no boss também pausa | — |
-| HB5 | **Zerar a vida** | Consequência leve, decisão do dono (proposta: perde o ouro do dia e um nível de XP, nunca itens) | — |
+| HB5 | **Zerar a vida** | O personagem morre e volta ao início (nível 1), a não ser que a pessoa compre uma vida por 500 de ouro, que mantém nível e itens (resposta do dono, D197) | — |
 | HB6 | **Mana e habilidades por classe** | Mana regenera com tarefas; 4 habilidades por classe, liberadas por nível (ex.: guerreiro "golpe brutal", curandeiro "cura do grupo") | `use_skill`, classes (D61) |
 | HB6 | **Dia perfeito** | Todas as diárias feitas → bônus de atributos no dia seguinte | — |
 | HB7 | **Recompensas personalizadas** | A pessoa cria prêmios da vida real com preço em ouro ("um episódio: 30 de ouro") e resgata; vale também no Leve | ouro (D63) |
@@ -68,7 +68,7 @@ Regras que continuam valendo: XP, dano, ouro, itens e vida são **do servidor** 
 ## Decisões em aberto (do dono)
 
 1. ~~Cores da marca nos tokens do app?~~ Respondida em 19/10: sim, o laranja (D192).
-2. Consequência de zerar a vida (proposta no §3).
+2. ~~Consequência de zerar a vida~~ Respondida em 19/10: volta ao início, ou vida por 500 de ouro (D197).
 3. Estilo de arte: escolher entre 3 amostras geradas no ComfyUI.
 4. Vocabulário de jogo ligado por padrão no Completo?
 5. O Completo será recurso de plano pago (V4 §6)?

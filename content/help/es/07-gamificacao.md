@@ -4,6 +4,10 @@ Completar da **XP**. La XP sube el **nivel**. Hacer algo cada día mantiene la *
 
 Cada día nace un **jefe del día** (unas 6 tareas) y cada semana un **jefe de la semana** (unos 5 días de uso). Cada tarea o hábito es un golpe que cuenta para los dos a la vez (y para el del clan). El del día da una recompensa menor y tiene su propia racha; el de la semana da XP, oro y un objeto. El aviso al completar muestra cuánto le queda a cada uno.
 
+## Tres niveles de juego
+
+En **Perfil → Gamificación** eliges: **Apagado** (solo las listas; el historial se guarda), **Ligero** (el predeterminado: XP, personaje y jefes discretos junto a las listas) o **Completo** (modo juego: el Inicio se vuelve el **campamento**, con el personaje al frente, los jefes del día y de la semana y las misiones abiertas de hoy). Las reglas son las mismas en los tres: cambiar no gana ni pierde nada.
+
 ## Justo, sin trucos
 
 - Crear y completar al instante no da XP (el golpe sí cuenta).
@@ -23,4 +27,4 @@ Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro c
 
 ## Apagar
 
-Perfil → **Gamificación**. La app queda solo como lista de tareas.
+Perfil → **Gamificación** → **Apagado**. La app queda solo como lista de tareas.

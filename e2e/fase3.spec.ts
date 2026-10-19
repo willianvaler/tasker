@@ -54,7 +54,10 @@ test('critério de aceite: concluir e desmarcar mudam XP e HP do boss, e voltam'
   // O Perfil mostra as recentes; todas (com as que faltam) ficam na tela de conquistas (P3)
   await expect(page.getByRole('button', { name: 'Ver todas as conquistas' })).toBeVisible();
   const saved = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
-  await page.getByRole('switch', { name: 'Gamificação' }).click();
+  await page
+    .getByRole('radiogroup', { name: 'Gamificação' })
+    .getByRole('radio', { name: 'Desligado' })
+    .click();
   await saved;
   await openTab(page, 'Hoje');
   await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();

@@ -2,9 +2,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { myAchievementsSchema } from '../achievements';
+import type { Tables } from '../db';
 import { supabase } from '../supabase';
 import { useSession } from '@/providers/session';
 import { keys } from './keys';
+import { useProfile } from './profile';
 
 const bossSchema = z.object({
   id: z.string(),
@@ -115,6 +117,55 @@ export function useGameState() {
       const { data, error } = await supabase.rpc('game_state');
       if (error) throw error;
       return gameStateSchema.parse(data);
+    },
+  });
+}
+
+export type GameLevel = 'off' | 'light' | 'full';
+
+/**
+ * Nível de jogo da pessoa (HB3, D195): Desligado (gamificação desligada), Leve (o de sempre) ou
+ * Completo (modo jogo). Enquanto carrega, vale o Leve: é o padrão e não esconde nada.
+ */
+export function useGameLevel(): GameLevel {
+  const { data: game } = useGameState();
+  const profile = useProfile();
+  if (game?.enabled === false) return 'off';
+  return profile.data?.game_mode === 'full' ? 'full' : 'light';
+}
+
+/** Troca o nível de jogo: desligar é o liga/desliga de sempre; Leve e Completo ligam. */
+export function useSetGameLevel() {
+  const queryClient = useQueryClient();
+  const { session } = useSession();
+  return useMutation({
+    mutationFn: async (level: GameLevel) => {
+      const { error } = await supabase
+        .from('profiles')
+        .update(
+          level === 'off'
+            ? { gamification_enabled: false }
+            : { gamification_enabled: true, game_mode: level },
+        )
+        .eq('id', session?.user.id ?? '');
+      if (error) throw error;
+    },
+    onMutate: (level) => {
+      const game = queryClient.getQueryData<GameState>(keys.game);
+      if (game)
+        queryClient.setQueryData<GameState>(keys.game, { ...game, enabled: level !== 'off' });
+      const profile = queryClient.getQueryData<Tables<'profiles'>>(keys.profile);
+      if (profile && level !== 'off')
+        queryClient.setQueryData(keys.profile, { ...profile, game_mode: level });
+      return { game, profile };
+    },
+    onError: (_err, _level, context) => {
+      if (context?.game) queryClient.setQueryData(keys.game, context.game);
+      if (context?.profile) queryClient.setQueryData(keys.profile, context.profile);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: keys.game });
+      queryClient.invalidateQueries({ queryKey: keys.profile });
     },
   });
 }

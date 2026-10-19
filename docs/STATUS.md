@@ -218,11 +218,12 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 - [x] **HB0** Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral (D190)
 - [x] **HB0.1** Acento laranja da marca nos tokens do app: `#A94604` no claro (AA), `#FF8A3D` no escuro (D192)
+- [x] **HB0.2** Ícones da web como app: manifesto, ícones 192/512/maskable, apple-touch-icon, theme-color (D198)
 - [x] **HB1** Hábitos: − e + lado a lado na direita (`hábito  |−| |+|`), no bom/ruim e no contador (D191)
 - [x] **HB2** Força do hábito bom/ruim (barra de cor pelo valor, regra do Habitica) e hábito só bom ou só ruim (D194)
-- [ ] **HB3** Três níveis de jogo no Perfil (Desligado, Leve, Completo)
-- [ ] **HB4** Início como acampamento (Completo)
-- [ ] **HB5** Vida e diárias, "o que você fez ontem?", taverna
+- [x] **HB3** Três níveis de jogo no Perfil: Desligado, Leve e Completo (D195)
+- [x] **HB4** Início como acampamento no Completo: personagem, bosses com fala, missões do dia (D196)
+- [ ] **HB5** Vida e diárias, "o que você fez ontem?", taverna; morte volta ao início, vida por 500 de ouro (D197)
 - [ ] **HB6** Mana e habilidades por classe, dia perfeito
 - [ ] **HB7** Recompensas personalizadas e baú encantado
 - [ ] **HB8** Mascotes e montarias

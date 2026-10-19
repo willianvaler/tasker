@@ -462,7 +462,17 @@
     "achievements": "Logros",
     "achievementLabel": "{{name}}: {{description}}",
     "achievementLocked": "{{name}}: {{description}} (bloqueado)",
-    "dailyBoss": "Jefe del día"
+    "dailyBoss": "Jefe del día",
+    "levels": {
+      "off": "Apagado",
+      "light": "Ligero",
+      "full": "Completo"
+    },
+    "levelHints": {
+      "off": "Solo las listas: XP, personaje y jefes desaparecen de la pantalla (el historial se guarda).",
+      "light": "XP, nivel, personaje, jefes y tienda, discretos junto a las listas.",
+      "full": "Modo juego: el Inicio se vuelve el campamento del personaje, con los jefes y las misiones del día al frente."
+    }
   },
   "privacy": {
     "title": "Tus datos",
@@ -2276,5 +2286,18 @@
     "feedHow": "En el ordenador, en Google Calendar: Otros calendarios → + → Desde URL, y pega el enlace. Google lo actualiza solo, pero un cambio puede tardar unas horas en aparecer.",
     "feedPrivate": "Quien tenga el enlace ve los títulos de tus tareas. Si se filtra, cambia el enlace.",
     "feedError": "No se pudo cambiar el enlace: {{message}}"
+  },
+  "camp": {
+    "label": "Campamento",
+    "hero": "Héroe",
+    "bosses": "Jefes",
+    "missions_one": "1 misión abierta hoy",
+    "missions_other": "{{count}} misiones abiertas hoy",
+    "missionsDone": "Ninguna misión abierta hoy. Descansa, héroe.",
+    "taunt1": "Tus pendientes me alimentan.",
+    "taunt2": "¿Otra vez lo dejas para mañana? Mejor para mí.",
+    "taunt3": "Nunca vas a terminar esa lista.",
+    "taunt4": "Cada tarea olvidada me hace más fuerte.",
+    "tauntLow": "¡No… una tarea más y caigo!"
   }
 }

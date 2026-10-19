@@ -462,7 +462,17 @@
     "achievements": "Achievements",
     "achievementLabel": "{{name}}: {{description}}",
     "achievementLocked": "{{name}}: {{description}} (locked)",
-    "dailyBoss": "Daily boss"
+    "dailyBoss": "Daily boss",
+    "levels": {
+      "off": "Off",
+      "light": "Light",
+      "full": "Full"
+    },
+    "levelHints": {
+      "off": "Just the lists: XP, character and bosses leave the screen (your history is kept).",
+      "light": "XP, level, character, bosses and shop, quietly beside the lists.",
+      "full": "Game mode: Home becomes your character's camp, with the bosses and today's quests up front."
+    }
   },
   "privacy": {
     "title": "Your data",
@@ -2276,5 +2286,18 @@
     "feedHow": "On a computer, in Google Calendar: Other calendars → + → From URL, and paste the link. Google updates it on its own, but a change may take a few hours to show.",
     "feedPrivate": "Anyone with the link can see your task titles. If it leaks, change the link.",
     "feedError": "Could not change the link: {{message}}"
+  },
+  "camp": {
+    "label": "Camp",
+    "hero": "Hero",
+    "bosses": "Bosses",
+    "missions_one": "1 quest open today",
+    "missions_other": "{{count}} quests open today",
+    "missionsDone": "No quests open today. Rest, hero.",
+    "taunt1": "Your backlog feeds me.",
+    "taunt2": "Putting it off again? Good for me.",
+    "taunt3": "You will never finish that list.",
+    "taunt4": "Every forgotten task makes me stronger.",
+    "tauntLow": "No… one more task and I fall!"
   }
 }

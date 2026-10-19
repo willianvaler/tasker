@@ -6,30 +6,47 @@ import { BossLine, ProgressBar } from '@/components/game-bar';
 import { Button } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
-import { ToggleRow } from '@/components/ui/toggle-row';
+import { Chip } from '@/components/ui/chip';
 import { achievementText } from '@/lib/achievements';
 import { cn } from '@/lib/cn';
-import { useGameState, useSetGamification } from '@/lib/queries/game';
+import { useGameLevel, useGameState, useSetGameLevel, type GameLevel } from '@/lib/queries/game';
 import { useIsOnline } from '@/providers/online';
 
-/** Perfil: liga/desliga, números do jogo em mono, boss e conquistas. */
+const LEVELS: GameLevel[] = ['off', 'light', 'full'];
+
+/** Perfil: nível de jogo, números do jogo em mono, boss e conquistas. */
 export function GameProfile() {
   const { t } = useTranslation();
   const { data: game } = useGameState();
-  const setEnabled = useSetGamification();
+  const level = useGameLevel();
+  const setLevel = useSetGameLevel();
   const online = useIsOnline();
   if (!game) return null;
   const unlocked = game.achievements.filter((a) => a.unlocked_at).length;
 
   return (
     <View className="gap-4">
-      <ToggleRow
-        title={t('gameProfile.toggle')}
-        hint={t('gameProfile.toggleHint')}
-        value={game.enabled}
-        disabled={!online}
-        onChange={(value) => setEnabled.mutate(value)}
-      />
+      {/* HB3: três níveis de jogo (Desligado, Leve, Completo) */}
+      <View className="gap-2">
+        <Text className="text-base text-ink">{t('gameProfile.toggle')}</Text>
+        <View
+          className="flex-row flex-wrap gap-2"
+          accessibilityRole="radiogroup"
+          accessibilityLabel={t('gameProfile.toggle')}
+        >
+          {LEVELS.map((value) => (
+            <Chip
+              key={value}
+              role="radio"
+              label={t(`gameProfile.levels.${value}`)}
+              selected={level === value}
+              disabled={!online}
+              onPress={() => setLevel.mutate(value)}
+            />
+          ))}
+        </View>
+        <Text className="text-sm text-ink-muted">{t(`gameProfile.levelHints.${level}`)}</Text>
+      </View>
 
       {game.enabled && (
         <>

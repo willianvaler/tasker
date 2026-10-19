@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, useWindowDimensions, View } from 'react-native';
 
+import { CampView } from '@/components/camp';
 import { GameHeader } from '@/components/game-bar';
 import { HeroPanel } from '@/components/hero-panel';
 import { NotificationsBell } from '@/components/notifications-bell';
@@ -19,6 +20,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { addDays, formatShortDate } from '@/lib/parser/dates';
+import { useGameLevel } from '@/lib/queries/game';
 import { useMyTasks } from '@/lib/queries/projects';
 import { useProfile, useToday } from '@/lib/queries/profile';
 import {
@@ -47,6 +49,8 @@ export default function HomeScreen() {
   const wide = width >= 1024;
   // Tela bem larga (1600+): as listas se dividem em duas colunas ao lado do personagem
   const triple = width >= 1600;
+  // HB4: no modo Completo o topo é o acampamento (e a coluna do personagem sai, para não repetir)
+  const camp = useGameLevel() === 'full';
 
   const todayTasks = useTodayTasks(today);
   const upcoming = useUpcomingTasks(today, addDays(today, 7));
@@ -193,6 +197,14 @@ export default function HomeScreen() {
           />
           {summary}
           <GymPrompt />
+          {camp && (
+            <View className="pt-4">
+              <CampView
+                name={firstName}
+                missions={overdue.length + dueToday.length + withGoal.length - habitsDone}
+              />
+            </View>
+          )}
           <View className="pt-4">
             <NextActionCard tasks={[...overdue, ...dueToday]} today={today} />
           </View>
@@ -203,9 +215,11 @@ export default function HomeScreen() {
                 {nowSection}
               </View>
               <View className="flex-1">{laterSections}</View>
-              <View className="w-80 pt-6">
-                <HeroPanel />
-              </View>
+              {!camp && (
+                <View className="w-80 pt-6">
+                  <HeroPanel />
+                </View>
+              )}
             </View>
           ) : wide ? (
             <View className="mt-4 flex-row items-start gap-12">
@@ -214,13 +228,15 @@ export default function HomeScreen() {
                 {nowSection}
                 {laterSections}
               </View>
-              <View className="w-80 pt-6">
-                <HeroPanel />
-              </View>
+              {!camp && (
+                <View className="w-80 pt-6">
+                  <HeroPanel />
+                </View>
+              )}
             </View>
           ) : (
             <View className="mt-4">
-              <GameHeader />
+              {!camp && <GameHeader />}
               {/* W3: no celular as anotações ficam no Início (no computador, na barra lateral) */}
               <NotesBlock limit={3} />
               {habitsSection}

@@ -166,5 +166,8 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC10.6 | Correções do dono (18/10): grupo de treino no bloco Academia (`folders.gym_group`, convite pelo link, treinos do grupo, seletor de quem treina junto), Séries · Repetições · Carga · Descanso no painel do exercício gravando o plano do Modo Treino (descanso e aviso na tela de bloqueio de volta), sem pomodoro e cronômetro em página de treino; pgTAP, E2E `e2e/grupo-treino.spec.ts` e Ajuda nos 3 idiomas | D186 |
 | **V8** | HB0 | Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral | D190 |
 | V8 | HB0.1 | Acento laranja da marca nos tokens do app: `#A94604` no claro (AA), `#FF8A3D` no escuro | D192 |
+| V8 | HB0.2 | Ícones da web como app: manifesto, ícones 192/512/maskable, apple-touch-icon, theme-color | D198 |
 | V8 | HB1 | Hábitos: − e + lado a lado na direita (`hábito  \|−\| \|+\|`), no bom/ruim e no contador | D191 |
 | V8 | HB2 | Força do hábito bom/ruim (barra de cor pelo valor, regra do Habitica) e hábito só bom ou só ruim | D194 |
+| V8 | HB3 | Três níveis de jogo no Perfil: Desligado, Leve e Completo | D195 |
+| V8 | HB4 | Início como acampamento no Completo: personagem, bosses com fala, missões do dia | D196 |

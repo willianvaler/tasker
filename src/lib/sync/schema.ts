@@ -392,6 +392,7 @@ const profiles = new Table({
   locale: column.text,
   gym_enabled: column.integer,
   ui_prefs: column.text,
+  game_mode: column.text,
 });
 
 // Ações que viram RPC (concluir, habit_tick...): não ficam no SQLite, só na fila; o uploadData as
