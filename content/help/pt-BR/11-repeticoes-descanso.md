@@ -4,11 +4,13 @@ Escreva `Supino 4x12` e a tarefa pede **4 séries**. Na linha aparece **0/4**: c
 
 ## Descanso
 
-Depois de cada série começa o **descanso** (60 s por padrão). Num treino, o painel do exercício tem **Séries · Repetições · Carga · Descanso** lado a lado: escreva o descanso em segundos ou minutos (`90`, `1:30`, `2min`). A contagem aparece embaixo, com **−30**, **+30** e **Pular**. No celular, você é avisado mesmo com a tela bloqueada. No navegador, o aviso vem se a aba estiver aberta, mesmo escondida.
+Depois de cada série começa o **descanso** (60 s por padrão). Num treino, o painel do exercício tem **Séries · Repetições · Carga · Descanso** lado a lado: escreva o descanso em segundos ou minutos (`90`, `1:30`, `2min`). Terminado um exercício, o descanso vale também antes do próximo. A contagem aparece embaixo, com **−30**, **+30** e **Pular**. No celular, você é avisado mesmo com a tela bloqueada. No navegador, o aviso vem se a aba estiver aberta, mesmo escondida.
+
+**Séries avançadas:** para um treino como "1 série de 14, 2 de 10, 1 de 8", ligue **Séries avançadas** no painel do exercício. A primeira linha continua igual, e o **+** no fim dela acrescenta outra linha com séries, repetições e carga próprias (ela já vem com as repetições e a carga da anterior). O **×** tira uma linha. No Modo Treino, cada série mostra o que pede ("10 reps · 45kg"), e a carga −/+ muda só a das séries daquela linha.
 
 ## Modo Treino
 
-Em páginas de cards ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o treino fecha sozinho e um aviso curto mostra séries, tempo, volume e XP. Funciona sem internet e mantém a tela acesa.
+Em páginas de cards ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o treino fecha sozinho e um aviso curto mostra séries, tempo, volume e XP. Funciona sem internet e mantém a tela acesa. Saiu para a lista no meio do treino? O botão vira **Continuar treino** e você volta de onde parou (num grupo de treino, sem perguntar de novo com quem). Voltou a um exercício já feito com **Anterior**? O botão grande vira **Próximo exercício**. Com o treino pausado, o **Feita** fica apagado até você tocar em ▶.
 
 **Sem destravar o celular (Android):** com o Modo Treino aberto, a série aparece na tela de bloqueio, com **Feita**, **Pular descanso** e **+30 s**. Toque na setinha da notificação para ver os botões. Com o celular travado, o que você marca fica no aparelho e sobe quando você abrir o app de novo.
 

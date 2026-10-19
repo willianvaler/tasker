@@ -234,6 +234,15 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **HB11** Arte no ComfyUI (79 imagens), vocabulário de jogo, celebrações e sons (D205)
 - [x] **LB1** Horário nas tarefas e lembretes (servidor, celular e web; feed .ics com hora) (D206)
 
+## ESCOPO_V6 — correções do Modo Treino (pedido do dono em 19/10)
+
+- [x] **TR1** Descanso entre um exercício e o próximo no Modo Treino (o "depois" do plano ou o das séries), também em grupo (D216)
+- [x] **TR2** Continuar o treino ao voltar (sem o seletor de novo, mesma sessão no servidor, botão "Continuar treino"); "Próximo exercício" num exercício já feito; aviso do treino pausado (D216)
+- [x] **TR3** Séries avançadas: interruptor no painel do exercício, "+" no fim da linha, repetições e carga por série no Modo Treino (D217)
+- [x] **TR4** Bateria E2E de usabilidade do Modo Treino (`e2e/treino-bateria.spec.ts`) (D216)
+- [ ] **TR5** Memória e lentidão do APK: medir num aparelho (perfil do Hermes/Android Studio) antes de mexer; ver o relatório desta tarefa
+- [ ] **GA1** Página de gastos e fluxo de caixa no projeto, com lançamento por foto da nota (OCR) e exportação CSV/XLSX: escopo em `ESCOPO_V9.md`, esperando as decisões do dono
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar

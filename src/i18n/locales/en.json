@@ -891,7 +891,11 @@
     "hintCounter": "A goal per period (e.g. 8 glasses of water). + adds, − undoes; reaching the goal completes it.",
     "hintPlusminus": "No goal: + when you do the good one (XP and damage to the boss), − when you slip (the boss heals a little).",
     "target": "Goal per period",
-    "rest": "Rest"
+    "rest": "Rest",
+    "advancedSets": "Advanced sets",
+    "advancedHint": "Different reps and load per set (e.g. 1 of 14, 2 of 10, 1 of 8)",
+    "addGroup": "Add sets",
+    "removeGroup": "Remove these sets"
   },
   "collab": {
     "nobody": "Nobody yet.",
@@ -1431,7 +1435,12 @@
     "toastSets_one": "{{count}} set",
     "toastSets_other": "{{count}} sets",
     "toastSkipped_one": "{{count}} skipped",
-    "toastSkipped_other": "{{count}} skipped"
+    "toastSkipped_other": "{{count}} skipped",
+    "next": "Next exercise",
+    "pausedHint": "Workout paused: tap ▶ to resume",
+    "reps_one": "{{count}} rep",
+    "reps_other": "{{count}} reps",
+    "continue": "Resume workout"
   },
   "pomodoro": {
     "title": "Pomodoro",

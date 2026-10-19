@@ -2,8 +2,13 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { Task } from '../queries/tasks';
 import {
+  adjustSetWeight,
   adjustWeight,
   formatRest,
+  groupsLabel,
+  restBetweenExercises,
+  setGroups,
+  setPrescription,
   parseRest,
   planFromSets,
   nextPending,
@@ -94,4 +99,79 @@ describe('descanso no painel', () => {
     expect(planFromSets(count, null, null)).toBe(count);
     expect(planFromSets(count, 3, 60)).toEqual({ mode: 'sets', total: 3, rest_seconds: 60 });
   });
+});
+
+describe('descanso entre exercícios', () => {
+  it('usa o "depois" do plano', () =>
+    expect(
+      restBetweenExercises(
+        { mode: 'sets', total: 3, rest_seconds: 60, rest_after_seconds: 120 },
+        true,
+      ),
+    ).toBe(120));
+  it('sem o "depois", o das séries (o painel só grava esse)', () =>
+    expect(restBetweenExercises({ mode: 'sets', total: 3, rest_seconds: 90 }, true)).toBe(90));
+  it('sem descanso nenhum, nada', () =>
+    expect(restBetweenExercises({ mode: 'sets', total: 3 }, true)).toBeNull());
+  it('item sem plano não descansa', () =>
+    expect(restBetweenExercises({ mode: 'count', total: 1 }, false)).toBeNull());
+  it('contador não usa o descanso das séries', () =>
+    expect(restBetweenExercises({ mode: 'count', total: 5, rest_seconds: 30 }, true)).toBeNull());
+});
+
+describe('séries avançadas', () => {
+  // O treino do dono em 19/10: 1 de 14, 2 de 10, 1 de 8
+  const meta = {
+    sets: 4,
+    reps: 14,
+    weight: '40kg',
+    groups: [
+      { sets: 1, reps: 14 },
+      { sets: 2, reps: 10, weight: '45kg' },
+      { sets: 1, reps: 8 },
+    ],
+  };
+  it('grupos mal formados saem', () =>
+    expect(
+      setGroups({
+        groups: [
+          { sets: 0, reps: 3 },
+          { sets: 2, reps: -1, weight: ' ' },
+        ] as never,
+      }),
+    ).toEqual([{ sets: 2 }]));
+  it('sem grupos, lista vazia', () => expect(setGroups({ sets: 3, reps: 10 })).toEqual([]));
+  it('cada série pega o seu grupo', () =>
+    expect([0, 1, 2, 3].map((n) => setPrescription(meta, n))).toEqual([
+      { reps: 14, weight: '40kg', group: 0 },
+      { reps: 10, weight: '45kg', group: 1 },
+      { reps: 10, weight: '45kg', group: 1 },
+      { reps: 8, weight: '40kg', group: 2 },
+    ]));
+  it('série a mais repete o último grupo', () =>
+    expect(setPrescription(meta, 4)).toEqual({ reps: 8, weight: '40kg', group: 2 }));
+  it('sem grupos, o do item', () =>
+    expect(setPrescription({ reps: 12, weight: '20kg' }, 2)).toEqual({
+      reps: 12,
+      weight: '20kg',
+      group: -1,
+    }));
+  it('carga ± muda só o grupo da série', () => {
+    const next = adjustSetWeight(meta, 3, 2.5);
+    expect(next.groups?.map((g) => g.weight)).toEqual([undefined, '45kg', '42,5kg']);
+    expect(next.weight).toBe('40kg');
+  });
+  it('carga ± no primeiro grupo acompanha a do item', () =>
+    expect(adjustSetWeight(meta, 0, -5).weight).toBe('35kg'));
+  it('sem grupos, a carga do item', () =>
+    expect(adjustSetWeight({ weight: '20kg' }, 0, 2.5)).toEqual({ weight: '22,5kg' }));
+  it('rótulo com a carga só onde muda', () =>
+    expect(
+      groupsLabel([
+        { sets: 1, reps: 14, weight: '40kg' },
+        { sets: 2, reps: 10, weight: '40kg' },
+        { sets: 1, reps: 8, weight: '45kg' },
+        { sets: 1 },
+      ]),
+    ).toBe('1x14 40kg · 2x10 · 1x8 45kg · 1x?'));
 });

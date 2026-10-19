@@ -18,6 +18,7 @@ import type { Json } from '@/lib/db';
 import { metaLabel } from '@/components/tasks/task-meta';
 import type { TaskMeta } from '@/lib/parser/quick';
 import { useGameState } from '@/lib/queries/game';
+import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import { rootFolder, useMembers } from '@/lib/queries/projects';
 import { useMyProgress } from '@/lib/queries/repeat';
 import { usePageTasks, useToggleTask, useUpdateTask } from '@/lib/queries/tasks';
@@ -29,7 +30,6 @@ import {
 } from '@/lib/queries/workout-session';
 import { restAfterRep } from '@/lib/repeat';
 import { selection } from '@/lib/selection';
-import { localStore } from '@/lib/storage';
 import { formatClock } from '@/lib/timers';
 import { ensureAlertPermission } from '@/lib/timer-alerts';
 import { useShortcut } from '@/lib/use-shortcut';
@@ -40,9 +40,18 @@ import {
 } from '@/lib/workout-notification';
 import { useWakeLock } from '@/lib/wake-lock';
 import {
-  adjustWeight,
+  clearWorkoutRun,
+  loadWorkoutRun,
+  saveWorkoutRun,
+  type WorkoutRun,
+} from '@/lib/workout-store';
+import {
+  adjustSetWeight,
   nextPending,
   parseWeight,
+  restBetweenExercises,
+  setGroups,
+  setPrescription,
   setVolume,
   workoutElapsed,
   workoutItems,
@@ -59,37 +68,7 @@ import { useTaskCan } from '@/providers/write';
 // para o próximo. O andamento do treino (tempo, volume, pulados) fica no aparelho até o fim: feito
 // o último exercício, o treino fecha sozinho com um aviso curto do que foi feito (16/10).
 
-type Session = {
-  startedAt: number;
-  pausedMs: number;
-  pausedAt: number | null;
-  sets: number;
-  volume: number;
-  xp: number;
-  skipped: string[];
-};
-
-const sessionKey = (pageId: string) => `questlist:workout:${pageId}`;
-// Treino aberto há mais de 12 h é outro treino
-const SESSION_MAX_MS = 12 * 60 * 60 * 1000;
-
-function loadSession(pageId: string): Session {
-  const fresh = {
-    startedAt: Date.now(),
-    pausedMs: 0,
-    pausedAt: null,
-    sets: 0,
-    volume: 0,
-    xp: 0,
-    skipped: [],
-  };
-  try {
-    const saved = JSON.parse(localStore.getItem(sessionKey(pageId)) ?? 'null') as Session | null;
-    return saved && Date.now() - saved.startedAt < SESSION_MAX_MS ? saved : fresh;
-  } catch {
-    return fresh;
-  }
-}
+type Session = WorkoutRun;
 
 const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
@@ -124,18 +103,37 @@ export default function WorkoutScreen() {
     .map((m) => (members.data ?? []).find((x) => x.userId === m.userId)?.displayName)
     .filter((name): name is string => !!name);
 
+  const [{ run: initial, resumed }] = useState(() => loadWorkoutRun(id));
+  const [session, setSession] = useState(initial);
+  // A sessão do servidor fica também no andamento, para a volta
+  const joined = (sid: string) => {
+    setSessionId(sid);
+    setSession((s) => ({ ...s, serverSession: sid }));
+  };
+  const startAlone = () =>
+    sessionActions.start.mutateAsync({ pageId: id, withUsers: [] }).then(joined, () => {});
+
   const started = useRef(false);
   useEffect(() => {
     if (started.current || !online || !page) return;
     if (sessao) {
       started.current = true;
-      sessionActions.join.mutateAsync(sessao).then(setSessionId, () => {});
+      sessionActions.join.mutateAsync(sessao).then(joined, () => {});
+      return;
+    }
+    // Treino já começado (saiu para a lista e voltou): continua, sem perguntar de novo com quem.
+    // Entra outra vez na mesma sessão; se ela acabou (todo mundo saiu), abre uma sozinho
+    if (resumed) {
+      started.current = true;
+      const previous = initial.serverSession;
+      if (previous) sessionActions.join.mutateAsync(previous).then(joined, startAlone);
+      else startAlone();
       return;
     }
     // Em pasta compartilhada sempre pergunta (sozinho no grupo, o seletor oferece o convite)
     if (togetherFolder) return;
     started.current = true;
-    sessionActions.start.mutateAsync({ pageId: id, withUsers: [] }).then(setSessionId, () => {});
+    startAlone();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [online, page, sessao, togetherFolder]);
 
@@ -155,14 +153,15 @@ export default function WorkoutScreen() {
   function startTogether() {
     sessionActions.start
       .mutateAsync({ pageId: id, withUsers: partners })
-      .then(setSessionId, () => {})
+      .then(joined, () => {})
       .finally(() => setPicked(true));
   }
-  const picking = online && !sessao && !picked && togetherFolder && !members.isPending;
+  const picking = online && !sessao && !resumed && !picked && togetherFolder && !members.isPending;
 
-  const [session, setSession] = useState(() => loadSession(id));
+  // Depois do fim, nada grava de novo (o XP da última série pode chegar com a tela saindo)
+  const ended = useRef(false);
   useEffect(() => {
-    localStore.setItem(sessionKey(id), JSON.stringify(session));
+    if (!ended.current) saveWorkoutRun(id, session);
   }, [id, session]);
   // Atalhos de lista (Espaço marca a selecionada) não podem disputar com os do treino
   useEffect(() => selection.select(null), []);
@@ -199,7 +198,9 @@ export default function WorkoutScreen() {
   // tira a série da tela de bloqueio, encerra o descanso que sobrou e sai com o resumo num aviso
   const toast = useToast();
   const game = useGameState();
-  const rest = useLiveTimer();
+  // Aqui só importa se há descanso (a contagem fica na tela da série): sem o redesenho de 250 ms
+  const activeTimer = useActiveTimer().data;
+  const timerActions = useTimerActions();
   const startTimer = useStartTimer();
   const remoteRest = group?.state.rest_ends_at ?? null;
   const appliedRest = useRef<string | null>(null);
@@ -224,14 +225,15 @@ export default function WorkoutScreen() {
   useEffect(() => {
     if (!finished || tasks.isPending || items.length === 0) return;
     void clearWorkoutNotification();
-    if (rest.timer?.kind === 'rest') rest.act('cancel');
+    if (activeTimer?.kind === 'rest') timerActions.act(activeTimer, 'cancel').catch(() => {});
     let gone = false;
     const wait = new Promise((resolve) => setTimeout(resolve, 1500));
     void Promise.race([lastResult.current.catch(() => {}), wait]).then(() => {
       if (gone) return;
       const s = latest.current;
       toast({ message: finishedMessage(s, game.data?.enabled !== false, t, partnerNames) });
-      localStore.removeItem(sessionKey(id));
+      ended.current = true;
+      clearWorkoutRun(id);
       close();
     });
     return () => {
@@ -374,23 +376,45 @@ function Running({
   const paused = session.pausedAt != null;
   const meta = (task.meta && typeof task.meta === 'object' ? task.meta : {}) as TaskMeta;
   const totals = workoutProgress(items);
-  const lb = parseWeight(meta.weight)?.unit.startsWith('lb');
+  // Séries avançadas: repetições e carga desta série (sem elas, as do item)
+  const planned = setPrescription(meta, item.reps);
+  const values = { weight: planned.weight ?? null, reps: planned.reps ?? null };
+  const lb = parseWeight(planned.weight)?.unit.startsWith('lb');
   const step = lb ? 5 : 2.5;
   const decimalComma = !i18n.language.startsWith('en');
 
   /** Próximo depois deste, contando este como feito (a lista ainda não refletiu). */
-  const advance = (skipped = session.skipped) => {
+  const following = (skipped = session.skipped) => {
     const after = items.map((it, i) => (i === index ? { ...it, done: true } : it));
-    const next = nextPending(after, index + 1, skipped);
+    return nextPending(after, index + 1, skipped);
+  };
+  const advance = (skipped = session.skipped) => {
+    const next = following(skipped);
     goTo(next === -1 ? null : next);
+  };
+
+  /**
+   * Fim do exercício com outro pela frente: descanso antes do próximo (19/10). O `log_rep` só
+   * começa o "depois" do plano, que o painel não grava; aqui vale também o das séries.
+   */
+  const restBeforeNext = (alreadyStarted: boolean) => {
+    const next = following();
+    const seconds = restBetweenExercises(item.plan, item.repeats);
+    if (next === -1 || !seconds || alreadyStarted) return null;
+    startTimer({
+      kind: 'rest',
+      seconds,
+      taskId: task.id,
+      config: { label: task.title, after: true },
+    });
+    return seconds;
   };
 
   function done() {
     if (paused || item.done || !allowed.complete) return false;
     const addXp = (xp: number | undefined) => xp && setSession((s) => ({ ...s, xp: s.xp + xp }));
-    setSession((s) => ({ ...s, sets: s.sets + 1, volume: s.volume + setVolume(meta) }));
+    setSession((s) => ({ ...s, sets: s.sets + 1, volume: s.volume + setVolume(planned) }));
     if (group) {
-      const values = { weight: meta.weight ?? null, reps: meta.reps ?? null };
       const next = Math.min(item.plan.total, item.reps + 1);
       const result = sessionActions.logGroupSet.mutateAsync({
         id: group.id,
@@ -403,30 +427,36 @@ function Running({
         (r) => addXp((r as { summary?: { xp?: number } })?.summary?.xp),
         () => {},
       );
-      const restInfo = item.repeats ? restAfterRep(item.plan, next) : null;
-      if (restInfo) {
+      const last = next >= item.plan.total;
+      const between = item.repeats && !last ? restAfterRep(item.plan, next) : null;
+      if (between)
         startTimer({
           kind: 'rest',
-          seconds: restInfo.seconds,
+          seconds: between.seconds,
           taskId: task.id,
           config: {
             label: `${task.title}, ${Math.min(next + 1, item.plan.total)}/${item.plan.total}`,
           },
         });
-        const iso = new Date(Date.now() + restInfo.seconds * 1000).toISOString();
+      const restSeconds = between?.seconds ?? (last ? restBeforeNext(false) : null);
+      if (restSeconds) {
+        const iso = new Date(Date.now() + restSeconds * 1000).toISOString();
         onRestShared(iso);
         sessionActions.setState.mutate({ id: group.id, state: { rest_ends_at: iso } });
       }
-      if (next >= item.plan.total) advance();
+      if (last) advance();
     } else if (item.repeats) {
-      const values = { weight: meta.weight ?? null, reps: meta.reps ?? null };
       const { next, result } = logSet(task, item.plan, item.reps, 1, values);
       onResult(result);
       result.then(
         (r) => addXp(r?.summary?.xp),
         () => {},
       );
-      if (next >= item.plan.total) advance();
+      if (next >= item.plan.total) {
+        // O log_rep já começou o "depois" do plano, se houver
+        restBeforeNext(!!item.plan.rest_after_seconds);
+        advance();
+      }
     } else {
       const result = toggle.mutateAsync({ id: task.id, done: true });
       onResult(result);
@@ -476,9 +506,16 @@ function Running({
         total: item.plan.total,
       })
     : t('workout.single');
+  // Séries avançadas: o que esta série pede ("10 reps · 45kg")
+  const advanced = setGroups(meta).length > 0;
+  const setLabel = advanced
+    ? [planned.reps ? t('workout.reps', { count: planned.reps }) : null, planned.weight]
+        .filter(Boolean)
+        .join(' · ')
+    : '';
 
   // X1: a mesma série na tela de bloqueio, com os botões que não pedem para destravar
-  const lockTitle = `${task.title}${metaLabel(meta) ? ` · ${metaLabel(meta)}` : ''}`;
+  const lockTitle = `${task.title}${setLabel || metaLabel(meta) ? ` · ${setLabel || metaLabel(meta)}` : ''}`;
   const restUntil =
     resting?.ends_at && resting.state === 'running'
       ? new Intl.DateTimeFormat(i18n.language, { hour: '2-digit', minute: '2-digit' }).format(
@@ -552,6 +589,9 @@ function Running({
           <Text className="font-mono text-sm text-ink-muted">{metaLabel(meta)}</Text>
         ) : null}
         <Text className="text-lg text-ink">{item.done ? t('workout.alreadyDone') : counter}</Text>
+        {setLabel && !item.done ? (
+          <Text className="font-mono text-xl font-semibold text-ink">{setLabel}</Text>
+        ) : null}
       </View>
 
       {resting && (
@@ -575,44 +615,57 @@ function Running({
         </View>
       )}
 
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={t('workout.done')}
-        accessibilityHint={t('workout.doneHint')}
-        aria-disabled={paused || item.done || !allowed.complete}
-        disabled={paused || item.done || !allowed.complete}
-        onPress={done}
-        className={cn(
-          'min-h-20 items-center justify-center rounded-lg bg-accent active:opacity-80',
-          (paused || item.done || !allowed.complete) && 'opacity-40',
-        )}
-      >
-        <Text className="text-xl font-semibold text-paper">{t('workout.done')}</Text>
-      </Pressable>
+      {item.done ? (
+        // Exercício já feito (voltou pelo "Anterior" ou outra pessoa terminou): segue para o
+        // próximo pendente, em vez de um "Feita" apagado que deixava o treino parado
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('workout.next')}
+          onPress={() => {
+            const next = nextPending(items, index + 1, session.skipped);
+            goTo(next === -1 ? null : next);
+          }}
+          className="min-h-20 items-center justify-center rounded-lg bg-accent active:opacity-80"
+        >
+          <Text className="text-xl font-semibold text-paper">{t('workout.next')}</Text>
+        </Pressable>
+      ) : (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('workout.done')}
+          accessibilityHint={t(paused ? 'workout.pausedHint' : 'workout.doneHint')}
+          aria-disabled={paused || !allowed.complete}
+          disabled={paused || !allowed.complete}
+          onPress={done}
+          className={cn(
+            'min-h-20 items-center justify-center rounded-lg bg-accent active:opacity-80',
+            (paused || !allowed.complete) && 'opacity-40',
+          )}
+        >
+          <Text className="text-xl font-semibold text-paper">{t('workout.done')}</Text>
+          {paused && <Text className="text-sm text-paper">{t('workout.pausedHint')}</Text>}
+        </Pressable>
+      )}
 
-      {(cards || meta.weight) && allowed.edit && !item.done && (
+      {(cards || planned.weight) && allowed.edit && !item.done && (
         <View className="flex-row items-center justify-center gap-3">
           <Button
             variant="ghost"
             label={`−${String(step).replace('.', decimalComma ? ',' : '.')}`}
             accessibilityLabel={t('workout.lighter')}
-            onPress={() =>
-              save({ meta: { ...meta, weight: adjustWeight(meta.weight, -step, decimalComma) } })
-            }
+            onPress={() => save({ meta: adjustSetWeight(meta, item.reps, -step, decimalComma) })}
           />
           <Text
             className="min-w-20 text-center font-mono text-base text-ink"
-            accessibilityLabel={t('workout.load', { weight: meta.weight ?? '—' })}
+            accessibilityLabel={t('workout.load', { weight: planned.weight ?? '—' })}
           >
-            {meta.weight ?? '—'}
+            {planned.weight ?? '—'}
           </Text>
           <Button
             variant="ghost"
             label={`+${String(step).replace('.', decimalComma ? ',' : '.')}`}
             accessibilityLabel={t('workout.heavier')}
-            onPress={() =>
-              save({ meta: { ...meta, weight: adjustWeight(meta.weight, step, decimalComma) } })
-            }
+            onPress={() => save({ meta: adjustSetWeight(meta, item.reps, step, decimalComma) })}
           />
         </View>
       )}

@@ -25,7 +25,15 @@ export type Recurrence =
 export type Priority = 0 | 1 | 2 | 3;
 
 /** Detalhe de exercício dos cards; genérico o bastante para "3x" de qualquer coisa. */
-export type TaskMeta = { sets?: number; reps?: number; weight?: string };
+/** Grupo de séries avançadas: "2 séries de 10 com 40kg" (19/10). */
+export type SetGroup = { sets: number; reps?: number; weight?: string };
+export type TaskMeta = {
+  sets?: number;
+  reps?: number;
+  weight?: string;
+  /** Séries avançadas ("1×14, 2×10, 1×8"): o que cada série pede; `sets` é a soma */
+  groups?: SetGroup[];
+};
 
 export type ParsedTask = {
   title: string;
@@ -274,7 +282,12 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
       result.dueTime = time;
       if (kept.length > 0 && TIME_PREPOSITIONS.has(fold(kept[kept.length - 1]))) {
         // "a las": tira o "a" também
-        if (fold(kept.pop() ?? '') === 'las' && kept.length > 0 && fold(kept[kept.length - 1]) === 'a') kept.pop();
+        if (
+          fold(kept.pop() ?? '') === 'las' &&
+          kept.length > 0 &&
+          fold(kept[kept.length - 1]) === 'a'
+        )
+          kept.pop();
       }
       continue;
     }

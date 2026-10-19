@@ -7,7 +7,9 @@ import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { formatDueDate } from '@/lib/parser/dates';
 import type { Task } from '@/lib/queries/tasks';
+import type { TaskMeta as MetaValue } from '@/lib/parser/quick';
 import { asRecurrence, recurrenceLabel } from '@/lib/recurrence';
+import { groupsLabel, setGroups } from '@/lib/workout';
 
 const PRIORITY_LABEL = ['', '!', '!!', '!!!'];
 const PRIORITY_COLOR = ['', 'text-ink-muted', 'text-warn', 'text-accent'];
@@ -108,6 +110,15 @@ export function TaskMeta({
 export function metaLabel(meta: unknown): string {
   if (!meta || typeof meta !== 'object') return '';
   const m = meta as { sets?: unknown; reps?: unknown; weight?: unknown };
+  // Séries avançadas: cada grupo com as repetições e a carga onde ela muda
+  const groups = setGroups(meta as MetaValue);
+  if (groups.length) {
+    const label = groupsLabel(groups);
+    const anyWeight = groups.some((g) => g.weight);
+    return typeof m.weight === 'string' && m.weight && !anyWeight
+      ? `${label} · ${m.weight}`
+      : label;
+  }
   const parts: string[] = [];
   if (typeof m.sets === 'number' && typeof m.reps === 'number') parts.push(`${m.sets}x${m.reps}`);
   else if (typeof m.sets === 'number') parts.push(`${m.sets} séries`);

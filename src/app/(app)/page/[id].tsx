@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
 import { MoreHorizontal, Play, SlidersHorizontal, Users } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -26,6 +26,7 @@ import { setLastPageId } from '@/lib/prefs';
 import { usePageShares, useReceivedPages } from '@/lib/queries/shares';
 import { usePageTasks } from '@/lib/queries/tasks';
 import { wbsOutline } from '@/lib/task-tree';
+import { subscribeWorkoutRuns, workoutInProgress } from '@/lib/workout-store';
 import {
   findFolder,
   pageLabel,
@@ -54,6 +55,8 @@ export default function PageScreen() {
   const page = tree.data?.pages.find((p) => p.id === id) ?? receivedPage;
   const missing = useConfirmedMissing(id, !!page);
   const pageTasks = usePageTasks(id);
+  // Treino começado e não terminado: o botão diz "Continuar treino"
+  const resumable = useSyncExternalStore(subscribeWorkoutRuns, () => workoutInProgress(id));
   // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
   const [relating, setRelating] = useState(false);
   const pageActor = useFolderActor(page?.folder_id);
@@ -167,7 +170,7 @@ export default function PageScreen() {
           <View className="flex-row pb-3">
             <Button
               icon={Play}
-              label={t('workout.start')}
+              label={t(resumable ? 'workout.continue' : 'workout.start')}
               onPress={() => router.push({ pathname: '/treino/[id]', params: { id: page.id } })}
             />
           </View>

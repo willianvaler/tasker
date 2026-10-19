@@ -1,6 +1,12 @@
 import type { Task } from './queries/tasks';
-import { DEFAULT_REST_SECONDS, effectiveReps, readRepeatPlan, type RepeatPlan } from './repeat';
-import type { TaskMeta } from './parser/quick';
+import {
+  DEFAULT_REST_SECONDS,
+  MAX_REPEATS,
+  effectiveReps,
+  readRepeatPlan,
+  type RepeatPlan,
+} from './repeat';
+import type { SetGroup, TaskMeta } from './parser/quick';
 
 // Modo Treino (J5, D127): a sequência guiada de uma página. Funções puras; a tela só chama.
 
@@ -146,4 +152,84 @@ export function planFromSets(
     total: Math.min(sets, 99),
     rest_seconds: rest ?? base?.rest_seconds ?? DEFAULT_REST_SECONDS,
   };
+}
+
+/**
+ * Descanso entre um exercício e o próximo no Modo Treino: o "depois" do plano ou, sem ele, o
+ * mesmo das séries (o painel só grava esse). Item sem plano de séries não descansa.
+ */
+export function restBetweenExercises(plan: RepeatPlan, repeats: boolean): number | null {
+  if (!repeats) return null;
+  if (plan.rest_after_seconds) return plan.rest_after_seconds;
+  return plan.mode === 'sets' && plan.rest_seconds ? plan.rest_seconds : null;
+}
+
+const positive = (n: unknown, max: number): n is number =>
+  typeof n === 'number' && Number.isInteger(n) && n >= 1 && n <= max;
+
+/** Séries avançadas do item (só os grupos bem formados); sem elas, lista vazia. */
+export function setGroups(meta: TaskMeta | null | undefined): SetGroup[] {
+  if (!Array.isArray(meta?.groups)) return [];
+  return meta.groups
+    .filter((g) => g && positive(g.sets, MAX_REPEATS))
+    .map((g) => ({
+      sets: g.sets,
+      ...(positive(g.reps, 999) ? { reps: g.reps } : {}),
+      ...(typeof g.weight === 'string' && g.weight.trim() ? { weight: g.weight.trim() } : {}),
+    }));
+}
+
+/**
+ * O que a série `n` (0 = a primeira) pede: repetições e carga do grupo dela, com o que faltar
+ * vindo do item. Série além dos grupos ("Mais uma série") repete o último.
+ */
+export function setPrescription(
+  meta: TaskMeta | null | undefined,
+  n: number,
+): { reps?: number; weight?: string; group: number } {
+  const groups = setGroups(meta);
+  let group = groups.length - 1;
+  for (let i = 0, end = 0; i < groups.length; i++) {
+    end += groups[i].sets;
+    if (n < end) {
+      group = i;
+      break;
+    }
+  }
+  const g = groups[group];
+  const reps = g?.reps ?? meta?.reps;
+  const weight = g?.weight ?? meta?.weight;
+  return { ...(reps ? { reps } : {}), ...(weight ? { weight } : {}), group };
+}
+
+/**
+ * Carga ± passo na série `n`: com séries avançadas, muda a do grupo dela (que passa a ter carga
+ * própria); sem elas, a do item.
+ */
+export function adjustSetWeight(
+  meta: TaskMeta,
+  n: number,
+  step: number,
+  decimalComma = true,
+): TaskMeta {
+  const groups = setGroups(meta);
+  if (!groups.length) return { ...meta, weight: adjustWeight(meta.weight, step, decimalComma) };
+  const { group, weight } = setPrescription(meta, n);
+  const next = groups.map((g, i) =>
+    i === group ? { ...g, weight: adjustWeight(weight, step, decimalComma) } : g,
+  );
+  return { ...meta, groups: next, ...(group === 0 ? { weight: next[0].weight } : {}) };
+}
+
+/** "1x14 · 2x10 40kg · 1x8 45kg": a carga só aparece onde muda. */
+export function groupsLabel(groups: SetGroup[]): string {
+  let weight: string | undefined;
+  return groups
+    .map((g) => {
+      const part = `${g.sets}x${g.reps ?? '?'}`;
+      if (!g.weight || g.weight === weight) return part;
+      weight = g.weight;
+      return `${part} ${g.weight}`;
+    })
+    .join(' · ');
 }

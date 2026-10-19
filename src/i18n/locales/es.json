@@ -891,7 +891,11 @@
     "hintCounter": "Una meta por período (ej.: 8 vasos de agua). + suma, − deshace; llegar a la meta lo completa.",
     "hintPlusminus": "Sin meta: + cuando hagas lo bueno (XP y daño al jefe), − cuando resbales (el jefe se cura un poco).",
     "target": "Meta por período",
-    "rest": "Descanso"
+    "rest": "Descanso",
+    "advancedSets": "Series avanzadas",
+    "advancedHint": "Repeticiones y carga distintas por serie (ej.: 1 de 14, 2 de 10, 1 de 8)",
+    "addGroup": "Añadir series",
+    "removeGroup": "Quitar estas series"
   },
   "collab": {
     "nobody": "Nadie todavía.",
@@ -1431,7 +1435,12 @@
     "toastSets_one": "{{count}} serie",
     "toastSets_other": "{{count}} series",
     "toastSkipped_one": "{{count}} saltado",
-    "toastSkipped_other": "{{count}} saltados"
+    "toastSkipped_other": "{{count}} saltados",
+    "next": "Siguiente ejercicio",
+    "pausedHint": "Entrenamiento en pausa: toca ▶ para seguir",
+    "reps_one": "{{count}} rep",
+    "reps_other": "{{count}} reps",
+    "continue": "Continuar entrenamiento"
   },
   "pomodoro": {
     "title": "Pomodoro",

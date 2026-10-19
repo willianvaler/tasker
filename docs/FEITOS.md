@@ -168,6 +168,10 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC10.4 | Desafios de projeto ou time (`start_challenge` com duração em dias, `challenge_board`), dia de treino no servidor (`workout_days`: página de treino concluída ou 30 min ou mais na sessão), mural e chat (`group_posts`, reações, foto no bucket `group-photos`), RLS e pgTAP | D184 |
 | V6 | AC10.5 | Tela Treino em grupo (`/grupo/projeto\|time/<id>`: Desafios com ranking e "Iniciar novo desafio", Mural com check-in, foto, reações e comentários, Chat), botão no projeto e no time, aviso `challenge_started`; E2E `e2e/desafios.spec.ts` e Ajuda nos 3 idiomas | D184 |
 | V6 | AC10.6 | Correções do dono (18/10): grupo de treino no bloco Academia (`folders.gym_group`, convite pelo link, treinos do grupo, seletor de quem treina junto), Séries · Repetições · Carga · Descanso no painel do exercício gravando o plano do Modo Treino (descanso e aviso na tela de bloqueio de volta), sem pomodoro e cronômetro em página de treino; pgTAP, E2E `e2e/grupo-treino.spec.ts` e Ajuda nos 3 idiomas | D186 |
+| V6 | TR1 | Descanso entre um exercício e o próximo no Modo Treino (o "depois" do plano ou o das séries), também em grupo | D216 |
+| V6 | TR2 | Continuar o treino ao voltar (sem o seletor de novo, mesma sessão no servidor, botão "Continuar treino"); "Próximo exercício" num exercício já feito; aviso do treino pausado | D216 |
+| V6 | TR3 | Séries avançadas: interruptor no painel do exercício, "+" no fim da linha, repetições e carga por série no Modo Treino | D217 |
+| V6 | TR4 | Bateria E2E de usabilidade do Modo Treino (`e2e/treino-bateria.spec.ts`) | D216 |
 | **V8** | HB0 | Identidade visual: símbolo limpo no ComfyUI (FLUX.2 klein) e redesenhado em vetor (`assets/brand/`, gerador `gerar.py`); ícone, ícone adaptativo e monocromático do Android, splash claro/escuro, favicon, peças da Google Play; `BrandMark` no login e na barra lateral | D190 |
 | V8 | HB0.1 | Acento laranja da marca nos tokens do app: `#A94604` no claro (AA), `#FF8A3D` no escuro | D192 |
 | V8 | HB0.2 | Ícones da web como app: manifesto, ícones 192/512/maskable, apple-touch-icon, theme-color | D198 |

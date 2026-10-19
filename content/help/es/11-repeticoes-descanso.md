@@ -4,11 +4,13 @@ Escribe `Press banca 4x12` y la tarea pide **4 series**. En la fila aparece **0/
 
 ## Descanso
 
-Tras cada serie empieza el **descanso** (60 s por defecto). En un entrenamiento, el panel del ejercicio tiene **Series · Repeticiones · Carga · Descanso** lado a lado: escribe el descanso en segundos o minutos (`90`, `1:30`, `2min`). La cuenta aparece abajo, con **−30**, **+30** y **Saltar**. En el teléfono te avisa incluso con la pantalla bloqueada. En el navegador, el aviso llega si la pestaña está abierta, aunque esté oculta.
+Tras cada serie empieza el **descanso** (60 s por defecto). En un entrenamiento, el panel del ejercicio tiene **Series · Repeticiones · Carga · Descanso** lado a lado: escribe el descanso en segundos o minutos (`90`, `1:30`, `2min`). Al terminar un ejercicio, el descanso también corre antes del siguiente. La cuenta aparece abajo, con **−30**, **+30** y **Saltar**. En el teléfono te avisa incluso con la pantalla bloqueada. En el navegador, el aviso llega si la pestaña está abierta, aunque esté oculta.
+
+**Series avanzadas:** para un entrenamiento como "1 serie de 14, 2 de 10, 1 de 8", activa **Series avanzadas** en el panel del ejercicio. La primera línea sigue igual, y el **+** al final añade otra línea con sus propias series, repeticiones y carga (empieza con las repeticiones y la carga de la anterior). La **×** quita una línea. En el Modo Entrenamiento, cada serie muestra lo que pide ("10 reps · 45kg"), y la carga −/+ cambia solo la de las series de esa línea.
 
 ## Modo Entrenamiento
 
-En páginas de tarjetas o con tareas que tienen series, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al terminar el último ejercicio, el entrenamiento se cierra solo y un aviso corto muestra series, tiempo, volumen y XP. Funciona sin internet y mantiene la pantalla encendida.
+En páginas de tarjetas o con tareas que tienen series, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al terminar el último ejercicio, el entrenamiento se cierra solo y un aviso corto muestra series, tiempo, volumen y XP. Funciona sin internet y mantiene la pantalla encendida. ¿Saliste a la lista a mitad del entrenamiento? El botón pasa a **Continuar entrenamiento** y vuelves donde lo dejaste (en un grupo de entrenamiento, sin preguntar otra vez con quién). ¿Volviste a un ejercicio hecho con **Anterior**? El botón grande pasa a **Siguiente ejercicio**. Con el entrenamiento en pausa, **Hecha** queda apagado hasta que toques ▶.
 
 **Sin desbloquear el móvil (Android):** con el Modo Entrenamiento abierto, la serie aparece en la pantalla de bloqueo con **Hecha**, **Saltar descanso** y **+30 s**. Toca la flecha de la notificación para ver los botones. Con el móvil bloqueado, lo que marques queda en el dispositivo y se sube cuando vuelvas a abrir la app.
 
