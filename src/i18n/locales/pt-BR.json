@@ -498,7 +498,11 @@
   "push": {
     "title": "Avisos no celular",
     "hint": "Quando alguém te atribuir uma tarefa, te mencionar ou entrar no seu projeto.",
-    "webHint": "No navegador, os avisos aparecem no sino (em tempo real). No app do celular, dá para receber push."
+    "webHint": "No navegador, os avisos aparecem no sino (em tempo real). No app do celular, dá para receber push.",
+    "channel": "Avisos",
+    "denied": "Permissão negada. Libere nas configurações do celular.",
+    "noProject": "App sem projeto EAS configurado (veja PUBLICACAO.md).",
+    "browser": "No navegador, os avisos aparecem no sino 🔔."
   },
   "character": {
     "title": "Personagem",

@@ -921,14 +921,14 @@ isOneToOne: true
                   ]
                 },"push_tokens": {
                   Row: {
-                    "created_at": string,"id": string,"last_seen_at": string,"platform": string,"token": string,"user_id": string
+                    "created_at": string,"id": string,"last_seen_at": string,"locale": string | null,"platform": string,"token": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"platform": string,"token": string,"user_id": string
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"locale"?: string | null,"platform": string,"token": string,"user_id": string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"platform"?: string,"token"?: string,"user_id"?: string
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"locale"?: string | null,"platform"?: string,"token"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -2516,7 +2516,7 @@ isOneToOne: false
 { Args: { "p_page_id"?: string }; Returns: number
                            },
 "register_push_token":
-{ Args: { "p_platform": string,"p_token": string }; Returns: undefined
+{ Args: { "p_locale"?: string,"p_platform": string,"p_token": string }; Returns: undefined
                            },
 "relation_candidates":
 { Args: { "p_query": string }; Returns: {

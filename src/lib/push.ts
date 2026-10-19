@@ -4,6 +4,7 @@ import { router, type Href } from 'expo-router';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
+import { currentLocale, tr } from './i18n-ref';
 import { localStore } from './storage';
 import { supabase } from './supabase';
 
@@ -30,7 +31,7 @@ export async function enablePush(): Promise<PushResult> {
   if (Platform.OS === 'android') {
     // No Android 13+, o pedido de permissão só aparece depois de existir um canal
     await Notifications.setNotificationChannelAsync('default', {
-      name: 'Avisos',
+      name: tr('push.channel'),
       importance: Notifications.AndroidImportance.HIGH,
     });
   }
@@ -42,17 +43,17 @@ export async function enablePush(): Promise<PushResult> {
     }).then(
       (r) => r.granted || r.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL,
     ));
-  if (!granted)
-    return { ok: false, reason: 'Permissão negada. Libere nas configurações do celular.' };
+  if (!granted) return { ok: false, reason: tr('push.denied') };
 
   const projectId = Constants.expoConfig?.extra?.eas?.projectId ?? Constants.easConfig?.projectId;
-  if (!projectId)
-    return { ok: false, reason: 'App sem projeto EAS configurado (veja PUBLICACAO.md).' };
+  if (!projectId) return { ok: false, reason: tr('push.noProject') };
   try {
     const { data: token } = await Notifications.getExpoPushTokenAsync({ projectId });
     const { error } = await supabase.rpc('register_push_token', {
       p_token: token,
       p_platform: Platform.OS === 'ios' ? 'ios' : 'android',
+      // O push sai no idioma do aparelho (F3)
+      p_locale: currentLocale(),
     });
     if (error) return { ok: false, reason: error.message };
     localStore.setItem(TOKEN_KEY, token);
@@ -68,6 +69,17 @@ export async function disablePush() {
   if (!token) return;
   await supabase.from('push_tokens').delete().eq('token', token);
   localStore.removeItem(TOKEN_KEY);
+}
+
+/** Trocou o idioma no app: o aparelho já registrado passa a receber o push no novo idioma (F3). */
+export async function updatePushLocale(locale: string) {
+  const token = localStore.getItem(TOKEN_KEY);
+  if (!token) return;
+  await supabase.rpc('register_push_token', {
+    p_token: token,
+    p_platform: Platform.OS === 'ios' ? 'ios' : 'android',
+    p_locale: locale,
+  });
 }
 
 /** Este aparelho está registrado? */

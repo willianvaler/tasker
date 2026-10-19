@@ -60,7 +60,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V2 | E8 | E2E do cenário "Churrasco" | — |
 | V2 | F1 | Artigos da Ajuda (V2 §10 + V3 §9) em `content/help/{pt-BR,en,es}/`: 15 por idioma, `help:build`, busca no texto, `/ajuda/<slug>` | D145 |
 | V2 | F2 | Tour inicial opcional (a introdução de 3 passos, refazível pela Ajuda) e "?" contextual no cabeçalho das telas-chave | D146 |
-| V2 | F3 | Revisão das traduções: parser em en/es (palavras, recorrência, ordem MM/DD em inglês), datas da tela no idioma, feed no i18n, artigos conferidos (parcial) | D147 |
+| V2 | F3 | Revisão das traduções: parser em en/es (palavras, recorrência, ordem MM/DD em inglês), datas da tela no idioma, feed no i18n, artigos conferidos | D147, D208 |
 | V2 | F4 | Acessibilidade (contraste AA no tema claro com teste, foco, teclado, reduzir movimento) e desempenho (filtro por pastas nas consultas pelo servidor, pendência D70) | D70, D148 |
 | V2 | F5 | Capturas finais (48, inclusive treino, pomodoro e ajuda) e revisão contra o checklist anti "cara de IA" com correções | D149 |
 | **V3** | G1 | `config/limits.ts`; `tasks.depth`, `max_depth` em página/projeto; trigger de profundidade e de ciclo na árvore | — |

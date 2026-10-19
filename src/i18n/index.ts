@@ -2,7 +2,7 @@ import { getLocales } from 'expo-localization';
 import { createInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { setTranslate } from '@/lib/i18n-ref';
+import { setCurrentLocale, setTranslate } from '@/lib/i18n-ref';
 import { setDateLocale } from '@/lib/parser/dates';
 import { getLocalePreference, setLocalePreference } from '@/lib/prefs';
 
@@ -45,7 +45,11 @@ i18n.use(initReactI18next).init({
 // Datas da interface ("Hoje", "sex, 17 out") e o parser seguem o idioma
 setDateLocale(i18n.language);
 setTranslate((key, vars) => i18n.t(key as 'common.someone', vars) as string);
-i18n.on('languageChanged', setDateLocale);
+setCurrentLocale(i18n.language);
+i18n.on('languageChanged', (locale: string) => {
+  setDateLocale(locale);
+  setCurrentLocale(locale);
+});
 
 /** Troca o idioma e guarda a escolha no aparelho. */
 export function setLocale(preference: LocalePreference) {

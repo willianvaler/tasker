@@ -18,7 +18,12 @@ describe('textos das notificações (tela 🔔 e push)', () => {
     expect(
       describeNotification({
         kind: 'task_reminder',
-        payload: { title: 'Ligar para o banco', task_id: 't9', due_date: '2026-10-20', due_time: '15:00' },
+        payload: {
+          title: 'Ligar para o banco',
+          task_id: 't9',
+          due_date: '2026-10-20',
+          due_time: '15:00',
+        },
       }),
     ).toEqual({ text: '⏰ 20/10 15:00 · Ligar para o banco', taskId: 't9' });
   });
@@ -98,4 +103,80 @@ test('lembrete de página recebida abre a página', () => {
       payload: { by: 'Carla', page_name: 'Treino A', page_id: 'p1', days: 5 },
     }),
   ).toEqual({ text: 'Carla lembrou você de "Treino A" (5 dias sem registro)', pageId: 'p1' });
+});
+
+describe('idioma das notificações (F3)', () => {
+  const assigned = {
+    kind: 'assigned',
+    payload: { by: 'Ana', title: 'Carne', task_id: 't1', folder_name: 'Churrasco' },
+  };
+  test('inglês e espanhol', () => {
+    expect(describeNotification(assigned, 'en').text).toBe('Ana assigned you "Carne" in Churrasco');
+    expect(describeNotification(assigned, 'es').text).toBe('Ana te asignó "Carne" en Churrasco');
+    expect(describeNotification({ kind: 'x', payload: {} }, 'en').text).toBe('News');
+    expect(
+      describeNotification({ kind: 'member_joined', payload: { folder_name: 'Casa' } }, 'es').text,
+    ).toBe('Alguien se unió en Casa');
+  });
+  test('idioma desconhecido cai no português', () => {
+    expect(describeNotification(assigned, 'fr').text).toBe('Ana te atribuiu "Carne" em Churrasco');
+  });
+  test('lembrete: data no formato do idioma', () => {
+    const reminder = {
+      kind: 'task_reminder',
+      payload: { title: 'Banco', task_id: 't9', due_date: '2026-10-20', due_time: '15:00' },
+    };
+    expect(describeNotification(reminder, 'en').text).toBe('⏰ 10/20 15:00 · Banco');
+    expect(describeNotification(reminder, 'es').text).toBe('⏰ 20/10 15:00 · Banco');
+  });
+  test('push: cada aparelho no idioma dele; sem idioma, o do perfil', () => {
+    const messages = pushMessages(
+      assigned,
+      [
+        { token: 'a', locale: 'en' },
+        { token: 'b', locale: null },
+      ],
+      'es',
+    );
+    expect(messages.map((m) => m.body)).toEqual([
+      'Ana assigned you "Carne" in Churrasco',
+      'Ana te asignó "Carne" en Churrasco',
+    ]);
+  });
+  test('todo tipo tem texto nos três idiomas', () => {
+    const kinds = [
+      'assigned',
+      'mention',
+      'member_joined',
+      'team_invited',
+      'team_joined',
+      'join_requested',
+      'join_approved',
+      'task_ready',
+      'prereq_reopened',
+      'automation',
+      'page_reminder',
+      'workout_invite',
+      'challenge_started',
+    ];
+    const payload = {
+      by: 'Ana',
+      title: 'T',
+      body: 'oi',
+      days: 2,
+      lag: 5,
+      count: 2,
+      task_id: 'x',
+      team_name: 'Família',
+      prereq: 'P',
+      page_name: 'Treino',
+      name: 'Desafio',
+    };
+    for (const locale of ['pt-BR', 'en', 'es'])
+      for (const kind of kinds) {
+        const { text } = describeNotification({ kind, payload }, locale);
+        expect(text).not.toContain('undefined');
+        expect(text.length).toBeGreaterThan(3);
+      }
+  });
 });

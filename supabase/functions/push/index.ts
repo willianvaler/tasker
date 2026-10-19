@@ -26,11 +26,17 @@ Deno.serve(async (req) => {
 
   const { data: tokens } = await supabase
     .from('push_tokens')
-    .select('token')
+    .select('token, locale')
     .eq('user_id', notification.user_id);
   if (!tokens?.length) return new Response('no devices');
 
-  const messages = pushMessages(notification, tokens.map((t) => t.token));
+  // Cada aparelho no idioma dele; sem idioma no token, o do perfil (F3)
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('locale')
+    .eq('id', notification.user_id)
+    .maybeSingle();
+  const messages = pushMessages(notification, tokens, profile?.locale);
   const res = await fetch(EXPO_PUSH_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },

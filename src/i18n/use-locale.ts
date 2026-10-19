@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { getLocalePreference } from '@/lib/prefs';
+import { updatePushLocale } from '@/lib/push';
 import { useProfile, useUpdateProfile } from '@/lib/queries/profile';
 import { useIsOnline } from '@/providers/online';
 
@@ -34,7 +35,11 @@ export function useLocalePreference() {
   function choose(value: LocalePreference) {
     setPreference(value);
     setLocale(value);
-    if (online) update.mutate({ locale: value === 'system' ? null : value });
+    if (online) {
+      update.mutate({ locale: value === 'system' ? null : value });
+      // O push deste aparelho passa a sair no idioma novo (F3)
+      updatePushLocale(i18n.language).catch(() => {});
+    }
   }
 
   return { preference, choose };

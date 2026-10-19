@@ -498,7 +498,11 @@
   "push": {
     "title": "Phone notifications",
     "hint": "When someone assigns you a task, mentions you or joins your project.",
-    "webHint": "In the browser, notifications show up in the bell (in real time). The phone app can receive push."
+    "webHint": "In the browser, notifications show up in the bell (in real time). The phone app can receive push.",
+    "channel": "Notifications",
+    "denied": "Permission denied. Allow it in your phone settings.",
+    "noProject": "App without an EAS project set up (see PUBLICACAO.md).",
+    "browser": "In the browser, notifications show up in the bell 🔔."
   },
   "character": {
     "title": "Character",

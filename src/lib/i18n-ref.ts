@@ -15,7 +15,15 @@ function fallback(key: string, vars?: Vars): string {
 }
 
 let current: Translate = fallback;
+let language = 'pt-BR';
 export function setTranslate(fn: Translate) {
   current = fn;
+}
+/** Idioma em uso no app (o src/i18n avisa a cada troca); antes disso, o português. */
+export function currentLocale() {
+  return language;
+}
+export function setCurrentLocale(locale: string) {
+  language = locale;
 }
 export const tr: Translate = (key, vars) => current(key, vars);

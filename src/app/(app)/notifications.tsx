@@ -37,7 +37,7 @@ export default function NotificationsScreen() {
         {list.data?.length === 0 && <EmptyState title={t('notifications.empty')} />}
         {list.data?.map((n) => {
           const { text, taskId, folderId, teamId, teamInvite, pageId, url } =
-            describeNotification(n);
+            describeNotification(n, i18n.language);
           return (
             <Pressable
               key={n.id}

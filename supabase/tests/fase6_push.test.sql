@@ -1,7 +1,7 @@
 -- Fase 6: tokens de push e o disparo para a Edge Function. Rode com: npx supabase test db
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(8);
+select plan(11);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
@@ -23,6 +23,17 @@ select public.register_push_token('ExponentPushToken[ana-celular]', 'android');
 reset role;
 select is((select user_id::text from public.push_tokens), '22222222-2222-2222-2222-222222222222',
   'trocar de conta no aparelho move o token');
+
+-- F3: o aparelho guarda o idioma dele (idioma estranho vira nulo)
+set local role authenticated;
+set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';
+select public.register_push_token('ExponentPushToken[ana-celular]', 'android', 'es');
+select is((select locale from public.push_tokens), 'es', 'registra com o idioma do aparelho');
+select public.register_push_token('ExponentPushToken[ana-celular]', 'android', 'fr');
+select is((select locale from public.push_tokens), null, 'idioma desconhecido fica sem idioma');
+select public.register_push_token('ExponentPushToken[ana-celular]', 'android');
+select is((select locale from public.push_tokens), null, 'sem idioma (versão antiga do app) continua valendo');
+reset role;
 
 -- Sem configuração, nada sai; com ela, a notificação vira uma chamada para a função
 create temp table before_count on commit drop as select count(*) as n from net.http_request_queue;

@@ -498,7 +498,11 @@
   "push": {
     "title": "Avisos en el teléfono",
     "hint": "Cuando alguien te asigne una tarea, te mencione o entre en tu proyecto.",
-    "webHint": "En el navegador, los avisos aparecen en la campana (en tiempo real). En la app del teléfono, puedes recibir push."
+    "webHint": "En el navegador, los avisos aparecen en la campana (en tiempo real). En la app del teléfono, puedes recibir push.",
+    "channel": "Avisos",
+    "denied": "Permiso denegado. Actívalo en los ajustes del teléfono.",
+    "noProject": "App sin proyecto EAS configurado (ver PUBLICACAO.md).",
+    "browser": "En el navegador, los avisos aparecen en la campana 🔔."
   },
   "character": {
     "title": "Personaje",
