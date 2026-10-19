@@ -34,8 +34,8 @@ function withTrustedRoots(config) {
       fs.mkdirSync(path.join(src, 'debug', 'res', 'xml'), { recursive: true });
       for (const c of CERTS)
         fs.copyFileSync(
-          path.join(cfg.modRequest.projectRoot, 'assets', 'certs', `${c}.pem`),
-          path.join(res, 'raw', `${c}.pem`),
+          path.join(cfg.modRequest.projectRoot, 'assets', 'certs', `${c}.crt`),
+          path.join(res, 'raw', `${c}.crt`),
         );
       fs.writeFileSync(path.join(res, 'xml', 'network_security_config.xml'), xml(false));
       fs.writeFileSync(
