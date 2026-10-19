@@ -86,7 +86,7 @@ export default function TeamsScreen() {
             <Link key={team.id} href={{ pathname: '/team/[id]', params: { id: team.id } }} asChild>
               <Pressable
                 accessibilityRole="link"
-                className="min-h-12 flex-row items-center gap-3 border-b border-line py-3 web:hover:bg-wash"
+                className="min-h-12 flex-row items-center gap-3 border-b border-line px-2 py-3 web:hover:bg-wash"
               >
                 {team.icon ? (
                   <Text className="text-lg">{team.icon}</Text>

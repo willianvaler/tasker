@@ -143,7 +143,7 @@ function StarterRow({
       accessibilityLabel={label}
       aria-disabled={created}
       disabled={disabled}
-      className="flex-row items-start gap-3 border-b border-line py-3 hover:bg-wash active:bg-wash"
+      className="flex-row items-start gap-3 border-b border-line px-2 py-3 hover:bg-wash active:bg-wash"
       onPress={onPress}
     >
       <View className="pt-1">{icon}</View>

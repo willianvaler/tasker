@@ -283,7 +283,7 @@ export default function FolderScreen() {
               {child.pages.length === 0 && online && (
                 <Pressable
                   accessibilityRole="button"
-                  className="min-h-11 flex-row items-center gap-3 hover:bg-wash md:min-h-10"
+                  className="min-h-11 flex-row items-center gap-3 px-2 hover:bg-wash md:min-h-10"
                   onPress={() => actions.newPage(child.id)}
                 >
                   <Icon icon={Plus} tone="accent" />

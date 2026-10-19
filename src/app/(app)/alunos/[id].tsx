@@ -143,7 +143,7 @@ function StudentRow({
     .filter(Boolean)
     .join(' · ');
   return (
-    <View className={cn('gap-1 border-b border-line py-2', active && 'bg-wash')}>
+    <View className={cn('gap-1 border-b border-line px-2 py-2', active && 'bg-wash')}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`${student.name}: ${summary}`}

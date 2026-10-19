@@ -154,7 +154,7 @@ function TaskRowView({
       accessible={false}
       onPress={() => selection.select(task.id)}
       className={cn(
-        'min-h-[52px] flex-row items-center border-b border-line md:min-h-10',
+        'min-h-[52px] flex-row items-center border-b border-line px-1 md:min-h-10 md:px-2',
         selected && 'bg-wash',
       )}
     >

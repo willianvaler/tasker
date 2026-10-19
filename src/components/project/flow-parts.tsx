@@ -97,7 +97,7 @@ export function FlowList({
               accessibilityLabel={text(node, titleOf)}
               onPress={() => openTask(node.id)}
               className={cn(
-                'min-h-11 flex-row items-center gap-2 border-b border-line py-1 hover:bg-wash md:min-h-10',
+                'min-h-11 flex-row items-center gap-2 border-b border-line px-2 py-1 hover:bg-wash md:min-h-10',
                 node.frontier && 'border-l-2 border-l-accent pl-2',
               )}
             >

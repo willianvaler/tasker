@@ -157,7 +157,7 @@ export function TimelineView({ root }: { root: FolderNode }) {
                 accessibilityRole="button"
                 accessibilityLabel={`${title}: ${describe(e)}`}
                 onPress={() => openTask(e.task_id)}
-                className="min-h-11 flex-row items-baseline gap-3 border-b border-line py-1 hover:bg-wash md:min-h-9"
+                className="min-h-11 flex-row items-baseline gap-3 border-b border-line px-2 py-1 hover:bg-wash md:min-h-9"
               >
                 <Text className="w-12 font-mono text-xs text-ink-muted">
                   {time.format(new Date(e.at))}

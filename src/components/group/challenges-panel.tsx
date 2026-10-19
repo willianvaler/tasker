@@ -172,7 +172,7 @@ function ChallengeCard({
                 count: entry.days,
               })}
               className={cn(
-                'min-h-10 flex-row items-center gap-3 border-b border-line',
+                'min-h-10 flex-row items-center gap-3 border-b border-line px-2',
                 entry.userId === me && 'bg-wash',
               )}
             >

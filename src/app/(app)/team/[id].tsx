@@ -364,7 +364,7 @@ export default function TeamScreen() {
             >
               <Pressable
                 accessibilityRole="link"
-                className="min-h-11 flex-row items-center gap-3 border-b border-line web:hover:bg-wash"
+                className="min-h-11 flex-row items-center gap-3 border-b border-line px-2 web:hover:bg-wash"
               >
                 <ItemIcon icon={project.icon} kind="project" size={16} />
                 <Text className="flex-1 text-sm text-ink">{project.name}</Text>

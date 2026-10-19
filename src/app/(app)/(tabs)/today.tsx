@@ -100,6 +100,7 @@ export default function TodayScreen() {
               help="comecando"
               eyebrow={formatShortDate(today)}
               title={t('today.title')}
+              wrap
               right={
                 // Em tela larga o tema e as notificações ficam na barra lateral
                 width < 768 && (

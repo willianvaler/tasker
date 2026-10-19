@@ -43,7 +43,7 @@ export default function NotificationsScreen() {
               key={n.id}
               accessibilityRole="button"
               disabled={!taskId && !folderId && !teamId && !teamInvite && !pageId && !url}
-              className="min-h-12 flex-row items-center gap-3 border-b border-line py-2 hover:bg-wash active:bg-wash"
+              className="min-h-12 flex-row items-center gap-3 border-b border-line px-2 py-2 hover:bg-wash active:bg-wash"
               onPress={() => {
                 if (url) router.push(url as Href);
                 else if (taskId) router.push({ pathname: '/task/[id]', params: { id: taskId } });

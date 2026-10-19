@@ -44,7 +44,7 @@ export function NextActionCard({
       accessibilityRole="button"
       accessibilityLabel={t('myDay.nextLabel', { title: next.title })}
       onPress={() => router.push({ pathname: '/task/[id]', params: { id: next.id } })}
-      className="min-h-11 flex-row items-center gap-3 border-b border-line hover:bg-wash"
+      className="min-h-11 flex-row items-center gap-3 border-b border-line px-2 hover:bg-wash"
     >
       <Text className="font-mono text-xs uppercase text-accent">{t('myDay.next')}</Text>
       <Text className="flex-1 text-base text-ink" numberOfLines={1}>

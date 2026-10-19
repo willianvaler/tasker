@@ -173,7 +173,7 @@ export function HabitRow({
   );
 
   return (
-    <View className="min-h-[52px] flex-row items-center border-b border-line md:min-h-10">
+    <View className="min-h-[52px] flex-row items-center border-b border-line px-1 md:min-h-10 md:px-2">
       {draggable && <DragHandle label={task.title} taskId={task.id} />}
       {kind === 'check' && (
         <Checkbox

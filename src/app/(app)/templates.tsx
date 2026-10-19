@@ -125,7 +125,7 @@ function TemplateRow({
         accessibilityRole="button"
         accessibilityLabel={t('templates.label', { name })}
         disabled={disabled}
-        className="flex-1 flex-row items-start gap-3 py-4 hover:bg-wash active:bg-wash"
+        className="flex-1 flex-row items-start gap-3 px-2 py-4 hover:bg-wash active:bg-wash"
         onPress={onPress}
       >
         <View className="pt-1">

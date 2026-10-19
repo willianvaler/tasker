@@ -58,7 +58,7 @@ export function FolderSection({
         <Link href={{ pathname: '/folder/[id]', params: { id: folder.id } }} asChild>
           <Pressable
             accessibilityRole="link"
-            className="min-h-12 flex-1 flex-row items-center gap-3 rounded hover:bg-wash"
+            className="min-h-12 flex-1 flex-row items-center gap-3 rounded px-2 hover:bg-wash"
           >
             {folder.color && (
               <View className="h-5 w-1 rounded" style={{ backgroundColor: folder.color }} />
@@ -87,7 +87,7 @@ export function FolderSection({
         <Link key={child.id} href={{ pathname: '/folder/[id]', params: { id: child.id } }} asChild>
           <Pressable
             accessibilityRole="link"
-            className="min-h-11 flex-row items-center gap-3 border-b border-line pl-8 hover:bg-wash md:min-h-10"
+            className="min-h-11 flex-row items-center gap-3 border-b border-line pl-8 pr-2 hover:bg-wash md:min-h-10"
           >
             <ItemIcon icon={child.icon} kind="folder" />
             <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
@@ -100,7 +100,7 @@ export function FolderSection({
       {empty && onNewPage && (
         <Pressable
           accessibilityRole="button"
-          className="min-h-11 flex-row items-center gap-3 pl-8 hover:bg-wash md:min-h-10"
+          className="min-h-11 flex-row items-center gap-3 pl-8 pr-2 hover:bg-wash md:min-h-10"
           onPress={onNewPage}
         >
           <Icon icon={Plus} tone="accent" />
@@ -132,8 +132,8 @@ export function PageRow({
           accessibilityRole="link"
           className={
             indent
-              ? 'min-h-11 flex-1 flex-row items-center gap-3 pl-8 hover:bg-wash md:min-h-10'
-              : 'min-h-11 flex-1 flex-row items-center gap-3 hover:bg-wash md:min-h-10'
+              ? 'min-h-11 flex-1 flex-row items-center gap-3 pl-8 pr-2 hover:bg-wash md:min-h-10'
+              : 'min-h-11 flex-1 flex-row items-center gap-3 px-2 hover:bg-wash md:min-h-10'
           }
         >
           <ItemIcon icon={page.icon} kind={page.view_type as ItemKind} />

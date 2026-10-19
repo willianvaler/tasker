@@ -33,7 +33,7 @@ export default function NotesScreen() {
             key={note.id}
             accessibilityRole="link"
             onPress={() => router.push({ pathname: '/nota/[id]', params: { id: note.id } })}
-            className="gap-1 border-b border-line py-3 hover:bg-wash"
+            className="gap-1 border-b border-line px-2 py-3 hover:bg-wash"
           >
             <View className="flex-row items-baseline gap-2">
               <Text className="flex-1 text-base font-semibold text-ink" numberOfLines={1}>
