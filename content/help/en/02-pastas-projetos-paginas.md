@@ -27,3 +27,7 @@ If you said you will use the app to work out (or turned on **Gym mode** in Profi
 ## Sidebar
 
 In **Profile → Sidebar** you change the order of the blocks (Notes, Folders, Gym, Projects, Received) and hide the ones you don't use. It applies on all your devices.
+
+## Notes
+
+**New note** (sidebar; on the phone, on Home) opens a free text, just for you. The bar on top formats it: **bold**, _italic_, heading, list, numbered list and checklist. You can also type it: `**bold**`, `_italic_`, `## heading`, `- item`, `- [ ] task`. **Preview** shows the formatted text; **Edit** goes back to the text. It saves on its own.

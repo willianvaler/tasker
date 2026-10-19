@@ -27,3 +27,7 @@ Si respondiste que vas a usar la app para entrenar (o activaste el **Modo gimnas
 ## Barra lateral
 
 En **Perfil → Barra lateral** cambias el orden de los bloques (Notas, Carpetas, Gimnasio, Proyectos, Recibidas) y ocultas los que no usas. Vale en todos tus dispositivos.
+
+## Notas
+
+**Nueva nota** (barra lateral; en el móvil, en Inicio) abre un texto libre, solo tuyo. La barra de arriba da formato: **negrita**, _cursiva_, título, lista, lista numerada y lista de tareas. También puedes escribirlo: `**negrita**`, `_cursiva_`, `## título`, `- elemento`, `- [ ] tarea`. **Vista previa** muestra el texto con formato; **Editar** vuelve al texto. Se guarda solo.

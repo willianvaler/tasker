@@ -9,6 +9,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
+import { plainText } from '@/lib/markdown-edit';
 import { noteTitle, useNotes } from '@/lib/queries/notes';
 
 // Todas as anotações (W3), da mais recente para a mais antiga.
@@ -44,7 +45,7 @@ export default function NotesScreen() {
             </View>
             {!!note.body.trim() && (
               <Text className="text-sm text-ink-muted" numberOfLines={2}>
-                {note.body}
+                {plainText(note.body)}
               </Text>
             )}
           </Pressable>

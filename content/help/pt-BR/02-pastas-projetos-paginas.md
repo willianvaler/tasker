@@ -27,3 +27,7 @@ Se você respondeu que vai usar o app para treinar (ou ligou o **Modo academia**
 ## Barra lateral
 
 Em **Perfil → Barra lateral** você muda a ordem dos blocos (Anotações, Pastas, Academia, Projetos, Recebidas) e esconde os que não usa. Vale em todos os seus aparelhos.
+
+## Anotações
+
+**Nova anotação** (barra lateral; no celular, no Início) abre um texto livre, só seu. A barra de cima formata: **negrito**, _itálico_, título, lista, lista numerada e lista de tarefas. Também dá para escrever direto: `**negrito**`, `_itálico_`, `## título`, `- item`, `- [ ] tarefa`. **Visualizar** mostra o texto formatado; **Editar** volta ao texto. Salva sozinho.

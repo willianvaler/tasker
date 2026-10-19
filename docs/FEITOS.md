@@ -138,6 +138,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | W1 | Esqueci minha senha e olhinho na senha | D165 |
 | V5 | W2 | Bloco Projetos fixo com "+", configurações de projetos (Times sai do jogo) | D166 |
 | V5 | W3 | Anotações simples (bloco acima de Pastas e Projetos; no Início no celular) | D167 |
+| V5 | W3.1 | Anotações em Markdown: barra de formatação, visualização com `react-native-marked`, editor ocupando a tela; reabrir logo depois de criar não fica mais em branco | D187 |
 | V5 | W4 | Descrição em tarefas e hábitos ("+ adicionar descrição", até 4.000 caracteres) | D168 |
 | V5 | W5 | Painel da tarefa mais largo; busca de Relacionar legível | D169 |
 | V5 | W6 | Clicar fora do painel fecha e salva | D170 |

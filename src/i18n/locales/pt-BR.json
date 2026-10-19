@@ -1766,7 +1766,17 @@
     "titlePlaceholder": "Título",
     "titleField": "Título da anotação",
     "bodyPlaceholder": "Escreva aqui…",
-    "bodyField": "Texto da anotação"
+    "bodyField": "Texto da anotação",
+    "bold": "Negrito",
+    "italic": "Itálico",
+    "heading": "Título",
+    "list": "Lista",
+    "numbered": "Lista numerada",
+    "task": "Lista de tarefas",
+    "toolbar": "Formatação",
+    "preview": "Visualizar",
+    "edit": "Editar",
+    "markdownHint": "**negrito**, _itálico_, ## título, - lista, - [ ] tarefa"
   },
   "lock": {
     "channel": "Treino na tela de bloqueio",

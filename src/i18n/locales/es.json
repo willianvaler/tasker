@@ -1766,7 +1766,17 @@
     "titlePlaceholder": "Título",
     "titleField": "Título de la nota",
     "bodyPlaceholder": "Escribe aquí…",
-    "bodyField": "Texto de la nota"
+    "bodyField": "Texto de la nota",
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "heading": "Título",
+    "list": "Lista",
+    "numbered": "Lista numerada",
+    "task": "Lista de tareas",
+    "toolbar": "Formato",
+    "preview": "Vista previa",
+    "edit": "Editar",
+    "markdownHint": "**negrita**, _cursiva_, ## título, - lista, - [ ] tarea"
   },
   "lock": {
     "channel": "Entrenamiento en la pantalla de bloqueo",

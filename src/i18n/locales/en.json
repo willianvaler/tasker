@@ -1766,7 +1766,17 @@
     "titlePlaceholder": "Title",
     "titleField": "Note title",
     "bodyPlaceholder": "Write here…",
-    "bodyField": "Note text"
+    "bodyField": "Note text",
+    "bold": "Bold",
+    "italic": "Italic",
+    "heading": "Heading",
+    "list": "List",
+    "numbered": "Numbered list",
+    "task": "Checklist",
+    "toolbar": "Formatting",
+    "preview": "Preview",
+    "edit": "Edit",
+    "markdownHint": "**bold**, _italic_, ## heading, - list, - [ ] task"
   },
   "lock": {
     "channel": "Workout on the lock screen",

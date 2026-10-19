@@ -4,18 +4,21 @@ import { uuidv7 } from '@/lib/uuid';
 import type { Tables } from '../db';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
+import { plainText } from '../markdown-edit';
 import { isLocal, localInsert, localUpdate, sessionUserId } from '../sync/local';
 
-// Anotações (W3): texto simples, só da pessoa. Com o banco no aparelho, leem e gravam nele e o
+// Anotações (W3): texto em Markdown simples (D187), só da pessoa. Com o banco no aparelho, leem e gravam nele e o
 // sync envia depois (funciona sem internet).
 
 export type Note = Pick<Tables<'notes'>, 'id' | 'title' | 'body' | 'created_at' | 'updated_at'>;
 export const NOTE_MAX = 20000;
 const KEY = ['notes'] as const;
 
-export function useNotes() {
+/** `fresh`: relê ao montar mesmo com o cache novo (o editor só abre depois de uma leitura nova) */
+export function useNotes({ fresh = false }: { fresh?: boolean } = {}) {
   return useQuery({
     queryKey: KEY,
+    ...(fresh ? { refetchOnMount: 'always' as const } : {}),
     networkMode: isLocal() ? 'always' : 'online',
     queryFn: async (): Promise<Note[]> => {
       if (isLocal()) {
@@ -36,7 +39,7 @@ export function useNotes() {
 
 /** Título para listas: o título, ou a primeira linha do texto */
 export function noteTitle(note: Pick<Note, 'title' | 'body'>, fallback: string) {
-  return note.title.trim() || note.body.trim().split('\n')[0].slice(0, 80) || fallback;
+  return note.title.trim() || plainText(note.body).trim().split('\n')[0].slice(0, 80) || fallback;
 }
 
 export function useNoteMutations() {
