@@ -2573,5 +2573,44 @@
     "confirmTitle": "Be reborn?",
     "confirmMessage": "You leave level {{level}} and go back to level 1, with +{{bonus}}% XP from now on. To confirm, type \"{{word}}\".",
     "done": "Reborn! {{count}}× · +{{bonus}}% XP"
+  },
+  "landing": {
+    "title": "Tasks, habits and projects, with a game on top.",
+    "subtitle": "Fast as a notebook: jot things down in seconds, organize them in folders and projects, share with the people doing them and, if you like, earn XP and beat bosses along the way.",
+    "start": "Get started",
+    "haveAccount": "Sign in to my account",
+    "privacy": "Privacy policy",
+    "languages": "Português · English · Español",
+    "features": {
+      "captura": {
+        "title": "Quick capture",
+        "text": "Write it the way you say it: \"Call the bank tomorrow 3pm !!\" becomes a task with date, time, reminder and priority. Paste a list and it becomes many at once.",
+        "shot": "Today screen with tasks and the capture field"
+      },
+      "arvore": {
+        "title": "Lists, subtasks and dependencies",
+        "text": "Break a project into levels, mark what depends on what and see what you can do right now. Keyboard for everything on a computer.",
+        "shot": "A shopping list with labels"
+      },
+      "projetos": {
+        "title": "Folders, projects and teams",
+        "text": "Share a project with the people doing it: roles, link invites, @mentions, comments, attachments and each person's progress.",
+        "shot": "Folders screen with list and card pages"
+      },
+      "jogo": {
+        "title": "A game, if you want one",
+        "text": "XP, level and class, daily and weekly bosses, clan, achievements, pets and quests. Choose between off, light and full.",
+        "shot": "Character screen with skills"
+      },
+      "treino": {
+        "title": "Habits, workouts and focus",
+        "text": "Habits with streaks, sets with timed rest, Workout Mode for the gym and pomodoro with time tracking.",
+        "shot": "Workout page as cards"
+      },
+      "offline": {
+        "title": "Works offline",
+        "text": "Everything stays on the device and syncs when the connection comes back. On phone and web, in Portuguese, English and Spanish."
+      }
+    }
   }
 }

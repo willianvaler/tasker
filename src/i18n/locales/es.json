@@ -2573,5 +2573,44 @@
     "confirmTitle": "¿Renacer?",
     "confirmMessage": "Sales del nivel {{level}} y vuelves al nivel 1, con +{{bonus}}% de XP de aquí en adelante. Para confirmar, escribe \"{{word}}\".",
     "done": "¡Renaciste! {{count}}× · +{{bonus}}% de XP"
+  },
+  "landing": {
+    "title": "Tareas, hábitos y proyectos, con un juego encima.",
+    "subtitle": "Rápido como una libreta: anota en segundos, organiza en carpetas y proyectos, comparte con quien lo hace contigo y, si quieres, gana XP y derrota bosses mientras tanto.",
+    "start": "Empezar ahora",
+    "haveAccount": "Entrar en mi cuenta",
+    "privacy": "Política de privacidad",
+    "languages": "Português · English · Español",
+    "features": {
+      "captura": {
+        "title": "Captura rápida",
+        "text": "Escribe como hablas: \"Llamar al banco mañana 15h !!\" se vuelve una tarea con fecha, hora, recordatorio y prioridad. Pega una lista y se vuelven varias de una vez.",
+        "shot": "Pantalla Hoy con tareas y el campo de captura"
+      },
+      "arvore": {
+        "title": "Listas, subtareas y dependencias",
+        "text": "Divide un proyecto en niveles, marca qué depende de qué y ve lo que ya puedes hacer. Teclado para todo en el ordenador.",
+        "shot": "Una lista de compras con etiquetas"
+      },
+      "projetos": {
+        "title": "Carpetas, proyectos y equipos",
+        "text": "Comparte un proyecto con quien lo hace contigo: roles, invitaciones por enlace, @menciones, comentarios, adjuntos y el progreso de cada persona.",
+        "shot": "Pantalla de carpetas con páginas de lista y de tarjetas"
+      },
+      "jogo": {
+        "title": "Un juego, si quieres",
+        "text": "XP, nivel y clase, bosses del día y de la semana, clan, logros, mascotas y misiones. Elige entre apagado, ligero y completo.",
+        "shot": "Pantalla del personaje con habilidades"
+      },
+      "treino": {
+        "title": "Hábitos, entrenamientos y foco",
+        "text": "Hábitos con racha, series con descanso cronometrado, el Modo Entrenamiento para el gimnasio y pomodoro con registro de tiempo.",
+        "shot": "Página de entrenamiento en tarjetas"
+      },
+      "offline": {
+        "title": "Funciona sin internet",
+        "text": "Todo queda en el dispositivo y se sincroniza cuando vuelve la conexión. En el móvil y en la web, en portugués, inglés y español."
+      }
+    }
   }
 }

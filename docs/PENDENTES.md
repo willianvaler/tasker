@@ -16,8 +16,7 @@ Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | **V3** | J6 | Aviso do timer com o celular bloqueado, num development build | parcial | development build |
 | V3 | §6 itens B | Custos e orçamento (com racha de contas), lista de compras gerada, kits por domínio, revisão semanal, Eisenhower, reações, recompensas personalizadas, voz e Share Target, exportação CSV/Markdown/PDF e imprimir (o feed .ics saiu no C1) | backlog | decisão V3-6 |
 | V3 | §6 itens C | Lembrete por local, captura por foto (OCR), dependências entre projetos, Gantt, notas colaborativas (CRDT), importar de Habitica/Todoist, webhooks e API | backlog | — |
-| **V4** | S1 | Página de entrada (antes do login) | pendente | — |
-| V4 | T1 | Planos e assinaturas (modelo) | pendente | V4-5 |
+| **V4** | T1 | Planos e assinaturas (modelo) | pendente | V4-5 |
 | V4 | T2 | Provedor de pagamento | **bloqueado** | V4-6, contas do dono |
 | **V5** | §1.2 | App para relógio Wear OS (companheiro do celular, em Kotlin) | pendente | estimar antes |
 | V5 | §1.1 | Tela de bloqueio: botões com o app encerrado e atualizações ao vivo do Android 16 | depois | — |

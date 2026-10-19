@@ -2573,5 +2573,44 @@
     "confirmTitle": "Renascer?",
     "confirmMessage": "Você sai do nível {{level}} e volta ao nível 1, com +{{bonus}}% de XP daqui em diante. Para confirmar, digite \"{{word}}\".",
     "done": "Renasceu! {{count}}× · +{{bonus}}% de XP"
+  },
+  "landing": {
+    "title": "Tarefas, hábitos e projetos, com um jogo por cima.",
+    "subtitle": "Rápido como um caderno: anote em segundos, organize em pastas e projetos, divida com quem faz junto e, se quiser, ganhe XP e derrube bosses enquanto isso.",
+    "start": "Começar agora",
+    "haveAccount": "Entrar na minha conta",
+    "privacy": "Política de privacidade",
+    "languages": "Português · English · Español",
+    "features": {
+      "captura": {
+        "title": "Captura rápida",
+        "text": "Escreva como fala: \"Ligar para o banco amanhã 15h !!\" vira tarefa com data, hora, lembrete e prioridade. Cole uma lista e ela vira várias de uma vez.",
+        "shot": "Tela Hoje com tarefas e o campo de captura"
+      },
+      "arvore": {
+        "title": "Listas, subtarefas e dependências",
+        "text": "Quebre um projeto em níveis, marque o que depende do quê e veja o que já dá para fazer agora. Teclado para tudo no computador.",
+        "shot": "Uma lista de compras com etiquetas"
+      },
+      "projetos": {
+        "title": "Pastas, projetos e times",
+        "text": "Divida um projeto com quem faz junto: cargos, convites por link, @menções, comentários, anexos e o progresso de cada pessoa.",
+        "shot": "Tela de pastas com páginas de lista e de cards"
+      },
+      "jogo": {
+        "title": "Um jogo, se você quiser",
+        "text": "XP, nível e classe, bosses do dia e da semana, clã, conquistas, mascotes e missões. Escolha entre desligado, leve e completo.",
+        "shot": "Tela do personagem com habilidades"
+      },
+      "treino": {
+        "title": "Hábitos, treinos e foco",
+        "text": "Hábitos com sequência, séries com descanso cronometrado, o Modo Treino para a academia e pomodoro com registro de tempo.",
+        "shot": "Página de treino em cards"
+      },
+      "offline": {
+        "title": "Funciona sem internet",
+        "text": "Tudo fica no aparelho e sincroniza quando a conexão volta. No celular e na web, em português, inglês e espanhol."
+      }
+    }
   }
 }

@@ -191,7 +191,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **Q1** Inventário (tela própria) e itens com 5 raridades no i18n e nos tokens (D181)
 - [x] **Q2** Configurações só no Perfil (já estava); Perfil e Personagem levam a Inventário e Conquistas (D181)
 - [x] **R1** Renascer: do nível 20, volta ao 1 com ouro, itens e conquistas; +5% de XP por renascimento até +25%; bosses solo recomeçam; conquistas próprias (19/10, D210)
-- [ ] **S1** Página de entrada
+- [x] **S1** Página de entrada: apresentação com capturas antes do login, formulário ao lado (computador) ou no fim (celular) (19/10, D211)
 - [ ] **T1** Planos e assinaturas (modelo)
 - [ ] **T2** Provedor de pagamento (bloqueado: decisão e contas do dono)
 

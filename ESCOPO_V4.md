@@ -75,7 +75,7 @@ Origem: pedidos do dono do projeto em 14/10/2026, depois de usar o app no dia a 
 
 ---
 
-## 5. Página de entrada (antes do login) — pendente (S1)
+## 5. Página de entrada (antes do login) — ✅ done (S1, D211)
 
 - Quem abre o app sem conta vê uma **página de apresentação** listando as funcionalidades (captura rápida, projetos e times, árvore de tarefas, offline, jogo) com capturas de tela, e só então o botão de entrar ou criar conta.
 - Rápida e acessível, nos 3 idiomas, com o visual do app (`docs/DESIGN.md`).

@@ -8,6 +8,7 @@ import { BrandMark } from '@/components/brand-mark';
 import { Button, IconButton } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { markReturningDevice } from '@/lib/prefs';
 import { supabase } from '@/lib/supabase';
 
 type Mode = 'sign-in' | 'sign-up' | 'forgot';
@@ -51,6 +52,7 @@ export function SignInForm({ initialMode = 'sign-in' }: { initialMode?: Mode }) 
             options: { data: { display_name: name.trim() } },
           });
     setLoading(false);
+    if (!error) markReturningDevice();
     // Com sessão, a tela de fora reage (login: o Stack.Protected; convite: mostra "Participar")
     if (error) setError(translateAuthError(error.message, t));
   }

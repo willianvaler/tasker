@@ -12,6 +12,7 @@ const RECENT_ICONS_KEY = 'questlist:recent-icons';
 const DEVICE_KEY = 'questlist:device';
 const GAME_SOUNDS_KEY = 'questlist:game-sounds';
 const SHORTCUTS_KEY = 'questlist:shortcuts';
+const RETURNING_KEY = 'questlist:returning';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -32,6 +33,15 @@ export function getGameSounds(): boolean {
 
 export function setGameSounds(on: boolean) {
   localStore.setItem(GAME_SOUNDS_KEY, on ? 'on' : 'off');
+}
+
+/** Alguém já entrou neste aparelho: a entrada mostra o formulário antes da apresentação (S1). */
+export function isReturningDevice(): boolean {
+  return localStore.getItem(RETURNING_KEY) === '1';
+}
+
+export function markReturningDevice() {
+  localStore.setItem(RETURNING_KEY, '1');
 }
 
 /** Atalhos trocados (C6): id → combinação. É do aparelho (cada teclado é um). */
