@@ -106,7 +106,9 @@ export default function WorkoutScreen() {
   const online = useIsOnline();
   const me = useSession().session?.user.id;
   const root = rootFolder(tree.data, page?.folder_id);
-  const members = useMembers(root?.is_shared ? root.id : undefined);
+  // Projeto (ou grupo de treino) conta desde a criação; is_shared só liga no primeiro convite
+  const togetherFolder = !!root && (root.is_shared || root.kind === 'project');
+  const members = useMembers(togetherFolder ? root.id : undefined);
   const others = (members.data ?? []).filter((m) => m.userId !== me);
   const sessionActions = useWorkoutSessionActions();
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -130,11 +132,12 @@ export default function WorkoutScreen() {
       sessionActions.join.mutateAsync(sessao).then(setSessionId, () => {});
       return;
     }
-    if (root?.is_shared && (members.isPending || others.length > 0)) return;
+    // Em pasta compartilhada sempre pergunta (sozinho no grupo, o seletor oferece o convite)
+    if (togetherFolder) return;
     started.current = true;
     sessionActions.start.mutateAsync({ pageId: id, withUsers: [] }).then(setSessionId, () => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [online, page, sessao, root?.is_shared, members.isPending, others.length]);
+  }, [online, page, sessao, togetherFolder]);
 
   // Fechar o treino sai da sessão (sem ninguém dentro, ela termina)
   const sessionRef = useRef<string | null>(null);
@@ -155,7 +158,7 @@ export default function WorkoutScreen() {
       .then(setSessionId, () => {})
       .finally(() => setPicked(true));
   }
-  const picking = online && !sessao && !picked && !!root?.is_shared && others.length > 0;
+  const picking = online && !sessao && !picked && togetherFolder && !members.isPending;
 
   const [session, setSession] = useState(() => loadSession(id));
   useEffect(() => {
@@ -242,6 +245,11 @@ export default function WorkoutScreen() {
       <Shell title={page ? pageLabel(page) : ''}>
         <TrainingPartners
           people={others}
+          onInvite={
+            root
+              ? () => router.push({ pathname: '/share/[id]', params: { id: root.id } })
+              : undefined
+          }
           selected={partners}
           onChange={setPartners}
           onStart={startTogether}

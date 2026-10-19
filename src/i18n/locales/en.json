@@ -2178,7 +2178,9 @@
     "rest": "Group rest",
     "invite": "{{name}} started \"{{page}}\" with you",
     "join": "Join",
-    "decline": "Not now"
+    "decline": "Not now",
+    "alone": "It's just you here so far. Invite the people you work out with: once they join, they show up in this list and get notified when you start.",
+    "invitePeople": "Invite people"
   },
   "group": {
     "title": "Group training",

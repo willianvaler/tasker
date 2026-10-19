@@ -2178,7 +2178,9 @@
     "rest": "Descanso del grupo",
     "invite": "{{name}} empezó \"{{page}}\" contigo",
     "join": "Entrar",
-    "decline": "Ahora no"
+    "decline": "Ahora no",
+    "alone": "Por ahora solo estás tú. Invita a quienes entrenan contigo: cuando entren, aparecen en esta lista y reciben el aviso al empezar.",
+    "invitePeople": "Invitar personas"
   },
   "group": {
     "title": "Entrenamiento en grupo",

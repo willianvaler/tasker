@@ -17,12 +17,15 @@ export function TrainingPartners({
   selected,
   onChange,
   onStart,
+  onInvite,
   busy,
 }: {
   people: Partner[];
   selected: string[];
   onChange: (selected: string[]) => void;
   onStart: () => void;
+  /** Sozinho no grupo: abre o convite da pasta. */
+  onInvite?: () => void;
   busy?: boolean;
 }) {
   const { t } = useTranslation();
@@ -35,7 +38,12 @@ export function TrainingPartners({
       <Text accessibilityRole="header" className="text-xl font-semibold text-ink">
         {t('together.title')}
       </Text>
-      <Text className="text-sm text-ink-muted">{t('together.hint')}</Text>
+      <Text className="text-sm text-ink-muted">
+        {t(people.length ? 'together.hint' : 'together.alone')}
+      </Text>
+      {people.length === 0 && onInvite && (
+        <Button variant="ghost" label={t('together.invitePeople')} onPress={onInvite} />
+      )}
       <View>
         {people.map((person) => (
           <Pressable

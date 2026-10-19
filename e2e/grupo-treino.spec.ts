@@ -65,4 +65,18 @@ test('academia: descanso no exercício e grupo de treino', async ({ page }, test
   if (desktop) {
     await expect(page.getByRole('navigation').getByRole('link', { name: group })).toBeVisible();
   }
+
+  // Sozinho no grupo, o Modo Treino ainda pergunta e oferece o convite (antes começava direto)
+  const [folder] = await adminRest(`folders?name=eq.${encodeURIComponent(group)}&select=id`);
+  const [workout] = await adminRest('pages', {
+    method: 'POST',
+    body: JSON.stringify({ folder_id: folder.id, name: `Costas ${stamp}`, view_type: 'cards' }),
+  });
+  await page.goto(`/treino/${workout.id}`);
+  await expect(page.getByRole('heading', { name: 'Quem está treinando junto agora?' })).toBeVisible(
+    { timeout: 20_000 },
+  );
+  await expect(page.getByText(/Ainda é só você aqui/)).toBeVisible();
+  await page.getByRole('button', { name: 'Convidar pessoas' }).click();
+  await expect(shown(page, 'Compartilhar').first()).toBeVisible({ timeout: 20_000 });
 });
