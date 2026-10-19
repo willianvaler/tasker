@@ -73,7 +73,8 @@
           "enableBackgroundPlayback": false,
           "enableBackgroundRecording": false
         }
-      ]
+      ],
+      "./plugins/with-trusted-roots"
     ],
     "experiments": {
       "typedRoutes": true,
