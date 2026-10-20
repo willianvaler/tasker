@@ -232,6 +232,7 @@ function Editor({ expense: e }: { expense: Expense }) {
       )}
       {mayEdit && (
         <Button
+          destructive
           variant="ghost"
           icon={Trash2}
           label={t('expenses.remove')}

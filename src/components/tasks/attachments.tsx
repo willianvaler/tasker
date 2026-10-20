@@ -172,6 +172,7 @@ export function Attachments({
           </Pressable>
           {(canEdit || a.pending) && (
             <Button
+              destructive
               variant="ghost"
               icon={Trash2}
               label={t('attach.remove')}
@@ -227,6 +228,7 @@ export function Attachments({
           title={t('attach.removeTitle')}
           message={removing.name}
           confirmLabel={t('attach.remove')}
+          destructive
           onClose={closeRemoving}
           onConfirm={() => {
             m.remove.mutate(removing, {
@@ -283,7 +285,13 @@ function Viewer({
       </Text>
       <View className="flex-row flex-wrap justify-end gap-2">
         {onRemove && (
-          <Button variant="ghost" icon={Trash2} label={t('attach.remove')} onPress={onRemove} />
+          <Button
+            destructive
+            variant="ghost"
+            icon={Trash2}
+            label={t('attach.remove')}
+            onPress={onRemove}
+          />
         )}
         {!attachment.pending && (
           <Button

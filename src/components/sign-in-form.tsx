@@ -217,5 +217,13 @@ function translateAuthError(message: string, t: TFunction) {
   if (/already registered/i.test(message)) return t('auth.taken');
   if (/password should be at least/i.test(message)) return t('auth.short');
   if (/rate limit|too many/i.test(message)) return t('auth.rateLimit');
+  // Resposta que não é JSON (página de erro do proxy ou da Cloudflare quando o servidor demora ou
+  // está reiniciando) ou rede caída: "Unexpected token '<'…" não diz nada a quem usa (20/10)
+  if (
+    /unexpected token|not valid json|failed to fetch|network request failed|timed? ?out|gateway/i.test(
+      message,
+    )
+  )
+    return t('auth.serverDown');
   return message;
 }

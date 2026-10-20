@@ -123,6 +123,7 @@ export function ProjectBoss({ rootId }: { rootId: string }) {
           title={t('projectBoss.giveUpTitle')}
           message={t('projectBoss.giveUpMessage')}
           confirmLabel={t('projectBoss.giveUpConfirm')}
+          destructive
           onClose={closeCancel}
           onConfirm={() => {
             closeCancel();

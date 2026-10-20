@@ -114,12 +114,15 @@ export function ConfirmDialog({
   confirmLabel,
   onConfirm,
   onClose,
+  destructive,
 }: {
   title: string;
   message?: string;
   confirmLabel: string;
   onConfirm: () => void;
   onClose: () => void;
+  /** Apagar, remover, sair: o botão de confirmar em vermelho */
+  destructive?: boolean;
 }) {
   const { t } = useTranslation();
   return (
@@ -128,7 +131,7 @@ export function ConfirmDialog({
       {message && <Text className="text-ink-muted">{message}</Text>}
       <View className="flex-row justify-end gap-2">
         <Button variant="ghost" label={t('common.cancel')} onPress={onClose} />
-        <Button label={confirmLabel} onPress={onConfirm} />
+        <Button label={confirmLabel} onPress={onConfirm} destructive={destructive} />
       </View>
     </Backdrop>
   );

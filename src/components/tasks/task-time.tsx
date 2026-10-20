@@ -164,7 +164,14 @@ function EntryRow({
       <Text className="flex-1 font-mono text-xs text-ink" accessibilityLabel={text}>
         {text}
       </Text>
-      {mine && <IconButton icon={X} label={t('time.remove', { entry: text })} onPress={onRemove} />}
+      {mine && (
+        <IconButton
+          tone="danger"
+          icon={X}
+          label={t('time.remove', { entry: text })}
+          onPress={onRemove}
+        />
+      )}
     </View>
   );
 }

@@ -155,6 +155,7 @@ export default function FriendsScreen() {
                     }
                   />
                   <Button
+                    destructive
                     variant="ghost"
                     label={t('friends.remove')}
                     accessibilityLabel={t('friends.removeLabel', { name: f.display_name })}
@@ -192,6 +193,7 @@ export default function FriendsScreen() {
           title={t('friends.removeTitle', { name: removing.display_name })}
           message={t('friends.removeMessage')}
           confirmLabel={t('friends.remove')}
+          destructive
           onClose={() => setRemoving(null)}
           onConfirm={() => {
             actions.remove.mutate(removing.user_id, { onError });

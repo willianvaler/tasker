@@ -125,6 +125,7 @@ export default function AutomationsScreen() {
               />
               {canManage && (
                 <IconButton
+                  tone="danger"
                   icon={X}
                   label={t('auto.remove', { rule: text })}
                   onPress={() => m.remove.mutate(rule.id, { onError })}

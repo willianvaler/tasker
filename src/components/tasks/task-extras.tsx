@@ -231,6 +231,7 @@ export function MetaEditor({
             // O descanso é um só; nas outras linhas o lugar dele é o "tirar"
             <View className="min-w-0 flex-1 items-start">
               <IconButton
+                tone="danger"
                 icon={X}
                 label={t('extras.removeGroup')}
                 disabled={!writable}

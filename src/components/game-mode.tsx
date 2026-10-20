@@ -471,6 +471,7 @@ function DeathDialog({ game }: { game: GameState }) {
           title={t('game.restart')}
           message={t('game.restartConfirm')}
           confirmLabel={t('game.restart')}
+          destructive
           onClose={() => setConfirm(false)}
           onConfirm={() =>
             revive.mutate(false, {

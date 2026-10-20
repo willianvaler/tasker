@@ -186,6 +186,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
       <Group title={t('privacy.title')}>
         <View className="flex-row flex-wrap gap-1">
           <Button
+            destructive
             variant="ghost"
             icon={Trash2}
             label={t('trash.link')}

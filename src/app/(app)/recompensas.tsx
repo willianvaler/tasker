@@ -80,6 +80,7 @@ export default function RewardsScreen() {
                 onPress={() => setEditing(r)}
               />
               <Button
+                destructive
                 variant="ghost"
                 label={t('rewards.delete')}
                 disabled={!online}
@@ -166,6 +167,7 @@ export default function RewardsScreen() {
           title={t('rewards.delete')}
           message={t('rewards.deleteConfirm', { title: removing.title })}
           confirmLabel={t('rewards.delete')}
+          destructive
           onConfirm={() => actions.remove.mutate(removing.id)}
           onClose={() => setRemoving(null)}
         />

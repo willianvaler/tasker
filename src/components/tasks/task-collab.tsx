@@ -72,6 +72,7 @@ export function AssigneesEditor({ task }: { task: Task }) {
             </Text>
             {writable && (
               <IconButton
+                tone="danger"
                 icon={X}
                 label={t('collab.remove', { name: assigneeName(a, members) })}
                 onPress={() => m.remove.mutate(a.id, { onError })}
@@ -170,6 +171,7 @@ export function Comments({ task }: { task: Task }) {
               </Text>
               {c.author_id === session?.user.id && online && (
                 <IconButton
+                  tone="danger"
                   icon={X}
                   label={t('collab.deleteComment')}
                   onPress={() => m.remove.mutate(c.id)}

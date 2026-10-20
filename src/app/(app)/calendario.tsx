@@ -426,6 +426,7 @@ function FeedSection() {
           title={t('calendar.feedOffTitle')}
           message={t('calendar.feedOffMessage')}
           confirmLabel={t('calendar.feedOff')}
+          destructive
           onClose={() => setConfirm(null)}
           onConfirm={() => {
             setConfirm(null);

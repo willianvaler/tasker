@@ -142,6 +142,7 @@ export function SendPageDialog({
                     {kind} · {state}
                   </Text>
                   <IconButton
+                    tone="danger"
                     icon={X}
                     label={t('send.revoke', { name: who })}
                     onPress={() => m.revoke.mutate(share.id, { onError })}
