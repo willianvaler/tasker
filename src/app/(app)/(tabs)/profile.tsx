@@ -10,6 +10,7 @@ import {
   Timer,
   Trash2,
   Trophy,
+  UserPlus,
   Users,
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
@@ -156,6 +157,12 @@ function ProfileForm({ profile }: { profile: Profile }) {
             icon={FolderKanban}
             label={t('projectsHub.link')}
             onPress={() => router.push('/projetos')}
+          />
+          <Button
+            variant="ghost"
+            icon={UserPlus}
+            label={t('nav.friends')}
+            onPress={() => router.push('/amigos')}
           />
           <Button
             variant="ghost"

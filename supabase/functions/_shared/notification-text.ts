@@ -39,6 +39,9 @@ const TEXT: Record<
       `${by} começou o desafio "${p.name}" (${p.days} ${n(p.days) === 1 ? 'dia' : 'dias'})`,
     reaction: (p, by) => `${by} reagiu ${p.emoji} a "${p.title}"`,
     reaction_comment: (p, by) => `${by} reagiu ${p.emoji} ao seu comentário em "${p.title}"`,
+    friend_request: (_, by) => `${by} pediu amizade`,
+    friend_accepted: (_, by) => `${by} e você agora são amigos`,
+    added_to_group: (p, by) => `${by} adicionou você a ${p.group_name}`,
     other: () => 'Novidade',
   },
   en: {
@@ -65,6 +68,9 @@ const TEXT: Record<
       `${by} started the challenge "${p.name}" (${p.days} ${n(p.days) === 1 ? 'day' : 'days'})`,
     reaction: (p, by) => `${by} reacted ${p.emoji} to "${p.title}"`,
     reaction_comment: (p, by) => `${by} reacted ${p.emoji} to your comment on "${p.title}"`,
+    friend_request: (_, by) => `${by} sent you a friend request`,
+    friend_accepted: (_, by) => `You and ${by} are now friends`,
+    added_to_group: (p, by) => `${by} added you to ${p.group_name}`,
     other: () => 'News',
   },
   es: {
@@ -92,6 +98,9 @@ const TEXT: Record<
       `${by} empezó el desafío "${p.name}" (${p.days} ${n(p.days) === 1 ? 'día' : 'días'})`,
     reaction: (p, by) => `${by} reaccionó ${p.emoji} a "${p.title}"`,
     reaction_comment: (p, by) => `${by} reaccionó ${p.emoji} a tu comentario en "${p.title}"`,
+    friend_request: (_, by) => `${by} te envió una solicitud de amistad`,
+    friend_accepted: (_, by) => `${by} y tú ahora son amigos`,
+    added_to_group: (p, by) => `${by} te agregó a ${p.group_name}`,
     other: () => 'Novedad',
   },
 };
@@ -174,6 +183,16 @@ export function describeNotification(
       return {
         text: p.comment_id ? say('reaction_comment') : say('reaction'),
         taskId: String(p.task_id),
+      };
+    case 'friend_request':
+    case 'friend_accepted':
+      return { text: say(notification.kind), url: '/amigos' };
+    case 'added_to_group':
+      return {
+        text: say('added_to_group'),
+        folderId: p.folder_id ? String(p.folder_id) : undefined,
+        teamId: p.team_id ? String(p.team_id) : undefined,
+        url: p.clan ? '/clan' : undefined,
       };
     case 'task_reminder': {
       // Lembrete de tarefa com horário (D206): "⏰ 20/10 15:00 · Ligar para o banco" (10/20 em inglês)

@@ -2,7 +2,7 @@
 // texto de forma que importe para quem usa? Suba LEGAL_VERSION aqui **e** public.legal_version()
 // numa migração nova (o teste legal.test.ts compara); quem já usa aceita de novo ao abrir o app.
 
-export const LEGAL_VERSION = '2026-10-19-2';
+export const LEGAL_VERSION = '2026-10-20';
 
 /** Idade mínima para criar conta (LGPD art. 14: abaixo disso, só com os responsáveis). */
 export const MIN_AGE = 13;
@@ -60,7 +60,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'O que guardamos',
-        body: 'Nome, e-mail, fuso horário e idioma; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
+        body: 'Nome, nick, e-mail, fuso horário e idioma; a sua lista de amigos e os pedidos de amizade; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
       },
       {
         title: 'Para que usamos e com que base',
@@ -68,7 +68,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Quem vê o quê',
-        body: 'Suas pastas pessoais são só suas. Em um projeto compartilhado, os membros veem as tarefas, os comentários e a atividade daquele projeto. Num clã, os membros veem seu nome, nível, classe, aparência do personagem, conquistas e dano no boss, nunca as suas tarefas.',
+        body: 'Suas pastas pessoais são só suas. Em um projeto compartilhado, os membros veem as tarefas, os comentários e a atividade daquele projeto. Num clã, os membros veem seu nome, nível, classe, aparência do personagem, conquistas e dano no boss, nunca as suas tarefas. Quem tem conta pode achar você pelo nick (vê o nome e o nick); pelo e-mail, só se já souber o endereço, e o app não confirma se a conta existe. Seus amigos veem seu nome e seu nick.',
       },
       {
         title: 'Terceiros e transferência internacional',
@@ -147,7 +147,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'What we store',
-        body: 'Name, email, time zone and language; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
+        body: 'Name, nick, email, time zone and language; your friends list and friend requests; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
       },
       {
         title: 'What we use it for, and on what basis',
@@ -155,7 +155,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Who sees what',
-        body: "Your personal folders are only yours. In a shared project, members see that project's tasks, comments and activity. In a clan, members see your name, level, class, character look, achievements and boss damage, never your tasks.",
+        body: "Your personal folders are only yours. In a shared project, members see that project's tasks, comments and activity. In a clan, members see your name, level, class, character look, achievements and boss damage, never your tasks. Anyone with an account can find you by your nick (they see your name and nick); by email only if they already know the address, and the app does not confirm whether the account exists. Your friends see your name and nick.",
       },
       {
         title: 'Third parties and international transfer',
@@ -234,7 +234,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Qué guardamos',
-        body: 'Nombre, correo, zona horaria e idioma; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
+        body: 'Nombre, nick, correo, zona horaria e idioma; tu lista de amigos y las solicitudes de amistad; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
       },
       {
         title: 'Para qué los usamos y con qué base',
@@ -242,7 +242,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Quién ve qué',
-        body: 'Tus carpetas personales son solo tuyas. En un proyecto compartido, los miembros ven las tareas, los comentarios y la actividad de ese proyecto. En un clan, los miembros ven tu nombre, nivel, clase, aspecto del personaje, logros y daño al boss, nunca tus tareas.',
+        body: 'Tus carpetas personales son solo tuyas. En un proyecto compartido, los miembros ven las tareas, los comentarios y la actividad de ese proyecto. En un clan, los miembros ven tu nombre, nivel, clase, aspecto del personaje, logros y daño al boss, nunca tus tareas. Quien tiene cuenta puede encontrarte por tu nick (ve tu nombre y tu nick); por el correo, solo si ya conoce la dirección, y la app no confirma si la cuenta existe. Tus amigos ven tu nombre y tu nick.',
       },
       {
         title: 'Terceros y transferencia internacional',

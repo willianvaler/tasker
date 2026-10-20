@@ -266,8 +266,8 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 ## ESCOPO_V10 — amigos, visibilidade, comunidade e Bem-estar (pedido do dono em 20/10)
 
-- [ ] **AM1** Nick, amizades, link de amizade, RPCs, avisos, RLS, pgTAP, LGPD
-- [ ] **AM2** Tela Amigos e página do link `/amigo/<token>`
+- [x] **AM1** Nick, amizades, link de amizade, RPCs, avisos, RLS, pgTAP, LGPD (política e termos novos) (D230)
+- [x] **AM2** Tela Amigos e página do link `/amigo/<token>`; E2E `e2e/amigos.spec.ts` e Ajuda nos 3 idiomas (D230)
 - [ ] **AM3** Vincular amigo em projeto, grupo de treino, time e clã
 - [ ] **VI1** Visibilidade da tarefa (privada, amigos, pública) e `profile_tasks`
 - [ ] **VI2** Perfil da pessoa `/perfil/<nick>`

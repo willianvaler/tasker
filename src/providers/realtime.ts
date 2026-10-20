@@ -14,6 +14,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   comments: [['comments']],
   // Reações (PB2): na conclusão e nos comentários
   reactions: [['reactions']],
+  // Amigos (V10): pedido recebido ou aceito aparece sem recarregar
+  friendships: [['friends']],
   task_attachments: [['attachments']],
   activity_log: [['activity']],
   notifications: [keys.notifications],

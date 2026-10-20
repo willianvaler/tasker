@@ -21,3 +21,7 @@ Em tarefa sem ninguém, o botão **Eu levo** coloca você como responsável. Ót
 ## Reações
 
 No projeto, dá para reagir com 👏 🔥 💪 ❤️ ou 🎉 a uma tarefa concluída (na **Atividade** do projeto ou nos comentários da tarefa) e a cada comentário. Toque no rosto com o **+** para escolher; toque de novo no emoji para tirar. Quem concluiu (ou quem comentou) recebe um aviso. Reagir precisa de internet, e quem pode comentar pode reagir, o Leitor também.
+
+## Amigos
+
+Em **Amigos** (barra lateral, Perfil ou `Ctrl+K`) fica o seu **nick**, o nome pelo qual as pessoas te acham (3 a 20 letras minúsculas, números, `_` ou `.`; dá para trocar). Para adicionar alguém, digite o **@nick** ou o **e-mail** e toque em **Pedir amizade**: a pessoa recebe um aviso e aceita ou recusa. Pelo e-mail, o app não diz se a conta existe. O seu **link de amizade** é o caminho mais rápido: quem abre e entra vira seu amigo na hora (crie a conta ali mesmo, se precisar). Se o link parar onde não devia, **Trocar link** e o anterior para de valer. Desfazer uma amizade não avisa a outra pessoa.

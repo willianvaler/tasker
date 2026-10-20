@@ -108,6 +108,12 @@ test('reação: na conclusão e no comentário, abre a tarefa', () => {
   ).toBe('Bia reacted 🔥 to your comment on "Carvão"');
 });
 
+test('amizade abre a tela Amigos', () => {
+  const n = { kind: 'friend_request', payload: { by: 'Bia', user_id: 'u' } };
+  expect(describeNotification(n)).toEqual({ text: 'Bia pediu amizade', url: '/amigos' });
+  expect(pushMessages(n, ['a'])[0].data.url).toBe('/amigos');
+});
+
 test('lembrete de página recebida abre a página', () => {
   expect(
     describeNotification({
@@ -171,6 +177,9 @@ describe('idioma das notificações (F3)', () => {
       'workout_invite',
       'challenge_started',
       'reaction',
+      'friend_request',
+      'friend_accepted',
+      'added_to_group',
     ];
     const payload = {
       by: 'Ana',
@@ -185,6 +194,7 @@ describe('idioma das notificações (F3)', () => {
       page_name: 'Treino',
       name: 'Desafio',
       emoji: '👏',
+      group_name: 'Churrasco',
     };
     for (const locale of ['pt-BR', 'en', 'es'])
       for (const kind of kinds) {

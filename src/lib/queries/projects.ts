@@ -321,7 +321,7 @@ export function webUrl(path: string) {
 }
 
 /** Link do convite. */
-export function inviteUrl(token: string, route: 'invite' | 'team-invite' = 'invite') {
+export function inviteUrl(token: string, route: 'invite' | 'team-invite' | 'amigo' = 'invite') {
   return webUrl(`/${route}/${token}`);
 }
 

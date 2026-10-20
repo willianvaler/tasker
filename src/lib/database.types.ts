@@ -579,6 +579,58 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"friend_links": {
+                  Row: {
+                    "created_at": string,"token": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"token": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"token"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "friend_links_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"friendships": {
+                  Row: {
+                    "accepted_at": string | null,"created_at": string,"requested_by": string,"status": string,"user_a": string,"user_b": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "accepted_at"?: string | null,"created_at"?: string,"requested_by": string,"status"?: string,"user_a": string,"user_b": string
+                  }
+                  Update: {
+                    "accepted_at"?: string | null,"created_at"?: string,"requested_by"?: string,"status"?: string,"user_a"?: string,"user_b"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "friendships_requested_by_fkey"
+      columns: ["requested_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "friendships_user_a_fkey"
+      columns: ["user_a"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "friendships_user_b_fkey"
+      columns: ["user_b"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"gold_spends": {
                   Row: {
                     "amount": number,"created_at": string,"id": string,"kind": string,"ref": string | null,"user_id": string
@@ -1011,14 +1063,14 @@ isOneToOne: true
                   ]
                 },"profiles": {
                   Row: {
-                    "active_mount": string | null,"active_pet": string | null,"attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar": NonNullable<Json>,"avatar_url": string | null,"buff_amount": number,"buff_day": string | null,"class": string | null,"coins": number,"costume": NonNullable<Json>,"created_at": string,"dead": boolean,"died_at": string | null,"display_name": string,"equipped": NonNullable<Json>,"game_mode": string,"game_vocab": boolean,"gamification_enabled": boolean,"gym_enabled": boolean | null,"hp": number,"hp_day": string | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"mp": number,"onboarded_at": string | null,"rebirths": number,"reborn_at": string | null,"resting": boolean,"shield": boolean,"skill_day": string | null,"stealth": number,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"use_costume": boolean,"xp": number
+                    "active_mount": string | null,"active_pet": string | null,"attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar": NonNullable<Json>,"avatar_url": string | null,"buff_amount": number,"buff_day": string | null,"class": string | null,"coins": number,"costume": NonNullable<Json>,"created_at": string,"dead": boolean,"died_at": string | null,"display_name": string,"equipped": NonNullable<Json>,"game_mode": string,"game_vocab": boolean,"gamification_enabled": boolean,"gym_enabled": boolean | null,"hp": number,"hp_day": string | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"mp": number,"onboarded_at": string | null,"rebirths": number,"reborn_at": string | null,"resting": boolean,"shield": boolean,"skill_day": string | null,"stealth": number,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"use_costume": boolean,"username": string,"xp": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"xp"?: number
+                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"username": string,"xp"?: number
                   }
                   Update: {
-                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"xp"?: number
+                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"username"?: string,"xp"?: number
                   }
                   Relationships: [
                     
@@ -2000,6 +2052,12 @@ isOneToOne: false
 "_detach_member":
 { Args: { "p_root": string,"p_user_id": string }; Returns: undefined
                            },
+"_friend_request_to":
+{ Args: { "p_other": string }; Returns: string
+                           },
+"_friend_token":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
 "_full_game":
 { Args: { "p_user": string }; Returns: boolean
                            },
@@ -2116,6 +2174,9 @@ isOneToOne: false
 "_settle_project_boss":
 { Args: { "p_boss_id": string }; Returns: boolean
                            },
+"_suggest_username":
+{ Args: { "p_name": string,"p_self"?: string }; Returns: string
+                           },
 "_sync_boss_rewards":
 { Args: { "p_boss": Omit<Database["public"]['Tables']["bosses"]['Row'], Database["public"]['Tables']["bosses"]['ComputedFields']> }; Returns: undefined
                            },
@@ -2160,6 +2221,9 @@ isOneToOne: false
                            },
 "archive_page_share":
 { Args: { "p_share_id": string }; Returns: undefined
+                           },
+"are_friends":
+{ Args: { "p_a": string,"p_b": string }; Returns: boolean
                            },
 "attachment_usage":
 { Args: Record<PropertyKey, never>; Returns: number
@@ -2489,6 +2553,11 @@ isOneToOne: false
 "feed_pet":
 { Args: { "p_food": string,"p_potion": string,"p_species": string }; Returns: Json
                            },
+"find_by_username":
+{ Args: { "p_username": string }; Returns: {
+              "avatar_url": string,"display_name": string,"status": string,"user_id": string,"username": string
+            }[]
+                           },
 "flush_storage_garbage":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
@@ -2503,6 +2572,26 @@ isOneToOne: false
                            },
 "force_task":
 { Args: { "p_action": string,"p_task_id": string }; Returns: Json
+                           },
+"friend_link":
+{ Args: { "p_reset"?: boolean }; Returns: string
+                           },
+"friend_link_accept":
+{ Args: { "p_token": string }; Returns: string
+                           },
+"friend_link_preview":
+{ Args: { "p_token": string }; Returns: {
+              "avatar_url": string,"display_name": string,"username": string
+            }[]
+                           },
+"friend_remove":
+{ Args: { "p_user": string }; Returns: undefined
+                           },
+"friend_request":
+{ Args: { "p_email"?: string,"p_username"?: string }; Returns: string
+                           },
+"friend_respond":
+{ Args: { "p_accept": boolean,"p_user": string }; Returns: undefined
                            },
 "game_state":
 { Args: Record<PropertyKey, never>; Returns: Json
@@ -2617,6 +2706,11 @@ isOneToOne: false
                            },
 "my_email":
 { Args: Record<PropertyKey, never>; Returns: string
+                           },
+"my_friends":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "avatar_url": string,"display_name": string,"incoming": boolean,"since": string,"status": string,"user_id": string,"username": string
+            }[]
                            },
 "my_pending_shares":
 { Args: Record<PropertyKey, never>; Returns: {
@@ -2792,6 +2886,9 @@ isOneToOne: false
                            },
 "set_team_member_role":
 { Args: { "p_role": Database["public"]['Enums']["team_role"],"p_team_id": string,"p_user_id": string }; Returns: undefined
+                           },
+"set_username":
+{ Args: { "p_username": string }; Returns: string
                            },
 "set_workout_state":
 { Args: { "p_session_id": string,"p_state": Json }; Returns: undefined

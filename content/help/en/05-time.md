@@ -21,3 +21,7 @@ On a task with nobody assigned, **I'll take it** makes you the assignee. Great f
 ## Reactions
 
 In a project you can react with 👏 🔥 💪 ❤️ or 🎉 to a completed task (in the project's **Activity** or in the task's comments) and to each comment. Tap the face with the **+** to pick one; tap the emoji again to remove it. Whoever completed it (or wrote the comment) gets a notification. Reacting needs internet, and anyone who can comment can react, Viewers included.
+
+## Friends
+
+**Friends** (sidebar, Profile or `Ctrl+K`) holds your **nick**, the name people find you by (3 to 20 lowercase letters, numbers, `_` or `.`; you can change it). To add someone, type their **@nick** or **e-mail** and tap **Send request**: they get a notification and accept or decline. By e-mail, the app does not say whether the account exists. Your **friend link** is the fastest way: whoever opens it and signs in becomes your friend right away (they can create the account right there). If the link ends up where it should not, **Change link** and the old one stops working. Unfriending does not notify the other person.

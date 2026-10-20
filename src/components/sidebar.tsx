@@ -17,6 +17,7 @@ import {
   type LucideIcon,
   User,
   UserCheck,
+  UserPlus,
   Users,
   Zap,
 } from 'lucide-react-native';
@@ -44,6 +45,7 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { getOpenFolders, getSidebarWidth, setOpenFolders, setSidebarWidth } from '@/lib/prefs';
+import { useMyFriends } from '@/lib/queries/friends';
 import { useGameState } from '@/lib/queries/game';
 import { availableBlocks } from '@/components/sidebar-settings';
 import { useProfile, useUiPrefs } from '@/lib/queries/profile';
@@ -390,6 +392,8 @@ function SidebarFooter({ online }: { online: boolean }) {
   const anchor = useRef<View>(null);
   const pathname = usePathname();
   const unread = useUnreadCount();
+  // Pedidos de amizade recebidos (V10)
+  const friendRequests = (useMyFriends().data ?? []).filter((f) => f.incoming).length;
   const { data: game } = useGameState();
   return (
     <View className="gap-2 border-t border-line px-2 py-2">
@@ -442,6 +446,15 @@ function SidebarFooter({ online }: { online: boolean }) {
           label={unread ? t('nav.notificationsUnread', { count: unread }) : t('nav.notifications')}
           active={pathname === '/notifications'}
           badge={unread > 0 ? <Badge count={unread} /> : null}
+        />
+        <FooterLink
+          href="/amigos"
+          icon={UserPlus}
+          label={
+            friendRequests ? t('nav.friendsPending', { count: friendRequests }) : t('nav.friends')
+          }
+          active={pathname === '/amigos'}
+          badge={friendRequests > 0 ? <Badge count={friendRequests} /> : null}
         />
         <FooterLink
           href="/teams"
