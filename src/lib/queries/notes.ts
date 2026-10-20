@@ -7,10 +7,14 @@ import { db } from '../sync/db';
 import { plainText } from '../markdown-edit';
 import { isLocal, localInsert, localUpdate, sessionUserId } from '../sync/local';
 
-// Anotações (W3): texto em Markdown simples (D187), só da pessoa. Com o banco no aparelho, leem e gravam nele e o
-// sync envia depois (funciona sem internet).
+// Anotações (W3): texto em Markdown simples (D187). Sem pasta, só da pessoa; numa pasta ou projeto
+// (pedido do dono, 20/10), de quem é dela. Com o banco no aparelho, leem e gravam nele e o sync
+// envia depois (funciona sem internet).
 
-export type Note = Pick<Tables<'notes'>, 'id' | 'title' | 'body' | 'created_at' | 'updated_at'>;
+export type Note = Pick<
+  Tables<'notes'>,
+  'id' | 'title' | 'body' | 'created_at' | 'updated_at' | 'folder_id'
+>;
 export const NOTE_MAX = 20000;
 const KEY = ['notes'] as const;
 
@@ -23,13 +27,13 @@ export function useNotes({ fresh = false }: { fresh?: boolean } = {}) {
     queryFn: async (): Promise<Note[]> => {
       if (isLocal()) {
         const rows = await db.getAll<Note>(
-          'select id, title, body, created_at, updated_at from notes order by updated_at desc',
+          'select id, title, body, created_at, updated_at, folder_id from notes order by updated_at desc',
         );
         return rows;
       }
       const { data, error } = await supabase
         .from('notes')
-        .select('id, title, body, created_at, updated_at')
+        .select('id, title, body, created_at, updated_at, folder_id')
         .order('updated_at', { ascending: false });
       if (error) throw error;
       return data;
@@ -50,8 +54,10 @@ export function useNoteMutations() {
 
   const create = useMutation({
     networkMode,
-    mutationFn: async (): Promise<string> => {
+    /** `folderId`: anotação dentro de uma pasta ou projeto; sem ela, só da pessoa */
+    mutationFn: async (folderId?: string | null): Promise<string> => {
       const id = uuidv7();
+      const folder_id = folderId ?? null;
       if (isLocal()) {
         await localInsert('notes', {
           id,
@@ -59,12 +65,13 @@ export function useNoteMutations() {
           title: '',
           body: '',
           pinned: 0,
+          folder_id,
           created_at: now(),
           updated_at: now(),
         });
         return id;
       }
-      const { error } = await supabase.from('notes').insert({ id, title: '', body: '' });
+      const { error } = await supabase.from('notes').insert({ id, title: '', body: '', folder_id });
       if (error) throw error;
       return id;
     },

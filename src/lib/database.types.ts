@@ -901,17 +901,24 @@ isOneToOne: false
                   ]
                 },"notes": {
                   Row: {
-                    "body": string,"created_at": string,"id": string,"pinned": boolean,"title": string,"updated_at": string,"user_id": string
+                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"pinned": boolean,"title": string,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "body"?: string,"created_at"?: string,"id"?: string,"pinned"?: boolean,"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Update: {
-                    "body"?: string,"created_at"?: string,"id"?: string,"pinned"?: boolean,"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
+      foreignKeyName: "notes_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },
+    {
       foreignKeyName: "notes_user_id_fkey"
       columns: ["user_id"]
 isOneToOne: false

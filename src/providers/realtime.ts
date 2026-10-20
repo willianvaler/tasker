@@ -24,6 +24,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   pages: [keys.tree],
   // Gastos (V9): o lançamento de outra pessoa aparece na planilha
   expenses: [['expenses']],
+  // Anotações de pasta ou projeto (20/10): a de outra pessoa aparece sem recarregar
+  notes: [['notes']],
   milestones: [['milestones']],
   task_dependencies: [keys.tasks, ['dependencies']],
   page_dependencies: [keys.tasks, ['dependencies'], ['page-dependencies']],

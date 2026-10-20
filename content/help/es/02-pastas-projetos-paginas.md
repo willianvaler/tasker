@@ -1,6 +1,6 @@
 # Carpetas, proyectos y páginas
 
-- Una **página** es una lista de cosas: compras, entrenamiento, plan de viaje. Puede ser **lista**, **tarjetas** (buena para entrenar), **kanban** o **hábitos**.
+- Una **página** es una lista de cosas: compras, entrenamiento, plan de viaje. Puede ser **lista**, **tarjetas** (buena para entrenar), **kanban** o **hábitos**. En el kanban, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta.
 - Una **carpeta** agrupa tus páginas. Ejemplo: la carpeta **Gimnasio** con Entrenamiento A y B.
 - Un **proyecto** es una carpeta para hacer **con otras personas**. Ejemplo: el proyecto **Asado** con las listas Compras y Día, cada amigo con sus tareas.
 
@@ -31,6 +31,8 @@ En **Perfil → Barra lateral** cambias el orden de los bloques (Notas, Carpetas
 ## Notas
 
 **Nueva nota** (barra lateral; en el móvil, en Inicio) abre un texto libre, solo tuyo. La barra de arriba da formato: **negrita**, _cursiva_, título, lista, lista numerada y lista de tareas. También puedes escribirlo: `**negrita**`, `_cursiva_`, `## título`, `- elemento`, `- [ ] tarea`. **Vista previa** muestra el texto con formato; **Editar** vuelve al texto. Se guarda solo.
+
+Dentro de una **carpeta o proyecto**, la sección **Notas** guarda los textos de la carpeta (acuerdos, actas, ideas): todos en la carpeta los leen, y quien puede crear tareas allí escribe. No aparecen en tus notas personales.
 
 ## Lista de compras del menú
 

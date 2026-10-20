@@ -1,7 +1,16 @@
 import { router } from 'expo-router';
+import type { TFunction } from 'i18next';
 import { ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react-native';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import { Platform, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
@@ -24,8 +33,9 @@ const COLUMNS = [
 type Column = (typeof COLUMNS)[number];
 
 /**
- * Kanban: A fazer / Fazendo / Feito. Mover é por botões (setas), que funcionam com
- * toque, teclado e leitor de tela; levar para Feito conclui a tarefa (XP, bosses).
+ * Kanban: A fazer / Fazendo / Feito. Mover é arrastando o card para outra coluna ou pelos
+ * botões (setas), que funcionam com toque, teclado e leitor de tela; levar para Feito conclui
+ * a tarefa (XP, bosses).
  */
 export function KanbanBoard({
   tasks,
@@ -65,11 +75,40 @@ export function KanbanBoard({
     tasks: tasks.filter((t) => t.status === c.status),
   }));
 
+  // Arrastar (pedido do dono, 20/10): soltar o card sobre outra coluna move a tarefa. A coluna é
+  // achada pela posição na janela no momento de soltar (o quadro pode estar rolado de lado)
+  const columnRefs = useRef<(View | null)[]>([]);
+  const [hover, setHover] = useState<TaskStatus | null>(null);
+  const columnAt = (x: number) =>
+    Promise.all(
+      COLUMNS.map(
+        (c, i) =>
+          new Promise<Column | null>((resolve) => {
+            const ref = columnRefs.current[i];
+            if (!ref) return resolve(null);
+            ref.measureInWindow((left, _top, w) => resolve(x >= left && x <= left + w ? c : null));
+          }),
+      ),
+    ).then((found) => found.find(Boolean) ?? null);
+  const dragTo = (task: Task, x: number) =>
+    columnAt(x).then((target) => {
+      setHover(null);
+      if (target && target.status !== task.status) move(task, target);
+    });
+  const dragOver = (x: number) => columnAt(x).then((c) => setHover(c?.status ?? null));
+
   const body = columns.map((column, index) => (
     <View
       key={column.status}
+      ref={(el) => {
+        columnRefs.current[index] = el;
+      }}
       accessibilityLabel={t('kanban.column', { title: t(column.title) })}
-      className={cn('gap-2', wide ? 'flex-1' : '')}
+      className={cn(
+        'gap-2 rounded-lg',
+        wide ? 'flex-1' : '',
+        hover === column.status && 'bg-accent-soft',
+      )}
       style={wide ? undefined : { width: Math.min(320, width * 0.8) }}
     >
       <SectionLabel title={t(column.title)} count={column.tasks.length} className="pt-0" />
@@ -83,6 +122,8 @@ export function KanbanBoard({
           prev={COLUMNS[index - 1]}
           next={COLUMNS[index + 1]}
           onMove={(target) => move(task, target)}
+          onDragOver={dragOver}
+          onDrop={(x) => dragTo(task, x)}
         />
       ))}
       {column.tasks.length === 0 && (
@@ -112,6 +153,8 @@ function KanbanCard({
   prev,
   next,
   onMove: move,
+  onDragOver,
+  onDrop,
 }: {
   task: Task;
   today: string;
@@ -120,11 +163,83 @@ function KanbanCard({
   prev?: Column;
   next?: Column;
   onMove: (target: Column) => void;
+  /** Arrastando: a posição x na janela (para acender a coluna de baixo) */
+  onDragOver: (x: number) => void;
+  /** Soltou na posição x da janela */
+  onDrop: (x: number) => void;
 }) {
   const { t } = useTranslation();
   const writable = useCanWrite(folderId, { offline: true });
+  const dx = useSharedValue(0);
+  const dy = useSharedValue(0);
+  const dragging = useSharedValue(false);
+  // No celular, toque longo (o quadro rola de lado e o toque abre a tarefa); no navegador, basta
+  // começar a arrastar com o mouse
+  const pan = Gesture.Pan()
+    .enabled(writable)
+    .onStart(() => {
+      dragging.set(true);
+    })
+    .onUpdate((e) => {
+      dx.set(e.translationX);
+      dy.set(e.translationY);
+      runOnJS(onDragOver)(e.absoluteX);
+    })
+    .onEnd((e) => {
+      runOnJS(onDrop)(e.absoluteX);
+    })
+    .onFinalize(() => {
+      dx.set(withTiming(0));
+      dy.set(withTiming(0));
+      dragging.set(false);
+    });
+  if (Platform.OS === 'web') pan.minDistance(8);
+  else pan.activateAfterLongPress(300);
+  const lifted = useAnimatedStyle(() => ({
+    transform: [{ translateX: dx.get() }, { translateY: dy.get() }],
+    zIndex: dragging.get() ? 10 : 0,
+    opacity: dragging.get() ? 0.9 : 1,
+  }));
 
   return (
+    <GestureDetector gesture={pan}>
+      <Animated.View style={lifted}>
+        <KanbanCardBody
+          task={task}
+          today={today}
+          subtasks={subtasks}
+          prev={prev}
+          next={next}
+          writable={writable}
+          move={move}
+          t={t}
+        />
+      </Animated.View>
+    </GestureDetector>
+  );
+}
+
+function KanbanCardBody({
+  task,
+  today,
+  subtasks,
+  prev,
+  next,
+  writable,
+  move,
+  t,
+}: {
+  task: Task;
+  today: string;
+  subtasks?: { done: number; total: number };
+  prev?: Column;
+  next?: Column;
+  writable: boolean;
+  move: (target: Column) => void;
+  t: TFunction;
+}) {
+  return (
+    // Classes do NativeWind não pegam no Animated.View: o visual fica neste View de dentro
     <View className="gap-2 rounded-lg border border-line bg-surface p-3">
       <Pressable
         accessibilityRole="button"

@@ -164,6 +164,11 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD2 | Peso da tarefa com seis níveis nomeados: Trivial, Baixo, Médio, Alto, Muito alto, Extremo | D226 |
 | V5 | CD3 | Menu Novo: pelo botão não passa do fim da janela (abre para cima); pelo Alt+N, no meio da tela | D228 |
 | V5 | CD4 | Arte do jogo leve nas telas: miniaturas de 192 px para avatares e listas, sem esmaecer as pequenas (D229, parte do TR5) | D229 |
+| V5 | CD5 | Apagar a página aberta pelo menu dela (a página vazia do treino da Academia não tinha como) | D245 |
+| V5 | CD6 | Kanban com arrastar e soltar entre colunas (toque longo no celular), as setas continuam | D245 |
+| V5 | CD7 | Anotações dentro de pastas e projetos (`notes.folder_id`, quem é da pasta lê, quem cria tarefas escreve), seção Anotações na pasta | D245 |
+| V5 | CD8 | APK: intermediários do Let's Encrypt (YE1–3, YR1–3, E5–E9, R10–R14) e a Root YR como âncoras, para o "Trust anchor for certification path not found" | D245 |
+| V5 | CD9 | Login no celular com o formulário no topo, à vista com o teclado aberto; E2E `e2e/correcoes-2010.spec.ts` e Ajuda nos 3 idiomas | D245 |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |

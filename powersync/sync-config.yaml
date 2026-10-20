@@ -84,10 +84,15 @@ streams:
     auto_subscribe: true
     query: SELECT * FROM my_day WHERE user_id = auth.user_id()
 
-  # Anotações (W3): só as minhas
+  # Anotações (W3): as minhas sem pasta e as das pastas e projetos de que faço parte
   notes:
     auto_subscribe: true
-    query: SELECT * FROM notes WHERE user_id = auth.user_id()
+    with:
+      roots: SELECT folder_id FROM folder_members WHERE user_id = auth.user_id()
+    queries:
+      - SELECT * FROM notes WHERE user_id = auth.user_id() AND folder_id IS NULL
+      - SELECT * FROM notes WHERE folder_id IN roots
+      - SELECT notes.* FROM notes INNER JOIN folders ON notes.folder_id = folders.id WHERE folders.parent_id IN roots
 
   me:
     auto_subscribe: true

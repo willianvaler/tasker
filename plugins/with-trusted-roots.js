@@ -3,11 +3,38 @@
 // repositório de raízes antigo (Android 7.0 não tem o X1; vários não têm X2 nem Root YE) falhava
 // no handshake. Com estas raízes como âncoras extras, a cadeia fecha em qualquer Android 7+. As
 // raízes do sistema continuam valendo. Certificados em assets/certs (baixados de letsencrypt.org).
+// 20/10: alguns celulares seguiam com "Trust anchor for certification path not found" mesmo com as
+// raízes (não montam a cadeia cruzada Root YE ← X2 ← X1). Os intermediários em uso (YE1–3, YR1–3 da
+// geração nova e E5–E9, R10–R14) entram também como âncoras: a folha fecha direto no intermediário.
 const fs = require('fs');
 const path = require('path');
 const { withAndroidManifest, withDangerousMod } = require('expo/config-plugins');
 
-const CERTS = ['isrg_root_x1', 'isrg_root_x2', 'isrg_root_ye'];
+const INTERMEDIATES = [
+  'ye1',
+  'ye2',
+  'ye3',
+  'yr1',
+  'yr2',
+  'yr3',
+  'e5',
+  'e6',
+  'e7',
+  'e8',
+  'e9',
+  'r10',
+  'r11',
+  'r12',
+  'r13',
+  'r14',
+];
+const CERTS = [
+  'isrg_root_x1',
+  'isrg_root_x2',
+  'isrg_root_ye',
+  'isrg_root_yr',
+  ...INTERMEDIATES.map((n) => `le_int_${n}`),
+];
 
 // Release: só HTTPS (como já era). Debug (development build): HTTP liberado, para o Metro e o
 // Supabase pela rede local, como o usesCleartextTraffic que o Expo põe no debug (que a

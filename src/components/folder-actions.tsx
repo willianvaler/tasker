@@ -38,7 +38,7 @@ type FolderDialog =
   | { kind: 'edit-folder'; folder: Folder }
   | { kind: 'edit-page'; page: Page }
   | { kind: 'delete-folder'; folder: Folder }
-  | { kind: 'delete-page'; page: Page }
+  | { kind: 'delete-page'; page: Page; afterDelete?: () => void }
   | { kind: 'save-template'; folder: Folder }
   | { kind: 'publish'; folder: Folder };
 
@@ -81,6 +81,9 @@ export function useFolderActions() {
     folderMenu: (folder: Folder) => setDialog({ kind: 'folder-menu', folder }),
     pageMenu: (page: Page) => setDialog({ kind: 'page-menu', page }),
     movePage: (page: Page) => setDialog({ kind: 'move-page', page }),
+    /** Apagar a página aberta (correção do dono, 20/10: no treino da Academia não havia como) */
+    deletePage: (page: Page, afterDelete?: () => void) =>
+      setDialog({ kind: 'delete-page', page, afterDelete }),
   };
 
   function folderMenu(folder: Folder): MenuAction[] {
@@ -352,6 +355,7 @@ export function useFolderActions() {
         onConfirm={() => {
           m.deletePage.mutate(page.id, { onError });
           close();
+          dialog.afterDelete?.();
         }}
       />
     );

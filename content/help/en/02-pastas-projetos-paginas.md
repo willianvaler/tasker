@@ -1,6 +1,6 @@
 # Folders, projects and pages
 
-- A **page** is a list of things: groceries, a workout, a trip plan. It can be a **list**, **cards** (good for workouts), **kanban** or **habits**.
+- A **page** is a list of things: groceries, a workout, a trip plan. It can be a **list**, **cards** (good for workouts), **kanban** or **habits**. On a kanban, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows.
 - A **folder** groups your pages. Example: the **Gym** folder with Workout A and Workout B.
 - A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks.
 
@@ -31,6 +31,8 @@ In **Profile → Sidebar** you change the order of the blocks (Notes, Folders, G
 ## Notes
 
 **New note** (sidebar; on the phone, on Home) opens a free text, just for you. The bar on top formats it: **bold**, _italic_, heading, list, numbered list and checklist. You can also type it: `**bold**`, `_italic_`, `## heading`, `- item`, `- [ ] task`. **Preview** shows the formatted text; **Edit** goes back to the text. It saves on its own.
+
+Inside a **folder or project**, the **Notes** section keeps the folder’s texts (agreements, minutes, ideas): everyone in the folder reads them, and whoever can create tasks there writes. They do not show up in your personal notes.
 
 ## Shopping list from a menu
 

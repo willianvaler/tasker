@@ -204,10 +204,12 @@ const notes = new Table(
     title: column.text,
     body: column.text,
     pinned: column.integer,
+    // Anotação dentro de pasta ou projeto (20/10); vazio = só minha
+    folder_id: column.text,
     created_at: column.text,
     updated_at: column.text,
   },
-  { indexes: { updated: ['updated_at'] } },
+  { indexes: { updated: ['updated_at'], folder: ['folder_id'] } },
 );
 
 const my_day = new Table(
