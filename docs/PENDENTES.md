@@ -6,6 +6,32 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V10.md`), numa tabela só
 
 Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; itens B do V3 que subiram de prioridade (PB1 a PB5) em 20/10; ESCOPO_V10 (amigos, visibilidade, comunidade) em 20/10, falta o bloco Bem-estar.
 
+## Para fazer depois (pedido do dono, 20/10, noite)
+
+**Correções**
+
+| Id | Problema | Causa / o que fazer |
+|---|---|---|
+| CD15 | Página de cards vira sempre "treino" (Modo Treino, painel de exercício, progressão), em qualquer pasta | `isWorkoutPage` diz sim para todo `cards`; o jeito de treino só pode valer para página da Academia (pasta Academia ou grupo de treino) |
+| CD16 | Não dá para fazer uma tarefa depender de outra (a aba Fluxo precisa disso), em listas e cards | o "Depende de" só aparece em pasta de projeto e escondido em "Mais opções"; deixar à vista no painel (e avaliar em pastas pessoais), mostrar o `^tarefa` da escrita rápida na Ajuda e na dica do campo |
+| CD17 | "Mais opções" some depois de clicado e não dá para recolher, no editor de página e no painel da tarefa | trocar por um botão que alterna "Mais opções" / "Menos opções" (`aria-expanded`), nos dois lugares |
+
+**Plano de fechamento do V6** (na ordem)
+
+| Ordem | Id | O que | Tamanho |
+|---|---|---|---|
+| 1 | AC4.7 | Carga real de cada série no Modo Treino com `−10 −5 −2,5 −1 · atual · +1 +2,5 +5 +10` | pequeno |
+| 2 | AC8.6 | Mapa muscular no resumo do fim e enquanto o treino é montado | pequeno |
+| 3 | AC11 | Prêmio (conquista e item) para os primeiros do desafio | pequeno |
+| 4 | AC12.1 + AC12.3 | Planos prontos e levar exercícios para outro treino | médio |
+| 5 | AC3.10 | Fotos do free-exercise-db (cerca de 1.750, com miniatura, servidas por nós) | médio |
+| 6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | médio |
+| 7 | AC15 | Grupo de treino: proposta "Treinar com…" em qualquer treino, sem pasta de grupo à parte (confirmar com o dono antes) | depende da proposta |
+
+Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.2 (arquivos de exemplo do dono), AC14 (treinador por IA). Depois do fechamento: levar a `dev` para a `main` (alpha) para o dono testar; a política nova pede o aceite de todos de novo.
+
+## Todos os escopos
+
 | Escopo | Id / seção | Tarefa | Situação | Depende de |
 |---|---|---|---|---|
 | **V1** | PUBLICACAO | Testar num Android de verdade (development build) e no iOS (TestFlight) | pendente | dono |
@@ -46,7 +72,6 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | # | Pergunta | Bloqueia |
 |---|---|---|
 | V5-3 | Provedor de e-mail e domínio de envio (em espera: servidor próprio, Google ou outro) | V5 §5 |
-| V10-2 a V10-5 | Padrões em uso: amigo entra direto no grupo (com aviso); tarefa pública só para quem tem conta; visibilidade só em pastas pessoais; 3 denúncias ocultam na comunidade | confirmar os padrões |
 | AC15 | Como deve funcionar o grupo de treino | proposta |
 
 As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`) e em 20/10 (D247).
