@@ -96,6 +96,7 @@
     "stop": "Detener"
   },
   "nav": {
+    "community": "Comunidad",
     "friends": "Amigos",
     "friendsPending": "Amigos ({{count}} solicitudes)",
     "home": "Inicio",
@@ -797,6 +798,8 @@
     "unread": "no leída"
   },
   "templates": {
+    "community": "Ver plantillas de la comunidad",
+    "publish": "Publicar {{name}} en la comunidad",
     "title": "Usar plantilla",
     "mine": "Mis plantillas",
     "label": "Plantilla {{name}}",
@@ -1063,6 +1066,57 @@
     "requested": "Solicitud de amistad enviada.",
     "hint": "Solo aparecen las tareas que la persona marcó como públicas o para amigos.",
     "mineHint": "Así lo ven los demás: solo las tareas marcadas como públicas (todos) o para amigos (solo amigos). Cámbialo en cada tarea, en Quién la ve."
+  },
+  "community": {
+    "title": "Comunidad",
+    "intro": "Proyectos, entrenamientos, menús y listas que la gente publicó. Usar crea una copia tuya, para cambiarla a gusto.",
+    "search": "Buscar en la comunidad",
+    "all": "Todo",
+    "kind": {
+      "project": "Proyecto",
+      "workout": "Entrenamiento",
+      "menu": "Menú",
+      "list": "Lista",
+      "habits": "Hábitos"
+    },
+    "popular": "Más usados",
+    "newest": "Más nuevos",
+    "mine": "Mis publicaciones",
+    "offline": "Sin conexión: la comunidad necesita internet.",
+    "empty": "Todavía no hay nada.",
+    "emptyMine": "Todavía no publicaste nada.",
+    "emptyHint": "Para publicar, abre el menú de una carpeta, página o plantilla y toca Publicar en la comunidad.",
+    "open": "Abrir {{title}}",
+    "size": "{{pages}} pág. · {{items}} elementos",
+    "uses_one": "{{count}} uso",
+    "uses_other": "{{count}} usos",
+    "missing": "Publicación no encontrada (fue despublicada u ocultada).",
+    "use": "Usar",
+    "used": "{{title}} está en tus carpetas.",
+    "like": "Me gusta ({{count}})",
+    "liked": "Te gusta ({{count}})",
+    "report": "Denunciar",
+    "reportTitle": "Denunciar esta publicación",
+    "reportMessage": "Cuéntanos qué está mal (opcional). Con algunas denuncias, sale de la lista hasta que se revise.",
+    "reportPlaceholder": "Motivo",
+    "reported": "Gracias. La denuncia fue registrada.",
+    "unpublish": "Despublicar",
+    "unpublishTitle": "¿Despublicar {{title}}?",
+    "unpublishMessage": "Desaparece de la comunidad para todos. Quien ya la usó conserva su copia.",
+    "unpublished": "Publicación eliminada.",
+    "more": "… y {{count}} más",
+    "copyHint": "Trae la estructura (páginas, tareas, subtareas, series, repeticiones y notas). No trae personas, fechas, comentarios, adjuntos ni gastos."
+  },
+  "publish": {
+    "menu": "Publicar en la comunidad",
+    "title": "Publicar en la comunidad",
+    "hint": "Va una copia de la estructura: páginas, tareas, subtareas y notas. Personas, fechas, comentarios, adjuntos y gastos se quedan contigo.",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Ej.: Entrenamiento ABC para principiantes",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Para quién es, cómo usarlo (opcional)",
+    "confirm": "Publicar",
+    "done": "{{title}} está en la comunidad."
   },
   "matrix": {
     "views": "Vistas de la página",

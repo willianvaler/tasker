@@ -96,6 +96,7 @@
     "stop": "Stop"
   },
   "nav": {
+    "community": "Community",
     "friends": "Friends",
     "friendsPending": "Friends ({{count}} requests)",
     "home": "Home",
@@ -797,6 +798,8 @@
     "unread": "unread"
   },
   "templates": {
+    "community": "See community templates",
+    "publish": "Publish {{name}} to the community",
     "title": "Use template",
     "mine": "My templates",
     "label": "Template {{name}}",
@@ -1063,6 +1066,57 @@
     "requested": "Friend request sent.",
     "hint": "Only the tasks this person marked as public or for friends show up.",
     "mineHint": "This is how others see it: only tasks marked public (everyone) or friends (friends only). Change it on each task, in Who sees it."
+  },
+  "community": {
+    "title": "Community",
+    "intro": "Projects, workouts, menus and lists people have published. Using one makes your own copy to change as you like.",
+    "search": "Search the community",
+    "all": "All",
+    "kind": {
+      "project": "Project",
+      "workout": "Workout",
+      "menu": "Menu",
+      "list": "List",
+      "habits": "Habits"
+    },
+    "popular": "Most used",
+    "newest": "Newest",
+    "mine": "My posts",
+    "offline": "Offline: the community needs internet.",
+    "empty": "Nothing here yet.",
+    "emptyMine": "You have not published anything yet.",
+    "emptyHint": "To publish, open the menu of a folder, page or template and tap Publish to the community.",
+    "open": "Open {{title}}",
+    "size": "{{pages}} pg. · {{items}} items",
+    "uses_one": "{{count}} use",
+    "uses_other": "{{count}} uses",
+    "missing": "Post not found (it was unpublished or hidden).",
+    "use": "Use",
+    "used": "{{title}} is in your folders.",
+    "like": "Like ({{count}})",
+    "liked": "Liked ({{count}})",
+    "report": "Report",
+    "reportTitle": "Report this post",
+    "reportMessage": "Tell us what is wrong (optional). After a few reports, it leaves the list until reviewed.",
+    "reportPlaceholder": "Reason",
+    "reported": "Thanks. The report was recorded.",
+    "unpublish": "Unpublish",
+    "unpublishTitle": "Unpublish {{title}}?",
+    "unpublishMessage": "It disappears from the community for everyone. Whoever already used it keeps their own copy.",
+    "unpublished": "Post removed.",
+    "more": "… and {{count}} more",
+    "copyHint": "It brings the structure (pages, tasks, subtasks, sets, recurrence and notes). No people, dates, comments, attachments or expenses."
+  },
+  "publish": {
+    "menu": "Publish to the community",
+    "title": "Publish to the community",
+    "hint": "A copy of the structure goes: pages, tasks, subtasks and notes. People, dates, comments, attachments and expenses stay with you.",
+    "titleLabel": "Title",
+    "titlePlaceholder": "E.g.: ABC workout for beginners",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Who it is for, how to use it (optional)",
+    "confirm": "Publish",
+    "done": "{{title}} is in the community."
   },
   "matrix": {
     "views": "Page views",

@@ -25,6 +25,7 @@ import {
   Trash2,
   Trophy,
   User,
+  Globe,
   UserPlus,
   Users,
   Watch,
@@ -290,6 +291,13 @@ function Palette({
       icon: icon(Trophy),
       group: 0,
       run: go('/conquistas'),
+    },
+    {
+      id: 'go-community',
+      label: t('nav.community'),
+      icon: icon(Globe),
+      group: 0,
+      run: go('/comunidade'),
     },
     {
       id: 'go-friends',

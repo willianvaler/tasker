@@ -391,6 +391,78 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"community_likes": {
+                  Row: {
+                    "created_at": string,"post_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"post_id": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"post_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "community_likes_post_id_fkey"
+      columns: ["post_id"]
+isOneToOne: false
+      referencedRelation: "community_posts"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "community_likes_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"community_posts": {
+                  Row: {
+                    "author_id": string,"created_at": string,"data": NonNullable<Json>,"description": string | null,"hidden": boolean,"icon": string | null,"id": string,"kind": string,"likes": number,"locale": string,"title": string,"updated_at": string,"uses": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "author_id"?: string,"created_at"?: string,"data": NonNullable<Json>,"description"?: string | null,"hidden"?: boolean,"icon"?: string | null,"id"?: string,"kind": string,"likes"?: number,"locale"?: string,"title": string,"updated_at"?: string,"uses"?: number
+                  }
+                  Update: {
+                    "author_id"?: string,"created_at"?: string,"data"?: NonNullable<Json>,"description"?: string | null,"hidden"?: boolean,"icon"?: string | null,"id"?: string,"kind"?: string,"likes"?: number,"locale"?: string,"title"?: string,"updated_at"?: string,"uses"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "community_posts_author_id_fkey"
+      columns: ["author_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"community_reports": {
+                  Row: {
+                    "created_at": string,"post_id": string,"reason": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"post_id": string,"reason"?: string | null,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"post_id"?: string,"reason"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "community_reports_post_id_fkey"
+      columns: ["post_id"]
+isOneToOne: false
+      referencedRelation: "community_posts"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "community_reports_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"conflict_copies": {
                   Row: {
                     "body": string,"created_at": string,"field": string,"folder_id": string,"id": string,"replaced_by": string | null,"task_id": string
@@ -1003,9 +1075,9 @@ isOneToOne: false
                   ]
                 },"pages": {
                   Row: {
-                    "budget_cents": number | null,"created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"]
+                    "budget_cents": number | null,"created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"],"_snapshot_page": Json | null
                   }
-                  ComputedFields: never
+                  ComputedFields: "_snapshot_page"
                   Insert: {
                     "budget_cents"?: number | null,"created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
@@ -2174,6 +2246,12 @@ isOneToOne: false
 "_settle_project_boss":
 { Args: { "p_boss_id": string }; Returns: boolean
                            },
+"_snapshot_page":
+{ Args: { "p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']> }; Returns: Json
+                           },
+"_snapshot_task":
+{ Args: { "p_level"?: number,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
+                           },
 "_suggest_username":
 { Args: { "p_name": string,"p_self"?: string }; Returns: string
                            },
@@ -2307,6 +2385,32 @@ isOneToOne: false
                            },
 "clan_invite_preview":
 { Args: { "p_token": string }; Returns: Json
+                           },
+"community_feed":
+{ Args: { "p_kind"?: string,"p_limit"?: number,"p_locale"?: string,"p_mine"?: boolean,"p_offset"?: number,"p_order"?: string,"p_query"?: string }; Returns: {
+              "author_name": string,"author_username": string,"created_at": string,"description": string,"icon": string,"id": string,"items": number,"kind": string,"liked": boolean,"likes": number,"locale": string,"mine": boolean,"pages": number,"title": string,"uses": number
+            }[]
+                           },
+"community_like":
+{ Args: { "p_id": string,"p_on": boolean }; Returns: number
+                           },
+"community_post":
+{ Args: { "p_id": string }; Returns: Json
+                           },
+"community_publish":
+{ Args: { "p_description"?: string,"p_folder_id"?: string,"p_icon"?: string,"p_kind": string,"p_locale"?: string,"p_page_id"?: string,"p_template_id"?: string,"p_title": string }; Returns: string
+                           },
+"community_report":
+{ Args: { "p_id": string,"p_reason"?: string }; Returns: undefined
+                           },
+"community_unpublish":
+{ Args: { "p_id": string }; Returns: undefined
+                           },
+"community_update":
+{ Args: { "p_description": string,"p_icon": string,"p_id": string,"p_kind": string,"p_title": string }; Returns: undefined
+                           },
+"community_use":
+{ Args: { "p_id": string }; Returns: string
                            },
 "complete_task":
 { Args: { "p_task_id": string }; Returns: Json

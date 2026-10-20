@@ -17,6 +17,7 @@ import {
   type LucideIcon,
   User,
   UserCheck,
+  Globe,
   UserPlus,
   Users,
   Zap,
@@ -446,6 +447,12 @@ function SidebarFooter({ online }: { online: boolean }) {
           label={unread ? t('nav.notificationsUnread', { count: unread }) : t('nav.notifications')}
           active={pathname === '/notifications'}
           badge={unread > 0 ? <Badge count={unread} /> : null}
+        />
+        <FooterLink
+          href="/comunidade"
+          icon={Globe}
+          label={t('nav.community')}
+          active={pathname.startsWith('/comunidade')}
         />
         <FooterLink
           href="/amigos"

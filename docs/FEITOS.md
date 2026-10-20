@@ -211,3 +211,5 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V10 | AM3 | Adicionar amigo direto em projeto, grupo de treino, time e clã (`add_friend_to_group`, `FriendPicker`), pgTAP, E2E e Ajuda | D231 |
 | V10 | VI1 | Visibilidade da tarefa (privada, amigos, pública): coluna, lote, sync, `+publica`/`+amigos`, painel, linha, `profile_tasks`, pgTAP | D232 |
 | V10 | VI2 | Perfil da pessoa (`/pessoa?nick=`), com a amizade; E2E `e2e/visibilidade.spec.ts` e Ajuda nos 3 idiomas | D232 |
+| V10 | CM1 | Comunidade: publicar, usar, curtir, denunciar, feed e prévia por RPC, RLS, pgTAP, LGPD | D233 |
+| V10 | CM2 | Aba Comunidade (busca, filtros, prévia) e "Publicar" no menu da página, da pasta e nos modelos; E2E `e2e/comunidade.spec.ts` e Ajuda nos 3 idiomas | D233 |

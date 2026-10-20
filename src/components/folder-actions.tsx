@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { FolderDialog as FolderForm } from '@/components/folder-dialog';
 import { PageDialog } from '@/components/page-dialog';
+import { PublishDialog } from '@/components/publish-dialog';
 import { effectiveMaxDepth } from '@/config/limits';
 import {
   ActionMenu,
@@ -38,7 +39,8 @@ type FolderDialog =
   | { kind: 'edit-page'; page: Page }
   | { kind: 'delete-folder'; folder: Folder }
   | { kind: 'delete-page'; page: Page }
-  | { kind: 'save-template'; folder: Folder };
+  | { kind: 'save-template'; folder: Folder }
+  | { kind: 'publish'; folder: Folder };
 
 /**
  * Criar, renomear e apagar pastas e páginas. Usado pela barra lateral, pela aba Pastas e pela
@@ -110,6 +112,15 @@ export function useFolderActions() {
               label: t('folder.saveTemplate'),
               onPress: () => setDialog({ kind: 'save-template', folder }),
             },
+            // Comunidade (D233): a cópia da pasta, para outras pessoas usarem
+            ...(folder.is_inbox
+              ? []
+              : [
+                  {
+                    label: t('publish.menu'),
+                    onPress: () => setDialog({ kind: 'publish', folder }),
+                  },
+                ]),
           ]),
       { label: t('folder.rename'), onPress: () => setDialog({ kind: 'edit-folder', folder }) },
       ...moveActions({ kind: 'folder', id: folder.id }),
@@ -317,6 +328,17 @@ export function useFolderActions() {
           );
           close();
         }}
+      />
+    );
+  } else if (dialog?.kind === 'publish') {
+    const folder = dialog.folder;
+    element = (
+      <PublishDialog
+        source={{ folderId: folder.id }}
+        name={folder.name}
+        icon={folder.icon}
+        kind={folder.is_gym || folder.gym_group ? 'workout' : 'project'}
+        onClose={close}
       />
     );
   } else if (dialog?.kind === 'delete-page') {

@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { FieldsDialog } from '@/components/fields';
+import { PublishDialog, suggestedKind } from '@/components/publish-dialog';
 import { ShoppingDestination } from '@/components/shopping-destination';
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
@@ -32,6 +33,7 @@ import { wbsOutline } from '@/lib/task-tree';
 import { subscribeWorkoutRuns, workoutInProgress } from '@/lib/workout-store';
 import {
   findFolder,
+  isWorkoutPage,
   pageLabel,
   useConfirmedMissing,
   useTree,
@@ -41,7 +43,7 @@ import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
-type DialogState = 'menu' | 'settings' | 'duplicate' | 'send' | 'fields' | 'shopping';
+type DialogState = 'menu' | 'settings' | 'duplicate' | 'send' | 'fields' | 'shopping' | 'publish';
 
 export default function PageScreen() {
   const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
@@ -235,6 +237,10 @@ export default function PageScreen() {
             ...(shopping
               ? [{ label: t('shopping.menu'), onPress: () => setDialog('shopping') }]
               : []),
+            // Comunidade (D233): a cópia da página, para outras pessoas usarem
+            ...(!receivedPage && !expensesPage && !page.is_inbox && !page.is_habits && online
+              ? [{ label: t('publish.menu'), onPress: () => setDialog('publish') }]
+              : []),
             { label: t('folder.moveTo'), onPress: () => folderActions.movePage(page) },
             ...(pageTasks.data?.some((task) => task.parent_task_id)
               ? [
@@ -253,6 +259,15 @@ export default function PageScreen() {
         />
       )}
       {page && dialog === 'send' && <SendPageDialog page={page} onClose={closeDialog} />}
+      {page && dialog === 'publish' && (
+        <PublishDialog
+          source={{ pageId: page.id }}
+          name={page.name}
+          icon={page.icon}
+          kind={suggestedKind(page, isWorkoutPage(tree.data, page))}
+          onClose={closeDialog}
+        />
+      )}
       {page && dialog === 'shopping' && (
         <ShoppingDestination page={page} text={shopping} onClose={closeDialog} />
       )}

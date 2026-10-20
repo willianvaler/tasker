@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { LayoutTemplate, Plus, Users } from 'lucide-react-native';
+import { Globe, LayoutTemplate, Plus, Users } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { useWindowDimensions, View } from 'react-native';
 
@@ -42,6 +42,12 @@ export default function FoldersScreen() {
         title={t('folder.title')}
         right={
           <>
+            {/* Comunidade (V10 §4): no celular fica aqui (não tem aba própria) */}
+            <IconButton
+              icon={Globe}
+              label={t('nav.community')}
+              onPress={() => router.push('/comunidade')}
+            />
             {/* Y2 (#4): no celular, "Usar modelo" só com o ícone (o título "Pastas" ficava cortado) */}
             {narrow ? (
               <IconButton

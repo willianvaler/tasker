@@ -1,12 +1,14 @@
 import { router } from 'expo-router';
-import { X } from 'lucide-react-native';
+import { Globe, X } from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { ItemIcon } from '@/components/item-icon';
+import { PublishDialog } from '@/components/publish-dialog';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
-import { IconButton } from '@/components/ui/button';
+import { Button, IconButton } from '@/components/ui/button';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
@@ -27,11 +29,23 @@ export default function TemplatesScreen() {
   const mine = useUserTemplates();
   const m = useTemplateMutations();
   const [chosen, setChosen, close] = useDialog<Chosen>();
+  const [publishing, setPublishing] = useState<{
+    id: string;
+    name: string;
+    icon: string | null;
+  } | null>(null);
 
   return (
     <Screen size="medium">
       <ScreenHeader title={t('templates.title')} back />
       <ScreenScroll contentContainerClassName="pb-12">
+        <Button
+          variant="ghost"
+          icon={Globe}
+          className="mb-2 self-start"
+          label={t('templates.community')}
+          onPress={() => router.push('/comunidade')}
+        />
         <View className="border-t border-line">
           {BUILT_IN_TEMPLATES.map((tpl) => (
             <TemplateRow
@@ -70,11 +84,25 @@ export default function TemplatesScreen() {
                 setChosen({ name: tpl.name, icon: tpl.icon ?? '', data, shared: false })
               }
               onDelete={() => m.remove.mutate(tpl.id)}
+              onPublish={
+                online
+                  ? () => setPublishing({ id: tpl.id, name: tpl.name, icon: tpl.icon })
+                  : undefined
+              }
             />
           );
         })}
       </ScreenScroll>
 
+      {publishing && (
+        <PublishDialog
+          source={{ templateId: publishing.id }}
+          name={publishing.name}
+          icon={publishing.icon}
+          kind="project"
+          onClose={() => setPublishing(null)}
+        />
+      )}
       {chosen && (
         <PromptDialog
           title={t('templates.newProject', { name: chosen.name })}
@@ -109,6 +137,7 @@ function TemplateRow({
   disabled,
   onPress,
   onDelete,
+  onPublish,
 }: {
   icon?: string | null;
   name: string;
@@ -117,6 +146,7 @@ function TemplateRow({
   disabled?: boolean;
   onPress: () => void;
   onDelete?: () => void;
+  onPublish?: () => void;
 }) {
   const { t } = useTranslation();
   return (
@@ -139,6 +169,9 @@ function TemplateRow({
           </Text>
         </View>
       </Pressable>
+      {onPublish && (
+        <IconButton icon={Globe} label={t('templates.publish', { name })} onPress={onPublish} />
+      )}
       {onDelete && (
         <IconButton icon={X} label={t('templates.delete', { name })} onPress={onDelete} />
       )}
