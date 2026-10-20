@@ -1,4 +1,5 @@
 import * as Clipboard from 'expo-clipboard';
+import { router } from 'expo-router';
 import { Copy, RefreshCw, Send } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -144,12 +145,22 @@ export default function FriendsScreen() {
               name={f.display_name}
               detail={`@${f.username}`}
               right={
-                <Button
-                  variant="ghost"
-                  label={t('friends.remove')}
-                  accessibilityLabel={t('friends.removeLabel', { name: f.display_name })}
-                  onPress={() => setRemoving(f)}
-                />
+                <View className="flex-row gap-1">
+                  <Button
+                    variant="ghost"
+                    label={t('friends.profile')}
+                    accessibilityLabel={t('friends.profileLabel', { name: f.display_name })}
+                    onPress={() =>
+                      router.push({ pathname: '/pessoa', params: { nick: f.username } })
+                    }
+                  />
+                  <Button
+                    variant="ghost"
+                    label={t('friends.remove')}
+                    accessibilityLabel={t('friends.removeLabel', { name: f.display_name })}
+                    onPress={() => setRemoving(f)}
+                  />
+                </View>
               }
             />
           ))}
@@ -204,6 +215,14 @@ function NickCard() {
     <View className="gap-2">
       <SectionLabel title={t('friends.nick')} className="pt-0" />
       <Text className="text-sm text-ink-muted">{t('friends.nickHint')}</Text>
+      {current ? (
+        <Button
+          variant="ghost"
+          className="self-start"
+          label={t('friends.myProfile')}
+          onPress={() => router.push({ pathname: '/pessoa', params: { nick: current } })}
+        />
+      ) : null}
       <View className="flex-row gap-2">
         <Input
           className="flex-1 font-mono"

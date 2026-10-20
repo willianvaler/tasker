@@ -39,8 +39,7 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com notas de verdade | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
-| **V10** | VI1–VI2 | Tarefas privadas, só para amigos e públicas; perfil da pessoa | pendente | AM1 |
-| V10 | CM1–CM2 | Aba Comunidade: publicar e usar projetos, treinos, cardápios e modelos | pendente | AM1 |
+| **V10** | CM1–CM2 | Aba Comunidade: publicar e usar projetos, treinos, cardápios e modelos | pendente | AM1 |
 | V10 | BE1–BE3 | Bloco Bem-estar (treino, dieta, vida saudável) | pendente | nome do bloco (V10-1) |
 
 ## Decisões do dono em aberto

@@ -987,6 +987,9 @@
     "notSplit": "Not part of the split."
   },
   "friends": {
+    "profile": "Profile",
+    "profileLabel": "See {{name}}'s profile",
+    "myProfile": "See my profile (as others see it)",
     "title": "Friends",
     "add": "Add a friend",
     "addPlaceholder": "@nick or e-mail",
@@ -1039,6 +1042,27 @@
     "add": "Add",
     "addLabel": "Add {{name}}",
     "added": "{{name}} is in and was notified."
+  },
+  "visibility": {
+    "title": "Who sees it",
+    "private": "Private",
+    "friends": "Friends",
+    "public": "Public",
+    "privateHint": "Only you (and whoever already sees this folder).",
+    "friendsHint": "Your friends see it on your profile: title, date, status and page.",
+    "publicHint": "Anyone with an account sees it on your profile: title, date, status and page.",
+    "friendsLabel": "Visible to friends",
+    "publicLabel": "Public"
+  },
+  "person": {
+    "notFound": "Nobody with the nick @{{nick}}.",
+    "open": "In progress",
+    "openEmpty": "Nothing to see here.",
+    "done": "Completed in the last 7 days",
+    "friends": "You are friends.",
+    "requested": "Friend request sent.",
+    "hint": "Only the tasks this person marked as public or for friends show up.",
+    "mineHint": "This is how others see it: only tasks marked public (everyone) or friends (friends only). Change it on each task, in Who sees it."
   },
   "matrix": {
     "views": "Page views",

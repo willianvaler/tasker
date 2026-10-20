@@ -23,7 +23,7 @@ export function TaskMeta({
   hideRecurrence,
 }: {
   task: Pick<Task, 'due_date' | 'priority' | 'labels' | 'status' | 'recurrence' | 'meta'> &
-    Partial<Pick<Task, 'due_time' | 'remind_before'>>;
+    Partial<Pick<Task, 'due_time' | 'remind_before' | 'visibility'>>;
   today: string;
   subtasks?: { done: number; total: number };
   pageLabel?: string;
@@ -50,6 +50,18 @@ export function TaskMeta({
         {formatDueDate(task.due_date, today)}
         {task.due_time ? ` ${shortTime(task.due_time)}` : ''}
         {task.due_time && task.remind_before != null ? ' 🔔' : ''}
+      </Text>
+    ),
+    // V10 §2: quem mais vê (privada não mostra nada)
+    task.visibility && task.visibility !== 'private' && (
+      <Text
+        key="visibility"
+        className={meta}
+        accessibilityLabel={t(
+          task.visibility === 'public' ? 'visibility.publicLabel' : 'visibility.friendsLabel',
+        )}
+      >
+        {task.visibility === 'public' ? '🌐' : '👥'}
       </Text>
     ),
     task.priority > 0 && (

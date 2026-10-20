@@ -209,3 +209,5 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | **V10** | AM1 | Nick, amizades, link de amizade, RPCs, avisos, RLS, pgTAP, LGPD (política e termos novos) | D230 |
 | V10 | AM2 | Tela Amigos e página do link `/amigo/<token>`; E2E `e2e/amigos.spec.ts` e Ajuda nos 3 idiomas | D230 |
 | V10 | AM3 | Adicionar amigo direto em projeto, grupo de treino, time e clã (`add_friend_to_group`, `FriendPicker`), pgTAP, E2E e Ajuda | D231 |
+| V10 | VI1 | Visibilidade da tarefa (privada, amigos, pública): coluna, lote, sync, `+publica`/`+amigos`, painel, linha, `profile_tasks`, pgTAP | D232 |
+| V10 | VI2 | Perfil da pessoa (`/pessoa?nick=`), com a amizade; E2E `e2e/visibilidade.spec.ts` e Ajuda nos 3 idiomas | D232 |

@@ -141,3 +141,36 @@ export function useSetUsername() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['profile'] }),
   });
 }
+
+export type ProfileView = {
+  user_id: string;
+  display_name: string;
+  username: string;
+  avatar_url: string | null;
+  me: boolean;
+  friendship: 'pending' | 'accepted' | null;
+  friend_request_incoming: boolean;
+  tasks: {
+    id: string;
+    title: string;
+    status: string;
+    due_date: string | null;
+    completed_at: string | null;
+    visibility: 'friends' | 'public';
+    page: string;
+    page_icon: string | null;
+  }[];
+};
+
+/** Perfil pelo nick (VI2, D232): o que a pessoa deixou ver. null = nick não existe. */
+export function useProfileView(username: string | undefined) {
+  return useQuery({
+    queryKey: [...friendsKey, 'profile', username ?? ''],
+    enabled: !!username,
+    queryFn: async (): Promise<ProfileView | null> => {
+      const { data, error } = await supabase.rpc('profile_tasks', { p_username: username ?? '' });
+      if (error) throw error;
+      return (data as ProfileView | null) ?? null;
+    },
+  });
+}

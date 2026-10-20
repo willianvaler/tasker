@@ -50,6 +50,22 @@ export type ParsedTask = {
   /** "^carvão" / "^2": de quem esta tarefa depende (resolvido depois, lib/prereqs.ts) */
   prereqs: string[];
   recurrence: Recurrence | null;
+  /** "+publica", "+amigos", "+privada" (V10 §2, D232); sem marcador, privada */
+  visibility?: TaskVisibility;
+};
+
+export type TaskVisibility = 'private' | 'friends' | 'public';
+
+// Marcadores de visibilidade nos três idiomas (comparados sem acento)
+const VISIBILITY_WORDS: Record<string, TaskVisibility> = {
+  publica: 'public',
+  publico: 'public',
+  public: 'public',
+  amigos: 'friends',
+  friends: 'friends',
+  privada: 'private',
+  privado: 'private',
+  private: 'private',
 };
 
 export type QuickParseOptions = {
@@ -228,6 +244,11 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
 
     if (PRIORITY_RE.test(token)) {
       result.priority = token.length as Priority;
+      continue;
+    }
+    const visibility = token.startsWith('+') ? VISIBILITY_WORDS[fold(token.slice(1))] : undefined;
+    if (visibility) {
+      result.visibility = visibility;
       continue;
     }
     const label = LABEL_RE.exec(token);

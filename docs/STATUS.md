@@ -269,8 +269,8 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **AM1** Nick, amizades, link de amizade, RPCs, avisos, RLS, pgTAP, LGPD (política e termos novos) (D230)
 - [x] **AM2** Tela Amigos e página do link `/amigo/<token>`; E2E `e2e/amigos.spec.ts` e Ajuda nos 3 idiomas (D230)
 - [x] **AM3** Adicionar amigo direto em projeto, grupo de treino, time e clã (`add_friend_to_group`, `FriendPicker`), pgTAP, E2E e Ajuda (D231)
-- [ ] **VI1** Visibilidade da tarefa (privada, amigos, pública) e `profile_tasks`
-- [ ] **VI2** Perfil da pessoa `/perfil/<nick>`
+- [x] **VI1** Visibilidade da tarefa (privada, amigos, pública): coluna, lote, sync, `+publica`/`+amigos`, painel, linha, `profile_tasks`, pgTAP (D232)
+- [x] **VI2** Perfil da pessoa (`/pessoa?nick=`), com a amizade; E2E `e2e/visibilidade.spec.ts` e Ajuda nos 3 idiomas (D232)
 - [ ] **CM1** Comunidade: publicar, usar, curtir, denunciar (banco)
 - [ ] **CM2** Aba Comunidade e "Publicar" nos menus
 - [ ] **BE1** Bloco Bem-estar (treino, dieta, vida saudável); nome pendente do dono (V10-1)

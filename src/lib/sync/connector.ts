@@ -79,6 +79,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'custom',
       'approver_id',
       'approver_role',
+      'visibility',
     ],
     update: [
       'page_id',
@@ -103,6 +104,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'custom',
       'approver_id',
       'approver_role',
+      'visibility',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },

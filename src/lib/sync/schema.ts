@@ -97,6 +97,8 @@ const tasks = new Table(
     habit_value: column.real,
     habit_value_day: column.text,
     habit_sides: column.text,
+    // Visibilidade (V10 §2): private | friends | public
+    visibility: column.text,
     repeat_plan: column.text,
     actual_minutes: column.integer,
     weight: column.integer,

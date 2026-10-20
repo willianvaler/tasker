@@ -1407,14 +1407,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"weight": number | null
+                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"visibility": string,"weight": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
                   }
                   Update: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
                   }
                   Relationships: [
                     {
@@ -2405,6 +2405,7 @@ isOneToOne: false
 "updated_at": string,
 "updated_by": string | null,
 "version": number,
+"visibility": string,
 "weight": number | null
             }[]
                           SetofOptions: {
@@ -2780,6 +2781,9 @@ isOneToOne: false
 "preset_can":
 { Args: { "p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string,"p_preset": string }; Returns: boolean
                            },
+"profile_tasks":
+{ Args: { "p_username": string }; Returns: Json
+                           },
 "project_flow_stats":
 { Args: { "p_root": string }; Returns: Json
                            },
@@ -2973,6 +2977,7 @@ isOneToOne: false
 "updated_at": string,
 "updated_by": string | null,
 "version": number,
+"visibility": string,
 "weight": number | null
             }
                           SetofOptions: {

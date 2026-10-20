@@ -987,6 +987,9 @@
     "notSplit": "Não entra no racha."
   },
   "friends": {
+    "profile": "Perfil",
+    "profileLabel": "Ver o perfil de {{name}}",
+    "myProfile": "Ver meu perfil (como os outros veem)",
     "title": "Amigos",
     "add": "Adicionar amigo",
     "addPlaceholder": "@nick ou e-mail",
@@ -1039,6 +1042,27 @@
     "add": "Adicionar",
     "addLabel": "Adicionar {{name}}",
     "added": "{{name}} entrou e recebeu um aviso."
+  },
+  "visibility": {
+    "title": "Quem vê",
+    "private": "Privada",
+    "friends": "Amigos",
+    "public": "Pública",
+    "privateHint": "Só você (e quem já vê esta pasta).",
+    "friendsHint": "Seus amigos veem no seu perfil: título, data, estado e página.",
+    "publicHint": "Qualquer pessoa com conta vê no seu perfil: título, data, estado e página.",
+    "friendsLabel": "Visível para amigos",
+    "publicLabel": "Pública"
+  },
+  "person": {
+    "notFound": "Ninguém com o nick @{{nick}}.",
+    "open": "Em andamento",
+    "openEmpty": "Nada à vista por aqui.",
+    "done": "Concluídas nos últimos 7 dias",
+    "friends": "Vocês são amigos.",
+    "requested": "Pedido de amizade enviado.",
+    "hint": "Aparecem só as tarefas que a pessoa marcou como públicas ou para amigos.",
+    "mineHint": "É assim que os outros veem: só as tarefas marcadas como públicas (todos) ou para amigos (só amigos). Mude em cada tarefa, em Quem vê."
   },
   "matrix": {
     "views": "Visões da página",

@@ -334,6 +334,7 @@ type RpcItem = {
   children: RpcItem[];
   habit_kind?: Task['habit_kind'];
   habit_target?: number | null;
+  visibility?: Task['visibility'];
 };
 
 function toRpcItem(item: NewTask & { id: string }): RpcItem {
@@ -344,7 +345,11 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     due_date: item.dueDate,
     due_time: item.dueDate ? (item.dueTime ?? null) : null,
     remind_before:
-      item.dueDate && item.dueTime ? ('remindBefore' in item ? (item.remindBefore ?? null) : 0) : null,
+      item.dueDate && item.dueTime
+        ? 'remindBefore' in item
+          ? (item.remindBefore ?? null)
+          : 0
+        : null,
     labels: item.labels,
     recurrence: item.recurrence,
     meta: item.meta,
@@ -352,6 +357,7 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     done: item.done ?? false,
     assignees: item.assignees ?? [],
     children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: c.id ?? uuidv7() })),
+    ...(item.visibility ? { visibility: item.visibility } : {}),
     ...(item.habitKind
       ? { habit_kind: item.habitKind, habit_target: item.habitTarget ?? null }
       : {}),
@@ -400,6 +406,7 @@ function optimisticTask(
     habit_value: 0,
     habit_value_day: null,
     habit_sides: 'both',
+    visibility: item.visibility ?? 'private',
     created_by: '',
     completed_by: null,
     completed_at: item.done ? now : null,
@@ -582,6 +589,7 @@ export type TaskPatch = Partial<
     | 'approver_id'
     | 'approver_role'
     | 'deps_mode'
+    | 'visibility'
   >
 >;
 
@@ -855,7 +863,14 @@ export async function habitTickFn({
         const next = applyHabitTick(toTask(row), delta);
         await tx.execute(
           'update tasks set count_up = ?, count_down = ?, habit_value = ?, status = ?, completed_at = ? where id = ?',
-          [next.count_up, next.count_down, next.habit_value, next.status, next.completed_at, taskId],
+          [
+            next.count_up,
+            next.count_down,
+            next.habit_value,
+            next.status,
+            next.completed_at,
+            taskId,
+          ],
         );
       },
       before ? estimateHabitTickXp(toTask(before), delta) : 0,
@@ -1044,6 +1059,7 @@ type LocalTaskInsert = {
   repeat_plan?: unknown;
   habit_kind?: string;
   habit_target?: number | null;
+  visibility?: string;
 };
 
 type Tx = { execute: (sql: string, params?: unknown[]) => Promise<unknown> };
@@ -1053,8 +1069,8 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
   await tx.execute(
     `insert into tasks (id, page_id, folder_id, parent_task_id, depth, title, status, priority, due_date,
        labels, recurrence, meta, repeat_plan, position, habit_kind, habit_target, count_up, count_down,
-       created_by, created_at, updated_at, version, due_time, remind_before)
-     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?)`,
+       created_by, created_at, updated_at, version, due_time, remind_before, visibility)
+     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?, ?)`,
     [
       task.id,
       task.page_id,
@@ -1077,6 +1093,7 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
       now,
       task.due_date ? (task.due_time ?? null) : null,
       task.due_date && task.due_time ? (task.remind_before ?? 0) : null,
+      task.visibility ?? 'private',
     ],
   );
 }
@@ -1127,6 +1144,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
           repeat_plan: item.repeatPlan,
           habit_kind: item.habitKind,
           habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
+          visibility: item.visibility ?? 'private',
         },
         userId,
       );

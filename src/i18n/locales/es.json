@@ -987,6 +987,9 @@
     "notSplit": "No entra en la cuenta dividida."
   },
   "friends": {
+    "profile": "Perfil",
+    "profileLabel": "Ver el perfil de {{name}}",
+    "myProfile": "Ver mi perfil (como lo ven los demás)",
     "title": "Amigos",
     "add": "Agregar amigo",
     "addPlaceholder": "@nick o e-mail",
@@ -1039,6 +1042,27 @@
     "add": "Agregar",
     "addLabel": "Agregar a {{name}}",
     "added": "{{name}} entró y recibió un aviso."
+  },
+  "visibility": {
+    "title": "Quién la ve",
+    "private": "Privada",
+    "friends": "Amigos",
+    "public": "Pública",
+    "privateHint": "Solo tú (y quien ya ve esta carpeta).",
+    "friendsHint": "Tus amigos la ven en tu perfil: título, fecha, estado y página.",
+    "publicHint": "Cualquier persona con cuenta la ve en tu perfil: título, fecha, estado y página.",
+    "friendsLabel": "Visible para amigos",
+    "publicLabel": "Pública"
+  },
+  "person": {
+    "notFound": "Nadie con el nick @{{nick}}.",
+    "open": "En curso",
+    "openEmpty": "Nada a la vista por aquí.",
+    "done": "Completadas en los últimos 7 días",
+    "friends": "Son amigos.",
+    "requested": "Solicitud de amistad enviada.",
+    "hint": "Solo aparecen las tareas que la persona marcó como públicas o para amigos.",
+    "mineHint": "Así lo ven los demás: solo las tareas marcadas como públicas (todos) o para amigos (solo amigos). Cámbialo en cada tarea, en Quién la ve."
   },
   "matrix": {
     "views": "Vistas de la página",

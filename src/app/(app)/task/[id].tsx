@@ -87,6 +87,10 @@ const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 /** Lembrete: minutos antes do horário (null: sem lembrete), D206 */
 const REMINDER_OPTIONS = [null, 0, 5, 15, 30, 60, 1440] as const;
 
+/** Visibilidade da tarefa (D232) */
+const VISIBILITIES = ['private', 'friends', 'public'] as const;
+const visibilityOf = (v: string | null | undefined) =>
+  VISIBILITIES.find((x) => x === v) ?? 'private';
 
 /** Peso da tarefa (D226): 1 Trivial … 6 Extremo. */
 const WEIGHTS = [1, 2, 3, 4, 5, 6] as const;
@@ -676,6 +680,25 @@ function TaskDetails({ task }: { task: Task }) {
             accessibilityLabel={t('taskDetail.labels')}
           />
         </Section>
+
+        {!project && !task.parent_task_id && (
+          // V10 §2 (D232): quem mais vê, pelo perfil; em projeto vale quem é do projeto
+          <Section title={t('visibility.title')}>
+            <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+              {VISIBILITIES.map((v) => (
+                <Chip
+                  key={v}
+                  label={t(`visibility.${v}`)}
+                  selected={(task.visibility ?? 'private') === v}
+                  onPress={() => writable && save({ visibility: v })}
+                />
+              ))}
+            </View>
+            <Text className="text-xs text-ink-muted">
+              {t(`visibility.${visibilityOf(task.visibility)}Hint`)}
+            </Text>
+          </Section>
+        )}
 
         {project && (
           <Section title={t('taskDetail.assignees')}>

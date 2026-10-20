@@ -221,3 +221,23 @@ describe('horário (D206)', () => {
     expect(p('Ler 10 páginas').dueTime).toBeNull();
   });
 });
+
+describe('visibilidade (D232)', () => {
+  it('+publica, +amigos, +privada saem do título', () => {
+    expect(parse('Correr 5 km +publica')).toMatchObject({
+      title: 'Correr 5 km',
+      visibility: 'public',
+    });
+    expect(parse('Ler +amigos amanhã')).toMatchObject({ title: 'Ler', visibility: 'friends' });
+    expect(parse('Diário +privada').visibility).toBe('private');
+  });
+  it('com acento e nos outros idiomas', () => {
+    expect(parse('Meta +pública').visibility).toBe('public');
+    expect(parse('Run +public').visibility).toBe('public');
+    expect(parse('Read +friends').visibility).toBe('friends');
+  });
+  it('sem marcador, nada; outra palavra com + fica no título', () => {
+    expect(parse('Comprar pão').visibility).toBeUndefined();
+    expect(parse('Somar +1').title).toBe('Somar +1');
+  });
+});
