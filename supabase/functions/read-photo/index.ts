@@ -216,6 +216,8 @@ Deno.serve(async (req) => {
   // Limite do mês (V9-3): conta só as leituras que deram certo; nulo = sem limite (fase de teste)
   const { data: limit, error: limitError } = await service.rpc('photo_read_limit');
   if (limitError) return json({ error: 'failed' }, 500);
+  // Quantas sobram depois desta (nulo sem limite)
+  let left: number | null = null;
   if (typeof limit === 'number') {
     const since = new Date();
     since.setUTCDate(1);
@@ -227,6 +229,7 @@ Deno.serve(async (req) => {
       .eq('ok', true)
       .gte('created_at', since.toISOString());
     if ((count ?? 0) >= limit) return json({ error: 'limit', limit }, 429);
+    left = Math.max(0, limit - (count ?? 0) - 1);
   }
 
   const key = Deno.env.get('GEMINI_API_KEY');
@@ -247,7 +250,7 @@ Deno.serve(async (req) => {
       ? fakeRead(kind)
       : await readWithGemini(key!, model, kind, image, mime, language);
     await log(true);
-    return json({ result, left: Math.max(0, max - (count ?? 0) - 1) });
+    return json({ result, left });
   } catch (err) {
     await log(false);
     console.error('read-photo', err instanceof Error ? err.message : err);

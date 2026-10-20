@@ -18,7 +18,7 @@ import {
   parseMoney,
 } from '@/lib/expenses';
 import type { Prepared } from '@/lib/image-prep';
-import { formatShortDate } from '@/lib/parser/dates';
+import { addDays, formatShortDate, type IsoDate } from '@/lib/parser/dates';
 import { normalizeReceipt, type ReceiptDraft } from '@/lib/photo-read';
 import { newExpenseId, useExpenseMutations, useExpenses } from '@/lib/queries/expenses';
 import { PhotoReadError, preparePhoto, readPhoto, uploadReceipt } from '@/lib/queries/photo-read';
@@ -34,9 +34,18 @@ import { useCategoryNames } from './expenses-view';
 // Foto da nota (ESCOPO_V9 §2, GA5): câmera ou galeria (várias de uma vez) → a foto é lida no
 // servidor (`read-photo`) → a pessoa confere e salva. A foto fica como a nota do lançamento.
 
-type Reviewing = { draft: ReceiptDraft; photo: Prepared };
+// `id` fixo por foto: a conferência aberta não recomeça quando outra foto termina de ser lida
+type Reviewing = { id: string; draft: ReceiptDraft; photo: Prepared };
+type Saved = { description: string; spent_on: IsoDate; count: number };
 
-export function ReceiptButton({ page }: { page: Page }) {
+/** `onSaved`: a página mostra "Tudo" quando a nota é de outro mês (senão o lançamento some do filtro). */
+export function ReceiptButton({
+  page,
+  onSaved,
+}: {
+  page: Page;
+  onSaved?: (date: IsoDate) => void;
+}) {
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const online = useIsOnline();
@@ -44,7 +53,24 @@ export function ReceiptButton({ page }: { page: Page }) {
   const [reading, setReading] = useState(0);
   // Fila de notas lidas esperando a conferência (várias fotos de uma vez)
   const [queue, setQueue] = useState<Reviewing[]>([]);
+  // A última salva, mostrada na conferência seguinte (o aviso some atrás da janela)
+  const [lastSaved, setLastSaved] = useState<string | null>(null);
   const today = useToday();
+
+  const saved = (info: Saved) => {
+    setQueue((q) => q.slice(1));
+    setLastSaved(info.description);
+    onSaved?.(info.spent_on);
+    toast({
+      message:
+        info.spent_on.slice(0, 7) === today.slice(0, 7)
+          ? t('expenses.photo.saved', { count: info.count })
+          : t('expenses.photo.savedOtherMonth', {
+              count: info.count,
+              date: formatShortDate(info.spent_on),
+            }),
+    });
+  };
 
   const failure = (err: unknown) => {
     const code = err instanceof PhotoReadError ? err.code : 'failed';
@@ -71,6 +97,7 @@ export function ReceiptButton({ page }: { page: Page }) {
       ? await ImagePicker.launchCameraAsync(options)
       : await ImagePicker.launchImageLibraryAsync(options);
     if (result.canceled) return;
+    setLastSaved(null);
     setReading((n) => n + result.assets.length);
     // Uma por vez: o plano gratuito do Gemini aceita poucas por minuto
     for (const asset of result.assets) {
@@ -79,7 +106,7 @@ export function ReceiptButton({ page }: { page: Page }) {
         const { result: raw } = await readPhoto(photo, 'receipt', i18n.language);
         const draft = normalizeReceipt(raw, today);
         if (!draft.readable) toast({ message: t('expenses.photo.unreadable') });
-        setQueue((q) => [...q, { draft, photo }]);
+        setQueue((q) => [...q, { id: newExpenseId(), draft, photo }]);
       } catch (err) {
         failure(err);
       } finally {
@@ -117,10 +144,12 @@ export function ReceiptButton({ page }: { page: Page }) {
       )}
       {queue[0] && (
         <ReceiptReview
-          key={queue.length}
+          key={queue[0].id}
           page={page}
           reviewing={queue[0]}
           left={queue.length - 1}
+          previous={lastSaved}
+          onSaved={saved}
           onDone={() => setQueue((q) => q.slice(1))}
         />
       )}
@@ -133,11 +162,15 @@ function ReceiptReview({
   page,
   reviewing: { draft, photo },
   left,
+  previous,
+  onSaved,
   onDone,
 }: {
   page: Page;
   reviewing: Reviewing;
   left: number;
+  previous: string | null;
+  onSaved: (info: Saved) => void;
   onDone: () => void;
 }) {
   const { t, i18n } = useTranslation();
@@ -208,8 +241,7 @@ function ReceiptReview({
         ];
     try {
       for (const row of rows) await m.create.mutateAsync(row);
-      onDone();
-      toast({ message: t('expenses.photo.saved', { count: rows.length }) });
+      onSaved({ description: rows[0].description, spent_on: date, count: rows.length });
       // A foto sobe depois (o lançamento já está salvo; sem ela, só fica sem a nota anexada)
       const path = await uploadReceipt(page.folder_id, rows[0].id, photo);
       for (const row of rows) await m.update.mutateAsync({ id: row.id, receipt_path: path });
@@ -228,6 +260,16 @@ function ReceiptReview({
           {t('expenses.photo.reviewHint')}
           {left > 0 ? ` ${t('expenses.photo.more', { count: left })}` : ''}
         </Text>
+        {previous && (
+          <Text className="text-sm text-ok" role="status">
+            {t('expenses.photo.previous', { description: previous })}
+          </Text>
+        )}
+        {draft.spent_on < addDays(today, -60) && (
+          <Text className="text-sm text-warn" role="alert">
+            {t('expenses.photo.oldDate', { date: dateInput(draft.spent_on, monthFirst) })}
+          </Text>
+        )}
         {duplicate && (
           <Text className="text-sm text-warn" role="alert">
             {t('expenses.photo.duplicate', {

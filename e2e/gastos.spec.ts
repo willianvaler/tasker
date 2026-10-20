@@ -15,11 +15,19 @@ const PNG = Buffer.from(
 
 const stat = (page: Page, label: string) => page.getByLabel(new RegExp(`^${label}: `));
 
-async function choosePhoto(page: Page, button: string) {
+async function choosePhoto(page: Page, button: string, count = 1) {
   await page.getByRole('button', { name: button }).first().click();
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('menuitem', { name: 'Escolher da galeria' }).click();
-  await (await chooser).setFiles({ name: 'nota.png', mimeType: 'image/png', buffer: PNG });
+  await (
+    await chooser
+  ).setFiles(
+    Array.from({ length: count }, (_, i) => ({
+      name: `nota${i}.png`,
+      mimeType: 'image/png',
+      buffer: PNG,
+    })),
+  );
 }
 
 test('gastos: lançar, editar, orçamento e exportar', async ({ page }, testInfo) => {
@@ -134,5 +142,35 @@ test('foto de uma lista vira tarefas', async ({ page }, testInfo) => {
     { timeout: 20_000 },
   );
   await page.getByRole('button', { name: 'Criar 3' }).click();
-  await expect(page.getByRole('checkbox', { name: 'Concluir Comprar luvas', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('checkbox', { name: 'Concluir Comprar luvas', exact: true }),
+  ).toBeVisible();
+});
+
+test('duas notas: a conferência não recomeça, mostra a anterior salva e a de outro mês aparece', async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Feira', name: 'Notas', type: 'Gastos' });
+
+  await choosePhoto(page, 'Foto da nota', 2);
+  await expect(page.getByText('Confira a nota')).toBeVisible({ timeout: 20_000 });
+  const description = page.getByRole('textbox', { name: 'Descrição' }).last();
+  await description.fill('Primeira nota');
+  await page.getByRole('textbox', { name: 'Data' }).last().fill('11/09/2024');
+  // A segunda termina de ser lida com a primeira aberta: o que foi digitado fica
+  await expect(page.getByText('Lendo a nota…')).toBeHidden({ timeout: 20_000 });
+  await expect(page.getByText('Depois desta, mais 1 nota.')).toBeVisible();
+  await expect(description).toHaveValue('Primeira nota');
+  await page.getByRole('button', { name: 'Salvar' }).click();
+
+  // A segunda diz que a primeira foi salva
+  await expect(page.getByText('✓ Salvo: Primeira nota. Agora a próxima nota.')).toBeVisible();
+  await expect(page.getByText(/Esta nota já foi lançada/)).toBeVisible();
+  await page.getByRole('button', { name: 'Descartar' }).click();
+
+  // De outro mês: a lista passa para "Tudo" e o lançamento aparece
+  await expect(page.getByRole('radio', { name: 'Tudo' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('button', { name: /^Primeira nota, −R\$\s87,90/ })).toBeVisible();
 });

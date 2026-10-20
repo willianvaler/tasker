@@ -2754,7 +2754,11 @@
       "not_configured": "La lectura de fotos aún no está activada en el servidor.",
       "limit": "Ya leíste {{limit}} fotos este mes. Registra a mano hasta que cambie el mes.",
       "busy": "El lector de fotos está ocupado. Inténtalo de nuevo en un minuto.",
-      "failed": "No se pudo leer la foto. Inténtalo de nuevo o regístralo a mano."
+      "failed": "No se pudo leer la foto. Inténtalo de nuevo o regístralo a mano.",
+      "previous": "✓ Guardado: {{description}}. Ahora el siguiente recibo.",
+      "oldDate": "La fecha leída es {{date}}, de hace más de 2 meses. Revisa el año antes de guardar.",
+      "savedOtherMonth_one": "Registro del {{date}} guardado. Está fuera de este mes: la lista ahora muestra Todo.",
+      "savedOtherMonth_other": "{{count}} registros del {{date}} guardados. Están fuera de este mes: la lista ahora muestra Todo."
     }
   },
   "listPhoto": {

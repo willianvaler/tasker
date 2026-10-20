@@ -2754,7 +2754,11 @@
       "not_configured": "A leitura de fotos ainda não foi ligada no servidor.",
       "limit": "Você já leu {{limit}} fotos este mês. Lance à mão até o mês virar.",
       "busy": "O leitor de fotos está ocupado. Tente de novo em um minuto.",
-      "failed": "Não deu para ler a foto. Tente de novo ou lance à mão."
+      "failed": "Não deu para ler a foto. Tente de novo ou lance à mão.",
+      "previous": "✓ Salvo: {{description}}. Agora a próxima nota.",
+      "oldDate": "A data lida é {{date}}, de mais de 2 meses atrás. Confira o ano antes de salvar.",
+      "savedOtherMonth_one": "Lançamento de {{date}} salvo. Fora deste mês: a lista agora mostra Tudo.",
+      "savedOtherMonth_other": "{{count}} lançamentos de {{date}} salvos. Fora deste mês: a lista agora mostra Tudo."
     }
   },
   "listPhoto": {

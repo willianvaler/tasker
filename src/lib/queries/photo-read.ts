@@ -46,7 +46,7 @@ export async function readPhoto(photo: Prepared, kind: PhotoKind, language: stri
     }
     throw new PhotoReadError('offline');
   }
-  return data as { result: unknown; left: number };
+  return data as { result: unknown; left: number | null };
 }
 
 /** Guarda a foto da nota do lançamento; devolve o caminho para `receipt_path`. */

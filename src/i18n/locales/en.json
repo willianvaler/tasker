@@ -2754,7 +2754,11 @@
       "not_configured": "Photo reading isn't turned on on the server yet.",
       "limit": "You've read {{limit}} photos this month. Add entries by hand until next month.",
       "busy": "The photo reader is busy. Try again in a minute.",
-      "failed": "Couldn't read the photo. Try again or add it by hand."
+      "failed": "Couldn't read the photo. Try again or add it by hand.",
+      "previous": "✓ Saved: {{description}}. Now the next receipt.",
+      "oldDate": "The date read is {{date}}, more than 2 months ago. Check the year before saving.",
+      "savedOtherMonth_one": "Entry from {{date}} saved. It's outside this month, so the list now shows All.",
+      "savedOtherMonth_other": "{{count}} entries from {{date}} saved. They're outside this month, so the list now shows All."
     }
   },
   "listPhoto": {

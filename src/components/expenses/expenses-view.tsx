@@ -172,7 +172,14 @@ export function ExpensesView({ page }: { page: Page }) {
           onPress={() => setPeriod('all')}
         />
         <View className="flex-1" />
-        {canWrite && <ReceiptButton page={page} />}
+        {canWrite && (
+          <ReceiptButton
+            page={page}
+            onSaved={(date) => {
+              if (date.slice(0, 7) !== today.slice(0, 7)) setPeriod('all');
+            }}
+          />
+        )}
         <ExpenseExport page={page} expenses={shown} names={names} />
       </View>
 
