@@ -163,6 +163,46 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"body_goals": {
+                  Row: {
+                    "id": string,"kind": string,"target": number,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "id"?: string,"kind": string,"target": number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "id"?: string,"kind"?: string,"target"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "body_goals_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"body_metrics": {
+                  Row: {
+                    "created_at": string,"id": string,"kind": string,"measured_on": string,"note": string | null,"user_id": string,"value": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"kind": string,"measured_on": string,"note"?: string | null,"user_id"?: string,"value": number
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"kind"?: string,"measured_on"?: string,"note"?: string | null,"user_id"?: string,"value"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "body_metrics_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"boss_damage": {
                   Row: {
                     "amount": number,"boss_id": string,"created_at": string,"id": string,"user_id": string,"xp_event_id": string
@@ -1254,6 +1294,26 @@ isOneToOne: false
                     {
       foreignKeyName: "relations_created_by_fkey"
       columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"sensitive_consents": {
+                  Row: {
+                    "granted_at": string,"id": string,"purpose": string,"revoked_at": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "granted_at"?: string,"id"?: string,"purpose": string,"revoked_at"?: string | null,"user_id"?: string
+                  }
+                  Update: {
+                    "granted_at"?: string,"id"?: string,"purpose"?: string,"revoked_at"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "sensitive_consents_user_id_fkey"
+      columns: ["user_id"]
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
@@ -2820,6 +2880,9 @@ isOneToOne: false
 "grant_catalog":
 { Args: Record<PropertyKey, never>; Returns: (string)[]
                            },
+"grant_sensitive_consent":
+{ Args: { "p_purpose": string }; Returns: undefined
+                           },
 "grants_can":
 { Args: { "p_grants": (string)[],"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
                            },
@@ -2834,6 +2897,9 @@ isOneToOne: false
                            },
 "has_permission":
 { Args: { "p_folder_id": string,"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
+                           },
+"has_sensitive_consent":
+{ Args: { "p_purpose": string }; Returns: boolean
                            },
 "hatch_pet":
 { Args: { "p_potion": string,"p_species": string }; Returns: Json
@@ -3062,6 +3128,9 @@ isOneToOne: false
                            },
 "revoke_page_share":
 { Args: { "p_share_id": string }; Returns: undefined
+                           },
+"revoke_sensitive_consent":
+{ Args: { "p_purpose": string }; Returns: undefined
                            },
 "revoke_share_link":
 { Args: { "p_link_id": string }; Returns: undefined

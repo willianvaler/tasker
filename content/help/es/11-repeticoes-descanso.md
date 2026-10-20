@@ -42,6 +42,12 @@ El escalón por defecto es 2,5 kg arriba y 5 kg en piernas y espalda (5 y 10 lb)
 
 En un entrenamiento solo tuyo, el modo Entrenamiento ya abre el ejercicio con la carga nueva y dice por qué ("Subió 2,5 kg: hiciste 3×10 la última vez"). En una carpeta compartida solo sugiere, con **Usar**, para no cambiar el plan de todos. El panel del ejercicio muestra el próximo y el porqué.
 
+## Peso y medidas
+
+En **Peso y medidas** (en el bloque Gimnasio de la barra lateral) registras el peso, la grasa y las medidas (cintura, pecho, cadera, brazo, muslo, pantorrilla, cuello), con la fecha, y pones una meta para cada uno. El gráfico muestra la meta con una línea discontinua y pinta cada tramo de verde cuando te acercaste a la meta y de rojo cuando te alejaste. El peso usa la unidad del Perfil; las medidas, centímetros.
+
+El peso y las medidas son datos de salud, sensibles según la LGPD de Brasil: la primera vez la app pide tu consentimiento, y solo entonces guarda. Se quedan solo contigo (ni quien te entrena los ve), entran en la exportación y se van con la cuenta. **Dejar de guardar y borrar todo** revoca el consentimiento y borra los registros y las metas en el momento.
+
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

@@ -144,6 +144,11 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     insert: ['folder_id', 'name', 'body_part', 'target', 'equipment', 'kind', 'notes'],
     update: ['name', 'body_part', 'target', 'equipment', 'kind', 'notes'],
   },
+  body_metrics: {
+    insert: ['kind', 'value', 'measured_on', 'note'],
+    update: ['value', 'measured_on', 'note'],
+  },
+  body_goals: { insert: ['kind', 'target'], update: ['target'] },
   expenses: {
     insert: [
       'page_id',
@@ -188,6 +193,7 @@ const SERVER_SIDE = new Set([
   'timers',
   'time_entries',
   'workout_sets',
+  'sensitive_consents',
   'page_shares',
   'share_checks',
 ]);

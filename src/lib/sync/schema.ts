@@ -200,6 +200,31 @@ const workout_sets = new Table(
   { indexes: { task: ['task_id', 'cycle_key'], exercise: ['exercise_id', 'performed_at'] } },
 );
 
+// Peso e medidas (AC7, dado sensível): só os meus. O consentimento só a RPC grava
+const body_metrics = new Table(
+  {
+    user_id: column.text,
+    kind: column.text,
+    value: column.real,
+    measured_on: column.text,
+    note: column.text,
+    created_at: column.text,
+  },
+  { indexes: { kind: ['kind', 'measured_on'] } },
+);
+const body_goals = new Table({
+  user_id: column.text,
+  kind: column.text,
+  target: column.real,
+  updated_at: column.text,
+});
+const sensitive_consents = new Table({
+  user_id: column.text,
+  purpose: column.text,
+  granted_at: column.text,
+  revoked_at: column.text,
+});
+
 // Envios de página que recebi (L): o "Recebidas" e o modo Executor
 const page_shares = new Table(
   {
@@ -509,6 +534,9 @@ export const AppSchema = new Schema({
   timers,
   time_entries,
   workout_sets,
+  body_metrics,
+  body_goals,
+  sensitive_consents,
   page_shares,
   share_checks,
   my_day,

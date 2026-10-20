@@ -42,6 +42,12 @@ The default step is 2.5 kg for the upper body and 5 kg for legs and back (5 and 
 
 In a workout that is only yours, Workout mode opens the exercise with the new weight and says why ("Up 2.5 kg: you did 3×10 last time"). In a folder shared with others it only suggests, with **Use**, so it does not change everyone's plan. The exercise panel shows the next one and why.
 
+## Weight and measurements
+
+In **Weight and measurements** (in the Gym block of the sidebar) you log weight, body fat and measurements (waist, chest, hips, arm, thigh, calf, neck), with the date, and set a goal for each. The chart shows the goal as a dashed line and paints each stretch green when it got closer to the goal and red when it moved away. Weight uses the Profile unit; measurements are in centimeters.
+
+Weight and measurements are health data, sensitive under Brazil’s LGPD: the first time, the app asks for your consent, and only then saves anything. They stay with you only (not even your coach sees them), are part of the export and leave with the account. **Stop saving and delete everything** withdraws consent and deletes the entries and goals right away.
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

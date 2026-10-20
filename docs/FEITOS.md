@@ -198,6 +198,9 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC6.1 | `lib/gym/progression.ts`: leitura honesta da sessão, linear e progressão dupla, degrau por parte do corpo | D238 |
 | V6 | AC6.2 | Greyskull, mais tempo, deload por falhas seguidas, peso do corpo em repetições | D238 |
 | V6 | AC6.3 | Regra do treino (`pages.progression`) e do exercício (`tasks.progression`, `progression_step`), meta de cada série no diário; o Modo Treino aplica a prescrição no treino pessoal e sugere com "Usar" no compartilhado, com o porquê; painel e configuração da página; E2E e Ajuda nos 3 idiomas | D238 |
+| V6 | AC7.1 | `body_metrics` e `body_goals` (dado sensível: só a pessoa), consentimento específico em `sensitive_consents` exigido pela RLS, revogar apaga, exportação, sync; pgTAP `peso_medidas.test.sql` | D239 |
+| V6 | AC7.2 | `lib/gym/body-trend.ts`: um valor por dia, média móvel, mudança que aproximou ou afastou da meta, resumo | D239 |
+| V6 | AC7.3 | Tela Peso e medidas (`/corpo`, no bloco Academia e na paleta): consentimento, registro, meta, gráfico com a linha da meta, revogar; política de privacidade (2026-10-20.2); E2E `e2e/corpo.spec.ts` e Ajuda nos 3 idiomas | D239 |
 | V6 | AC10.1 | Sessão de treino no servidor (`workout_sessions`, `workout_session_members`): convite com aviso e push, entrar/sair, série do grupo (`log_group_set`, quem marca a última conclui), exercício atual e descanso iguais nos aparelhos pelo Realtime; E2E `e2e/treino-junto.spec.ts` | D183 |
 | V6 | AC10.2 | Seletor "Quem está treinando junto agora?" no Modo Treino de pasta compartilhada | D183 |
 | V6 | AC10.3 | `lib/gym/leaderboard.ts`: dias ativos (um por dia), pontos opcionais, empates dividindo a posição, sequência atual e maior; `challengeProgress` (feito pelo Claude, tirado da fila local) | — |

@@ -42,6 +42,12 @@ O degrau padrão é 2,5 kg em cima e 5 kg em pernas e costas (5 e 10 lb); dá pa
 
 No treino só seu, o Modo Treino já abre o exercício com a carga nova e diz por quê ("Subiu 2,5 kg: fez 3×10 na última"). Em pasta com mais gente, ele só sugere, com **Usar**, para não mudar o plano de todos. O painel do exercício mostra o próximo e o porquê.
 
+## Peso e medidas
+
+Em **Peso e medidas** (no bloco Academia da barra lateral) você registra o peso, a gordura e as medidas (cintura, peito, quadril, braço, coxa, panturrilha, pescoço), com a data, e põe uma meta para cada um. O gráfico mostra a linha da meta tracejada e pinta cada trecho de verde quando aproximou da meta e de vermelho quando afastou. O peso aparece na unidade do Perfil; medidas em centímetros.
+
+Peso e medidas são dados de saúde, sensíveis pela LGPD: na primeira vez o app pede o seu consentimento, e só então guarda. Ficam só com você (nem quem treina você vê), entram na exportação e saem com a conta. **Parar de guardar e apagar tudo** revoga o consentimento e apaga os registros e as metas na hora.
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

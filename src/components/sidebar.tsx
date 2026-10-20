@@ -5,23 +5,24 @@ import {
   ChevronDown,
   ChevronRight,
   CircleHelp,
+  Dumbbell,
+  Globe,
   House,
   Inbox,
   LayoutGrid,
   Plus,
   Repeat,
+  Scale,
   Search,
   Shield,
   ShoppingBag,
   Sun,
-  type LucideIcon,
   User,
   UserCheck,
-  Dumbbell,
-  Globe,
   UserPlus,
   Users,
   Zap,
+  type LucideIcon,
 } from 'lucide-react-native';
 import { Fragment, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -286,6 +287,15 @@ export function Sidebar() {
             >
               <Icon icon={Dumbbell} tone="ink-muted" />
               <Text className="text-sm text-ink-muted">{t('library.title')}</Text>
+            </Pressable>
+            {/* V6 §6: peso e medidas */}
+            <Pressable
+              accessibilityRole="link"
+              className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+              onPress={() => router.push('/corpo')}
+            >
+              <Icon icon={Scale} tone="ink-muted" />
+              <Text className="text-sm text-ink-muted">{t('body.title')}</Text>
             </Pressable>
           </View>
         )}
