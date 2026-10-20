@@ -64,6 +64,7 @@ import {
 } from '@/lib/queries/tasks';
 import { findFolder, isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
+import { ExerciseLink } from '@/components/gym/exercise-link';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
@@ -447,6 +448,11 @@ function TaskDetails({ task }: { task: Task }) {
 
         {isWorkout && !leaves && (
           <Section title={t('taskDetail.exercise')}>
+            <ExerciseLink
+              task={task}
+              editable={writable}
+              onLink={(exerciseId) => save({ exercise_id: exerciseId })}
+            />
             <MetaEditor task={task} onSave={save} />
             {repeatPlan?.mode === 'sets' && (
               <RepeatCounter

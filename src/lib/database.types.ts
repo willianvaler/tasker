@@ -543,6 +543,20 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"exercises": {
+                  Row: {
+                    "body_part": string,"equipment": string,"force": string | null,"id": string,"instructions": NonNullable<Json>,"kind": string,"level": string | null,"mechanic": string | null,"name_en": string,"name_es": string | null,"name_pt": string | null,"secondary": (string)[],"target": string | null,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "body_part": string,"equipment": string,"force"?: string | null,"id": string,"instructions"?: NonNullable<Json>,"kind"?: string,"level"?: string | null,"mechanic"?: string | null,"name_en": string,"name_es"?: string | null,"name_pt"?: string | null,"secondary"?: (string)[],"target"?: string | null,"updated_at"?: string
+                  }
+                  Update: {
+                    "body_part"?: string,"equipment"?: string,"force"?: string | null,"id"?: string,"instructions"?: NonNullable<Json>,"kind"?: string,"level"?: string | null,"mechanic"?: string | null,"name_en"?: string,"name_es"?: string | null,"name_pt"?: string | null,"secondary"?: (string)[],"target"?: string | null,"updated_at"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"expenses": {
                   Row: {
                     "amount_cents": number,"category": string | null,"created_at": string,"created_by": string | null,"currency": string,"description": string,"folder_id": string | null,"id": string,"items": Json | null,"kind": string,"method": string | null,"nfce_key": string | null,"note": string | null,"page_id": string,"paid_by": string | null,"receipt_path": string | null,"spent_on": string,"split_among": Json | null,"task_id": string | null,"updated_at": string
@@ -1479,14 +1493,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"visibility": string,"weight": number | null
+                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"exercise_id": string | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"title": string,"updated_at": string,"updated_by": string | null,"version": number,"visibility": string,"weight": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"exercise_id"?: string | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
                   }
                   Update: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"exercise_id"?: string | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
                   }
                   Relationships: [
                     {
@@ -1768,6 +1782,32 @@ isOneToOne: false
     },{
       foreignKeyName: "user_achievements_user_id_fkey"
       columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"user_exercises": {
+                  Row: {
+                    "body_part": string,"created_at": string,"equipment": string,"folder_id": string | null,"id": string,"kind": string,"name": string,"notes": string | null,"owner_id": string,"target": string | null,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "body_part"?: string,"created_at"?: string,"equipment"?: string,"folder_id"?: string | null,"id"?: string,"kind"?: string,"name": string,"notes"?: string | null,"owner_id"?: string,"target"?: string | null,"updated_at"?: string
+                  }
+                  Update: {
+                    "body_part"?: string,"created_at"?: string,"equipment"?: string,"folder_id"?: string | null,"id"?: string,"kind"?: string,"name"?: string,"notes"?: string | null,"owner_id"?: string,"target"?: string | null,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "user_exercises_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "user_exercises_owner_id_fkey"
+      columns: ["owner_id"]
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
@@ -2485,6 +2525,7 @@ isOneToOne: false
 "due_date": string | null,
 "due_time": string | null,
 "estimate_minutes": number | null,
+"exercise_id": string | null,
 "folder_id": string,
 "habit_kind": string,
 "habit_sides": string,
@@ -3057,6 +3098,7 @@ isOneToOne: false
 "due_date": string | null,
 "due_time": string | null,
 "estimate_minutes": number | null,
+"exercise_id": string | null,
 "folder_id": string,
 "habit_kind": string,
 "habit_sides": string,

@@ -80,6 +80,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'approver_id',
       'approver_role',
       'visibility',
+      'exercise_id',
     ],
     update: [
       'page_id',
@@ -105,6 +106,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'approver_id',
       'approver_role',
       'visibility',
+      'exercise_id',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
@@ -132,6 +134,10 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['name', 'options', 'position'],
   },
   conflict_copies: { insert: [], update: [] },
+  user_exercises: {
+    insert: ['folder_id', 'name', 'body_part', 'target', 'equipment', 'kind', 'notes'],
+    update: ['name', 'body_part', 'target', 'equipment', 'kind', 'notes'],
+  },
   expenses: {
     insert: [
       'page_id',

@@ -25,6 +25,7 @@ import {
   Trash2,
   Trophy,
   User,
+  Dumbbell,
   Globe,
   UserPlus,
   Users,
@@ -245,6 +246,13 @@ function Palette({
       icon: icon(ClipboardCheck),
       group: 0,
       run: go('/revisao'),
+    },
+    {
+      id: 'go-library',
+      label: t('library.title'),
+      icon: icon(Dumbbell),
+      group: 0,
+      run: go('/biblioteca'),
     },
     {
       id: 'go-calendar',

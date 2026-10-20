@@ -72,3 +72,4 @@ supabase/functions/.env
 
 # Pacote da Google Play (npm run apk -- --aab)
 /dist-play/
+data/exercicios/cache/

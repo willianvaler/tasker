@@ -305,6 +305,8 @@ type NewTask = Omit<ParsedTask, 'dueTime'> & {
   /** Hábito: tipo e meta já na criação */
   habitKind?: Task['habit_kind'];
   habitTarget?: number | null;
+  /** Exercício da biblioteca (AC3.8) */
+  exerciseId?: string | null;
   assignees?: NewAssignee[];
   children?: NewSubtask[];
 };
@@ -335,6 +337,7 @@ type RpcItem = {
   habit_kind?: Task['habit_kind'];
   habit_target?: number | null;
   visibility?: Task['visibility'];
+  exercise_id?: string | null;
 };
 
 function toRpcItem(item: NewTask & { id: string }): RpcItem {
@@ -358,6 +361,7 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     assignees: item.assignees ?? [],
     children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: c.id ?? uuidv7() })),
     ...(item.visibility ? { visibility: item.visibility } : {}),
+    ...('exerciseId' in item && item.exerciseId ? { exercise_id: item.exerciseId } : {}),
     ...(item.habitKind
       ? { habit_kind: item.habitKind, habit_target: item.habitTarget ?? null }
       : {}),
@@ -407,6 +411,7 @@ function optimisticTask(
     habit_value_day: null,
     habit_sides: 'both',
     visibility: item.visibility ?? 'private',
+    exercise_id: item.exerciseId ?? null,
     created_by: '',
     completed_by: null,
     completed_at: item.done ? now : null,
@@ -590,6 +595,7 @@ export type TaskPatch = Partial<
     | 'approver_role'
     | 'deps_mode'
     | 'visibility'
+    | 'exercise_id'
   >
 >;
 
@@ -1060,6 +1066,7 @@ type LocalTaskInsert = {
   habit_kind?: string;
   habit_target?: number | null;
   visibility?: string;
+  exercise_id?: string | null;
 };
 
 type Tx = { execute: (sql: string, params?: unknown[]) => Promise<unknown> };
@@ -1069,8 +1076,8 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
   await tx.execute(
     `insert into tasks (id, page_id, folder_id, parent_task_id, depth, title, status, priority, due_date,
        labels, recurrence, meta, repeat_plan, position, habit_kind, habit_target, count_up, count_down,
-       created_by, created_at, updated_at, version, due_time, remind_before, visibility)
-     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?, ?)`,
+       created_by, created_at, updated_at, version, due_time, remind_before, visibility, exercise_id)
+     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?, ?, ?)`,
     [
       task.id,
       task.page_id,
@@ -1094,6 +1101,7 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
       task.due_date ? (task.due_time ?? null) : null,
       task.due_date && task.due_time ? (task.remind_before ?? 0) : null,
       task.visibility ?? 'private',
+      task.exercise_id ?? null,
     ],
   );
 }
@@ -1145,6 +1153,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
           habit_kind: item.habitKind,
           habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
           visibility: item.visibility ?? 'private',
+          exercise_id: item.exerciseId ?? null,
         },
         userId,
       );

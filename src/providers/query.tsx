@@ -1,5 +1,5 @@
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { QueryClient } from '@tanstack/react-query';
+import { defaultShouldDehydrateQuery, QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { type ReactNode } from 'react';
 
@@ -33,7 +33,17 @@ export function QueryProvider({ children }: { children: ReactNode }) {
       client={queryClient}
       // buster: mude quando o formato de algum dado em cache mudar (o cache do disco não passa pelo
       // zod de novo). v3 = Fase 7 (game_state com personagem, tarefas com contagens de hábito)
-      persistOptions={{ persister, maxAge: 7 * 24 * 60 * 60 * 1000, buster: 'v20' }}
+      persistOptions={{
+        persister,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        buster: 'v21',
+        // Consulta grande e que se refaz de graça (catálogo de exercícios, D235) fica fora do disco:
+        // o cache é salvo inteiro a cada mudança
+        dehydrateOptions: {
+          shouldDehydrateQuery: (query) =>
+            defaultShouldDehydrateQuery(query) && query.meta?.persist !== false,
+        },
+      }}
       // O cache do disco serve para abrir rápido (e offline), mas pode estar velho: o ciclo virou,
       // ou a última gravação não chegou a ser salva. Depois de restaurar, reenvia a fila offline
       // (se houver conexão) e busca tudo de novo.

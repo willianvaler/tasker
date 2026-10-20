@@ -42,6 +42,17 @@ streams:
       - SELECT * FROM conflict_copies WHERE folder_id IN roots
       - SELECT conflict_copies.* FROM conflict_copies INNER JOIN folders ON conflict_copies.folder_id = folders.id WHERE folders.parent_id IN roots
 
+  # Biblioteca de exercícios (AC3.6): o catálogo inteiro (só leitura) e os meus próprios; os de
+  # projeto vêm com as pastas
+  exercises:
+    auto_subscribe: true
+    with:
+      roots: SELECT folder_id FROM folder_members WHERE user_id = auth.user_id()
+    queries:
+      - SELECT * FROM exercises
+      - SELECT * FROM user_exercises WHERE owner_id = auth.user_id()
+      - SELECT * FROM user_exercises WHERE folder_id IN roots
+
   # Nome e avatar de quem divide pasta comigo (responsáveis, comentários, @nome)
   people:
     auto_subscribe: true

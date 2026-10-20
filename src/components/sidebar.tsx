@@ -17,6 +17,7 @@ import {
   type LucideIcon,
   User,
   UserCheck,
+  Dumbbell,
   Globe,
   UserPlus,
   Users,
@@ -276,6 +277,15 @@ export function Sidebar() {
             >
               <Icon icon={Users} tone="ink-muted" />
               <Text className="text-sm text-ink-muted">{t('gym.newGroup')}</Text>
+            </Pressable>
+            {/* V6 §2: a biblioteca de exercícios */}
+            <Pressable
+              accessibilityRole="link"
+              className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+              onPress={() => router.push('/biblioteca')}
+            >
+              <Icon icon={Dumbbell} tone="ink-muted" />
+              <Text className="text-sm text-ink-muted">{t('library.title')}</Text>
             </Pressable>
           </View>
         )}

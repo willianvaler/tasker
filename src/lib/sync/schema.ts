@@ -99,6 +99,8 @@ const tasks = new Table(
     habit_sides: column.text,
     // Visibilidade (V10 §2): private | friends | public
     visibility: column.text,
+    // Exercício da biblioteca (AC3.8)
+    exercise_id: column.text,
     repeat_plan: column.text,
     actual_minutes: column.integer,
     weight: column.integer,
@@ -285,6 +287,39 @@ const expenses = new Table(
   { indexes: { page: ['page_id', 'spent_on'] } },
 );
 
+// Biblioteca de exercícios (AC3.6): o catálogo (só leitura) e os próprios
+const exercises = new Table(
+  {
+    name_en: column.text,
+    name_pt: column.text,
+    name_es: column.text,
+    body_part: column.text,
+    target: column.text,
+    secondary: column.text,
+    equipment: column.text,
+    kind: column.text,
+    level: column.text,
+    mechanic: column.text,
+    force: column.text,
+    instructions: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { body: ['body_part'] } },
+);
+
+const user_exercises = new Table({
+  owner_id: column.text,
+  folder_id: column.text,
+  name: column.text,
+  body_part: column.text,
+  target: column.text,
+  equipment: column.text,
+  kind: column.text,
+  notes: column.text,
+  created_at: column.text,
+  updated_at: column.text,
+});
+
 // Anexos (N1): só os dados; o arquivo fica no Storage e baixa ao abrir
 const task_attachments = new Table(
   {
@@ -449,6 +484,8 @@ export const AppSchema = new Schema({
   comments,
   task_attachments,
   expenses,
+  exercises,
+  user_exercises,
   pending_uploads,
   task_completions,
   conflict_copies,

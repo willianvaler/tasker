@@ -212,6 +212,15 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **AC1.9** "Vai usar para treinar?" no Início (uma vez, depois da introdução, enquanto `gym_enabled` é nulo) e o interruptor Modo academia no Perfil; E2E `e2e/academia.spec.ts` e Ajuda nos 3 idiomas
 - [x] **AC2.1** `lib/gym/fields.ts`: o que aparece no item de treino e o que vai para "Mais opções" (D234)
 - [x] **AC2.2** Painel do item e criação avançada com o corte do treino; E2E `e2e/treino-item.spec.ts` (D234)
+- [x] **AC3.1** `scripts/exercicios/montar-base.mjs`: as duas bases livres juntas em `data/exercicios/base.json` (2.016 exercícios) (D235)
+- [x] **AC3.2** `scripts/exercicios/traduzir.mjs`: tradução retomável pelo modelo local (D235)
+- [~] **AC3.3** Traduzir a base: o modelo local fez 60; o dono pediu para parar e o Claude faz o resto
+- [x] **AC3.4** `lib/gym/exercise-match.ts`: achar o exercício pelo que foi digitado, nos três idiomas, com sinônimos (D235)
+- [x] **AC3.5** `lib/gym/exercise-filter.ts`: busca e filtros por equipamento, parte do corpo e músculo (D235)
+- [x] **AC3.6** `exercises` e `user_exercises`, carga da base por migração, RLS, sync, pgTAP (D235)
+- [x] **AC3.7** Tela Biblioteca (busca, filtros, ficha, exercício próprio) (D235)
+- [x] **AC3.8** `tasks.exercise_id`, sugestão e escolha no painel do item de treino; E2E `e2e/biblioteca.spec.ts` (D235)
+- [x] **AC3.9** `NOTICE.md` com os créditos e licenças das bases (D235)
 - [x] **AC10.1** Sessão de treino no servidor (`workout_sessions`, `workout_session_members`): convite com aviso e push, entrar/sair, série do grupo (`log_group_set`, quem marca a última conclui), exercício atual e descanso iguais nos aparelhos pelo Realtime; E2E `e2e/treino-junto.spec.ts` (D183)
 - [x] **AC10.2** Seletor "Quem está treinando junto agora?" no Modo Treino de pasta compartilhada (D183)
 - [x] **AC10.3** `lib/gym/leaderboard.ts`: dias ativos (um por dia), pontos opcionais, empates dividindo a posição, sequência atual e maior; `challengeProgress` (feito pelo Claude, tirado da fila local)

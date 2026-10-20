@@ -1,0 +1,985 @@
+{
+ "mit-0001": {
+  "pt": "Abdominal 3/4",
+  "es": "Abdominal 3/4",
+  "steps_pt": [
+   "Deite-se de costas com os joelhos dobrados e pés no chão.",
+   "Coloque as mãos atrás da cabeça, cotovelos para fora.",
+   "Levante o tronco até formar um ângulo de 45 graus.",
+   "Desça lentamente até a posição inicial."
+  ]
+ },
+ "mit-0002": {
+  "pt": "Inclinação lateral 45°",
+  "es": "Inclinación lateral 45°",
+  "steps_pt": [
+   "Fique em pé com os pés na largura dos ombros.",
+   "Incline o tronco lateralmente sem curvar a coluna.",
+   "Volte à posição inicial com controle.",
+   "Repita do outro lado."
+  ]
+ },
+ "free-90_90_Hamstring": {
+  "pt": "Alongamento 90/90 para Posterior",
+  "es": "Estiramiento 90/90 para Isquiotibiales",
+  "steps_pt": [
+   "Sente-se no chão com uma perna esticada à frente e a outra dobrada ao lado.",
+   "Mantenha o tronco ereto e alinhe os quadris.",
+   "Incline levemente o tronco para frente sobre a perna esticada.",
+   "Sinta o alongamento na parte de trás da coxa.",
+   "Mantenha a posição por alguns segundos e troque as pernas."
+  ],
+  "steps_en": [
+   "Sit on the floor with one leg extended forward and the other bent to the side.",
+   "Keep your torso upright and hips aligned.",
+   "Lean slightly forward over the extended leg.",
+   "Feel the stretch in the back of your thigh.",
+   "Hold for a few seconds and switch legs."
+  ],
+  "steps_es": [
+   "Siéntate en el suelo con una pierna extendida hacia adelante y la otra doblada al lado.",
+   "Mantén el torso erguido y las caderas alineadas.",
+   "Inclínate ligeramente hacia adelante sobre la pierna extendida.",
+   "Siente el estiramiento en la parte trasera del muslo.",
+   "Mantén la posición unos segundos y cambia de pierna."
+  ],
+  "generated": true
+ },
+ "free-Ab_Crunch_Machine": {
+  "pt": "Abdominal na Máquina",
+  "es": "Abdominal en Máquina",
+  "steps_pt": [
+   "Ajuste a máquina para que a almofada fique na altura do peito.",
+   "Sente-se e segure as alças laterais.",
+   "Flexione o tronco para frente contraindo o abdômen.",
+   "Volte lentamente à posição inicial."
+  ],
+  "steps_en": [
+   "Adjust the machine so the pad is at chest height.",
+   "Sit down and hold the side handles.",
+   "Curl your torso forward by contracting your abs.",
+   "Return slowly to the starting position."
+  ],
+  "steps_es": [
+   "Ajusta la máquina para que la almohada esté a la altura del pecho.",
+   "Siéntate y sujeta los mangos laterales.",
+   "Flexiona el tronco hacia adelante contrayendo el abdomen.",
+   "Vuelve lentamente a la posición inicial."
+  ],
+  "generated": true
+ },
+ "free-Ab_Roller": {
+  "pt": "Roda Abdominal",
+  "es": "Rueda Abdominal",
+  "steps_pt": [
+   "Ajoelhe-se e segure a roda com as mãos.",
+   "Role a roda para frente estendendo o corpo.",
+   "Mantenha o abdômen contraído durante todo o movimento.",
+   "Puxe a roda de volta à posição inicial."
+  ],
+  "steps_en": [
+   "Kneel and hold the roller with both hands.",
+   "Roll the wheel forward extending your body.",
+   "Keep your abs contracted throughout the movement.",
+   "Pull the roller back to the starting position."
+  ],
+  "steps_es": [
+   "Arrodíllate y sujeta la rueda con ambas manos.",
+   "Rueda la rueda hacia adelante extendiendo el cuerpo.",
+   "Mantén el abdomen contraído durante todo el movimiento.",
+   "Tira de la rueda de vuelta a la posición inicial."
+  ],
+  "generated": true
+ },
+ "free-Adductor": {
+  "pt": "Liberação Miofascial em Adutores",
+  "es": "Liberación Miofascial en Aductores",
+  "steps_pt": [
+   "Deite-se de lado com o rolo de espuma sob a coxa interna.",
+   "Apoie o peso do corpo nos antebraços.",
+   "Role o corpo suavemente da virilha até o joelho.",
+   "Pare nas áreas mais tensas e mantenha por alguns segundos."
+  ],
+  "steps_en": [
+   "Lie on your side with the foam roller under your inner thigh.",
+   "Support your body weight on your forearms.",
+   "Roll your body gently from the groin to the knee.",
+   "Stop on tender spots and hold for a few seconds."
+  ],
+  "steps_es": [
+   "Acuéstate de lado con el rodillo de espuma bajo el muslo interno.",
+   "Apoya el peso de tu cuerpo en los antebrazos.",
+   "Rueda tu cuerpo suavemente desde la ingle hasta la rodilla.",
+   "Detente en los puntos sensibles y mantén la posición unos segundos."
+  ],
+  "generated": true
+ },
+ "free-Adductor_Groin": {
+  "pt": "Alongamento de adutores",
+  "es": "Estiramiento de aductores",
+  "steps_pt": [
+   "Sente-se no chão com as pernas abertas.",
+   "Apoie os pés no chão e mantenha as costas retas.",
+   "Incline o tronco suavemente para frente.",
+   "Segure a posição por 20 a 30 segundos.",
+   "Volte à posição inicial devagar."
+  ],
+  "steps_en": [
+   "Sit on the floor with your legs spread wide apart.",
+   "Place your feet flat on the ground and keep your back straight.",
+   "Gently lean your torso forward.",
+   "Hold this position for 20 to 30 seconds.",
+   "Return to the starting position slowly."
+  ],
+  "steps_es": [
+   "Siéntate en el suelo con las piernas bien abiertas.",
+   "Apoya los pies en el suelo y mantén la espalda recta.",
+   "Inclina el torso suavemente hacia adelante.",
+   "Mantén esta posición durante 20 a 30 segundos.",
+   "Vuelve a la posición inicial lentamente."
+  ],
+  "generated": true
+ },
+ "mit-0003": {
+  "pt": "Bicicleta",
+  "es": "Bicicleta",
+  "steps_pt": [
+   "Deite-se de costas com as mãos atrás da cabeça.",
+   "Levante as pernas e flexione os joelhos a 90 graus.",
+   "Traga o cotovelo direito em direção ao joelho esquerdo.",
+   "Alise a perna direita enquanto faz o movimento.",
+   "Alterne os lados num ritmo constante."
+  ]
+ },
+ "free-All_Fours_Quad_Stretch": {
+  "pt": "Alongamento de quadríceps em quatro apoios",
+  "es": "Estiramiento de cuádriceps en cuatro puntos de apoyo",
+  "steps_pt": [
+   "Fique em quatro apoios com os joelhos sob os quadris.",
+   "Flexione um joelho e traga o calcanhar em direção ao glúteo.",
+   "Segure o tornozelo com a mão do mesmo lado.",
+   "Mantenha os quadris alinhados e empurre levemente para frente.",
+   "Segure por 20 segundos e troque de perna."
+  ],
+  "steps_en": [
+   "Start on all fours with your knees under your hips.",
+   "Bend one knee and bring your heel towards your glutes.",
+   "Hold your ankle with the hand on the same side.",
+   "Keep your hips aligned and push them slightly forward.",
+   "Hold for 20 seconds and switch legs."
+  ],
+  "steps_es": [
+   "Comienza en cuatro puntos de apoyo con las rodillas bajo las caderas.",
+   "Flexiona una rodilla y lleva el talón hacia los glúteos.",
+   "Sujeta el tobillo con la mano del mismo lado.",
+   "Mantén las caderas alineadas y empuja ligeramente hacia adelante.",
+   "Mantén la posición 20 segundos y cambia de pierna."
+  ],
+  "generated": true
+ },
+ "mit-1512": {
+  "pt": "Alongamento de quadríceps em quatro apoios",
+  "es": "Estiramiento de cuádriceps en cuatro puntos de apoyo",
+  "steps_pt": [
+   "Posicione-se em quatro apoios, mãos sob os ombros.",
+   "Estenda uma perna para trás, mantendo o joelho flexionado.",
+   "Desça os quadris suavemente em direção ao chão.",
+   "Sinta o alongamento na frente da coxa.",
+   "Segure por 20 segundos e repita na outra perna."
+  ]
+ },
+ "free-Alternate_Hammer_Curl": {
+  "pt": "Rosca martelo alternada",
+  "es": "Curl martillo alternado",
+  "steps_pt": [
+   "Fique em pé segurando um haltere em cada mão.",
+   "Mantenha as palmas das mãos voltadas uma para a outra.",
+   "Flexione o cotovelo direito levantando o peso.",
+   "Desça controladamente e repita com o braço esquerdo.",
+   "Mantenha os cotovelos próximos ao corpo durante todo o movimento."
+  ],
+  "steps_en": [
+   "Stand holding a dumbbell in each hand.",
+   "Keep your palms facing each other.",
+   "Flex your right elbow to lift the weight.",
+   "Lower it controllably and repeat with the left arm.",
+   "Keep your elbows close to your body throughout the movement."
+  ],
+  "steps_es": [
+   "De pie sosteniendo una mancuerna en cada mano.",
+   "Mantén las palmas de las manos mirándose entre sí.",
+   "Flexiona el codo derecho para levantar el peso.",
+   "Bájalo controladamente y repite con el brazo izquierdo.",
+   "Mantén los codos cerca del cuerpo durante todo el movimiento."
+  ],
+  "generated": true
+ },
+ "mit-0006": {
+  "pt": "Toque de calcanhar",
+  "es": "Toque de talones",
+  "steps_pt": [
+   "Deite-se de costas com os joelhos flexionados e pés no chão.",
+   "Estenda os braços lateralmente, paralelos ao chão.",
+   "Levante os ombros e alcance o calcanhar direito com a mão direita.",
+   "Volte ao centro e alcance o calcanhar esquerdo com a mão esquerda.",
+   "Alterne os lados mantendo o abdômen contraído."
+  ]
+ },
+ "free-Alternate_Incline_Dumbbell_Curl": {
+  "pt": "Rosca alternada no banco inclinado",
+  "es": "Curl alterno en banco inclinado",
+  "steps_pt": [
+   "Sente-se no banco inclinado a 45 graus.",
+   "Segure um haltere em cada mão, braços estendidos.",
+   "Flexione um braço de cada vez, trazendo o peso ao ombro.",
+   "Contraia o bíceps no topo e retorne lentamente."
+  ],
+  "steps_en": [
+   "Sit on an incline bench set to 45 degrees.",
+   "Hold a dumbbell in each hand with arms fully extended.",
+   "Curl one arm at a time, lifting the weight towards your shoulder.",
+   "Squeeze the bicep at the top and lower slowly."
+  ],
+  "steps_es": [
+   "Siéntate en un banco inclinado a 45 grados.",
+   "Sujeta una mancuerna en cada mano con los brazos extendidos.",
+   "Flexiona un brazo a la vez, levantando el peso hacia el hombro.",
+   "Contrae el bíceps en la parte superior y baja lentamente."
+  ],
+  "generated": true
+ },
+ "mit-0007": {
+  "pt": "Puxada frontal alterna",
+  "es": "Jalón frontal alterno",
+  "steps_pt": [
+   "Sente-se na máquina com as costas retas e pés no chão.",
+   "Segure as alças com pegada pronada, ligeiramente mais abertas que os ombros.",
+   "Incline levemente o tronco para trás e puxe as alças ao peito.",
+   "Contraia as escápulas e retorne ao ponto de partida com controle."
+  ]
+ },
+ "free-Alternate_Leg_Diagonal_Bound": {
+  "pt": "Salto diagonal alternado",
+  "es": "Salto diagonal alterno",
+  "steps_pt": [
+   "Fique em pé com os pés juntos e joelhos levemente flexionados.",
+   "Salte diagonalmente para frente, aterrissando com uma perna só.",
+   "Use o braço oposto para gerar impulso e equilíbrio.",
+   "Impulse-se imediatamente para o próximo salto na direção oposta."
+  ],
+  "steps_en": [
+   "Stand with feet together and knees slightly bent.",
+   "Jump diagonally forward, landing on one leg.",
+   "Use the opposite arm to generate momentum and balance.",
+   "Immediately propel yourself into the next jump in the opposite direction."
+  ],
+  "steps_es": [
+   "Párate con los pies juntos y las rodillas ligeramente flexionadas.",
+   "Salta diagonalmente hacia adelante, aterrizando sobre una pierna.",
+   "Usa el brazo opuesto para generar impulso y equilibrio.",
+   "Impúlsate inmediatamente hacia el siguiente salto en la dirección opuesta."
+  ],
+  "generated": true
+ },
+ "free-Alternating_Cable_Shoulder_Press": {
+  "pt": "Desenvolvimento alternado de ombros com cabo",
+  "es": "Press de hombros alterno con cable",
+  "steps_pt": [
+   "Fique em pé ou sente-se segurando as alças dos cabos na altura dos ombros.",
+   "Com uma mão, empurre a alça para cima até a extensão completa.",
+   "Retorne ao ombro enquanto a outra mão inicia o movimento.",
+   "Alterne os lados de forma contínua e controlada."
+  ],
+  "steps_en": [
+   "Stand or sit holding the cable handles at shoulder height.",
+   "Push one handle overhead until fully extended.",
+   "Return to the shoulder while the other hand begins the movement.",
+   "Alternate sides in a continuous and controlled manner."
+  ],
+  "steps_es": [
+   "Párate o siéntate sosteniendo las manijas de los cables a la altura de los hombros.",
+   "Empuja una manija sobre la cabeza hasta la extensión completa.",
+   "Regresa al hombro mientras la otra mano inicia el movimiento.",
+   "Alterna los lados de manera continua y controlada."
+  ],
+  "generated": true
+ },
+ "free-Alternating_Deltoid_Raise": {
+  "pt": "Elevação lateral alternada",
+  "es": "Elevación lateral alterna",
+  "steps_pt": [
+   "Fique em pé com um haltere em cada mão, braços ao lado do corpo.",
+   "Eleve um braço lateralmente até a altura dos ombros.",
+   "Desça lentamente e repita com o outro braço.",
+   "Mantenha o tronco firme e evite balançar o corpo."
+  ],
+  "steps_en": [
+   "Stand with a dumbbell in each hand, arms by your sides.",
+   "Lift one arm laterally to shoulder height.",
+   "Lower it slowly and repeat with the other arm.",
+   "Keep your torso steady and avoid swinging your body."
+  ],
+  "steps_es": [
+   "Párate con una mancuerna en cada mano, brazos a los lados.",
+   "Levanta un brazo lateralmente hasta la altura de los hombros.",
+   "Bájalo lentamente y repite con el otro brazo.",
+   "Mantén el torso firme y evita balancear el cuerpo."
+  ],
+  "generated": true
+ },
+ "free-Alternating_Floor_Press": {
+  "pt": "Supino alternado no chão",
+  "es": "Press de suelo alterno",
+  "steps_pt": [
+   "Deite-se de costas no chão com os joelhos flexionados.",
+   "Segure um kettlebell em cada mão acima do peito.",
+   "Empurre um peso para cima até estender o braço.",
+   "Desça e alterne o movimento com o outro braço."
+  ],
+  "steps_en": [
+   "Lie on your back on the floor with knees bent.",
+   "Hold a kettlebell in each hand above your chest.",
+   "Press one weight up until your arm is extended.",
+   "Lower it and alternate the movement with the other arm."
+  ],
+  "steps_es": [
+   "Acuéstate boca arriba en el suelo con las rodillas flexionadas.",
+   "Sujeta un kettlebell en cada mano sobre el pecho.",
+   "Empuja un peso hacia arriba hasta extender el brazo.",
+   "Bájalo y alterna el movimiento con el otro brazo."
+  ],
+  "generated": true
+ },
+ "free-Alternating_Hang_Clean": {
+  "pt": "Limpe a partir do joelho alternada",
+  "es": "Clean desde la rodilla alternado",
+  "steps_pt": [
+   "Segure um kettlebell em cada mão.",
+   "Fique em pé com os pés na largura dos ombros.",
+   "Flexione os joelhos e segure os pesos na altura do meio da coxa.",
+   "Estenda as pernas e os quadris explosivamente para levantar os pesos.",
+   "Pegue os pesos no ombro e alterne os lados."
+  ],
+  "steps_en": [
+   "Hold a kettlebell in each hand.",
+   "Stand with feet shoulder-width apart.",
+   "Bend your knees and hold the weights at mid-thigh level.",
+   "Extend your legs and hips explosively to lift the weights.",
+   "Catch the weights at shoulder height and alternate sides."
+  ],
+  "steps_es": [
+   "Sostén un kettlebell en cada mano.",
+   "Párate con los pies separados al ancho de los hombros.",
+   "Flexiona las rodillas y sostén los pesos a la altura del muslo medio.",
+   "Extiende las piernas y las caderas explosivamente para levantar los pesos.",
+   "Atrapa los pesos a la altura de los hombros y alterna los lados."
+  ],
+  "generated": true
+ },
+ "free-Alternating_Renegade_Row": {
+  "pt": "Remada renegada alternada",
+  "es": "Remo renegado alternado",
+  "steps_pt": [
+   "Coloque-se em posição de prancha alta com as mãos nos kettlebells.",
+   "Mantenha o core contraído e o corpo alinhado.",
+   "Puxe um kettlebell em direção ao peito, mantendo o quadril estável.",
+   "Desça o peso com controle e repita com o outro braço.",
+   "Alterne os lados a cada repetição."
+  ],
+  "steps_en": [
+   "Get into a high plank position with hands on the kettlebells.",
+   "Keep your core tight and body aligned.",
+   "Pull one kettlebell towards your chest, keeping hips stable.",
+   "Lower the weight with control and repeat with the other arm.",
+   "Alternate sides with each repetition."
+  ],
+  "steps_es": [
+   "Colócate en posición de plancha alta con las manos sobre los kettlebells.",
+   "Mantén el core apretado y el cuerpo alineado.",
+   "Tira de un kettlebell hacia el pecho, manteniendo las caderas estables.",
+   "Baja el peso con control y repite con el otro brazo.",
+   "Alterna los lados con cada repetición."
+  ],
+  "generated": true
+ },
+ "mit-1368": {
+  "pt": "Rotação de tornozelo",
+  "es": "Círculos de tobillo",
+  "steps_pt": [
+   "Sente-se no chão com as pernas estendidas à frente.",
+   "Levante uma perna do chão.",
+   "Gire o tornozelo em movimento circular.",
+   "Faça o número desejado de círculos em uma direção.",
+   "Troque para a outra direção e depois para a outra perna."
+  ]
+ },
+ "free-Ankle_Circles": {
+  "pt": "Rotação de tornozelo",
+  "es": "Círculos de tobillo",
+  "steps_pt": [
+   "Sente-se ou deite-se confortavelmente.",
+   "Levante um pé do chão.",
+   "Gire o tornozelo suavemente em círculos.",
+   "Faça várias rotações em uma direção.",
+   "Inverta o sentido e repita."
+  ],
+  "steps_en": [
+   "Sit or lie down comfortably.",
+   "Lift one foot off the ground.",
+   "Rotate the ankle gently in circles.",
+   "Perform several rotations in one direction.",
+   "Reverse the direction and repeat."
+  ],
+  "steps_es": [
+   "Siéntate o acuéstate cómodamente.",
+   "Levanta un pie del suelo.",
+   "Gira el tobillo suavemente en círculos.",
+   "Realiza varias rotaciones en una dirección.",
+   "Invierte la dirección y repite."
+  ],
+  "generated": true
+ },
+ "free-Ankle_On_The_Knee": {
+  "pt": "Tornozelo sobre o joelho",
+  "es": "Tobillo sobre la rodilla",
+  "steps_pt": [
+   "Deite-se de costas com os joelhos flexionados.",
+   "Apoie o tornozelo de uma perna sobre o joelho da outra.",
+   "Empurre o joelho da perna de apoio para fora com a mão oposta.",
+   "Sinta o alongamento no glúteo e mantenha a posição.",
+   "Troque de lado após o tempo determinado."
+  ],
+  "steps_en": [
+   "Lie on your back with knees bent.",
+   "Place one ankle on the opposite knee.",
+   "Push the supporting knee outward with the opposite hand.",
+   "Feel the stretch in the glute and hold the position.",
+   "Switch sides after the set time."
+  ],
+  "steps_es": [
+   "Acuéstate boca arriba con las rodillas flexionadas.",
+   "Coloca un tobillo sobre la rodilla opuesta.",
+   "Empuja la rodilla de apoyo hacia afuera con la mano opuesta.",
+   "Siente el estiramiento en el glúteo y mantén la posición.",
+   "Cambia de lado después del tiempo establecido."
+  ],
+  "generated": true
+ },
+ "free-Anterior_Tibialis-SMR": {
+  "pt": "Liberação miofascial do tibial anterior",
+  "es": "Liberación miofascial del tibial anterior",
+  "steps_pt": [
+   "Sente-se no chão com uma perna estendida.",
+   "Posicione um rolo de espuma ou bola de massagem sob a canela.",
+   "Apoie o peso do corpo sobre a área dolorida.",
+   "Role suavemente de cima para baixo na canela.",
+   "Pare nos pontos de tensão e mantenha a pressão por alguns segundos."
+  ],
+  "steps_en": [
+   "Sit on the floor with one leg extended.",
+   "Place a foam roller or massage ball under the shin.",
+   "Support your body weight on the painful area.",
+   "Roll gently up and down the shin.",
+   "Stop at tension points and hold pressure for a few seconds."
+  ],
+  "steps_es": [
+   "Siéntate en el suelo con una pierna extendida.",
+   "Coloca un rodillo de espuma o una bola de masaje debajo de la espinilla.",
+   "Apoya el peso de tu cuerpo en el área dolorida.",
+   "Rueda suavemente de arriba hacia abajo en la espinilla.",
+   "Detente en los puntos de tensión y mantén la presión por unos segundos."
+  ],
+  "generated": true
+ },
+ "free-Anti-Gravity_Press": {
+  "pt": "Pressão Anti-Gravidade",
+  "es": "Prensa Anti-Gravedad",
+  "steps_pt": [
+   "Posicione-se corretamente na máquina.",
+   "Segure as alças ou barras com firmeza.",
+   "Empurre para cima até estender os braços.",
+   "Retorne lentamente à posição inicial."
+  ],
+  "steps_en": [
+   "Position yourself correctly on the machine.",
+   "Grasp the handles or bars firmly.",
+   "Push upwards until your arms are fully extended.",
+   "Return slowly to the starting position."
+  ],
+  "steps_es": [
+   "Colócate correctamente en la máquina.",
+   "Sujeta las asas o barras con firmeza.",
+   "Empuja hacia arriba hasta estirar los brazos.",
+   "Vuelve lentamente a la posición inicial."
+  ],
+  "generated": true
+ },
+ "mit-3293": {
+  "pt": "Barra fixa tipo Archer",
+  "es": "Dominadas tipo Arquero",
+  "steps_pt": [
+   "Pendure-se na barra com pegada pronada.",
+   "Puxe o corpo para cima dobrando um cotovelo.",
+   "Mantenha o outro braço esticado e paralelo ao chão.",
+   "Desça com controle e alterne os lados."
+  ]
+ },
+ "mit-3294": {
+  "pt": "Flexão de braço tipo Archer",
+  "es": "Flexión tipo Arquero",
+  "steps_pt": [
+   "Inicie na posição de flexão com mãos afastadas.",
+   "Estenda um braço para o lado, paralelo ao chão.",
+   "Desça o corpo dobrando o cotovelo da outra mão.",
+   "Empurre para cima e alterne os lados."
+  ]
+ },
+ "free-Arm_Circles": {
+  "pt": "Círculos com os braços",
+  "es": "Círculos con los brazos",
+  "steps_pt": [
+   "Em pé, estenda os braços para os lados.",
+   "Faça movimentos circulares pequenos para frente.",
+   "Alterne para movimentos circulares para trás.",
+   "Mantenha o tronco firme durante o exercício."
+  ],
+  "steps_en": [
+   "Stand with arms extended to the sides.",
+   "Make small circular movements forward.",
+   "Switch to circular movements backward.",
+   "Keep your torso stable during the exercise."
+  ],
+  "steps_es": [
+   "De pie, extiende los brazos hacia los lados.",
+   "Haz movimientos circulares pequeños hacia adelante.",
+   "Alterna a movimientos circulares hacia atrás.",
+   "Mantén el tronco firme durante el ejercicio."
+  ],
+  "generated": true
+ },
+ "mit-2355": {
+  "pt": "Elevação de joelhos pendurado",
+  "es": "Elevación de rodillas colgado",
+  "steps_pt": [
+   "Pendure-se na barra com os joelhos dobrados.",
+   "Contraia o abdômen e levante os joelhos.",
+   "Traga os joelhos perto dos cotovelos.",
+   "Desça as pernas lentamente e repita."
+  ]
+ },
+ "mit-2333": {
+  "pt": "Elevação de pernas pendurado",
+  "es": "Elevación de piernas colgado",
+  "steps_pt": [
+   "Pendure-se na barra com as pernas esticadas.",
+   "Levante as pernas até ficarem paralelas ao chão.",
+   "Segure brevemente no ponto mais alto.",
+   "Desça as pernas lentamente e repita."
+  ]
+ },
+ "mit-3214": {
+  "pt": "Toque nos pés com braços abertos",
+  "es": "Tocamiento de pies circular con brazos abiertos",
+  "steps_pt": [
+   "Fique em pé com os pés afastados na largura dos ombros.",
+   "Estenda os braços lateralmente, paralelos ao chão.",
+   "Incline o tronco para frente mantendo as pernas retas.",
+   "Toque o pé direito com a mão esquerda, levantando a perna direita.",
+   "Volte à posição inicial e alterne os lados."
+  ]
+ },
+ "mit-3204": {
+  "pt": "Abdominal completo com braços acima da cabeça",
+  "es": "Abdominal completo con brazos sobre la cabeza",
+  "steps_pt": [
+   "Deite-se de costas com os joelhos dobrados e pés no chão.",
+   "Estenda os braços acima da cabeça, mantendo-os retos.",
+   "Contraia o abdômen e levante o tronco até ficar sentado.",
+   "Pouse brevemente no topo e desça lentamente.",
+   "Repita o movimento para as repetições desejadas."
+  ]
+ },
+ "free-Around_The_Worlds": {
+  "pt": "Moinho de vento com halteres",
+  "es": "Molino con mancuernas",
+  "steps_pt": [
+   "Segure um haltere em cada mão com os braços estendidos.",
+   "Inicie com os braços para os lados, paralelos ao chão.",
+   "Mova os braços em um círculo completo acima da cabeça.",
+   "Controle o movimento na descida, voltando à posição lateral.",
+   "Repita o fluxo circular continuamente."
+  ],
+  "steps_en": [
+   "Hold a dumbbell in each hand with arms extended.",
+   "Start with arms out to the sides, parallel to the floor.",
+   "Move the arms in a full circle overhead.",
+   "Control the movement on the way down, returning to the side position.",
+   "Repeat the circular flow continuously."
+  ],
+  "steps_es": [
+   "Sujeta una mancuerna en cada mano con los brazos extendidos.",
+   "Inicia con los brazos a los lados, paralelos al suelo.",
+   "Mueve los brazos en un círculo completo por encima de la cabeza.",
+   "Controla el movimiento al bajar, volviendo a la posición lateral.",
+   "Repite el flujo circular continuamente."
+  ],
+  "generated": true
+ },
+ "mit-0009": {
+  "pt": "Mergulho no peito assistido (ajoelhado)",
+  "es": "Fondos asistidos en pecho (arrodillado)",
+  "steps_pt": [
+   "Ajuste a máquina e apoie os joelhos no suporte.",
+   "Segure as alças com as palmas voltadas para baixo.",
+   "Desça o corpo dobrando os cotovelos até os braços ficarem paralelos ao chão.",
+   "Empurre para cima até estender os braços novamente.",
+   "Repita o movimento para as repetições desejadas."
+  ]
+ },
+ "mit-0011": {
+  "pt": "Elevação de joelhos suspensa assistida",
+  "es": "Elevación de rodillas colgado asistido",
+  "steps_pt": [
+   "Pendure-se na barra com os braços totalmente estendidos.",
+   "Contraia o abdômen e levante os joelhos em direção ao peito.",
+   "Pouse brevemente no topo, contraindo os abdominais.",
+   "Desça as pernas lentamente até a posição inicial.",
+   "Repita o movimento para as repetições desejadas."
+  ]
+ },
+ "mit-0010": {
+  "pt": "Elevação de joelhos suspensa com chute para baixo",
+  "es": "Elevación de rodillas colgado con patada hacia abajo",
+  "steps_pt": [
+   "Pendure-se na barra com os braços estendidos.",
+   "Levante os joelhos até o nível do peito, mantendo as pernas juntas.",
+   "Chute as pernas explosivamente para baixo, esticando-as totalmente.",
+   "Deixe as pernas subirem pelo impulso e repita o movimento.",
+   "Controle a descida para manter a tensão abdominal."
+  ]
+ },
+ "mit-1708": {
+  "pt": "Alongamento de panturrilha deitado assistido",
+  "es": "Estiramiento de gemelos acostado asistido",
+  "steps_pt": [
+   "Deite-se de costas com as pernas esticadas.",
+   "Flexione um joelho e apoie o pé no chão.",
+   "Puxe os dedos dos pés em direção ao corpo suavemente.",
+   "Sinta o alongamento na panturrilha.",
+   "Mantenha a posição por 20-30 segundos."
+  ]
+ },
+ "mit-1709": {
+  "pt": "Alongamento de glúteos deitado assistido",
+  "es": "Estiramiento de glúteos acostado asistido",
+  "steps_pt": [
+   "Deite-se de costas com as pernas esticadas.",
+   "Cruze o tornozelo direito sobre a coxa esquerda.",
+   "Segure a coxa esquerda com ambas as mãos.",
+   "Puxe a perna em direção ao peito suavemente.",
+   "Mantenha por 20-30 segundos e repita do outro lado."
+  ]
+ },
+ "mit-1710": {
+  "pt": "Alongamento de glúteos e piriforme deitado assistido",
+  "es": "Estiramiento de glúteos y piriforme acostado asistido",
+  "steps_pt": [
+   "Deite-se de costas com as pernas esticadas.",
+   "Coloque o tornozelo de uma perna sobre a coxa da outra.",
+   "Abraçe a coxa de baixo com as mãos.",
+   "Puxe a perna em direção ao tronco com cuidado.",
+   "Segure o alongamento por 20-30 segundos."
+  ]
+ },
+ "mit-0012": {
+  "pt": "Elevação de pernas deitado com queda lateral assistida",
+  "es": "Elevación de piernas acostada con caída lateral asistida",
+  "steps_pt": [
+   "Deite-se de costas com as pernas e braços esticados.",
+   "Apoie as mãos sob os glúteos para suporte.",
+   "Erga as pernas retas do chão ativando o abdômen.",
+   "Desça as pernas juntas até perto do chão, de lado.",
+   "Retorne ao centro e repita para o outro lado."
+  ]
+ },
+ "mit-0013": {
+  "pt": "Elevação de pernas deitado com queda assistida",
+  "es": "Elevación de piernas acostada con caída asistida",
+  "steps_pt": [
+   "Deite-se de costas com as pernas esticadas.",
+   "Apoie as mãos sob os glúteos.",
+   "Erga as pernas retas até ficarem perpendiculares ao chão.",
+   "Desça as pernas controladamente até perto do chão.",
+   "Erga-as novamente e repita o movimento."
+  ]
+ },
+ "mit-0014": {
+  "pt": "Torção russa assistida",
+  "es": "Giro ruso asistido",
+  "steps_pt": [
+   "Sente-se no chão com os joelhos flexionados.",
+   "Segure a bola medicinal com as duas mãos.",
+   "Incline o tronco para trás mantendo a coluna reta.",
+   "Gire o corpo para um lado levando a bola.",
+   "Volte ao centro e gire para o outro lado."
+  ]
+ },
+ "mit-0015": {
+  "pt": "Barra paralela pegada fechada assistida",
+  "es": "Dominada paralela agarre cerrado asistida",
+  "steps_pt": [
+   "Ajuste a máquina ao peso e altura desejados.",
+   "Segure as barras paralelas com pegada fechada, palmas voltadas uma para a outra.",
+   "Pendure-se com os braços esticados e os pés fora do chão.",
+   "Puxe o corpo para cima mantendo os cotovelos próximos ao tronco.",
+   "Desça lentamente até esticar os braços novamente."
+  ]
+ },
+ "mit-0016": {
+  "pt": "Flexão de isquiotibiais deitado de barriga para baixo assistida",
+  "es": "Flexión de isquiotibiales prono asistida",
+  "steps_pt": [
+   "Deite-se de barriga para baixo com as pernas esticadas.",
+   "Prenda os tornozelos com um parceiro ou elástico.",
+   "Flexione os joelhos trazendo os calcanhares em direção aos glúteos.",
+   "Mantenha a posição no topo por um instante.",
+   "Desça as pernas lentamente até a posição inicial."
+  ]
+ },
+ "mit-1713": {
+  "pt": "Alongamento de quadríceps deitado de barriga para baixo assistido",
+  "es": "Estiramiento de cuádriceps prono asistido",
+  "steps_pt": [
+   "Deite-se de barriga para baixo com as pernas esticadas.",
+   "Dobre o joelho esquerdo e segure o pé ou tornozelo com a mão esquerda.",
+   "Puxe suavemente o pé em direção aos glúteos até sentir o alongamento.",
+   "Mantenha a posição por 20 a 30 segundos.",
+   "Solte e repita com a perna direita."
+  ]
+ },
+ "mit-1714": {
+  "pt": "Alongamento do reto femoral deitado de barriga para baixo assistido",
+  "es": "Estiramiento del recto femoral prono asistido",
+  "steps_pt": [
+   "Deite-se de barriga para baixo com as pernas esticadas.",
+   "Dobre o joelho direito e segure o pé ou tornozelo com a mão direita.",
+   "Puxe suavemente o pé em direção aos glúteos até sentir o alongamento na coxa.",
+   "Mantenha a posição por 20 a 30 segundos.",
+   "Solte e repita com a perna esquerda."
+  ]
+ },
+ "mit-0017": {
+  "pt": "Barra fixa assistida",
+  "es": "Dominada asistida",
+  "steps_pt": [
+   "Ajuste a máquina ao peso e altura desejados.",
+   "Segure as barras com pegada pronada, ligeiramente mais larga que os ombros.",
+   "Pendure-se com os braços esticados e os pés fora do chão.",
+   "Puxe o corpo para cima mantendo os cotovelos próximos ao tronco.",
+   "Desça lentamente até esticar os braços novamente."
+  ]
+ },
+ "mit-1716": {
+  "pt": "Alongamento de peitoral sentado com bola suíça assistido",
+  "es": "Estiramiento de pectorales sentado con bola suiza asistido",
+  "steps_pt": [
+   "Sente-se na bola suíça com os pés no chão e as costas retas.",
+   "Segure a bola com as duas mãos e estique os braços à frente.",
+   "Incline o tronco para trás, baixando a bola em direção ao peito.",
+   "Sinta o alongamento nos peitorais e mantenha a posição.",
+   "Volte suavemente à posição inicial."
+  ]
+ },
+ "mit-1712": {
+  "pt": "Alongamento de adutores deitado de lado assistido",
+  "es": "Estiramiento asistido de aductores acostado de lado",
+  "steps_pt": [
+   "Deite-se de lado com as pernas esticadas e uma sobre a outra.",
+   "Flexione levemente a perna de baixo para ganhar estabilidade.",
+   "Apoie o pé da perna de cima em um banco ou superfície firme.",
+   "Com a perna de cima esticada, desça-a devagar em direção ao chão.",
+   "Sinta o alongamento na coxa interna e segure por 20 a 30 segundos.",
+   "Retorne à posição inicial e repita no outro lado."
+  ]
+ },
+ "mit-1758": {
+  "pt": "Abdominal assistido",
+  "es": "Abdominal asistido",
+  "steps_pt": [
+   "Sente-se na borda de um banco ou peça para alguém segurar seus pés.",
+   "Deite-se de costas com os joelhos flexionados e pés no chão.",
+   "Coloque as mãos atrás da cabeça com os cotovelos apontando para fora.",
+   "Ative os abdominais e levante o tronco devagar até formar um ângulo de 45 graus.",
+   "Pause no topo e desça o tronco lentamente até a posição inicial.",
+   "Repita o movimento pelo número desejado de repetições."
+  ]
+ },
+ "mit-1431": {
+  "pt": "Barra fixa assistida (pegada supinada)",
+  "es": "Dominada asistida (agarre supino)",
+  "steps_pt": [
+   "Ajuste a máquina no nível de assistência desejado.",
+   "Em pé na plataforma, segure as alças com pegada supinada (palmas para cima), um pouco mais abertas que a largura dos ombros.",
+   "Mantenha o peito erguido, ombros para trás e abdômen ativado.",
+   "Puxe o corpo para cima flexionando os cotovelos e levando-os para baixo.",
+   "Continue até o queixo ultrapassar a barra.",
+   "Desça lentamente de volta à posição inicial e repita."
+  ]
+ },
+ "mit-1432": {
+  "pt": "Barra fixa assistida (pegada pronada)",
+  "es": "Dominada asistida (agarre prono)",
+  "steps_pt": [
+   "Ajuste o peso e a altura da máquina conforme necessário.",
+   "Fique de frente para a máquina com os pés na largura dos ombros.",
+   "Segure as alças com pegada pronada (palmas para frente), um pouco mais abertas que a largura dos ombros.",
+   "Ative as costas e bíceps, puxando o corpo para cima em direção às alças.",
+   "Pause no topo, contraindo os músculos das costas.",
+   "Desça lentamente de volta à posição inicial e repita."
+  ]
+ },
+ "mit-0018": {
+  "pt": "Extensão de tríceps em pé assistida (com toalha)",
+  "es": "Extensión de tríceps de pie asistida (con toalla)",
+  "steps_pt": [
+   "Fique em pé com os pés na largura dos ombros e segure uma toalha atrás da cabeça com as duas mãos.",
+   "Mantenha os cotovelos próximos às orelhas e os braços superiores imóveis.",
+   "Estenda os antebraços para cima, contraindo os tríceps no topo.",
+   "Pause brevemente e desça a to lentamente de volta à posição inicial.",
+   "Repita pelo número desejado de repetições."
+  ]
+ },
+ "mit-0019": {
+  "pt": "Mergulho em tríceps assistido (ajoelhado)",
+  "es": "Fondos asistidos en tríceps (arrodillado)",
+  "steps_pt": [
+   "Ajuste o peso e a altura da máquina.",
+   "Ajoelhe-se no apoio, de frente para a máquina, segurando as alças.",
+   "Desça o corpo flexionando os cotovelos, mantendo as costas retas e próximas à máquina.",
+   "Pause no ponto mais baixo e empurre o corpo de volta à posição inicial.",
+   "Repita pelo número desejado de repetições."
+  ]
+ },
+ "mit-2364": {
+  "pt": "Mergulho no peito com pegada larga (ajoelhado)",
+  "es": "Fondos en pecho con agarre ancho (arrodillado)",
+  "steps_pt": [
+   "Ajuste a máquina à altura correta e apoie os joelhos no suporte.",
+   "Segure as alças com as mãos afastadas e mantenha os cotovelos levemente flexionados.",
+   "Desça o corpo dobrando os cotovelos até os braços ficarem paralelos ao chão.",
+   "Empurre o corpo para cima estendendo os braços até a posição inicial.",
+   "Repita o movimento."
+  ]
+ },
+ "mit-3220": {
+  "pt": "Salto de pernas abertas (masculino)",
+  "es": "Saltos de piernas abiertas (masculino)",
+  "steps_pt": [
+   "Fique em pé com os pés na largura dos ombros.",
+   "Flexione os joelhos e desça o corpo em posição de agachamento.",
+   "Salte explosivamente para cima, estendendo pernas e braços.",
+   "No ar, abra as pernas e estique os braços para os lados.",
+   "Pouse suavemente com os pés na largura dos ombros, flexionando os joelhos.",
+   "Repita o movimento."
+  ]
+ },
+ "free-Atlas_Stone_Trainer": {
+  "pt": "Treinador de Pedra de Atlas",
+  "es": "Entrenador de Piedra de Atlas",
+  "steps_pt": [
+   "Posicione-se diante do peso com os pés afastados.",
+   "Agache-se e segure a pedra ou alças com firmeza.",
+   "Levante o peso usando a força das pernas, não das costas.",
+   "Mantenha o tronco ereto e traga o peso até a cintura.",
+   "Empurre o peso para cima e para frente até colocá-lo na plataforma.",
+   "Desça controladamente e repita."
+  ],
+  "steps_en": [
+   "Position yourself in front of the weight with feet shoulder-width apart.",
+   "Squat down and grip the stone or handles firmly.",
+   "Lift the weight using leg power, not back strength.",
+   "Keep your torso upright and bring the weight up to your waist.",
+   "Push the weight up and forward onto the platform.",
+   "Lower it under control and repeat."
+  ],
+  "steps_es": [
+   "Colócate frente al peso con los pies separados al ancho de los hombros.",
+   "Agáchate y agarra la piedra o las asas firmemente.",
+   "Levanta el peso usando la fuerza de las piernas, no la espalda.",
+   "Mantén el torso erguido y lleva el peso hasta la cintura.",
+   "Empuja el peso hacia arriba y hacia adelante sobre la plataforma.",
+   "Bájalo con control y repite."
+  ],
+  "generated": true
+ },
+ "free-Atlas_Stones": {
+  "pt": "Pedra de Atlas",
+  "es": "Piedra de Atlas",
+  "steps_pt": [
+   "Aproxime-se da pedra e agache-se com os pés bem afastados.",
+   "Segure a pedra com as duas mãos, mantendo-a perto do corpo.",
+   "Levante-a usando a força das pernas, mantendo as costas retas.",
+   "Traga a pedra até a altura do peito e depois empurre para cima.",
+   "Coloque a pedra no pedestal ou plataforma superior.",
+   "Volte à posição inicial com controle."
+  ],
+  "steps_en": [
+   "Approach the stone and squat down with feet wide apart.",
+   "Grip the stone with both hands, keeping it close to your body.",
+   "Lift it using leg power, keeping your back straight.",
+   "Bring the stone to chest height and then push it upward.",
+   "Place the stone on the pedestal or upper platform.",
+   "Return to the starting position with control."
+  ],
+  "steps_es": [
+   "Acércate a la piedra y agáchate con los pies bien separados.",
+   "Agarra la piedra con ambas manos, manteniéndola cerca del cuerpo.",
+   "Levántala usando la fuerza de las piernas, manteniendo la espalda recta.",
+   "Lleva la piedra a la altura del pecho y luego empújala hacia arriba.",
+   "Coloca la piedra en el pedestal o plataforma superior.",
+   "Vuelve a la posición inicial con control."
+  ],
+  "generated": true
+ },
+ "free-Axle_Deadlift": {
+  "pt": "Levantamento terra com barra axil",
+  "es": "Peso muerto con barra axil",
+  "steps_pt": [
+   "Posicione-se diante da barra com os pés na largura dos quadris.",
+   "Agache-se e segure a barra com as mãos fora dos joelhos.",
+   "Mantenha as costas retas e o peito erguido.",
+   "Levante a barra estendendo os quadris e os joelhos simultaneamente.",
+   "Fique em pé totalmente, depois desça a barra controladamente.",
+   "Repita o movimento."
+  ],
+  "steps_en": [
+   "Position yourself in front of the bar with feet hip-width apart.",
+   "Squat down and grip the bar with hands outside the knees.",
+   "Keep your back straight and chest up.",
+   "Lift the bar by extending hips and knees simultaneously.",
+   "Stand up fully, then lower the bar under control.",
+   "Repeat the movement."
+  ],
+  "steps_es": [
+   "Colócate frente a la barra con los pies separados al ancho de las caderas.",
+   "Agáchate y agarra la barra con las manos fuera de las rodillas.",
+   "Mantén la espalda recta y el pecho erguido.",
+   "Levanta la barra extendiendo caderas y rodillas simultáneamente.",
+   "Párate completamente y luego baja la barra con control.",
+   "Repite el movimiento."
+  ],
+  "generated": true
+ },
+ "mit-3672": {
+  "pt": "Passada para frente e para trás",
+  "es": "Zancada hacia adelante y atrás",
+  "steps_pt": [
+   "Fique em pé com os pés na largura dos ombros.",
+   "Dê um passo à frente com o pé direito, flexionando o joelho.",
+   "Empurre o pé direito e volte à posição inicial.",
+   "Repita o movimento com o pé esquerdo, alternando as pernas.",
+   "Continue alternando os passos em ritmo constante.",
+   "Repita por tempo ou número de repetições."
+  ]
+ }
+}
