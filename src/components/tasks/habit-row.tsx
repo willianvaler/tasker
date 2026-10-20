@@ -221,21 +221,21 @@ export function HabitRow({
             {'  '}
             <Text className="font-mono text-danger">−{task.count_down}</Text>
           </Text>
-          {/* − à esquerda do +, os dois na direita (como no Habitica) */}
-          {sides !== 'up' && (
-            <TickButton
-              sign="−"
-              label={t('habit.bad', { title: task.title })}
-              disabled={!writable}
-              onPress={() => tick(task, -1)}
-            />
-          )}
+          {/* + à esquerda do −, os dois na direita (pedido do dono em 20/10) */}
           {sides !== 'down' && (
             <TickButton
               sign="+"
               label={t('habit.good', { title: task.title })}
               disabled={!writable}
               onPress={() => tick(task, 1)}
+            />
+          )}
+          {sides !== 'up' && (
+            <TickButton
+              sign="−"
+              label={t('habit.bad', { title: task.title })}
+              disabled={!writable}
+              onPress={() => tick(task, -1)}
             />
           )}
         </View>
