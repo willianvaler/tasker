@@ -36,7 +36,7 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | pendente | AC5.2, AC6.3 |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora (qualquer uma, só leitura) vira registro de treino (V7-1 a V7-3) | pendente | conta de desenvolvedor do Strava, development build (dono) |
-| **V6** | TR5 | Memória e lentidão do APK: medir num aparelho antes de mexer (suspeitos: cache do TanStack salvo inteiro e síncrono no SQLite, imagens do jogo) | pendente | aparelho do dono |
+| **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com notas de verdade | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
 

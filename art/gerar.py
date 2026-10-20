@@ -106,6 +106,28 @@ def main():
             print(f'{chave}: {time.time() - t0:.0f}s', flush=True)
 
 
+MINI = 192  # lado da miniatura: cobre até 96 pt em tela 2x (D229)
+
+
+def miniaturas():
+    """assets/game/<grupo>/mini/<id>.webp: a mesma arte reduzida, para avatares e listas (D229)."""
+    from PIL import Image as Img
+    for grupo in sorted(os.listdir(SAIDA)):
+        pasta = os.path.join(SAIDA, grupo)
+        if not os.path.isdir(pasta):
+            continue
+        os.makedirs(os.path.join(pasta, 'mini'), exist_ok=True)
+        for nome in sorted(os.listdir(pasta)):
+            if not nome.endswith('.webp'):
+                continue
+            origem, destino = os.path.join(pasta, nome), os.path.join(pasta, 'mini', nome)
+            if os.path.exists(destino) and os.path.getmtime(destino) >= os.path.getmtime(origem):
+                continue
+            img = Img.open(origem)
+            img.thumbnail((MINI * 2, MINI) if img.width > img.height * 1.2 else (MINI, MINI), Img.LANCZOS)
+            img.save(destino, 'WEBP', quality=80, method=6)
+
+
 def indice():
     """Escreve src/lib/game-art.ts: um require por imagem que existe (o Metro precisa do caminho fixo)."""
     cfg = yaml.safe_load(open(os.path.join(AQUI, 'prompts.yaml')))
@@ -118,6 +140,15 @@ def indice():
                 linhas.append(f"    '{item['id']}': require('../../assets/game/{grupo}/{item['id']}.webp'),")
         linhas.append('  },')
     linhas.append('} as const;')
+    linhas += ['', '/** Miniaturas (192 px) para tamanhos até 96 pt: decodificar 512 px para um avatar engasga (D229). */',
+               'export const GAME_ART_MINI = {']
+    for grupo, g in cfg['grupos'].items():
+        linhas.append(f'  {grupo}: {{')
+        for item in g['itens']:
+            if os.path.exists(os.path.join(SAIDA, grupo, 'mini', item['id'] + '.webp')):
+                linhas.append(f"    '{item['id']}': require('../../assets/game/{grupo}/mini/{item['id']}.webp'),")
+        linhas.append('  },')
+    linhas.append('} as const;')
     nomes = {i['nome']: i['id'] for i in cfg['grupos']['bosses']['itens'] if 'nome' in i}
     linhas += ['', '/** Nome do boss (como o banco grava) → arte. */', 'export const BOSS_ART_BY_NAME: Record<string, string> = {']
     linhas += [f"  '{n}': '{k}'," for n, k in nomes.items()]
@@ -128,7 +159,9 @@ def indice():
 if __name__ == '__main__':
     import urllib.parse  # noqa: E402
     if sys.argv[1:] == ['indice']:
+        miniaturas()
         indice()
     else:
         main()
+        miniaturas()
         indice()

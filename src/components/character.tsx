@@ -1,6 +1,8 @@
 import { Link } from 'expo-router';
 import { Backpack, Check, Plus, RotateCcw, ShoppingBag, Zap } from 'lucide-react-native';
 import { Image } from 'expo-image';
+
+import { artSource } from '@/components/game-art';
 import { useTranslation } from 'react-i18next';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
@@ -27,7 +29,6 @@ import {
 } from '@/lib/character';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { GAME_ART } from '@/lib/game-art';
 import { portraitKey } from '@/lib/game-mode';
 import { gamificationConfig as config } from '@/lib/gamification.config';
 import {
@@ -53,6 +54,9 @@ function useItemMap() {
   return new Map((items.data ?? []).map((i) => [i.key, i]));
 }
 
+/** Lado de cada tamanho em pt (escolhe a miniatura da arte) */
+const AVATAR_PX = { sm: 56, md: 96, lg: 144 } as const;
+
 const AVATAR = {
   sm: { box: 'h-14 w-14 rounded-lg', figure: 30, extra: 16 },
   md: { box: 'h-24 w-24 rounded-lg', figure: 48, extra: 24 },
@@ -72,13 +76,10 @@ export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof ty
   const aura = game.equipped.aura ? AURA_BG[game.equipped.aura] : undefined;
   // Modo Completo (HB10): retrato pintado da classe sobre o cenário escolhido
   const portraitId = game.mode === 'full' ? portraitKey(cls, game.avatar.portrait) : null;
-  const portrait = portraitId
-    ? (GAME_ART.retratos as Record<string, number>)[portraitId]
-    : undefined;
+  const px = AVATAR_PX[size];
+  const portrait = artSource('retratos', portraitId, px);
   if (portrait) {
-    const background = (GAME_ART.cenarios as Record<string, number>)[
-      game.avatar.background ?? 'acampamento'
-    ];
+    const background = artSource('cenarios', game.avatar.background ?? 'acampamento', px, true);
     return (
       <View
         accessibilityRole="image"

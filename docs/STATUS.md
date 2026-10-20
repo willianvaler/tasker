@@ -241,7 +241,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **TR2** Continuar o treino ao voltar (sem o seletor de novo, mesma sessão no servidor, botão "Continuar treino"); "Próximo exercício" num exercício já feito; aviso do treino pausado (D216)
 - [x] **TR3** Séries avançadas: interruptor no painel do exercício, "+" no fim da linha, repetições e carga por série no Modo Treino (D217)
 - [x] **TR4** Bateria E2E de usabilidade do Modo Treino (`e2e/treino-bateria.spec.ts`) (D216)
-- [ ] **TR5** Memória e lentidão do APK: medir num aparelho (perfil do Hermes/Android Studio) antes de mexer; ver o relatório desta tarefa
+- [~] **TR5** Memória e lentidão do APK: o dono viu que só as telas com arte engasgam; as miniaturas (CD4, D229) atacam isso. Falta medir num aparelho (perfil do Hermes/Android Studio) se ainda engasga e se o cache do TanStack pesa
 
 ## ESCOPO_V9 — gastos no projeto e leitura de foto (pedido do dono em 19/10)
 
@@ -269,6 +269,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **CD1** Hábito bom/ruim com o + à esquerda e o − à direita (D227)
 - [x] **CD2** Peso da tarefa com seis níveis nomeados: Trivial, Baixo, Médio, Alto, Muito alto, Extremo (D226)
 - [x] **CD3** Menu Novo: pelo botão não passa do fim da janela (abre para cima); pelo Alt+N, no meio da tela (D228)
+- [x] **CD4** Arte do jogo leve nas telas: miniaturas de 192 px para avatares e listas, sem esmaecer as pequenas (D229, parte do TR5)
 
 ## ESCOPO v1 — backlog (§11)
 

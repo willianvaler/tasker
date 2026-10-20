@@ -6,7 +6,7 @@ import { Image } from 'expo-image';
 import { Pressable, View } from 'react-native';
 
 import { Avatar, classOf, Panel } from '@/components/character';
-import { ArtImage, bossArtId } from '@/components/game-art';
+import { ArtImage, artSource, bossArtId } from '@/components/game-art';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip } from '@/components/ui/chip';
@@ -15,7 +15,6 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { ToggleRow } from '@/components/ui/toggle-row';
 import { cn } from '@/lib/cn';
-import { GAME_ART } from '@/lib/game-art';
 import { gamificationConfig } from '@/lib/gamification.config';
 import { rewardMessage } from '@/lib/gamification';
 import {
@@ -123,11 +122,9 @@ export function HeroPortrait({ game, size = 144 }: { game: GameState; size?: num
   const { t } = useTranslation();
   const cls = classOf(game);
   const key = portraitKey(cls, game.avatar.portrait);
-  const portrait = key ? (GAME_ART.retratos as Record<string, number>)[key] : undefined;
+  const portrait = artSource('retratos', key, size);
   if (!portrait) return <Avatar game={game} size={size >= 144 ? 'lg' : 'md'} />;
-  const background = (GAME_ART.cenarios as Record<string, number>)[
-    game.avatar.background ?? 'acampamento'
-  ];
+  const background = artSource('cenarios', game.avatar.background ?? 'acampamento', size, true);
   const pet = parseCompanion(game.active_pet);
   const mount = parseCompanion(game.active_mount);
   return (
