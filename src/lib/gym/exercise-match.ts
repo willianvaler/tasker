@@ -146,6 +146,78 @@ export function matchScore(text: string, exercise: ExerciseLike) {
   return best;
 }
 
+/**
+ * Os exercícios mais comuns de academia: no empate da busca vêm antes ("bench press" mostra o
+ * supino reto com barra antes do supino com correntes).
+ */
+export const COMMON_EXERCISES = new Set([
+  'free-Barbell_Hip_Thrust',
+  'free-Barbell_Squat',
+  'free-Bicycling_Stationary',
+  'free-Cable_Crossover',
+  'free-Crunches',
+  'free-Dumbbell_Shoulder_Press',
+  'free-Elliptical_Trainer',
+  'free-Face_Pull',
+  'free-Goblet_Squat',
+  'free-Hammer_Curls',
+  'free-Leg_Press',
+  'free-Plank',
+  'free-Romanian_Deadlift',
+  'free-Rowing_Stationary',
+  'free-Running_Treadmill',
+  'free-Triceps_Pushdown',
+  'free-Walking_Treadmill',
+  'free-Wide-Grip_Lat_Pulldown',
+  'free-Standing_Military_Press',
+  'mit-0025',
+  'mit-0027',
+  'mit-0031',
+  'mit-0032',
+  'mit-0042',
+  'mit-0043',
+  'mit-0047',
+  'mit-0054',
+  'mit-0085',
+  'mit-0095',
+  'mit-0201',
+  'mit-0251',
+  'mit-0274',
+  'mit-0289',
+  'mit-0292',
+  'mit-0294',
+  'mit-0308',
+  'mit-0313',
+  'mit-0314',
+  'mit-0334',
+  'mit-0336',
+  'mit-0406',
+  'mit-0472',
+  'mit-0585',
+  'mit-0586',
+  'mit-0594',
+  'mit-0596',
+  'mit-0597',
+  'mit-0598',
+  'mit-0630',
+  'mit-0652',
+  'mit-0662',
+  'mit-0685',
+  'mit-0687',
+  'mit-0739',
+  'mit-0814',
+  'mit-0861',
+  'mit-1160',
+  'mit-1326',
+  'mit-1372',
+  'mit-1460',
+  'mit-1760',
+  'mit-2612',
+]);
+
+/** Ordem de empate: os comuns primeiro. */
+export const commonRank = (id: string) => (COMMON_EXERCISES.has(id) ? 0 : 1);
+
 /** Os melhores candidatos para o texto, do mais parecido para o menos (empate: nome mais curto). */
 export function suggestExercises<T extends ExerciseLike>(
   text: string,
@@ -156,6 +228,11 @@ export function suggestExercises<T extends ExerciseLike>(
   return list
     .map((e) => ({ exercise: e, score: matchScore(text, e) }))
     .filter((s) => s.score >= min)
-    .sort((a, b) => b.score - a.score || a.exercise.name_en.length - b.exercise.name_en.length)
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        commonRank(a.exercise.id) - commonRank(b.exercise.id) ||
+        a.exercise.name_en.length - b.exercise.name_en.length,
+    )
     .slice(0, limit);
 }

@@ -2,7 +2,7 @@
 // texto de forma que importe para quem usa? Suba LEGAL_VERSION aqui **e** public.legal_version()
 // numa migração nova (o teste legal.test.ts compara); quem já usa aceita de novo ao abrir o app.
 
-export const LEGAL_VERSION = '2026-10-20';
+export const LEGAL_VERSION = '2026-10-20.2';
 
 /** Idade mínima para criar conta (LGPD art. 14: abaixo disso, só com os responsáveis). */
 export const MIN_AGE = 13;
@@ -60,7 +60,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'O que guardamos',
-        body: 'Nome, nick, e-mail, fuso horário e idioma; a sua lista de amigos e os pedidos de amizade; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
+        body: 'Nome, nick, e-mail, fuso horário e idioma; a sua lista de amigos e os pedidos de amizade; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o diário de treino (cada série com carga, repetições, tempo, distância e esforço); o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
       },
       {
         title: 'Para que usamos e com que base',
@@ -147,7 +147,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'What we store',
-        body: 'Name, nick, email, time zone and language; your friends list and friend requests; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
+        body: 'Name, nick, email, time zone and language; your friends list and friend requests; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the workout log (each set with weight, reps, time, distance and effort); the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
       },
       {
         title: 'What we use it for, and on what basis',
@@ -234,7 +234,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Qué guardamos',
-        body: 'Nombre, nick, correo, zona horaria e idioma; tu lista de amigos y las solicitudes de amistad; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
+        body: 'Nombre, nick, correo, zona horaria e idioma; tu lista de amigos y las solicitudes de amistad; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el registro de entrenamiento (cada serie con carga, repeticiones, tiempo, distancia y esfuerzo); el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
       },
       {
         title: 'Para qué los usamos y con qué base',

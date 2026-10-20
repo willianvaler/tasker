@@ -14,6 +14,14 @@ En páginas de tarjetas o con tareas que tienen series, **Empezar entrenamiento*
 
 **Sin desbloquear el móvil (Android):** con el Modo Entrenamiento abierto, la serie aparece en la pantalla de bloqueo con **Hecha**, **Saltar descanso** y **+30 s**. Toca la flecha de la notificación para ver los botones. Con el móvil bloqueado, lo que marques queda en el dispositivo y se sube cuando vuelvas a abrir la app.
 
+## Registro del entrenamiento
+
+Cada serie hecha en el modo Entrenamiento queda guardada tal como fue: la carga, las repeticiones que hiciste de verdad (el modo Entrenamiento ya viene con lo previsto; −1 y +1 cambian solo esta serie) y la fecha. Los ejercicios de cardio piden distancia y tiempo; los de tiempo, como la plancha, guardan los segundos. **Calentamiento** registra una serie aparte, que no cuenta para el total del ejercicio.
+
+El **Historial** aparece en el panel del ejercicio y en la ficha de la Biblioteca: las sesiones de la más nueva a la más vieja, con las series y el volumen de cada una. Una serie equivocada sale con el icono de la papelera (solo del registro; el entrenamiento sigue como está). El registro es solo tuyo, incluso en un entrenamiento compartido.
+
+En el Perfil, en **Registro del entrenamiento**, elige **kg o lb** y, si quieres, el **esfuerzo por serie**: RIR (cuántas repeticiones te sobraron) o RPE (esfuerzo hasta 10). Cambiar la escala no cambia lo ya anotado; el historial lo muestra en la escala actual.
+
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

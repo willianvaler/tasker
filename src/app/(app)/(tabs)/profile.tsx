@@ -24,6 +24,7 @@ import { PrivacySection } from '@/components/privacy-section';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
 import { Screen, ScreenScroll } from '@/components/screen';
+import { GymPrefsSettings } from '@/components/gym/gym-prefs';
 import { SidebarSettings } from '@/components/sidebar-settings';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -134,6 +135,12 @@ function ProfileForm({ profile }: { profile: Profile }) {
       <Group title={t('sidebarPrefs.title')}>
         <SidebarSettings />
       </Group>
+
+      {profile.gym_enabled === true && (
+        <Group title={t('diary.prefsTitle')}>
+          <GymPrefsSettings />
+        </Group>
+      )}
     </>
   );
   const dataGroups = (

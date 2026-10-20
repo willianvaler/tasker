@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { parseDecimal, SetRow, type SetDraft } from '@/components/gym/set-row';
 import { useLogSet } from '@/components/tasks/repeat';
 import { TrainingPartners } from '@/components/training-partners';
 import { AdjustButtons, useLiveTimer, useStartTimer } from '@/components/timer-bar';
@@ -17,12 +18,15 @@ import { cn } from '@/lib/cn';
 import type { Json } from '@/lib/db';
 import { metaLabel } from '@/components/tasks/task-meta';
 import type { TaskMeta } from '@/lib/parser/quick';
+import { useExercise } from '@/lib/queries/exercises';
 import { useGameState } from '@/lib/queries/game';
+import { useGymPrefs } from '@/lib/queries/profile';
 import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import { rootFolder, useMembers } from '@/lib/queries/projects';
 import { useMyProgress } from '@/lib/queries/repeat';
 import { usePageTasks, useToggleTask, useUpdateTask } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
+import { useWorkoutSetActions, type SetKind, type SetValues } from '@/lib/queries/workout-sets';
 import {
   useWorkoutSession,
   useWorkoutSessionActions,
@@ -378,7 +382,38 @@ function Running({
   const totals = workoutProgress(items);
   // Séries avançadas: repetições e carga desta série (sem elas, as do item)
   const planned = setPrescription(meta, item.reps);
-  const values = { weight: planned.weight ?? null, reps: planned.reps ?? null };
+  // A série como aconteceu (AC4): vem com o previsto; o que a pessoa mudar vale só para ela
+  const gymPrefs = useGymPrefs();
+  const effortScale = gymPrefs.effort === 'off' ? null : gymPrefs.effort;
+  const exercise = useExercise(task.exercise_id);
+  const kind: SetKind = item.plan.mode === 'timed' ? 'time' : (exercise.data?.kind ?? 'reps');
+  const setKey = `${task.id}:${item.reps}`;
+  const blank: SetDraft = { reps: null, effort: null, distance: '', minutes: '' };
+  const [draftState, setDraftState] = useState({ key: setKey, draft: blank });
+  const stored = draftState.key === setKey ? draftState.draft : blank;
+  const draft = { ...stored, reps: stored.reps ?? planned.reps ?? null };
+  const km = parseDecimal(draft.distance);
+  const minutes = parseDecimal(draft.minutes);
+  const values: SetValues = {
+    weight: planned.weight ?? null,
+    reps: kind === 'reps' ? draft.reps : null,
+    kind,
+    ...(effortScale && draft.effort != null
+      ? { effort: draft.effort, effort_scale: effortScale }
+      : {}),
+    ...(kind === 'cardio'
+      ? {
+          distance_m: km != null ? Math.round(km * 1000) : null,
+          duration_seconds: minutes != null ? Math.round(minutes * 60) : null,
+        }
+      : {}),
+  };
+  const showSetRow =
+    !item.done &&
+    allowed.complete &&
+    (kind === 'cardio' || planned.reps != null || !!task.exercise_id || !!effortScale);
+  const toast = useToast();
+  const { warmup } = useWorkoutSetActions();
   const lb = parseWeight(planned.weight)?.unit.startsWith('lb');
   const step = lb ? 5 : 2.5;
   const decimalComma = !i18n.language.startsWith('en');
@@ -413,7 +448,11 @@ function Running({
   function done() {
     if (paused || item.done || !allowed.complete) return false;
     const addXp = (xp: number | undefined) => xp && setSession((s) => ({ ...s, xp: s.xp + xp }));
-    setSession((s) => ({ ...s, sets: s.sets + 1, volume: s.volume + setVolume(planned) }));
+    setSession((s) => ({
+      ...s,
+      sets: s.sets + 1,
+      volume: s.volume + setVolume({ ...planned, reps: values.reps ?? undefined }),
+    }));
     if (group) {
       const next = Math.min(item.plan.total, item.reps + 1);
       const result = sessionActions.logGroupSet.mutateAsync({
@@ -647,6 +686,16 @@ function Running({
         </Pressable>
       )}
 
+      {showSetRow && (
+        <SetRow
+          kind={kind}
+          draft={draft}
+          effortScale={effortScale}
+          disabled={paused}
+          onChange={(next) => setDraftState({ key: setKey, draft: next })}
+        />
+      )}
+
       {(cards || planned.weight) && allowed.edit && !item.done && (
         <View className="flex-row items-center justify-center gap-3">
           <Button
@@ -688,6 +737,20 @@ function Running({
                   ? { ...item.plan, total: Math.min(item.plan.total + 1, 99) }
                   : { mode: 'sets', total: 2 },
               })
+            }
+          />
+        )}
+        {showSetRow && kind === 'reps' && (
+          <Button
+            variant="ghost"
+            label={t('diary.warmup')}
+            accessibilityHint={t('diary.warmupHint')}
+            disabled={paused}
+            onPress={() =>
+              warmup.mutateAsync({ task, values }).then(
+                () => toast({ message: t('diary.warmupDone') }),
+                () => {},
+              )
             }
           />
         )}

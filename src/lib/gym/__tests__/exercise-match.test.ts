@@ -84,3 +84,16 @@ describe('filterExercises', () => {
     expect(filterExercises(LIST, {}, name).map((e) => e.id)).toEqual(['3', '4', '2', '1']);
   });
 });
+
+describe('empate na busca', () => {
+  test('o exercício comum vem antes da variação', () => {
+    const list = [
+      ex('free-Bench_Press_with_Chains', 'Bench Press with Chains', 'Supino com correntes'),
+      ex('mit-0025', 'Barbell bench press', 'Supino reto com barra'),
+    ];
+    expect(suggestExercises('bench press', list)[0].exercise.id).toBe('mit-0025');
+    expect(filterExercises(list, { query: 'bench press' }, (e) => e.name_pt)[0].id).toBe(
+      'mit-0025',
+    );
+  });
+});

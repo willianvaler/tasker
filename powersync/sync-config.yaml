@@ -65,6 +65,11 @@ streams:
     auto_subscribe: true
     query: SELECT task_id || ':' || user_id AS id, task_id, user_id, done_reps, logged_values, cycle_key, updated_at FROM task_progress WHERE user_id = auth.user_id()
 
+  # Diário de treino (AC4): as minhas séries, para o histórico e os recordes sem internet
+  workout_sets:
+    auto_subscribe: true
+    query: SELECT * FROM workout_sets WHERE user_id = auth.user_id()
+
   # Temporizadores (J2): os meus, para o ativo aparecer em todos os aparelhos
   timers:
     auto_subscribe: true

@@ -14,6 +14,14 @@ On card pages or pages with tasks that have sets, **Start workout** opens full s
 
 **Without unlocking the phone (Android):** with Workout Mode open, the set shows on the lock screen with **Done**, **Skip rest** and **+30 s**. Tap the notification's arrow to see the buttons. While the phone is locked, what you mark stays on the device and syncs when you open the app again.
 
+## Workout log
+
+Every set done in Workout mode is saved as it happened: the weight, the reps you actually did (Workout mode starts with the plan; −1 and +1 change only this set) and the date. Cardio exercises ask for distance and time; timed ones, like the plank, keep the seconds. **Warm-up** logs a separate set that does not count toward the exercise total.
+
+**History** shows in the exercise panel and in the Library page: the sessions from newest to oldest, with the sets and volume of each one. A wrong set goes away with the trash icon (only from the log; the workout stays as it is). The log is yours alone, even in a shared workout.
+
+In Profile, under **Workout log**, pick **kg or lb** and, if you like, **effort per set**: RIR (reps you had left) or RPE (effort up to 10). Changing the scale does not change what was already logged; history shows it in the current scale.
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

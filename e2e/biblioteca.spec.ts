@@ -13,8 +13,9 @@ test('biblioteca: busca, ficha e o item de treino ligado ao exercício', async (
   await page.getByRole('button', { name: 'Sim, vou treinar' }).click();
 
   await page.goto('/biblioteca');
-  await page.getByRole('textbox', { name: /^Buscar exercício/ }).fill('supino');
-  const first = page.getByRole('button', { name: /bench press/i }).first();
+  // O nome em inglês também acha (sinônimos e os três idiomas)
+  await page.getByRole('textbox', { name: /^Buscar exercício/ }).fill('bench press');
+  const first = page.getByRole('button', { name: /^Supino/ }).first();
   await expect(first).toBeVisible({ timeout: 15_000 });
   await first.click();
   await expect(page.getByText('Como fazer', { exact: true }).last()).toBeVisible();

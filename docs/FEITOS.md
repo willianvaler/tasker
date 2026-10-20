@@ -185,6 +185,12 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC3.7 | Tela Biblioteca (busca, filtros, ficha, exercício próprio) | D235 |
 | V6 | AC3.8 | `tasks.exercise_id`, sugestão e escolha no painel do item de treino; E2E `e2e/biblioteca.spec.ts` | D235 |
 | V6 | AC3.9 | `NOTICE.md` com os créditos e licenças das bases | D235 |
+| V6 | AC4.1 | `lib/gym/units.ts`: kg ↔ lb, passo e arredondamento, texto da carga em kg (espelho do `_set_weight_kg`), formato no idioma, volume sem o aquecimento | D236 |
+| V6 | AC4.2 | `lib/gym/effort.ts`: RIR ↔ RPE, opções das escalas, média misturando escalas, rótulo | D236 |
+| V6 | AC4.3 | `workout_sets` (cada série como aconteceu, carga em kg), gravada pelo `log_rep` e pelo `log_group_set`; `log_warmup` e `delete_workout_set` pela fila (`run_once`); RLS só a pessoa, sync, exportação, pgTAP `diario.test.sql` | D236 |
+| V6 | AC4.4 | `SetRow`: repetições reais com −1/+1, esforço (se ligado) e, no cardio, distância e tempo | D236 |
+| V6 | AC4.5 | Modo Treino grava a série detalhada e o aquecimento à parte; Perfil → Registro do treino (kg/lb, esforço); política de privacidade com o diário (versão 2026-10-20.2) | D236 |
+| V6 | AC4.6 | Histórico por exercício no painel do item e na ficha da Biblioteca (por dia, volume, apagar série); E2E `e2e/diario.spec.ts` e Ajuda nos 3 idiomas | D236 |
 | V6 | AC10.1 | Sessão de treino no servidor (`workout_sessions`, `workout_session_members`): convite com aviso e push, entrar/sair, série do grupo (`log_group_set`, quem marca a última conclui), exercício atual e descanso iguais nos aparelhos pelo Realtime; E2E `e2e/treino-junto.spec.ts` | D183 |
 | V6 | AC10.2 | Seletor "Quem está treinando junto agora?" no Modo Treino de pasta compartilhada | D183 |
 | V6 | AC10.3 | `lib/gym/leaderboard.ts`: dias ativos (um por dia), pontos opcionais, empates dividindo a posição, sequência atual e maior; `challengeProgress` (feito pelo Claude, tirado da fila local) | — |

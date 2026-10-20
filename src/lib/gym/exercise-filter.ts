@@ -1,7 +1,7 @@
 // Busca e filtros da Biblioteca (AC3.5, D235): por texto (nos três idiomas), equipamento, parte do
 // corpo e músculo. O vocabulário é o de scripts/exercicios/montar-base.mjs.
 
-import { matchScore, type ExerciseLike } from './exercise-match';
+import { commonRank, matchScore, type ExerciseLike } from './exercise-match';
 
 export const EQUIPMENT = [
   'bodyweight',
@@ -91,6 +91,11 @@ export function filterExercises<T extends FilterableExercise>(
     out.push({ exercise: e, score });
   }
   return out
-    .sort((a, b) => b.score - a.score || nameOf(a.exercise).localeCompare(nameOf(b.exercise)))
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        (query ? commonRank(a.exercise.id) - commonRank(b.exercise.id) : 0) ||
+        nameOf(a.exercise).localeCompare(nameOf(b.exercise)),
+    )
     .map((x) => x.exercise);
 }

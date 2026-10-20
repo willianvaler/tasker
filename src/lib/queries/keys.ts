@@ -37,6 +37,8 @@ export const keys = {
   /** Tempo registrado (K) e configuração do pomodoro */
   timeEntries: ['time-entries'] as const,
   pomodoro: ['pomodoro-settings'] as const,
+  /** Diário de treino (AC4) */
+  workoutSets: ['workout-sets'] as const,
 };
 
 /** Toda mutação de tarefa usa esta chave (ver invalidateWhenIdle). */

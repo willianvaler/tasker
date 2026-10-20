@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tansta
 import { z } from 'zod';
 
 import type { Json } from '../database.types';
-import { applyRep, readRepeatPlan } from '../repeat';
+import { applyRep, effectiveReps, readRepeatPlan } from '../repeat';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { isLocal, runCommand, sessionUserId } from '../sync/local';
@@ -10,6 +10,7 @@ import { uuidv7 } from '../uuid';
 import { completionSummarySchema, type CompletionSummary } from './game';
 import { keys, taskMutationKey } from './keys';
 import { isReceivedTask, localCycleKey } from './shares';
+import { deleteLastLocalSet, insertLocalSet, type SetValues } from './workout-sets';
 import { estimateCompletionXp } from '../sync/pending-xp';
 import {
   invalidateWhenIdle,
@@ -69,7 +70,9 @@ export type RepResult = { reps: number; completed: boolean; summary: CompletionS
 export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise<RepResult | null> {
   const plan = readRepeatPlan(task.repeat_plan);
   if (!plan) return null;
-  const args = { p_task_id: task.id, p_delta: delta, p_values: values ?? null };
+  // A série que conta leva o id do comando: o diário local e o do servidor são a mesma linha
+  const setValues = delta === 1 ? { ...(values ?? {}), set_id: id } : (values ?? null);
+  const args = { p_task_id: task.id, p_delta: delta, p_values: setValues };
   let result: unknown;
   let estimate = 0;
   if (isLocal()) {
@@ -105,6 +108,11 @@ export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise
         const next = applyRep(plan, doneBefore, row.done_reps, delta);
         const now = new Date().toISOString();
         // As tabelas do PowerSync são views: sem "on conflict"
+        // O diário (AC4): a série como aconteceu, ou some a última ao desfazer
+        const current = effectiveReps(plan, doneBefore, row.done_reps);
+        if (delta === 1 && next.reps > current)
+          await insertLocalSet(tx, task, userId, id, (setValues ?? {}) as SetValues, next.reps);
+        else if (delta === -1 && current > 0) await deleteLastLocalSet(tx, task.id, userId);
         if (row.done_reps == null)
           await tx.execute(
             `insert into task_progress (id, task_id, user_id, done_reps, logged_values, cycle_key, updated_at)
@@ -165,6 +173,7 @@ function settle(queryClient: QueryClient) {
   invalidateWhenIdle(queryClient);
   queryClient.invalidateQueries({ queryKey: keys.progress });
   queryClient.invalidateQueries({ queryKey: keys.game });
+  queryClient.invalidateQueries({ queryKey: keys.workoutSets });
 }
 
 /** Para a fila restaurada do disco depois de reabrir o app (ver registerOfflineTaskMutations). */

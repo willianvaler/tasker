@@ -2035,6 +2035,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"workout_sets": {
+                  Row: {
+                    "cycle_key": string,"distance_m": number | null,"duration_seconds": number | null,"effort": number | null,"effort_scale": string | null,"exercise_id": string | null,"exercise_name": string,"id": string,"kind": string,"page_id": string | null,"performed_at": string,"reps": number | null,"session_id": string | null,"set_index": number,"task_id": string | null,"user_id": string,"warmup": boolean,"weight_kg": number | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "cycle_key"?: string,"distance_m"?: number | null,"duration_seconds"?: number | null,"effort"?: number | null,"effort_scale"?: string | null,"exercise_id"?: string | null,"exercise_name"?: string,"id"?: string,"kind"?: string,"page_id"?: string | null,"performed_at"?: string,"reps"?: number | null,"session_id"?: string | null,"set_index"?: number,"task_id"?: string | null,"user_id"?: string,"warmup"?: boolean,"weight_kg"?: number | null
+                  }
+                  Update: {
+                    "cycle_key"?: string,"distance_m"?: number | null,"duration_seconds"?: number | null,"effort"?: number | null,"effort_scale"?: string | null,"exercise_id"?: string | null,"exercise_name"?: string,"id"?: string,"kind"?: string,"page_id"?: string | null,"performed_at"?: string,"reps"?: number | null,"session_id"?: string | null,"set_index"?: number,"task_id"?: string | null,"user_id"?: string,"warmup"?: boolean,"weight_kg"?: number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "workout_sets_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_sets_session_id_fkey"
+      columns: ["session_id"]
+isOneToOne: false
+      referencedRelation: "workout_sessions"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_sets_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_sets_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"xp_events": {
                   Row: {
                     "amount": number,"boss_id": string | null,"completion_id": string | null,"created_at": string,"crit": boolean,"cycle_key": string | null,"damage": number,"day": string,"gold": number,"id": string,"kind": string,"page_id": string | null,"quick": boolean,"reverted": boolean,"reverted_at": string | null,"task_id": string | null,"user_id": string
@@ -2218,6 +2256,9 @@ isOneToOne: false
 "_join_team":
 { Args: { "p_role": Database["public"]['Enums']["team_role"],"p_team_id": string,"p_user_id": string }; Returns: undefined
                            },
+"_json_num":
+{ Args: { "p_value": Json }; Returns: number
+                           },
 "_log_activity":
 { Args: { "p_action": string,"p_folder_id": string,"p_payload": Json }; Returns: undefined
                            },
@@ -2262,6 +2303,9 @@ isOneToOne: false
 "_random_of":
 { Args: { "p_list": Json }; Returns: string
                            },
+"_record_set":
+{ Args: { "p_cycle": string,"p_index": number,"p_session": string,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']>,"p_values": Json }; Returns: string
+                           },
 "_record_workout_day":
 { Args: { "p_minutes": number,"p_page": string,"p_source": string,"p_user": string }; Returns: undefined
                            },
@@ -2279,6 +2323,9 @@ isOneToOne: false
                            },
 "_run_automations":
 { Args: { "p_task_id": string,"p_trigger": string }; Returns: undefined
+                           },
+"_set_weight_kg":
+{ Args: { "p_text": string }; Returns: number
                            },
 "_settle_boss":
 { Args: { "p_boss_id": string }; Returns: boolean
@@ -2318,6 +2365,9 @@ isOneToOne: false
                            },
 "_timer_finished":
 { Args: { "p_timer_id": string }; Returns: undefined
+                           },
+"_unrecord_set":
+{ Args: { "p_cycle": string,"p_session": string,"p_task_id": string }; Returns: undefined
                            },
 "accept_invite":
 { Args: { "p_token": string }; Returns: Json
@@ -2609,6 +2659,9 @@ isOneToOne: false
 "delete_time_entry":
 { Args: { "p_id": string }; Returns: undefined
                            },
+"delete_workout_set":
+{ Args: { "p_id": string }; Returns: undefined
+                           },
 "dependency_path":
 { Args: { "p_from": string,"p_to": string }; Returns: (string)[]
                            },
@@ -2839,6 +2892,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"log_warmup":
+{ Args: { "p_task_id": string,"p_values"?: Json }; Returns: Json
+                           },
 "members_matching":
 { Args: { "p_name": string,"p_root": string }; Returns: string[]
                            },

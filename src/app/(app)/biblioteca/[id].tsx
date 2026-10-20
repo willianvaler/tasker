@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { bodyPartLabel, equipmentLabel, muscleLabel } from '@/components/gym/labels';
+import { ExerciseHistory } from '@/components/gym/exercise-history';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -77,6 +78,7 @@ export default function ExerciseScreen() {
           </View>
         )}
         {e?.own && e.notes ? <Text className="text-sm text-ink">{e.notes}</Text> : null}
+        {e && <ExerciseHistory exerciseId={e.id} />}
         {e?.own && me && (
           <Button
             variant="ghost"

@@ -167,6 +167,30 @@ const time_entries = new Table(
   { indexes: { task: ['task_id'], user: ['user_id', 'started_at'] } },
 );
 
+// Diário de treino (AC4): cada série como aconteceu. Só log_rep/log_warmup gravam no servidor
+const workout_sets = new Table(
+  {
+    user_id: column.text,
+    task_id: column.text,
+    page_id: column.text,
+    session_id: column.text,
+    exercise_id: column.text,
+    exercise_name: column.text,
+    cycle_key: column.text,
+    set_index: column.integer,
+    kind: column.text,
+    weight_kg: column.real,
+    reps: column.integer,
+    duration_seconds: column.integer,
+    distance_m: column.real,
+    warmup: column.integer,
+    effort: column.real,
+    effort_scale: column.text,
+    performed_at: column.text,
+  },
+  { indexes: { task: ['task_id', 'cycle_key'], exercise: ['exercise_id', 'performed_at'] } },
+);
+
 // Envios de página que recebi (L): o "Recebidas" e o modo Executor
 const page_shares = new Table(
   {
@@ -475,6 +499,7 @@ export const AppSchema = new Schema({
   task_progress,
   timers,
   time_entries,
+  workout_sets,
   page_shares,
   share_checks,
   my_day,

@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { Tables } from '../db';
+import type { EffortSetting } from '../gym/effort';
+import type { WeightUnit } from '../gym/types';
 import { todayIn } from '../parser/dates';
 import { supabase } from '../supabase';
 import type { ReviewPrefs } from '../weekly-review';
@@ -70,7 +72,18 @@ export type UiPrefs = {
   sidebar?: { order?: string[]; hidden?: string[] };
   /** Revisão semanal (PB3): última feita ou dispensada */
   review?: ReviewPrefs;
+  /** Registro do treino (AC4): unidade de carga e escala de esforço */
+  gym?: { unit?: WeightUnit; effort?: EffortSetting };
 };
+
+/** Unidade (padrão kg, V6 decisão 3) e esforço (padrão desligado) de quem treina. */
+export function useGymPrefs(): { unit: WeightUnit; effort: EffortSetting } {
+  const gym = useUiPrefs().gym ?? {};
+  return {
+    unit: gym.unit === 'lb' ? 'lb' : 'kg',
+    effort: gym.effort === 'rir' || gym.effort === 'rpe' ? gym.effort : 'off',
+  };
+}
 
 export function useUiPrefs(): UiPrefs {
   const prefs = useProfile().data?.ui_prefs;

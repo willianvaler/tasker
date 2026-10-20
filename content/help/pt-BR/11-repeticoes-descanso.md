@@ -14,6 +14,14 @@ Em páginas de cards ou com tarefas que têm séries, **Iniciar treino** abre a 
 
 **Sem destravar o celular (Android):** com o Modo Treino aberto, a série aparece na tela de bloqueio, com **Feita**, **Pular descanso** e **+30 s**. Toque na setinha da notificação para ver os botões. Com o celular travado, o que você marca fica no aparelho e sobe quando você abrir o app de novo.
 
+## Diário de treino
+
+Cada série feita no Modo Treino fica guardada como aconteceu: a carga, as repetições que você fez de verdade (o Modo Treino já vem com o previsto; −1 e +1 mudam só esta série) e a data. Exercício de cardio pede distância e tempo; o que é por tempo, como a prancha, guarda os segundos. **Aquecimento** registra uma série à parte, que não conta para o total do exercício.
+
+O **Histórico** aparece no painel do exercício e na ficha da Biblioteca: as sessões do dia mais novo para o mais velho, com as séries e o volume de cada uma. Uma série errada sai pelo ícone da lixeira (só do diário; o treino fica como está). O diário é só seu, mesmo num treino compartilhado.
+
+No Perfil, em **Registro do treino**, escolha **kg ou lb** e, se quiser, o **esforço por série**: RIR (quantas repetições sobraram) ou RPE (esforço até 10). Trocar a escala não muda o que já foi anotado; o histórico mostra na escala atual.
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

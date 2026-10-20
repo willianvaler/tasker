@@ -18,7 +18,7 @@ describe('termos e privacidade (V5 §4, D213)', () => {
       .map((f) => fs.readFileSync(`${dir}/${f}`, 'utf8'))
       .filter((sql) => sql.includes('function public.legal_version()'))
       .pop();
-    expect(/select '([\d-]+)'/.exec(latest ?? '')?.[1]).toBe(LEGAL_VERSION);
+    expect(/select '([\d.-]+)'/.exec(latest ?? '')?.[1]).toBe(LEGAL_VERSION);
   });
 
   test('os três idiomas têm as mesmas seções', () => {

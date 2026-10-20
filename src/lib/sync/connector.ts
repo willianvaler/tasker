@@ -181,6 +181,7 @@ const SERVER_SIDE = new Set([
   'task_progress',
   'timers',
   'time_entries',
+  'workout_sets',
   'page_shares',
   'share_checks',
 ]);

@@ -64,6 +64,7 @@ import {
 } from '@/lib/queries/tasks';
 import { findFolder, isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
+import { ExerciseHistory } from '@/components/gym/exercise-history';
 import { ExerciseLink } from '@/components/gym/exercise-link';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
@@ -460,6 +461,12 @@ function TaskDetails({ task }: { task: Task }) {
                 disabled={!allowed.complete || (blocked && !flow.forceable)}
               />
             )}
+          </Section>
+        )}
+
+        {isWorkout && !leaves && (
+          <Section title={t('diary.history')}>
+            <ExerciseHistory exerciseId={task.exercise_id} taskId={task.id} showTitle={false} />
           </Section>
         )}
 
