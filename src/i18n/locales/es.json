@@ -1913,6 +1913,13 @@
     "warmupLogged": "Calentamiento {{weight}} × {{reps}} registrado",
     "note": "Observación"
   },
+  "superset": {
+    "title": "Superserie o circuito",
+    "none": "Ninguno",
+    "hint": "Los ítems de este entrenamiento con la misma letra se alternan en el modo Entrenamiento; el descanso llega al final de cada ronda.",
+    "label": "Superserie {{group}} · {{pos}} de {{n}}",
+    "round": "Fin de la ronda de la superserie {{group}}"
+  },
   "workout": {
     "start": "Empezar entrenamiento",
     "title": "Entrenamiento",

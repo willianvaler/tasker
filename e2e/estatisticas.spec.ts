@@ -72,3 +72,45 @@ test('aquecimento sugerido e anilhas por lado', async ({ page }, testInfo) => {
   await page.getByRole('textbox', { name: 'Carga total (kg)' }).fill('102,5');
   await expect(shown(page, 'Por lado: 25 + 15 + 1,25')).toBeVisible();
 });
+
+// AC9.4 (D242): superset: os dois exercícios se alternam sem descanso; o descanso vem no fim de
+// cada rodada
+test('superset alterna e descansa no fim da rodada', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'O Modo Treino é o mesmo; basta um perfil');
+  test.setTimeout(60_000);
+  await signUp(page, testInfo);
+  await openTab(page, 'Início');
+  await page.getByRole('button', { name: 'Sim, vou treinar' }).click();
+  await page.getByRole('navigation').getByRole('button', { name: 'Novo treino' }).first().click();
+  const name = `Treino ${Date.now()}`;
+  await page.getByPlaceholder('Nome do treino (ex.: Treino A)').fill(name);
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  for (const line of ['Supino 2x10 40kg', 'Remada 2x10 30kg']) {
+    await input.fill(line);
+    await input.press('Enter');
+  }
+  for (const title of ['Supino', 'Remada']) {
+    await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
+    await page.getByRole('radio', { name: 'A', exact: true }).click();
+    await expect(page.getByRole('radio', { name: 'A', exact: true })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    await page.goBack();
+  }
+  const rest = page.getByRole('timer', { name: /^Descanso: faltam/ });
+
+  await page.getByRole('button', { name: 'Iniciar treino' }).click();
+  await expect(page.getByRole('heading', { name: 'Supino' })).toBeVisible();
+  await expect(shown(page, 'Superset A · 1 de 2')).toBeVisible();
+  await page.getByRole('button', { name: 'Feita' }).click();
+  // Para o segundo do grupo, sem descanso
+  await expect(page.getByRole('heading', { name: 'Remada' })).toBeVisible();
+  await expect(rest).toHaveCount(0);
+  await page.getByRole('button', { name: 'Feita' }).click();
+  // Fim da rodada: volta ao primeiro, descansando
+  await expect(page.getByRole('heading', { name: 'Supino' })).toBeVisible();
+  await expect(shown(page, 'Série 2 de 2')).toBeVisible();
+  await expect(rest).toBeVisible();
+});

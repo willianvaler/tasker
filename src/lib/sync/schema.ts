@@ -106,6 +106,8 @@ const tasks = new Table(
     // Progressão do exercício (AC6): regra e degrau próprios
     progression: column.text,
     progression_step: column.real,
+    // Superset ou circuito (AC9.4): a letra do grupo
+    superset: column.text,
     repeat_plan: column.text,
     actual_minutes: column.integer,
     weight: column.integer,

@@ -69,6 +69,8 @@ export function useLogSet() {
     reps: number,
     delta: 1 | -1,
     values?: Record<string, unknown>,
+    /** rest: false no superset, que só descansa no fim da rodada (AC9.4) */
+    options: { rest?: boolean } = {},
   ) => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     // Dois toques seguidos: o segundo parte do que o primeiro calculou (a tela ainda não mudou)
@@ -86,7 +88,8 @@ export function useLogSet() {
         ? { weight: meta.weight ?? null, reps: meta.reps ?? null }
         : values;
     const result = log.mutateAsync({ task, delta, id: uuidv7(), values: planned });
-    const rest = delta === 1 && base < plan.total ? restAfterRep(plan, next) : null;
+    const rest =
+      delta === 1 && base < plan.total && options.rest !== false ? restAfterRep(plan, next) : null;
     if (rest)
       startTimer({
         kind: 'rest',

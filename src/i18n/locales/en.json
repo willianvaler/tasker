@@ -1913,6 +1913,13 @@
     "warmupLogged": "Warm-up {{weight}} × {{reps}} logged",
     "note": "Note"
   },
+  "superset": {
+    "title": "Superset or circuit",
+    "none": "None",
+    "hint": "Items in this workout with the same letter alternate in Workout mode; rest comes at the end of each round.",
+    "label": "Superset {{group}} · {{pos}} of {{n}}",
+    "round": "End of superset {{group}} round"
+  },
   "workout": {
     "start": "Start workout",
     "title": "Workout",

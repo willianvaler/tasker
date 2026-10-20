@@ -66,6 +66,8 @@ import {
   nextPending,
   parseWeight,
   restBetweenExercises,
+  supersetMembers,
+  supersetNext,
   setGroups,
   setPrescription,
   setVolume,
@@ -554,6 +556,12 @@ function Running({
     return seconds;
   };
 
+  // Superset ou circuito (AC9.4): os itens do grupo deste
+  const superset = supersetMembers(items, index);
+  /** A lista contando a série que acabou de ser feita neste item */
+  const counted = (next: number) =>
+    items.map((it, i) => (i === index ? { ...it, reps: next, done: next >= it.plan.total } : it));
+
   function done() {
     if (paused || item.done || !allowed.complete) return false;
     const addXp = (xp: number | undefined) => xp && setSession((s) => ({ ...s, xp: s.xp + xp }));
@@ -577,7 +585,16 @@ function Running({
         () => {},
       );
       const last = next >= item.plan.total;
-      const between = item.repeats && !last ? restAfterRep(item.plan, next) : null;
+      // Superset (AC9.4): passa para o próximo do grupo e só descansa no fim da rodada
+      const round = superset.length ? supersetNext(counted(next), index, session.skipped) : null;
+      const between =
+        superset.length && item.repeats
+          ? round?.rest && item.plan.rest_seconds
+            ? { seconds: item.plan.rest_seconds }
+            : null
+          : item.repeats && !last
+            ? restAfterRep(item.plan, next)
+            : null;
       if (between)
         startTimer({
           kind: 'rest',
@@ -587,13 +604,39 @@ function Running({
             label: `${task.title}, ${Math.min(next + 1, item.plan.total)}/${item.plan.total}`,
           },
         });
-      const restSeconds = between?.seconds ?? (last ? restBeforeNext(false) : null);
+      const groupDone = superset.length > 0 && !round;
+      const restSeconds =
+        between?.seconds ?? ((superset.length ? groupDone : last) ? restBeforeNext(false) : null);
       if (restSeconds) {
         const iso = isoIn(restSeconds);
         onRestShared(iso);
         sessionActions.setState.mutate({ id: group.id, state: { rest_ends_at: iso } });
       }
-      if (last) advance();
+      if (round) goTo(round.next);
+      else if (last || groupDone) advance();
+    } else if (item.repeats && superset.length) {
+      // Superset (AC9.4): sem o descanso entre séries; o próximo do grupo, e descanso no fim
+      // da rodada
+      const { next, result } = logSet(task, item.plan, item.reps, 1, values, { rest: false });
+      onResult(result);
+      result.then(
+        (r) => addXp(r?.summary?.xp),
+        () => {},
+      );
+      const round = supersetNext(counted(next), index, session.skipped);
+      if (!round) {
+        restBeforeNext(false);
+        advance();
+        return;
+      }
+      if (round.rest && item.plan.rest_seconds)
+        startTimer({
+          kind: 'rest',
+          seconds: item.plan.rest_seconds,
+          taskId: task.id,
+          config: { label: t('superset.round', { group: task.superset ?? '' }) },
+        });
+      goTo(round.next);
     } else if (item.repeats) {
       const { next, result } = logSet(task, item.plan, item.reps, 1, values);
       onResult(result);
@@ -736,6 +779,15 @@ function Running({
         {partnerNames.length > 0 && (
           <Text className="text-sm text-ink-muted">
             {t('together.with', { names: partnerNames.join(', ') })}
+          </Text>
+        )}
+        {superset.length > 0 && (
+          <Text className="font-mono text-xs uppercase text-accent">
+            {t('superset.label', {
+              group: task.superset,
+              pos: superset.indexOf(index) + 1,
+              n: superset.length,
+            })}
           </Text>
         )}
         <Text className="text-xl font-semibold text-ink" accessibilityRole="header">

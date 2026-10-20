@@ -56,6 +56,10 @@ Em **Estatísticas de treino** (no bloco Academia) ficam os dias e o tempo trein
 
 Antes da primeira série de um exercício com carga, o Modo Treino sugere o **aquecimento** (40%, 60% e 80% da carga, arredondados ao degrau e nunca abaixo da barra); cada sugestão é um toque e entra no diário como aquecimento. Em exercício com barra, ele mostra as **anilhas de cada lado** ("Por lado: 2 × 20 + 2,5"). A barra e as anilhas que você tem ficam no Perfil, em Registro do treino; a ficha do exercício tem a **calculadora de anilhas**. As notas do item aparecem no Modo Treino como **observação** ("banco no furo 4").
 
+## Superset e circuito
+
+No painel do exercício, **Superset ou circuito** dá uma letra (A, B, C, D) ao item. Os itens do mesmo treino com a mesma letra formam um grupo: no Modo Treino, a série de um passa direto para o próximo do grupo, sem descanso, e o descanso vem no fim de cada rodada. Com três ou mais itens, é um circuito. Quando um acaba, os outros seguem; quando o grupo todo acaba, o treino vai para o próximo exercício.
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

@@ -56,6 +56,10 @@ Weight and measurements are health data, sensitive under Brazil’s LGPD: the fi
 
 Before the first set of a weighted exercise, Workout mode suggests a **warm-up** (40%, 60% and 80% of the weight, rounded to the step and never below the bar); each suggestion is one tap and goes to the log as a warm-up. For barbell exercises it shows the **plates per side** ("Per side: 2 × 20 + 2.5"). The bar and plates you have are in Profile, under Workout log; the exercise page has the **plate calculator**. The item notes show in Workout mode as a **note** ("bench on hole 4").
 
+## Superset and circuit
+
+In the exercise panel, **Superset or circuit** gives the item a letter (A, B, C, D). Items in the same workout with the same letter form a group: in Workout mode, a set of one goes straight to the next one in the group, with no rest, and rest comes at the end of each round. With three or more items it is a circuit. When one finishes, the others go on; when the whole group is done, the workout moves to the next exercise.
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

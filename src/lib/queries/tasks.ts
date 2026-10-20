@@ -414,6 +414,7 @@ function optimisticTask(
     exercise_id: item.exerciseId ?? null,
     progression: null,
     progression_step: null,
+    superset: null,
     created_by: '',
     completed_by: null,
     completed_at: item.done ? now : null,
@@ -600,6 +601,7 @@ export type TaskPatch = Partial<
     | 'exercise_id'
     | 'progression'
     | 'progression_step'
+    | 'superset'
   >
 >;
 

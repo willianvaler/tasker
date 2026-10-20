@@ -63,6 +63,36 @@ export function nextPending(items: WorkoutItem[], from: number, skipped: readonl
   return -1;
 }
 
+/** Superset ou circuito (AC9.4): os itens do mesmo grupo, na ordem da lista (sozinho não é grupo). */
+export function supersetMembers(items: WorkoutItem[], index: number): number[] {
+  const group = items[index]?.task.superset;
+  if (!group) return [];
+  const members = items.flatMap((it, i) => (it.task.superset === group ? [i] : []));
+  return members.length > 1 ? members : [];
+}
+
+/**
+ * Depois de uma série no item `index` de um grupo (com `items` já contando essa série): o
+ * próximo do grupo que ainda tem série, na ordem e dando a volta; `rest` quando a volta fecha a
+ * rodada (o descanso vem só no fim do grupo). null: o grupo acabou.
+ */
+export function supersetNext(
+  items: WorkoutItem[],
+  index: number,
+  skipped: readonly string[] = [],
+): { next: number; rest: boolean } | null {
+  const members = supersetMembers(items, index);
+  const pos = members.indexOf(index);
+  if (pos === -1) return null;
+  for (let step = 1; step <= members.length; step++) {
+    const k = (pos + step) % members.length;
+    const it = items[members[k]];
+    if (it.done || skipped.includes(it.task.id)) continue;
+    return { next: members[k], rest: pos + step >= members.length };
+  }
+  return null;
+}
+
 /** Séries feitas e no total, para a barra do treino. */
 export function workoutProgress(items: WorkoutItem[]) {
   return items.reduce(

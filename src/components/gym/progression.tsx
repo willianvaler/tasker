@@ -233,3 +233,43 @@ export function PageProgressionEditor({
     </View>
   );
 }
+
+const SUPERSET_LETTERS = ['A', 'B', 'C', 'D'] as const;
+
+/** Painel do exercício: a letra do superset (itens com a mesma letra se alternam, AC9.4). */
+export function SupersetEditor({
+  value,
+  editable,
+  onSave,
+}: {
+  value: string | null;
+  editable: boolean;
+  onSave: (superset: string | null) => void;
+}) {
+  const { t } = useTranslation();
+  return (
+    <View className="gap-2">
+      <Text className="text-sm text-ink">{t('superset.title')}</Text>
+      <View accessibilityRole="radiogroup" className="flex-row flex-wrap gap-1">
+        <Chip
+          role="radio"
+          label={t('superset.none')}
+          selected={!value}
+          disabled={!editable}
+          onPress={() => onSave(null)}
+        />
+        {SUPERSET_LETTERS.map((letter) => (
+          <Chip
+            key={letter}
+            role="radio"
+            label={letter}
+            selected={value === letter}
+            disabled={!editable}
+            onPress={() => onSave(letter)}
+          />
+        ))}
+      </View>
+      <Text className="text-xs text-ink-muted">{t('superset.hint')}</Text>
+    </View>
+  );
+}

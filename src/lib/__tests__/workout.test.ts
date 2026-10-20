@@ -13,6 +13,8 @@ import {
   planFromSets,
   nextPending,
   setVolume,
+  supersetMembers,
+  supersetNext,
   workoutElapsed,
   workoutItems,
   workoutProgress,
@@ -174,4 +176,47 @@ describe('séries avançadas', () => {
         { sets: 1 },
       ]),
     ).toBe('1x14 40kg · 2x10 · 1x8 45kg · 1x?'));
+});
+
+describe('superset (AC9.4)', () => {
+  const plan = { mode: 'sets' as const, total: 2, rest_seconds: 60 };
+  const item = (id: string, superset: string | null, reps = 0) => ({
+    task: task(id, { superset } as Partial<Task>),
+    plan,
+    repeats: true,
+    reps,
+    done: reps >= 2,
+  });
+
+  it('grupo: os do mesmo superset; sozinho não é grupo', () => {
+    const items = [item('t1', 'A'), item('t2', 'A'), item('t3', null), item('t4', 'B')];
+    expect(supersetMembers(items, 0)).toEqual([0, 1]);
+    expect(supersetMembers(items, 2)).toEqual([]);
+    expect(supersetMembers(items, 3)).toEqual([]);
+  });
+
+  it('alterna sem descanso e descansa no fim da rodada', () => {
+    // Série 1 do primeiro feita: vai para o segundo, sem descanso
+    expect(supersetNext([item('t1', 'A', 1), item('t2', 'A')], 0)).toEqual({
+      next: 1,
+      rest: false,
+    });
+    // Série 1 do segundo feita: volta ao primeiro, depois de descansar
+    expect(supersetNext([item('t1', 'A', 1), item('t2', 'A', 1)], 1)).toEqual({
+      next: 0,
+      rest: true,
+    });
+    // O primeiro acabou: o segundo segue sozinho, descansando entre as séries
+    expect(supersetNext([item('t1', 'A', 2), item('t2', 'A', 1)], 1)).toEqual({
+      next: 1,
+      rest: true,
+    });
+    // Todos acabaram
+    expect(supersetNext([item('t1', 'A', 2), item('t2', 'A', 2)], 1)).toBeNull();
+    // Pulado fica de fora
+    expect(supersetNext([item('t1', 'A', 1), item('t2', 'A')], 0, ['t2'])).toEqual({
+      next: 0,
+      rest: true,
+    });
+  });
 });

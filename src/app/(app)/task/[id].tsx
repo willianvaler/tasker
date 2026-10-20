@@ -67,7 +67,7 @@ import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { ExerciseHistory } from '@/components/gym/exercise-history';
 import { ExerciseRecords } from '@/components/gym/exercise-records';
 import { ExerciseLink } from '@/components/gym/exercise-link';
-import { ProgressionEditor } from '@/components/gym/progression';
+import { ProgressionEditor, SupersetEditor } from '@/components/gym/progression';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
@@ -458,6 +458,11 @@ function TaskDetails({ task }: { task: Task }) {
             />
             <MetaEditor task={task} onSave={save} />
             <ProgressionEditor task={task} editable={writable} onSave={save} />
+            <SupersetEditor
+              value={task.superset}
+              editable={writable}
+              onSave={(superset) => save({ superset })}
+            />
             {repeatPlan?.mode === 'sets' && (
               <RepeatCounter
                 task={task}

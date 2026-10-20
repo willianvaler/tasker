@@ -1913,6 +1913,13 @@
     "warmupLogged": "Aquecimento {{weight}} × {{reps}} registrado",
     "note": "Observação"
   },
+  "superset": {
+    "title": "Superset ou circuito",
+    "none": "Nenhum",
+    "hint": "Itens deste treino com a mesma letra se alternam no Modo Treino; o descanso vem no fim de cada rodada.",
+    "label": "Superset {{group}} · {{pos}} de {{n}}",
+    "round": "Fim da rodada do superset {{group}}"
+  },
   "workout": {
     "start": "Iniciar treino",
     "title": "Treino",

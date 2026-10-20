@@ -85,6 +85,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'exercise_id',
       'progression',
       'progression_step',
+      'superset',
     ],
     update: [
       'page_id',
@@ -113,6 +114,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'exercise_id',
       'progression',
       'progression_step',
+      'superset',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },
