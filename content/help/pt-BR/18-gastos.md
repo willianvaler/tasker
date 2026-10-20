@@ -13,7 +13,7 @@ Uma página do tipo **Gastos** (Novo → Página → Gastos) é uma planilha de 
 
 **Foto da nota** tira uma foto (ou escolhe várias da galeria) e lê estabelecimento, data, total, forma de pagamento e os itens. Você confere tudo antes de salvar: nada entra sozinho. Com **Um lançamento por item**, cada item da nota vira uma linha. A foto fica guardada no lançamento. Nota fiscal com chave de acesso (NFC-e) não entra duas vezes: o app avisa se ela já foi lançada.
 
-A leitura precisa de internet e é feita pelo Google (Gemini), que recebe só a foto. São até 100 fotos por mês.
+A leitura precisa de internet e é feita pelo Google (Gemini), que recebe só a foto. Enquanto o app está em teste, não há limite de fotos por conta; se muitas forem lidas no mesmo minuto, o app pede para esperar um pouco.
 
 ## Foto de uma lista
 

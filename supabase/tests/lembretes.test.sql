@@ -8,7 +8,9 @@ create temp table ctx as
 select p.id as inbox,
        (now() at time zone 'America/Sao_Paulo')::date as today,
        ((now() at time zone 'America/Sao_Paulo') - interval '5 minutes')::time(0) as past,
-       ((now() at time zone 'America/Sao_Paulo') + interval '2 hours')::time(0) as later
+       ((now() at time zone 'America/Sao_Paulo') + interval '2 hours')::time(0) as later,
+       -- Depois das 22h, "daqui a 2 horas" já é amanhã
+       ((now() at time zone 'America/Sao_Paulo') + interval '2 hours')::date as later_day
 from public.pages p join public.folders f on f.id = p.folder_id
 where f.owner_id = '11111111-1111-1111-1111-111111111111' and p.is_inbox;
 grant select on ctx to authenticated;
@@ -18,7 +20,7 @@ set local role authenticated;
 set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}';
 select public.create_tasks_batch((select inbox from ctx), jsonb_build_array(
   jsonb_build_object('title', 'Ligar', 'due_date', (select today from ctx), 'due_time', (select past from ctx), 'remind_before', 0),
-  jsonb_build_object('title', 'Depois', 'due_date', (select today from ctx), 'due_time', (select later from ctx), 'remind_before', 30),
+  jsonb_build_object('title', 'Depois', 'due_date', (select later_day from ctx), 'due_time', (select later from ctx), 'remind_before', 30),
   jsonb_build_object('title', 'Sem data', 'due_time', '10:00', 'remind_before', 0)));
 select is((select due_time from public.tasks where title = 'Ligar'), (select past from ctx), 'lote grava o horário');
 select is((select due_time from public.tasks where title = 'Sem data'), null::time, 'sem data, sem horário');

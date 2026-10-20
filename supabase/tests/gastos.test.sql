@@ -1,7 +1,7 @@
 -- ESCOPO_V9 (GA1): página de gastos, permissões, foto da nota, lixeira e leituras de foto.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(26);
+select plan(27);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'dono@teste.local'),
@@ -106,7 +106,13 @@ insert into public.photo_reads (user_id, kind, provider, ok) values
   ('11111111-1111-1111-1111-111111111111', 'receipt', 'gemini', false),
   ('11111111-1111-1111-1111-111111111111', 'list', 'gemini', true);
 set local role authenticated;
-select is(public.photo_reads_left(), public.photo_read_limit() - 2, 'sobram as leituras do mês');
+select is(public.photo_reads_left(), null, 'sem limite na fase de teste (V9-3)');
+-- Com limite (quando voltar): conta só as que deram certo, no mês
+reset role;
+create or replace function public.photo_read_limit() returns integer
+  language sql immutable set search_path = '' as $$ select 100 $$;
+set local role authenticated;
+select is(public.photo_reads_left(), 98, 'sobram as leituras do mês');
 
 select * from finish();
 rollback;

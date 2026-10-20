@@ -213,19 +213,21 @@ Deno.serve(async (req) => {
   const language = typeof body.language === 'string' ? body.language.slice(0, 10) : 'pt-BR';
   if (!kind || !mime || !image || image.length > MAX_BASE64) return json({ error: 'body' }, 400);
 
-  // Limite do mês (V9-3): conta só as leituras que deram certo
-  const { data: limit } = await service.rpc('photo_read_limit');
-  const since = new Date();
-  since.setUTCDate(1);
-  since.setUTCHours(0, 0, 0, 0);
-  const { count } = await service
-    .from('photo_reads')
-    .select('id', { count: 'exact', head: true })
-    .eq('user_id', user.id)
-    .eq('ok', true)
-    .gte('created_at', since.toISOString());
-  const max = typeof limit === 'number' ? limit : 100;
-  if ((count ?? 0) >= max) return json({ error: 'limit', limit: max }, 429);
+  // Limite do mês (V9-3): conta só as leituras que deram certo; nulo = sem limite (fase de teste)
+  const { data: limit, error: limitError } = await service.rpc('photo_read_limit');
+  if (limitError) return json({ error: 'failed' }, 500);
+  if (typeof limit === 'number') {
+    const since = new Date();
+    since.setUTCDate(1);
+    since.setUTCHours(0, 0, 0, 0);
+    const { count } = await service
+      .from('photo_reads')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('ok', true)
+      .gte('created_at', since.toISOString());
+    if ((count ?? 0) >= limit) return json({ error: 'limit', limit }, 429);
+  }
 
   const key = Deno.env.get('GEMINI_API_KEY');
   const fake = !key && Deno.env.get('PHOTO_READER') === 'fake';

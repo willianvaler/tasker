@@ -54,7 +54,7 @@ A "especificação de OCR pendente" eram duas linhas de backlog: **ESCOPO §11**
 |---|---|---|
 | V9-1 | Quem lê a foto | **Gemini, com a chave gratuita do dono** (19/10), trocável por plano pago sem mudar código (D219) |
 | V9-2 | Terceiro novo (LGPD) | Política atualizada nos 3 idiomas dizendo do plano gratuito; aceite de novo (D219) |
-| V9-3 | Limite de leituras por conta | Provisório: 100 fotos por mês (`photo_read_limit()`) |
+| V9-3 | Limite de leituras por conta | **Sem limite enquanto for teste** (19/10, D220): `photo_read_limit()` nulo; voltar a limitar é uma migração |
 | V9-4 | Racha de contas já na primeira entrega? | Não (§6) |
 
 ## 8. Ordem sugerida

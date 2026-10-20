@@ -272,10 +272,16 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 | V3-2 | Dependências: estrito ou flexível por padrão? | antes da H | |
 | V3-3 | Biblioteca do grafo | antes da I | |
 | V3-4 | Página enviada: ao vivo ou cópia por padrão? | antes da L | **Ao vivo** (D133, decidido na ausência do dono; a cópia continua no envio) |
-| V3-6 | Quais itens B sobem de prioridade | depois da M | |
+| V3-6 | Quais itens B sobem de prioridade | depois da M | Racha de contas, lista de compras gerada, revisão semanal, Eisenhower, reações, recompensas personalizadas (D220) |
 | V4-1 | Boss diário: HP base e recompensa | O1 | Provisório (D150+) |
 | V4-2 | Rebirth: nível mínimo, ouro, bônus | R1 | Implementado com o provisório (D210): 20, ouro fica, +5%/renascimento até +25%; mudar é só `xp_rules -> rebirth` |
 | V4-3 | Raridades: dificuldade fixa ou % de jogadores | P1 | Provisório: dificuldade fixa, % mostrada à parte |
 | V4-4 | Anexos: limite por arquivo e por conta | N4 | Provisório: 10 MB / 1 GB |
-| V4-5 | Planos: o que cada um libera, preços, founder | T1 | |
-| V4-6 | Provedor de pagamento e compras nas lojas | T2 | |
+| V4-5 | Planos: o que cada um libera, preços, founder | T1 | Tudo grátis por enquanto; plano pago no futuro, com founder (D220) |
+| V4-6 | Provedor de pagamento e compras nas lojas | T2 | Decidir depois (D220) |
+| V5-3 | Provedor de e-mail e domínio de envio | V5 §5 | Inativo por enquanto (D220) |
+| V5-4 | Carência da exclusão de conta | V5 §6 | 30 dias (D220) |
+| V7-1 | Conta de desenvolvedor no Strava | V7 §2 | App "Questlist", retorno em `questlist.wavdev.org` (D220) |
+| V7-2 | Escrever no Health Connect/Strava ou só ler | V7 §2 | Só ler; a atividade de fora vira um registro de treino, sem passar pelo Modo Treino (D220) |
+| V7-3 | Quais atividades contam como treino | V7 §2 | Todas (D220) |
+| V9-3 | Limite de leituras de foto por conta | GA8 | Sem limite enquanto for teste (`photo_read_limit()` nulo, D220) |
