@@ -14,6 +14,7 @@ import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { PersonRow } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
+import { FriendPicker } from '@/components/friend-picker';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { describeClanActivity } from '@/lib/activity';
@@ -122,6 +123,11 @@ export default function ClanScreen() {
             />
           ))}
         </View>
+
+        <FriendPicker
+          target={{ clan: true }}
+          memberIds={data.members.map((member) => member.userId)}
+        />
 
         <View className="gap-3">
           <SectionLabel title={t('clan.invite')} className="pt-0" />

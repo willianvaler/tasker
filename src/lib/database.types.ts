@@ -2216,6 +2216,9 @@ isOneToOne: false
 "accept_terms":
 { Args: { "p_version": string }; Returns: undefined
                            },
+"add_friend_to_group":
+{ Args: { "p_clan"?: boolean,"p_folder_id"?: string,"p_friend": string,"p_role"?: string,"p_team_id"?: string }; Returns: string
+                           },
 "allocate_attribute":
 { Args: { "p_attr": string }; Returns: Json
                            },

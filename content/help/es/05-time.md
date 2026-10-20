@@ -25,3 +25,5 @@ En un proyecto puedes reaccionar con 👏 🔥 💪 ❤️ o 🎉 a una tarea co
 ## Amigos
 
 En **Amigos** (barra lateral, Perfil o `Ctrl+K`) está tu **nick**, el nombre con que te encuentran (3 a 20 letras minúsculas, números, `_` o `.`; se puede cambiar). Para agregar a alguien, escribe su **@nick** o su **e-mail** y toca **Enviar solicitud**: recibe un aviso y acepta o rechaza. Por e-mail, la app no dice si la cuenta existe. Tu **enlace de amistad** es lo más rápido: quien lo abre y entra se vuelve tu amigo al instante (puede crear la cuenta ahí mismo). Si el enlace termina donde no debía, **Cambiar enlace** y el anterior deja de valer. Eliminar una amistad no avisa a la otra persona.
+
+**Agregar de los amigos:** en **Personas** del proyecto (y del grupo de entrenamiento), en la página del equipo y en el clan, la lista **Agregar de los amigos** muestra a quien todavía no está ahí. **Agregar** pone a la persona directo en el grupo (en el proyecto, con el cargo de "Invitar como") y recibe un aviso; si no quiere, solo tiene que salir. Solo aparece para quien ya puede invitar en ese grupo.

@@ -1031,6 +1031,15 @@
     "linkOwn": "This is your own link.",
     "open": "See friends"
   },
+  "friendPicker": {
+    "title": "Add from friends",
+    "none": "You have no friends in the app yet.",
+    "addFriends": "Add friends",
+    "allIn": "All your friends are already here.",
+    "add": "Add",
+    "addLabel": "Add {{name}}",
+    "added": "{{name}} is in and was notified."
+  },
   "matrix": {
     "views": "Page views",
     "list": "List",

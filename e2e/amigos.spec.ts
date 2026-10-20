@@ -2,7 +2,7 @@ import { devices, expect, test } from '@playwright/test';
 
 import { signUp } from './helpers';
 
-test('amigos: pelo link vira amizade na hora; desfazer; pedido por nick e aceite', async ({
+test('amigos: pelo link vira amizade na hora; desfazer; pedido por nick e aceite; adicionar ao projeto', async ({
   page,
   browser,
 }, testInfo) => {
@@ -27,7 +27,7 @@ test('amigos: pelo link vira amizade na hora; desfazer; pedido por nick e aceite
   const context = await browser.newContext({ ...devices['Desktop Chrome'] });
   const bia = await context.newPage();
   await bia.goto(link);
-  await expect(bia.getByRole('heading', { name: /quer ser seu amigo no Questlist/ })).toBeVisible();
+  await expect(bia.getByRole('heading', { name: /quer fazer amizade com você no Questlist/ })).toBeVisible();
   await bia.getByPlaceholder('Seu nome').fill('Bia Reis');
   await bia
     .getByPlaceholder('E-mail')
@@ -63,5 +63,20 @@ test('amigos: pelo link vira amizade na hora; desfazer; pedido por nick e aceite
   });
   await page.getByRole('button', { name: 'Aceitar o pedido de Bia Reis' }).click();
   await expect(page.getByRole('button', { name: 'Desfazer amizade com Bia Reis' })).toBeVisible();
+
+  // Ana põe a Bia num projeto direto da lista de amigos (AM3)
+  await page.goto('/templates');
+  await page.getByRole('button', { name: 'Modelo Churrasco' }).click();
+  await page.getByRole('button', { name: 'Criar', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
+  await page.getByRole('button', { name: 'Pessoas' }).click();
+  await page.getByRole('button', { name: 'Adicionar Bia Reis' }).click();
+  await expect(page.getByText('Bia Reis entrou e recebeu um aviso.')).toBeVisible();
+  await expect(page.getByText('Todos os seus amigos já estão aqui.')).toBeVisible();
+
+  await bia.goto('/notifications');
+  await expect(bia.getByText(/adicionou você a Churrasco/)).toBeVisible({ timeout: 15_000 });
+  await bia.getByText(/adicionou você a Churrasco/).click();
+  await expect(bia.getByRole('heading', { name: 'Churrasco' })).toBeVisible({ timeout: 15_000 });
   await context.close();
 });

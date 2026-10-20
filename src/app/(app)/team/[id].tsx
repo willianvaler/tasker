@@ -26,6 +26,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Input } from '@/components/ui/input';
 import { PersonRow } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
+import { FriendPicker } from '@/components/friend-picker';
 import { Text } from '@/components/ui/text';
 import { ToggleRow } from '@/components/ui/toggle-row';
 import { inviteUrl } from '@/lib/queries/projects';
@@ -202,6 +203,13 @@ export default function TeamScreen() {
             );
           })}
         </View>
+
+        {isAdmin && (
+          <FriendPicker
+            target={{ teamId: id }}
+            memberIds={data.members.map((member) => member.userId)}
+          />
+        )}
 
         {isAdmin && (
           <View className="gap-3">

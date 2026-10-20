@@ -14,6 +14,7 @@ import { ActionMenu, ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Avatar } from '@/components/ui/person';
 import { SectionLabel } from '@/components/ui/section-label';
+import { FriendPicker } from '@/components/friend-picker';
 import {
   ASSIGNABLE_ROLES,
   inviteUrl,
@@ -213,6 +214,13 @@ export default function ShareScreen() {
           </View>
         )}
 
+        {canInvite && folder && (
+          // Amigos entram com o cargo escolhido em "Convidar como" (D231)
+          <FriendPicker
+            target={{ folderId: folder.id, role: inviteRole }}
+            memberIds={(members.data ?? []).map((m) => m.userId)}
+          />
+        )}
         <View>
           <SectionLabel title={t('share.people')} count={members.data?.length} className="pt-0" />
           {members.data?.map((member) => {

@@ -1025,11 +1025,20 @@
     "linkReset": "Link trocado. O anterior parou de valer.",
     "linkInvalid": "Link de amizade inválido",
     "linkInvalidHint": "O link foi trocado ou está incompleto. Peça um novo.",
-    "linkTitle": "{{name}} quer ser seu amigo no Questlist",
+    "linkTitle": "{{name}} quer fazer amizade com você no Questlist",
     "linkAccept": "Aceitar amizade",
     "linkDone": "Pronto: você e {{name}} agora são amigos.",
     "linkOwn": "Este é o seu próprio link.",
     "open": "Ver amigos"
+  },
+  "friendPicker": {
+    "title": "Adicionar dos amigos",
+    "none": "Você ainda não tem amigos no app.",
+    "addFriends": "Adicionar amigos",
+    "allIn": "Todos os seus amigos já estão aqui.",
+    "add": "Adicionar",
+    "addLabel": "Adicionar {{name}}",
+    "added": "{{name}} entrou e recebeu um aviso."
   },
   "matrix": {
     "views": "Visões da página",
