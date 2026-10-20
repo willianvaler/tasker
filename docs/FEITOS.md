@@ -160,6 +160,9 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | W7 | Modo Treino fácil de achar | D171 |
 | V5 | W8 | `ESCOPO_V5.md`: relógio, tela de bloqueio, usabilidade, HTTPS, LGPD, e-mail, restauração de conta | — |
 | V5 | W9 | HTTPS: mandar `http://` para `https://` e cabeçalhos de segurança | D172 |
+| V5 | CD1 | Hábito bom/ruim com o + à esquerda e o − à direita | D227 |
+| V5 | CD2 | Peso da tarefa com seis níveis nomeados: Trivial, Baixo, Médio, Alto, Muito alto, Extremo | D226 |
+| V5 | CD3 | Menu Novo: pelo botão não passa do fim da janela (abre para cima); pelo Alt+N, no meio da tela | D228 |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |

@@ -32,7 +32,8 @@ export function Popover({
   open: boolean;
   onClose: () => void;
   width?: number;
-  placement?: 'below' | 'above' | 'right';
+  /** center: no meio da tela, sem âncora (ex.: menu Novo pelo atalho) */
+  placement?: 'below' | 'above' | 'right' | 'center';
   children: ReactNode;
 }) {
   const window = useWindowDimensions();
@@ -40,7 +41,13 @@ export function Popover({
   const reduced = useReducedMotion();
   const { t } = useTranslation();
   const colors = useColors();
-  const rect = useAnchorRect(anchor, open);
+  const measured = useAnchorRect(anchor, open && placement !== 'center');
+  const rect: Rect | null =
+    placement === 'center' && open
+      ? { x: (window.width - width) / 2, y: window.height / 3, width, height: 0 }
+      : measured;
+  // Altura do conteúdo: abre para cima (ou encosta na borda) quando não cabe embaixo
+  const [contentHeight, setContentHeight] = useState(0);
   const wide = window.width >= 768;
   useShortcut('overlay.close', onClose, open);
   if (!open) return null;
@@ -78,11 +85,16 @@ export function Popover({
       : Math.max(8, Math.min(rect.x, window.width - width - 8));
   const vertical = !rect
     ? { top: 0 }
-    : placement === 'above'
-      ? { bottom: window.height - rect.y + 4 }
-      : placement === 'right'
-        ? { top: Math.max(8, rect.y - 8) }
-        : { top: rect.y + rect.height + 4 };
+    : placement === 'center'
+      ? { top: Math.max(8, (window.height - contentHeight) / 2) }
+      : placement === 'above'
+        ? { bottom: window.height - rect.y + 4 }
+        : fitVertically(
+            placement === 'right' ? Math.max(8, rect.y - 8) : rect.y + rect.height + 4,
+            rect,
+            contentHeight,
+            window.height,
+          );
 
   return (
     <Modal transparent animationType="none" onRequestClose={onClose}>
@@ -93,6 +105,7 @@ export function Popover({
           style={[{ position: 'absolute', left, width, maxHeight: window.height - 16 }, vertical]}
         >
           <View
+            onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
             className="rounded-lg border border-line bg-surface p-1"
             style={{
               shadowColor: colors.scrim,
@@ -107,6 +120,16 @@ export function Popover({
       )}
     </Modal>
   );
+}
+
+/**
+ * Topo do popover que abre embaixo da âncora: se passa do fim da janela, abre para cima da âncora;
+ * se também não cabe em cima, encosta no fim da janela (o maxHeight cuida de telas bem baixas).
+ */
+export function fitVertically(top: number, rect: Rect, height: number, windowHeight: number) {
+  if (!height || top + height <= windowHeight - 8) return { top };
+  if (rect.y - 4 - height >= 8) return { top: rect.y - 4 - height };
+  return { top: Math.max(8, windowHeight - height - 8) };
 }
 
 export function MenuItem({

@@ -116,7 +116,12 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
       {children}
       {/* Âncora de quando o menu abre pelo teclado: canto de cima, à esquerda */}
       <View ref={fallbackAnchor} collapsable={false} className="absolute left-2 top-2 h-px w-px" />
-      <Popover anchor={anchor ?? fallbackAnchor} open={open} onClose={close}>
+      <Popover
+        anchor={anchor ?? fallbackAnchor}
+        open={open}
+        onClose={close}
+        placement={anchor === fallbackAnchor ? 'center' : 'below'}
+      >
         <Text className="px-2 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">
           {t('newMenu.title')}
         </Text>
