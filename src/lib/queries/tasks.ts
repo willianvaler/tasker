@@ -412,6 +412,8 @@ function optimisticTask(
     habit_sides: 'both',
     visibility: item.visibility ?? 'private',
     exercise_id: item.exerciseId ?? null,
+    progression: null,
+    progression_step: null,
     created_by: '',
     completed_by: null,
     completed_at: item.done ? now : null,
@@ -596,6 +598,8 @@ export type TaskPatch = Partial<
     | 'deps_mode'
     | 'visibility'
     | 'exercise_id'
+    | 'progression'
+    | 'progression_step'
   >
 >;
 

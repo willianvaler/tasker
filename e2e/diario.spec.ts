@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, shown, signUp } from './helpers';
+import { adminRest, openTab, shown, signUp } from './helpers';
 
 // AC4 (D236): o Modo Treino grava cada série como aconteceu (repetições reais, esforço,
 // aquecimento à parte) e o painel do exercício mostra o histórico.
@@ -88,4 +88,67 @@ test('recorde no Modo Treino, no resumo e no painel', async ({ page }, testInfo)
   await page.getByRole('button', { name: 'Detalhes de Agachamento' }).click();
   await expect(shown(page, 'Maior 1RM estimado', { exact: true })).toBeVisible({ timeout: 15_000 });
   await expect(shown(page, /pela série 42,5 kg × 10/)).toBeVisible();
+});
+
+// AC6 (D238): a carga do próximo treino sai do diário: linear, fez tudo ontem → sobe um degrau
+// sozinha no treino pessoal e diz por quê
+test('progressão: a carga sobe sozinha e diz por quê', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'O Modo Treino é o mesmo; basta um perfil');
+  await signUp(page, testInfo);
+  await openTab(page, 'Início');
+  await page.getByRole('button', { name: 'Sim, vou treinar' }).click();
+  await page.getByRole('navigation').getByRole('button', { name: 'Novo treino' }).first().click();
+  const name = `Treino ${Date.now()}`;
+  await page.getByPlaceholder('Nome do treino (ex.: Treino A)').fill(name);
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  const title = `Remada ${Date.now()}`;
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill(`${title} 2x10 40kg`);
+  await input.press('Enter');
+  await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
+  await page.getByRole('radio', { name: 'Linear' }).click();
+  await expect(page.getByRole('radio', { name: 'Linear' })).toHaveAttribute('aria-checked', 'true');
+
+  // Ontem: 2×10 com 40 kg, tudo feito
+  const [task] = await expect
+    .poll(
+      async () =>
+        adminRest(
+          `tasks?title=eq.${encodeURIComponent(title)}&progression=eq.linear&select=id,created_by,page_id`,
+        ),
+      {
+        timeout: 15_000,
+      },
+    )
+    .toHaveLength(1)
+    .then(() =>
+      adminRest(`tasks?title=eq.${encodeURIComponent(title)}&select=id,created_by,page_id`),
+    );
+  const yesterday = new Date(Date.now() - 26 * 60 * 60 * 1000).toISOString();
+  await adminRest('workout_sets', {
+    method: 'POST',
+    body: JSON.stringify(
+      [1, 2].map((i) => ({
+        user_id: task.created_by,
+        task_id: task.id,
+        page_id: task.page_id,
+        exercise_name: title,
+        set_index: i,
+        weight_kg: 40,
+        reps: 10,
+        target_reps: 10,
+        target_sets: 2,
+        performed_at: yesterday,
+      })),
+    ),
+  });
+  // Dado que chegou de fora (como de outro aparelho): o painel lê de novo ao abrir
+  await page.reload();
+  await expect(shown(page, 'Próximo: 42,5 kg · 10 reps')).toBeVisible({ timeout: 20_000 });
+  await expect(shown(page, 'Subiu 2,5 kg: fez 2×10 na última')).toBeVisible();
+
+  await page.goto(`/page/${task.page_id}`);
+  await page.getByRole('button', { name: 'Iniciar treino' }).click();
+  await expect(page.getByLabel('Carga: 42,5kg')).toBeVisible({ timeout: 15_000 });
+  await expect(shown(page, 'Subiu 2,5 kg: fez 2×10 na última')).toBeVisible();
 });

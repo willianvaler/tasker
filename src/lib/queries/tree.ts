@@ -27,6 +27,8 @@ export type PageSettings = {
   reset_cycle?: Page['reset_cycle'];
   /** Limite de níveis de subtarefa da página; null = o do projeto (ou o padrão) */
   max_depth?: number | null;
+  /** Regra de progressão do treino (AC6); null = a padrão */
+  progression?: Page['progression'];
 };
 
 export type SubFolder = Folder & { pages: Page[] };

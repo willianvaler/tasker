@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { groupByDay } from '../history';
+import { diarySessions, groupByDay } from '../history';
 
 const set = (
   performed_at: string,
@@ -34,5 +34,37 @@ describe('groupByDay', () => {
 
   it('vazio', () => {
     expect(groupByDay([], 'UTC')).toEqual([]);
+  });
+});
+
+describe('diarySessions', () => {
+  it('sessões com a meta e a carga na unidade do plano, sem aquecimento', () => {
+    const sessions = diarySessions(
+      [
+        { ...set('2026-10-19T12:00:00Z', 1, { warmup: true }), target_reps: 10, target_sets: 3 },
+        {
+          ...set('2026-10-19T12:01:00Z', 1, { weight_kg: 45.36 }),
+          target_reps: 10,
+          target_sets: 3,
+        },
+        {
+          ...set('2026-10-19T12:02:00Z', 2, { weight_kg: 45.36 }),
+          target_reps: 10,
+          target_sets: 3,
+        },
+      ],
+      'UTC',
+      'lb',
+    );
+    expect(sessions).toEqual([
+      {
+        day: '2026-10-19',
+        targetSets: 3,
+        sets: [
+          { weight: 100, reps: 10, seconds: null, targetReps: 10, targetSeconds: null },
+          { weight: 100, reps: 10, seconds: null, targetReps: 10, targetSeconds: null },
+        ],
+      },
+    ]);
   });
 });

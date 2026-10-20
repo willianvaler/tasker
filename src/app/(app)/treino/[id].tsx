@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { prescriptionMeta, useProgression, useWhy } from '@/components/gym/progression';
 import { parseDecimal, SetRow, type SetDraft } from '@/components/gym/set-row';
 import { useLogSet } from '@/components/tasks/repeat';
 import { TrainingPartners } from '@/components/training-partners';
@@ -300,6 +301,8 @@ export default function WorkoutScreen() {
       }}
       group={group}
       partnerNames={partnerNames}
+      shared={others.length > 0}
+      fresh={tasks.isFetchedAfterMount && !tasks.isFetching}
       onRestShared={(iso) => {
         appliedRest.current = iso;
       }}
@@ -356,6 +359,8 @@ function Running({
   onResult,
   group,
   partnerNames,
+  shared,
+  fresh,
   onRestShared,
 }: {
   title: string;
@@ -370,6 +375,10 @@ function Running({
   /** Treino junto (AC10.1): a série vale para o grupo */
   group: WorkoutSession | null;
   partnerNames: string[];
+  /** Pasta com mais gente: a progressão sugere em vez de mudar o plano de todos */
+  shared: boolean;
+  /** A lista foi lida de novo nesta abertura (antes disso, a progressão não mexe no plano) */
+  fresh: boolean;
   /** O descanso que este aparelho mandou para a sessão (para não começá-lo duas vezes) */
   onRestShared: (iso: string) => void;
 }) {
@@ -422,6 +431,22 @@ function Running({
     (kind === 'cardio' || planned.reps != null || !!task.exercise_id || !!effortScale);
   const toast = useToast();
   const { warmup } = useWorkoutSetActions();
+  // Progressão (AC6.3): a carga do plano já vem com a prescrição (no treino pessoal, antes da
+  // primeira série do exercício); em pasta com mais gente, só sugere, com "Usar"
+  const progression = useProgression(task, { excludeToday: true });
+  const why = useWhy();
+  const prescribed = progression.prescription;
+  const prescribedMeta =
+    prescribed &&
+    (prescribed.kind === 'up' || prescribed.kind === 'deload' || prescribed.kind === 'hold')
+      ? prescriptionMeta(meta, prescribed, progression.plan.unit, !i18n.language.startsWith('en'))
+      : null;
+  const differs =
+    !!prescribedMeta &&
+    (prescribedMeta.weight !== meta.weight || prescribedMeta.reps !== meta.reps);
+  const canApply =
+    differs && allowed.edit && !item.done && item.reps === 0 && !setGroups(meta).length;
+  const autoApply = canApply && fresh && progression.fresh && !shared;
   // Recordes (AC5): calculados aqui na hora, contra o diário deste exercício (o servidor confere
   // de novo e dá o crítico); as séries desta tela que o histórico ainda não trouxe entram junto
   const history = useWorkoutHistory({ exerciseId: task.exercise_id, taskId: task.id });
@@ -572,6 +597,13 @@ function Running({
         ...(patch.repeat_plan ? { repeat_plan: patch.repeat_plan as Json } : {}),
       },
     });
+  const applied = useRef(new Set<string>());
+  useEffect(() => {
+    if (!autoApply || !prescribedMeta || applied.current.has(task.id)) return;
+    applied.current.add(task.id);
+    save({ meta: prescribedMeta });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoApply, task.id]);
 
   useShortcut('workout.done', done);
   useShortcut('workout.skipRest', () => {
@@ -670,6 +702,18 @@ function Running({
         <Text className="text-lg text-ink">{item.done ? t('workout.alreadyDone') : counter}</Text>
         {setLabel && !item.done ? (
           <Text className="font-mono text-xl font-semibold text-ink">{setLabel}</Text>
+        ) : null}
+        {prescribed && !item.done && prescribed.kind !== 'off' && prescribed.kind !== 'first' ? (
+          <View className="flex-row flex-wrap items-center gap-2">
+            <Text className="text-sm text-ink-muted">{why(prescribed, progression.plan.unit)}</Text>
+            {shared && canApply && prescribedMeta && (
+              <Button
+                variant="ghost"
+                label={t('progression.use')}
+                onPress={() => save({ meta: prescribedMeta })}
+              />
+            )}
+          </View>
         ) : null}
       </View>
 

@@ -1,5 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
+import { PageProgressionEditor } from '@/components/gym/progression';
 import { MoreHorizontal, Play, SlidersHorizontal, Users } from 'lucide-react-native';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { View } from 'react-native';
@@ -278,9 +279,25 @@ export default function PageScreen() {
           initial={page}
           inheritedDepth={effectiveMaxDepth(null, rootFolder(tree.data, page.folder_id)?.max_depth)}
           extra={
-            rootFolder(tree.data, page.folder_id)?.kind === 'project' && page.view_type !== 'habits'
-              ? { label: t('pageDeps.label'), content: <PageDependencyEditor page={page} /> }
-              : undefined
+            isWorkoutPage(tree.data, page)
+              ? {
+                  label: t('progression.pageRule'),
+                  content: (
+                    <PageProgressionEditor
+                      value={page.progression}
+                      onSave={(progression) =>
+                        m.updatePage.mutate(
+                          { id: page.id, name: page.name, progression },
+                          { onError },
+                        )
+                      }
+                    />
+                  ),
+                }
+              : rootFolder(tree.data, page.folder_id)?.kind === 'project' &&
+                  page.view_type !== 'habits'
+                ? { label: t('pageDeps.label'), content: <PageDependencyEditor page={page} /> }
+                : undefined
           }
           onClose={closeDialog}
           onConfirm={(settings) => {

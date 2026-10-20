@@ -43,6 +43,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'position',
       'max_depth',
       'budget_cents',
+      'progression',
     ],
     update: [
       'folder_id',
@@ -53,6 +54,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'position',
       'max_depth',
       'budget_cents',
+      'progression',
     ],
   },
   tasks: {
@@ -81,6 +83,8 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'approver_role',
       'visibility',
       'exercise_id',
+      'progression',
+      'progression_step',
     ],
     update: [
       'page_id',
@@ -107,6 +111,8 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'approver_role',
       'visibility',
       'exercise_id',
+      'progression',
+      'progression_step',
     ],
   },
   comments: { insert: ['task_id', 'body'], update: [] },

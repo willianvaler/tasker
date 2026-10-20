@@ -29,6 +29,8 @@ export type SetValues = {
   effort?: number | null;
   effort_scale?: EffortScale | null;
   warmup?: boolean;
+  /** Repetições que a série pedia (AC6: a progressão julga a sessão) */
+  target_reps?: number | null;
 };
 
 /** Uma série do diário. Só JSON (vai para o cache). */
@@ -49,10 +51,19 @@ export type WorkoutSet = {
   performed_at: string;
   /** Recordes que a série bateu (AC5), calculados no servidor */
   records: RecordKind[];
+  /** Meta da série (AC6) */
+  target_reps: number | null;
+  target_sets: number | null;
+  target_seconds: number | null;
 };
 
 const COLUMNS =
-  'id, task_id, exercise_id, exercise_name, set_index, kind, weight_kg, reps, duration_seconds, distance_m, warmup, effort, effort_scale, performed_at, records';
+  'id, task_id, exercise_id, exercise_name, set_index, kind, weight_kg, reps, duration_seconds, distance_m, warmup, effort, effort_scale, performed_at, records, target_reps, target_sets, target_seconds';
+
+const metaReps = (task: Task) => {
+  const meta = task.meta as { reps?: unknown } | null;
+  return typeof meta?.reps === 'number' ? meta.reps : null;
+};
 
 const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 
@@ -73,8 +84,9 @@ export async function insertLocalSet(
   const scale = values.effort_scale && num(values.effort) != null ? values.effort_scale : null;
   await tx.execute(
     `insert into workout_sets (id, user_id, task_id, page_id, exercise_id, exercise_name, cycle_key,
-       set_index, kind, weight_kg, reps, duration_seconds, distance_m, warmup, effort, effort_scale, performed_at)
-     values (?, ?, ?, ?, ?, ?, 'local', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       set_index, kind, weight_kg, reps, duration_seconds, distance_m, warmup, effort, effort_scale, performed_at,
+       target_reps, target_sets, target_seconds)
+     values (?, ?, ?, ?, ?, ?, 'local', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       id,
       userId,
@@ -92,6 +104,9 @@ export async function insertLocalSet(
       scale ? values.effort : null,
       scale,
       new Date().toISOString(),
+      num(values.target_reps) ?? metaReps(task),
+      plan?.total ?? null,
+      kind === 'time' ? (plan?.duration_seconds ?? null) : null,
     ],
   );
 }
@@ -121,6 +136,9 @@ const fromRow = (r: Record<string, unknown>): WorkoutSet => ({
   effort_scale: (r.effort_scale as EffortScale) ?? null,
   performed_at: String(r.performed_at),
   records: parseList(r.records) as RecordKind[],
+  target_reps: r.target_reps == null ? null : Number(r.target_reps),
+  target_sets: r.target_sets == null ? null : Number(r.target_sets),
+  target_seconds: r.target_seconds == null ? null : Number(r.target_seconds),
 });
 
 /**

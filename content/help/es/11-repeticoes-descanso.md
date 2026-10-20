@@ -28,6 +28,20 @@ Desde tu segundo entrenamiento de un ejercicio, cada serie se compara con las an
 
 En el panel del ejercicio y en la ficha de la Biblioteca quedan los mejores, de qué serie salió el 1RM y su evolución por día. La ficha también tiene la **calculadora de 1RM**: carga y repeticiones dan el 1RM y las cargas del 100% al 50%.
 
+## Progresión automática
+
+La carga del próximo entrenamiento sale de tu registro. Cada entrenamiento tiene una regla (en Configurar la página; por defecto es la **progresión doble**, de 8 a 12 repeticiones) y cada ejercicio puede tener la suya en el panel:
+
+- **Lineal**: hiciste todas las repeticiones de todas las series, sube un escalón;
+- **Doble**: con la misma carga, vas de 8 a 12 repeticiones; llegaste a 12 en todas, sube la carga y vuelve a 8;
+- **Greyskull**: la última serie va hasta el fallo; superaste la meta, sube (el doble de la meta duplica el escalón);
+- **Más tiempo**: para ejercicios por tiempo, aguantaste todas, 5 segundos más;
+- **Ninguna**: la carga se queda como está.
+
+El escalón por defecto es 2,5 kg arriba y 5 kg en piernas y espalda (5 y 10 lb); se puede cambiar por ejercicio. Una serie que faltó o con menos repeticiones es un fallo, y una sesión con fallo nunca sube; tres fallos seguidos (uno en Greyskull) traen una **descarga** del 10%. Los ejercicios sin carga progresan en repeticiones.
+
+En un entrenamiento solo tuyo, el modo Entrenamiento ya abre el ejercicio con la carga nueva y dice por qué ("Subió 2,5 kg: hiciste 3×10 la última vez"). En una carpeta compartida solo sugiere, con **Usar**, para no cambiar el plan de todos. El panel del ejercicio muestra el próximo y el porqué.
+
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

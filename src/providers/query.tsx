@@ -36,7 +36,7 @@ export function QueryProvider({ children }: { children: ReactNode }) {
       persistOptions={{
         persister,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        buster: 'v21',
+        buster: 'v22',
         // Consulta grande e que se refaz de graça (catálogo de exercícios, D235) fica fora do disco:
         // o cache é salvo inteiro a cada mudança
         dehydrateOptions: {

@@ -28,6 +28,20 @@ From your second workout of an exercise on, each set is compared with the earlie
 
 The exercise panel and the Library page show the bests, which set the 1RM came from and how it changed day by day. The Library page also has the **1RM calculator**: weight and reps give the 1RM and the weights from 100% to 50%.
 
+## Automatic progression
+
+The weight for your next workout comes from your log. Each workout has a rule (in Configure page; the default is **double progression**, from 8 to 12 reps) and each exercise can have its own in the panel:
+
+- **Linear**: did every rep of every set, go up one step;
+- **Double**: at the same weight, go from 8 to 12 reps; hit 12 on every set, raise the weight and go back to 8;
+- **Greyskull**: the last set goes to failure; beat the target, go up (twice the target doubles the step);
+- **More time**: for timed exercises, held every set, 5 seconds more;
+- **None**: the weight stays as it is.
+
+The default step is 2.5 kg for the upper body and 5 kg for legs and back (5 and 10 lb); you can change it per exercise. A missing set or one with fewer reps is a failure, and a session with a failure never goes up; three failures in a row (one in Greyskull) bring a 10% **deload**. Exercises without weight progress in reps.
+
+In a workout that is only yours, Workout mode opens the exercise with the new weight and says why ("Up 2.5 kg: you did 3×10 last time"). In a folder shared with others it only suggests, with **Use**, so it does not change everyone's plan. The exercise panel shows the next one and why.
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

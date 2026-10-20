@@ -38,6 +38,8 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   notes: [['notes']],
   page_fields: [['page-fields']],
   expenses: [['expenses']],
+  // Diário de treino (AC4): histórico, recordes e progressão
+  workout_sets: [keys.workoutSets],
 };
 
 // Consultas com ramo local: as do AFFECTS

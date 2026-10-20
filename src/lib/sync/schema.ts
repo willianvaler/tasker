@@ -54,6 +54,8 @@ const pages = new Table(
     manual_cycle: column.integer,
     max_depth: column.integer,
     budget_cents: column.integer,
+    // Regra de progressão do treino (AC6)
+    progression: column.text,
     created_at: column.text,
     updated_at: column.text,
     updated_by: column.text,
@@ -101,6 +103,9 @@ const tasks = new Table(
     visibility: column.text,
     // Exercício da biblioteca (AC3.8)
     exercise_id: column.text,
+    // Progressão do exercício (AC6): regra e degrau próprios
+    progression: column.text,
+    progression_step: column.real,
     repeat_plan: column.text,
     actual_minutes: column.integer,
     weight: column.integer,
@@ -188,6 +193,9 @@ const workout_sets = new Table(
     effort_scale: column.text,
     performed_at: column.text,
     records: column.text,
+    target_reps: column.integer,
+    target_sets: column.integer,
+    target_seconds: column.integer,
   },
   { indexes: { task: ['task_id', 'cycle_key'], exercise: ['exercise_id', 'performed_at'] } },
 );

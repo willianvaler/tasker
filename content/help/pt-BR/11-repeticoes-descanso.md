@@ -28,6 +28,20 @@ A partir do segundo treino de um exercício, cada série é comparada com as ant
 
 No painel do exercício e na ficha da Biblioteca ficam os melhores, de que série veio o 1RM e a evolução dele por dia. A ficha tem também a **calculadora de 1RM**: carga e repetições dão o 1RM e as cargas de 100% a 50%.
 
+## Progressão automática
+
+A carga do próximo treino sai do seu diário. Cada treino tem uma regra (em Configurar a página; o padrão é a **progressão dupla**, de 8 a 12 repetições) e cada exercício pode ter a sua no painel:
+
+- **Linear**: fez todas as repetições de todas as séries, sobe um degrau;
+- **Dupla**: na mesma carga, vai de 8 a 12 repetições; chegou a 12 em todas, sobe a carga e volta a 8;
+- **Greyskull**: a última série vai até a falha; passou da meta, sobe (o dobro da meta dobra o degrau);
+- **Mais tempo**: para exercícios por tempo, segurou todas, mais 5 segundos;
+- **Nenhuma**: a carga fica como está.
+
+O degrau padrão é 2,5 kg em cima e 5 kg em pernas e costas (5 e 10 lb); dá para mudar por exercício. Série que faltou ou com menos repetições é falha, e sessão com falha nunca sobe; três falhas seguidas (uma no Greyskull) trazem um **deload** de 10%. Exercício sem carga progride em repetições.
+
+No treino só seu, o Modo Treino já abre o exercício com a carga nova e diz por quê ("Subiu 2,5 kg: fez 3×10 na última"). Em pasta com mais gente, ele só sugere, com **Usar**, para não mudar o plano de todos. O painel do exercício mostra o próximo e o porquê.
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
