@@ -157,12 +157,18 @@ test('arrastar para reordenar (lista)', async ({ page }, testInfo) => {
 
   await page.reload();
   await expect(shown(page, 'Terceira', { exact: true })).toBeVisible();
-  const order = await page
-    .getByLabel(/^Arrastar /)
-    .evaluateAll((els) => els.map((e) => e.getAttribute('aria-label')));
+  // Ao recarregar, a tela pode mostrar um instante o cache do disco (salvo antes do arrasto) até o
+  // banco do aparelho responder: espera a ordem nova em vez de ler na hora
+  const readOrder = () =>
+    page
+      .getByLabel(/^Arrastar /)
+      .evaluateAll((els) => els.map((e) => e.getAttribute('aria-label')));
   // Subiu e a nova ordem sobreviveu ao recarregar. (Com a máquina muito carregada, o soltar às vezes
   // cai na 2ª posição em vez da 1ª; o que importa aqui é a ordem ser salva.)
-  expect(order.indexOf('Arrastar Terceira')).toBeLessThan(2);
+  await expect
+    .poll(async () => (await readOrder()).indexOf('Arrastar Terceira'), { timeout: 10_000 })
+    .toBeLessThan(2);
+  const order = await readOrder();
   expect(order.filter((o) => o !== 'Arrastar Terceira')).toEqual([
     'Arrastar Primeira',
     'Arrastar Segunda',

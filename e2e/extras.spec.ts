@@ -88,7 +88,7 @@ test('peso: a subtarefa pesada conta mais no progresso da mãe', async ({ page }
   await expect(page.getByText('Pelo peso das subtarefas: 0% feito')).toBeVisible();
   await page.getByText('Caixas', { exact: true }).last().click();
   await expect(page.getByText(/^Pesa no progresso da tarefa-mãe/)).toBeVisible();
-  await page.getByText('3', { exact: true }).last().click();
+  await page.getByText('Médio', { exact: true }).last().click();
   await page.getByRole('checkbox').first().click();
   await page.goBack();
   await expect(page.getByText('Pelo peso das subtarefas: 75% feito')).toBeVisible({
