@@ -31,3 +31,7 @@ En **Perfil → Barra lateral** cambias el orden de los bloques (Notas, Carpetas
 ## Notas
 
 **Nueva nota** (barra lateral; en el móvil, en Inicio) abre un texto libre, solo tuyo. La barra de arriba da formato: **negrita**, _cursiva_, título, lista, lista numerada y lista de tareas. También puedes escribirlo: `**negrita**`, `_cursiva_`, `## título`, `- elemento`, `- [ ] tarea`. **Vista previa** muestra el texto con formato; **Editar** vuelve al texto. Se guarda solo.
+
+## Lista de compras del menú
+
+En una página de menú (lista o tarjetas), cada plato es una tarea y los ingredientes son sus **subtareas** o las líneas con `-` en sus **notas** ("- 500 g de carne picada", "- 2 huevos"). En el menú de la página, **Generar lista de compras** junta todo en una sola lista, sumando lo que se repite (500 g + 300 g de carne son 800 g; kg y litros también cuentan), y pregunta dónde ponerla: en una lista de la misma carpeta, en una lista nueva "Compras" o en la Bandeja de entrada. Antes de crear, la lista aparece en la creación en lote para que la revises. Los platos ya completados quedan fuera (si todos están completados, entran todos).

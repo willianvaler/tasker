@@ -261,7 +261,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **PB1** Matriz de Eisenhower: aba Lista · Matriz na página de lista, quadrantes pela prioridade e pela data, mover de quadrante ajusta as duas; E2E `e2e/matriz.spec.ts` e Ajuda nos 3 idiomas (D221)
 - [x] **PB2** Reações nas tarefas concluídas e nos comentários: `reactions` com RLS e pgTAP, na Atividade do projeto e no painel da tarefa, aviso para quem concluiu ou comentou, Realtime e exportação; E2E `e2e/reacoes.spec.ts` e Ajuda nos 3 idiomas (D222)
 - [x] **PB3** Revisão semanal guiada: tela `/revisao` (concluí, ficou, parado, próxima semana), sugestão no Início e na paleta; E2E `e2e/revisao.spec.ts` e Ajuda nos 3 idiomas (D223)
-- [ ] **PB4** Lista de compras gerada a partir de uma página de cardápio
+- [x] **PB4** Lista de compras gerada do cardápio: ingredientes das subtarefas e das notas, iguais somados, destino escolhido, conferência na criação em lote; E2E `e2e/compras.spec.ts` e Ajuda nos 3 idiomas (D224)
 - [ ] **PB5** Racha de contas nos gastos do projeto (quem pagou, quem deve a quem)
 
 ## ESCOPO v1 — backlog (§11)

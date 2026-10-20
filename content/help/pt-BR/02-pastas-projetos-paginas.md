@@ -31,3 +31,7 @@ Em **Perfil → Barra lateral** você muda a ordem dos blocos (Anotações, Past
 ## Anotações
 
 **Nova anotação** (barra lateral; no celular, no Início) abre um texto livre, só seu. A barra de cima formata: **negrito**, _itálico_, título, lista, lista numerada e lista de tarefas. Também dá para escrever direto: `**negrito**`, `_itálico_`, `## título`, `- item`, `- [ ] tarefa`. **Visualizar** mostra o texto formatado; **Editar** volta ao texto. Salva sozinho.
+
+## Lista de compras do cardápio
+
+Numa página de cardápio (lista ou cards), cada prato é uma tarefa e os ingredientes são as **subtarefas** dele ou as linhas com `-` nas **notas** ("- 500 g de carne moída", "- 2 ovos"). No menu da página, **Gerar lista de compras** junta tudo numa lista só, somando o que se repete (500 g + 300 g de carne viram 800 g; kg e litros também contam), e pergunta onde pôr: numa lista da mesma pasta, numa lista nova "Compras" ou na Caixa de entrada. Antes de criar, a lista aparece na criação em lote para você conferir. Pratos já concluídos ficam de fora (se todos estiverem concluídos, entram todos).

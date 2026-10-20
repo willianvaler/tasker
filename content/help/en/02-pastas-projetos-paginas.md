@@ -31,3 +31,7 @@ In **Profile → Sidebar** you change the order of the blocks (Notes, Folders, G
 ## Notes
 
 **New note** (sidebar; on the phone, on Home) opens a free text, just for you. The bar on top formats it: **bold**, _italic_, heading, list, numbered list and checklist. You can also type it: `**bold**`, `_italic_`, `## heading`, `- item`, `- [ ] task`. **Preview** shows the formatted text; **Edit** goes back to the text. It saves on its own.
+
+## Shopping list from a menu
+
+On a menu page (list or cards), each dish is a task and the ingredients are its **subtasks** or the lines starting with `-` in its **notes** ("- 500 g ground beef", "- 2 eggs"). In the page menu, **Make a shopping list** puts everything in one list, adding up what repeats (500 g + 300 g of beef become 800 g; kg and liters count too), and asks where it goes: a list in the same folder, a new "Shopping" list or the Inbox. Before creating, the list shows up in batch creation so you can check it. Completed dishes are left out (if they are all completed, all of them count).

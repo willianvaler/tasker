@@ -958,6 +958,12 @@
     "start": "Fazer a revisão",
     "notNow": "Agora não"
   },
+  "shopping": {
+    "menu": "Gerar lista de compras",
+    "where": "Lista de compras em…",
+    "newPage": "Nova lista \"Compras\"",
+    "pageName": "Compras"
+  },
   "matrix": {
     "views": "Visões da página",
     "list": "Lista",

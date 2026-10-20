@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { FieldsDialog } from '@/components/fields';
+import { ShoppingDestination } from '@/components/shopping-destination';
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { PageDependencyEditor } from '@/components/page-dependency-editor';
@@ -26,6 +27,7 @@ import { saveTextFile } from '@/lib/download';
 import { setLastPageId } from '@/lib/prefs';
 import { usePageShares, useReceivedPages } from '@/lib/queries/shares';
 import { usePageTasks } from '@/lib/queries/tasks';
+import { shoppingList } from '@/lib/shopping';
 import { wbsOutline } from '@/lib/task-tree';
 import { subscribeWorkoutRuns, workoutInProgress } from '@/lib/workout-store';
 import {
@@ -39,7 +41,7 @@ import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
-type DialogState = 'menu' | 'settings' | 'duplicate' | 'send' | 'fields';
+type DialogState = 'menu' | 'settings' | 'duplicate' | 'send' | 'fields' | 'shopping';
 
 export default function PageScreen() {
   const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
@@ -49,7 +51,7 @@ export default function PageScreen() {
   const toast = useToast();
   const [dialog, setDialog, closeDialog] = useDialog<DialogState>();
   const [folderActions, folderDialog] = useFolderActions();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // Página recebida (L): não está na árvore; vem do envio
   const received = useReceivedPages();
   const receivedPage = received.data?.find((p) => p.id === id);
@@ -64,6 +66,11 @@ export default function PageScreen() {
   const pageActor = useFolderActor(page?.folder_id);
   const pageWritable = useCanWrite(page?.folder_id);
   const relatable = pageWritable && actorCan(pageActor, 'task.edit');
+  // Lista de compras do cardápio (PB4): pratos com ingredientes nas subtarefas ou nas notas
+  const shopping =
+    page && !receivedPage && (page.view_type === 'list' || page.view_type === 'cards')
+      ? shoppingList(pageTasks.data ?? [], i18n.language)
+      : '';
 
   // A captura rápida global usa a última página aberta como destino padrão
   useEffect(() => {
@@ -225,6 +232,9 @@ export default function PageScreen() {
                   },
                 ]
               : []),
+            ...(shopping
+              ? [{ label: t('shopping.menu'), onPress: () => setDialog('shopping') }]
+              : []),
             { label: t('folder.moveTo'), onPress: () => folderActions.movePage(page) },
             ...(pageTasks.data?.some((task) => task.parent_task_id)
               ? [
@@ -243,6 +253,9 @@ export default function PageScreen() {
         />
       )}
       {page && dialog === 'send' && <SendPageDialog page={page} onClose={closeDialog} />}
+      {page && dialog === 'shopping' && (
+        <ShoppingDestination page={page} text={shopping} onClose={closeDialog} />
+      )}
       {page && dialog === 'fields' && <FieldsDialog pageId={page.id} onClose={closeDialog} />}
       {page && dialog === 'settings' && (
         <PageDialog

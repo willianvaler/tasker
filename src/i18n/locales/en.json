@@ -958,6 +958,12 @@
     "start": "Do the review",
     "notNow": "Not now"
   },
+  "shopping": {
+    "menu": "Make a shopping list",
+    "where": "Shopping list in…",
+    "newPage": "New list \"Shopping\"",
+    "pageName": "Shopping"
+  },
   "matrix": {
     "views": "Page views",
     "list": "List",
