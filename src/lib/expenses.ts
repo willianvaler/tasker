@@ -4,6 +4,7 @@ import { addDays, makeDate, type IsoDate } from './parser/dates';
 // a tela só formata. Os totais do servidor (export_my_data, planilhas) usam a mesma conta.
 
 export type ExpenseKind = 'out' | 'in';
+/** No banco também há 'settle' (acerto do racha, PB5), que não passa pelo formulário */
 
 export type ExpenseLike = {
   spent_on: string;
@@ -125,6 +126,8 @@ export function summarize(list: ExpenseLike[]): ExpenseSummary {
   let received = 0;
   const categories = new Map<string, number>();
   for (const e of list) {
+    // Acerto do racha (PB5) passa dinheiro entre as pessoas: não é gasto nem entrada
+    if (e.kind === 'settle') continue;
     if (e.kind === 'in') {
       received += e.amount_cents;
       continue;

@@ -964,6 +964,26 @@
     "newPage": "Nueva lista \"Compras\"",
     "pageName": "Compras"
   },
+  "split": {
+    "title": "Dividir la cuenta",
+    "intro": "Cuánto pagó y debe cada uno en los gastos divididos (de todos los meses).",
+    "toReceive": "tiene a favor {{value}}",
+    "owes": "debe {{value}}",
+    "even": "al día",
+    "allEven": "Todo saldado.",
+    "howToSettle": "Para saldar",
+    "transfer": "{{from}} paga {{value}} a {{to}}",
+    "register": "Registrar pago",
+    "registerLabel": "Registrar pago: {{transfer}}",
+    "settleDescription": "Pago: {{from}} → {{to}}",
+    "settleKind": "Pago entre personas",
+    "settleEntry": "{{description}} ({{value}}). Pago de la cuenta dividida: no entra en los totales. Para corregirlo, bórralo y regístralo de nuevo.",
+    "formerMember": "Ex miembro",
+    "among": "Dividido entre",
+    "amongHint_one": "Todo para {{count}} persona.",
+    "amongHint_other": "Partes iguales entre {{count}} personas.",
+    "notSplit": "No entra en la cuenta dividida."
+  },
   "matrix": {
     "views": "Vistas de la página",
     "list": "Lista",

@@ -27,6 +27,8 @@ export type ExportLabels = {
   note: string;
   out: string;
   in: string;
+  /** Acerto do racha (PB5) */
+  settle: string;
   /** Aba de resumo */
   entries: string;
   summary: string;
@@ -38,7 +40,7 @@ export type ExportLabels = {
 };
 
 const kindLabel = (row: ExportRow, labels: ExportLabels) =>
-  row.kind === 'in' ? labels.in : labels.out;
+  row.kind === 'in' ? labels.in : row.kind === 'settle' ? labels.settle : labels.out;
 
 /**
  * CSV que o Excel abre direto: BOM UTF-8 (acentos), e em pt/es separador ";" com vírgula decimal;
@@ -160,6 +162,8 @@ function summaryRows(rows: ExportRow[], labels: ExportLabels): Cell[][] {
   const categories = new Map<string, number>();
   const months = new Map<string, { out: number; in: number }>();
   for (const r of rows) {
+    // Acerto do racha não é gasto nem entrada
+    if (r.kind === 'settle') continue;
     const month = months.get(r.spent_on.slice(0, 7)) ?? { out: 0, in: 0 };
     if (r.kind === 'in') month.in += r.amount_cents;
     else {

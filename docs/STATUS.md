@@ -253,7 +253,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **GA6** Foto de uma lista → criação em lote (o OCR do ESCOPO §11 e V3 §6 C) (D219)
 - [x] **GA7** Ajuda nos 3 idiomas, E2E (`e2e/gastos.spec.ts`) (D218, D219)
 - [ ] **GA8** Pôr a chave do Gemini no servidor e testar com notas de verdade. Pendente: chave do dono (`docs/OPERACOES.md`)
-- [ ] **GA9** Depois: editar célula a célula na planilha, ligar lançamento a tarefa pela tela, fila de fotos sem internet, apagar a foto quando a lixeira vence, racha de contas
+- [ ] **GA9** Depois: editar célula a célula na planilha, ligar lançamento a tarefa pela tela, fila de fotos sem internet, apagar a foto quando a lixeira vence (o racha de contas saiu daqui: PB5)
 
 ## ESCOPO_V3 — itens B que subiram de prioridade (V3-6, pedido do dono em 19/10, D220)
 
@@ -262,7 +262,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **PB2** Reações nas tarefas concluídas e nos comentários: `reactions` com RLS e pgTAP, na Atividade do projeto e no painel da tarefa, aviso para quem concluiu ou comentou, Realtime e exportação; E2E `e2e/reacoes.spec.ts` e Ajuda nos 3 idiomas (D222)
 - [x] **PB3** Revisão semanal guiada: tela `/revisao` (concluí, ficou, parado, próxima semana), sugestão no Início e na paleta; E2E `e2e/revisao.spec.ts` e Ajuda nos 3 idiomas (D223)
 - [x] **PB4** Lista de compras gerada do cardápio: ingredientes das subtarefas e das notas, iguais somados, destino escolhido, conferência na criação em lote; E2E `e2e/compras.spec.ts` e Ajuda nos 3 idiomas (D224)
-- [ ] **PB5** Racha de contas nos gastos do projeto (quem pagou, quem deve a quem)
+- [x] **PB5** Racha de contas nos gastos do projeto: `split_among` (todos por padrão), acerto (`settle`) fora dos totais, quem deve a quem e "Registrar acerto", pgTAP; E2E `e2e/racha.spec.ts` e Ajuda nos 3 idiomas (D225)
 
 ## ESCOPO v1 — backlog (§11)
 

@@ -22,3 +22,7 @@ Al crear varias tareas (**Varias** en una página), **Foto de una lista** lee un
 ## Exportar
 
 **Exportar** descarga lo que está en pantalla (el periodo elegido) como **CSV** (se abre en Excel y Google Sheets) o **XLSX** (Excel, con importes en moneda, fechas y una hoja de resumen por categoría y por mes). En el móvil, abre Compartir.
+
+## Dividir la cuenta
+
+En un proyecto con más de una persona, cada gasto nace **dividido entre todos** los miembros, en partes iguales. En el registro, **Dividido entre** quita o agrega personas (sin nadie marcado, el gasto no entra en la cuenta dividida); para que cuente, marca también **Quién pagó**. La sección **Dividir la cuenta** muestra cuánto tiene a favor o debe cada uno, sumando todos los meses, y la forma más corta de saldar ("Bia paga 150,00 € a Ana"). **Registrar pago** registra ese pago: aparece en la lista con ⇄, no cuenta como gasto ni como ingreso y salda la deuda. Pago equivocado: bórralo y regístralo de nuevo.

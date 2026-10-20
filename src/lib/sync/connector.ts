@@ -146,6 +146,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'nfce_key',
       'items',
       'note',
+      'split_among',
     ],
     update: [
       'spent_on',
@@ -161,6 +162,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'nfce_key',
       'items',
       'note',
+      'split_among',
     ],
   },
 };
@@ -185,6 +187,7 @@ const JSON_COLUMNS = new Set([
   'options',
   'args',
   'items',
+  'split_among',
 ]);
 
 function pick(data: Record<string, unknown>, columns: string[]) {

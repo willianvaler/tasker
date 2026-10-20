@@ -964,6 +964,26 @@
     "newPage": "New list \"Shopping\"",
     "pageName": "Shopping"
   },
+  "split": {
+    "title": "Split the bill",
+    "intro": "How much each person paid and owes in the split expenses (all months).",
+    "toReceive": "gets back {{value}}",
+    "owes": "owes {{value}}",
+    "even": "even",
+    "allEven": "All settled.",
+    "howToSettle": "To settle up",
+    "transfer": "{{from}} pays {{value}} to {{to}}",
+    "register": "Record settlement",
+    "registerLabel": "Record settlement: {{transfer}}",
+    "settleDescription": "Settlement: {{from}} → {{to}}",
+    "settleKind": "Settlement",
+    "settleEntry": "{{description}} ({{value}}). Bill-split settlement: not counted in the totals. To fix it, delete and record it again.",
+    "formerMember": "Former member",
+    "among": "Split among",
+    "amongHint_one": "All on {{count}} person.",
+    "amongHint_other": "Equal shares among {{count}} people.",
+    "notSplit": "Not part of the split."
+  },
   "matrix": {
     "views": "Page views",
     "list": "List",

@@ -22,3 +22,7 @@ When creating several tasks (**Several** on a page), **Photo of a list** reads a
 ## Export
 
 **Export** downloads what's on screen (the chosen period) as **CSV** (opens in Excel and Google Sheets) or **XLSX** (Excel, with currency values, dates and a summary sheet by category and month). On the phone, it opens Share.
+
+## Split the bill
+
+In a project with more than one person, every expense starts **split among all** members in equal shares. In the entry, **Split among** adds or removes people (with nobody selected, the expense stays out of the split); for it to count, also set **Paid by**. The **Split the bill** section shows how much each person gets back or owes, across all months, and the shortest way to settle up ("Bia pays $150.00 to Ana"). **Record settlement** adds that payment: it shows in the list with ⇄, does not count as an expense or income, and clears the debt. Wrong settlement: delete it and record it again.

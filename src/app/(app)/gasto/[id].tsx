@@ -8,6 +8,7 @@ import { Pressable, View } from 'react-native';
 import { useCategoryNames } from '@/components/expenses/expenses-view';
 import { ExpenseFields, type ExpenseForm } from '@/components/expenses/expense-fields';
 import { Button, IconButton } from '@/components/ui/button';
+import { Chip } from '@/components/ui/chip';
 import { Sheet } from '@/components/ui/sheet';
 import { Text } from '@/components/ui/text';
 import {
@@ -23,7 +24,7 @@ import { can } from '@/lib/permissions';
 import { useExpense, useExpenseMutations, useExpenses, type Expense } from '@/lib/queries/expenses';
 import { receiptUrl } from '@/lib/queries/photo-read';
 import { useToday } from '@/lib/queries/profile';
-import { rootFolder, useFolderActor, useMembers } from '@/lib/queries/projects';
+import { rootFolder, useFolderActor, useMembers, type Member } from '@/lib/queries/projects';
 import { useTree } from '@/lib/queries/tree';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
@@ -72,9 +73,12 @@ function Editor({ expense: e }: { expense: Expense }) {
   const actor = useFolderActor(page?.folder_id);
   const writable = useCanWrite(page?.folder_id, { offline: true });
   // Colaborador só mexe no que lançou (o banco confere de novo)
-  const editable =
+  const mayEdit =
     writable &&
     (!actor || can(actor, 'expense.write', { createdBy: e.created_by, assigneeIds: [] }));
+  // Acerto do racha (PB5) não se edita: apaga e registra de novo
+  const settle = e.kind === 'settle';
+  const editable = mayEdit && !settle;
   const categoryNames = useCategoryNames();
 
   const initial: ExpenseForm = {
@@ -152,13 +156,35 @@ function Editor({ expense: e }: { expense: Expense }) {
       onClose={saveAndClose}
       header={<Header title={t('expenses.entry')} onClose={saveAndClose} />}
     >
-      <ExpenseFields
-        value={form}
-        onChange={setForm}
-        categories={categorySuggestions(all.data ?? [], categoryNames)}
-        people={people}
-        editable={editable}
-      />
+      {settle ? (
+        <Text className="text-sm text-ink">
+          {t('split.settleEntry', {
+            description: e.description,
+            value: formatMoney(e.amount_cents, e.currency, locale),
+          })}
+        </Text>
+      ) : (
+        <ExpenseFields
+          value={form}
+          onChange={setForm}
+          categories={categorySuggestions(all.data ?? [], categoryNames)}
+          people={people}
+          editable={editable}
+        />
+      )}
+      {!settle && form.kind === 'out' && people.length > 1 && (
+        <SplitEditor
+          value={e.split_among ?? []}
+          people={people}
+          editable={editable}
+          onChange={(next) =>
+            m.update.mutate(
+              { id: e.id, split_among: next.length ? next : null },
+              { onError: (err) => toast({ message: err.message }) },
+            )
+          }
+        />
+      )}
       {photo && (
         <Pressable
           accessibilityRole="button"
@@ -204,7 +230,7 @@ function Editor({ expense: e }: { expense: Expense }) {
           {t('expenses.createdBy', { name: createdBy })}
         </Text>
       )}
-      {editable && (
+      {mayEdit && (
         <Button
           variant="ghost"
           icon={Trash2}
@@ -214,5 +240,47 @@ function Editor({ expense: e }: { expense: Expense }) {
         />
       )}
     </Sheet>
+  );
+}
+
+/** Quem divide o gasto (racha, PB5): todo mundo do projeto por padrão; tocar tira ou põe. */
+function SplitEditor({
+  value,
+  people,
+  editable,
+  onChange,
+}: {
+  value: string[];
+  people: Member[];
+  editable: boolean;
+  onChange: (next: string[]) => void;
+}) {
+  const { t } = useTranslation();
+  const chosen = new Set(value);
+  return (
+    <View className="gap-2">
+      <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        {t('split.among')}
+      </Text>
+      <View className="flex-row flex-wrap gap-2">
+        {people.map((p) => (
+          <Chip
+            key={p.userId}
+            role="checkbox"
+            label={p.displayName}
+            selected={chosen.has(p.userId)}
+            disabled={!editable}
+            onPress={() =>
+              onChange(
+                chosen.has(p.userId) ? value.filter((id) => id !== p.userId) : [...value, p.userId],
+              )
+            }
+          />
+        ))}
+      </View>
+      <Text className="text-xs text-ink-muted">
+        {value.length ? t('split.amongHint', { count: value.length }) : t('split.notSplit')}
+      </Text>
+    </View>
   );
 }

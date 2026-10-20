@@ -22,3 +22,7 @@ Na criação de várias tarefas (**Várias** numa página), **Foto de uma lista*
 ## Exportar
 
 **Exportar** baixa o que está na tela (o período escolhido) como **CSV** (abre no Excel e no Google Planilhas) ou **XLSX** (Excel, com valores em moeda, datas e uma aba de resumo por categoria e por mês). No celular, abre o Compartilhar.
+
+## Racha de contas
+
+Num projeto com mais de uma pessoa, cada saída lançada já nasce **dividida entre todos** os membros, em partes iguais. No lançamento, **Dividido entre** tira ou põe gente (sem ninguém marcado, o gasto não entra no racha); para valer, marque também **Quem pagou**. A seção **Racha de contas** mostra quanto cada um tem a receber ou deve, somando todos os meses, e o jeito mais curto de acertar ("Bia paga R$ 150,00 a Ana"). **Registrar acerto** lança esse pagamento: ele aparece na lista com ⇄, não conta como gasto nem como entrada e zera a dívida. Acerto errado: apague e registre de novo.

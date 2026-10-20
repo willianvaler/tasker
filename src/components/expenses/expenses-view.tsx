@@ -43,6 +43,7 @@ import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 import { ExpenseExport } from './expense-export';
 import { ReceiptButton } from './receipt-button';
+import { SplitSection } from './split-section';
 
 // Página de gastos (ESCOPO_V9 §1): totais no topo, lançamento rápido e a planilha. Tocar numa
 // linha abre o lançamento inteiro (/gasto/<id>).
@@ -261,6 +262,16 @@ export function ExpensesView({ page }: { page: Page }) {
         </View>
       )}
 
+      {people && (
+        <SplitSection
+          pageId={page.id}
+          expenses={all}
+          names={names}
+          canWrite={canWrite}
+          today={today}
+        />
+      )}
+
       <View className="gap-1">
         <SectionLabel title={t('expenses.entries')} count={shown.length} />
         {expenses.isPending ? null : shown.length === 0 ? (
@@ -364,11 +375,16 @@ function ExpenseRow({
   today: string;
 }) {
   const { t } = useTranslation();
-  const value = `${e.kind === 'in' ? '+' : '−'}${money(e.amount_cents, e.currency)}`;
+  // Acerto do racha (PB5): dinheiro entre as pessoas, nem saída nem entrada
+  const sign = e.kind === 'in' ? '+' : e.kind === 'settle' ? '⇄ ' : '−';
+  const value = `${sign}${money(e.amount_cents, e.currency)}`;
   const date = e.spent_on === today ? t('expenses.today') : formatShortDate(e.spent_on);
   const open = () =>
     router.push({ pathname: '/gasto/[id]', params: { id: e.id, page: e.page_id } });
-  const valueClass = cn('font-mono text-sm', e.kind === 'in' ? 'text-ok' : 'text-ink');
+  const valueClass = cn(
+    'font-mono text-sm',
+    e.kind === 'in' ? 'text-ok' : e.kind === 'settle' ? 'text-ink-muted' : 'text-ink',
+  );
   return (
     <Pressable
       accessibilityRole="button"

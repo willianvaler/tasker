@@ -22,6 +22,7 @@ const labels: ExportLabels = {
   note: 'Observação',
   out: 'Saída',
   in: 'Entrada',
+  settle: 'Acerto',
   entries: 'Lançamentos',
   summary: 'Resumo',
   spent: 'Gasto',

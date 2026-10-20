@@ -113,6 +113,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V3 | PB2 | Reações nas tarefas concluídas e nos comentários: `reactions` com RLS e pgTAP, na Atividade do projeto e no painel da tarefa, aviso para quem concluiu ou comentou, Realtime e exportação; E2E `e2e/reacoes.spec.ts` e Ajuda nos 3 idiomas | D222 |
 | V3 | PB3 | Revisão semanal guiada: tela `/revisao` (concluí, ficou, parado, próxima semana), sugestão no Início e na paleta; E2E `e2e/revisao.spec.ts` e Ajuda nos 3 idiomas | D223 |
 | V3 | PB4 | Lista de compras gerada do cardápio: ingredientes das subtarefas e das notas, iguais somados, destino escolhido, conferência na criação em lote; E2E `e2e/compras.spec.ts` e Ajuda nos 3 idiomas | D224 |
+| V3 | PB5 | Racha de contas nos gastos do projeto: `split_among` (todos por padrão), acerto (`settle`) fora dos totais, quem deve a quem e "Registrar acerto", pgTAP; E2E `e2e/racha.spec.ts` e Ajuda nos 3 idiomas | D225 |
 | **V4** | N1 | Storage + `task_attachments` + RLS | D150 |
 | V4 | N2 | Anexar no painel, compressão WebP e miniatura no aparelho | D151 |
 | V4 | N3 | Anexo offline (fila) | D152 |

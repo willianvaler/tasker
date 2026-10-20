@@ -42,6 +42,7 @@ export function ExpenseExport({
     note: t('expenses.note'),
     out: t('expenses.out'),
     in: t('expenses.in'),
+    settle: t('split.settleKind'),
     entries: t('expenses.entries'),
     summary: t('expenses.summary'),
     spent: t('expenses.spent'),

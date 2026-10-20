@@ -473,14 +473,14 @@ isOneToOne: false
                   ]
                 },"expenses": {
                   Row: {
-                    "amount_cents": number,"category": string | null,"created_at": string,"created_by": string | null,"currency": string,"description": string,"folder_id": string | null,"id": string,"items": Json | null,"kind": string,"method": string | null,"nfce_key": string | null,"note": string | null,"page_id": string,"paid_by": string | null,"receipt_path": string | null,"spent_on": string,"task_id": string | null,"updated_at": string
+                    "amount_cents": number,"category": string | null,"created_at": string,"created_by": string | null,"currency": string,"description": string,"folder_id": string | null,"id": string,"items": Json | null,"kind": string,"method": string | null,"nfce_key": string | null,"note": string | null,"page_id": string,"paid_by": string | null,"receipt_path": string | null,"spent_on": string,"split_among": Json | null,"task_id": string | null,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "amount_cents": number,"category"?: string | null,"created_at"?: string,"created_by"?: string | null,"currency"?: string,"description": string,"folder_id"?: string | null,"id"?: string,"items"?: Json | null,"kind"?: string,"method"?: string | null,"nfce_key"?: string | null,"note"?: string | null,"page_id": string,"paid_by"?: string | null,"receipt_path"?: string | null,"spent_on"?: string,"task_id"?: string | null,"updated_at"?: string
+                    "amount_cents": number,"category"?: string | null,"created_at"?: string,"created_by"?: string | null,"currency"?: string,"description": string,"folder_id"?: string | null,"id"?: string,"items"?: Json | null,"kind"?: string,"method"?: string | null,"nfce_key"?: string | null,"note"?: string | null,"page_id": string,"paid_by"?: string | null,"receipt_path"?: string | null,"spent_on"?: string,"split_among"?: Json | null,"task_id"?: string | null,"updated_at"?: string
                   }
                   Update: {
-                    "amount_cents"?: number,"category"?: string | null,"created_at"?: string,"created_by"?: string | null,"currency"?: string,"description"?: string,"folder_id"?: string | null,"id"?: string,"items"?: Json | null,"kind"?: string,"method"?: string | null,"nfce_key"?: string | null,"note"?: string | null,"page_id"?: string,"paid_by"?: string | null,"receipt_path"?: string | null,"spent_on"?: string,"task_id"?: string | null,"updated_at"?: string
+                    "amount_cents"?: number,"category"?: string | null,"created_at"?: string,"created_by"?: string | null,"currency"?: string,"description"?: string,"folder_id"?: string | null,"id"?: string,"items"?: Json | null,"kind"?: string,"method"?: string | null,"nfce_key"?: string | null,"note"?: string | null,"page_id"?: string,"paid_by"?: string | null,"receipt_path"?: string | null,"spent_on"?: string,"split_among"?: Json | null,"task_id"?: string | null,"updated_at"?: string
                   }
                   Relationships: [
                     {

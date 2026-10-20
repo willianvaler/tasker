@@ -274,6 +274,8 @@ const expenses = new Table(
     nfce_key: column.text,
     items: column.text,
     note: column.text,
+    // Racha (PB5): ids de quem divide, em JSON
+    split_among: column.text,
     created_by: column.text,
     created_at: column.text,
     updated_at: column.text,

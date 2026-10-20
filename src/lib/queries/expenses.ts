@@ -10,8 +10,10 @@ import { keys } from './keys';
 // Gastos (ESCOPO_V9): os lançamentos de uma página de gastos. Com o banco no aparelho, leem e
 // gravam nele e o sync envia depois (funciona sem internet), como as anotações.
 
-export type Expense = Omit<Tables<'expenses'>, 'items'> & {
+export type Expense = Omit<Tables<'expenses'>, 'items' | 'split_among'> & {
   items: { description: string; amount_cents: number }[] | null;
+  /** Racha (PB5): quem divide este gasto; nulo = ninguém */
+  split_among: string[] | null;
 };
 export type ExpenseInput = Partial<
   Pick<
@@ -29,6 +31,7 @@ export type ExpenseInput = Partial<
     | 'nfce_key'
     | 'items'
     | 'note'
+    | 'split_among'
   >
 >;
 
@@ -37,13 +40,15 @@ export type NewExpense = ExpenseInput & { id: string; description: string; amoun
 export const expensesKey = (pageId: string) => ['expenses', pageId] as const;
 
 const COLUMNS =
-  'id, page_id, folder_id, spent_on, description, category, amount_cents, currency, kind, paid_by, method, task_id, receipt_path, nfce_key, items, note, created_by, created_at, updated_at';
+  'id, page_id, folder_id, spent_on, description, category, amount_cents, currency, kind, paid_by, method, task_id, receipt_path, nfce_key, items, note, split_among, created_by, created_at, updated_at';
 
-/** No SQLite, `items` é texto */
+/** No SQLite, `items` e `split_among` são texto */
 const fromLocal = (row: Record<string, unknown>) =>
   ({
     ...row,
     items: typeof row.items === 'string' ? JSON.parse(row.items) : (row.items ?? null),
+    split_among:
+      typeof row.split_among === 'string' ? JSON.parse(row.split_among) : (row.split_among ?? null),
   }) as Expense;
 
 export function useExpenses(pageId: string | undefined) {
@@ -109,7 +114,7 @@ export function useExpenseMutations(pageId: string) {
       }
       const { error } = await supabase
         .from('expenses')
-        .insert({ ...row, items: row.items as Json });
+        .insert({ ...row, items: row.items as Json, split_among: row.split_among as Json });
       if (error) throw error;
       return input.id;
     },
@@ -132,6 +137,7 @@ export function useExpenseMutations(pageId: string) {
         nfce_key: input.nfce_key ?? null,
         items: input.items ?? null,
         note: input.note ?? null,
+        split_among: input.split_among ?? null,
         created_by: null,
         created_at: now(),
         updated_at: now(),
@@ -151,7 +157,7 @@ export function useExpenseMutations(pageId: string) {
       }
       const { error } = await supabase
         .from('expenses')
-        .update({ ...patch, items: patch.items as Json })
+        .update({ ...patch, items: patch.items as Json, split_among: patch.split_among as Json })
         .eq('id', id);
       if (error) throw error;
     },

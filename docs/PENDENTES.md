@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V8.md`), numa tabela só,
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; matriz de Eisenhower, reações, revisão semanal e lista de compras (PB1 a PB4) em 20/10.
+Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; itens B do V3 que subiram de prioridade (PB1 a PB5: Eisenhower, reações, revisão semanal, lista de compras, racha de contas) em 20/10.
 
 | Escopo | Id / seção | Tarefa | Situação | Depende de |
 |---|---|---|---|---|
@@ -13,7 +13,6 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V1 | PUBLICACAO | Contas das lojas e do EAS, nome e ícone, domínio | pendente | dono |
 | **V2** | D10 | Aceite do offline com o celular em modo avião (op-sqlite nunca rodou num aparelho) | parcial | development build |
 | **V3** | J6 | Aviso do timer com o celular bloqueado, num development build | parcial | development build |
-| V3 | PB5 (itens B que subiram, V3-6) | Racha de contas nos gastos (os outros itens que subiram já foram feitos) | pendente | — |
 | V3 | §6 itens B (resto) | Kits por domínio, voz e Share Target, exportação CSV/Markdown/PDF e imprimir | backlog | — |
 | V3 | §6 itens C | Lembrete por local, dependências entre projetos, Gantt, notas colaborativas (CRDT), importar de Habitica/Todoist, webhooks e API | backlog | — |
 | **V4** | T1 | Planos e assinaturas (modelo): tudo grátis por enquanto, pago no futuro com founder (V4-5) | depois | — |
@@ -39,7 +38,7 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora (qualquer uma, só leitura) vira registro de treino (V7-1 a V7-3) | pendente | conta de desenvolvedor do Strava, development build (dono) |
 | **V6** | TR5 | Memória e lentidão do APK: medir num aparelho antes de mexer (suspeitos: cache do TanStack salvo inteiro e síncrono no SQLite, imagens do jogo) | pendente | aparelho do dono |
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com notas de verdade | pendente | chave do dono |
-| V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence, racha de contas | backlog | — |
+| V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
 
 ## Decisões do dono em aberto
 

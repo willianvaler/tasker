@@ -108,6 +108,11 @@ describe('totais', () => {
     });
   });
   it('de tudo', () => expect(summarize(inPeriod(list, 'all', '2026-10-19')).spent).toBe(235000));
+  it('acerto do racha não é gasto nem entrada', () => {
+    const settle = { ...list[0], kind: 'settle', amount_cents: 999 };
+    const s = summarize([...list, settle]);
+    expect([s.spent, s.received]).toEqual([summarize(list).spent, summarize(list).received]);
+  });
   it('orçamento', () => {
     expect(budgetUsed(250000, 1000000)).toBe(0.25);
     expect(budgetUsed(250000, null)).toBeNull();

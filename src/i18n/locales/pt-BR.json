@@ -964,6 +964,26 @@
     "newPage": "Nova lista \"Compras\"",
     "pageName": "Compras"
   },
+  "split": {
+    "title": "Racha de contas",
+    "intro": "Quanto cada um pagou e deve nos gastos divididos (de todos os meses).",
+    "toReceive": "tem a receber {{value}}",
+    "owes": "deve {{value}}",
+    "even": "quite",
+    "allEven": "Tudo acertado.",
+    "howToSettle": "Para acertar",
+    "transfer": "{{from}} paga {{value}} a {{to}}",
+    "register": "Registrar acerto",
+    "registerLabel": "Registrar acerto: {{transfer}}",
+    "settleDescription": "Acerto: {{from}} → {{to}}",
+    "settleKind": "Acerto",
+    "settleEntry": "{{description}} ({{value}}). Acerto do racha: não entra nos totais. Para corrigir, apague e registre de novo.",
+    "formerMember": "Ex-membro",
+    "among": "Dividido entre",
+    "amongHint_one": "Fica todo com {{count}} pessoa.",
+    "amongHint_other": "Partes iguais entre {{count}} pessoas.",
+    "notSplit": "Não entra no racha."
+  },
   "matrix": {
     "views": "Visões da página",
     "list": "Lista",
