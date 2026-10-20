@@ -108,6 +108,8 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V3 | M5 | Campos personalizados por página (`page_fields` + `tasks.custom`, 6 tipos, painel e linha) | D142 |
 | V3 | M6 | Automações "quando… então…": 5 gatilhos, 6 ações, até 20 por projeto, encadeamento até 3, uma vez por regra e tarefa, falha não desfaz; tela `/automacoes/[id]` | D143 |
 | V3 | M7 | Tarefa do tipo Aprovação: pessoa, Gerente ou só o Dono conclui/reabre (guarda no servidor), marca na linha | D144 |
+| V3 | PB0 | Recompensas personalizadas: já feitas no modo jogo (HB7, D201) | D201 |
+| V3 | PB1 | Matriz de Eisenhower: aba Lista · Matriz na página de lista, quadrantes pela prioridade e pela data, mover de quadrante ajusta as duas; E2E `e2e/matriz.spec.ts` e Ajuda nos 3 idiomas | D221 |
 | **V4** | N1 | Storage + `task_attachments` + RLS | D150 |
 | V4 | N2 | Anexar no painel, compressão WebP e miniatura no aparelho | D151 |
 | V4 | N3 | Anexo offline (fila) | D152 |

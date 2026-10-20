@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V8.md`), numa tabela só,
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10.
+Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; matriz de Eisenhower (PB1) em 20/10.
 
 | Escopo | Id / seção | Tarefa | Situação | Depende de |
 |---|---|---|---|---|
@@ -13,7 +13,7 @@ Atualizado em 19/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V1 | PUBLICACAO | Contas das lojas e do EAS, nome e ícone, domínio | pendente | dono |
 | **V2** | D10 | Aceite do offline com o celular em modo avião (op-sqlite nunca rodou num aparelho) | parcial | development build |
 | **V3** | J6 | Aviso do timer com o celular bloqueado, num development build | parcial | development build |
-| V3 | §6 itens B (prioridade, V3-6) | Racha de contas nos gastos, lista de compras gerada, revisão semanal, matriz de Eisenhower, reações nos comentários, recompensas personalizadas | pendente | — |
+| V3 | PB2–PB5 (itens B que subiram, V3-6) | Reações, revisão semanal, lista de compras gerada, racha de contas nos gastos (a matriz de Eisenhower e as recompensas personalizadas já foram feitas) | pendente | — |
 | V3 | §6 itens B (resto) | Kits por domínio, voz e Share Target, exportação CSV/Markdown/PDF e imprimir | backlog | — |
 | V3 | §6 itens C | Lembrete por local, dependências entre projetos, Gantt, notas colaborativas (CRDT), importar de Habitica/Todoist, webhooks e API | backlog | — |
 | **V4** | T1 | Planos e assinaturas (modelo): tudo grátis por enquanto, pago no futuro com founder (V4-5) | depois | — |

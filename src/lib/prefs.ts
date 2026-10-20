@@ -201,3 +201,16 @@ export function getPanelMode(): PanelMode {
 export function setPanelMode(value: PanelMode) {
   localStore.setItem(PANEL_MODE_KEY, value);
 }
+
+/** Página de lista vista como lista ou como matriz de Eisenhower (D221). É do aparelho. */
+export type ListMode = 'list' | 'matrix';
+const listModeKey = (pageId: string) => `questlist:list-mode:${pageId}`;
+
+export function getListMode(pageId: string): ListMode {
+  return localStore.getItem(listModeKey(pageId)) === 'matrix' ? 'matrix' : 'list';
+}
+
+export function setListMode(pageId: string, mode: ListMode) {
+  if (mode === 'list') localStore.removeItem(listModeKey(pageId));
+  else localStore.setItem(listModeKey(pageId), mode);
+}

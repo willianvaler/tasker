@@ -20,13 +20,16 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
+import { Tabs } from '@/components/ui/tabs';
 import { setBatchDraft } from '@/lib/batch-draft';
+import { getListMode, setListMode, type ListMode } from '@/lib/prefs';
 import { useToday } from '@/lib/queries/profile';
 import { usePageTasks, type Task } from '@/lib/queries/tasks';
 import { useSelectableList } from '@/lib/selection';
 import { useTreeMutations, type Page } from '@/lib/queries/tree';
 import { useCanWrite } from '@/providers/write';
 import { useToast } from '@/providers/toast';
+import { EisenhowerMatrix } from './eisenhower-matrix';
 import { HabitRow, useHabitDates } from './habit-row';
 import { KanbanBoard } from './kanban-board';
 import { QuickAdd } from './quick-add';
@@ -57,6 +60,19 @@ export function PageView({ page }: { page: Page | undefined }) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const screenGutter = useScreenGutter();
   const viewType = page?.view_type ?? 'list';
+  // Lista ou matriz de Eisenhower (D221), lembrado por página no aparelho
+  const [modeOf, setModeOf] = useState<{ id: string; mode: ListMode } | null>(null);
+  const mode: ListMode =
+    viewType !== 'list' || !page
+      ? 'list'
+      : modeOf?.id === page.id
+        ? modeOf.mode
+        : getListMode(page.id);
+  function changeMode(next: ListMode) {
+    if (!page) return;
+    setListMode(page.id, next);
+    setModeOf({ id: page.id, mode: next });
+  }
 
   const expanded = useExpanded();
   const { open, done, all, subtaskCount, kids } = useMemo(() => {
@@ -162,7 +178,7 @@ export function PageView({ page }: { page: Page | undefined }) {
       ]),
     [open, done, kids, expanded],
   );
-  useSelectableList(viewType === 'list' ? selectable : all);
+  useSelectableList(viewType === 'list' && mode === 'list' ? selectable : all);
 
   const empty = {
     list: { title: t('page.emptyList') },
@@ -192,6 +208,17 @@ export function PageView({ page }: { page: Page | undefined }) {
               .join(' ')}
           </Text>
         </View>
+      )}
+      {viewType === 'list' && page && (
+        <Tabs
+          label={t('matrix.views')}
+          value={mode}
+          onChange={changeMode}
+          tabs={[
+            { value: 'list', label: t('matrix.list') },
+            { value: 'matrix', label: t('matrix.title') },
+          ]}
+        />
       )}
       {page && (viewType === 'list' || viewType === 'cards') && all.length > 0 && (
         <PageProgress page={page} done={all.length - open.length} total={all.length} />
@@ -247,6 +274,8 @@ export function PageView({ page }: { page: Page | undefined }) {
           <CardsBody tasks={all} subtaskCount={subtaskCount} scrollRef={scrollRef} />
         ) : viewType === 'habits' ? (
           <HabitsBody tasks={all} scrollRef={scrollRef} />
+        ) : mode === 'matrix' ? (
+          <EisenhowerMatrix tasks={open} today={today} subtaskCount={subtaskCount} />
         ) : (
           <>
             <SortableTasks

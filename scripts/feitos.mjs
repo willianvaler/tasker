@@ -35,6 +35,7 @@ function escopoDa(titulo) {
   if (fase && 'ABCDEF'.includes(fase)) return 'V2';
   if (fase && 'GHIJKLM'.includes(fase)) return 'V3';
   if (fase === 'U' || fase === 'W' || titulo.includes('ESCOPO_V5')) return 'V5';
+  if (titulo.includes('ESCOPO_V3')) return 'V3';
   if (titulo.includes('ESCOPO_V4')) return 'V4';
   if (titulo.includes('ESCOPO_V6')) return 'V6';
   if (titulo.includes('ESCOPO_V8')) return 'V8';

@@ -913,6 +913,23 @@
     "commentPlaceholder": "Comment… (@name notifies the person)",
     "newComment": "New comment"
   },
+  "matrix": {
+    "views": "Page views",
+    "list": "List",
+    "title": "Matrix",
+    "quadrant": "Quadrant {{title}}",
+    "do": "Do",
+    "doHint": "Important and urgent",
+    "plan": "Schedule",
+    "planHint": "Important, no rush",
+    "delegate": "Delegate",
+    "delegateHint": "Urgent, but not very important",
+    "drop": "Drop",
+    "dropHint": "Neither urgent nor important",
+    "empty": "Nothing here.",
+    "move": "Move \"{{title}}\" to another quadrant",
+    "moveTitle": "Move \"{{title}}\" to"
+  },
   "kanban": {
     "todo": "To do",
     "doing": "Doing",

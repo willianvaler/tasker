@@ -913,6 +913,23 @@
     "commentPlaceholder": "Comentar… (@nombre avisa a la persona)",
     "newComment": "Nuevo comentario"
   },
+  "matrix": {
+    "views": "Vistas de la página",
+    "list": "Lista",
+    "title": "Matriz",
+    "quadrant": "Cuadrante {{title}}",
+    "do": "Hacer",
+    "doHint": "Importante y urgente",
+    "plan": "Programar",
+    "planHint": "Importante, sin prisa",
+    "delegate": "Delegar",
+    "delegateHint": "Urgente, pero poco importante",
+    "drop": "Eliminar",
+    "dropHint": "Ni urgente ni importante",
+    "empty": "Nada aquí.",
+    "move": "Cambiar \"{{title}}\" de cuadrante",
+    "moveTitle": "Mover \"{{title}}\" a"
+  },
   "kanban": {
     "todo": "Por hacer",
     "doing": "Haciendo",

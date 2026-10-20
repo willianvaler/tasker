@@ -9,3 +9,7 @@
 ## Automações
 
 No projeto, **Automações** cria regras "quando… então…". Exemplo: quando uma tarefa da lista Dia for concluída, criar "Limpar a churrasqueira" na lista Depois. Até 20 por projeto; se uma ação não puder rodar, ela aparece nas últimas execuções e nada se perde.
+
+## Matriz de Eisenhower
+
+Numa página de lista, a aba **Matriz** separa as tarefas abertas em quatro quadrantes: **Fazer** (importante e urgente), **Agendar** (importante, sem pressa), **Delegar** (urgente, pouco importante) e **Eliminar** (nem um nem outro). Importante é prioridade `!!` ou `!!!`; urgente é o que vence até depois de amanhã, atrasadas incluídas. O botão ao lado da tarefa muda o quadrante: ajusta a prioridade e, se for o caso, a data (vence hoje, ou vai para daqui a uma semana). A página lembra a última aba usada neste aparelho.
