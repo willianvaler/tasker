@@ -1,7 +1,7 @@
 import { uuidv7 } from '@/lib/uuid';
 import { isTouchScreen } from '@/lib/touch';
 import { router, useLocalSearchParams } from 'expo-router';
-import { X } from 'lucide-react-native';
+import { ChevronDown, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput, View } from 'react-native';
@@ -21,7 +21,7 @@ import { getLastPageId, setLastPageId } from '@/lib/prefs';
 import type { RepeatPlan } from '@/lib/repeat';
 import { useToday } from '@/lib/queries/profile';
 import { useCreateTasks, useUpdateTask } from '@/lib/queries/tasks';
-import { pageLabel, useTree } from '@/lib/queries/tree';
+import { isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { useColors } from '@/lib/tokens';
 import { useShortcut } from '@/lib/use-shortcut';
 import { useToast } from '@/providers/toast';
@@ -50,6 +50,9 @@ export default function NewTaskScreen() {
   ];
   const [pageId, setPageId] = useState(params.page ?? getLastPageId() ?? null);
   const page = pages.find((p) => p.id === pageId) ?? tree.data?.inbox ?? undefined;
+  // Página de treino (AC2, D234): séries e observação; data, prioridade e etiquetas em "Mais opções"
+  const [more, setMore] = useState(false);
+  const lean = !!page && isWorkoutPage(tree.data, page) && !more;
 
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
@@ -165,67 +168,79 @@ export default function NewTaskScreen() {
         />
       </Field>
 
-      <Field label={t('advanced.dueDate')}>
-        <View className="flex-row flex-wrap gap-2">
-          <Chip
-            label={t('taskDetail.today')}
-            selected={due === today}
-            onPress={() => setDue(today)}
-          />
-          <Chip
-            label={t('taskDetail.tomorrow')}
-            selected={due === addDays(today, 1)}
-            onPress={() => setDue(addDays(today, 1))}
-          />
-          <Chip label={t('taskDetail.nextWeek')} onPress={() => setDue(addDays(today, 7))} />
-          <Chip label={t('taskDetail.noDate')} selected={!due} onPress={() => setDue(null)} />
-        </View>
-        {due && (
-          <Text className="font-mono text-xs text-ink-muted">
-            {t('taskDetail.dueOn', { date: formatDueDate(due, today) })}
-          </Text>
-        )}
-        <Input
-          value={dateText}
-          onChangeText={setDateText}
-          onSubmitEditing={saveDateText}
-          onBlur={saveDateText}
-          placeholder={t('taskDetail.otherDatePlaceholder')}
-          accessibilityLabel={t('taskDetail.otherDate')}
-        />
-      </Field>
-
-      <Field label={t('taskDetail.priority')}>
-        <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-          {PRIORITIES.map((p) => (
-            <Chip
-              key={p.value}
-              role="radio"
-              label={t(p.label)}
-              selected={priority === p.value}
-              onPress={() => setPriority(p.value)}
-            />
-          ))}
-        </View>
-      </Field>
-
-      <Field label={t('taskDetail.repeat')}>
-        <RecurrenceEditor value={recurrence} onChange={setRecurrence} />
-      </Field>
-
       <Field label={t('repeat.section')}>
         <RepeatPlanEditor value={repeatPlan} onChange={setRepeatPlan} />
       </Field>
 
-      <Field label={t('taskDetail.labels')}>
-        <Input
-          value={labels}
-          onChangeText={setLabels}
-          autoCapitalize="none"
-          placeholder="#casa #mercado"
-          accessibilityLabel={t('taskDetail.labels')}
+      {lean ? (
+        <Button
+          variant="ghost"
+          icon={ChevronDown}
+          className="self-start"
+          label={t('gym.moreOptions')}
+          onPress={() => setMore(true)}
         />
-      </Field>
+      ) : (
+        <>
+          <Field label={t('advanced.dueDate')}>
+            <View className="flex-row flex-wrap gap-2">
+              <Chip
+                label={t('taskDetail.today')}
+                selected={due === today}
+                onPress={() => setDue(today)}
+              />
+              <Chip
+                label={t('taskDetail.tomorrow')}
+                selected={due === addDays(today, 1)}
+                onPress={() => setDue(addDays(today, 1))}
+              />
+              <Chip label={t('taskDetail.nextWeek')} onPress={() => setDue(addDays(today, 7))} />
+              <Chip label={t('taskDetail.noDate')} selected={!due} onPress={() => setDue(null)} />
+            </View>
+            {due && (
+              <Text className="font-mono text-xs text-ink-muted">
+                {t('taskDetail.dueOn', { date: formatDueDate(due, today) })}
+              </Text>
+            )}
+            <Input
+              value={dateText}
+              onChangeText={setDateText}
+              onSubmitEditing={saveDateText}
+              onBlur={saveDateText}
+              placeholder={t('taskDetail.otherDatePlaceholder')}
+              accessibilityLabel={t('taskDetail.otherDate')}
+            />
+          </Field>
+
+          <Field label={t('taskDetail.priority')}>
+            <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
+              {PRIORITIES.map((p) => (
+                <Chip
+                  key={p.value}
+                  role="radio"
+                  label={t(p.label)}
+                  selected={priority === p.value}
+                  onPress={() => setPriority(p.value)}
+                />
+              ))}
+            </View>
+          </Field>
+
+          <Field label={t('taskDetail.repeat')}>
+            <RecurrenceEditor value={recurrence} onChange={setRecurrence} />
+          </Field>
+
+          <Field label={t('taskDetail.labels')}>
+            <Input
+              value={labels}
+              onChangeText={setLabels}
+              autoCapitalize="none"
+              placeholder="#casa #mercado"
+              accessibilityLabel={t('taskDetail.labels')}
+            />
+          </Field>
+        </>
+      )}
 
       <View className="flex-row items-center gap-3">
         <Button label={t('advanced.save')} disabled={!title.trim() || !page} onPress={save} />

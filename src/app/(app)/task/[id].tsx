@@ -23,6 +23,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import type { Json } from '@/lib/db';
 import { asRecurrence } from '@/lib/recurrence';
+import { showInWorkout, usedExtras, type WorkoutExtra } from '@/lib/gym/fields';
 import { showSection, usedSections, type AdvancedSection } from '@/lib/panel-sections';
 import { getPanelMode, setPanelMode, type PanelMode } from '@/lib/prefs';
 import { readRepeatPlan } from '@/lib/repeat';
@@ -66,7 +67,8 @@ import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
-import { rootFolder } from '@/lib/queries/projects';
+import { rootFolder, useAssignees, useComments } from '@/lib/queries/projects';
+import { useAttachments } from '@/lib/queries/attachments';
 import { usePageFields } from '@/lib/queries/fields';
 import { useIsReceived } from '@/lib/queries/shares';
 import { useToast } from '@/providers/toast';
@@ -258,6 +260,20 @@ function TaskDetails({ task }: { task: Task }) {
   const habitDates = useHabitDates(isHabit ? [task] : []);
   // Projeto (pasta compartilhada): responsáveis e comentários
   const project = !!rootFolder(tree.data, task.folder_id)?.is_shared;
+  // Página de treino (AC2, D234): só o exercício e a observação; o resto em "Mais opções"
+  const [more, setMore] = useState(false);
+  const attachmentList = useAttachments(isWorkout ? task.id : undefined);
+  const commentList = useComments(isWorkout && project ? task.id : undefined);
+  const assigneeList = useAssignees();
+  const gymUsed = usedExtras(task, {
+    subtasks: (siblings.data ?? []).filter((s) => s.parent_task_id === task.id).length,
+    attachments: attachmentList.data?.length,
+    comments: commentList.data?.length,
+    assignees: (assigneeList.data ?? []).filter((a) => a.task_id === task.id).length,
+    dependencies: flow.dependsOn.length + flow.unlocks.length,
+  });
+  const gym = (extra: WorkoutExtra) =>
+    showInWorkout(extra, { workout: isWorkout, more, used: gymUsed });
 
   function saveDateText() {
     const parsed = parseQuickInput(`x ${dateText}`, { today });
@@ -364,7 +380,7 @@ function TaskDetails({ task }: { task: Task }) {
           </View>
         )}
 
-        {project && !isHabit && show('dependencies') && (
+        {project && !isHabit && show('dependencies') && gym('dependencies') && (
           <DependencyEditor
             task={task}
             dependsOn={flow.dependsOn}
@@ -447,20 +463,21 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {show('fields') && (
+        {show('fields') && gym('fields') && (
           <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
         )}
 
         {!isHabit &&
           !received &&
           show('approval') &&
+          gym('approval') &&
           rootFolder(tree.data, task.folder_id)?.kind === 'project' && (
             <Section title={t('approval.title')}>
               <ApprovalEditor task={task} disabled={!writable} onChange={(patch) => save(patch)} />
             </Section>
           )}
 
-        {!isHabit && !received && task.status !== 'done' && show('myDay') && (
+        {!isHabit && !received && task.status !== 'done' && show('myDay') && gym('myDay') && (
           <Section title={t('myDay.title')}>
             <Chip
               label={t(myDay.has(task.id) ? 'myDay.inDay' : 'myDay.add')}
@@ -470,7 +487,7 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {!isHabit && (
+        {!isHabit && gym('due') && (
           <Section title={t('taskDetail.due')}>
             <View className="flex-row flex-wrap gap-2">
               <Chip
@@ -627,20 +644,22 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        <Section title={t('taskDetail.priority')}>
-          <View className="flex-row flex-wrap gap-2">
-            {PRIORITIES.map((p) => (
-              <Chip
-                key={p.value}
-                label={t(p.label)}
-                selected={task.priority === p.value}
-                onPress={() => save({ priority: p.value })}
-              />
-            ))}
-          </View>
-        </Section>
+        {gym('priority') && (
+          <Section title={t('taskDetail.priority')}>
+            <View className="flex-row flex-wrap gap-2">
+              {PRIORITIES.map((p) => (
+                <Chip
+                  key={p.value}
+                  label={t(p.label)}
+                  selected={task.priority === p.value}
+                  onPress={() => save({ priority: p.value })}
+                />
+              ))}
+            </View>
+          </Section>
+        )}
 
-        {!isHabit && show('weight') && (
+        {!isHabit && show('weight') && gym('weight') && (
           <Section title={t('weight.title')}>
             {leaves ? (
               <Text className="text-sm text-ink">
@@ -666,22 +685,24 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        <Section title={t('taskDetail.labels')}>
-          <Input
-            value={labels}
-            onChangeText={setLabels}
-            onBlur={() => {
-              const next = parseLabelsText(labels);
-              if (next.join() !== task.labels.join()) save({ labels: next });
-            }}
-            editable={writable}
-            autoCapitalize="none"
-            placeholder="#casa #mercado"
-            accessibilityLabel={t('taskDetail.labels')}
-          />
-        </Section>
+        {gym('labels') && (
+          <Section title={t('taskDetail.labels')}>
+            <Input
+              value={labels}
+              onChangeText={setLabels}
+              onBlur={() => {
+                const next = parseLabelsText(labels);
+                if (next.join() !== task.labels.join()) save({ labels: next });
+              }}
+              editable={writable}
+              autoCapitalize="none"
+              placeholder="#casa #mercado"
+              accessibilityLabel={t('taskDetail.labels')}
+            />
+          </Section>
+        )}
 
-        {!project && !task.parent_task_id && (
+        {!project && !task.parent_task_id && gym('visibility') && (
           // V10 §2 (D232): quem mais vê, pelo perfil; em projeto vale quem é do projeto
           <Section title={t('visibility.title')}>
             <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
@@ -700,25 +721,27 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {project && (
+        {project && gym('assignees') && (
           <Section title={t('taskDetail.assignees')}>
             <AssigneesEditor task={task} />
           </Section>
         )}
 
-        {!task.parent_task_id && <Subtasks task={task} />}
+        {!task.parent_task_id && gym('subtasks') && <Subtasks task={task} />}
 
-        <Section title={t('attach.section')}>
-          <Attachments task={task} writable={allowed.edit} />
-        </Section>
+        {gym('attachments') && (
+          <Section title={t('attach.section')}>
+            <Attachments task={task} writable={allowed.edit} />
+          </Section>
+        )}
 
-        {project && (
+        {project && gym('comments') && (
           <Section title={t('taskDetail.comments')}>
             <Comments task={task} />
           </Section>
         )}
 
-        {!task.parent_task_id && (
+        {!task.parent_task_id && gym('page') && (
           <Section title={t('taskDetail.page')}>
             <View className="flex-row items-center gap-2">
               <Text className="flex-1 text-sm text-ink">{page ? pageLabel(page) : '…'}</Text>
@@ -750,11 +773,25 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {show('extras') && <Related type="task" id={task.id} editable={writable} />}
+        {show('extras') && gym('extras') && (
+          <Related type="task" id={task.id} editable={writable} />
+        )}
 
-        {show('extras') && <TaskHistory taskId={task.id} folderId={task.folder_id} />}
+        {show('extras') && gym('extras') && (
+          <TaskHistory taskId={task.id} folderId={task.folder_id} />
+        )}
 
-        {mode === 'simple' && (
+        {isWorkout && !more && (
+          <Button
+            variant="ghost"
+            icon={ChevronDown}
+            label={t('gym.moreOptions')}
+            onPress={() => setMore(true)}
+            className="self-start"
+          />
+        )}
+
+        {mode === 'simple' && (!isWorkout || more) && (
           <Button
             variant="ghost"
             icon={ChevronDown}

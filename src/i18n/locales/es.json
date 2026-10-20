@@ -2438,6 +2438,7 @@
     "dark": "Oscuro"
   },
   "gym": {
+    "moreOptions": "Más opciones (fecha, etiquetas, adjuntos…)",
     "block": "Gimnasio",
     "newWorkout": "Nuevo entrenamiento",
     "workoutPlaceholder": "Nombre del entrenamiento (ej.: Entrenamiento A)",
