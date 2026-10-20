@@ -180,6 +180,7 @@ describe('peso da tarefa (mesmos casos do pgTAP peso)', () => {
   test('sem peso 1×, peso 5 2×', () => {
     expect(weightFactor(null)).toBe(1);
     expect(weightFactor(5)).toBe(2);
+    expect(weightFactor(6)).toBe(2.25);
   });
 });
 

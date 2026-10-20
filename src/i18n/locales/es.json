@@ -1686,6 +1686,12 @@
     "taken": "Otra persona ya la tomó."
   },
   "weight": {
+    "level1": "Trivial",
+    "level2": "Bajo",
+    "level3": "Medio",
+    "level4": "Alto",
+    "level5": "Muy alto",
+    "level6": "Extremo",
     "title": "Peso",
     "hint": "Cuenta en el progreso de la tarea madre y en el golpe al jefe (la XP no cambia).",
     "progress": "Por el peso de las subtareas: {{pct}}% hecho"

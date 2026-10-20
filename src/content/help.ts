@@ -42,7 +42,7 @@ export const HELP: Record<string, HelpArticle[]> = {
     {
       "slug": "subtarefas",
       "title": "Subtasks and levels",
-      "body": "A task can have **subtasks**, and so can they. The default limit is **4 levels** (change it per page or project).\n\n## Creating\n\n- In the task panel, under **Subtasks**.\n- In the list, `Tab` indents (makes it a child of the one above) and `Shift+Tab` brings it back.\n- In bulk, indent with two spaces per level.\n\n## How it counts\n\nThe parent is a **bundle**: its progress is its subtasks' (\"2/5\"), and it completes itself when the last one closes. Each subtask's weight (1 to 5) changes how much it counts.\n\n## Codes\n\nPress `W` to see codes like **1.2.3**. The **Structure** view shows the whole tree, and the page menu exports it as text."
+      "body": "A task can have **subtasks**, and so can they. The default limit is **4 levels** (change it per page or project).\n\n## Creating\n\n- In the task panel, under **Subtasks**.\n- In the list, `Tab` indents (makes it a child of the one above) and `Shift+Tab` brings it back.\n- In bulk, indent with two spaces per level.\n\n## How it counts\n\nThe parent is a **bundle**: its progress is its subtasks' (\"2/5\"), and it completes itself when the last one closes. Each subtask's weight (from Trivial to Extreme) changes how much it counts.\n\n## Codes\n\nPress `W` to see codes like **1.2.3**. The **Structure** view shows the whole tree, and the page menu exports it as text."
     },
     {
       "slug": "dependencias",
@@ -134,7 +134,7 @@ export const HELP: Record<string, HelpArticle[]> = {
     {
       "slug": "subtarefas",
       "title": "Subtareas y niveles",
-      "body": "Una tarea puede tener **subtareas**, y ellas también. El límite por defecto es **4 niveles** (se cambia por página o proyecto).\n\n## Crear\n\n- En el panel de la tarea, en **Subtareas**.\n- En la lista, `Tab` sangra (la vuelve hija de la de arriba) y `Shift+Tab` la devuelve.\n- En lote, sangra con dos espacios por nivel.\n\n## Cómo cuenta\n\nLa madre es un **paquete**: su progreso es el de las subtareas (\"2/5\"), y se completa sola cuando cierra la última. El peso de cada subtarea (1 a 5) cambia cuánto cuenta.\n\n## Códigos\n\nPulsa `W` para ver códigos como **1.2.3**. La vista **Estructura** muestra el árbol entero y el menú de la página lo exporta como texto."
+      "body": "Una tarea puede tener **subtareas**, y ellas también. El límite por defecto es **4 niveles** (se cambia por página o proyecto).\n\n## Crear\n\n- En el panel de la tarea, en **Subtareas**.\n- En la lista, `Tab` sangra (la vuelve hija de la de arriba) y `Shift+Tab` la devuelve.\n- En lote, sangra con dos espacios por nivel.\n\n## Cómo cuenta\n\nLa madre es un **paquete**: su progreso es el de las subtareas (\"2/5\"), y se completa sola cuando cierra la última. El peso de cada subtarea (de Trivial a Extremo) cambia cuánto cuenta.\n\n## Códigos\n\nPulsa `W` para ver códigos como **1.2.3**. La vista **Estructura** muestra el árbol entero y el menú de la página lo exporta como texto."
     },
     {
       "slug": "dependencias",
@@ -226,7 +226,7 @@ export const HELP: Record<string, HelpArticle[]> = {
     {
       "slug": "subtarefas",
       "title": "Subtarefas e níveis",
-      "body": "Uma tarefa pode ter **subtarefas**, e elas também. O limite padrão é **4 níveis** (dá para mudar por página ou projeto).\n\n## Criar\n\n- No painel da tarefa, em **Subtarefas**.\n- Na lista, `Tab` recua (vira filha da de cima) e `Shift+Tab` volta.\n- No lote, use recuo: dois espaços por nível.\n\n## Como conta\n\nA mãe é um **pacote**: o progresso dela é o das subtarefas (\"2/5\"), e ela se conclui sozinha quando a última fecha. O peso de cada subtarefa (1 a 5) muda quanto ela conta.\n\n## Códigos\n\nAperte `W` para ver códigos como **1.2.3**. A visão **Estrutura** mostra a árvore inteira, e o menu da página exporta em texto."
+      "body": "Uma tarefa pode ter **subtarefas**, e elas também. O limite padrão é **4 níveis** (dá para mudar por página ou projeto).\n\n## Criar\n\n- No painel da tarefa, em **Subtarefas**.\n- Na lista, `Tab` recua (vira filha da de cima) e `Shift+Tab` volta.\n- No lote, use recuo: dois espaços por nível.\n\n## Como conta\n\nA mãe é um **pacote**: o progresso dela é o das subtarefas (\"2/5\"), e ela se conclui sozinha quando a última fecha. O peso de cada subtarefa (de Trivial a Extremo) muda quanto ela conta.\n\n## Códigos\n\nAperte `W` para ver códigos como **1.2.3**. A visão **Estrutura** mostra a árvore inteira, e o menu da página exporta em texto."
     },
     {
       "slug": "dependencias",

@@ -10,7 +10,7 @@ Una tarea puede tener **subtareas**, y ellas también. El límite por defecto es
 
 ## Cómo cuenta
 
-La madre es un **paquete**: su progreso es el de las subtareas ("2/5"), y se completa sola cuando cierra la última. El peso de cada subtarea (1 a 5) cambia cuánto cuenta.
+La madre es un **paquete**: su progreso es el de las subtareas ("2/5"), y se completa sola cuando cierra la última. El peso de cada subtarea (de Trivial a Extremo) cambia cuánto cuenta.
 
 ## Códigos
 

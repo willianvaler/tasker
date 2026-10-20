@@ -87,6 +87,9 @@ const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 /** Lembrete: minutos antes do horário (null: sem lembrete), D206 */
 const REMINDER_OPTIONS = [null, 0, 5, 15, 30, 60, 1440] as const;
 
+
+/** Peso da tarefa (D226): 1 Trivial … 6 Extremo. */
+const WEIGHTS = [1, 2, 3, 4, 5, 6] as const;
 export default function TaskScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -644,10 +647,10 @@ function TaskDetails({ task }: { task: Task }) {
             ) : (
               <>
                 <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-                  {[1, 2, 3, 4, 5].map((w) => (
+                  {WEIGHTS.map((w) => (
                     <Chip
                       key={w}
-                      label={String(w)}
+                      label={t(`weight.level${w}`)}
                       selected={(task.weight ?? 1) === w}
                       onPress={() => save({ weight: w === 1 ? null : w })}
                     />

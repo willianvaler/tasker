@@ -1686,6 +1686,12 @@
     "taken": "Outra pessoa já levou esta."
   },
   "weight": {
+    "level1": "Trivial",
+    "level2": "Baixo",
+    "level3": "Médio",
+    "level4": "Alto",
+    "level5": "Muito alto",
+    "level6": "Extremo",
     "title": "Peso",
     "hint": "Pesa no progresso da tarefa-mãe e no golpe no boss (o XP não muda).",
     "progress": "Pelo peso das subtarefas: {{pct}}% feito"

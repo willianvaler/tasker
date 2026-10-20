@@ -10,7 +10,7 @@ Uma tarefa pode ter **subtarefas**, e elas também. O limite padrão é **4 nív
 
 ## Como conta
 
-A mãe é um **pacote**: o progresso dela é o das subtarefas ("2/5"), e ela se conclui sozinha quando a última fecha. O peso de cada subtarefa (1 a 5) muda quanto ela conta.
+A mãe é um **pacote**: o progresso dela é o das subtarefas ("2/5"), e ela se conclui sozinha quando a última fecha. O peso de cada subtarefa (de Trivial a Extremo) muda quanto ela conta.
 
 ## Códigos
 

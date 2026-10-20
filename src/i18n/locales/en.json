@@ -1686,6 +1686,12 @@
     "taken": "Someone else already took this one."
   },
   "weight": {
+    "level1": "Trivial",
+    "level2": "Low",
+    "level3": "Medium",
+    "level4": "High",
+    "level5": "Very high",
+    "level6": "Extreme",
     "title": "Weight",
     "hint": "Counts in the parent task's progress and in the hit on the boss (XP doesn't change).",
     "progress": "By subtask weight: {{pct}}% done"

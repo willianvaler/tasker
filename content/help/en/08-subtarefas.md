@@ -10,7 +10,7 @@ A task can have **subtasks**, and so can they. The default limit is **4 levels**
 
 ## How it counts
 
-The parent is a **bundle**: its progress is its subtasks' ("2/5"), and it completes itself when the last one closes. Each subtask's weight (1 to 5) changes how much it counts.
+The parent is a **bundle**: its progress is its subtasks' ("2/5"), and it completes itself when the last one closes. Each subtask's weight (from Trivial to Extreme) changes how much it counts.
 
 ## Codes
 
