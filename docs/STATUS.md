@@ -264,6 +264,19 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **PB4** Lista de compras gerada do cardápio: ingredientes das subtarefas e das notas, iguais somados, destino escolhido, conferência na criação em lote; E2E `e2e/compras.spec.ts` e Ajuda nos 3 idiomas (D224)
 - [x] **PB5** Racha de contas nos gastos do projeto: `split_among` (todos por padrão), acerto (`settle`) fora dos totais, quem deve a quem e "Registrar acerto", pgTAP; E2E `e2e/racha.spec.ts` e Ajuda nos 3 idiomas (D225)
 
+## ESCOPO_V10 — amigos, visibilidade, comunidade e Bem-estar (pedido do dono em 20/10)
+
+- [ ] **AM1** Nick, amizades, link de amizade, RPCs, avisos, RLS, pgTAP, LGPD
+- [ ] **AM2** Tela Amigos e página do link `/amigo/<token>`
+- [ ] **AM3** Vincular amigo em projeto, grupo de treino, time e clã
+- [ ] **VI1** Visibilidade da tarefa (privada, amigos, pública) e `profile_tasks`
+- [ ] **VI2** Perfil da pessoa `/perfil/<nick>`
+- [ ] **CM1** Comunidade: publicar, usar, curtir, denunciar (banco)
+- [ ] **CM2** Aba Comunidade e "Publicar" nos menus
+- [ ] **BE1** Bloco Bem-estar (treino, dieta, vida saudável); nome pendente do dono (V10-1)
+- [ ] **BE2** Dieta: cardápio da semana, refeições, lista de compras no bloco
+- [ ] **BE3** Vida saudável: hábitos prontos, peso e medidas
+
 ## Correções do dono (20/10)
 
 - [x] **CD1** Hábito bom/ruim com o + à esquerda e o − à direita (D227)

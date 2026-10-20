@@ -1,6 +1,6 @@
 # Pendentes
 
-O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V8.md`), numa tabela só, para ler rápido. O detalhe fica em `docs/STATUS.md`, `docs/TAREFAS_V6.md` e nos escopos; o que já foi feito, em `docs/FEITOS.md`.
+O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V10.md`), numa tabela só, para ler rápido. O detalhe fica em `docs/STATUS.md`, `docs/TAREFAS_V6.md` e nos escopos; o que já foi feito, em `docs/FEITOS.md`.
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
@@ -39,6 +39,10 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com notas de verdade | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
+| **V10** | AM1–AM3 | Amigos (nick, e-mail, link) e vincular amigos em projetos, grupos de treino, times e clã | pendente | — |
+| V10 | VI1–VI2 | Tarefas privadas, só para amigos e públicas; perfil da pessoa | pendente | AM1 |
+| V10 | CM1–CM2 | Aba Comunidade: publicar e usar projetos, treinos, cardápios e modelos | pendente | AM1 |
+| V10 | BE1–BE3 | Bloco Bem-estar (treino, dieta, vida saudável) | pendente | nome do bloco (V10-1) |
 
 ## Decisões do dono em aberto
 
@@ -46,5 +50,7 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 |---|---|---|
 | V4-6 | Provedor de pagamento e compras nas lojas (decidir depois) | T2 |
 | V5-3 | Provedor de e-mail e domínio de envio (inativo por enquanto) | V5 §5 |
+| V10-1 | Nome do bloco de treino, dieta e vida saudável (padrão: Bem-estar) | BE1 |
+| V10-2 a V10-5 | Amigo direto no grupo, tarefa pública fora do login, visibilidade em projeto, moderação (`ESCOPO_V10.md` §7) | seguem o padrão até a resposta |
 
 As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`).
