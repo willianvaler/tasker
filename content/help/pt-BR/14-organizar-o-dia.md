@@ -13,3 +13,7 @@ No projeto, **Automações** cria regras "quando… então…". Exemplo: quando 
 ## Matriz de Eisenhower
 
 Numa página de lista, a aba **Matriz** separa as tarefas abertas em quatro quadrantes: **Fazer** (importante e urgente), **Agendar** (importante, sem pressa), **Delegar** (urgente, pouco importante) e **Eliminar** (nem um nem outro). Importante é prioridade `!!` ou `!!!`; urgente é o que vence até depois de amanhã, atrasadas incluídas. O botão ao lado da tarefa muda o quadrante: ajusta a prioridade e, se for o caso, a data (vence hoje, ou vai para daqui a uma semana). A página lembra a última aba usada neste aparelho.
+
+## Revisão semanal
+
+Uma vez por semana, o Início sugere a **Revisão semanal** (também pela paleta, `Ctrl+K`). São quatro passos: **Concluí** (o que você fez nos últimos 7 dias, por página), **Ficou** (as atrasadas: dê um dia novo, tire a data ou conclua), **Parado** (sem data e sem mexer há mais de 30 dias: dê uma data ou arquive, que vai para a lixeira) e **Próxima semana** (o que vence nos próximos 7 dias). **Concluir revisão** guarda a data; "Agora não" esconde o aviso por uma semana.

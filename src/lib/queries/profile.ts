@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { Tables } from '../db';
 import { todayIn } from '../parser/dates';
 import { supabase } from '../supabase';
+import type { ReviewPrefs } from '../weekly-review';
 import { useSession } from '@/providers/session';
 import { keys } from './keys';
 
@@ -65,7 +66,11 @@ export function useUpdateProfile() {
 }
 
 /** Preferências de interface salvas no perfil (valem em todos os aparelhos, V6 §15.2). */
-export type UiPrefs = { sidebar?: { order?: string[]; hidden?: string[] } };
+export type UiPrefs = {
+  sidebar?: { order?: string[]; hidden?: string[] };
+  /** Revisão semanal (PB3): última feita ou dispensada */
+  review?: ReviewPrefs;
+};
 
 export function useUiPrefs(): UiPrefs {
   const prefs = useProfile().data?.ui_prefs;

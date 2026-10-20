@@ -3,6 +3,7 @@ import { router, usePathname } from 'expo-router';
 import {
   Backpack,
   CalendarDays,
+  ClipboardCheck,
   CheckSquare,
   CircleHelp,
   Folder,
@@ -236,6 +237,13 @@ function Palette({
       run: go('/inbox'),
     },
     { id: 'go-habits', label: t('nav.habits'), icon: icon(Repeat), group: 0, run: go('/habits') },
+    {
+      id: 'go-review',
+      label: t('review.title'),
+      icon: icon(ClipboardCheck),
+      group: 0,
+      run: go('/revisao'),
+    },
     {
       id: 'go-calendar',
       label: t('nav.calendar'),

@@ -10,6 +10,7 @@ import { NotificationsBell } from '@/components/notifications-bell';
 import { NextActionCard } from '@/components/my-day';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { GymPrompt } from '@/components/gym-prompt';
+import { ReviewPrompt } from '@/components/review-prompt';
 import { ScreenHeader } from '@/components/screen-header';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { TaskRow } from '@/components/tasks/task-row';
@@ -197,6 +198,7 @@ export default function HomeScreen() {
           />
           {summary}
           <GymPrompt />
+          <ReviewPrompt />
           {camp && (
             <View className="pt-4">
               <CampView
