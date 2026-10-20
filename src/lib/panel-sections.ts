@@ -1,10 +1,10 @@
 // Painel da tarefa simples × completo (U2, D158). No simples ficam o título, as notas, a data e a
-// repetição, a prioridade, as etiquetas, quem faz, as subtarefas, os anexos, os comentários e a
-// página. As seções avançadas só aparecem no completo, ou quando a tarefa já usa (senão a
+// repetição, a prioridade, as etiquetas, quem faz, as subtarefas, o "Depende de" (CD16), os
+// anexos, os comentários e a página. As seções avançadas só aparecem no completo, ou quando a tarefa já usa (senão a
 // pessoa não veria um valor que existe).
 
 export type AdvancedSection =
-  'dependencies' | 'fields' | 'approval' | 'myDay' | 'time' | 'repeat' | 'weight' | 'extras';
+  'fields' | 'approval' | 'myDay' | 'time' | 'repeat' | 'weight' | 'extras';
 
 type TaskLike = {
   custom?: unknown;
@@ -19,10 +19,9 @@ type TaskLike = {
 /** Seções avançadas que a tarefa já usa */
 export function usedSections(
   task: TaskLike,
-  context: { dependencies: number; inMyDay: boolean },
+  context: { inMyDay: boolean },
 ): Set<AdvancedSection> {
   const used = new Set<AdvancedSection>();
-  if (context.dependencies > 0) used.add('dependencies');
   if (
     task.custom &&
     typeof task.custom === 'object' &&

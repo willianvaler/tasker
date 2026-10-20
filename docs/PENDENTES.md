@@ -8,14 +8,6 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 
 ## Para fazer depois (pedido do dono, 20/10, noite)
 
-**Correções**
-
-| Id | Problema | Causa / o que fazer |
-|---|---|---|
-| CD15 | Página de cards vira sempre "treino" (Modo Treino, painel de exercício, progressão), em qualquer pasta | `isWorkoutPage` diz sim para todo `cards`; o jeito de treino só pode valer para página da Academia (pasta Academia ou grupo de treino) |
-| CD16 | Não dá para fazer uma tarefa depender de outra (a aba Fluxo precisa disso), em listas e cards | o "Depende de" só aparece em pasta de projeto e escondido em "Mais opções"; deixar à vista no painel (e avaliar em pastas pessoais), mostrar o `^tarefa` da escrita rápida na Ajuda e na dica do campo |
-| CD17 | "Mais opções" some depois de clicado e não dá para recolher, no editor de página e no painel da tarefa | trocar por um botão que alterna "Mais opções" / "Menos opções" (`aria-expanded`), nos dois lugares |
-
 **Plano de fechamento do V6** (na ordem)
 
 | Ordem | Id | O que | Tamanho |

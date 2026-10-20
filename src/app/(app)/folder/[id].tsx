@@ -64,13 +64,14 @@ export default function FolderScreen() {
   const children = folder && 'children' in folder ? folder.children : [];
   const empty = !!folder && folder.pages.length === 0 && children.length === 0;
   const project = !!folder && 'children' in folder && folder.kind === 'project';
-  // Abas do projeto (V3 §2.6, D114): Lista · Fluxo · Pessoas · Linha do tempo
-  const tabbed = project && !folder.parent_id;
+  // Abas do projeto (V3 §2.6, D114): Lista · Fluxo · Pessoas · Linha do tempo. Pasta pessoal
+  // (fora a Academia) fica com Lista · Fluxo, para ver as dependências (CD16)
+  const tabbed = !!folder && 'children' in folder && !folder.parent_id && !folder.is_gym;
   const views: { value: ProjectView; label: string }[] = [
     { value: 'list', label: t('projectTabs.list') },
     { value: 'flow', label: t('projectTabs.flow') },
-    { value: 'people', label: t('projectTabs.people') },
-    ...(actorCan(actor, 'workflow.view_audit')
+    ...(project ? [{ value: 'people' as const, label: t('projectTabs.people') }] : []),
+    ...(project && actorCan(actor, 'workflow.view_audit')
       ? [{ value: 'timeline' as const, label: t('projectTabs.timeline') }]
       : []),
   ];

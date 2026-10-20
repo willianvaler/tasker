@@ -136,7 +136,7 @@
     "loading": "Carregando…",
     "readOnly": "Só leitura: você é leitor deste projeto",
     "offline": "Nova tarefa… (vai quando a conexão voltar)",
-    "hint": "amanhã · !! · #etiqueta · @pessoa",
+    "hint": "amanhã · !! · #etiqueta · @pessoa · ^depende de",
     "ambiguous": "{{names}}: mais de uma pessoa com esse nome. Escolha nos detalhes da tarefa.",
     "mentionList": "Pessoas do projeto",
     "mentionPick": "Atribuir a {{name}}",
@@ -429,6 +429,7 @@
     "labelWeekly": "Reinicia toda segunda",
     "labelManual": "Reinício manual",
     "more": "Mais opções (ícone, reinício, níveis)",
+    "less": "Menos opções",
     "expenses": "Gastos",
     "expensesHint": "Planilha de gastos e entradas, com orçamento, foto da nota e exportação em CSV e XLSX."
   },
@@ -1544,7 +1545,7 @@
     "flexibleHint": "No modo flexível, Gerentes e Editores podem iniciar ou concluir uma tarefa bloqueada, e isso fica registrado. Desligado (estrito), ela espera os pré-requisitos.",
     "dependsOn": "Depende de",
     "unlocks": "Libera",
-    "searchPlaceholder": "Buscar tarefa do projeto…",
+    "searchPlaceholder": "Buscar tarefa… (ao criar: ^nome)",
     "linkTo": "Depender de {{title}}",
     "prereqOptions": "Opções de {{title}}",
     "isDone": "feita",
@@ -2301,15 +2302,15 @@
     "simple": "Simples",
     "full": "Completo",
     "simpleHint": "o essencial",
-    "fullHint": "tempo, séries, peso, dependências, campos…",
-    "showAll": "Mostrar tudo (tempo, séries, peso, dependências…)"
+    "fullHint": "tempo, séries, peso, campos, aprovação…",
+    "showAll": "Mostrar tudo (tempo, séries, peso, campos…)"
   },
   "modes": {
     "title": "Modo",
     "open": "Modo: treino, foco ou descanso",
     "workout": "Treino",
     "workoutHint": "Séries, carga e descanso em tela cheia, um exercício por vez.",
-    "noWorkout": "Nenhuma página de treino ainda. Crie uma página do tipo Cards (Novo → Página) e ponha os exercícios nela.",
+    "noWorkout": "Nenhuma página de treino ainda. Ligue o Modo academia no Perfil e use + Novo treino, ou dê séries aos itens de uma página.",
     "startWorkout": "Treinar: {{page}}",
     "focus": "Foco",
     "focusHint": "Pomodoro: foco com pausas sugeridas no fim.",
@@ -2797,6 +2798,7 @@
   },
   "gym": {
     "moreOptions": "Mais opções (data, etiquetas, anexos…)",
+    "lessOptions": "Menos opções",
     "block": "Academia",
     "newWorkout": "Novo treino",
     "workoutPlaceholder": "Nome do treino (ex.: Treino A)",

@@ -136,7 +136,7 @@
     "loading": "Loading…",
     "readOnly": "Read only: you are a viewer in this project",
     "offline": "New task… (sent when you are back online)",
-    "hint": "tomorrow · !! · #tag · @person",
+    "hint": "tomorrow · !! · #tag · @person · ^depends on",
     "ambiguous": "{{names}}: more than one person with that name. Pick one in the task details.",
     "mentionList": "Project people",
     "mentionPick": "Assign to {{name}}",
@@ -429,6 +429,7 @@
     "labelWeekly": "Resets every Monday",
     "labelManual": "Manual reset",
     "more": "More options (icon, reset, levels)",
+    "less": "Fewer options",
     "expenses": "Expenses",
     "expensesHint": "Spreadsheet of expenses and income, with budget, receipt photos and CSV/XLSX export."
   },
@@ -1544,7 +1545,7 @@
     "flexibleHint": "In flexible mode, Managers and Editors can start or complete a blocked task, and it is recorded. Off (strict), it waits for its prerequisites.",
     "dependsOn": "Depends on",
     "unlocks": "Unlocks",
-    "searchPlaceholder": "Search a project task…",
+    "searchPlaceholder": "Search a task… (when creating: ^name)",
     "linkTo": "Depend on {{title}}",
     "prereqOptions": "Options for {{title}}",
     "isDone": "done",
@@ -2301,15 +2302,15 @@
     "simple": "Simple",
     "full": "Full",
     "simpleHint": "the essentials",
-    "fullHint": "time, sets, weight, dependencies, fields…",
-    "showAll": "Show everything (time, sets, weight, dependencies…)"
+    "fullHint": "time, sets, weight, fields, approval…",
+    "showAll": "Show everything (time, sets, weight, fields…)"
   },
   "modes": {
     "title": "Mode",
     "open": "Mode: workout, focus or rest",
     "workout": "Workout",
     "workoutHint": "Sets, load and rest full screen, one exercise at a time.",
-    "noWorkout": "No workout page yet. Create a Cards page (New → Page) and put the exercises in it.",
+    "noWorkout": "No workout page yet. Turn on Gym mode in your Profile and use + New workout, or give sets to the items of a page.",
     "startWorkout": "Train: {{page}}",
     "focus": "Focus",
     "focusHint": "Pomodoro: focus with suggested breaks at the end.",
@@ -2797,6 +2798,7 @@
   },
   "gym": {
     "moreOptions": "More options (date, labels, attachments…)",
+    "lessOptions": "Fewer options",
     "block": "Gym",
     "newWorkout": "New workout",
     "workoutPlaceholder": "Workout name (e.g. Workout A)",

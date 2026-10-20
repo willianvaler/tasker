@@ -444,11 +444,10 @@ export function splitRoots(tree: Tree | undefined, gymOn: boolean) {
 }
 
 /**
- * Página de treino: de cards, da Academia ou de um grupo de treino (a pasta ou a pasta-mãe). O
- * mesmo que public._is_workout_page no banco.
+ * Página de treino: da Academia ou de um grupo de treino (a pasta ou a pasta-mãe). Página de cards
+ * em outra pasta é uma página comum (CD15). O mesmo que public._is_workout_page no banco.
  */
-export function isWorkoutPage(tree: Tree | undefined, page: Pick<Page, 'view_type' | 'folder_id'>) {
-  if (page.view_type === 'cards') return true;
+export function isWorkoutPage(tree: Tree | undefined, page: Pick<Page, 'folder_id'>) {
   const found = findFolder(tree, page.folder_id);
   const gymLike = (f: Pick<Folder, 'is_gym' | 'gym_group'> | null | undefined) =>
     !!f && (f.is_gym || f.gym_group);

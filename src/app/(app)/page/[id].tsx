@@ -180,10 +180,10 @@ export default function PageScreen() {
           />
         </View>
       )}
-      {/* W7: o Modo Treino serve para qualquer página com séries, não só a de cards */}
+      {/* W7: o Modo Treino serve para a página de treino e para qualquer uma com séries (CD15) */}
       {page &&
         (pageTasks.data?.length ?? 0) > 0 &&
-        (page.view_type === 'cards' || pageTasks.data?.some((task) => !!task.repeat_plan)) && (
+        (isWorkoutPage(tree.data, page) || pageTasks.data?.some((task) => !!task.repeat_plan)) && (
           <View className="flex-row pb-3">
             <Button
               icon={Play}

@@ -1,6 +1,6 @@
 import { uuidv7 } from '@/lib/uuid';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ChevronDown, FolderInput, Plus, Trash2, X } from 'lucide-react-native';
+import { ChevronDown, ChevronUp, FolderInput, Plus, Trash2, X } from 'lucide-react-native';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
@@ -199,10 +199,7 @@ function TaskDetails({ task }: { task: Task }) {
   const parent = siblings.data?.find((s) => s.id === task.parent_task_id);
   // Fluxo: bloqueada (estrito) não inicia nem conclui; no flexível, quem pode, força
   const flow = useTaskFlow(task);
-  const used = usedSections(task, {
-    dependencies: flow.dependsOn.length + flow.unlocks.length,
-    inMyDay: myDay.has(task.id),
-  });
+  const used = usedSections(task, { inMyDay: myDay.has(task.id) });
   const show = (section: AdvancedSection) => showSection(mode, used, section);
   const start = useStartTask();
   const force = useForceTask();
@@ -384,7 +381,8 @@ function TaskDetails({ task }: { task: Task }) {
           </View>
         )}
 
-        {project && !isHabit && show('dependencies') && gym('dependencies') && (
+        {/* CD16: à vista também no painel simples, em projeto e em pasta pessoal */}
+        {!isHabit && !received && gym('dependencies') && (
           <DependencyEditor
             task={task}
             dependsOn={flow.dependsOn}
@@ -803,12 +801,14 @@ function TaskDetails({ task }: { task: Task }) {
           <TaskHistory taskId={task.id} folderId={task.folder_id} />
         )}
 
-        {isWorkout && !more && (
+        {/* CD17: alterna, para dar para recolher de novo */}
+        {isWorkout && (
           <Button
             variant="ghost"
-            icon={ChevronDown}
-            label={t('gym.moreOptions')}
-            onPress={() => setMore(true)}
+            icon={more ? ChevronUp : ChevronDown}
+            label={t(more ? 'gym.lessOptions' : 'gym.moreOptions')}
+            aria-expanded={more}
+            onPress={() => setMore(!more)}
             className="self-start"
           />
         )}

@@ -3,7 +3,7 @@
 The **Calendar** (in the sidebar, under "Next 7 days" on Home, or with `G C`) shows the tasks with a date from all your folders and projects, by **month** or by **week**. Tap a day to see its list; tap a task to open it.
 
 - A repeating task shows up on every day it will be due.
-- A **workout** (a cards page or one in the Gym folder) shows up once per day, with the page name and how many exercises fall on it. Tapping it opens the page.
+- A **workout** (a page in the Gym folder or in a workout group) shows up once per day, with the page name and how many exercises fall on it. Tapping it opens the page.
 - Habits stay on the Habits screen, not in the calendar.
 
 ## In Google Calendar

@@ -10,7 +10,7 @@ Depois de cada série começa o **descanso** (60 s por padrão). Num treino, o p
 
 ## Modo Treino
 
-Em páginas de cards ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o treino fecha sozinho e um aviso curto mostra séries, tempo, volume e XP. Funciona sem internet e mantém a tela acesa. Saiu para a lista no meio do treino? O botão vira **Continuar treino** e você volta de onde parou (num grupo de treino, sem perguntar de novo com quem). Voltou a um exercício já feito com **Anterior**? O botão grande vira **Próximo exercício**. Com o treino pausado, o **Feita** fica apagado até você tocar em ▶.
+Em páginas de treino (da Academia ou de um grupo de treino) ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o treino fecha sozinho e um aviso curto mostra séries, tempo, volume e XP. Funciona sem internet e mantém a tela acesa. Saiu para a lista no meio do treino? O botão vira **Continuar treino** e você volta de onde parou (num grupo de treino, sem perguntar de novo com quem). Voltou a um exercício já feito com **Anterior**? O botão grande vira **Próximo exercício**. Com o treino pausado, o **Feita** fica apagado até você tocar em ▶.
 
 **Sem destravar o celular (Android):** com o Modo Treino aberto, a série aparece na tela de bloqueio, com **Feita**, **Pular descanso** e **+30 s**. Toque na setinha da notificação para ver os botões. Com o celular travado, o que você marca fica no aparelho e sobe quando você abrir o app de novo.
 
@@ -70,7 +70,7 @@ Cada exercício concluído é um golpe no boss, como uma tarefa; com **recorde**
 
 ## Modo: treino, foco ou descanso
 
-O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
+O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de treino ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
 
 ## Treinar junto
 

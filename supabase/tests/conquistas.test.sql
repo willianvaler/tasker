@@ -54,9 +54,9 @@ select is((select x ->> 'icon' from jsonb_array_elements(public.my_achievements(
            where x ->> 'key' = 'night_owl'), null, 'secreta bloqueada não mostra o ícone');
 reset role;
 
--- P2: catálogo com 71 (68 + 3 de renascer, R1) e concessão pelas séries e pelas especiais
+-- P2: catálogo com 82 (68 + 3 de renascer, R1, + 11 de academia, AC11) e concessão pelas séries e pelas especiais
 reset role;
-select is((select count(*)::int from public.achievements), 71, 'catálogo com 71 conquistas');
+select is((select count(*)::int from public.achievements), 82, 'catálogo com 82 conquistas');
 select is((select count(*)::int from public.achievements where secret and key <> 'night_owl'), 4,
   '4 secretas (a night_owl virou secreta só neste teste)');
 -- Bia: 50 tarefas hoje (maratona) e a primeira há 40 dias (de volta depois de 30 parada)

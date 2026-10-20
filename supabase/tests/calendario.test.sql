@@ -12,9 +12,11 @@ set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", 
 insert into public.folders (id, name) values ('aaaaaaaa-0000-0000-0000-000000000001', 'Casa');
 insert into public.folders (id, parent_id, name) values
   ('aaaaaaaa-0000-0000-0000-000000000002', 'aaaaaaaa-0000-0000-0000-000000000001', 'Cozinha');
+-- Treino só na Academia (CD15): a página de cards em outra pasta é comum
+select public.set_gym_mode(true);
 insert into public.pages (id, folder_id, name, view_type, reset_cycle) values
   ('bbbbbbbb-0000-0000-0000-000000000001', 'aaaaaaaa-0000-0000-0000-000000000002', 'Afazeres', 'list', 'none'),
-  ('bbbbbbbb-0000-0000-0000-000000000002', 'aaaaaaaa-0000-0000-0000-000000000001', 'Treino A', 'cards', 'weekly'),
+  ('bbbbbbbb-0000-0000-0000-000000000002', (select id from public.folders where is_gym), 'Treino A', 'cards', 'weekly'),
   ('bbbbbbbb-0000-0000-0000-000000000003', 'aaaaaaaa-0000-0000-0000-000000000001', 'Rotina', 'habits', 'daily');
 select public.create_tasks_batch('bbbbbbbb-0000-0000-0000-000000000001',
   '[{"id": "c0000000-0000-0000-0000-000000000001", "title": "Pagar luz; água, gás"},

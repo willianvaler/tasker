@@ -3,7 +3,7 @@
 O **Calendário** (na barra lateral, em "Próximos 7 dias" no Início ou com `G C`) mostra as tarefas com data de todas as suas pastas e projetos, por **mês** ou por **semana**. Toque num dia para ver a lista dele; toque numa tarefa para abri-la.
 
 - Tarefa que se repete aparece em todos os dias em que vai vencer.
-- **Treino** (página de cards ou da Academia) aparece uma vez por dia, com o nome da página e quantos exercícios caem nele. Tocar abre a página.
+- **Treino** (página da Academia ou de um grupo de treino) aparece uma vez por dia, com o nome da página e quantos exercícios caem nele. Tocar abre a página.
 - Hábitos ficam na tela Hábitos, não no calendário.
 
 ## No Google Agenda

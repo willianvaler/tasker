@@ -62,12 +62,14 @@ export function QuickAdd({
   const [text, setText] = useState('');
   const inputRef = useRef<TextInput>(null);
   // @nome em digitação: sugere os membros do projeto
-  // ^pré-requisito: tarefas do projeto (só em página de projeto, como o @)
-  const root = rootFolder(tree.data, tree.data?.pages.find((p) => p.id === pageId)?.folder_id);
-  const taskOptions = useProjectTaskOptions(root?.id, mentions.enabled);
+  // ^pré-requisito: tarefas da mesma pasta raiz, em projeto ou pasta pessoal (CD16); hábito não
+  const page = tree.data?.pages.find((p) => p.id === pageId);
+  const root = rootFolder(tree.data, page?.folder_id);
+  const prereqsOn = !!root && page?.view_type !== 'habits' && !habit;
+  const taskOptions = useProjectTaskOptions(root?.id, prereqsOn);
   const deps = useDependencyMutations(root?.id);
   const autocomplete = useMentionAutocomplete({
-    enabled: mentions.enabled,
+    enabled: mentions.enabled || prereqsOn,
     members: mentions.members,
     tasks: taskOptions.data,
     text,
@@ -100,7 +102,7 @@ export function QuickAdd({
       today,
       meta: parseMeta,
       mentions: mentions.enabled,
-      prereqs: mentions.enabled,
+      prereqs: prereqsOn,
     });
     const resolved = mentions.resolve(parsed.mentions);
     const id = uuidv7();

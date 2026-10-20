@@ -3,7 +3,7 @@
 El **Calendario** (en la barra lateral, en "Próximos 7 días" en Inicio o con `G C`) muestra las tareas con fecha de todas tus carpetas y proyectos, por **mes** o por **semana**. Toca un día para ver su lista; toca una tarea para abrirla.
 
 - Una tarea que se repite aparece en todos los días en que vence.
-- Un **entrenamiento** (página de tarjetas o de la carpeta Gimnasio) aparece una vez por día, con el nombre de la página y cuántos ejercicios caen en él. Al tocarlo se abre la página.
+- Un **entrenamiento** (página de la carpeta Gimnasio o de un grupo de entrenamiento) aparece una vez por día, con el nombre de la página y cuántos ejercicios caen en él. Al tocarlo se abre la página.
 - Los hábitos quedan en la pantalla Hábitos, no en el calendario.
 
 ## En Google Calendar

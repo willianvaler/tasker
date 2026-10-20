@@ -6,7 +6,7 @@ import { DepthPicker } from '@/components/depth-picker';
 import { DEFAULT_MAX_DEPTH } from '@/config/limits';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
 
-import { ChevronDown } from 'lucide-react-native';
+import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import { IconPicker } from '@/components/icon-picker';
 import type { ItemKind } from '@/components/item-icon';
 import { Button } from '@/components/ui/button';
@@ -121,15 +121,15 @@ export function PageDialog({
               {t(VIEW_TYPES.find((v) => v.value === viewType)?.hint ?? 'pageDialog.listHint')}
             </Text>
 
-            {!more && (
-              <Button
-                variant="ghost"
-                icon={ChevronDown}
-                label={t('pageDialog.more')}
-                className="self-start"
-                onPress={() => setMore(true)}
-              />
-            )}
+            {/* CD17: alterna, para dar para recolher de novo */}
+            <Button
+              variant="ghost"
+              icon={more ? ChevronUp : ChevronDown}
+              label={t(more ? 'pageDialog.less' : 'pageDialog.more')}
+              aria-expanded={more}
+              className="self-start"
+              onPress={() => setMore(!more)}
+            />
             {more && (
               <>
                 <Label>{t('iconPicker.label')}</Label>

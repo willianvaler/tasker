@@ -56,6 +56,9 @@ export default function BatchScreen() {
   // Em cards, "4x12" e "20kg" viram séries/repetições/carga
   const isCards = page?.view_type === 'cards';
   const mentions = useMentions(page?.id);
+  // ^pré-requisito: em projeto ou pasta pessoal (CD16); hábito não
+  const root = rootFolder(tree.data, page?.folder_id);
+  const prereqsOn = !!root && page?.view_type !== 'habits';
   const inputRef = useRef<TextInput>(null);
   // Criar vai para a fila offline
   const writable = useCanWrite(page?.folder_id, { offline: true });
@@ -72,7 +75,7 @@ export default function BatchScreen() {
       today,
       meta: isCards,
       mentions: mentions.enabled,
-      prereqs: mentions.enabled,
+      prereqs: prereqsOn,
     };
     const decorate = (item: BatchItem, key: string): KeyedItem => ({
       ...item,
@@ -88,14 +91,13 @@ export default function BatchScreen() {
     return parseBatchInput(text, { ...parseOptions, maxDepth })
       .map((item, i) => decorate(item, `${i}`))
       .filter((item) => !removed.has(item.key));
-  }, [text, edits, removed, today, isCards, mentions.enabled, maxDepth]);
+  }, [text, edits, removed, today, isCards, mentions.enabled, prereqsOn, maxDepth]);
   const flattened = countFlattened(items);
 
   // ^pré-requisitos: cada item já tem id na prévia ("^2" aponta para o item 2 do lote); a
   // prévia e a criação usam os mesmos itens, então os ids batem
   const idOf = (key: string) => flat(items).find(({ item }) => item.key === key)?.item.id ?? '';
-  const root = rootFolder(tree.data, page?.folder_id);
-  const taskOptions = useProjectTaskOptions(root?.id, mentions.enabled);
+  const taskOptions = useProjectTaskOptions(root?.id, prereqsOn);
   const deps = useDependencyMutations(root?.id);
   const batchList = flat(items).map(({ item }) => ({ id: idOf(item.key), title: item.title }));
   const prereqsOf = (item: KeyedItem) =>
@@ -125,7 +127,7 @@ export default function BatchScreen() {
   });
 
   const autocomplete = useMentionAutocomplete({
-    enabled: mentions.enabled,
+    enabled: mentions.enabled || prereqsOn,
     members: mentions.members,
     tasks: taskOptions.data,
     text,

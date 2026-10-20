@@ -113,7 +113,7 @@ export function suggestedKind(
   page?: { view_type: string } | null,
   workout?: boolean,
 ): CommunityKind {
-  if (workout || page?.view_type === 'cards') return 'workout';
+  if (workout) return 'workout';
   if (page?.view_type === 'habits') return 'habits';
   return page ? 'list' : 'project';
 }

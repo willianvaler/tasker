@@ -1,7 +1,7 @@
 -- D186: grupos de treino. Pasta raiz compartilhável (projeto com gym_group), páginas de treino.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(8);
+select plan(9);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
@@ -24,8 +24,13 @@ select throws_ok($$ update public.folders set gym_group = false
 
 insert into public.pages (id, folder_id, name, view_type) values
   ('bbbbbbbb-0000-0000-0000-000000000001', 'aaaaaaaa-0000-0000-0000-000000000001', 'Perna', 'list');
+insert into public.folders (id, name) values ('aaaaaaaa-0000-0000-0000-000000000004', 'Casa');
+insert into public.pages (id, folder_id, name, view_type) values
+  ('bbbbbbbb-0000-0000-0000-000000000004', 'aaaaaaaa-0000-0000-0000-000000000004', 'Cartões', 'cards');
 reset role;
 select ok(public._is_workout_page('bbbbbbbb-0000-0000-0000-000000000001'), 'página do grupo é de treino');
+select ok(not public._is_workout_page('bbbbbbbb-0000-0000-0000-000000000004'),
+  'página de cards fora da Academia e dos grupos não é de treino (CD15)');
 
 -- A Bia entra como editora: vê o grupo; o estranho não
 insert into public.folder_members (folder_id, user_id, role)

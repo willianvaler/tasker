@@ -10,7 +10,8 @@ insert into auth.users (id, email) values
   ('44444444-4444-4444-4444-444444444444', 'leitor@teste.local');
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}';
-insert into public.folders (id, name, kind) values ('aaaaaaaa-0000-0000-0000-000000000001', 'Turma', 'project');
+-- Grupo de treino: o treino conta só na Academia e nos grupos (CD15)
+insert into public.folders (id, name, kind, gym_group) values ('aaaaaaaa-0000-0000-0000-000000000001', 'Turma', 'project', true);
 reset role;
 insert into public.folder_members (folder_id, user_id, role) values
   ('aaaaaaaa-0000-0000-0000-000000000001', '22222222-2222-2222-2222-222222222222', 'editor'),

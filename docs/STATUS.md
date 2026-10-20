@@ -330,6 +330,9 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **CD11** Notas no celular: o editor encolhe acima do teclado e não fica em branco quando a releitura não vem (D246)
 - [x] **CD12** Tela de entrada: "Gestão de tarefas, hábitos e projetos com uma camada de gamificação." (D246)
 - [x] **CD13** Cadastro: resposta que não é JSON (página de erro do proxy ou da Cloudflare, servidor reiniciando) vira um aviso claro, em vez de "Unexpected token '<'" (D246)
+- [x] **CD15** Página de cards fora da Academia e dos grupos de treino é página comum: sem Modo Treino (a não ser com séries), sem painel de exercício, sem dia de treino no desafio nem evento de treino no calendário (`isWorkoutPage` e `_is_workout_page`); pgTAP e E2E `e2e/correcoes-cd15.spec.ts` (D248)
+- [x] **CD16** "Depende de" à vista no painel simples, em projeto e em pasta pessoal; `^tarefa` na captura e no lote também em pasta pessoal; aba Fluxo (Lista · Fluxo) em pasta pessoal; `^` na dica do campo e na Ajuda nos 3 idiomas (D248)
+- [x] **CD17** "Mais opções" alterna com "Menos opções" (`aria-expanded`) no editor de página e no painel do exercício (D248)
 
 ## ESCOPO v1 — backlog (§11)
 

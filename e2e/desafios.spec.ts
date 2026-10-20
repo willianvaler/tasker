@@ -27,6 +27,8 @@ test('treino em grupo: desafio, ranking, mural e chat', async ({ page, browser }
       owner_id: ana,
       name: `Turma ${stamp}`,
       kind: 'project',
+      // O treino conta só na Academia e nos grupos de treino (CD15)
+      gym_group: true,
       is_shared: true,
     }),
   });

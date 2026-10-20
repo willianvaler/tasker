@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { showSection, usedSections } from '../panel-sections';
 
-const none = { dependencies: 0, inMyDay: false };
+const none = { inMyDay: false };
 
 describe('painel simples × completo', () => {
   it('tarefa simples não usa nada avançado', () => {
@@ -21,10 +21,9 @@ describe('painel simples × completo', () => {
         repeat_plan: { sets: 3 },
         weight: 3,
       },
-      { dependencies: 1, inMyDay: true },
+      { inMyDay: true },
     );
     for (const s of [
-      'dependencies',
       'fields',
       'approval',
       'myDay',

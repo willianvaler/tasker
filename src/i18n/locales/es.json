@@ -136,7 +136,7 @@
     "loading": "Cargando…",
     "readOnly": "Solo lectura: eres lector en este proyecto",
     "offline": "Nueva tarea… (se envía al volver la conexión)",
-    "hint": "mañana · !! · #etiqueta · @persona",
+    "hint": "mañana · !! · #etiqueta · @persona · ^depende de",
     "ambiguous": "{{names}}: hay más de una persona con ese nombre. Elige en los detalles de la tarea.",
     "mentionList": "Personas del proyecto",
     "mentionPick": "Asignar a {{name}}",
@@ -429,6 +429,7 @@
     "labelWeekly": "Se reinicia todos los lunes",
     "labelManual": "Reinicio manual",
     "more": "Más opciones (icono, reinicio, niveles)",
+    "less": "Menos opciones",
     "expenses": "Gastos",
     "expensesHint": "Hoja de gastos e ingresos, con presupuesto, foto del ticket y exportación en CSV y XLSX."
   },
@@ -1544,7 +1545,7 @@
     "flexibleHint": "En el modo flexible, Gerentes y Editores pueden iniciar o completar una tarea bloqueada, y queda registrado. Apagado (estricto), espera sus requisitos.",
     "dependsOn": "Depende de",
     "unlocks": "Libera",
-    "searchPlaceholder": "Buscar tarea del proyecto…",
+    "searchPlaceholder": "Buscar tarea… (al crear: ^nombre)",
     "linkTo": "Depender de {{title}}",
     "prereqOptions": "Opciones de {{title}}",
     "isDone": "hecha",
@@ -2301,15 +2302,15 @@
     "simple": "Simple",
     "full": "Completo",
     "simpleHint": "lo esencial",
-    "fullHint": "tiempo, series, peso, dependencias, campos…",
-    "showAll": "Mostrar todo (tiempo, series, peso, dependencias…)"
+    "fullHint": "tiempo, series, peso, campos, aprobación…",
+    "showAll": "Mostrar todo (tiempo, series, peso, campos…)"
   },
   "modes": {
     "title": "Modo",
     "open": "Modo: entrenamiento, foco o descanso",
     "workout": "Entrenamiento",
     "workoutHint": "Series, carga y descanso a pantalla completa, un ejercicio a la vez.",
-    "noWorkout": "Aún no hay página de entrenamiento. Crea una página de tipo Tarjetas (Nuevo → Página) y pon los ejercicios en ella.",
+    "noWorkout": "Aún no hay página de entrenamiento. Activa el Modo gimnasio en el Perfil y usa + Nuevo entrenamiento, o ponles series a los elementos de una página.",
     "startWorkout": "Entrenar: {{page}}",
     "focus": "Foco",
     "focusHint": "Pomodoro: foco con pausas sugeridas al final.",
@@ -2797,6 +2798,7 @@
   },
   "gym": {
     "moreOptions": "Más opciones (fecha, etiquetas, adjuntos…)",
+    "lessOptions": "Menos opciones",
     "block": "Gimnasio",
     "newWorkout": "Nuevo entrenamiento",
     "workoutPlaceholder": "Nombre del entrenamiento (ej.: Entrenamiento A)",
