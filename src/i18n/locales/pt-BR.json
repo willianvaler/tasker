@@ -1119,7 +1119,7 @@
     "done": "{{title}} está na comunidade."
   },
   "library": {
-    "levelLabel": "N\u00edvel",
+    "levelLabel": "Nível",
     "title": "Biblioteca de exercícios",
     "intro": "Mais de 2 mil exercícios. Filtre pelo que você tem e abra a ficha para ver os músculos e como fazer.",
     "search": "Buscar exercício (supino, squat, remada…)",
@@ -2416,6 +2416,7 @@
       "character": "Personagem",
       "habits": "Hábitos",
       "projects": "Projetos e times",
+      "gym": "Academia",
       "special": "Especiais"
     },
     "items": {
@@ -2702,6 +2703,50 @@
       "rebirth_5": {
         "name": "Eterno",
         "description": "Renascer 5 vezes"
+      },
+      "first_record": {
+        "name": "Primeiro recorde",
+        "description": "Bater o primeiro recorde pessoal num exercício"
+      },
+      "records_10": {
+        "name": "10 recordes",
+        "description": "Bater 10 recordes pessoais"
+      },
+      "records_50": {
+        "name": "50 recordes",
+        "description": "Bater 50 recordes pessoais"
+      },
+      "records_100": {
+        "name": "100 recordes",
+        "description": "Bater 100 recordes pessoais"
+      },
+      "gym_days_50": {
+        "name": "50 treinos",
+        "description": "Treinar em 50 dias diferentes"
+      },
+      "gym_days_100": {
+        "name": "100 treinos",
+        "description": "Treinar em 100 dias diferentes"
+      },
+      "gym_days_365": {
+        "name": "365 treinos",
+        "description": "Treinar em 365 dias diferentes"
+      },
+      "tons_10": {
+        "name": "10 toneladas",
+        "description": "Levantar 10 toneladas somando todas as séries"
+      },
+      "tons_100": {
+        "name": "100 toneladas",
+        "description": "Levantar 100 toneladas somando todas as séries"
+      },
+      "full_body_week": {
+        "name": "Corpo inteiro",
+        "description": "Treinar peito, costas, ombros, braços, pernas e abdômen na mesma semana"
+      },
+      "bench_bodyweight": {
+        "name": "Supino do próprio peso",
+        "description": "Ter 1RM estimado no supino igual ou maior que o seu peso"
       }
     },
     "hints": {

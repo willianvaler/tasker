@@ -2416,6 +2416,7 @@
       "character": "Personaje",
       "habits": "Hábitos",
       "projects": "Proyectos y equipos",
+      "gym": "Gimnasio",
       "special": "Especiales"
     },
     "items": {
@@ -2702,6 +2703,50 @@
       "rebirth_5": {
         "name": "Eterno",
         "description": "Renacer 5 veces"
+      },
+      "first_record": {
+        "name": "Primer récord",
+        "description": "Batir tu primer récord personal en un ejercicio"
+      },
+      "records_10": {
+        "name": "10 récords",
+        "description": "Batir 10 récords personales"
+      },
+      "records_50": {
+        "name": "50 récords",
+        "description": "Batir 50 récords personales"
+      },
+      "records_100": {
+        "name": "100 récords",
+        "description": "Batir 100 récords personales"
+      },
+      "gym_days_50": {
+        "name": "50 entrenamientos",
+        "description": "Entrenar en 50 días distintos"
+      },
+      "gym_days_100": {
+        "name": "100 entrenamientos",
+        "description": "Entrenar en 100 días distintos"
+      },
+      "gym_days_365": {
+        "name": "365 entrenamientos",
+        "description": "Entrenar en 365 días distintos"
+      },
+      "tons_10": {
+        "name": "10 toneladas",
+        "description": "Levantar 10 toneladas sumando todas las series"
+      },
+      "tons_100": {
+        "name": "100 toneladas",
+        "description": "Levantar 100 toneladas sumando todas las series"
+      },
+      "full_body_week": {
+        "name": "Cuerpo entero",
+        "description": "Entrenar pecho, espalda, hombros, brazos, piernas y abdomen en la misma semana"
+      },
+      "bench_bodyweight": {
+        "name": "Press de tu peso",
+        "description": "Tener un 1RM estimado en press de banca igual o mayor que tu peso"
       }
     },
     "hints": {

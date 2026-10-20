@@ -2416,6 +2416,7 @@
       "character": "Character",
       "habits": "Habits",
       "projects": "Projects and teams",
+      "gym": "Gym",
       "special": "Special"
     },
     "items": {
@@ -2702,6 +2703,50 @@
       "rebirth_5": {
         "name": "Eternal",
         "description": "Be reborn 5 times"
+      },
+      "first_record": {
+        "name": "First record",
+        "description": "Set your first personal record in an exercise"
+      },
+      "records_10": {
+        "name": "10 records",
+        "description": "Set 10 personal records"
+      },
+      "records_50": {
+        "name": "50 records",
+        "description": "Set 50 personal records"
+      },
+      "records_100": {
+        "name": "100 records",
+        "description": "Set 100 personal records"
+      },
+      "gym_days_50": {
+        "name": "50 workouts",
+        "description": "Train on 50 different days"
+      },
+      "gym_days_100": {
+        "name": "100 workouts",
+        "description": "Train on 100 different days"
+      },
+      "gym_days_365": {
+        "name": "365 workouts",
+        "description": "Train on 365 different days"
+      },
+      "tons_10": {
+        "name": "10 tonnes",
+        "description": "Lift 10 tonnes across all your sets"
+      },
+      "tons_100": {
+        "name": "100 tonnes",
+        "description": "Lift 100 tonnes across all your sets"
+      },
+      "full_body_week": {
+        "name": "Full body",
+        "description": "Train chest, back, shoulders, arms, legs and abs in the same week"
+      },
+      "bench_bodyweight": {
+        "name": "Bench your bodyweight",
+        "description": "Reach an estimated bench press 1RM equal to or above your body weight"
       }
     },
     "hints": {

@@ -64,6 +64,10 @@ En el panel del ejercicio, **Superserie o circuito** le da una letra (A, B, C, D
 
 En **Configurar página** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en el Perfil, en Registro del entrenamiento).
 
+## El gimnasio en el juego
+
+Cada ejercicio completado es un golpe al boss, como una tarea; con **récord** en el ejercicio, el golpe es **crítico garantizado**. En Logros está la categoría **Gimnasio**: primer récord y 10, 50 y 100 récords; 50, 100 y 365 días de entrenamiento; 10 y 100 toneladas levantadas; **Cuerpo entero** (pecho, espalda, hombros, brazos, piernas y abdomen como objetivo en la misma semana) y **Press de tu peso** (1RM estimado en press de banca igual o mayor que tu peso registrado).
+
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

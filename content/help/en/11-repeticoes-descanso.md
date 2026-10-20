@@ -64,6 +64,10 @@ In the exercise panel, **Superset or circuit** gives the item a letter (A, B, C,
 
 In **Configure page** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Profile, under Workout log).
 
+## Gym in the game
+
+Each completed exercise is a hit on the boss, like a task; with a **record** in the exercise, the hit is a **guaranteed critical**. Achievements have a **Gym** category: first record and 10, 50 and 100 records; 50, 100 and 365 training days; 10 and 100 tonnes lifted; **Full body** (chest, back, shoulders, arms, legs and abs as the target in the same week) and **Bench your bodyweight** (estimated bench press 1RM equal to or above your logged weight).
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

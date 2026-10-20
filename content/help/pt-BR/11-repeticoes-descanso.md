@@ -64,6 +64,10 @@ No painel do exercício, **Superset ou circuito** dá uma letra (A, B, C, D) ao 
 
 Em **Configurar página** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue no Perfil, em Registro do treino).
 
+## Academia no jogo
+
+Cada exercício concluído é um golpe no boss, como uma tarefa; com **recorde** no exercício, o golpe é **crítico garantido**. Em Conquistas há a categoria **Academia**: primeiro recorde e 10, 50 e 100 recordes; 50, 100 e 365 dias de treino; 10 e 100 toneladas levantadas; **Corpo inteiro** (peito, costas, ombros, braços, pernas e abdômen como alvo na mesma semana) e **Supino do próprio peso** (1RM estimado no supino igual ou maior que o seu peso registrado).
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
