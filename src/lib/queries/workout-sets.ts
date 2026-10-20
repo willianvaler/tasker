@@ -2,12 +2,14 @@ import type { Transaction } from '@powersync/common';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { EffortScale } from '../gym/effort';
+import type { RecordKind } from '../gym/records';
 import { textToKg } from '../gym/units';
 import { readRepeatPlan } from '../repeat';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { isLocal, runCommand, sessionUserId } from '../sync/local';
 import { uuidv7 } from '../uuid';
+import { parseList } from './exercises';
 import { keys } from './keys';
 import type { Task } from './tasks';
 
@@ -45,10 +47,12 @@ export type WorkoutSet = {
   effort: number | null;
   effort_scale: EffortScale | null;
   performed_at: string;
+  /** Recordes que a série bateu (AC5), calculados no servidor */
+  records: RecordKind[];
 };
 
 const COLUMNS =
-  'id, task_id, exercise_id, exercise_name, set_index, kind, weight_kg, reps, duration_seconds, distance_m, warmup, effort, effort_scale, performed_at';
+  'id, task_id, exercise_id, exercise_name, set_index, kind, weight_kg, reps, duration_seconds, distance_m, warmup, effort, effort_scale, performed_at, records';
 
 const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 
@@ -116,6 +120,7 @@ const fromRow = (r: Record<string, unknown>): WorkoutSet => ({
   effort: r.effort == null ? null : Number(r.effort),
   effort_scale: (r.effort_scale as EffortScale) ?? null,
   performed_at: String(r.performed_at),
+  records: parseList(r.records) as RecordKind[],
 });
 
 /**

@@ -187,6 +187,7 @@ const workout_sets = new Table(
     effort: column.real,
     effort_scale: column.text,
     performed_at: column.text,
+    records: column.text,
   },
   { indexes: { task: ['task_id', 'cycle_key'], exercise: ['exercise_id', 'performed_at'] } },
 );

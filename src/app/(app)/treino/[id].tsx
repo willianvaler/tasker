@@ -20,13 +20,21 @@ import { metaLabel } from '@/components/tasks/task-meta';
 import type { TaskMeta } from '@/lib/parser/quick';
 import { useExercise } from '@/lib/queries/exercises';
 import { useGameState } from '@/lib/queries/game';
-import { useGymPrefs } from '@/lib/queries/profile';
+import { useGymPrefs, useTimeZone } from '@/lib/queries/profile';
 import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import { rootFolder, useMembers } from '@/lib/queries/projects';
 import { useMyProgress } from '@/lib/queries/repeat';
 import { usePageTasks, useToggleTask, useUpdateTask } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
-import { useWorkoutSetActions, type SetKind, type SetValues } from '@/lib/queries/workout-sets';
+import {
+  useWorkoutHistory,
+  useWorkoutSetActions,
+  type SetKind,
+  type SetValues,
+} from '@/lib/queries/workout-sets';
+import { setRecords, type RecordSet } from '@/lib/gym/records';
+import { textToKg } from '@/lib/gym/units';
+import { todayIn } from '@/lib/parser/dates';
 import {
   useWorkoutSession,
   useWorkoutSessionActions,
@@ -414,6 +422,37 @@ function Running({
     (kind === 'cardio' || planned.reps != null || !!task.exercise_id || !!effortScale);
   const toast = useToast();
   const { warmup } = useWorkoutSetActions();
+  // Recordes (AC5): calculados aqui na hora, contra o diário deste exercício (o servidor confere
+  // de novo e dá o crítico); as séries desta tela que o histórico ainda não trouxe entram junto
+  const history = useWorkoutHistory({ exerciseId: task.exercise_id, taskId: task.id });
+  const timeZone = useTimeZone();
+  // (`seen`: a série mais nova do histórico quando esta foi feita; histórico mais novo já a traz)
+  const loggedHere = useRef<(RecordSet & { seen: number; key: string })[]>([]);
+  function checkRecords() {
+    const known = history.data ?? [];
+    const newest = known.length ? Date.parse(known[0].performed_at) : 0;
+    const exerciseKey = task.exercise_id ?? task.id;
+    const previous: RecordSet[] = [
+      ...known.map((s) => ({ ...s, day: todayIn(timeZone, new Date(s.performed_at)) })),
+      ...loggedHere.current.filter((s) => s.key === exerciseKey && s.seen >= newest),
+    ];
+    const next: RecordSet = {
+      weight_kg: textToKg(values.weight),
+      reps: values.reps ?? null,
+      duration_seconds:
+        values.duration_seconds ?? (kind === 'time' ? (item.plan.duration_seconds ?? null) : null),
+      distance_m: values.distance_m ?? null,
+      day: todayIn(timeZone),
+    };
+    const found = setRecords(previous, next);
+    loggedHere.current.push({ ...next, seen: newest, key: exerciseKey });
+    if (!found.length) return;
+    toast({
+      message: t('records.toast', { list: found.map((r) => t(`records.${r}`)).join(', ') }),
+    });
+    setSession((s) => ({ ...s, records: (s.records ?? 0) + 1 }));
+  }
+
   const lb = parseWeight(planned.weight)?.unit.startsWith('lb');
   const step = lb ? 5 : 2.5;
   const decimalComma = !i18n.language.startsWith('en');
@@ -453,6 +492,7 @@ function Running({
       sets: s.sets + 1,
       volume: s.volume + setVolume({ ...planned, reps: values.reps ?? undefined }),
     }));
+    checkRecords();
     if (group) {
       const next = Math.min(item.plan.total, item.reps + 1);
       const result = sessionActions.logGroupSet.mutateAsync({
@@ -772,6 +812,7 @@ function finishedMessage(session: Session, game: boolean, t: TFunction, partners
     t('workout.toastSets', { count: session.sets }),
     formatClock(elapsed),
     session.volume > 0 ? `${volume} kg` : null,
+    session.records ? t('records.summary', { count: session.records }) : null,
     game && session.xp > 0 ? `+${session.xp} XP` : null,
     session.skipped.length ? t('workout.toastSkipped', { count: session.skipped.length }) : null,
     partners.length ? t('together.with', { names: partners.join(', ') }) : null,

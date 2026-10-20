@@ -22,6 +22,12 @@ Every set done in Workout mode is saved as it happened: the weight, the reps you
 
 In Profile, under **Workout log**, pick **kg or lb** and, if you like, **effort per set**: RIR (reps you had left) or RPE (effort up to 10). Changing the scale does not change what was already logged; history shows it in the current scale.
 
+## Records and 1RM
+
+From your second workout of an exercise on, each set is compared with the earlier ones: heaviest weight, more reps at a weight you have done before, best **estimated 1RM** (Epley formula, only up to 12 reps), most volume in a day, longest time or longest distance. Workout mode tells you right away, the summary at the end counts the records and, with the game on, the hit of an exercise with a record is a **guaranteed critical**. Warm-ups never count.
+
+The exercise panel and the Library page show the bests, which set the 1RM came from and how it changed day by day. The Library page also has the **1RM calculator**: weight and reps give the 1RM and the weights from 100% to 50%.
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

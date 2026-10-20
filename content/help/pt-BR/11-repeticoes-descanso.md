@@ -22,6 +22,12 @@ O **Histórico** aparece no painel do exercício e na ficha da Biblioteca: as se
 
 No Perfil, em **Registro do treino**, escolha **kg ou lb** e, se quiser, o **esforço por série**: RIR (quantas repetições sobraram) ou RPE (esforço até 10). Trocar a escala não muda o que já foi anotado; o histórico mostra na escala atual.
 
+## Recordes e 1RM
+
+A partir do segundo treino de um exercício, cada série é comparada com as anteriores: maior carga, mais repetições numa carga que você já fez, maior **1RM estimado** (pela fórmula de Epley, só até 12 repetições), maior volume num dia, mais tempo ou mais distância. O Modo Treino avisa na hora, o resumo do fim conta os recordes e, com o jogo ligado, o golpe do exercício com recorde é **crítico garantido**. O aquecimento nunca conta.
+
+No painel do exercício e na ficha da Biblioteca ficam os melhores, de que série veio o 1RM e a evolução dele por dia. A ficha tem também a **calculadora de 1RM**: carga e repetições dão o 1RM e as cargas de 100% a 50%.
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

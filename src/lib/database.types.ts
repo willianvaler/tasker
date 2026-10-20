@@ -2037,14 +2037,14 @@ isOneToOne: false
                   ]
                 },"workout_sets": {
                   Row: {
-                    "cycle_key": string,"distance_m": number | null,"duration_seconds": number | null,"effort": number | null,"effort_scale": string | null,"exercise_id": string | null,"exercise_name": string,"id": string,"kind": string,"page_id": string | null,"performed_at": string,"reps": number | null,"session_id": string | null,"set_index": number,"task_id": string | null,"user_id": string,"warmup": boolean,"weight_kg": number | null
+                    "cycle_key": string,"distance_m": number | null,"duration_seconds": number | null,"effort": number | null,"effort_scale": string | null,"exercise_id": string | null,"exercise_name": string,"id": string,"kind": string,"page_id": string | null,"performed_at": string,"records": (string)[],"reps": number | null,"session_id": string | null,"set_index": number,"task_id": string | null,"user_id": string,"warmup": boolean,"weight_kg": number | null,"_set_records": (string)[] | null
                   }
-                  ComputedFields: never
+                  ComputedFields: "_set_records"
                   Insert: {
-                    "cycle_key"?: string,"distance_m"?: number | null,"duration_seconds"?: number | null,"effort"?: number | null,"effort_scale"?: string | null,"exercise_id"?: string | null,"exercise_name"?: string,"id"?: string,"kind"?: string,"page_id"?: string | null,"performed_at"?: string,"reps"?: number | null,"session_id"?: string | null,"set_index"?: number,"task_id"?: string | null,"user_id"?: string,"warmup"?: boolean,"weight_kg"?: number | null
+                    "cycle_key"?: string,"distance_m"?: number | null,"duration_seconds"?: number | null,"effort"?: number | null,"effort_scale"?: string | null,"exercise_id"?: string | null,"exercise_name"?: string,"id"?: string,"kind"?: string,"page_id"?: string | null,"performed_at"?: string,"records"?: (string)[],"reps"?: number | null,"session_id"?: string | null,"set_index"?: number,"task_id"?: string | null,"user_id"?: string,"warmup"?: boolean,"weight_kg"?: number | null
                   }
                   Update: {
-                    "cycle_key"?: string,"distance_m"?: number | null,"duration_seconds"?: number | null,"effort"?: number | null,"effort_scale"?: string | null,"exercise_id"?: string | null,"exercise_name"?: string,"id"?: string,"kind"?: string,"page_id"?: string | null,"performed_at"?: string,"reps"?: number | null,"session_id"?: string | null,"set_index"?: number,"task_id"?: string | null,"user_id"?: string,"warmup"?: boolean,"weight_kg"?: number | null
+                    "cycle_key"?: string,"distance_m"?: number | null,"duration_seconds"?: number | null,"effort"?: number | null,"effort_scale"?: string | null,"exercise_id"?: string | null,"exercise_name"?: string,"id"?: string,"kind"?: string,"page_id"?: string | null,"performed_at"?: string,"records"?: (string)[],"reps"?: number | null,"session_id"?: string | null,"set_index"?: number,"task_id"?: string | null,"user_id"?: string,"warmup"?: boolean,"weight_kg"?: number | null
                   }
                   Relationships: [
                     {
@@ -2202,6 +2202,12 @@ isOneToOne: false
 "_detach_member":
 { Args: { "p_root": string,"p_user_id": string }; Returns: undefined
                            },
+"_e1rm":
+{ Args: { "p_reps": number,"p_weight": number }; Returns: number
+                           },
+"_force_record_crit":
+{ Args: { "p_cycle": string,"p_session": string,"p_task_id": string }; Returns: undefined
+                           },
 "_friend_request_to":
 { Args: { "p_other": string }; Returns: string
                            },
@@ -2300,6 +2306,11 @@ isOneToOne: false
 "_page_title":
 { Args: { "p_page_id": string }; Returns: string
                            },
+"_prev_sets":
+{ Args: { "p_set": Omit<Database["public"]['Tables']["workout_sets"]['Row'], Database["public"]['Tables']["workout_sets"]['ComputedFields']>,"p_tz": string }; Returns: {
+              "day": string,"distance_m": number,"duration_seconds": number,"reps": number,"weight_kg": number
+            }[]
+                           },
 "_random_of":
 { Args: { "p_list": Json }; Returns: string
                            },
@@ -2323,6 +2334,9 @@ isOneToOne: false
                            },
 "_run_automations":
 { Args: { "p_task_id": string,"p_trigger": string }; Returns: undefined
+                           },
+"_set_records":
+{ Args: { "p_set": Omit<Database["public"]['Tables']["workout_sets"]['Row'], Database["public"]['Tables']["workout_sets"]['ComputedFields']> }; Returns: (string)[]
                            },
 "_set_weight_kg":
 { Args: { "p_text": string }; Returns: number

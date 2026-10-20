@@ -191,6 +191,10 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC4.4 | `SetRow`: repetições reais com −1/+1, esforço (se ligado) e, no cardio, distância e tempo | D236 |
 | V6 | AC4.5 | Modo Treino grava a série detalhada e o aquecimento à parte; Perfil → Registro do treino (kg/lb, esforço); política de privacidade com o diário (versão 2026-10-20.2) | D236 |
 | V6 | AC4.6 | Histórico por exercício no painel do item e na ficha da Biblioteca (por dia, volume, apagar série); E2E `e2e/diario.spec.ts` e Ajuda nos 3 idiomas | D236 |
+| V6 | AC5.1 | `lib/gym/one-rm.ts`: 1RM estimado (Epley, até 12 repetições), melhor série, carga para N repetições, tabela de porcentagens | D237 |
+| V6 | AC5.2 | `lib/gym/records.ts`: que recordes uma série bate (carga, repetições na carga, 1RM, volume do dia, tempo, distância), espelho do `_set_records` com os mesmos casos; pgTAP `recordes.test.sql` | D237 |
+| V6 | AC5.3 | Aviso de recorde no Modo Treino e no resumo; recorde no exercício faz a conclusão ser crítico garantido no boss (`app.force_crit` no `_attack`) | D237 |
+| V6 | AC5.4 | Recordes, de que série veio o 1RM e evolução por dia no painel e na ficha; calculadora de 1RM na ficha; E2E e Ajuda nos 3 idiomas | D237 |
 | V6 | AC10.1 | Sessão de treino no servidor (`workout_sessions`, `workout_session_members`): convite com aviso e push, entrar/sair, série do grupo (`log_group_set`, quem marca a última conclui), exercício atual e descanso iguais nos aparelhos pelo Realtime; E2E `e2e/treino-junto.spec.ts` | D183 |
 | V6 | AC10.2 | Seletor "Quem está treinando junto agora?" no Modo Treino de pasta compartilhada | D183 |
 | V6 | AC10.3 | `lib/gym/leaderboard.ts`: dias ativos (um por dia), pontos opcionais, empates dividindo a posição, sequência atual e maior; `challengeProgress` (feito pelo Claude, tirado da fila local) | — |

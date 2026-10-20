@@ -56,3 +56,36 @@ test('diário: série real, esforço e aquecimento no histórico', async ({ page
   await page.getByRole('button', { name: 'Apagar série' }).last().click();
   await expect(shown(page, /40 kg × 10 · aquecimento/)).toHaveCount(0);
 });
+
+// AC5 (D237): série mais pesada que as anteriores avisa o recorde; o resumo conta e o painel
+// mostra os melhores, com o 1RM e de que série ele veio
+test('recorde no Modo Treino, no resumo e no painel', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'O Modo Treino é o mesmo; basta um perfil');
+  await signUp(page, testInfo);
+  await openTab(page, 'Início');
+  await page.getByRole('button', { name: 'Sim, vou treinar' }).click();
+  await page.getByRole('navigation').getByRole('button', { name: 'Novo treino' }).first().click();
+  const name = `Treino ${Date.now()}`;
+  await page.getByPlaceholder('Nome do treino (ex.: Treino A)').fill(name);
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Agachamento 2x10 40kg');
+  await input.press('Enter');
+  await expect(page.getByRole('button', { name: 'Detalhes de Agachamento' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Iniciar treino' }).click();
+  // A primeira série é o ponto de partida: sem recorde
+  await page.getByRole('button', { name: 'Feita' }).click();
+  await expect(shown(page, 'Série 2 de 2')).toBeVisible();
+  await expect(shown(page, /^Recorde!/)).toHaveCount(0);
+  await page.getByRole('button', { name: 'Aumentar a carga' }).click();
+  await expect(page.getByLabel('Carga: 42,5kg')).toBeVisible();
+  // Última série: o aviso do recorde dá lugar ao resumo do treino, que conta o recorde
+  await page.getByRole('button', { name: 'Feita' }).click();
+  await expect(shown(page, /Treino concluído · .*1 recorde/)).toBeVisible();
+
+  await expect(page.getByRole('heading', { name })).toBeVisible({ timeout: 15_000 });
+  await page.getByRole('button', { name: 'Detalhes de Agachamento' }).click();
+  await expect(shown(page, 'Maior 1RM estimado', { exact: true })).toBeVisible({ timeout: 15_000 });
+  await expect(shown(page, /pela série 42,5 kg × 10/)).toBeVisible();
+});

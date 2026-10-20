@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import { bodyPartLabel, equipmentLabel, muscleLabel } from '@/components/gym/labels';
 import { ExerciseHistory } from '@/components/gym/exercise-history';
+import { ExerciseRecords, OneRmCalculator } from '@/components/gym/exercise-records';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -78,7 +79,9 @@ export default function ExerciseScreen() {
           </View>
         )}
         {e?.own && e.notes ? <Text className="text-sm text-ink">{e.notes}</Text> : null}
+        {e && <ExerciseRecords exerciseId={e.id} />}
         {e && <ExerciseHistory exerciseId={e.id} />}
+        <OneRmCalculator />
         {e?.own && me && (
           <Button
             variant="ghost"

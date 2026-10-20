@@ -11,6 +11,8 @@ export type WorkoutRun = {
   volume: number;
   xp: number;
   skipped: string[];
+  /** Recordes batidos no treino (AC5), para o resumo */
+  records?: number;
   /** Sessão no servidor (AC10.1): voltar ao treino entra de novo nela em vez de perguntar */
   serverSession?: string | null;
 };

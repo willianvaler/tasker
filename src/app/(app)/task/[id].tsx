@@ -65,6 +65,7 @@ import {
 import { findFolder, isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
 import { ExerciseHistory } from '@/components/gym/exercise-history';
+import { ExerciseRecords } from '@/components/gym/exercise-records';
 import { ExerciseLink } from '@/components/gym/exercise-link';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
@@ -466,6 +467,7 @@ function TaskDetails({ task }: { task: Task }) {
 
         {isWorkout && !leaves && (
           <Section title={t('diary.history')}>
+            <ExerciseRecords exerciseId={task.exercise_id} taskId={task.id} />
             <ExerciseHistory exerciseId={task.exercise_id} taskId={task.id} showTitle={false} />
           </Section>
         )}
