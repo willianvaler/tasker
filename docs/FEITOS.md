@@ -23,6 +23,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V2 | A7 | Spike de sync: pesquisa em `docs/SPIKE_SYNC.md`, decisão D75 (PowerSync) | D75, D0 |
 | V2 | B1 | `docs/DESIGN.md`: direção "Caderno de bolso", tokens (cores claro/escuro, escala 4–48, tipografia 12/14/16/20/28, pesos 400/600, raios 4/8, durações) | — |
 | V2 | B2 | Mockups HTML/CSS estáticos em `docs/mockups/`: Hoje, Página lista, Página cards, Sidebar, Painel da tarefa — claro/escuro, 1280 e 390 px | — |
+| V2 | B3 | Aprovação dos mockups: dispensada pelo dono em 19/10 (o app já passou deles; ajuste de visual vem do uso) | — |
 | V2 | B4 | Tokens no `tailwind.config.js`/`global.css`; fontes (Fraunces/Newsreader, Instrument Sans/Hanken, JetBrains/Plex Mono) via `expo-font`; lint que barra hex solto | — |
 | V2 | B5 | Página `/design` (só em dev) | — |
 | V2 | B6 | Componentes-base, um commit por componente: botão (primário/fantasma), campo, checkbox "carimbo", linha de tarefa (40/52 px, risco de caneta), chip, item de sidebar, popover, painel lateral, folha inferior, toast, estado vazio, linha de pessoa | — |
@@ -133,6 +134,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | X1 | Treino pela tela de bloqueio (Android 14+): notificação fixa com Feita, Pular descanso e +30 s | D173 |
 | V5 | Y1 | Revisão de usabilidade: percorrer as tarefas principais e anotar os atritos (`docs/USABILIDADE.md`) | — |
 | V5 | Y2 | Corrigir os atritos encontrados | D174 |
+| V5 | Y3 | Medir toques e teste formal com 3 a 5 pessoas: dispensado pelo dono em 19/10 (o teste segue com os testers de verdade, 2 hoje, e um encontro com times no fim de semana) | — |
 | V5 | Z1 | Segurança do servidor no PC: portão do `/supabase` e segredos próprios do Supabase local (`docs/OPERACOES.md`, "Segurança") | D175 |
 | V5 | Z2 | Treino fecha sozinho com aviso de resumo; aviso preto fecha em 10 s sem reabrir | D176 |
 | V5 | Z3 | Scripts para levar o app a um servidor com Linux Mint: empacotar e instalar (D177, `docs/SERVIDOR.md`) | D177 |
