@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { bodyPartLabel, equipmentLabel, muscleLabel } from '@/components/gym/labels';
 import { ExerciseHistory } from '@/components/gym/exercise-history';
 import { ExerciseRecords, OneRmCalculator } from '@/components/gym/exercise-records';
+import { PlateCalculator } from '@/components/gym/plates';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -82,6 +83,7 @@ export default function ExerciseScreen() {
         {e && <ExerciseRecords exerciseId={e.id} />}
         {e && <ExerciseHistory exerciseId={e.id} />}
         <OneRmCalculator />
+        <PlateCalculator />
         {e?.own && me && (
           <Button
             variant="ghost"

@@ -52,6 +52,10 @@ El peso y las medidas son datos de salud, sensibles según la LGPD de Brasil: la
 
 En **Estadísticas de entrenamiento** (en el bloque Gimnasio) están los días y el tiempo entrenado, el **mapa muscular** (frente y espalda, figura masculina o femenina) sombreado por las series de cada músculo en la semana, el mes o desde siempre, con la lista de los que quedaron **sin entrenar** en el período, el **volumen por semana** (con el esfuerzo medio, si está activado) y el **año de entrenamiento**, un cuadradito por día con el tono del tiempo entrenado. El mapa solo conoce los músculos de los ítems vinculados a un ejercicio de la Biblioteca: el objetivo cuenta una serie; cada sinergista, media.
 
+## Calentamiento, discos y observación
+
+Antes de la primera serie de un ejercicio con carga, el modo Entrenamiento sugiere el **calentamiento** (40%, 60% y 80% de la carga, redondeados al escalón y nunca por debajo de la barra); cada sugerencia es un toque y entra en el registro como calentamiento. En ejercicios con barra muestra los **discos de cada lado** ("Por lado: 2 × 20 + 2,5"). La barra y los discos que tienes están en el Perfil, en Registro del entrenamiento; la ficha del ejercicio tiene la **calculadora de discos**. Las notas del ítem aparecen en el modo Entrenamiento como **observación** ("banco en el agujero 4").
+
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

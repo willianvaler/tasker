@@ -1898,6 +1898,21 @@
     "muscle_tibialis": "Tibial",
     "muscle_neck": "Cuello"
   },
+  "plates": {
+    "title": "Calculadora de discos",
+    "target": "Carga total ({{unit}})",
+    "perSide": "Por lado: {{plates}}",
+    "barOnly": "Solo la barra",
+    "missing": "Faltan {{value}} para cerrar con los discos que tienes",
+    "belowBar": "Menos que la barra ({{bar}})",
+    "bar": "Barra ({{unit}})",
+    "available": "Discos que tienes ({{unit}})",
+    "availableHint": "Separados por coma o espacio, ej.: 25 20 10 5 2,5",
+    "warmupTitle": "Calentar antes",
+    "warmupSet": "Calentar con {{weight}} × {{reps}}",
+    "warmupLogged": "Calentamiento {{weight}} × {{reps}} registrado",
+    "note": "Observación"
+  },
   "workout": {
     "start": "Empezar entrenamiento",
     "title": "Entrenamiento",

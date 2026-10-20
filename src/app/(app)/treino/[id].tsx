@@ -7,11 +7,13 @@ import { Platform, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { prescriptionMeta, useProgression, useWhy } from '@/components/gym/progression';
+import { usePlatesText } from '@/components/gym/plates';
 import { parseDecimal, SetRow, type SetDraft } from '@/components/gym/set-row';
 import { useLogSet } from '@/components/tasks/repeat';
 import { TrainingPartners } from '@/components/training-partners';
 import { AdjustButtons, useLiveTimer, useStartTimer } from '@/components/timer-bar';
 import { Button, IconButton } from '@/components/ui/button';
+import { Chip } from '@/components/ui/chip';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
@@ -34,7 +36,8 @@ import {
   type SetValues,
 } from '@/lib/queries/workout-sets';
 import { setRecords, type RecordSet } from '@/lib/gym/records';
-import { textToKg } from '@/lib/gym/units';
+import { fromKg, textToKg, toKg, weightStep } from '@/lib/gym/units';
+import { suggestWarmup, type WarmupSet } from '@/lib/gym/warmup';
 import { todayIn } from '@/lib/parser/dates';
 import {
   useWorkoutSession,
@@ -82,6 +85,9 @@ import { useTaskCan } from '@/providers/write';
 // o último exercício, o treino fecha sozinho com um aviso curto do que foi feito (16/10).
 
 type Session = WorkoutRun;
+
+/** Hora daqui a `seconds` (ISO); fora do componente, só é chamada nos toques */
+const isoIn = (seconds: number) => new Date(Date.now() + seconds * 1000).toISOString();
 
 const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
@@ -425,6 +431,45 @@ function Running({
         }
       : {}),
   };
+  // Aquecimento sugerido (AC9.2): só antes da primeira série de um exercício com carga
+  const gymPrefs2 = useGymPrefs();
+  const workWeight = parseWeight(planned.weight);
+  const workUnit = workWeight?.unit.startsWith('lb') ? 'lb' : 'kg';
+  const workInPref =
+    workWeight == null
+      ? null
+      : workUnit === gymPrefs2.unit
+        ? workWeight.value
+        : fromKg(toKg(workWeight.value, workUnit), gymPrefs2.unit);
+  const warmups =
+    kind === 'reps' && item.reps === 0 && !item.done && allowed.complete
+      ? suggestWarmup(workInPref, gymPrefs2.bar, weightStep(gymPrefs2.unit))
+      : [];
+  // Os aquecimentos já feitos deste exercício (trocar de exercício começa do zero)
+  const [warmState, setWarmState] = useState<{ task: string; done: number[] }>({
+    task: task.id,
+    done: [],
+  });
+  const warmedUp = warmState.task === task.id ? warmState.done : [];
+  const number = (v: number) =>
+    new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 2 }).format(v);
+  const platesText = usePlatesText();
+  const barbell = ['barbell', 'ez_bar'].includes(exercise.data?.equipment ?? '');
+  const platesLine = barbell && workInPref != null && !item.done ? platesText(workInPref) : null;
+  function logWarmup(w: WarmupSet) {
+    setWarmState({ task: task.id, done: [...warmedUp, w.pct] });
+    const weight = `${String(w.weight).replace('.', i18n.language.startsWith('en') ? '.' : ',')}${gymPrefs2.unit}`;
+    warmup.mutateAsync({ task, values: { weight, reps: w.reps, kind: 'reps' } }).then(
+      () =>
+        toast({
+          message: t('plates.warmupLogged', {
+            weight: `${number(w.weight)} ${gymPrefs2.unit}`,
+            reps: w.reps,
+          }),
+        }),
+      () => {},
+    );
+  }
   const showSetRow =
     !item.done &&
     allowed.complete &&
@@ -544,7 +589,7 @@ function Running({
         });
       const restSeconds = between?.seconds ?? (last ? restBeforeNext(false) : null);
       if (restSeconds) {
-        const iso = new Date(Date.now() + restSeconds * 1000).toISOString();
+        const iso = isoIn(restSeconds);
         onRestShared(iso);
         sessionActions.setState.mutate({ id: group.id, state: { rest_ends_at: iso } });
       }
@@ -699,6 +744,15 @@ function Running({
         {metaLabel(meta) ? (
           <Text className="font-mono text-sm text-ink-muted">{metaLabel(meta)}</Text>
         ) : null}
+        {/* V6 §8: a observação do exercício ("banco no furo 4") */}
+        {task.notes?.trim() ? (
+          <Text
+            className="text-sm text-ink"
+            accessibilityLabel={`${t('plates.note')}: ${task.notes}`}
+          >
+            {task.notes.trim().slice(0, 280)}
+          </Text>
+        ) : null}
         <Text className="text-lg text-ink">{item.done ? t('workout.alreadyDone') : counter}</Text>
         {setLabel && !item.done ? (
           <Text className="font-mono text-xl font-semibold text-ink">{setLabel}</Text>
@@ -768,6 +822,27 @@ function Running({
           <Text className="text-xl font-semibold text-paper">{t('workout.done')}</Text>
           {paused && <Text className="text-sm text-paper">{t('workout.pausedHint')}</Text>}
         </Pressable>
+      )}
+
+      {/* AC9: aquecimento sugerido antes da primeira série, e as anilhas de cada lado */}
+      {warmups.length > 0 && (
+        <View className="items-center gap-1">
+          <Text className="text-xs text-ink-muted">{t('plates.warmupTitle')}</Text>
+          <View className="flex-row flex-wrap justify-center gap-1">
+            {warmups.map((w) => (
+              <Chip
+                key={w.pct}
+                label={`${number(w.weight)} × ${w.reps}`}
+                selected={warmedUp.includes(w.pct)}
+                disabled={paused}
+                onPress={() => logWarmup(w)}
+              />
+            ))}
+          </View>
+        </View>
+      )}
+      {platesLine && (
+        <Text className="text-center font-mono text-sm text-ink-muted">{platesLine}</Text>
       )}
 
       {showSetRow && (

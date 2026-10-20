@@ -52,6 +52,10 @@ Weight and measurements are health data, sensitive under Brazil’s LGPD: the fi
 
 **Workout stats** (in the Gym block) shows your training days and time, the **muscle map** (front and back, male or female figure) shaded by the sets of each muscle in the week, the month or all time, with the list of muscles **not trained** in that period, **volume per week** (with average effort, if it is on) and the **training year**, one square per day toned by the time trained. The map only knows the muscles of items linked to a Library exercise: the target counts one set, each synergist half.
 
+## Warm-up, plates and notes
+
+Before the first set of a weighted exercise, Workout mode suggests a **warm-up** (40%, 60% and 80% of the weight, rounded to the step and never below the bar); each suggestion is one tap and goes to the log as a warm-up. For barbell exercises it shows the **plates per side** ("Per side: 2 × 20 + 2.5"). The bar and plates you have are in Profile, under Workout log; the exercise page has the **plate calculator**. The item notes show in Workout mode as a **note** ("bench on hole 4").
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

@@ -1898,6 +1898,21 @@
     "muscle_tibialis": "Tibial",
     "muscle_neck": "Pescoço"
   },
+  "plates": {
+    "title": "Calculadora de anilhas",
+    "target": "Carga total ({{unit}})",
+    "perSide": "Por lado: {{plates}}",
+    "barOnly": "Só a barra",
+    "missing": "Faltam {{value}} para fechar com as anilhas que você tem",
+    "belowBar": "Menor que a barra ({{bar}})",
+    "bar": "Barra ({{unit}})",
+    "available": "Anilhas que você tem ({{unit}})",
+    "availableHint": "Separadas por vírgula ou espaço, ex.: 25 20 10 5 2,5",
+    "warmupTitle": "Aquecer antes",
+    "warmupSet": "Aquecer com {{weight}} × {{reps}}",
+    "warmupLogged": "Aquecimento {{weight}} × {{reps}} registrado",
+    "note": "Observação"
+  },
   "workout": {
     "start": "Iniciar treino",
     "title": "Treino",

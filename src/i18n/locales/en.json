@@ -1898,6 +1898,21 @@
     "muscle_tibialis": "Tibialis",
     "muscle_neck": "Neck"
   },
+  "plates": {
+    "title": "Plate calculator",
+    "target": "Total weight ({{unit}})",
+    "perSide": "Per side: {{plates}}",
+    "barOnly": "Just the bar",
+    "missing": "{{value}} short with the plates you have",
+    "belowBar": "Lighter than the bar ({{bar}})",
+    "bar": "Bar ({{unit}})",
+    "available": "Plates you have ({{unit}})",
+    "availableHint": "Separated by commas or spaces, e.g. 45 35 25 10 5 2.5",
+    "warmupTitle": "Warm up first",
+    "warmupSet": "Warm up with {{weight}} × {{reps}}",
+    "warmupLogged": "Warm-up {{weight}} × {{reps}} logged",
+    "note": "Note"
+  },
   "workout": {
     "start": "Start workout",
     "title": "Workout",

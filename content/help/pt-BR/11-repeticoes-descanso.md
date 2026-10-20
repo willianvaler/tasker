@@ -52,6 +52,10 @@ Peso e medidas são dados de saúde, sensíveis pela LGPD: na primeira vez o app
 
 Em **Estatísticas de treino** (no bloco Academia) ficam os dias e o tempo treinado, o **mapa muscular** (frente e costas, figura masculina ou feminina) sombreado pelas séries de cada músculo na semana, no mês ou desde sempre, com a lista dos que ficaram **sem treino** no período, o **volume por semana** (com o esforço médio, se estiver ligado) e o **ano de treino**, um quadradinho por dia no tom do tempo treinado. O mapa só sabe os músculos dos itens ligados a um exercício da Biblioteca: o alvo conta uma série, cada sinergista, meia.
 
+## Aquecimento, anilhas e observação
+
+Antes da primeira série de um exercício com carga, o Modo Treino sugere o **aquecimento** (40%, 60% e 80% da carga, arredondados ao degrau e nunca abaixo da barra); cada sugestão é um toque e entra no diário como aquecimento. Em exercício com barra, ele mostra as **anilhas de cada lado** ("Por lado: 2 × 20 + 2,5"). A barra e as anilhas que você tem ficam no Perfil, em Registro do treino; a ficha do exercício tem a **calculadora de anilhas**. As notas do item aparecem no Modo Treino como **observação** ("banco no furo 4").
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

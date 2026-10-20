@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { Tables } from '../db';
 import type { EffortSetting } from '../gym/effort';
+import { DEFAULT_BAR, DEFAULT_PLATES } from '../gym/plates';
 import type { WeightUnit } from '../gym/types';
 import { todayIn } from '../parser/dates';
 import { supabase } from '../supabase';
@@ -73,15 +74,30 @@ export type UiPrefs = {
   /** Revisão semanal (PB3): última feita ou dispensada */
   review?: ReviewPrefs;
   /** Registro do treino (AC4): unidade de carga e escala de esforço */
-  gym?: { unit?: WeightUnit; effort?: EffortSetting; figure?: 'male' | 'female' };
+  gym?: {
+    unit?: WeightUnit;
+    effort?: EffortSetting;
+    figure?: 'male' | 'female';
+    /** Barra e anilhas que a pessoa tem (AC9), na unidade dela */
+    bar?: number;
+    plates?: number[];
+  };
 };
 
 /** Unidade (padrão kg, V6 decisão 3) e esforço (padrão desligado) de quem treina. */
-export function useGymPrefs(): { unit: WeightUnit; effort: EffortSetting } {
+export function useGymPrefs(): {
+  unit: WeightUnit;
+  effort: EffortSetting;
+  bar: number;
+  plates: number[];
+} {
   const gym = useUiPrefs().gym ?? {};
+  const unit: WeightUnit = gym.unit === 'lb' ? 'lb' : 'kg';
   return {
-    unit: gym.unit === 'lb' ? 'lb' : 'kg',
+    unit,
     effort: gym.effort === 'rir' || gym.effort === 'rpe' ? gym.effort : 'off',
+    bar: typeof gym.bar === 'number' && gym.bar >= 0 ? gym.bar : DEFAULT_BAR[unit],
+    plates: Array.isArray(gym.plates) && gym.plates.length ? gym.plates : DEFAULT_PLATES[unit],
   };
 }
 
