@@ -695,7 +695,7 @@
     "wrong": "E-mail ou senha incorretos.",
     "taken": "Esse e-mail já tem conta. Tente entrar.",
     "short": "A senha precisa de pelo menos 6 caracteres.",
-    "tagline": "Tarefas, hábitos e projetos, rápido como um caderno.",
+    "tagline": "Gestão de tarefas, hábitos e projetos com uma camada de gamificação.",
     "forgot": "Esqueci minha senha",
     "forgotTitle": "Recuperar a senha",
     "forgotHint": "Digite o e-mail da conta. Mandamos um link para criar uma senha nova.",
@@ -711,7 +711,8 @@
     "repeatPassword": "Repita a senha",
     "saveNewPassword": "Salvar e entrar",
     "mismatch": "As duas senhas não são iguais.",
-    "resetExpired": "Este link venceu ou já foi usado. Peça outro em \"Esqueci minha senha\"."
+    "resetExpired": "Este link venceu ou já foi usado. Peça outro em \"Esqueci minha senha\".",
+    "serverDown": "O servidor não respondeu agora. Tente de novo em alguns segundos; se a conta já tiver sido criada, é só entrar com o e-mail e a senha."
   },
   "invite": {
     "opening": "Abrindo o convite…",
@@ -3174,7 +3175,7 @@
     "done": "Renasceu! {{count}}× · +{{bonus}}% de XP"
   },
   "landing": {
-    "title": "Tarefas, hábitos e projetos, com um jogo por cima.",
+    "title": "Gestão de tarefas, hábitos e projetos com uma camada de gamificação.",
     "subtitle": "Rápido como um caderno: anote em segundos, organize em pastas e projetos, divida com quem faz junto e, se quiser, ganhe XP e derrube bosses enquanto isso.",
     "start": "Começar agora",
     "haveAccount": "Entrar na minha conta",

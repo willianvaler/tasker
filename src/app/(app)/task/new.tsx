@@ -252,6 +252,7 @@ export default function NewTaskScreen() {
           title={t('advanced.discardTitle')}
           message={t('advanced.discardMessage')}
           confirmLabel={t('advanced.discard')}
+          destructive
           onClose={closeDiscard}
           onConfirm={() => {
             closeDiscard();

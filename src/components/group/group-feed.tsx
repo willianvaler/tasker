@@ -162,6 +162,7 @@ function CheckinCard({
         </View>
         {post.user_id === me && (
           <IconButton
+            tone="danger"
             icon={Trash2}
             label={t('group.deletePost')}
             onPress={() => actions.remove.mutate(post)}

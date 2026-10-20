@@ -307,6 +307,7 @@ export function useFolderActions() {
         title={t('folder.deleteTitle', { name: folder.name })}
         message={t('folder.deleteMessage')}
         confirmLabel={t('folder.deleteConfirm')}
+        destructive
         onClose={close}
         onConfirm={() => {
           m.deleteFolder.mutate(folder.id, { onError });
@@ -351,6 +352,7 @@ export function useFolderActions() {
         title={t('folder.deleteTitle', { name: page.name })}
         message={t('folder.deletePageMessage')}
         confirmLabel={t('folder.deleteConfirm')}
+        destructive
         onClose={close}
         onConfirm={() => {
           m.deletePage.mutate(page.id, { onError });

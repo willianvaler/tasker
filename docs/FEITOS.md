@@ -169,6 +169,10 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD7 | Anotações dentro de pastas e projetos (`notes.folder_id`, quem é da pasta lê, quem cria tarefas escreve), seção Anotações na pasta | D245 |
 | V5 | CD8 | APK: intermediários do Let's Encrypt (YE1–3, YR1–3, E5–E9, R10–R14) e a Root YR como âncoras, para o "Trust anchor for certification path not found" | D245 |
 | V5 | CD9 | Login no celular com o formulário no topo, à vista com o teclado aberto; E2E `e2e/correcoes-2010.spec.ts` e Ajuda nos 3 idiomas | D245 |
+| V5 | CD10 | Botões de apagar, remover, sair e descartar em vermelho (`destructive` no `Button` e no `ConfirmDialog`, lixeira com `tone="danger"`) | D246 |
+| V5 | CD11 | Notas no celular: o editor encolhe acima do teclado e não fica em branco quando a releitura não vem | D246 |
+| V5 | CD12 | Tela de entrada: "Gestão de tarefas, hábitos e projetos com uma camada de gamificação." | D246 |
+| V5 | CD13 | Cadastro: resposta que não é JSON (página de erro do proxy ou da Cloudflare, servidor reiniciando) vira um aviso claro, em vez de "Unexpected token '<'" | D246 |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |

@@ -157,6 +157,7 @@ export default function ShareScreen() {
                     />
                   )}
                   <Button
+                    destructive
                     variant="ghost"
                     icon={X}
                     label={t('share.revoke')}
@@ -204,6 +205,7 @@ export default function ShareScreen() {
                 )}
                 {teamProject && (
                   <Button
+                    destructive
                     variant="ghost"
                     label={t('team.removeFromTeam')}
                     onPress={() => moveTo(null)}
@@ -285,6 +287,7 @@ export default function ShareScreen() {
                     )}
                     {member.source === 'direct' && (
                       <Button
+                        destructive
                         variant="ghost"
                         label={t('share.remove')}
                         onPress={() => setConfirm({ member, leaving: false })}
@@ -294,6 +297,7 @@ export default function ShareScreen() {
                 )}
                 {me && member.role !== 'owner' && member.source === 'direct' && online && (
                   <Button
+                    destructive
                     variant="ghost"
                     className="self-start"
                     icon={LogOut}

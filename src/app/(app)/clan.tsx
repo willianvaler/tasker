@@ -187,6 +187,7 @@ export default function ClanScreen() {
         </View>
 
         <Button
+          destructive
           variant="ghost"
           className="self-start"
           icon={LogOut}
@@ -201,6 +202,7 @@ export default function ClanScreen() {
           title={t('clan.leaveTitle', { name: data.name })}
           message={t('clan.leaveMessage')}
           confirmLabel={t('clan.leaveConfirm')}
+          destructive
           onClose={closeLeave}
           onConfirm={() => {
             closeLeave();

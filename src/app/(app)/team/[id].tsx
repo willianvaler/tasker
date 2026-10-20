@@ -168,6 +168,7 @@ export default function TeamScreen() {
                   right={
                     me ? (
                       <Button
+                        destructive
                         variant="ghost"
                         icon={LogOut}
                         label={t('team.leave')}
@@ -176,6 +177,7 @@ export default function TeamScreen() {
                       />
                     ) : roles.length > 0 ? (
                       <Button
+                        destructive
                         variant="ghost"
                         label={t('team.remove')}
                         disabled={!online}
@@ -310,6 +312,7 @@ export default function TeamScreen() {
                       onPress={() => copy(inviteUrl(invite.token, 'team-invite'))}
                     />
                     <Button
+                      destructive
                       variant="ghost"
                       label={t('team.revoke')}
                       disabled={!online}
@@ -443,6 +446,7 @@ export default function TeamScreen() {
                         onPress={() => setEditingRole(role.id)}
                       />
                       <Button
+                        destructive
                         variant="ghost"
                         label={t('team.deleteRole')}
                         onPress={() => setDeletingRole({ id: role.id, name: role.name })}
@@ -497,6 +501,7 @@ export default function TeamScreen() {
               />
               {isOwner && (
                 <Button
+                  destructive
                   variant="ghost"
                   icon={Trash2}
                   label={t('team.delete')}
@@ -600,6 +605,7 @@ export default function TeamScreen() {
           title={t('team.deleteRoleTitle', { name: deletingRole.name })}
           message={t('team.deleteRoleMessage')}
           confirmLabel={t('team.deleteRole')}
+          destructive
           onClose={closeDeletingRole}
           onConfirm={() => {
             const { id: roleId } = deletingRole;
@@ -613,6 +619,7 @@ export default function TeamScreen() {
           title={t('team.deleteTitle', { name: data.name })}
           message={t('team.deleteMessage')}
           confirmLabel={t('team.delete')}
+          destructive
           onClose={closeDeleting}
           onConfirm={() => {
             closeDeleting();

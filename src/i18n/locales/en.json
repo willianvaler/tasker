@@ -695,7 +695,7 @@
     "wrong": "Wrong email or password.",
     "taken": "This email already has an account. Try signing in.",
     "short": "The password needs at least 6 characters.",
-    "tagline": "Tasks, habits and projects, as quick as a notebook.",
+    "tagline": "Task, habit and project management with a layer of gamification.",
     "forgot": "I forgot my password",
     "forgotTitle": "Recover your password",
     "forgotHint": "Type your account's email. We'll send a link to create a new password.",
@@ -711,7 +711,8 @@
     "repeatPassword": "Repeat the password",
     "saveNewPassword": "Save and sign in",
     "mismatch": "The two passwords don't match.",
-    "resetExpired": "This link expired or was already used. Ask for another in \"I forgot my password\"."
+    "resetExpired": "This link expired or was already used. Ask for another in \"I forgot my password\".",
+    "serverDown": "The server did not answer right now. Try again in a few seconds; if the account was already created, just sign in with your email and password."
   },
   "invite": {
     "opening": "Opening the invite…",
@@ -3174,7 +3175,7 @@
     "done": "Reborn! {{count}}× · +{{bonus}}% XP"
   },
   "landing": {
-    "title": "Tasks, habits and projects, with a game on top.",
+    "title": "Task, habit and project management with a layer of gamification.",
     "subtitle": "Fast as a notebook: jot things down in seconds, organize them in folders and projects, share with the people doing them and, if you like, earn XP and beat bosses along the way.",
     "start": "Get started",
     "haveAccount": "Sign in to my account",

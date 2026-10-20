@@ -695,7 +695,7 @@
     "wrong": "Correo o contraseña incorrectos.",
     "taken": "Este correo ya tiene cuenta. Intenta entrar.",
     "short": "La contraseña necesita al menos 6 caracteres.",
-    "tagline": "Tareas, hábitos y proyectos, rápido como un cuaderno.",
+    "tagline": "Gestión de tareas, hábitos y proyectos con una capa de gamificación.",
     "forgot": "Olvidé mi contraseña",
     "forgotTitle": "Recuperar la contraseña",
     "forgotHint": "Escribe el correo de la cuenta. Te enviamos un enlace para crear una contraseña nueva.",
@@ -711,7 +711,8 @@
     "repeatPassword": "Repite la contraseña",
     "saveNewPassword": "Guardar y entrar",
     "mismatch": "Las dos contraseñas no coinciden.",
-    "resetExpired": "Este enlace venció o ya se usó. Pide otro en \"Olvidé mi contraseña\"."
+    "resetExpired": "Este enlace venció o ya se usó. Pide otro en \"Olvidé mi contraseña\".",
+    "serverDown": "El servidor no respondió ahora. Inténtalo de nuevo en unos segundos; si la cuenta ya se creó, solo entra con el correo y la contraseña."
   },
   "invite": {
     "opening": "Abriendo la invitación…",
@@ -3174,7 +3175,7 @@
     "done": "¡Renaciste! {{count}}× · +{{bonus}}% de XP"
   },
   "landing": {
-    "title": "Tareas, hábitos y proyectos, con un juego encima.",
+    "title": "Gestión de tareas, hábitos y proyectos con una capa de gamificación.",
     "subtitle": "Rápido como una libreta: anota en segundos, organiza en carpetas y proyectos, comparte con quien lo hace contigo y, si quieres, gana XP y derrota bosses mientras tanto.",
     "start": "Empezar ahora",
     "haveAccount": "Entrar en mi cuenta",

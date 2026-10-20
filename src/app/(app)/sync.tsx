@@ -117,6 +117,7 @@ export default function SyncScreen() {
         <View className="flex-row flex-wrap gap-2">
           <Button label={t('sync.force')} onPress={force} disabled={!POWERSYNC_URL} />
           <Button
+            destructive
             variant="ghost"
             label={t('sync.discard')}
             onPress={() => setDiscarding(true)}
@@ -162,6 +163,7 @@ export default function SyncScreen() {
           title={t('sync.discardTitle')}
           message={t('sync.discardMessage')}
           confirmLabel={t('sync.discardConfirm')}
+          destructive
           onClose={closeDiscard}
           onConfirm={discard}
         />

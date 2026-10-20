@@ -137,6 +137,7 @@ export default function CommunityPostScreen() {
           title={t('community.unpublishTitle', { title: data.title })}
           message={t('community.unpublishMessage')}
           confirmLabel={t('community.unpublish')}
+          destructive
           onClose={() => setDialog(null)}
           onConfirm={() => {
             setDialog(null);

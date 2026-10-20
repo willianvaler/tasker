@@ -101,6 +101,7 @@ export default function StudentsScreen() {
           title={t('students.archiveTitle', { name: archiving.name })}
           message={t('students.archiveMessage')}
           confirmLabel={t('students.archive')}
+          destructive
           onClose={closeArchive}
           onConfirm={() => {
             actions.archive.mutate(archiving.share_id, { onError });

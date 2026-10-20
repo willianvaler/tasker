@@ -6,7 +6,7 @@ test('entrada: apresentação, "Começar agora" abre o criar conta e a privacida
 }) => {
   await page.goto('/');
   await expect(
-    page.getByRole('heading', { name: 'Tarefas, hábitos e projetos, com um jogo por cima.' }),
+    page.getByRole('heading', { name: 'Gestão de tarefas, hábitos e projetos com uma camada de gamificação.' }),
   ).toBeVisible();
   for (const name of ['Captura rápida', 'Pastas, projetos e times', 'Funciona sem internet'])
     await expect(page.getByRole('heading', { name })).toBeVisible();

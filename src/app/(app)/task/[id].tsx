@@ -831,6 +831,7 @@ function TaskDetails({ task }: { task: Task }) {
 
         {allowed.delete && (
           <Button
+            destructive
             variant="ghost"
             icon={Trash2}
             label={t('taskDetail.delete')}
@@ -869,6 +870,7 @@ function TaskDetails({ task }: { task: Task }) {
             title={t('taskDetail.deleteTitle')}
             message={task.parent_task_id ? undefined : t('taskDetail.deleteSubtasks')}
             confirmLabel={t('taskDetail.deleteConfirm')}
+            destructive
             onClose={closeConfirm}
             onConfirm={() => {
               remove.mutate(task.id);

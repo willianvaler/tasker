@@ -96,6 +96,7 @@ export function PrivacySection() {
         />
       </View>
       <Button
+        destructive
         variant="ghost"
         className="self-start"
         icon={Trash2}

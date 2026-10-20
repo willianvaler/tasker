@@ -147,6 +147,7 @@ function ChallengeCard({
         </View>
         {canRemove && (
           <Button
+            destructive
             variant="ghost"
             label={t('group.removeChallenge')}
             onPress={() => setRemoving(true)}
@@ -200,6 +201,7 @@ function ChallengeCard({
           title={t('group.removeTitle', { name: challenge.name })}
           message={t('group.removeMessage')}
           confirmLabel={t('group.removeChallenge')}
+          destructive
           onClose={() => setRemoving(false)}
           onConfirm={() => {
             setRemoving(false);

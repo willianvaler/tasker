@@ -13,7 +13,7 @@ import {
 } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, TextInput, View } from 'react-native';
 
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -43,8 +43,10 @@ export default function NoteScreen() {
       </Screen>
     );
   // Só abre o editor com o que acabou de ler (não com o cache salvo em disco): o texto do editor é
-  // estado local e não acompanharia a leitura nova
-  if (!note || !notes.isFetchedAfterMount) return <Screen>{null}</Screen>;
+  // estado local e não acompanharia a leitura nova. Se a leitura não vier (sem conexão, pausada),
+  // abre com o que há, em vez de ficar em branco (no celular a tela parava aqui, 20/10)
+  if (!note || (!notes.isFetchedAfterMount && notes.fetchStatus === 'fetching'))
+    return <Screen>{null}</Screen>;
   return <Editor key={note.id} note={note} />;
 }
 
@@ -107,93 +109,103 @@ function Editor({ note }: { note: Note }) {
 
   return (
     <Screen size="medium">
-      <ScreenHeader
-        title={t('notes.title')}
-        back
-        right={
+      {/* No celular, o teclado cobria o texto (20/10): a tela encolhe acima dele */}
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={
+          Platform.OS === 'ios' ? 'padding' : Platform.OS === 'android' ? 'height' : undefined
+        }
+      >
+        <ScreenHeader
+          title={t('notes.title')}
+          back
+          right={
+            <Button
+              destructive
+              variant="ghost"
+              icon={Trash2}
+              label={t('notes.delete')}
+              onPress={() => setConfirm(true)}
+            />
+          }
+        />
+        <TextInput
+          value={title}
+          onChangeText={setTitle}
+          onBlur={save}
+          maxLength={200}
+          placeholder={t('notes.titlePlaceholder')}
+          placeholderTextColor={colors['ink-muted']}
+          accessibilityLabel={t('notes.titleField')}
+          className={textClass('py-1 font-serif text-xl text-ink')}
+        />
+        <View
+          accessibilityRole="toolbar"
+          aria-label={t('notes.toolbar')}
+          className="flex-row flex-wrap items-center gap-1 border-b border-line py-1"
+        >
+          {editing &&
+            tools.map((tool) => (
+              <IconButton
+                key={tool.kind}
+                icon={tool.icon}
+                label={tool.label}
+                tone="ink"
+                onPress={() => format(tool.kind)}
+              />
+            ))}
           <Button
             variant="ghost"
-            icon={Trash2}
-            label={t('notes.delete')}
-            onPress={() => setConfirm(true)}
+            icon={editing ? Eye : Pencil}
+            label={t(editing ? 'notes.preview' : 'notes.edit')}
+            className="ml-auto"
+            onPress={() => {
+              save();
+              setEditing(!editing);
+            }}
           />
-        }
-      />
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        onBlur={save}
-        maxLength={200}
-        placeholder={t('notes.titlePlaceholder')}
-        placeholderTextColor={colors['ink-muted']}
-        accessibilityLabel={t('notes.titleField')}
-        className={textClass('py-1 font-serif text-xl text-ink')}
-      />
-      <View
-        accessibilityRole="toolbar"
-        aria-label={t('notes.toolbar')}
-        className="flex-row flex-wrap items-center gap-1 border-b border-line py-1"
-      >
-        {editing &&
-          tools.map((tool) => (
-            <IconButton
-              key={tool.kind}
-              icon={tool.icon}
-              label={tool.label}
-              tone="ink"
-              onPress={() => format(tool.kind)}
-            />
-          ))}
-        <Button
-          variant="ghost"
-          icon={editing ? Eye : Pencil}
-          label={t(editing ? 'notes.preview' : 'notes.edit')}
-          className="ml-auto"
-          onPress={() => {
-            save();
-            setEditing(!editing);
-          }}
-        />
-      </View>
-      {editing ? (
-        // O campo ocupa o resto da tela e rola por dentro
-        <TextInput
-          ref={input}
-          value={body}
-          onChangeText={setBody}
-          onBlur={save}
-          selection={forced}
-          onSelectionChange={(e) => {
-            setSelection(e.nativeEvent.selection);
-            if (forced) setForced(undefined);
-          }}
-          multiline
-          maxLength={NOTE_MAX}
-          placeholder={t('notes.bodyPlaceholder')}
-          placeholderTextColor={colors['ink-muted']}
-          accessibilityLabel={t('notes.bodyField')}
-          textAlignVertical="top"
-          className={textClass('min-h-64 flex-1 py-3 text-base leading-6 text-ink')}
-        />
-      ) : (
-        <ScreenScroll className="flex-1" contentContainerClassName="py-3 pb-clear">
-          {body.trim() ? (
-            <NoteMarkdown value={body} />
-          ) : (
-            <Text className="text-ink-muted">{t('notes.bodyPlaceholder')}</Text>
-          )}
-        </ScreenScroll>
-      )}
-      <View className="flex-row justify-between py-2">
-        <Text className="text-xs text-ink-muted">{editing ? t('notes.markdownHint') : ''}</Text>
-        <Text className="font-mono text-xs text-ink-muted">
-          {body.length}/{NOTE_MAX}
-        </Text>
-      </View>
+        </View>
+        {editing ? (
+          // O campo ocupa o resto da tela e rola por dentro
+          <TextInput
+            ref={input}
+            value={body}
+            onChangeText={setBody}
+            onBlur={save}
+            selection={forced}
+            onSelectionChange={(e) => {
+              setSelection(e.nativeEvent.selection);
+              if (forced) setForced(undefined);
+            }}
+            multiline
+            maxLength={NOTE_MAX}
+            placeholder={t('notes.bodyPlaceholder')}
+            placeholderTextColor={colors['ink-muted']}
+            accessibilityLabel={t('notes.bodyField')}
+            textAlignVertical="top"
+            className={textClass('min-h-64 flex-1 py-3 text-base leading-6 text-ink')}
+          />
+        ) : (
+          <ScreenScroll className="flex-1" contentContainerClassName="py-3 pb-clear">
+            {body.trim() ? (
+              <NoteMarkdown value={body} />
+            ) : (
+              <Text className="text-ink-muted">{t('notes.bodyPlaceholder')}</Text>
+            )}
+          </ScreenScroll>
+        )}
+        <View className="flex-row justify-between py-2">
+          <Text className="text-xs text-ink-muted">{editing ? t('notes.markdownHint') : ''}</Text>
+          <Text className="font-mono text-xs text-ink-muted">
+            {body.length}/{NOTE_MAX}
+          </Text>
+        </View>
+      </KeyboardAvoidingView>
       {confirm && (
         <ConfirmDialog
           title={t('notes.deleteTitle')}
           confirmLabel={t('notes.delete')}
+          destructive
           onClose={closeConfirm}
           onConfirm={() => {
             closeConfirm();
