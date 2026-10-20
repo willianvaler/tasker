@@ -85,7 +85,7 @@ export default function ExerciseScreen() {
         <OneRmCalculator />
         <PlateCalculator />
         {e?.own && me && (
-          <Button
+          <Button destructive
             variant="ghost"
             className="self-start"
             label={t('library.delete')}

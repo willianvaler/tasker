@@ -230,7 +230,7 @@ export default function BodyScreen() {
                   {formatShortDate(m.measured_on as IsoDate)}
                 </Text>
                 <Text className="flex-1 font-mono text-sm text-ink">{label(kind, m.value)}</Text>
-                <IconButton
+                <IconButton tone="danger"
                   icon={Trash2}
                   label={t('body.delete')}
                   onPress={() => actions.remove.mutate(m.id)}
@@ -240,7 +240,7 @@ export default function BodyScreen() {
           )}
         </View>
 
-        <Button
+        <Button destructive
           variant="ghost"
           className="self-start"
           label={t('body.revoke')}
@@ -249,7 +249,7 @@ export default function BodyScreen() {
         />
       </ScreenScroll>
       {revoking && (
-        <ConfirmDialog
+        <ConfirmDialog destructive
           title={t('body.revokeTitle')}
           message={t('body.revokeBody')}
           confirmLabel={t('body.revokeConfirm')}

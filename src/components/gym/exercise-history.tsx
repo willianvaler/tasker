@@ -103,7 +103,7 @@ export function ExerciseHistory({
                 >
                   {describe(s)}
                 </Text>
-                <IconButton
+                <IconButton tone="danger"
                   icon={Trash2}
                   label={t('diary.deleteSet')}
                   onPress={() => setDeleting(s)}
@@ -122,7 +122,7 @@ export function ExerciseHistory({
         />
       )}
       {deleting && (
-        <ConfirmDialog
+        <ConfirmDialog destructive
           title={t('diary.deleteSetTitle')}
           message={t('diary.deleteSetBody')}
           confirmLabel={t('diary.deleteSet')}
