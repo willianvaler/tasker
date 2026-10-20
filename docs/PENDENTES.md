@@ -16,33 +16,37 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V3 | §6 itens B (resto) | Kits por domínio, voz e Share Target, exportação CSV/Markdown/PDF e imprimir | backlog | — |
 | V3 | §6 itens C | Lembrete por local, dependências entre projetos, Gantt, notas colaborativas (CRDT), importar de Habitica/Todoist, webhooks e API | backlog | — |
 | **V4** | T1 | Planos e assinaturas (modelo): tudo grátis por enquanto, pago no futuro com founder (V4-5) | depois | — |
-| V4 | T2 | Provedor de pagamento | depois (V4-6) | contas do dono |
+| V4 | T2 | Pagamento: primeiro pelas lojas (Google Play e App Store); depois, uma plataforma aberta ou sem taxa para cartão e Pix, com assinatura anual | depois (V4-6 decidido 20/10) | contas das lojas (dono) |
 | **Dono** | CD14 | Trocar o leitor de foto (OCR) das notas fiscais e listas | depois (pedido do dono, 20/10) | escolher o serviço |
 | **V5** | §1.2 | App para relógio Wear OS (companheiro do celular, em Kotlin) | pendente | estimar antes |
 | V5 | §1.1 | Tela de bloqueio: botões com o app encerrado e atualizações ao vivo do Android 16 | depois | — |
 | V5 | §4 | LGPD: e-mail do encarregado na política e revisão do texto por advogado (o resto foi feito, D213) | pendente | provedor de e-mail (V5-3), dono |
-| V5 | §5 | E-mails: provedor, SPF/DKIM/DMARC, SMTP; modelos em 3 idiomas; preferências e descadastro | inativo (V5-3) | dono reativar |
+| V5 | §5 | E-mails: provedor, SPF/DKIM/DMARC, SMTP; modelos em 3 idiomas; preferências e descadastro | em espera (V5-3: servidor próprio, Google ou outro, ainda sem decisão) | dono |
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias (V5-4), lixeira para anotações e anexos; troca de e-mail fica com o e-mail | pendente | e-mail só para a troca |
 | V5 | §8 | Login com o Google (Supabase Auth, nativo no Android/iOS) — **não fazer agora** | pendente | projeto no Google Cloud (dono) |
-| **V6** | AC7.4 | Pergunta rápida do peso no início do treino (desligável) e importar do Health Connect / Apple Health | pendente | AC7.3, V7 |
+| **V6** | AC4.7 | Carga real de cada série no Modo Treino, preenchida no descanso ou deixada vazia (vale a do plano): `−10 −5 −2,5 −1 · atual · +1 +2,5 +5 +10` | pendente | — |
+| V6 | AC3.10 | Fotos do free-exercise-db (Unlicense, 876 exercícios × 2 fotos, início e fim) na ficha, no painel e no Modo Treino, alternando as duas como animação; servidas por nós, com miniatura | pendente | — |
+| V6 | AC7.4 | Pergunta do peso do corpo no início do treino: **desligada por padrão** (liga no Perfil); importar do Health Connect / Apple Saúde fica com o V7 | pendente | AC7.3, V7 |
 | V6 | AC8.6 | Mapa muscular enquanto o treino é montado e no resumo do fim do treino | pendente | AC8.4 |
 | V6 | AC11 | Conquistas de academia e recorde crítico; prêmio (conquista e item) para os primeiros do desafio | pendente | AC5.3 |
-| V6 | AC12.1–12.2 | Planos prontos e importadores (Strong, Hevy, FitNotes) | pendente | arquivos de exemplo do dono |
+| V6 | AC12.1 | Planos prontos: iniciante corpo inteiro 3×, ABC, ABCD, superior/inferior 4×, push/pull/legs, 5×5 e Greyskull, em casa sem equipamento (exercícios ligados, dias, progressão) | pendente | — |
+| V6 | AC12.3 | Levar exercícios para outra página de treino com facilidade (copiar ou mover um ou vários, arrastar entre treinos) | pendente | — |
+| V6 | AC12.2 | Importadores Strong, Hevy e FitNotes | pendente | arquivos de exemplo do dono |
+| V6 | AC15 | Rever o grupo de treino: hoje é uma pasta que tem treinos dentro, mas não dá para chamar gente a partir de um treino; achar um jeito único e simples (proposta antes de mudar) | pendente | proposta para o dono |
 | V6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | pendente | AC5.2, AC6.3 |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora (qualquer uma, só leitura) vira registro de treino (V7-1 a V7-3) | pendente | conta de desenvolvedor do Strava, development build (dono) |
 | **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com notas de verdade | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
-| **V10** | BE1–BE3 | Bloco Bem-estar (treino, dieta, vida saudável) | pendente | nome do bloco (V10-1) |
+| **V10** | BE1–BE3 | Bloco **Bem-estar** (treino, dieta, vida saudável) | pendente | — (nome decidido em 20/10) |
 
 ## Decisões do dono em aberto
 
 | # | Pergunta | Bloqueia |
 |---|---|---|
-| V4-6 | Provedor de pagamento e compras nas lojas (decidir depois) | T2 |
-| V5-3 | Provedor de e-mail e domínio de envio (inativo por enquanto) | V5 §5 |
-| V10-1 | Nome do bloco de treino, dieta e vida saudável (padrão: Bem-estar) | BE1 |
-| V10-2 a V10-5 | Amigo direto no grupo, tarefa pública fora do login, visibilidade em projeto, moderação (`ESCOPO_V10.md` §7) | seguem o padrão até a resposta |
+| V5-3 | Provedor de e-mail e domínio de envio (em espera: servidor próprio, Google ou outro) | V5 §5 |
+| V10-2 a V10-5 | Padrões em uso: amigo entra direto no grupo (com aviso); tarefa pública só para quem tem conta; visibilidade só em pastas pessoais; 3 denúncias ocultam na comunidade | confirmar os padrões |
+| AC15 | Como deve funcionar o grupo de treino | proposta |
 
-As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`).
+As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`) e em 20/10 (D247).
