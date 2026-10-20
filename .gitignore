@@ -69,3 +69,6 @@ supabase/signing_keys.json
 
 # Segredos das Edge Functions (chave do Gemini etc.): nunca no repositório
 supabase/functions/.env
+
+# Pacote da Google Play (npm run apk -- --aab)
+/dist-play/

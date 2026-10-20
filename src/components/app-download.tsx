@@ -21,11 +21,13 @@ type ApkInfo = {
 
 const BASE = Platform.OS === 'web' ? '' : (process.env.EXPO_PUBLIC_WEB_URL ?? '');
 const CURRENT = Number(process.env.EXPO_PUBLIC_APK_CODE ?? 0);
+// O app da Google Play só se atualiza pela loja (política da Play): sem APK por fora
+const FROM_STORE = Platform.OS === 'android' && process.env.EXPO_PUBLIC_STORE === 'play';
 
 export function useApkInfo() {
   return useQuery({
     queryKey: ['apk-info'],
-    enabled: Platform.OS !== 'ios' && (Platform.OS === 'web' || !!BASE),
+    enabled: Platform.OS !== 'ios' && !FROM_STORE && (Platform.OS === 'web' || !!BASE),
     staleTime: 30 * 60 * 1000,
     queryFn: async (): Promise<ApkInfo | null> => {
       const res = await fetch(`${BASE}/downloads/apk.json`, { cache: 'no-store' });
