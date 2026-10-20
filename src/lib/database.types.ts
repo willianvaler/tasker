@@ -1043,6 +1043,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"reactions": {
+                  Row: {
+                    "comment_id": string | null,"created_at": string,"emoji": string,"folder_id": string | null,"id": string,"task_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "comment_id"?: string | null,"created_at"?: string,"emoji": string,"folder_id"?: string | null,"id"?: string,"task_id": string,"user_id"?: string
+                  }
+                  Update: {
+                    "comment_id"?: string | null,"created_at"?: string,"emoji"?: string,"folder_id"?: string | null,"id"?: string,"task_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "reactions_comment_id_fkey"
+      columns: ["comment_id"]
+isOneToOne: false
+      referencedRelation: "comments"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "reactions_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "reactions_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "reactions_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"rebirth_log": {
                   Row: {
                     "created_at": string,"id": string,"level": number,"n": number,"user_id": string,"xp": number

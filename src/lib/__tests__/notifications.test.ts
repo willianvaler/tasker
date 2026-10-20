@@ -96,6 +96,18 @@ describe('textos das notificações (tela 🔔 e push)', () => {
   });
 });
 
+test('reação: na conclusão e no comentário, abre a tarefa', () => {
+  const payload = { by: 'Bia', emoji: '🔥', title: 'Carvão', task_id: 't1' };
+  expect(describeNotification({ kind: 'reaction', payload })).toEqual({
+    text: 'Bia reagiu 🔥 a "Carvão"',
+    taskId: 't1',
+  });
+  expect(
+    describeNotification({ kind: 'reaction', payload: { ...payload, comment_id: 'c1' } }, 'en')
+      .text,
+  ).toBe('Bia reacted 🔥 to your comment on "Carvão"');
+});
+
 test('lembrete de página recebida abre a página', () => {
   expect(
     describeNotification({
@@ -158,6 +170,7 @@ describe('idioma das notificações (F3)', () => {
       'page_reminder',
       'workout_invite',
       'challenge_started',
+      'reaction',
     ];
     const payload = {
       by: 'Ana',
@@ -171,6 +184,7 @@ describe('idioma das notificações (F3)', () => {
       prereq: 'P',
       page_name: 'Treino',
       name: 'Desafio',
+      emoji: '👏',
     };
     for (const locale of ['pt-BR', 'en', 'es'])
       for (const kind of kinds) {

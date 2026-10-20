@@ -20,12 +20,14 @@ import {
   useCommentMutations,
   useComments,
 } from '@/lib/queries/projects';
+import { useReactions } from '@/lib/queries/reactions';
 import type { Task } from '@/lib/queries/tasks';
 import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
+import { ReactionBar } from './reaction-bar';
 
 /** Responsáveis da tarefa: membros, nomes pendentes do projeto ou um nome novo (pendente). */
 export function AssigneesEditor({ task }: { task: Task }) {
@@ -127,6 +129,7 @@ export function Comments({ task }: { task: Task }) {
   const members = useTaskMembers(task.folder_id);
   const toast = useToast();
   const [body, setBody] = useState('');
+  const reactions = useReactions([task.id]);
 
   function send() {
     const trimmed = body.trim();
@@ -140,6 +143,16 @@ export function Comments({ task }: { task: Task }) {
 
   return (
     <View className="gap-3">
+      {task.status === 'done' && (
+        <View className="gap-1">
+          <Text className="text-xs text-ink-muted">{t('reactions.toCompletion')}</Text>
+          <ReactionBar
+            target={{ taskId: task.id }}
+            folderId={task.folder_id}
+            reactions={reactions.data ?? []}
+          />
+        </View>
+      )}
       {comments.data?.length === 0 && (
         <Text className="text-sm text-ink-muted">{t('collab.noComments')}</Text>
       )}
@@ -164,6 +177,11 @@ export function Comments({ task }: { task: Task }) {
               )}
             </View>
             <Text className="text-sm text-ink">{c.body}</Text>
+            <ReactionBar
+              target={{ taskId: task.id, commentId: c.id }}
+              folderId={task.folder_id}
+              reactions={reactions.data ?? []}
+            />
           </View>
         );
       })}

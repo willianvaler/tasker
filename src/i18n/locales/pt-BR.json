@@ -913,6 +913,11 @@
     "commentPlaceholder": "Comentar… (@nome avisa a pessoa)",
     "newComment": "Novo comentário"
   },
+  "reactions": {
+    "react": "Reagir com {{emoji}} ({{count}})",
+    "add": "Reagir",
+    "toCompletion": "Reações à conclusão"
+  },
   "matrix": {
     "views": "Visões da página",
     "list": "Lista",

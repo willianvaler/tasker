@@ -12,6 +12,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   task_completions: [keys.tasks],
   task_assignees: [keys.assignees, keys.mine],
   comments: [['comments']],
+  // Reações (PB2): na conclusão e nos comentários
+  reactions: [['reactions']],
   task_attachments: [['attachments']],
   activity_log: [['activity']],
   notifications: [keys.notifications],

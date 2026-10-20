@@ -17,3 +17,7 @@ Teams can have **custom roles**, picking permission by permission.
 ## I'll take it
 
 On a task with nobody assigned, **I'll take it** makes you the assignee. Great for splitting the barbecue.
+
+## Reactions
+
+In a project you can react with 👏 🔥 💪 ❤️ or 🎉 to a completed task (in the project's **Activity** or in the task's comments) and to each comment. Tap the face with the **+** to pick one; tap the emoji again to remove it. Whoever completed it (or wrote the comment) gets a notification. Reacting needs internet, and anyone who can comment can react, Viewers included.

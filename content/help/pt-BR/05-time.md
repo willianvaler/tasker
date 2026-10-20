@@ -17,3 +17,7 @@ Times podem ter **cargos personalizados**, escolhendo permissão por permissão.
 ## Eu levo
 
 Em tarefa sem ninguém, o botão **Eu levo** coloca você como responsável. Ótimo para dividir o churrasco.
+
+## Reações
+
+No projeto, dá para reagir com 👏 🔥 💪 ❤️ ou 🎉 a uma tarefa concluída (na **Atividade** do projeto ou nos comentários da tarefa) e a cada comentário. Toque no rosto com o **+** para escolher; toque de novo no emoji para tirar. Quem concluiu (ou quem comentou) recebe um aviso. Reagir precisa de internet, e quem pode comentar pode reagir, o Leitor também.

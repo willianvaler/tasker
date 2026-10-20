@@ -259,7 +259,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 - [x] **PB0** Recompensas personalizadas: já feitas no modo jogo (HB7, D201)
 - [x] **PB1** Matriz de Eisenhower: aba Lista · Matriz na página de lista, quadrantes pela prioridade e pela data, mover de quadrante ajusta as duas; E2E `e2e/matriz.spec.ts` e Ajuda nos 3 idiomas (D221)
-- [ ] **PB2** Reações nas tarefas concluídas e nos comentários
+- [x] **PB2** Reações nas tarefas concluídas e nos comentários: `reactions` com RLS e pgTAP, na Atividade do projeto e no painel da tarefa, aviso para quem concluiu ou comentou, Realtime e exportação; E2E `e2e/reacoes.spec.ts` e Ajuda nos 3 idiomas (D222)
 - [ ] **PB3** Revisão semanal guiada (o que concluí, o que ficou, o que mover, o que arquivar)
 - [ ] **PB4** Lista de compras gerada a partir de uma página de cardápio
 - [ ] **PB5** Racha de contas nos gastos do projeto (quem pagou, quem deve a quem)

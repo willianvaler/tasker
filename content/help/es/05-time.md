@@ -17,3 +17,7 @@ Los equipos pueden tener **cargos personalizados**, eligiendo permiso por permis
 ## Yo lo llevo
 
 En una tarea sin nadie, **Yo lo llevo** te pone como responsable. Ideal para repartir el asado.
+
+## Reacciones
+
+En un proyecto puedes reaccionar con 👏 🔥 💪 ❤️ o 🎉 a una tarea completada (en la **Actividad** del proyecto o en los comentarios de la tarea) y a cada comentario. Toca la cara con el **+** para elegir; toca el emoji otra vez para quitarlo. Quien la completó (o quien comentó) recibe un aviso. Reaccionar necesita internet, y quien puede comentar puede reaccionar, el Lector también.

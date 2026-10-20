@@ -25,7 +25,9 @@ import {
   useFolderTasks,
   useMembers,
 } from '@/lib/queries/projects';
+import { useReactions } from '@/lib/queries/reactions';
 import { useTreeMutations } from '@/lib/queries/tree';
+import { ReactionBar } from '@/components/tasks/reaction-bar';
 import type { FolderNode } from '@/lib/queries/tree';
 
 const pct = (p: { done: number; total: number }) =>
@@ -46,6 +48,12 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
   const assignees = useAssignees();
   const tasks = useFolderTasks(root);
   const activity = useActivity(root.id);
+  // Reações às conclusões do feed (PB2)
+  const completedIds = (activity.data ?? [])
+    .filter((a) => a.action === 'task_completed')
+    .map(completedTaskId)
+    .filter(Boolean);
+  const reactions = useReactions(completedIds);
   const actor = useFolderActor(root.id);
   const treeMutations = useTreeMutations();
   const toast = useToast();
@@ -172,14 +180,20 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
         <View>
           <SectionLabel title={t('project.activity')} className="pt-0" />
           {activity.data?.map((a) => (
-            <View
-              key={a.id}
-              className="min-h-10 flex-row items-center gap-3 border-b border-line py-1"
-            >
-              <Text className="flex-1 text-sm text-ink">{describeActivity(a)}</Text>
-              <Text className="font-mono text-xs text-ink-muted">
-                {when.format(new Date(a.created_at))}
-              </Text>
+            <View key={a.id} className="gap-1 border-b border-line py-1">
+              <View className="min-h-8 flex-row items-center gap-3">
+                <Text className="flex-1 text-sm text-ink">{describeActivity(a)}</Text>
+                <Text className="font-mono text-xs text-ink-muted">
+                  {when.format(new Date(a.created_at))}
+                </Text>
+              </View>
+              {a.action === 'task_completed' && completedTaskId(a) && (
+                <ReactionBar
+                  target={{ taskId: completedTaskId(a) }}
+                  folderId={root.id}
+                  reactions={reactions.data ?? []}
+                />
+              )}
             </View>
           ))}
         </View>
@@ -187,3 +201,6 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
     </View>
   );
 }
+
+const completedTaskId = (a: { payload: unknown }) =>
+  String((a.payload as { task_id?: string } | null)?.task_id ?? '');

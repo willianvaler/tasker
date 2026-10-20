@@ -37,6 +37,8 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} começou o treino "${p.page_name}" com você: entrar`,
     challenge_started: (p, by) =>
       `${by} começou o desafio "${p.name}" (${p.days} ${n(p.days) === 1 ? 'dia' : 'dias'})`,
+    reaction: (p, by) => `${by} reagiu ${p.emoji} a "${p.title}"`,
+    reaction_comment: (p, by) => `${by} reagiu ${p.emoji} ao seu comentário em "${p.title}"`,
     other: () => 'Novidade',
   },
   en: {
@@ -61,6 +63,8 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} started the workout "${p.page_name}" with you: join`,
     challenge_started: (p, by) =>
       `${by} started the challenge "${p.name}" (${p.days} ${n(p.days) === 1 ? 'day' : 'days'})`,
+    reaction: (p, by) => `${by} reacted ${p.emoji} to "${p.title}"`,
+    reaction_comment: (p, by) => `${by} reacted ${p.emoji} to your comment on "${p.title}"`,
     other: () => 'News',
   },
   es: {
@@ -86,6 +90,8 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} empezó el entrenamiento "${p.page_name}" contigo: entrar`,
     challenge_started: (p, by) =>
       `${by} empezó el desafío "${p.name}" (${p.days} ${n(p.days) === 1 ? 'día' : 'días'})`,
+    reaction: (p, by) => `${by} reaccionó ${p.emoji} a "${p.title}"`,
+    reaction_comment: (p, by) => `${by} reaccionó ${p.emoji} a tu comentario en "${p.title}"`,
     other: () => 'Novedad',
   },
 };
@@ -164,6 +170,11 @@ export function describeNotification(
       };
     case 'challenge_started':
       return { text: say('challenge_started'), url: `/desafio/${p.challenge_id}` };
+    case 'reaction':
+      return {
+        text: p.comment_id ? say('reaction_comment') : say('reaction'),
+        taskId: String(p.task_id),
+      };
     case 'task_reminder': {
       // Lembrete de tarefa com horário (D206): "⏰ 20/10 15:00 · Ligar para o banco" (10/20 em inglês)
       const [, m, d] = String(p.due_date ?? '').split('-');
