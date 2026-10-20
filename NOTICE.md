@@ -38,4 +38,4 @@ SOFTWARE.
 
 ### Traduções
 
-Os nomes em português e espanhol e as instruções em português foram escritos para o Questlist pelo modelo local (Qwen, na máquina do dono), reescrevendo o sentido, não traduzindo frase a frase, e revisados por amostragem.
+Os nomes em português e espanhol e as instruções em português foram escritos para o Questlist (uma parte pelo modelo local Qwen, na máquina do dono, o resto pelo Claude), reescrevendo o sentido, não traduzindo frase a frase. Os exercícios que vieram sem instruções ganharam passos curtos escritos do zero nos três idiomas.

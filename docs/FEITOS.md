@@ -178,6 +178,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC2.2 | Painel do item e criação avançada com o corte do treino; E2E `e2e/treino-item.spec.ts` | D234 |
 | V6 | AC3.1 | `scripts/exercicios/montar-base.mjs`: as duas bases livres juntas em `data/exercicios/base.json` (2.016 exercícios) | D235 |
 | V6 | AC3.2 | `scripts/exercicios/traduzir.mjs`: tradução retomável pelo modelo local | D235 |
+| V6 | AC3.3 | Traduzir a base: os 2.016 com nome em pt-BR e es e instruções em pt-BR; os 669 sem instruções ganharam passos curtos nos três idiomas (o modelo local fez 60, o Claude o resto) | D235 |
 | V6 | AC3.4 | `lib/gym/exercise-match.ts`: achar o exercício pelo que foi digitado, nos três idiomas, com sinônimos | D235 |
 | V6 | AC3.5 | `lib/gym/exercise-filter.ts`: busca e filtros por equipamento, parte do corpo e músculo | D235 |
 | V6 | AC3.6 | `exercises` e `user_exercises`, carga da base por migração, RLS, sync, pgTAP | D235 |
