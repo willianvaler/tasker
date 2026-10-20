@@ -1,6 +1,6 @@
 # Pastas, projetos e páginas
 
-- **Página** é uma lista de coisas: compras, treino, roteiro da viagem. Pode ser **lista**, **cards** (bom para treino), **kanban** ou **hábitos**.
+- **Página** é uma lista de coisas: compras, treino, roteiro da viagem. Pode ser **lista**, **cards** (bom para treino), **kanban** ou **hábitos**. No kanban, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card.
 - **Pasta** junta páginas suas. Exemplo: a pasta **Academia** com as páginas Treino A e Treino B.
 - **Projeto** é uma pasta para fazer **com outras pessoas**. Exemplo: o projeto **Churrasco** com as listas Compras e Dia, e cada amigo com as tarefas dele.
 
@@ -31,6 +31,8 @@ Em **Perfil → Barra lateral** você muda a ordem dos blocos (Anotações, Past
 ## Anotações
 
 **Nova anotação** (barra lateral; no celular, no Início) abre um texto livre, só seu. A barra de cima formata: **negrito**, _itálico_, título, lista, lista numerada e lista de tarefas. Também dá para escrever direto: `**negrito**`, `_itálico_`, `## título`, `- item`, `- [ ] tarefa`. **Visualizar** mostra o texto formatado; **Editar** volta ao texto. Salva sozinho.
+
+Dentro de uma **pasta ou projeto**, a seção **Anotações** guarda textos da pasta (combinados, atas, ideias): quem é da pasta lê, e quem pode criar tarefas ali escreve. Elas não aparecem nas suas anotações pessoais.
 
 ## Lista de compras do cardápio
 

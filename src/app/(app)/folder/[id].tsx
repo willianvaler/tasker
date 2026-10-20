@@ -14,6 +14,7 @@ import { Pressable, View } from 'react-native';
 import { useFolderActions } from '@/components/folder-actions';
 import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
 import { ItemIcon } from '@/components/item-icon';
+import { NotesList, useNewNote } from '@/components/notes-block';
 import { ProjectOverview } from '@/components/project-overview';
 import { FlowView } from '@/components/project/flow-view';
 import { PeopleView } from '@/components/project/people-view';
@@ -23,7 +24,7 @@ import { Related } from '@/components/related';
 import { useShortcut } from '@/lib/use-shortcut';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
-import { Button } from '@/components/ui/button';
+import { Button, IconButton } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
@@ -55,6 +56,9 @@ export default function FolderScreen() {
   const actor = useFolderActor(id);
   const canWriteHere = useCanWrite(id);
   const writable = canWriteHere && actorCan(actor, 'page.manage');
+  // Anotação na pasta: quem pode criar tarefas aqui (a mesma regra do banco)
+  const canNote = canWriteHere && actorCan(actor, 'task.create');
+  const newNote = useNewNote(id);
 
   const folder = found?.folder;
   const children = folder && 'children' in folder ? folder.children : [];
@@ -249,6 +253,20 @@ export default function FolderScreen() {
                   onPress={() => setShowSetup(true)}
                 />
               )}
+            </View>
+          )}
+          {/* Anotações da pasta ou projeto (pedido do dono, 20/10) */}
+          {folder && !folder.is_inbox && (
+            <View>
+              <SectionLabel
+                title={t('notes.title')}
+                right={
+                  canNote ? (
+                    <IconButton icon={Plus} label={t('notes.new')} onPress={newNote} />
+                  ) : undefined
+                }
+              />
+              <NotesList folderId={folder.id} limit={50} canCreate={canNote} />
             </View>
           )}
           {children.map((child) => (

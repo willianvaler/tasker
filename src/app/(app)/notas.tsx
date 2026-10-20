@@ -18,7 +18,8 @@ export default function NotesScreen() {
   const notes = useNotes();
   const newNote = useNewNote();
   const when = new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'short' });
-  const list = notes.data ?? [];
+  // As pessoais (as de pasta ficam na pasta)
+  const list = (notes.data ?? []).filter((n) => !n.folder_id);
   return (
     <Screen>
       <ScreenScroll contentContainerClassName="gap-4 pb-clear">

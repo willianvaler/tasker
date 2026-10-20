@@ -321,6 +321,11 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **CD2** Peso da tarefa com seis níveis nomeados: Trivial, Baixo, Médio, Alto, Muito alto, Extremo (D226)
 - [x] **CD3** Menu Novo: pelo botão não passa do fim da janela (abre para cima); pelo Alt+N, no meio da tela (D228)
 - [x] **CD4** Arte do jogo leve nas telas: miniaturas de 192 px para avatares e listas, sem esmaecer as pequenas (D229, parte do TR5)
+- [x] **CD5** Apagar a página aberta pelo menu dela (a página vazia do treino da Academia não tinha como) (D245)
+- [x] **CD6** Kanban com arrastar e soltar entre colunas (toque longo no celular), as setas continuam (D245)
+- [x] **CD7** Anotações dentro de pastas e projetos (`notes.folder_id`, quem é da pasta lê, quem cria tarefas escreve), seção Anotações na pasta (D245)
+- [x] **CD8** APK: intermediários do Let's Encrypt (YE1–3, YR1–3, E5–E9, R10–R14) e a Root YR como âncoras, para o "Trust anchor for certification path not found" (D245)
+- [x] **CD9** Login no celular com o formulário no topo, à vista com o teclado aberto (D245); E2E `e2e/correcoes-2010.spec.ts` e Ajuda nos 3 idiomas
 
 ## ESCOPO v1 — backlog (§11)
 

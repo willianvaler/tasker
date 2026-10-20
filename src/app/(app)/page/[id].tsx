@@ -245,6 +245,18 @@ export default function PageScreen() {
               ? [{ label: t('publish.menu'), onPress: () => setDialog('publish') }]
               : []),
             { label: t('folder.moveTo'), onPress: () => folderActions.movePage(page) },
+            ...(actorCan(pageActor, 'page.manage') && !page.is_inbox && !page.is_habits
+              ? [
+                  {
+                    label: t('folder.deletePage'),
+                    destructive: true,
+                    onPress: () =>
+                      folderActions.deletePage(page, () =>
+                        router.canGoBack() ? router.back() : router.replace('/'),
+                      ),
+                  },
+                ]
+              : []),
             ...(pageTasks.data?.some((task) => task.parent_task_id)
               ? [
                   {

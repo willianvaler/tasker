@@ -12,15 +12,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LandingFeatures, LandingFooter, LandingHero } from '@/components/landing';
 import { SignInForm } from '@/components/sign-in-form';
 import { Text } from '@/components/ui/text';
-import { isReturningDevice } from '@/lib/prefs';
 import { sessionEnded } from '@/lib/session';
 
 type Mode = 'sign-in' | 'sign-up';
 
 /**
  * Entrada (S1, V4 §5; D211): a apresentação do app (recursos com capturas) e o formulário. Em
- * tela larga, o formulário fica fixo ao lado; no celular, no fim da página (os botões do topo
- * levam até ele). Quem já entrou neste aparelho vê o formulário primeiro.
+ * tela larga, o formulário fica fixo ao lado; no celular, no começo da página (com o teclado
+ * aberto, os campos continuam à vista), com a apresentação embaixo.
  */
 export default function SignInScreen() {
   // Com sessão, o Stack.Protected do _layout troca de tela sozinho
@@ -29,7 +28,6 @@ export default function SignInScreen() {
   const wide = width >= 1024;
   // O servidor encerrou a sessão (não foi a pessoa que saiu): diz o porquê (D179)
   const [ended] = useState(sessionEnded);
-  const [returning] = useState(isReturningDevice);
   const [mode, setMode] = useState<Mode>('sign-in');
   // Troca de modo pelos botões do topo remonta o formulário já no modo pedido
   const [formKey, setFormKey] = useState(0);
@@ -79,7 +77,9 @@ export default function SignInScreen() {
   return (
     <SafeAreaView className="flex-1 bg-paper">
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={
+          Platform.OS === 'ios' ? 'padding' : Platform.OS === 'android' ? 'height' : undefined
+        }
         className="flex-1"
       >
         <ScrollView
@@ -87,10 +87,11 @@ export default function SignInScreen() {
           keyboardShouldPersistTaps="handled"
           contentContainerClassName="w-full max-w-3xl self-center px-6"
         >
-          {(returning || ended) && form}
+          {/* Pedido do dono (20/10): o formulário vem primeiro; no fim da página o teclado
+              cobria os campos */}
+          {form}
           <LandingHero onStart={start} />
           <LandingFeatures />
-          {!(returning || ended) && form}
           <LandingFooter />
         </ScrollView>
       </KeyboardAvoidingView>

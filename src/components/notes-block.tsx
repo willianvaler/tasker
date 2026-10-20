@@ -10,13 +10,13 @@ import { Text } from '@/components/ui/text';
 import { noteTitle, useNoteMutations, useNotes } from '@/lib/queries/notes';
 import { useToast } from '@/providers/toast';
 
-/** Abre uma anotação nova (cria e vai para o editor) */
-export function useNewNote() {
+/** Abre uma anotação nova (cria e vai para o editor); com `folderId`, dentro da pasta/projeto */
+export function useNewNote(folderId?: string | null) {
   const m = useNoteMutations();
   const toast = useToast();
   return () =>
     m.create
-      .mutateAsync()
+      .mutateAsync(folderId ?? null)
       .then((id) => router.push({ pathname: '/nota/[id]', params: { id } }))
       .catch((err: Error) => toast({ message: err.message }));
 }
@@ -33,7 +33,7 @@ export function NotesBlock({ limit = 5 }: { limit?: number }) {
     <View>
       <SectionLabel
         title={t('notes.title')}
-        count={notes.data?.length || undefined}
+        count={notes.data?.filter((n) => !n.folder_id).length || undefined}
         right={<IconButton icon={Plus} label={t('notes.new')} onPress={newNote} />}
       />
       <NotesList limit={limit} />
@@ -41,15 +41,26 @@ export function NotesBlock({ limit = 5 }: { limit?: number }) {
   );
 }
 
-/** As anotações mais recentes, sem o título da seção (a barra lateral usa o cabeçalho dela) */
-export function NotesList({ limit = 5 }: { limit?: number }) {
+/**
+ * As anotações mais recentes, sem o título da seção (a barra lateral usa o cabeçalho dela). Sem
+ * `folderId`, as pessoais; com ela, as da pasta ou projeto.
+ */
+export function NotesList({
+  limit = 5,
+  folderId,
+  canCreate = true,
+}: {
+  limit?: number;
+  folderId?: string;
+  canCreate?: boolean;
+}) {
   const { t } = useTranslation();
   const notes = useNotes();
-  const newNote = useNewNote();
-  const list = notes.data ?? [];
+  const newNote = useNewNote(folderId);
+  const list = (notes.data ?? []).filter((n) => (n.folder_id ?? null) === (folderId ?? null));
   return (
     <View>
-      {list.length === 0 && (
+      {list.length === 0 && canCreate && (
         <Pressable
           accessibilityRole="button"
           onPress={newNote}
@@ -72,7 +83,7 @@ export function NotesList({ limit = 5 }: { limit?: number }) {
           </Text>
         </Pressable>
       ))}
-      {list.length > limit && (
+      {list.length > limit && !folderId && (
         <Pressable
           accessibilityRole="link"
           onPress={() => router.push('/notas')}
