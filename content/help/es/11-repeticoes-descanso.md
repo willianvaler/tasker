@@ -48,6 +48,10 @@ En **Peso y medidas** (en el bloque Gimnasio de la barra lateral) registras el p
 
 El peso y las medidas son datos de salud, sensibles según la LGPD de Brasil: la primera vez la app pide tu consentimiento, y solo entonces guarda. Se quedan solo contigo (ni quien te entrena los ve), entran en la exportación y se van con la cuenta. **Dejar de guardar y borrar todo** revoca el consentimiento y borra los registros y las metas en el momento.
 
+## Estadísticas de entrenamiento
+
+En **Estadísticas de entrenamiento** (en el bloque Gimnasio) están los días y el tiempo entrenado, el **mapa muscular** (frente y espalda, figura masculina o femenina) sombreado por las series de cada músculo en la semana, el mes o desde siempre, con la lista de los que quedaron **sin entrenar** en el período, el **volumen por semana** (con el esfuerzo medio, si está activado) y el **año de entrenamiento**, un cuadradito por día con el tono del tiempo entrenado. El mapa solo conoce los músculos de los ítems vinculados a un ejercicio de la Biblioteca: el objetivo cuenta una serie; cada sinergista, media.
+
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

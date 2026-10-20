@@ -178,6 +178,45 @@ export function useWorkoutHistory(filter: { exerciseId?: string | null; taskId?:
   });
 }
 
+/**
+ * Todas as séries da pessoa desde uma data (para as estatísticas, AC8), da mais velha para a
+ * mais nova. Pelo servidor vem em páginas de 1.000 (o limite do PostgREST).
+ */
+export function useAllWorkoutSets(sinceIso: string) {
+  return useQuery({
+    queryKey: [...keys.workoutSets, 'all', sinceIso],
+    // Pode ser muita coisa: não vai para o cache em disco
+    meta: { persist: false },
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<WorkoutSet[]> => {
+      const userId = await sessionUserId();
+      if (!userId) return [];
+      if (isLocal()) {
+        const rows = await db.getAll<Record<string, unknown>>(
+          `select ${COLUMNS} from workout_sets where user_id = ? and performed_at >= ?
+           order by performed_at`,
+          [userId, sinceIso],
+        );
+        return rows.map(fromRow);
+      }
+      const out: WorkoutSet[] = [];
+      for (let from = 0; ; from += 1000) {
+        const { data, error } = await supabase
+          .from('workout_sets')
+          .select(COLUMNS)
+          .eq('user_id', userId)
+          .gte('performed_at', sinceIso)
+          .order('performed_at')
+          .range(from, from + 999);
+        if (error) throw error;
+        out.push(...(data ?? []).map((r) => fromRow(r as Record<string, unknown>)));
+        if ((data ?? []).length < 1000) break;
+      }
+      return out;
+    },
+  });
+}
+
 /** Aquecimento (não conta série) e apagar série do diário, pela fila do aparelho. */
 export function useWorkoutSetActions() {
   const queryClient = useQueryClient();

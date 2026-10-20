@@ -3,6 +3,7 @@ import { router, usePathname } from 'expo-router';
 import {
   Backpack,
   CalendarDays,
+  ChartColumn,
   CheckSquare,
   CircleHelp,
   ClipboardCheck,
@@ -261,6 +262,13 @@ function Palette({
       icon: icon(Scale),
       group: 0,
       run: go('/corpo'),
+    },
+    {
+      id: 'go-workout-stats',
+      label: t('stats.title'),
+      icon: icon(ChartColumn),
+      group: 0,
+      run: go('/treino-estatisticas'),
     },
     {
       id: 'go-calendar',

@@ -48,6 +48,10 @@ In **Weight and measurements** (in the Gym block of the sidebar) you log weight,
 
 Weight and measurements are health data, sensitive under Brazil’s LGPD: the first time, the app asks for your consent, and only then saves anything. They stay with you only (not even your coach sees them), are part of the export and leave with the account. **Stop saving and delete everything** withdraws consent and deletes the entries and goals right away.
 
+## Workout stats
+
+**Workout stats** (in the Gym block) shows your training days and time, the **muscle map** (front and back, male or female figure) shaded by the sets of each muscle in the week, the month or all time, with the list of muscles **not trained** in that period, **volume per week** (with average effort, if it is on) and the **training year**, one square per day toned by the time trained. The map only knows the muscles of items linked to a Library exercise: the target counts one set, each synergist half.
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

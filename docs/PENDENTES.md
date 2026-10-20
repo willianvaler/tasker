@@ -24,7 +24,7 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias (V5-4), lixeira para anotações e anexos; troca de e-mail fica com o e-mail | pendente | e-mail só para a troca |
 | V5 | §8 | Login com o Google (Supabase Auth, nativo no Android/iOS) — **não fazer agora** | pendente | projeto no Google Cloud (dono) |
 | **V6** | AC7.4 | Pergunta rápida do peso no início do treino (desligável) e importar do Health Connect / Apple Health | pendente | AC7.3, V7 |
-| V6 | AC8.1–8.5 | Estatísticas: mapa de calor, mapa muscular, volume | pendente | AC4.3 |
+| V6 | AC8.6 | Mapa muscular enquanto o treino é montado e no resumo do fim do treino | pendente | AC8.4 |
 | V6 | AC9.1–9.5 | Anilhas, aquecimento, supersets, plano da semana e lembrete | pendente | AC4.5, AC1.6 |
 | V6 | AC11 | Conquistas de academia e recorde crítico; prêmio (conquista e item) para os primeiros do desafio | pendente | AC5.3 |
 | V6 | AC12.1–12.2 | Planos prontos e importadores (Strong, Hevy, FitNotes) | pendente | arquivos de exemplo do dono |

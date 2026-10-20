@@ -48,6 +48,10 @@ Em **Peso e medidas** (no bloco Academia da barra lateral) você registra o peso
 
 Peso e medidas são dados de saúde, sensíveis pela LGPD: na primeira vez o app pede o seu consentimento, e só então guarda. Ficam só com você (nem quem treina você vê), entram na exportação e saem com a conta. **Parar de guardar e apagar tudo** revoga o consentimento e apaga os registros e as metas na hora.
 
+## Estatísticas de treino
+
+Em **Estatísticas de treino** (no bloco Academia) ficam os dias e o tempo treinado, o **mapa muscular** (frente e costas, figura masculina ou feminina) sombreado pelas séries de cada músculo na semana, no mês ou desde sempre, com a lista dos que ficaram **sem treino** no período, o **volume por semana** (com o esforço médio, se estiver ligado) e o **ano de treino**, um quadradinho por dia no tom do tempo treinado. O mapa só sabe os músculos dos itens ligados a um exercício da Biblioteca: o alvo conta uma série, cada sinergista, meia.
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

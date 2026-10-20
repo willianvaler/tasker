@@ -2,6 +2,7 @@ import { Link, router, usePathname, type Href } from 'expo-router';
 import {
   Bell,
   CalendarDays,
+  ChartColumn,
   ChevronDown,
   ChevronRight,
   CircleHelp,
@@ -296,6 +297,15 @@ export function Sidebar() {
             >
               <Icon icon={Scale} tone="ink-muted" />
               <Text className="text-sm text-ink-muted">{t('body.title')}</Text>
+            </Pressable>
+            {/* V6 §7: estatísticas de treino */}
+            <Pressable
+              accessibilityRole="link"
+              className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
+              onPress={() => router.push('/treino-estatisticas')}
+            >
+              <Icon icon={ChartColumn} tone="ink-muted" />
+              <Text className="text-sm text-ink-muted">{t('stats.title')}</Text>
             </Pressable>
           </View>
         )}

@@ -73,7 +73,7 @@ export type UiPrefs = {
   /** Revisão semanal (PB3): última feita ou dispensada */
   review?: ReviewPrefs;
   /** Registro do treino (AC4): unidade de carga e escala de esforço */
-  gym?: { unit?: WeightUnit; effort?: EffortSetting };
+  gym?: { unit?: WeightUnit; effort?: EffortSetting; figure?: 'male' | 'female' };
 };
 
 /** Unidade (padrão kg, V6 decisão 3) e esforço (padrão desligado) de quem treina. */
