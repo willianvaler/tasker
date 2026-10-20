@@ -180,6 +180,7 @@ describe('idioma das notificações (F3)', () => {
       'friend_request',
       'friend_accepted',
       'added_to_group',
+      'workout_reminder',
     ];
     const payload = {
       by: 'Ana',

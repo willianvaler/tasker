@@ -1,6 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
 import { PageProgressionEditor } from '@/components/gym/progression';
+import { TrainDaysEditor } from '@/components/gym/week-plan';
 import { MoreHorizontal, Play, SlidersHorizontal, Users } from 'lucide-react-native';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { View } from 'react-native';
@@ -19,6 +20,7 @@ import { SendPageDialog } from '@/components/send-page';
 import { ScreenHeader } from '@/components/screen-header';
 import { ExpensesView } from '@/components/expenses/expenses-view';
 import { PageView } from '@/components/tasks/page-view';
+import { Text } from '@/components/ui/text';
 import { Button, IconButton } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -283,15 +285,27 @@ export default function PageScreen() {
               ? {
                   label: t('progression.pageRule'),
                   content: (
-                    <PageProgressionEditor
-                      value={page.progression}
-                      onSave={(progression) =>
-                        m.updatePage.mutate(
-                          { id: page.id, name: page.name, progression },
-                          { onError },
-                        )
-                      }
-                    />
+                    <View className="gap-4">
+                      <PageProgressionEditor
+                        value={page.progression}
+                        onSave={(progression) =>
+                          m.updatePage.mutate(
+                            { id: page.id, name: page.name, progression },
+                            { onError },
+                          )
+                        }
+                      />
+                      <Text className="text-sm font-semibold text-ink">{t('weekPlan.days')}</Text>
+                      <TrainDaysEditor
+                        value={page.train_days}
+                        onSave={(train_days) =>
+                          m.updatePage.mutate(
+                            { id: page.id, name: page.name, train_days },
+                            { onError },
+                          )
+                        }
+                      />
+                    </View>
                   ),
                 }
               : rootFolder(tree.data, page.folder_id)?.kind === 'project' &&

@@ -60,6 +60,10 @@ Antes da primeira série de um exercício com carga, o Modo Treino sugere o **aq
 
 No painel do exercício, **Superset ou circuito** dá uma letra (A, B, C, D) ao item. Os itens do mesmo treino com a mesma letra formam um grupo: no Modo Treino, a série de um passa direto para o próximo do grupo, sem descanso, e o descanso vem no fim de cada rodada. Com três ou mais itens, é um circuito. Quando um acaba, os outros seguem; quando o grupo todo acaba, o treino vai para o próximo exercício.
 
+## Plano da semana
+
+Em **Configurar página** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue no Perfil, em Registro do treino).
+
 ## Modo: treino, foco ou descanso
 
 O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de cards ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.

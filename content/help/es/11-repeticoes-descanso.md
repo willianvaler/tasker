@@ -60,6 +60,10 @@ Antes de la primera serie de un ejercicio con carga, el modo Entrenamiento sugie
 
 En el panel del ejercicio, **Superserie o circuito** le da una letra (A, B, C, D) al ítem. Los ítems del mismo entrenamiento con la misma letra forman un grupo: en el modo Entrenamiento, la serie de uno pasa directo al siguiente del grupo, sin descanso, y el descanso llega al final de cada ronda. Con tres o más ítems es un circuito. Cuando uno termina, los demás siguen; cuando todo el grupo termina, el entrenamiento pasa al siguiente ejercicio.
 
+## Plan de la semana
+
+En **Configurar página** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en el Perfil, en Registro del entrenamiento).
+
 ## Modo: entrenamiento, foco o descanso
 
 El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de tarjetas o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.

@@ -56,6 +56,8 @@ const pages = new Table(
     budget_cents: column.integer,
     // Regra de progressão do treino (AC6)
     progression: column.text,
+    // Dias da semana do treino (AC9.5), JSON [1,3,5]
+    train_days: column.text,
     created_at: column.text,
     updated_at: column.text,
     updated_by: column.text,
@@ -200,6 +202,18 @@ const workout_sets = new Table(
     target_seconds: column.integer,
   },
   { indexes: { task: ['task_id', 'cycle_key'], exercise: ['exercise_id', 'performed_at'] } },
+);
+
+// Remarcações de treino (AC9.5): só as minhas
+const workout_moves = new Table(
+  {
+    page_id: column.text,
+    user_id: column.text,
+    from_day: column.text,
+    to_day: column.text,
+    created_at: column.text,
+  },
+  { indexes: { page: ['page_id', 'from_day'] } },
 );
 
 // Peso e medidas (AC7, dado sensível): só os meus. O consentimento só a RPC grava
@@ -536,6 +550,7 @@ export const AppSchema = new Schema({
   timers,
   time_entries,
   workout_sets,
+  workout_moves,
   body_metrics,
   body_goals,
   sensitive_consents,

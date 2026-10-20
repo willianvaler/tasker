@@ -114,3 +114,39 @@ test('superset alterna e descansa no fim da rodada', async ({ page }, testInfo) 
   await expect(shown(page, 'Série 2 de 2')).toBeVisible();
   await expect(rest).toBeVisible();
 });
+
+// AC9.5 (D243): dias de treino na página; "Treino de hoje" na Hoje; remarcar para amanhã tira
+// de hoje sem mexer no plano, e desfazer volta
+test('plano da semana: treino de hoje e remarcar', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Tela igual; basta um perfil');
+  test.setTimeout(60_000);
+  await signUp(page, testInfo);
+  await openTab(page, 'Início');
+  await page.getByRole('button', { name: 'Sim, vou treinar' }).click();
+  await page.getByRole('navigation').getByRole('button', { name: 'Novo treino' }).first().click();
+  const name = `Treino ${Date.now()}`;
+  await page.getByPlaceholder('Nome do treino (ex.: Treino A)').fill(name);
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.getByRole('heading', { name })).toBeVisible();
+
+  // Todos os dias: hoje é dia de treino, qualquer que seja
+  await page.getByRole('button', { name: 'Configurar página' }).click();
+  for (const day of ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'])
+    await page.getByRole('checkbox', { name: day, exact: true }).click();
+  await expect(page.getByRole('checkbox', { name: 'Dom', exact: true })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+  await page.getByRole('button', { name: 'Cancelar' }).click();
+
+  await openTab(page, 'Hoje');
+  await expect(shown(page, 'Treino de hoje')).toBeVisible({ timeout: 15_000 });
+  // (o nome aparece também na barra lateral: vale o botão da linha)
+  await expect(page.getByRole('button', { name: 'Remarcar' })).toBeVisible();
+  await page.getByRole('button', { name: 'Remarcar' }).click();
+  await page.getByRole('menuitem', { name: 'Amanhã', exact: true }).click();
+  await expect(shown(page, `${name} foi para Amanhã`)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Remarcar' })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Desfazer' }).click();
+  await expect(page.getByRole('button', { name: 'Remarcar' })).toBeVisible({ timeout: 15_000 });
+});

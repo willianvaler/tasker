@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { ToggleRow } from '@/components/ui/toggle-row';
 import type { EffortSetting } from '@/lib/gym/effort';
 import { parsePlates } from '@/lib/gym/plates';
 import type { WeightUnit } from '@/lib/gym/types';
@@ -32,6 +33,7 @@ export function GymPrefsSettings() {
     effort?: EffortSetting;
     bar?: number;
     plates?: number[];
+    remind?: boolean;
   }) => update.mutate({ gym: { ...saved, ...patch } });
   const number = (v: number) =>
     new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 2 }).format(v);
@@ -110,6 +112,13 @@ export function GymPrefsSettings() {
           <Text className="text-xs text-ink-muted">{t('plates.availableHint')}</Text>
         </View>
       </View>
+      <ToggleRow
+        title={t('weekPlan.remind')}
+        hint={t('weekPlan.remindHint')}
+        value={saved.remind !== false}
+        disabled={!online}
+        onChange={(remind) => set({ remind })}
+      />
     </View>
   );
 }

@@ -44,6 +44,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'max_depth',
       'budget_cents',
       'progression',
+      'train_days',
     ],
     update: [
       'folder_id',
@@ -55,6 +56,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'max_depth',
       'budget_cents',
       'progression',
+      'train_days',
     ],
   },
   tasks: {
@@ -151,6 +153,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['value', 'measured_on', 'note'],
   },
   body_goals: { insert: ['kind', 'target'], update: ['target'] },
+  workout_moves: { insert: ['page_id', 'from_day', 'to_day'], update: ['to_day'] },
   expenses: {
     insert: [
       'page_id',
@@ -202,6 +205,7 @@ const SERVER_SIDE = new Set([
 
 // No SQLite, jsonb e arrays são texto
 const JSON_COLUMNS = new Set([
+  'train_days',
   'labels',
   'meta',
   'recurrence',

@@ -14,6 +14,7 @@ import { TaskRow } from '@/components/tasks/task-row';
 import { ModeButton } from '@/components/mode-button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { EmptyState } from '@/components/ui/empty-state';
+import { TodayWorkout } from '@/components/gym/week-plan';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { formatShortDate } from '@/lib/parser/dates';
@@ -118,6 +119,7 @@ export default function TodayScreen() {
               defaultDueDate={today}
               placeholder={t('today.placeholder')}
             />
+            <TodayWorkout />
             <NextActionCard tasks={tasks.data ?? []} today={today} onlyWithMyDay />
             <MyDaySection today={today} />
             {tasks.error && (

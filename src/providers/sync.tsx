@@ -40,6 +40,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   expenses: [['expenses']],
   // Diário de treino (AC4): histórico, recordes e progressão
   workout_sets: [keys.workoutSets],
+  workout_moves: [['workout-moves']],
   body_metrics: [['body']],
   body_goals: [['body']],
   sensitive_consents: [['body']],

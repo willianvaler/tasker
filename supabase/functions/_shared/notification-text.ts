@@ -37,6 +37,7 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} começou o treino "${p.page_name}" com você: entrar`,
     challenge_started: (p, by) =>
       `${by} começou o desafio "${p.name}" (${p.days} ${n(p.days) === 1 ? 'dia' : 'dias'})`,
+    workout_reminder: (p) => `Hoje é dia de ${p.page_name}: ainda sem treino registrado`,
     reaction: (p, by) => `${by} reagiu ${p.emoji} a "${p.title}"`,
     reaction_comment: (p, by) => `${by} reagiu ${p.emoji} ao seu comentário em "${p.title}"`,
     friend_request: (_, by) => `${by} pediu amizade`,
@@ -66,6 +67,7 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} started the workout "${p.page_name}" with you: join`,
     challenge_started: (p, by) =>
       `${by} started the challenge "${p.name}" (${p.days} ${n(p.days) === 1 ? 'day' : 'days'})`,
+    workout_reminder: (p) => `Today is ${p.page_name} day: no workout logged yet`,
     reaction: (p, by) => `${by} reacted ${p.emoji} to "${p.title}"`,
     reaction_comment: (p, by) => `${by} reacted ${p.emoji} to your comment on "${p.title}"`,
     friend_request: (_, by) => `${by} sent you a friend request`,
@@ -96,6 +98,7 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} empezó el entrenamiento "${p.page_name}" contigo: entrar`,
     challenge_started: (p, by) =>
       `${by} empezó el desafío "${p.name}" (${p.days} ${n(p.days) === 1 ? 'día' : 'días'})`,
+    workout_reminder: (p) => `Hoy toca ${p.page_name}: todavía no registraste el entrenamiento`,
     reaction: (p, by) => `${by} reaccionó ${p.emoji} a "${p.title}"`,
     reaction_comment: (p, by) => `${by} reaccionó ${p.emoji} a tu comentario en "${p.title}"`,
     friend_request: (_, by) => `${by} te envió una solicitud de amistad`,
@@ -194,6 +197,9 @@ export function describeNotification(
         teamId: p.team_id ? String(p.team_id) : undefined,
         url: p.clan ? '/clan' : undefined,
       };
+    case 'workout_reminder':
+      // Dia de treino sem série (AC9.5): abre o treino do dia
+      return { text: say('workout_reminder'), url: p.page_id ? `/page/${p.page_id}` : undefined };
     case 'task_reminder': {
       // Lembrete de tarefa com horário (D206): "⏰ 20/10 15:00 · Ligar para o banco" (10/20 em inglês)
       const [, m, d] = String(p.due_date ?? '').split('-');

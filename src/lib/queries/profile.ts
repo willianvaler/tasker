@@ -81,6 +81,8 @@ export type UiPrefs = {
     /** Barra e anilhas que a pessoa tem (AC9), na unidade dela */
     bar?: number;
     plates?: number[];
+    /** Lembrete em dia de treino (AC9.5); padrão ligado */
+    remind?: boolean;
   };
 };
 

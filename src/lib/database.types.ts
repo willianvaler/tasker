@@ -1129,14 +1129,14 @@ isOneToOne: false
                   ]
                 },"pages": {
                   Row: {
-                    "budget_cents": number | null,"created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"progression": string | null,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"],"_snapshot_page": Json | null
+                    "budget_cents": number | null,"created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"progression": string | null,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"train_days": (number)[] | null,"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"],"_snapshot_page": Json | null
                   }
                   ComputedFields: "_snapshot_page"
                   Insert: {
-                    "budget_cents"?: number | null,"created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "budget_cents"?: number | null,"created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"train_days"?: (number)[] | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Update: {
-                    "budget_cents"?: number | null,"created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name"?: string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "budget_cents"?: number | null,"created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name"?: string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"train_days"?: (number)[] | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Relationships: [
                     {
@@ -2031,6 +2031,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"workout_moves": {
+                  Row: {
+                    "created_at": string,"from_day": string,"id": string,"page_id": string,"to_day": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"from_day": string,"id"?: string,"page_id": string,"to_day"?: string | null,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"from_day"?: string,"id"?: string,"page_id"?: string,"to_day"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "workout_moves_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_moves_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"workout_session_members": {
                   Row: {
                     "invited_by": string | null,"joined_at": string | null,"left_at": string | null,"session_id": string,"status": string,"user_id": string
@@ -2365,6 +2391,9 @@ isOneToOne: false
                            },
 "_page_title":
 { Args: { "p_page_id": string }; Returns: string
+                           },
+"_planned_on":
+{ Args: { "p_day": string,"p_page": string,"p_user": string }; Returns: boolean
                            },
 "_prev_sets":
 { Args: { "p_set": Omit<Database["public"]['Tables']["workout_sets"]['Row'], Database["public"]['Tables']["workout_sets"]['ComputedFields']>,"p_tz": string }; Returns: {
@@ -3151,6 +3180,9 @@ isOneToOne: false
 "send_task_reminders":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
+"send_workout_reminders":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "set_appearance":
 { Args: { "p_background": string,"p_portrait": string }; Returns: undefined
                            },
@@ -3376,6 +3408,9 @@ isOneToOne: false
                            },
 "weight_factor":
 { Args: { "p_weight": number }; Returns: number
+                           },
+"workout_reminder_hour":
+{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "xp_rules":
 { Args: Record<PropertyKey, never>; Returns: Json

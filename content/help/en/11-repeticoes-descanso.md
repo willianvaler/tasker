@@ -60,6 +60,10 @@ Before the first set of a weighted exercise, Workout mode suggests a **warm-up**
 
 In the exercise panel, **Superset or circuit** gives the item a letter (A, B, C, D). Items in the same workout with the same letter form a group: in Workout mode, a set of one goes straight to the next one in the group, with no rest, and rest comes at the end of each round. With three or more items it is a circuit. When one finishes, the others go on; when the whole group is done, the workout moves to the next exercise.
 
+## Weekly plan
+
+In **Configure page** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Profile, under Workout log).
+
 ## Mode: workout, focus or rest
 
 The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a cards page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.

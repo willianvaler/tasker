@@ -29,6 +29,8 @@ export type PageSettings = {
   max_depth?: number | null;
   /** Regra de progressão do treino (AC6); null = a padrão */
   progression?: Page['progression'];
+  /** Dias da semana do treino (AC9.5): 0 = domingo */
+  train_days?: number[] | null;
 };
 
 export type SubFolder = Folder & { pages: Page[] };

@@ -45,6 +45,11 @@ export function toPage(row: Row): Tables<'pages'> {
     ...(row as Tables<'pages'>),
     is_inbox: !!row.is_inbox,
     is_habits: !!row.is_habits,
+    // Array do Postgres: chega como "[1,3,5]" (ou "{1,3,5}")
+    train_days:
+      typeof row.train_days === 'string'
+        ? (row.train_days.match(/\d/g) ?? []).map(Number)
+        : ((row.train_days as number[] | null) ?? null),
     created_at: iso(row.created_at)!,
     updated_at: iso(row.updated_at)!,
   };
