@@ -214,3 +214,16 @@ export function setListMode(pageId: string, mode: ListMode) {
   if (mode === 'list') localStore.removeItem(listModeKey(pageId));
   else localStore.setItem(listModeKey(pageId), mode);
 }
+
+/** Aba da página de gastos: geral, só gastos ou só entradas (D255). É do aparelho. */
+const expenseTabKey = (pageId: string) => `questlist:expense-tab:${pageId}`;
+
+export function getExpenseTab(pageId: string): 'all' | 'out' | 'in' {
+  const saved = localStore.getItem(expenseTabKey(pageId));
+  return saved === 'out' || saved === 'in' ? saved : 'all';
+}
+
+export function setExpenseTab(pageId: string, tab: 'all' | 'out' | 'in') {
+  if (tab === 'all') localStore.removeItem(expenseTabKey(pageId));
+  else localStore.setItem(expenseTabKey(pageId), tab);
+}

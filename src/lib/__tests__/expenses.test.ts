@@ -8,6 +8,7 @@ import {
   defaultCurrency,
   formatMoney,
   inPeriod,
+  inTab,
   moneyInput,
   parseExpenseDate,
   parseMoney,
@@ -112,6 +113,15 @@ describe('totais', () => {
     const settle = { ...list[0], kind: 'settle', amount_cents: 999 };
     const s = summarize([...list, settle]);
     expect([s.spent, s.received]).toEqual([summarize(list).spent, summarize(list).received]);
+  });
+  it('abas: só saídas, só entradas e a geral com o acerto (D255)', () => {
+    const settle = { ...list[0], kind: 'settle', amount_cents: 999 };
+    const all = [...list, settle];
+    expect(inTab(all, 'out').every((e) => e.kind === 'out')).toBe(true);
+    expect(inTab(all, 'out')).toHaveLength(list.filter((e) => e.kind === 'out').length);
+    expect(inTab(all, 'in').map((e) => e.amount_cents)).toEqual([5000]);
+    expect(inTab(all, 'all')).toBe(all);
+    expect(summarize(inTab(all, 'in'))).toMatchObject({ spent: 0, received: 5000 });
   });
   it('orçamento', () => {
     expect(budgetUsed(250000, 1000000)).toBe(0.25);

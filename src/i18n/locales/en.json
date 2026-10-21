@@ -3365,7 +3365,15 @@
       "oldDate": "The date read is {{date}}, more than 2 months ago. Check the year before saving.",
       "savedOtherMonth_one": "Entry from {{date}} saved. It's outside this month, so the list now shows All.",
       "savedOtherMonth_other": "{{count}} entries from {{date}} saved. They're outside this month, so the list now shows All."
-    }
+    },
+    "tabs": "Parts of the expenses page",
+    "tabAll": "Overview",
+    "tabOut": "Expenses",
+    "tabIn": "Income",
+    "emptyOut": "No expenses yet.",
+    "emptyOutMonth": "No expenses this month.",
+    "emptyIn": "No income yet.",
+    "emptyInMonth": "No income this month."
   },
   "listPhoto": {
     "button": "Photo of a list",

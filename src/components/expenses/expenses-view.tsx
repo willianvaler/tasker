@@ -11,6 +11,7 @@ import { Grid } from '@/components/ui/grid';
 import { Input } from '@/components/ui/input';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { SectionLabel } from '@/components/ui/section-label';
+import { Tabs } from '@/components/ui/tabs';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import {
@@ -21,14 +22,17 @@ import {
   defaultCurrency,
   formatMoney,
   inPeriod,
+  inTab,
   moneyInput,
   parseMoney,
   summarize,
   type ExpenseKind,
   type ExpensePeriod,
+  type ExpenseTab,
 } from '@/lib/expenses';
 import { formatShortDate } from '@/lib/parser/dates';
 import { actorCan } from '@/lib/permissions';
+import { getExpenseTab, setExpenseTab } from '@/lib/prefs';
 import {
   newExpenseId,
   useExpenseMutations,
@@ -46,7 +50,8 @@ import { ReceiptButton } from './receipt-button';
 import { SplitSection } from './split-section';
 
 // Página de gastos (ESCOPO_V9 §1): totais no topo, lançamento rápido e a planilha. Tocar numa
-// linha abre o lançamento inteiro (/gasto/<id>).
+// linha abre o lançamento inteiro (/gasto/<id>). As abas Gastos e Entradas (D255) são a mesma
+// página só com as saídas ou só com as entradas: totais, lançamento, lista e exportação da aba.
 
 /** Nome da categoria padrão no idioma; categoria própria aparece como foi escrita. */
 export function useCategoryNames() {
@@ -74,13 +79,23 @@ export function ExpensesView({ page }: { page: Page }) {
   const currency = defaultCurrency(locale);
   const money = (cents: number, cur = currency) => formatMoney(cents, cur, locale);
 
+  // Aba lembrada por página no aparelho, como a Lista · Matriz (D221)
+  const [tabOf, setTabOf] = useState<{ id: string; tab: ExpenseTab } | null>(null);
+  const tab: ExpenseTab = tabOf?.id === page.id ? tabOf.tab : getExpenseTab(page.id);
+  function changeTab(next: ExpenseTab) {
+    setExpenseTab(page.id, next);
+    setTabOf({ id: page.id, tab: next });
+  }
+
   const [period, setPeriod] = useState<ExpensePeriod>('month');
-  const all = [...(expenses.data ?? [])].sort(byDateDesc);
+  // O racha e o orçamento olham a página inteira; o resto, só a aba
+  const everything = [...(expenses.data ?? [])].sort(byDateDesc);
+  const all = inTab(everything, tab);
   const shown = inPeriod(all, period, today);
   const summary = summarize(shown);
-  const used = budgetUsed(summarize(all).spent, page.budget_cents);
+  const used = budgetUsed(summarize(everything).spent, page.budget_cents);
   const categoryNames = useCategoryNames();
-  const suggestions = categorySuggestions(all, categoryNames);
+  const suggestions = categorySuggestions(all, tab === 'in' ? [] : categoryNames);
   const names = new Map((members.data ?? []).map((p) => [p.userId, p.displayName]));
   const people = (members.data ?? []).length > 1;
 
@@ -88,7 +103,8 @@ export function ExpensesView({ page }: { page: Page }) {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState<string | null>(null);
-  const [kind, setKind] = useState<ExpenseKind>('out');
+  const [chosenKind, setKind] = useState<ExpenseKind>('out');
+  const kind: ExpenseKind = tab === 'all' ? chosenKind : tab;
   const descriptionRef = useRef<TextInput>(null);
   const amountRef = useRef<TextInput>(null);
 
@@ -119,44 +135,71 @@ export function ExpensesView({ page }: { page: Page }) {
 
   const [dialog, setDialog, closeDialog] = useDialog<'budget'>();
 
+  const emptyKey =
+    tab === 'out'
+      ? period === 'month'
+        ? 'expenses.emptyOutMonth'
+        : 'expenses.emptyOut'
+      : tab === 'in'
+        ? period === 'month'
+          ? 'expenses.emptyInMonth'
+          : 'expenses.emptyIn'
+        : period === 'month'
+          ? 'expenses.emptyMonth'
+          : 'expenses.empty';
+
   return (
     <View className="gap-6">
+      <Tabs
+        label={t('expenses.tabs')}
+        value={tab}
+        onChange={changeTab}
+        tabs={[
+          { value: 'all', label: t('expenses.tabAll') },
+          { value: 'out', label: t('expenses.tabOut') },
+          { value: 'in', label: t('expenses.tabIn') },
+        ]}
+      />
       <Grid breakpoints={[520, 1000]}>
-        <Stat label={t('expenses.spent')} value={money(summary.spent)} />
-        <Stat label={t('expenses.received')} value={money(summary.received)} />
-        <Stat
-          label={t('expenses.balance')}
-          value={money(summary.balance)}
-          tone={summary.balance < 0 ? 'danger' : 'ok'}
-        />
-        <View className="gap-2 rounded-lg border border-line p-3">
-          <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
-            {t('expenses.budget')}
-          </Text>
-          {page.budget_cents ? (
-            <>
-              <Text className="font-mono text-base text-ink">
-                {t('expenses.budgetOf', {
-                  spent: money(summarize(all).spent),
-                  budget: money(page.budget_cents),
-                })}
-              </Text>
-              <ProgressBar
-                value={used ?? 0}
-                fillClassName={(used ?? 0) > 1 ? 'bg-danger' : 'bg-accent'}
-                label={t('expenses.budgetUsed', { pct: Math.round((used ?? 0) * 100) })}
+        {tab !== 'in' && <Stat label={t('expenses.spent')} value={money(summary.spent)} />}
+        {tab !== 'out' && <Stat label={t('expenses.received')} value={money(summary.received)} />}
+        {tab === 'all' && (
+          <Stat
+            label={t('expenses.balance')}
+            value={money(summary.balance)}
+            tone={summary.balance < 0 ? 'danger' : 'ok'}
+          />
+        )}
+        {tab !== 'in' && (
+          <View className="gap-2 rounded-lg border border-line p-3">
+            <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              {t('expenses.budget')}
+            </Text>
+            {page.budget_cents ? (
+              <>
+                <Text className="font-mono text-base text-ink">
+                  {t('expenses.budgetOf', {
+                    spent: money(summarize(everything).spent),
+                    budget: money(page.budget_cents),
+                  })}
+                </Text>
+                <ProgressBar
+                  value={used ?? 0}
+                  fillClassName={(used ?? 0) > 1 ? 'bg-danger' : 'bg-accent'}
+                  label={t('expenses.budgetUsed', { pct: Math.round((used ?? 0) * 100) })}
+                />
+              </>
+            ) : null}
+            {canWrite && (
+              <Button
+                variant="ghost"
+                className="self-start"
+                label={t(page.budget_cents ? 'expenses.changeBudget' : 'expenses.setBudget')}
+                onPress={() => setDialog('budget')}
               />
-            </>
-          ) : null}
-          {canWrite && (
-            <Button
-              variant="ghost"
-              className="self-start"
-              label={t(page.budget_cents ? 'expenses.changeBudget' : 'expenses.setBudget')}
-              onPress={() => setDialog('budget')}
-            />
-          )}
-        </View>
+            )}
+          </View>
+        )}
       </Grid>
 
       <View className="flex-row flex-wrap items-center gap-2">
@@ -173,7 +216,7 @@ export function ExpensesView({ page }: { page: Page }) {
           onPress={() => setPeriod('all')}
         />
         <View className="flex-1" />
-        {canWrite && (
+        {canWrite && tab !== 'in' && (
           <ReceiptButton
             page={page}
             onSaved={(date) => {
@@ -215,19 +258,23 @@ export function ExpensesView({ page }: { page: Page }) {
             </View>
           </View>
           <View className="flex-row flex-wrap gap-2">
-            <Chip
-              role="radio"
-              label={t('expenses.out')}
-              selected={kind === 'out'}
-              onPress={() => setKind('out')}
-            />
-            <Chip
-              role="radio"
-              label={t('expenses.in')}
-              selected={kind === 'in'}
-              onPress={() => setKind('in')}
-            />
-            <View className="mx-1 w-px self-stretch bg-line" />
+            {tab === 'all' && (
+              <>
+                <Chip
+                  role="radio"
+                  label={t('expenses.out')}
+                  selected={kind === 'out'}
+                  onPress={() => setKind('out')}
+                />
+                <Chip
+                  role="radio"
+                  label={t('expenses.in')}
+                  selected={kind === 'in'}
+                  onPress={() => setKind('in')}
+                />
+                <View className="mx-1 w-px self-stretch bg-line" />
+              </>
+            )}
             {suggestions.slice(0, 8).map((c) => (
               <Chip
                 key={c}
@@ -262,10 +309,10 @@ export function ExpensesView({ page }: { page: Page }) {
         </View>
       )}
 
-      {people && (
+      {people && tab !== 'in' && (
         <SplitSection
           pageId={page.id}
-          expenses={all}
+          expenses={everything}
           names={names}
           canWrite={canWrite}
           today={today}
@@ -275,10 +322,7 @@ export function ExpensesView({ page }: { page: Page }) {
       <View className="gap-1">
         <SectionLabel title={t('expenses.entries')} count={shown.length} />
         {expenses.isPending ? null : shown.length === 0 ? (
-          <EmptyState
-            title={t(period === 'month' ? 'expenses.emptyMonth' : 'expenses.empty')}
-            hint={canWrite ? t('expenses.emptyHint') : undefined}
-          />
+          <EmptyState title={t(emptyKey)} hint={canWrite ? t('expenses.emptyHint') : undefined} />
         ) : (
           <>
             {wide && (

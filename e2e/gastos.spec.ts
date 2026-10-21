@@ -86,6 +86,54 @@ test('gastos: lançar, editar, orçamento e exportar', async ({ page }, testInfo
   ).toBe('PK');
 });
 
+test('abas Gastos e Entradas: cada uma só com o seu tipo, lançamento da aba e lembrada (D255)', async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Casa', name: 'Contas', type: 'Gastos' });
+  const cimento = page.getByRole('button', { name: /^Cimento, / });
+  const reembolso = page.getByRole('button', { name: /^Reembolso, / });
+
+  await page.getByRole('textbox', { name: 'Descrição' }).fill('Cimento');
+  await page.getByRole('textbox', { name: 'Valor' }).fill('45,90');
+  await page.getByRole('button', { name: 'Lançar' }).click();
+  await page.getByRole('radio', { name: 'Entrada' }).click();
+  await page.getByRole('textbox', { name: 'Descrição' }).fill('Reembolso');
+  await page.getByRole('textbox', { name: 'Valor' }).fill('10');
+  await page.getByRole('button', { name: 'Lançar' }).click();
+  await expect(reembolso).toBeVisible();
+  await expect(cimento).toBeVisible();
+
+  // Entradas: só a entrada; lança sem escolher Saída/Entrada
+  await page.getByRole('tab', { name: 'Entradas' }).click();
+  await expect(reembolso).toBeVisible();
+  await expect(cimento).toHaveCount(0);
+  await expect(page.getByRole('radio', { name: 'Saída' })).toHaveCount(0);
+  await expect(stat(page, 'Entradas')).toHaveAttribute('aria-label', /R\$\s10,00/);
+  await expect(stat(page, 'Gasto')).toHaveCount(0);
+  await page.getByRole('textbox', { name: 'Descrição' }).fill('Venda da sobra');
+  await page.getByRole('textbox', { name: 'Valor' }).fill('20');
+  await page.getByRole('button', { name: 'Lançar' }).click();
+  await expect(
+    page.getByRole('button', { name: /^Venda da sobra, \+R\$\s20,00, Hoje$/ }),
+  ).toBeVisible();
+
+  // Gastos: só a saída, e a aba volta depois de recarregar
+  await page.getByRole('tab', { name: 'Gastos' }).click();
+  await expect(cimento).toBeVisible();
+  await expect(reembolso).toHaveCount(0);
+  await expect(stat(page, 'Gasto')).toHaveAttribute('aria-label', /R\$\s45,90/);
+  await page.reload();
+  await expect(page.getByRole('tab', { name: 'Gastos' })).toHaveAttribute('aria-selected', 'true');
+  await expect(cimento).toBeVisible();
+  await expect(reembolso).toHaveCount(0);
+
+  // Geral: tudo e o saldo
+  await page.getByRole('tab', { name: 'Geral' }).click();
+  await expect(stat(page, 'Saldo')).toHaveAttribute('aria-label', /-R\$\s15,90/);
+});
+
 test('foto da nota: lê, confere, salva com a foto e não lança a mesma nota duas vezes', async ({
   page,
 }, testInfo) => {

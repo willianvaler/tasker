@@ -7,6 +7,7 @@ Una página de tipo **Gastos** (Nuevo → Página → Gastos) es una hoja de reg
 - En el cuadro de arriba, escribe la **descripción** y el **importe** (`12,50`, `1.234,56`) y toca **Registrar** (o Enter). Elige **Gasto** o **Ingreso** y, si quieres, una categoría.
 - Toca una fila para abrir el registro completo: fecha (`12/10`, `ayer`), categoría, forma de pago, quién pagó (en un proyecto), observación. Al cerrar se guarda. **Borrar registro** lo manda a la papelera.
 - Arriba: **Gastado**, **Ingresos** y **Saldo** del periodo (**Este mes** o **Todo**), el **presupuesto** con la barra de cuánto se usó, y el gasto **por categoría**.
+- Las pestañas **General**, **Gastos** e **Ingresos** dividen la página: en **Gastos** quedan solo las salidas (con el presupuesto, las categorías y la división de cuentas) y en **Ingresos**, solo las entradas. El registro rápido, la lista y **Exportar** siguen la pestaña. El dispositivo recuerda la pestaña de cada página.
 - En un proyecto, el Lector ve; el Colaborador registra y cambia solo lo suyo; Editor, Gerente y Dueño cambian todo.
 
 ## Foto del ticket

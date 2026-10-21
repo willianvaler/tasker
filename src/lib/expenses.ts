@@ -109,6 +109,14 @@ export function inPeriod<T extends ExpenseLike>(list: T[], period: ExpensePeriod
   return list.filter((e) => e.spent_on.slice(0, 7) === month);
 }
 
+/** Aba da página de gastos (D255): geral, só as saídas ou só as entradas. */
+export type ExpenseTab = 'all' | ExpenseKind;
+
+/** Lançamentos da aba. Acerto do racha (PB5) não é gasto nem entrada: só aparece na geral. */
+export function inTab<T extends ExpenseLike>(list: T[], tab: ExpenseTab) {
+  return tab === 'all' ? list : list.filter((e) => e.kind === tab);
+}
+
 export type ExpenseSummary = {
   /** Saídas */
   spent: number;

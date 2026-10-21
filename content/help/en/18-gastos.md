@@ -7,6 +7,7 @@ An **Expenses** page (New → Page → Expenses) is a spreadsheet of entries: wh
 - In the box at the top, type the **description** and the **amount** (`12.50`, `1,234.56`) and tap **Add** (or Enter). Pick **Expense** or **Income** and, if you want, a category.
 - Tap a row to open the whole entry: date (`10/12`, `yesterday`), category, payment method, who paid (in a project), note. Closing saves. **Delete entry** sends it to the trash.
 - At the top: **Spent**, **Income** and **Balance** for the period (**This month** or **All**), the **budget** with a bar of how much is used, and spending **by category**.
+- The **Overview**, **Expenses** and **Income** tabs split the page: **Expenses** has only what went out (with the budget, categories and the bill split) and **Income** only what came in. Quick add, the list and **Export** follow the tab. The device remembers the tab for each page.
 - In a project, Viewers see; Contributors add and change only their own entries; Editors, Managers and Owners change everything.
 
 ## Receipt photo

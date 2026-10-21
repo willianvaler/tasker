@@ -3365,7 +3365,15 @@
       "oldDate": "A data lida é {{date}}, de mais de 2 meses atrás. Confira o ano antes de salvar.",
       "savedOtherMonth_one": "Lançamento de {{date}} salvo. Fora deste mês: a lista agora mostra Tudo.",
       "savedOtherMonth_other": "{{count}} lançamentos de {{date}} salvos. Fora deste mês: a lista agora mostra Tudo."
-    }
+    },
+    "tabs": "Partes da página de gastos",
+    "tabAll": "Geral",
+    "tabOut": "Gastos",
+    "tabIn": "Entradas",
+    "emptyOut": "Nenhum gasto ainda.",
+    "emptyOutMonth": "Nenhum gasto neste mês.",
+    "emptyIn": "Nenhuma entrada ainda.",
+    "emptyInMonth": "Nenhuma entrada neste mês."
   },
   "listPhoto": {
     "button": "Foto de uma lista",

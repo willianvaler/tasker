@@ -7,6 +7,7 @@ Uma página do tipo **Gastos** (Novo → Página → Gastos) é uma planilha de 
 - No quadro de cima, escreva a **descrição** e o **valor** (`12,50`, `1.234,56`) e toque em **Lançar** (ou Enter). Escolha **Saída** ou **Entrada** e, se quiser, uma categoria.
 - Toque numa linha para abrir o lançamento inteiro: data (`12/10`, `ontem`), categoria, forma de pagamento, quem pagou (num projeto), observação. Fecha e salva. **Apagar lançamento** manda para a lixeira.
 - No topo: **Gasto**, **Entradas** e **Saldo** do período (**Este mês** ou **Tudo**), o **orçamento** com a barra do quanto já foi, e o gasto **por categoria**.
+- As abas **Geral**, **Gastos** e **Entradas** dividem a página: em **Gastos** ficam só as saídas (com o orçamento, as categorias e o racha) e em **Entradas**, só as entradas. O lançamento rápido, a lista e o **Exportar** seguem a aba. A aba escolhida fica lembrada no aparelho, para cada página.
 - Num projeto, o Leitor vê; o Colaborador lança e mexe só no que lançou; Editor, Gerente e Dono mexem em tudo.
 
 ## Foto da nota
