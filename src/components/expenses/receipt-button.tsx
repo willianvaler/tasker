@@ -99,7 +99,7 @@ export function ReceiptButton({
     if (result.canceled) return;
     setLastSaved(null);
     setReading((n) => n + result.assets.length);
-    // Uma por vez: o plano gratuito do Gemini aceita poucas por minuto
+    // Uma por vez: o OCR do servidor (D254) lê uma foto de cada vez
     for (const asset of result.assets) {
       try {
         const photo = await preparePhoto(asset.uri, asset.width, asset.height);

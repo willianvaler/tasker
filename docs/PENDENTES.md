@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V10.md`), numa tabela só
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; itens B do V3 que subiram de prioridade (PB1 a PB5) em 20/10; ESCOPO_V10 (amigos, visibilidade, comunidade) em 20/10, falta o bloco Bem-estar.
+Atualizado em 21/10/2026 (produção v2026.10.18). Nota fiscal lida pelo Tesseract no servidor (CD14, D254) em 21/10. ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; itens B do V3 que subiram de prioridade (PB1 a PB5) em 20/10; ESCOPO_V10 (amigos, visibilidade, comunidade) em 20/10, falta o bloco Bem-estar.
 
 ## Para fazer depois (pedido do dono, 20/10, noite)
 
@@ -32,7 +32,7 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V3 | §6 itens C | Lembrete por local, dependências entre projetos, Gantt, notas colaborativas (CRDT), importar de Habitica/Todoist, webhooks e API | backlog | — |
 | **V4** | T1 | Planos e assinaturas (modelo): tudo grátis por enquanto, pago no futuro com founder (V4-5) | depois | — |
 | V4 | T2 | Pagamento: primeiro pelas lojas (Google Play e App Store); depois, uma plataforma aberta ou sem taxa para cartão e Pix, com assinatura anual | depois (V4-6 decidido 20/10) | contas das lojas (dono) |
-| **Dono** | CD14 | Trocar o leitor de foto (OCR) das notas fiscais e listas | depois (pedido do dono, 20/10) | escolher o serviço |
+| **Dono** | CD14 | Trocar o leitor da foto de uma lista (a nota já é lida pelo Tesseract, D254; lista escrita à mão o Tesseract não lê bem) | depois (pedido do dono, 20/10) | escolher o serviço |
 | **V5** | §1.2 | App para relógio Wear OS (companheiro do celular, em Kotlin) | pendente | estimar antes |
 | V5 | §1.1 | Tela de bloqueio: botões com o app encerrado e atualizações ao vivo do Android 16 | depois | — |
 | V5 | §4 | LGPD: e-mail do encarregado na política e revisão do texto por advogado (o resto foi feito, D213) | pendente | provedor de e-mail (V5-3), dono |
@@ -52,7 +52,7 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora (qualquer uma, só leitura) vira registro de treino (V7-1 a V7-3) | pendente | conta de desenvolvedor do Strava, development build (dono) |
 | **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |
-| **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com notas de verdade | pendente | chave do dono |
+| **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com listas de verdade (a nota não precisa mais, D254) | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
 | **V10** | BE1–BE3 | Bloco **Bem-estar** (treino, dieta, vida saudável) | pendente | — (nome decidido em 20/10) |
 

@@ -297,7 +297,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **GA5** Foto da nota → conferir → lançamento (ou um por item), foto guardada, aviso de nota repetida (D219)
 - [x] **GA6** Foto de uma lista → criação em lote (o OCR do ESCOPO §11 e V3 §6 C) (D219)
 - [x] **GA7** Ajuda nos 3 idiomas, E2E (`e2e/gastos.spec.ts`) (D218, D219)
-- [ ] **GA8** Pôr a chave do Gemini no servidor e testar com notas de verdade. Pendente: chave do dono (`docs/OPERACOES.md`)
+- [ ] **GA8** Pôr a chave do Gemini no servidor e testar com listas de verdade (a nota não precisa mais dela, D254). Pendente: chave do dono (`docs/OPERACOES.md`)
 - [ ] **GA9** Depois: editar célula a célula na planilha, ligar lançamento a tarefa pela tela, fila de fotos sem internet, apagar a foto quando a lixeira vence (o racha de contas saiu daqui: PB5)
 
 ## ESCOPO_V3 — itens B que subiram de prioridade (V3-6, pedido do dono em 19/10, D220)
@@ -342,6 +342,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **CD17** "Mais opções" alterna com "Menos opções" (`aria-expanded`) no editor de página e no painel do exercício (D248)
 - [x] **CD18** Busca da Biblioteca com o texto pela metade: "supi" acha os supinos, "sup ret" o supino reto (começo de cada palavra, nos três idiomas, sem acento; texto no meio do nome; sinônimos como antes); empate pelos exercícios comuns e pelo nome mais curto (`searchScore` em `lib/gym/exercise-filter.ts`, com testes) (D253)
 - [x] **CD19** Alt+N → T, N, a paleta e Alt+Shift+N criam na página ou pasta aberta, não na última página visitada; fora de pasta (Início, Hoje), na Caixa de entrada (`captureContext`/`captureTargetId` em `lib/capture-target.ts`, com testes; e2e em `menu-novo.spec.ts`)
+- [x] **CD14** Foto da nota lida pelo Tesseract no próprio servidor, sem o Gemini: `tesseract-wasm` (modelo `por` do tessdata_fast) dentro da Edge Function `read-photo` (`ocr.ts`, WEBP, JPEG e PNG), e o texto vira os mesmos campos de antes pelo parser puro `functions/_shared/receipt-ocr.ts` (loja, CNPJ, data, total pago, forma de pagamento, chave da NFC-e, itens e categoria, com testes); APK antigo continua funcionando. A foto de uma lista segue no Gemini (escrita à mão). Política de privacidade nova (`2026-10-21`) e Ajuda nos 3 idiomas (D254)
 
 ## ESCOPO v1 — backlog (§11)
 

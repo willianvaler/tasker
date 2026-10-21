@@ -10,7 +10,7 @@ import { uuidv7 } from '../uuid';
 
 export type PhotoKind = 'receipt' | 'list';
 /** not_configured: sem chave no servidor; limit: acabaram as leituras do mês; busy: cota do
- *  Gemini no minuto/dia; offline: sem conexão; failed: o resto */
+ *  Gemini no minuto/dia (só a lista; a nota é do Tesseract, D254); offline: sem conexão; failed: o resto */
 export type PhotoReadFailure = 'not_configured' | 'limit' | 'busy' | 'offline' | 'failed';
 
 export class PhotoReadError extends Error {

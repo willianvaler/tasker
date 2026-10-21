@@ -13,11 +13,11 @@ Una página de tipo **Gastos** (Nuevo → Página → Gastos) es una hoja de reg
 
 **Foto del ticket** saca una foto (o elige varias de la galería) y lee el comercio, la fecha, el total, la forma de pago y los artículos. Revisas todo antes de guardar: nada entra solo. Con **Un registro por artículo**, cada artículo del ticket es una fila. La foto queda guardada en el registro. Un ticket electrónico brasileño (NFC-e) con clave de acceso no entra dos veces: la app avisa si ya está.
 
-La lectura necesita internet y la hace Google (Gemini), que recibe solo la foto. Mientras la app está en prueba no hay límite de fotos por cuenta; si se leen muchas en el mismo minuto, la app pide esperar un poco.
+La lectura necesita internet y se hace en el propio servidor de Questlist, con un programa de reconocimiento de texto (Tesseract): la foto del ticket no va a ninguna otra empresa. Funciona mejor con el ticket entero en la foto, derecho, bien iluminado y sin pliegues; revisa sobre todo el total y la fecha. Mientras la app está en prueba no hay límite de fotos por cuenta.
 
 ## Foto de una lista
 
-Al crear varias tareas (**Varias** en una página), **Foto de una lista** lee una lista en papel (compras, tareas, entrenamiento) y pone cada línea en el texto, con la sintaxis rápida de siempre (`3x12 40kg`, `mañana`). Revisa la vista previa y crea.
+Al crear varias tareas (**Varias** en una página), **Foto de una lista** lee una lista en papel (compras, tareas, entrenamiento) y pone cada línea en el texto, con la sintaxis rápida de siempre (`3x12 40kg`, `mañana`). Revisa la vista previa y crea. Como la lista suele estar escrita a mano, esa foto la lee Google (Gemini), que recibe solo la foto.
 
 ## Exportar
 

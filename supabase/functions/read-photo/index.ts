@@ -3,10 +3,15 @@
 // Chamada pelo app com o login da pessoa: { image (base64), mime, kind: 'receipt' | 'list',
 // language }. Nada é gravado além do registro da leitura (`photo_reads`, para o limite do mês).
 //
-// Quem lê (V9-1): o Gemini (API do Google AI Studio, GEMINI_API_KEY; modelo em GEMINI_MODEL).
-// Sem chave e com PHOTO_READER=fake, devolve uma leitura de exemplo (desenvolvimento e E2E).
-// Segredos em supabase/functions/.env (fora do git), carregados no `supabase start`.
+// Quem lê: a nota, o Tesseract aqui mesmo no servidor (D254, `ocr.ts` + `_shared/receipt-ocr.ts`,
+// sem chave e sem mandar a foto a ninguém); a lista (escrita à mão, que o OCR não lê bem), o Gemini
+// (V9-1, API do Google AI Studio, GEMINI_API_KEY; modelo em GEMINI_MODEL). Com PHOTO_READER=fake,
+// devolve uma leitura de exemplo das duas (desenvolvimento e E2E). Segredos em
+// supabase/functions/.env (fora do git), carregados no `supabase start`.
 import { createClient } from 'npm:@supabase/supabase-js@2';
+
+import { parseReceiptText } from '../_shared/receipt-ocr.ts';
+import { readText } from './ocr.ts';
 
 const GEMINI = 'https://generativelanguage.googleapis.com/v1beta';
 const DEFAULT_MODEL = 'gemini-3.8-flash';
@@ -25,49 +30,7 @@ const json = (body: unknown, status = 200) =>
     headers: { ...CORS, 'Content-Type': 'application/json' },
   });
 
-// O que se pede ao modelo. Valores em unidades da moeda (12.5 = R$ 12,50); o app passa a centavos.
-const RECEIPT_SCHEMA = {
-  type: 'object',
-  properties: {
-    readable: {
-      type: 'boolean',
-      description: 'false if the photo is not a receipt or is unreadable',
-    },
-    store: { type: ['string', 'null'], description: 'Store or business name, short' },
-    date: { type: ['string', 'null'], description: 'Purchase date as YYYY-MM-DD' },
-    total: {
-      type: ['number', 'null'],
-      description: 'Total paid, in currency units (e.g. 1234.56)',
-    },
-    currency: { type: ['string', 'null'], description: 'ISO 4217 code, e.g. BRL' },
-    payment_method: {
-      type: ['string', 'null'],
-      description: 'One of: pix, card, cash, transfer, boleto; null if not printed',
-    },
-    tax_id: { type: ['string', 'null'], description: 'CNPJ/CPF/tax id of the store, digits only' },
-    access_key: {
-      type: ['string', 'null'],
-      description: 'Brazilian NFC-e/NF-e access key (chave de acesso), 44 digits, digits only',
-    },
-    category: {
-      type: ['string', 'null'],
-      description: 'One of: material, labor, transport, food, lodging, services, other',
-    },
-    items: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          description: { type: 'string' },
-          amount: { type: 'number', description: 'Line total in currency units' },
-        },
-        required: ['description', 'amount'],
-      },
-    },
-  },
-  required: ['readable', 'store', 'date', 'total', 'items'],
-};
-
+// O que se pede ao Gemini (só a lista; a nota é do Tesseract)
 const LIST_SCHEMA = {
   type: 'object',
   properties: {
@@ -77,15 +40,7 @@ const LIST_SCHEMA = {
   required: ['readable', 'lines'],
 };
 
-function prompt(kind: 'receipt' | 'list', language: string) {
-  if (kind === 'receipt')
-    return (
-      'You read a photo of a purchase receipt, invoice or bill (often a Brazilian "cupom fiscal" / NFC-e). ' +
-      'Extract the store name, purchase date, the TOTAL actually paid (not subtotal), currency, payment method, ' +
-      'the store tax id, the 44-digit access key if printed (it is often split in groups of 4 digits), ' +
-      'a likely category and the line items. Use null for anything you cannot read with confidence; never guess numbers. ' +
-      `Write the store name and item descriptions as printed. The user's language is ${language}.`
-    );
+function prompt(language: string) {
   return (
     'You read a photo of a handwritten or printed list (to-do list, shopping list or workout). ' +
     'Return each item as one line, in order, without bullets or numbering, keeping quantities and notes ' +
@@ -109,15 +64,14 @@ function answerText(body: Record<string, unknown>): string | null {
   return candidates?.[0]?.content?.parts?.find((p) => p.text)?.text ?? null;
 }
 
-async function readWithGemini(
+async function readListWithGemini(
   key: string,
   model: string,
-  kind: 'receipt' | 'list',
   image: string,
   mime: string,
   language: string,
 ) {
-  const schema = kind === 'receipt' ? RECEIPT_SCHEMA : LIST_SCHEMA;
+  const schema = LIST_SCHEMA;
   const headers = { 'x-goog-api-key': key, 'Content-Type': 'application/json' };
   // API Interactions (a atual); `store: false`: o Google não guarda a conversa para consulta
   let res = await fetch(`${GEMINI}/interactions`, {
@@ -127,7 +81,7 @@ async function readWithGemini(
       model,
       store: false,
       input: [
-        { type: 'text', text: prompt(kind, language) },
+        { type: 'text', text: prompt(language) },
         { type: 'image', data: image, mime_type: mime },
       ],
       response_format: { type: 'text', mime_type: 'application/json', schema },
@@ -146,10 +100,7 @@ async function readWithGemini(
         contents: [
           {
             role: 'user',
-            parts: [
-              { text: prompt(kind, language) },
-              { inline_data: { mime_type: mime, data: image } },
-            ],
+            parts: [{ text: prompt(language) }, { inline_data: { mime_type: mime, data: image } }],
           },
         ],
         generationConfig: { responseMimeType: 'application/json', responseJsonSchema: schema },
@@ -234,21 +185,25 @@ Deno.serve(async (req) => {
 
   const key = Deno.env.get('GEMINI_API_KEY');
   const fake = !key && Deno.env.get('PHOTO_READER') === 'fake';
-  if (!key && !fake) return json({ error: 'not_configured' }, 503);
-  const model = Deno.env.get('GEMINI_MODEL') || DEFAULT_MODEL;
+  // Só a lista precisa da chave do Gemini
+  if (kind === 'list' && !key && !fake) return json({ error: 'not_configured' }, 503);
+  const model = kind === 'receipt' ? 'por' : Deno.env.get('GEMINI_MODEL') || DEFAULT_MODEL;
+  const provider = fake ? 'fake' : kind === 'receipt' ? 'tesseract' : 'gemini';
 
   const log = (ok: boolean) =>
     service.from('photo_reads').insert({
       user_id: user.id,
       kind,
-      provider: fake ? 'fake' : 'gemini',
+      provider,
       model: fake ? null : model,
       ok,
     });
   try {
     const result = fake
       ? fakeRead(kind)
-      : await readWithGemini(key!, model, kind, image, mime, language);
+      : kind === 'receipt'
+        ? parseReceiptText(await readText(image, mime))
+        : await readListWithGemini(key!, model, image, mime, language);
     await log(true);
     return json({ result, left });
   } catch (err) {

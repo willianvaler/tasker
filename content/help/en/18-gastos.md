@@ -13,11 +13,11 @@ An **Expenses** page (New → Page → Expenses) is a spreadsheet of entries: wh
 
 **Receipt photo** takes a picture (or picks several from the gallery) and reads the store, date, total, payment method and items. You check everything before saving: nothing goes in by itself. With **One entry per item**, each item on the receipt becomes a row. The photo is kept with the entry. A Brazilian e-receipt (NFC-e) with an access key isn't added twice: the app warns you if it's already there.
 
-Reading needs internet and is done by Google (Gemini), which receives only the photo. While the app is in testing there is no per-account photo limit; if many are read in the same minute, the app asks you to wait a little.
+Reading needs internet and is done on Questlist's own server by a text recognition program (Tesseract): the receipt photo isn't sent to any other company. It works best with the whole receipt in the photo, straight, well lit and without folds; check the total and the date above all. While the app is in testing there is no per-account photo limit.
 
 ## Photo of a list
 
-When creating several tasks (**Several** on a page), **Photo of a list** reads a paper list (shopping, to-dos, workout) and puts each line in the text, with the usual quick syntax (`3x12 40kg`, `tomorrow`). Check the preview and create.
+When creating several tasks (**Several** on a page), **Photo of a list** reads a paper list (shopping, to-dos, workout) and puts each line in the text, with the usual quick syntax (`3x12 40kg`, `tomorrow`). Check the preview and create. Since lists are usually handwritten, this photo is read by Google (Gemini), which receives only the photo.
 
 ## Export
 

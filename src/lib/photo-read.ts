@@ -1,8 +1,8 @@
 import { PAYMENT_METHODS } from './expenses';
 import { makeDate, type IsoDate } from './parser/dates';
 
-// Leitura de foto (ESCOPO_V9 §2 e §3): o que a Edge Function `read-photo` devolve vem de um
-// modelo e é tratado como palpite. Aqui ele é conferido e vira rascunho; a pessoa confere e salva.
+// Leitura de foto (ESCOPO_V9 §2 e §3): o que a Edge Function `read-photo` devolve vem do OCR (nota,
+// D254) ou de um modelo (lista) e é tratado como palpite. Aqui ele é conferido e vira rascunho; a pessoa confere e salva.
 
 export type ReceiptDraft = {
   readable: boolean;

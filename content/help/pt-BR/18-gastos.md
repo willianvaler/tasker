@@ -13,11 +13,11 @@ Uma página do tipo **Gastos** (Novo → Página → Gastos) é uma planilha de 
 
 **Foto da nota** tira uma foto (ou escolhe várias da galeria) e lê estabelecimento, data, total, forma de pagamento e os itens. Você confere tudo antes de salvar: nada entra sozinho. Com **Um lançamento por item**, cada item da nota vira uma linha. A foto fica guardada no lançamento. Nota fiscal com chave de acesso (NFC-e) não entra duas vezes: o app avisa se ela já foi lançada.
 
-A leitura precisa de internet e é feita pelo Google (Gemini), que recebe só a foto. Enquanto o app está em teste, não há limite de fotos por conta; se muitas forem lidas no mesmo minuto, o app pede para esperar um pouco.
+A leitura precisa de internet e é feita no próprio servidor do Questlist, por um programa de reconhecimento de texto (Tesseract): a foto da nota não vai para nenhuma outra empresa. Funciona melhor com a nota inteira na foto, reta, bem iluminada e sem dobras; confira principalmente o total e a data. Enquanto o app está em teste, não há limite de fotos por conta.
 
 ## Foto de uma lista
 
-Na criação de várias tarefas (**Várias** numa página), **Foto de uma lista** lê uma lista de papel (compras, tarefas, treino) e põe cada linha no texto, com a sintaxe rápida de sempre (`3x12 40kg`, `amanhã`). Confira na pré-visualização e crie.
+Na criação de várias tarefas (**Várias** numa página), **Foto de uma lista** lê uma lista de papel (compras, tarefas, treino) e põe cada linha no texto, com a sintaxe rápida de sempre (`3x12 40kg`, `amanhã`). Confira na pré-visualização e crie. Como a lista costuma ser escrita à mão, essa foto é lida pelo Google (Gemini), que recebe só a foto.
 
 ## Exportar
 
