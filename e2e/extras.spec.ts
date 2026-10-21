@@ -14,11 +14,8 @@ test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na sele
   await input.press('Enter');
   await input.fill('Ligar para o banco hoje');
   await input.press('Enter');
-  // O botão de adiar aparece nas atrasadas: a tarefa passa a ter vencido ontem
-  const saved = page.waitForResponse(
-    (r) => r.url().includes('create_tasks_batch') || r.url().includes('powersync'),
-  );
-  await saved.catch(() => {});
+  // O botão de adiar aparece nas atrasadas: a tarefa passa a ter vencido ontem (espera chegar no
+  // servidor; com o sync, o envio não passa por uma URL fixa)
   await expect
     .poll(
       async () => (await adminRest(`tasks?title=eq.${encodeURIComponent(title)}&select=id`)).length,
