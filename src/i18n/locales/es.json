@@ -1852,6 +1852,11 @@
     "invalid": "Valor no válido",
     "history": "Registros"
   },
+  "workoutMap": {
+    "planned": "Músculos de este entrenamiento",
+    "done": "Músculos trabajados",
+    "toggle": "{{title}}: {{list}}"
+  },
   "stats": {
     "title": "Estadísticas de entrenamiento",
     "period_week": "Semana",

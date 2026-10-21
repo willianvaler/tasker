@@ -219,6 +219,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC8.3 | Contornos do MuscleMap (MIT) em `src/lib/gym/body-paths.json` por `scripts/musclemap/gerar.mjs`, crédito no `NOTICE.md` | D240 |
 | V6 | AC8.4 | `BodyMap`: frente e costas, figura masculina ou feminina, cores do tema | D240 |
 | V6 | AC8.5 | Tela Estatísticas de treino (`/treino-estatisticas`, no bloco Academia e na paleta): período, mapa muscular, não treinados, volume por semana com esforço, ano de treino; E2E `e2e/estatisticas.spec.ts` e Ajuda nos 3 idiomas | D240 |
+| V6 | AC8.6 | Mapa muscular do treino: na página de treino, a linha "Músculos deste treino" (recolhida, com os nomes; abre o mapa) pelas séries previstas; no fim do Modo Treino, uma tela de resumo (séries, tempo, volume, XP) com os músculos trabalhados pelas séries feitas, até "Fechar"; `setsWork`/`workLevels` com testes, E2E `e2e/mapa-treino.spec.ts` e Ajuda nos 3 idiomas | D250 |
 | V6 | AC9.1 | `lib/gym/plates.ts`: anilhas por lado com a barra e as anilhas da pessoa (e quantos pares), quanto faltou, rótulo agrupado | D241 |
 | V6 | AC9.2 | `lib/gym/warmup.ts`: aquecimento sugerido 40/60/80% ao degrau, nunca abaixo da barra | D241 |
 | V6 | AC9.3 | Calculadora de anilhas na ficha; no Modo Treino, aquecimento sugerido (um toque registra), anilhas por lado no exercício com barra e a observação do item; barra e anilhas no Perfil; E2E e Ajuda nos 3 idiomas | D241 |

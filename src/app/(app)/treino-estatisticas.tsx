@@ -9,10 +9,10 @@ import { Chip } from '@/components/ui/chip';
 import { Text } from '@/components/ui/text';
 import { minutesByDay, trainingTotals, yearGrid } from '@/lib/gym/heatmap';
 import {
-  muscleLevel,
   muscleWork,
   untrained,
   weeklyVolume,
+  workLevels,
   type MuscleSlug,
 } from '@/lib/gym/muscle-volume';
 import { formatWeight } from '@/lib/gym/units';
@@ -64,9 +64,7 @@ export default function WorkoutStatsScreen() {
       return { ...s, target: e?.target ?? null, secondary: e?.secondary ?? [] };
     });
   const work = muscleWork(linked, timeZone, from);
-  const max = Math.max(0, ...Object.values(work).map((v) => v ?? 0));
-  const levels: Partial<Record<MuscleSlug, number>> = {};
-  for (const [slug, v] of Object.entries(work)) levels[slug as MuscleSlug] = muscleLevel(v, max);
+  const levels = workLevels(work);
   const muscleName = (slug: MuscleSlug) => t(`stats.muscle_${slug}`);
   const worked = Object.keys(work).map((s) => muscleName(s as MuscleSlug));
   const missing = untrained(work).map(muscleName);

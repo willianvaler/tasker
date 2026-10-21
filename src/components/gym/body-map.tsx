@@ -27,10 +27,13 @@ export function BodyMap({
   figure,
   levels,
   label,
+  height = 260,
 }: {
   figure: Figure;
   levels: Partial<Record<MuscleSlug, number>>;
   label: string;
+  /** Altura de cada figura (o resumo do treino usa uma menor) */
+  height?: number;
 }) {
   const { t } = useTranslation();
   const colors = useColors();
@@ -45,7 +48,7 @@ export function BodyMap({
         const { viewBox, parts } = DATA[figure][side];
         return (
           <View key={side} className="flex-1 items-center gap-1">
-            <Svg viewBox={viewBox.join(' ')} width="100%" height={260}>
+            <Svg viewBox={viewBox.join(' ')} width="100%" height={height}>
               <G>
                 {parts.map((part) => {
                   const level = MUSCLES.has(part.slug) ? (levels[part.slug as MuscleSlug] ?? 0) : 0;

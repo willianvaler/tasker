@@ -1,7 +1,15 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { heatLevel, minutesByDay, trainingTotals, yearGrid } from '../heatmap';
-import { muscleLevel, muscleWork, slugsOf, untrained, weeklyVolume } from '../muscle-volume';
+import {
+  muscleLevel,
+  muscleWork,
+  setsWork,
+  slugsOf,
+  untrained,
+  weeklyVolume,
+  workLevels,
+} from '../muscle-volume';
 
 describe('mapa de calor', () => {
   it('minutos do dia: cada bloco da primeira à última série, mais a última', () => {
@@ -100,4 +108,18 @@ describe('músculos', () => {
       { week: '2026-W43', volumeKg: 0, sets: 1, effort: null },
     ]);
   });
+});
+
+describe('músculos de um treino (AC8.6)', () => {
+  it('séries no alvo, metade no sinergista, sem repetir a parte', () => {
+    const work = setsWork([
+      { target: 'chest', secondary: ['triceps', 'shoulders'], sets: 3 },
+      { target: 'triceps', secondary: [], sets: 2 },
+      { target: 'quads', secondary: [], sets: 0 },
+    ]);
+    expect(work).toEqual({ chest: 3, triceps: 3.5, deltoids: 1.5, rotatorCuff: 1.5 });
+  });
+  it('níveis relativos ao mais trabalhado', () =>
+    expect(workLevels({ chest: 4, biceps: 1 })).toEqual({ chest: 4, biceps: 1 }));
+  it('sem nada, sem níveis', () => expect(workLevels({})).toEqual({}));
 });

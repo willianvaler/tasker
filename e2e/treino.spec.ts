@@ -39,14 +39,15 @@ test('Modo Treino: séries com Espaço, R pula o descanso, carga, avança, pula 
   await expect(page.getByRole('heading', { name: 'Rosca' })).toBeVisible();
   await expect(page.getByRole('progressbar', { name: '2 de 4 séries' })).toBeVisible();
 
-  // Pular a Rosca encerra: o treino fecha sozinho com o aviso de séries e volume
-  // (40 × 10 + 42,5 × 10)
+  // Pular a Rosca encerra: o resumo do fim mostra séries e volume (40 × 10 + 42,5 × 10), e
+  // Fechar volta para a página
   await page.getByRole('button', { name: 'Pular exercício' }).click();
-  await expect(
-    page
-      .getByRole('alert')
-      .filter({ hasText: /^Treino concluído · 2 séries · .* · 825 kg · .*1 pulado$/ }),
-  ).toBeVisible({ timeout: 10_000 });
+  await expect(shown(page, /^Treino concluído · 2 séries · .* · 825 kg · .*1 pulado$/)).toBeVisible(
+    {
+      timeout: 10_000,
+    },
+  );
+  await page.getByRole('button', { name: 'Fechar', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Iniciar treino' })).toBeVisible();
   await page.context().setOffline(false);
   await waitForSync(page);

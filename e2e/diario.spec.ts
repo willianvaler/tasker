@@ -44,6 +44,7 @@ test('diário: série real, esforço e aquecimento no histórico', async ({ page
   await expect(page.getByLabel('Repetições feitas: 10')).toBeVisible();
   await page.getByRole('button', { name: 'Feita' }).click();
 
+  await page.getByRole('button', { name: 'Fechar', exact: true }).click({ timeout: 15_000 });
   await expect(page.getByRole('heading', { name })).toBeVisible({ timeout: 15_000 });
   await page.getByRole('button', { name: 'Detalhes de Supino' }).click();
   await expect(shown(page, /2 séries · Volume 760 kg/)).toBeVisible({ timeout: 15_000 });
@@ -83,6 +84,7 @@ test('recorde no Modo Treino, no resumo e no painel', async ({ page }, testInfo)
   // Última série: o aviso do recorde dá lugar ao resumo do treino, que conta o recorde
   await page.getByRole('button', { name: 'Feita' }).click();
   await expect(shown(page, /Treino concluído · .*1 recorde/)).toBeVisible();
+  await page.getByRole('button', { name: 'Fechar', exact: true }).click();
 
   await expect(page.getByRole('heading', { name })).toBeVisible({ timeout: 15_000 });
   await page.getByRole('button', { name: 'Detalhes de Agachamento' }).click();

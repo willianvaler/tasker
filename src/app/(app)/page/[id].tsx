@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
 import { PageProgressionEditor } from '@/components/gym/progression';
 import { TrainDaysEditor } from '@/components/gym/week-plan';
+import { WorkoutMuscles } from '@/components/gym/workout-muscles';
 import { MoreHorizontal, Play, SlidersHorizontal, Users } from 'lucide-react-native';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { View } from 'react-native';
@@ -33,6 +34,7 @@ import { usePageShares, useReceivedPages } from '@/lib/queries/shares';
 import { usePageTasks } from '@/lib/queries/tasks';
 import { shoppingList } from '@/lib/shopping';
 import { wbsOutline } from '@/lib/task-tree';
+import { workoutItems } from '@/lib/workout';
 import { subscribeWorkoutRuns, workoutInProgress } from '@/lib/workout-store';
 import {
   findFolder,
@@ -192,6 +194,19 @@ export default function PageScreen() {
             />
           </View>
         )}
+      {/* AC8.6: os músculos do treino enquanto ele é montado (recolhido numa linha) */}
+      {page && isWorkoutPage(tree.data, page) && (pageTasks.data?.length ?? 0) > 0 && (
+        <View className="pb-3">
+          <WorkoutMuscles
+            collapsible
+            title={t('workoutMap.planned')}
+            entries={workoutItems(pageTasks.data ?? [], {}).map((it) => ({
+              exerciseId: it.task.exercise_id,
+              sets: it.plan.total,
+            }))}
+          />
+        </View>
+      )}
       {page?.view_type === 'expenses' ? <ExpensesView page={page} /> : <PageView page={page} />}
       {folderDialog}
 

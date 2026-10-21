@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { prescriptionMeta, useProgression, useWhy } from '@/components/gym/progression';
 import { usePlatesText } from '@/components/gym/plates';
+import { WorkoutMuscles } from '@/components/gym/workout-muscles';
 import { parseDecimal, SetRow, type SetDraft } from '@/components/gym/set-row';
 import { useLogSet } from '@/components/tasks/repeat';
 import { TrainingPartners } from '@/components/training-partners';
@@ -242,6 +243,8 @@ export default function WorkoutScreen() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remoteRest]);
+  // Resumo do fim (AC8.6): o que foi feito e os músculos trabalhados, até a pessoa fechar
+  const [summary, setSummary] = useState<string | null>(null);
   const lastResult = useRef<Promise<unknown>>(Promise.resolve());
   const latest = useRef(session);
   useEffect(() => {
@@ -256,10 +259,14 @@ export default function WorkoutScreen() {
     void Promise.race([lastResult.current.catch(() => {}), wait]).then(() => {
       if (gone) return;
       const s = latest.current;
-      toast({ message: finishedMessage(s, game.data?.enabled !== false, t, partnerNames) });
+      const message = finishedMessage(s, game.data?.enabled !== false, t, partnerNames);
       ended.current = true;
       clearWorkoutRun(id);
-      close();
+      // Abriu um treino já feito: nada para resumir
+      if (s.sets === 0 && s.skipped.length === 0) {
+        toast({ message });
+        close();
+      } else setSummary(message);
     });
     return () => {
       gone = true;
@@ -297,6 +304,21 @@ export default function WorkoutScreen() {
         <Text className="text-xl font-semibold text-ink" accessibilityRole="header">
           {t('workout.finishedTitle')}
         </Text>
+        {summary && (
+          <>
+            <Text className="text-base text-ink">{summary}</Text>
+            <WorkoutMuscles
+              title={t('workoutMap.done')}
+              entries={items
+                .filter((it) => !session.skipped.includes(it.task.id))
+                .map((it) => ({
+                  exerciseId: it.task.exercise_id,
+                  sets: it.repeats ? it.reps : it.done ? 1 : 0,
+                }))}
+            />
+            <Button label={t('common.close')} onPress={close} className="self-start" />
+          </>
+        )}
       </Shell>
     );
   return (

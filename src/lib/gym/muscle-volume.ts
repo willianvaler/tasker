@@ -81,6 +81,31 @@ export function muscleWork(sets: MuscleSet[], timeZone: string, from: IsoDate | 
   return work;
 }
 
+/**
+ * Trabalho por parte do desenho de um treino (AC8.6): cada exercício conta as suas séries (as
+ * previstas, na montagem; as feitas, no resumo do fim), 1 no alvo e ½ no sinergista.
+ */
+export function setsWork(entries: { target: string | null; secondary: string[]; sets: number }[]) {
+  const work: Partial<Record<MuscleSlug, number>> = {};
+  const add = (slug: MuscleSlug, v: number) => (work[slug] = (work[slug] ?? 0) + v);
+  for (const e of entries) {
+    if (e.sets <= 0) continue;
+    const primary = new Set(slugsOf(e.target));
+    for (const slug of primary) add(slug, e.sets);
+    const secondary = new Set(e.secondary.flatMap(slugsOf).filter((slug) => !primary.has(slug)));
+    for (const slug of secondary) add(slug, e.sets / 2);
+  }
+  return work;
+}
+
+/** Nível de 0 a 4 de cada parte, relativo à mais trabalhada (para o BodyMap). */
+export function workLevels(work: Partial<Record<MuscleSlug, number>>) {
+  const max = Math.max(0, ...Object.values(work).map((v) => v ?? 0));
+  const levels: Partial<Record<MuscleSlug, number>> = {};
+  for (const [slug, v] of Object.entries(work)) levels[slug as MuscleSlug] = muscleLevel(v, max);
+  return levels;
+}
+
 /** Os músculos sem nenhuma série no período, na ordem do desenho. */
 export const untrained = (work: Partial<Record<MuscleSlug, number>>) =>
   MUSCLE_SLUGS.filter((slug) => !work[slug]);

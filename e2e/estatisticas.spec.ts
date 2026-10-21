@@ -30,11 +30,14 @@ test('estatísticas de treino: dia, mapa muscular e volume', async ({ page }, te
 
   await page.getByRole('button', { name: 'Iniciar treino' }).click();
   await page.getByRole('button', { name: 'Feita' }).click();
+  await page.getByRole('button', { name: 'Fechar', exact: true }).click({ timeout: 15_000 });
   await expect(page.getByRole('heading', { name })).toBeVisible({ timeout: 15_000 });
 
   await page.goto('/treino-estatisticas');
   await expect(shown(page, /^1 dia de treino · /)).toBeVisible({ timeout: 15_000 });
-  await expect(page.getByRole('img', { name: /^Mapa muscular\. Trabalhados: .*Peito/ })).toBeVisible();
+  await expect(
+    page.getByRole('img', { name: /^Mapa muscular\. Trabalhados: .*Peito/ }),
+  ).toBeVisible();
   await expect(shown(page, /^Sem treino no período: .*Quadríceps/)).toBeVisible();
   await expect(page.getByLabel(/^\d{4}-W\d{2}: 400 kg, 1 série$/)).toBeVisible();
 });
@@ -66,6 +69,7 @@ test('aquecimento sugerido e anilhas por lado', async ({ page }, testInfo) => {
   await page.getByRole('button', { name: '25 × 8' }).click();
   await expect(shown(page, 'Aquecimento 25 kg × 8 registrado')).toBeVisible();
   await page.getByRole('button', { name: 'Feita' }).click();
+  await page.getByRole('button', { name: 'Fechar', exact: true }).click({ timeout: 15_000 });
   await expect(page.getByRole('heading', { name })).toBeVisible({ timeout: 15_000 });
 
   await page.goto('/biblioteca/mit-0025');

@@ -1852,6 +1852,11 @@
     "invalid": "Invalid value",
     "history": "Entries"
   },
+  "workoutMap": {
+    "planned": "Muscles in this workout",
+    "done": "Muscles worked",
+    "toggle": "{{title}}: {{list}}"
+  },
   "stats": {
     "title": "Workout stats",
     "period_week": "Week",
