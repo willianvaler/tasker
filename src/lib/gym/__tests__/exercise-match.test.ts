@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 
-import { filterExercises } from '../exercise-filter';
+import { filterExercises, searchScore } from '../exercise-filter';
 import { matchScore, nameTokens, normalizeName, suggestExercises } from '../exercise-match';
 
 const ex = (id: string, name_en: string, name_pt: string, extra = {}) => ({
@@ -80,6 +80,12 @@ describe('filterExercises', () => {
       filterExercises(LIST, { bodyPart: 'chest', query: 'supino' }, name).map((e) => e.id),
     ).toEqual(['1', '2']);
   });
+  test('texto pela metade: "supi" acha os supinos', () => {
+    expect(filterExercises(LIST, { query: 'supi' }, name).map((e) => e.id)).toEqual(['1', '2']);
+  });
+  test('começo de cada palavra: "sup ret" acha o supino reto', () => {
+    expect(filterExercises(LIST, { query: 'sup ret' }, name)[0].id).toBe('1');
+  });
   test('sem filtro, por nome', () => {
     expect(filterExercises(LIST, {}, name).map((e) => e.id)).toEqual(['3', '4', '2', '1']);
   });
@@ -96,4 +102,14 @@ describe('empate na busca', () => {
       'mit-0025',
     );
   });
+});
+
+describe('searchScore (busca da Biblioteca)', () => {
+  const supino = ex('1', 'Barbell bench press', 'Supino reto com barra');
+  test('nome igual vale 1', () => expect(searchScore('supino reto com barra', supino)).toBe(1));
+  test('começo do nome', () => expect(searchScore('Supi', supino)).toBe(0.85));
+  test('sem acento e em qualquer idioma', () => expect(searchScore('bench pr', supino)).toBe(0.85));
+  test('começo de palavras do meio', () => expect(searchScore('com bar', supino)).toBe(0.85));
+  test('pedaço no meio de uma palavra', () => expect(searchScore('upin', supino)).toBe(0.6));
+  test('nada a ver', () => expect(searchScore('xyz', supino)).toBeLessThan(0.34));
 });
