@@ -15,7 +15,7 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 | 4 | AC12.1 + AC12.3 | Planos prontos e levar exercícios para outro treino | médio |
 | 5 | AC3.10 | Fotos do free-exercise-db (cerca de 1.750, com miniatura, servidas por nós) | médio |
 | 6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | médio |
-| 7 | AC15 | Grupo de treino: proposta "Treinar com…" em qualquer treino, sem pasta de grupo à parte (confirmar com o dono antes) | depende da proposta |
+| 7 | AC15A–C | Treinar com… em qualquer treino, treino ↔ grupo nos dois sentidos e bloco Desafios estilo GymRats (decidido em 21/10, D252; **não começar sem o dono pedir**) | pequeno + médio + grande |
 
 Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.2 (arquivos de exemplo do dono), AC14 (treinador por IA). Depois do fechamento: levar a `dev` para a `main` (alpha) para o dono testar; a política nova pede o aceite de todos de novo.
 
@@ -44,7 +44,10 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V6 | AC12.1 | Planos prontos: iniciante corpo inteiro 3×, ABC, ABCD, superior/inferior 4×, push/pull/legs, 5×5 e Greyskull, em casa sem equipamento (exercícios ligados, dias, progressão) | pendente | — |
 | V6 | AC12.3 | Levar exercícios para outra página de treino com facilidade (copiar ou mover um ou vários, arrastar entre treinos) | pendente | — |
 | V6 | AC12.2 | Importadores Strong, Hevy e FitNotes | pendente | arquivos de exemplo do dono |
-| V6 | AC15 | Rever o grupo de treino: hoje é uma pasta que tem treinos dentro, mas não dá para chamar gente a partir de um treino; achar um jeito único e simples (proposta antes de mudar) | pendente | proposta para o dono |
+| V6 | AC15A | **Treinar com…** em qualquer treino (também na Academia pessoal e no meio do Modo Treino): chamar amigos, gente dos times, dos grupos e dos desafios; quem entra treina pelo treino de quem chamou e a atividade conta para todos (D252) | decidido, aguardando o dono | — |
+| V6 | AC15B | **Treino ↔ grupo nos dois sentidos**: continua criar o grupo e pôr treinos dentro; e, num treino da Academia, "Adicionar a um grupo" (um ou vários), com o treino seguindo da pessoa e cada um com o próprio diário (reaproveita a página enviada ao vivo, D133) (D252) | decidido, aguardando o dono | AC15A |
+| V6 | AC15C | **Bloco Desafios (estilo GymRats)** abaixo da Academia: o desafio é o próprio grupo (membros, mural, chat, prêmio); "+" cria, traz gente de grupos/times/amigos e gera código ou link que qualquer um usa para entrar direto (o criador remove gente e cancela ou troca o código); cada treino concluído no app (ou vindo de outro app, V7) é uma atividade; ranking configurável: dias ativos, número de atividades, minutos, pontos; os desafios atuais migram (D252). **Medir a complexidade de novo antes de começar** | decidido, aguardando o dono | AC15A |
+| V6 | AC15D | Atividades de apps de terceiros (Strava, Health Connect, Apple Saúde) entram como mais uma origem do AC15C | pendente | V7 |
 | V6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | pendente | AC5.2, AC6.3 |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora (qualquer uma, só leitura) vira registro de treino (V7-1 a V7-3) | pendente | conta de desenvolvedor do Strava, development build (dono) |
@@ -58,6 +61,5 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | # | Pergunta | Bloqueia |
 |---|---|---|
 | V5-3 | Provedor de e-mail e domínio de envio (em espera: servidor próprio, Google ou outro) | V5 §5 |
-| AC15 | Como deve funcionar o grupo de treino | proposta |
 
 As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`) e em 20/10 (D247).

@@ -251,6 +251,10 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **AC9.5** Plano da semana (`pages.train_days`), remarcar ou pular o treino do dia só para a pessoa (`workout_moves`), "Treino de hoje" na Hoje, lembrete às 18h no dia de treino sem série (`send_workout_reminders`, desligável no Perfil); regra espelhada (`lib/gym/week-plan.ts` × `_planned_on`), pgTAP `plano_semana.test.sql`, E2E e Ajuda nos 3 idiomas (D243)
 - [x] **AC11** Conquistas de academia (categoria própria): recordes 1/10/50/100, dias de treino 50/100/365, toneladas 10/100, corpo inteiro na semana, supino do próprio peso; o recorde crítico já vinha do AC5; pgTAP `conquistas_academia.test.sql` e Ajuda nos 3 idiomas (D244)
 - [x] **AC11.2** Prêmio para os primeiros do desafio: no dia seguinte ao fim, o `finish_challenges` (pg_cron, de hora em hora) fecha o ranking uma vez; até o 3º lugar ganha a conquista Pódio, o 1º (empate divide) também Campeão de desafio e o título Campeão (`user_items.source = 'prize'`), com aviso `challenge_finished`; só com disputa (duas pessoas treinaram); medalhas no ranking encerrado (`podium`, espelho de `_challenge_podium`); pgTAP `premio_desafio.test.sql`, E2E em `e2e/desafios.spec.ts` e Ajuda nos 3 idiomas (D251)
+- [ ] **AC15A** Treinar com… em qualquer treino, para amigos, times, grupos e desafios; conta para todos (decidido, D252)
+- [ ] **AC15B** Treino ↔ grupo nos dois sentidos ("Adicionar a um grupo" num treino da Academia) (decidido, D252)
+- [ ] **AC15C** Bloco Desafios estilo GymRats: código ou link, ranking configurável, atividades (decidido, D252; medir a complexidade antes)
+- [ ] **AC15D** Atividades de apps de terceiros nos desafios (depende do V7)
 - [x] **AC10.1** Sessão de treino no servidor (`workout_sessions`, `workout_session_members`): convite com aviso e push, entrar/sair, série do grupo (`log_group_set`, quem marca a última conclui), exercício atual e descanso iguais nos aparelhos pelo Realtime; E2E `e2e/treino-junto.spec.ts` (D183)
 - [x] **AC10.2** Seletor "Quem está treinando junto agora?" no Modo Treino de pasta compartilhada (D183)
 - [x] **AC10.3** `lib/gym/leaderboard.ts`: dias ativos (um por dia), pontos opcionais, empates dividindo a posição, sequência atual e maior; `challengeProgress` (feito pelo Claude, tirado da fila local)
@@ -336,6 +340,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **CD15** Página de cards fora da Academia e dos grupos de treino é página comum: sem Modo Treino (a não ser com séries), sem painel de exercício, sem dia de treino no desafio nem evento de treino no calendário (`isWorkoutPage` e `_is_workout_page`); pgTAP e E2E `e2e/correcoes-cd15.spec.ts` (D248)
 - [x] **CD16** "Depende de" à vista no painel simples, em projeto e em pasta pessoal; `^tarefa` na captura e no lote também em pasta pessoal; aba Fluxo (Lista · Fluxo) em pasta pessoal; `^` na dica do campo e na Ajuda nos 3 idiomas (D248)
 - [x] **CD17** "Mais opções" alterna com "Menos opções" (`aria-expanded`) no editor de página e no painel do exercício (D248)
+- [x] **CD18** Busca da Biblioteca com o texto pela metade: "supi" acha os supinos, "sup ret" o supino reto (começo de cada palavra, nos três idiomas, sem acento; texto no meio do nome; sinônimos como antes); empate pelos exercícios comuns e pelo nome mais curto (`searchScore` em `lib/gym/exercise-filter.ts`, com testes) (D253)
 
 ## ESCOPO v1 — backlog (§11)
 
