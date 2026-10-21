@@ -17,6 +17,7 @@ import { Sheet } from '@/components/ui/sheet';
 import { Text, textClass } from '@/components/ui/text';
 import { addDays, formatDueDate } from '@/lib/parser/dates';
 import { parseQuickInput, type Priority, type Recurrence } from '@/lib/parser/quick';
+import { captureTargetId, folderScope } from '@/lib/capture-target';
 import { getLastPageId, setLastPageId } from '@/lib/prefs';
 import type { RepeatPlan } from '@/lib/repeat';
 import { useToday } from '@/lib/queries/profile';
@@ -36,7 +37,7 @@ const PRIORITIES = [
 export default function NewTaskScreen() {
   const { t } = useTranslation();
   const colors = useColors();
-  const params = useLocalSearchParams<{ page?: string }>();
+  const params = useLocalSearchParams<{ page?: string; folder?: string }>();
   const tree = useTree();
   const today = useToday();
   const create = useCreateTasks();
@@ -48,7 +49,12 @@ export default function NewTaskScreen() {
     ...[tree.data?.inbox, tree.data?.habits].filter((p) => !!p),
     ...(tree.data?.pages ?? []).filter((p) => !p.is_inbox && !p.is_habits),
   ];
-  const [pageId, setPageId] = useState(params.page ?? getLastPageId() ?? null);
+  // Destino: a página ou pasta de onde veio, senão a Caixa de entrada (nunca a última visitada)
+  const [chosenId, setPageId] = useState<string | null>(null);
+  const pageId =
+    chosenId ??
+    captureTargetId(params, pages, (id) => folderScope(tree.data?.folders, id), getLastPageId()) ??
+    null;
   const page = pages.find((p) => p.id === pageId) ?? tree.data?.inbox ?? undefined;
   // Página de treino (AC2, D234): séries e observação; data, prioridade e etiquetas em "Mais opções"
   const [more, setMore] = useState(false);

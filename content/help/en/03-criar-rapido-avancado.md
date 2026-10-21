@@ -12,7 +12,7 @@ At the top of the panel, **Simple ▾** shows only the essentials; switch to **F
 
 ## The New menu
 
-`Alt+N` (or the **New** button) and a letter: **T** task, **P** page, **F** folder, **J** project, **H** habit.
+`Alt+N` (or the **New** button) and a letter: **T** task, **P** page, **F** folder, **J** project, **H** habit. The task goes to the open page (or to a page of the open folder); anywhere else, to the Inbox.
 
 ## Attachments
 

@@ -177,6 +177,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD16 | "Depende de" à vista no painel simples, em projeto e em pasta pessoal; `^tarefa` na captura e no lote também em pasta pessoal; aba Fluxo (Lista · Fluxo) em pasta pessoal; `^` na dica do campo e na Ajuda nos 3 idiomas | D248 |
 | V5 | CD17 | "Mais opções" alterna com "Menos opções" (`aria-expanded`) no editor de página e no painel do exercício | D248 |
 | V5 | CD18 | Busca da Biblioteca com o texto pela metade: "supi" acha os supinos, "sup ret" o supino reto (começo de cada palavra, nos três idiomas, sem acento; texto no meio do nome; sinônimos como antes); empate pelos exercícios comuns e pelo nome mais curto (`searchScore` em `lib/gym/exercise-filter.ts`, com testes) | D253 |
+| V5 | CD19 | Alt+N → T, N, a paleta e Alt+Shift+N criam na página ou pasta aberta, não na última página visitada; fora de pasta (Início, Hoje), na Caixa de entrada (`captureContext`/`captureTargetId` em `lib/capture-target.ts`, com testes; e2e em `menu-novo.spec.ts`) | — |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |

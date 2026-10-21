@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from 'react-native';
@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { Text } from '@/components/ui/text';
+import { captureTargetId, folderScope } from '@/lib/capture-target';
 import { cn } from '@/lib/cn';
 import { getLastPageId } from '@/lib/prefs';
 import { useShortcut } from '@/lib/use-shortcut';
@@ -15,12 +16,14 @@ import { pageLabel, useTree, type Page } from '@/lib/queries/tree';
 import { useToast } from '@/providers/toast';
 
 // Captura rápida de qualquer tela (atalho N / Ctrl+K na web, botão + no celular).
-// Destino padrão: a última página usada ou a Caixa de entrada.
+// Destino padrão: a página ou pasta de onde ela foi aberta (lib/capture-target.ts), senão a Caixa
+// de entrada.
 export default function CaptureScreen() {
   const { t } = useTranslation();
   const tree = useTree();
   const toast = useToast();
   const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ page?: string; folder?: string }>();
   const [chosen, setChosen] = useState<string | null>(null);
 
   // Destinos agrupados por pasta (as páginas de sistema primeiro, sem pasta)
@@ -40,10 +43,15 @@ export default function CaptureScreen() {
   }, [tree.data]);
   const pages = groups.flatMap((g) => g.pages);
 
-  const lastPageId = getLastPageId();
+  const contextPageId = captureTargetId(
+    params,
+    pages,
+    (id) => folderScope(tree.data?.folders, id),
+    getLastPageId(),
+  );
   const target =
     pages.find((p) => p.id === chosen) ??
-    pages.find((p) => p.id === lastPageId) ??
+    pages.find((p) => p.id === contextPageId) ??
     tree.data?.inbox ??
     undefined;
 

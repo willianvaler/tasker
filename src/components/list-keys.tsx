@@ -26,6 +26,7 @@ import { useSnooze } from '@/components/tasks/snooze';
 import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useActiveTimer, useTimerActions } from '@/lib/queries/timers';
 import { readRepeatPlan } from '@/lib/repeat';
+import { captureContext } from '@/lib/capture-target';
 import { useShortcut } from '@/lib/use-shortcut';
 import { redoLast, undoLast, useToast } from '@/providers/toast';
 
@@ -107,8 +108,7 @@ export function ListKeys() {
     onSelected((task) => router.push({ pathname: '/task/[id]', params: { id: task.id } })),
   );
   useShortcut('task.advanced', () => {
-    const page = /^\/page\/([^/]+)/.exec(pathname)?.[1];
-    router.push({ pathname: '/task/new', params: page ? { page } : {} });
+    router.push({ pathname: '/task/new', params: captureContext(pathname) });
   });
   useShortcut(
     'task.assign',
@@ -308,7 +308,8 @@ export function ListKeys() {
   );
 
   useShortcut('capture.focus', () => {
-    if (!focusCaptureField()) router.push('/capture');
+    if (!focusCaptureField())
+      router.push({ pathname: '/capture', params: captureContext(pathname) });
   });
   useShortcut('app.undo', () => {
     // Dentro de um campo de texto, Ctrl+Z é do campo

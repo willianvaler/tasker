@@ -12,7 +12,7 @@ Arriba del panel, **Simple ▾** muestra solo lo esencial; cambia a **Completo**
 
 ## El menú Nuevo
 
-`Alt+N` (o el botón **Nuevo**) y una letra: **T** tarea, **P** página, **F** carpeta, **J** proyecto, **H** hábito.
+`Alt+N` (o el botón **Nuevo**) y una letra: **T** tarea, **P** página, **F** carpeta, **J** proyecto, **H** hábito. La tarea va a la página abierta (o a una página de la carpeta abierta); fuera de ellas, a la Bandeja de entrada.
 
 ## Adjuntos
 

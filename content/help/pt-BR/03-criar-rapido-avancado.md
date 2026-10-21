@@ -12,7 +12,7 @@ No topo do painel, **Simples ▾** mostra só o essencial; troque para **Complet
 
 ## O menu Novo
 
-`Alt+N` (ou o botão **Novo**) e uma letra: **T** tarefa, **P** página, **F** pasta, **J** projeto, **H** hábito.
+`Alt+N` (ou o botão **Novo**) e uma letra: **T** tarefa, **P** página, **F** pasta, **J** projeto, **H** hábito. A tarefa vai para a página aberta (ou para uma página da pasta aberta); fora delas, para a Caixa de entrada.
 
 ## Anexos
 

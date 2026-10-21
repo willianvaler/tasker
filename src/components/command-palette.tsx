@@ -51,6 +51,7 @@ import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useTree } from '@/lib/queries/tree';
 import { DURATION, useColors } from '@/lib/tokens';
 import { toggleSidebar } from '@/lib/ui-state';
+import { captureContext } from '@/lib/capture-target';
 import { useShortcut } from '@/lib/use-shortcut';
 import { useThemePreference } from '@/providers/theme';
 
@@ -109,7 +110,8 @@ function Palette({
   const go = (href: Parameters<typeof router.navigate>[0]) => () => router.navigate(href);
   const startTimer = useStartTimer();
   // Página aberta: "Enviar esta página" (L3)
-  const openPage = /^\/page\/([^/?]+)/.exec(usePathname() ?? '')?.[1];
+  const pathname = usePathname();
+  const openPage = /^\/page\/([^/?]+)/.exec(pathname ?? '')?.[1];
   const pomodoro = usePomodoro();
   const icon = (glyph: LucideIcon) => <Icon icon={glyph} tone="ink-muted" />;
 
@@ -120,7 +122,7 @@ function Palette({
       hint: 'N',
       icon: icon(Plus),
       group: 0,
-      run: () => router.push('/capture'),
+      run: () => router.push({ pathname: '/capture', params: captureContext(pathname) }),
     },
     {
       id: 'new-advanced',
@@ -128,7 +130,7 @@ function Palette({
       hint: 'Alt ⇧ N',
       icon: icon(SlidersHorizontal),
       group: 0,
-      run: () => router.push('/task/new'),
+      run: () => router.push({ pathname: '/task/new', params: captureContext(pathname) }),
     },
     {
       id: 'new-page',

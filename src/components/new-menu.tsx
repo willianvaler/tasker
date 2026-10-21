@@ -15,6 +15,7 @@ import { useFolderActions } from '@/components/folder-actions';
 import { Icon } from '@/components/ui/icon';
 import { MenuItem, Popover } from '@/components/ui/popover';
 import { Text } from '@/components/ui/text';
+import { captureContext } from '@/lib/capture-target';
 import { useTree } from '@/lib/queries/tree';
 import { useShortcut } from '@/lib/use-shortcut';
 
@@ -59,7 +60,8 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
       label: t('newMenu.task'),
       key: 'T',
       icon: CheckSquare,
-      onPress: run(() => router.push('/capture')),
+      // Na pasta ou página atual, não na última visitada
+      onPress: run(() => router.push({ pathname: '/capture', params: captureContext(pathname) })),
     },
     {
       id: 'new.page',
@@ -98,7 +100,7 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
       onPress: run(() =>
         router.push({
           pathname: '/task/new',
-          params: pathname.startsWith('/page/') && routeId ? { page: routeId } : {},
+          params: captureContext(pathname),
         }),
       ),
     },

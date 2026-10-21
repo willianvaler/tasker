@@ -341,6 +341,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **CD16** "Depende de" à vista no painel simples, em projeto e em pasta pessoal; `^tarefa` na captura e no lote também em pasta pessoal; aba Fluxo (Lista · Fluxo) em pasta pessoal; `^` na dica do campo e na Ajuda nos 3 idiomas (D248)
 - [x] **CD17** "Mais opções" alterna com "Menos opções" (`aria-expanded`) no editor de página e no painel do exercício (D248)
 - [x] **CD18** Busca da Biblioteca com o texto pela metade: "supi" acha os supinos, "sup ret" o supino reto (começo de cada palavra, nos três idiomas, sem acento; texto no meio do nome; sinônimos como antes); empate pelos exercícios comuns e pelo nome mais curto (`searchScore` em `lib/gym/exercise-filter.ts`, com testes) (D253)
+- [x] **CD19** Alt+N → T, N, a paleta e Alt+Shift+N criam na página ou pasta aberta, não na última página visitada; fora de pasta (Início, Hoje), na Caixa de entrada (`captureContext`/`captureTargetId` em `lib/capture-target.ts`, com testes; e2e em `menu-novo.spec.ts`)
 
 ## ESCOPO v1 — backlog (§11)
 
