@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { adminRest, createPage, openTab, shown, signUp } from './helpers';
+import { adminRest, createWorkout, openTab, shown, signUp } from './helpers';
 
 test('calendário: tarefa e treino do dia, e o link para o Google Agenda', async ({
   page,
@@ -15,11 +15,8 @@ test('calendário: tarefa e treino do dia, e o link para o Google Agenda', async
   await input.press('Enter');
 
   // Treino: um exercício com data vira um item só, com o nome da página
-  const pageId = await createPage(page, {
-    folder: `Ginásio ${id}`,
-    name: 'Treino Cal',
-    type: 'Cards',
-  });
+  // (treino é a página da Academia, CD15)
+  const pageId = await createWorkout(page, 'Treino Cal');
   const exercise = page.getByRole('textbox', { name: 'Nova tarefa' });
   await exercise.fill('Supino hoje');
   await exercise.press('Enter');
@@ -43,7 +40,8 @@ test('calendário: tarefa e treino do dia, e o link para o Google Agenda', async
   // Semana: o dia de hoje continua com os dois
   await page.getByRole('tab', { name: 'Semana' }).click();
   await expect(shown(page, title)).toBeVisible();
-  await page.getByRole('link', { name: /Treino Cal/ }).click();
+  // (no desktop, o treino também está no bloco Academia da barra lateral)
+  await page.getByRole('link', { name: /Treino Cal/ }).last().click();
   await expect(page).toHaveURL(new RegExp(`/page/${pageId}`));
 
   // Link do feed: o .ics tem a tarefa e o treino

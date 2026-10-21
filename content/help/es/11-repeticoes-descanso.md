@@ -16,7 +16,7 @@ En páginas de entrenamiento (de la carpeta Gimnasio o de un grupo de entrenamie
 
 ## Registro del entrenamiento
 
-Cada serie hecha en el modo Entrenamiento queda guardada tal como fue: la carga, las repeticiones que hiciste de verdad (el modo Entrenamiento ya viene con lo previsto; −1 y +1 cambian solo esta serie) y la fecha. Los ejercicios de cardio piden distancia y tiempo; los de tiempo, como la plancha, guardan los segundos. **Calentamiento** registra una serie aparte, que no cuenta para el total del ejercicio.
+Cada serie hecha en el modo Entrenamiento queda guardada tal como fue: la carga, las repeticiones que hiciste de verdad (el modo Entrenamiento ya viene con lo previsto; −1 y +1 cambian solo esta serie) y la fecha. Los ejercicios de cardio piden distancia y tiempo; los de tiempo, como la plancha, guardan los segundos. **Carga real:** en el descanso (o antes de la serie), `−10 −5 −2,5 −1` y `+1 +2,5 +5 +10` ajustan la carga de esta serie sin cambiar el plan; sigue en las series siguientes del mismo ejercicio. Sin tocarla, vale la del plan. Tocar la carga vuelve a la del plan, y **Usar en el plan** guarda la nueva en el ejercicio. **Calentamiento** registra una serie aparte, que no cuenta para el total del ejercicio.
 
 El **Historial** aparece en el panel del ejercicio y en la ficha de la Biblioteca: las sesiones de la más nueva a la más vieja, con las series y el volumen de cada una. Una serie equivocada sale con el icono de la papelera (solo del registro; el entrenamiento sigue como está). El registro es solo tuyo, incluso en un entrenamiento compartido.
 

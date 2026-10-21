@@ -78,8 +78,8 @@ test('recorde no Modo Treino, no resumo e no painel', async ({ page }, testInfo)
   await page.getByRole('button', { name: 'Feita' }).click();
   await expect(shown(page, 'Série 2 de 2')).toBeVisible();
   await expect(shown(page, /^Recorde!/)).toHaveCount(0);
-  await page.getByRole('button', { name: 'Aumentar a carga' }).click();
-  await expect(page.getByLabel('Carga: 42,5kg')).toBeVisible();
+  await page.getByRole('button', { name: 'Carga desta série +2,5' }).click();
+  await expect(page.getByLabel(/^Carga desta série: 42,5kg/)).toBeVisible();
   // Última série: o aviso do recorde dá lugar ao resumo do treino, que conta o recorde
   await page.getByRole('button', { name: 'Feita' }).click();
   await expect(shown(page, /Treino concluído · .*1 recorde/)).toBeVisible();
@@ -149,6 +149,6 @@ test('progressão: a carga sobe sozinha e diz por quê', async ({ page }, testIn
 
   await page.goto(`/page/${task.page_id}`);
   await page.getByRole('button', { name: 'Iniciar treino' }).click();
-  await expect(page.getByLabel('Carga: 42,5kg')).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByLabel('Carga desta série: 42,5kg')).toBeVisible({ timeout: 15_000 });
   await expect(shown(page, 'Subiu 2,5 kg: fez 2×10 na última')).toBeVisible();
 });

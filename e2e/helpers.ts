@@ -83,6 +83,25 @@ export async function createPage(
 }
 
 /**
+ * Treino na pasta Academia (liga o modo academia, "Sim, vou treinar"): só lá a página é de treino,
+ * com painel de exercício e o resto (CD15). Devolve o id da página (da URL).
+ */
+export async function createWorkout(page: Page, name: string) {
+  const desktop = (page.viewportSize()?.width ?? 0) >= 768;
+  await openTab(page, 'Início');
+  const answer = page.waitForResponse((r) => r.url().includes('/rpc/set_gym_mode'));
+  await page.getByRole('button', { name: 'Sim, vou treinar' }).click();
+  await answer;
+  if (!desktop) await openTab(page, 'Pastas');
+  const block = desktop ? page.getByRole('navigation') : page;
+  await block.getByRole('button', { name: 'Novo treino' }).first().click();
+  await page.getByPlaceholder('Nome do treino (ex.: Treino A)').fill(name);
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.getByRole('heading', { name: new RegExp(`^(\\S+ )?${name}$`) })).toBeVisible();
+  return new URL(page.url()).pathname.split('/').pop()!;
+}
+
+/**
  * Texto na tela atual. As abas inativas continuam montadas atrás da ativa (com aria-hidden),
  * e o getByText do Playwright as conta; isto filtra só o que está na aba visível.
  */

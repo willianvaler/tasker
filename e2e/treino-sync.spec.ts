@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { createPage, shown, signUp, waitForSync } from './helpers';
+import { createWorkout, shown, signUp, waitForSync } from './helpers';
 
 // Relato de 16/10: o celular segurou as séries (tela travada) e, ao enviar, o segundo exercício
 // apareceu como "3 de 3" sem ter sido feito
@@ -10,7 +10,7 @@ test('Modo Treino: séries presas no aparelho não pulam o exercício seguinte a
   test.skip(testInfo.project.name === 'celular', 'Mesmo fluxo nos dois perfis');
   test.setTimeout(120_000);
   await signUp(page, testInfo);
-  await createPage(page, { folder: 'Academia', name: 'Sexta', type: 'Cards' });
+  await createWorkout(page, 'Sexta');
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   for (const line of ['Supino 4x10', 'Desenvolvimento 3x10', 'Elevação 4x12']) {
     await input.fill(line);

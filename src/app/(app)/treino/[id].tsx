@@ -62,7 +62,9 @@ import {
   type WorkoutRun,
 } from '@/lib/workout-store';
 import {
-  adjustSetWeight,
+  actualLoad,
+  adjustWeight,
+  LOAD_STEPS,
   nextPending,
   parseWeight,
   restBetweenExercises,
@@ -70,10 +72,12 @@ import {
   supersetNext,
   setGroups,
   setPrescription,
+  setSetWeight,
   setVolume,
   workoutElapsed,
   workoutItems,
   workoutProgress,
+  type LoadOverride,
   type WorkoutItem,
 } from '@/lib/workout';
 import { useIsOnline } from '@/providers/online';
@@ -298,7 +302,6 @@ export default function WorkoutScreen() {
   return (
     <Running
       title={page ? pageLabel(page) : ''}
-      cards={page?.view_type === 'cards'}
       items={items}
       index={index === -1 ? 0 : index}
       session={session}
@@ -358,7 +361,6 @@ function useElapsed(session: Session) {
 
 function Running({
   title,
-  cards,
   items,
   index,
   session,
@@ -372,7 +374,6 @@ function Running({
   onRestShared,
 }: {
   title: string;
-  cards: boolean;
   items: WorkoutItem[];
   index: number;
   session: Session;
@@ -407,6 +408,11 @@ function Running({
   const totals = workoutProgress(items);
   // Séries avançadas: repetições e carga desta série (sem elas, as do item)
   const planned = setPrescription(meta, item.reps);
+  // Carga real desta série (AC4.7): ajustada no descanso ou deixada como a do plano; o plano do
+  // item só muda pelo "Usar no plano"
+  const [loadOverride, setLoadOverride] = useState<LoadOverride | null>(null);
+  const load = actualLoad(loadOverride, task.id, planned.weight);
+  const loadChanged = load !== planned.weight;
   // A série como aconteceu (AC4): vem com o previsto; o que a pessoa mudar vale só para ela
   const gymPrefs = useGymPrefs();
   const effortScale = gymPrefs.effort === 'off' ? null : gymPrefs.effort;
@@ -420,7 +426,7 @@ function Running({
   const km = parseDecimal(draft.distance);
   const minutes = parseDecimal(draft.minutes);
   const values: SetValues = {
-    weight: planned.weight ?? null,
+    weight: load ?? null,
     reps: kind === 'reps' ? draft.reps : null,
     kind,
     ...(effortScale && draft.effort != null
@@ -435,7 +441,7 @@ function Running({
   };
   // Aquecimento sugerido (AC9.2): só antes da primeira série de um exercício com carga
   const gymPrefs2 = useGymPrefs();
-  const workWeight = parseWeight(planned.weight);
+  const workWeight = parseWeight(load);
   const workUnit = workWeight?.unit.startsWith('lb') ? 'lb' : 'kg';
   const workInPref =
     workWeight == null
@@ -525,8 +531,6 @@ function Running({
     setSession((s) => ({ ...s, records: (s.records ?? 0) + 1 }));
   }
 
-  const lb = parseWeight(planned.weight)?.unit.startsWith('lb');
-  const step = lb ? 5 : 2.5;
   const decimalComma = !i18n.language.startsWith('en');
 
   /** Próximo depois deste, contando este como feito (a lista ainda não refletiu). */
@@ -568,7 +572,7 @@ function Running({
     setSession((s) => ({
       ...s,
       sets: s.sets + 1,
-      volume: s.volume + setVolume({ ...planned, reps: values.reps ?? undefined }),
+      volume: s.volume + setVolume({ weight: load, reps: values.reps ?? undefined }),
     }));
     checkRecords();
     if (group) {
@@ -907,26 +911,76 @@ function Running({
         />
       )}
 
-      {(cards || planned.weight) && allowed.edit && !item.done && (
-        <View className="flex-row items-center justify-center gap-3">
-          <Button
-            variant="ghost"
-            label={`−${String(step).replace('.', decimalComma ? ',' : '.')}`}
-            accessibilityLabel={t('workout.lighter')}
-            onPress={() => save({ meta: adjustSetWeight(meta, item.reps, -step, decimalComma) })}
-          />
-          <Text
-            className="min-w-20 text-center font-mono text-base text-ink"
-            accessibilityLabel={t('workout.load', { weight: planned.weight ?? '—' })}
-          >
-            {planned.weight ?? '—'}
-          </Text>
-          <Button
-            variant="ghost"
-            label={`+${String(step).replace('.', decimalComma ? ',' : '.')}`}
-            accessibilityLabel={t('workout.heavier')}
-            onPress={() => save({ meta: adjustSetWeight(meta, item.reps, step, decimalComma) })}
-          />
+      {/* AC4.7: a carga real desta série, sem mudar o plano (parada, vale a do plano) */}
+      {(kind === 'reps' || !!planned.weight) && allowed.complete && !item.done && (
+        <View className="items-center gap-1">
+          <View className="flex-row flex-wrap items-center justify-center gap-1">
+            {LOAD_STEPS.map((delta, i) => {
+              const label = `${delta < 0 ? '−' : '+'}${String(Math.abs(delta)).replace('.', decimalComma ? ',' : '.')}`;
+              const button = (
+                <Button
+                  key={delta}
+                  variant="ghost"
+                  label={label}
+                  accessibilityLabel={t('workout.loadStep', { step: label })}
+                  disabled={paused}
+                  onPress={() =>
+                    setLoadOverride({
+                      taskId: task.id,
+                      planned: planned.weight ?? null,
+                      weight: adjustWeight(load ?? `0${gymPrefs.unit}`, delta, decimalComma),
+                    })
+                  }
+                  className="px-2"
+                />
+              );
+              // A carga atual no meio: tocar volta à do plano
+              return i === LOAD_STEPS.length / 2 ? (
+                <View key="current" className="flex-row items-center gap-1">
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      loadChanged
+                        ? t('workout.loadReset', { weight: load ?? '—', plan: planned.weight ?? '—' })
+                        : t('workout.load', { weight: load ?? '—' })
+                    }
+                    disabled={!loadChanged}
+                    onPress={() => setLoadOverride(null)}
+                    className="min-h-11 min-w-20 items-center justify-center px-2"
+                  >
+                    <Text
+                      className={cn(
+                        'font-mono text-base',
+                        loadChanged ? 'font-semibold text-accent' : 'text-ink',
+                      )}
+                    >
+                      {load ?? '—'}
+                    </Text>
+                  </Pressable>
+                  {button}
+                </View>
+              ) : (
+                button
+              );
+            })}
+          </View>
+          {loadChanged && (
+            <View className="flex-row flex-wrap items-center justify-center gap-2">
+              <Text className="text-xs text-ink-muted">
+                {t('workout.loadPlan', { plan: planned.weight ?? '—' })}
+              </Text>
+              {allowed.edit && load && (
+                <Button
+                  variant="ghost"
+                  label={t('workout.loadToPlan')}
+                  onPress={() => {
+                    save({ meta: setSetWeight(meta, item.reps, load) });
+                    setLoadOverride(null);
+                  }}
+                />
+              )}
+            </View>
+          )}
         </View>
       )}
 

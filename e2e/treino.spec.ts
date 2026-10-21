@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
 
-import { createPage, shown, signUp, waitForSync } from './helpers';
+import { createWorkout, shown, signUp, waitForSync } from './helpers';
 
 test('Modo Treino: séries com Espaço, R pula o descanso, carga, avança, pula e resume', async ({
   page,
 }, testInfo) => {
   test.setTimeout(90_000);
   await signUp(page, testInfo);
-  await createPage(page, { folder: 'Academia', name: 'Treino A', type: 'Cards' });
+  await createWorkout(page, 'Treino A');
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   for (const line of ['Supino 2x10 40kg', 'Rosca 2x12 10kg']) {
     await input.fill(line);
@@ -33,8 +33,8 @@ test('Modo Treino: séries com Espaço, R pula o descanso, carga, avança, pula 
   // para a Rosca
   await waitForSync(page);
   await page.context().setOffline(true);
-  await page.getByRole('button', { name: 'Aumentar a carga' }).click();
-  await expect(page.getByLabel('Carga: 42,5kg')).toBeVisible();
+  await page.getByRole('button', { name: 'Carga desta série +2,5' }).click();
+  await expect(page.getByLabel(/^Carga desta série: 42,5kg/)).toBeVisible();
   await page.getByRole('button', { name: 'Feita' }).click();
   await expect(page.getByRole('heading', { name: 'Rosca' })).toBeVisible();
   await expect(page.getByRole('progressbar', { name: '2 de 4 séries' })).toBeVisible();
@@ -55,5 +55,6 @@ test('Modo Treino: séries com Espaço, R pula o descanso, carga, avança, pula 
     'aria-checked',
     'true',
   );
-  await expect(shown(page, '2x10 · 42,5kg')).toBeVisible();
+  // A carga real da série (AC4.7) não muda o plano do item
+  await expect(shown(page, '2x10 · 40kg')).toBeVisible();
 });

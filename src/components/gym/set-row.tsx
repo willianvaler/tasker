@@ -25,7 +25,7 @@ export const parseDecimal = (text: string) => {
 /**
  * A série que está para ser feita (AC4.4, V6 §3): o Modo Treino já vem com o previsto e mudar é
  * um toque. Repetições com −/+, esforço (se ligado no Perfil) e, no cardio, distância e tempo.
- * A carga continua no −/+ de baixo, que muda o plano do item.
+ * A carga real da série fica no −/+ de baixo, no Modo Treino (AC4.7).
  */
 export function SetRow({
   kind,

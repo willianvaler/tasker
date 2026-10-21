@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { adminRest, createPage, openTab, shown, signUp, waitForSync } from './helpers';
+import { adminRest, createWorkout, openTab, shown, signUp, waitForSync } from './helpers';
 
 // Bateria de usabilidade do Modo Treino (relatos do dono em 19/10): descanso entre exercícios,
 // sair para a lista e voltar continua (também em grupo de treino), não trava num exercício já
@@ -8,7 +8,7 @@ import { adminRest, createPage, openTab, shown, signUp, waitForSync } from './he
 
 async function workoutPage(page: Page, testInfo: Parameters<typeof signUp>[1], lines: string[]) {
   await signUp(page, testInfo);
-  const pageId = await createPage(page, { folder: 'Academia', name: 'Treino A', type: 'Cards' });
+  const pageId = await createWorkout(page, 'Treino A');
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   for (const line of lines) {
     await input.fill(line);
@@ -137,15 +137,20 @@ test('séries avançadas: 1 de 14, 2 de 10, 1 de 8', async ({ page }, testInfo) 
   await page.getByRole('button', { name: 'Feita' }).click();
   await page.keyboard.press('r');
   await expect(shown(page, '10 reps · 45kg')).toBeVisible();
-  // Carga −/+ muda só o grupo desta série
-  await page.getByRole('button', { name: 'Aumentar a carga' }).click();
-  await expect(page.getByLabel('Carga: 47,5kg')).toBeVisible();
+  // Carga real (AC4.7): vale nesta série e nas seguintes do mesmo grupo, sem mudar o plano
+  await page.getByRole('button', { name: 'Carga desta série +2,5' }).click();
+  await expect(page.getByLabel(/^Carga desta série: 47,5kg/)).toBeVisible();
   await page.getByRole('button', { name: 'Feita' }).click();
   await page.keyboard.press('r');
+  await expect(shown(page, '10 reps · 45kg')).toBeVisible();
+  await expect(page.getByLabel(/^Carga desta série: 47,5kg/)).toBeVisible();
+  // "Usar no plano" muda só o grupo desta série
+  await page.getByRole('button', { name: 'Usar no plano' }).click();
   await expect(shown(page, '10 reps · 47,5kg')).toBeVisible();
   await page.getByRole('button', { name: 'Feita' }).click();
   await page.keyboard.press('r');
   await expect(shown(page, '8 reps · 40kg')).toBeVisible();
+  await expect(page.getByLabel('Carga desta série: 40kg')).toBeVisible();
   await expect(shown(page, 'Série 4 de 4')).toBeVisible();
 });
 

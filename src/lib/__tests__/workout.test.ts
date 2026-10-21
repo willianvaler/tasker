@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { Task } from '../queries/tasks';
 import {
+  actualLoad,
   adjustSetWeight,
   adjustWeight,
   formatRest,
@@ -9,6 +10,7 @@ import {
   restBetweenExercises,
   setGroups,
   setPrescription,
+  setSetWeight,
   parseRest,
   planFromSets,
   nextPending,
@@ -70,6 +72,39 @@ it('tempo sem as pausas', () =>
   expect(workoutElapsed({ startedAt: 0, pausedMs: 30_000, pausedAt: null }, 90_000)).toBe(60));
 
 it('em inglês, ponto', () => expect(adjustWeight('20lb', 2.5, false)).toBe('22.5lb'));
+
+describe('carga real da série (AC4.7)', () => {
+  const override = { taskId: 'a', planned: '40kg', weight: '42,5kg' };
+  it('sem ajuste, a do plano', () => expect(actualLoad(null, 'a', '40kg')).toBe('40kg'));
+  it('ajustada vale nas séries seguintes do mesmo exercício', () =>
+    expect(actualLoad(override, 'a', '40kg')).toBe('42,5kg'));
+  it('outro exercício volta ao plano', () => expect(actualLoad(override, 'b', '40kg')).toBe('40kg'));
+  it('grupo seguinte com outra carga volta ao plano', () =>
+    expect(actualLoad(override, 'a', '45kg')).toBe('45kg'));
+  it('sem carga no plano, a ajustada', () =>
+    expect(actualLoad({ taskId: 'a', planned: null, weight: '10kg' }, 'a', undefined)).toBe('10kg'));
+  it('usar no plano, sem séries avançadas', () =>
+    expect(setSetWeight({ weight: '40kg', reps: 10 }, 2, '42,5kg')).toEqual({
+      weight: '42,5kg',
+      reps: 10,
+    }));
+  it('usar no plano, no grupo da série', () =>
+    expect(
+      setSetWeight(
+        {
+          groups: [
+            { sets: 2, reps: 10, weight: '40kg' },
+            { sets: 1, reps: 8, weight: '45kg' },
+          ],
+        },
+        2,
+        '47,5kg',
+      ).groups,
+    ).toEqual([
+      { sets: 2, reps: 10, weight: '40kg' },
+      { sets: 1, reps: 8, weight: '47,5kg' },
+    ]));
+});
 
 describe('descanso no painel', () => {
   it('lê o descanso digitado', () => {

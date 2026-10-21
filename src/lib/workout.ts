@@ -251,6 +251,39 @@ export function adjustSetWeight(
   return { ...meta, groups: next, ...(group === 0 ? { weight: next[0].weight } : {}) };
 }
 
+/**
+ * Carga da série `n` passa a ser `weight` ("Usar no plano", AC4.7): com séries avançadas, a do
+ * grupo dela; sem elas, a do item.
+ */
+export function setSetWeight(meta: TaskMeta, n: number, weight: string): TaskMeta {
+  const groups = setGroups(meta);
+  if (!groups.length) return { ...meta, weight };
+  const { group } = setPrescription(meta, n);
+  const next = groups.map((g, i) => (i === group ? { ...g, weight } : g));
+  return { ...meta, groups: next, ...(group === 0 ? { weight } : {}) };
+}
+
+/** Passos da carga real da série no Modo Treino (AC4.7), na unidade da carga */
+export const LOAD_STEPS = [-10, -5, -2.5, -1, 1, 2.5, 5, 10] as const;
+
+/** A carga que a pessoa ajustou no Modo Treino, e para qual exercício e plano */
+export type LoadOverride = { taskId: string; planned: string | null; weight: string };
+
+/**
+ * Carga real da série (AC4.7): a ajustada vale para as séries seguintes do mesmo exercício
+ * enquanto o plano delas for o mesmo de quando ajustou (o grupo seguinte das séries avançadas,
+ * com outra carga, volta ao plano); sem ajuste, a do plano.
+ */
+export function actualLoad(
+  override: LoadOverride | null,
+  taskId: string,
+  planned: string | undefined,
+): string | undefined {
+  if (override && override.taskId === taskId && override.planned === (planned ?? null))
+    return override.weight;
+  return planned;
+}
+
 /** "1x14 · 2x10 40kg · 1x8 45kg": a carga só aparece onde muda. */
 export function groupsLabel(groups: SetGroup[]): string {
   let weight: string | undefined;

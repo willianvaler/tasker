@@ -12,7 +12,6 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 
 | Ordem | Id | O que | Tamanho |
 |---|---|---|---|
-| 1 | AC4.7 | Carga real de cada série no Modo Treino com `−10 −5 −2,5 −1 · atual · +1 +2,5 +5 +10` | pequeno |
 | 2 | AC8.6 | Mapa muscular no resumo do fim e enquanto o treino é montado | pequeno |
 | 3 | AC11 | Prêmio (conquista e item) para os primeiros do desafio | pequeno |
 | 4 | AC12.1 + AC12.3 | Planos prontos e levar exercícios para outro treino | médio |
@@ -42,8 +41,7 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V5 | §5 | E-mails: provedor, SPF/DKIM/DMARC, SMTP; modelos em 3 idiomas; preferências e descadastro | em espera (V5-3: servidor próprio, Google ou outro, ainda sem decisão) | dono |
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias (V5-4), lixeira para anotações e anexos; troca de e-mail fica com o e-mail | pendente | e-mail só para a troca |
 | V5 | §8 | Login com o Google (Supabase Auth, nativo no Android/iOS) — **não fazer agora** | pendente | projeto no Google Cloud (dono) |
-| **V6** | AC4.7 | Carga real de cada série no Modo Treino, preenchida no descanso ou deixada vazia (vale a do plano): `−10 −5 −2,5 −1 · atual · +1 +2,5 +5 +10` | pendente | — |
-| V6 | AC3.10 | Fotos do free-exercise-db (Unlicense, 876 exercícios × 2 fotos, início e fim) na ficha, no painel e no Modo Treino, alternando as duas como animação; servidas por nós, com miniatura | pendente | — |
+| **V6** | AC3.10 | Fotos do free-exercise-db (Unlicense, 876 exercícios × 2 fotos, início e fim) na ficha, no painel e no Modo Treino, alternando as duas como animação; servidas por nós, com miniatura | pendente | — |
 | V6 | AC7.4 | Pergunta do peso do corpo no início do treino: **desligada por padrão** (liga no Perfil); importar do Health Connect / Apple Saúde fica com o V7 | pendente | AC7.3, V7 |
 | V6 | AC8.6 | Mapa muscular enquanto o treino é montado e no resumo do fim do treino | pendente | AC8.4 |
 | V6 | AC11 | Conquistas de academia e recorde crítico; prêmio (conquista e item) para os primeiros do desafio | pendente | AC5.3 |

@@ -16,7 +16,7 @@ Em páginas de treino (da Academia ou de um grupo de treino) ou com tarefas que 
 
 ## Diário de treino
 
-Cada série feita no Modo Treino fica guardada como aconteceu: a carga, as repetições que você fez de verdade (o Modo Treino já vem com o previsto; −1 e +1 mudam só esta série) e a data. Exercício de cardio pede distância e tempo; o que é por tempo, como a prancha, guarda os segundos. **Aquecimento** registra uma série à parte, que não conta para o total do exercício.
+Cada série feita no Modo Treino fica guardada como aconteceu: a carga, as repetições que você fez de verdade (o Modo Treino já vem com o previsto; −1 e +1 mudam só esta série) e a data. Exercício de cardio pede distância e tempo; o que é por tempo, como a prancha, guarda os segundos. **Carga real:** no descanso (ou antes da série), `−10 −5 −2,5 −1` e `+1 +2,5 +5 +10` ajustam a carga desta série sem mudar o plano; ela continua nas séries seguintes do mesmo exercício. Sem mexer, vale a do plano. Tocar na carga volta à do plano, e **Usar no plano** grava a nova no exercício. **Aquecimento** registra uma série à parte, que não conta para o total do exercício.
 
 O **Histórico** aparece no painel do exercício e na ficha da Biblioteca: as sessões do dia mais novo para o mais velho, com as séries e o volume de cada uma. Uma série errada sai pelo ícone da lixeira (só do diário; o treino fica como está). O diário é só seu, mesmo num treino compartilhado.
 

@@ -203,6 +203,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V6 | AC4.4 | `SetRow`: repetições reais com −1/+1, esforço (se ligado) e, no cardio, distância e tempo | D236 |
 | V6 | AC4.5 | Modo Treino grava a série detalhada e o aquecimento à parte; Perfil → Registro do treino (kg/lb, esforço); política de privacidade com o diário (versão 2026-10-20.2) | D236 |
 | V6 | AC4.6 | Histórico por exercício no painel do item e na ficha da Biblioteca (por dia, volume, apagar série); E2E `e2e/diario.spec.ts` e Ajuda nos 3 idiomas | D236 |
+| V6 | AC4.7 | Carga real de cada série no Modo Treino: `−10 −5 −2,5 −1 · atual · +1 +2,5 +5 +10` ajustam só a série (no descanso ou antes dela), seguem nas séries seguintes do mesmo exercício e grupo, tocar na carga volta à do plano e "Usar no plano" grava no item; sem mexer, vale a do plano; diário, volume, recordes, aquecimento e anilhas usam a real; E2E nos specs do Modo Treino e Ajuda nos 3 idiomas | D249 |
 | V6 | AC5.1 | `lib/gym/one-rm.ts`: 1RM estimado (Epley, até 12 repetições), melhor série, carga para N repetições, tabela de porcentagens | D237 |
 | V6 | AC5.2 | `lib/gym/records.ts`: que recordes uma série bate (carga, repetições na carga, 1RM, volume do dia, tempo, distância), espelho do `_set_records` com os mesmos casos; pgTAP `recordes.test.sql` | D237 |
 | V6 | AC5.3 | Aviso de recorde no Modo Treino e no resumo; recorde no exercício faz a conclusão ser crítico garantido no boss (`app.force_crit` no `_attack`) | D237 |

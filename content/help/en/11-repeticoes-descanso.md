@@ -16,7 +16,7 @@ On workout pages (in the Gym folder or a workout group) or pages with tasks that
 
 ## Workout log
 
-Every set done in Workout mode is saved as it happened: the weight, the reps you actually did (Workout mode starts with the plan; −1 and +1 change only this set) and the date. Cardio exercises ask for distance and time; timed ones, like the plank, keep the seconds. **Warm-up** logs a separate set that does not count toward the exercise total.
+Every set done in Workout mode is saved as it happened: the weight, the reps you actually did (Workout mode starts with the plan; −1 and +1 change only this set) and the date. Cardio exercises ask for distance and time; timed ones, like the plank, keep the seconds. **Actual load:** during the rest (or before the set), `−10 −5 −2.5 −1` and `+1 +2.5 +5 +10` adjust the load of this set without changing the plan; it carries over to the next sets of the same exercise. Untouched, the plan's load counts. Tapping the load goes back to the plan, and **Use in the plan** saves the new one in the exercise. **Warm-up** logs a separate set that does not count toward the exercise total.
 
 **History** shows in the exercise panel and in the Library page: the sessions from newest to oldest, with the sets and volume of each one. A wrong set goes away with the trash icon (only from the log; the workout stays as it is). The log is yours alone, even in a shared workout.
 
