@@ -271,14 +271,14 @@ isOneToOne: true
                   ]
                 },"challenges": {
                   Row: {
-                    "created_at": string,"created_by": string | null,"days": number,"ends_on": string | null,"folder_id": string | null,"id": string,"name": string,"starts_on": string,"team_id": string | null
+                    "created_at": string,"created_by": string | null,"days": number,"ends_on": string | null,"finished_at": string | null,"folder_id": string | null,"id": string,"name": string,"starts_on": string,"team_id": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"created_by"?: string | null,"days": number,"ends_on"?: never,"folder_id"?: string | null,"id"?: string,"name": string,"starts_on": string,"team_id"?: string | null
+                    "created_at"?: string,"created_by"?: string | null,"days": number,"ends_on"?: never,"finished_at"?: string | null,"folder_id"?: string | null,"id"?: string,"name": string,"starts_on": string,"team_id"?: string | null
                   }
                   Update: {
-                    "created_at"?: string,"created_by"?: string | null,"days"?: number,"ends_on"?: never,"folder_id"?: string | null,"id"?: string,"name"?: string,"starts_on"?: string,"team_id"?: string | null
+                    "created_at"?: string,"created_by"?: string | null,"days"?: number,"ends_on"?: never,"finished_at"?: string | null,"folder_id"?: string | null,"id"?: string,"name"?: string,"starts_on"?: string,"team_id"?: string | null
                   }
                   Relationships: [
                     {
@@ -971,8 +971,7 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "folders"
       referencedColumns: ["id"]
-    },
-    {
+    },{
       foreignKeyName: "notes_user_id_fkey"
       columns: ["user_id"]
 isOneToOne: false
@@ -2277,6 +2276,11 @@ isOneToOne: false
 "_cap_quick_damage":
 { Args: { "p_damage": number,"p_user": string }; Returns: number
                            },
+"_challenge_podium":
+{ Args: { "p_challenge_id": string }; Returns: {
+              "days": number,"place": number,"user_id": string
+            }[]
+                           },
 "_check_achievements":
 { Args: { "p_user": string }; Returns: Json
                            },
@@ -2872,6 +2876,9 @@ isOneToOne: false
 { Args: { "p_username": string }; Returns: {
               "avatar_url": string,"display_name": string,"status": string,"user_id": string,"username": string
             }[]
+                           },
+"finish_challenges":
+{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "flush_storage_garbage":
 { Args: Record<PropertyKey, never>; Returns: number

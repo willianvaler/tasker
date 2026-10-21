@@ -176,6 +176,7 @@ describe('idioma das notificações (F3)', () => {
       'page_reminder',
       'workout_invite',
       'challenge_started',
+      'challenge_finished',
       'reaction',
       'friend_request',
       'friend_accepted',
@@ -194,6 +195,7 @@ describe('idioma das notificações (F3)', () => {
       prereq: 'P',
       page_name: 'Treino',
       name: 'Desafio',
+      place: 1,
       emoji: '👏',
       group_name: 'Churrasco',
     };

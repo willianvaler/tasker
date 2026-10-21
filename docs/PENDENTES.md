@@ -12,7 +12,6 @@ Atualizado em 20/10/2026 (produção v2026.10.18). ESCOPO_V8 (modo jogo) conclu�
 
 | Ordem | Id | O que | Tamanho |
 |---|---|---|---|
-| 3 | AC11 | Prêmio (conquista e item) para os primeiros do desafio | pequeno |
 | 4 | AC12.1 + AC12.3 | Planos prontos e levar exercícios para outro treino | médio |
 | 5 | AC3.10 | Fotos do free-exercise-db (cerca de 1.750, com miniatura, servidas por nós) | médio |
 | 6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | médio |
@@ -42,7 +41,6 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V5 | §8 | Login com o Google (Supabase Auth, nativo no Android/iOS) — **não fazer agora** | pendente | projeto no Google Cloud (dono) |
 | **V6** | AC3.10 | Fotos do free-exercise-db (Unlicense, 876 exercícios × 2 fotos, início e fim) na ficha, no painel e no Modo Treino, alternando as duas como animação; servidas por nós, com miniatura | pendente | — |
 | V6 | AC7.4 | Pergunta do peso do corpo no início do treino: **desligada por padrão** (liga no Perfil); importar do Health Connect / Apple Saúde fica com o V7 | pendente | AC7.3, V7 |
-| V6 | AC11 | Conquistas de academia e recorde crítico; prêmio (conquista e item) para os primeiros do desafio | pendente | AC5.3 |
 | V6 | AC12.1 | Planos prontos: iniciante corpo inteiro 3×, ABC, ABCD, superior/inferior 4×, push/pull/legs, 5×5 e Greyskull, em casa sem equipamento (exercícios ligados, dias, progressão) | pendente | — |
 | V6 | AC12.3 | Levar exercícios para outra página de treino com facilidade (copiar ou mover um ou vários, arrastar entre treinos) | pendente | — |
 | V6 | AC12.2 | Importadores Strong, Hevy e FitNotes | pendente | arquivos de exemplo do dono |

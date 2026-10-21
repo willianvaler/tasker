@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { challengeProgress, leaderboard, type ActivityDay } from '../leaderboard';
+import { challengeProgress, leaderboard, podium, type ActivityDay } from '../leaderboard';
 
 const range = { start: '2026-10-01', end: '2026-10-10', today: '2026-10-05' };
 const day = (userId: string, d: number, points?: number): ActivityDay => ({
@@ -86,4 +86,43 @@ describe('challengeProgress', () => {
       elapsed: 10,
       left: 0,
     }));
+});
+
+describe('pódio (AC11, espelho de _challenge_podium)', () => {
+  const range = { start: '2026-10-01', end: '2026-10-07', today: '2026-10-10' };
+  const day = (userId: string, d: number) => ({ userId, day: `2026-10-0${d}` });
+  it('empate no 1º divide; o seguinte é o 3º', () => {
+    const entries = leaderboard(
+      [day('a', 1), day('a', 2), day('a', 3), day('b', 1), day('b', 4), day('b', 5), day('c', 6)],
+      ['a', 'b', 'c', 'd'],
+      range,
+    );
+    expect([...podium(entries)].sort()).toEqual([
+      ['a', 1],
+      ['b', 1],
+      ['c', 3],
+    ]);
+  });
+  it('sem disputa (só uma pessoa treinou), sem pódio', () =>
+    expect(podium(leaderboard([day('a', 1)], ['a', 'b'], range)).size).toBe(0));
+  it('quarto lugar fica de fora', () => {
+    const entries = leaderboard(
+      [
+        day('a', 1),
+        day('a', 2),
+        day('a', 3),
+        day('a', 4),
+        day('b', 1),
+        day('b', 2),
+        day('b', 3),
+        day('c', 1),
+        day('c', 2),
+        day('d', 1),
+      ],
+      ['a', 'b', 'c', 'd'],
+      range,
+    );
+    expect(podium(entries).has('d')).toBe(false);
+    expect(podium(entries).get('c')).toBe(3);
+  });
 });

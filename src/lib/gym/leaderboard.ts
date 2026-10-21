@@ -79,6 +79,18 @@ function bestStreak(sortedDays: readonly string[]) {
   return best;
 }
 
+/**
+ * Pódio do desafio terminado (AC11): até o 3º lugar, só quem treinou, e só quando pelo menos duas
+ * pessoas treinaram. O mesmo que public._challenge_podium (o servidor dá os prêmios).
+ */
+export function podium(entries: readonly BoardEntry[]): Map<string, 1 | 2 | 3> {
+  const trained = entries.filter((e) => e.days > 0);
+  const places = new Map<string, 1 | 2 | 3>();
+  if (trained.length < 2) return places;
+  for (const e of trained) if (e.rank <= 3) places.set(e.userId, e.rank as 1 | 2 | 3);
+  return places;
+}
+
 /** Dias do desafio (início e fim inclusos) e quantos já passaram até hoje. */
 export function challengeProgress(range: ChallengeRange) {
   const total = daysBetween(range.start, range.end) + 1;

@@ -12,7 +12,7 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { challengeProgress, leaderboard } from '@/lib/gym/leaderboard';
+import { challengeProgress, leaderboard, podium } from '@/lib/gym/leaderboard';
 import { formatShortDate } from '@/lib/parser/dates';
 import {
   useChallengeActions,
@@ -26,6 +26,7 @@ import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 
 const endOf = (c: Challenge) => c.ends_on ?? c.starts_on;
+const MEDALS = { 1: '🥇', 2: '🥈', 3: '🥉' } as const;
 
 /**
  * Desafios do grupo (V6 §15.5, AC10.5): o que está valendo, com o ranking de dias de treino, os
@@ -129,6 +130,9 @@ function ChallengeCard({
     range,
   );
   const shown = compact ? entries.slice(0, 3) : entries;
+  // Terminado (AC11): o pódio leva o prêmio, entregue pelo servidor no dia seguinte ao fim
+  const over = today > range.end;
+  const places = over ? podium(entries) : new Map<string, 1 | 2 | 3>();
 
   return (
     <View className="gap-3 rounded-lg border border-line bg-surface p-4">
@@ -182,6 +186,14 @@ function ChallengeCard({
               <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
                 {name}
               </Text>
+              {places.has(entry.userId) && (
+                <Text
+                  accessibilityLabel={t('group.medal', { place: places.get(entry.userId) })}
+                  className="text-base"
+                >
+                  {MEDALS[places.get(entry.userId) ?? 3]}
+                </Text>
+              )}
               {entry.streak > 1 && (
                 <View className="flex-row items-center gap-1">
                   <Icon icon={Flame} tone="ink-muted" />
@@ -196,6 +208,7 @@ function ChallengeCard({
         })}
       </View>
       {!compact && <Text className="text-xs text-ink-muted">{t('group.rule')}</Text>}
+      {!compact && <Text className="text-xs text-ink-muted">{t('group.prizes')}</Text>}
       {removing && (
         <ConfirmDialog
           title={t('group.removeTitle', { name: challenge.name })}

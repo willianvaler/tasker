@@ -2756,6 +2756,14 @@
       "bench_bodyweight": {
         "name": "Supino do próprio peso",
         "description": "Ter 1RM estimado no supino igual ou maior que o seu peso"
+      },
+      "challenge_podium": {
+        "name": "Pódio",
+        "description": "Terminar um desafio do grupo entre os três primeiros"
+      },
+      "challenge_win": {
+        "name": "Campeão de desafio",
+        "description": "Terminar um desafio do grupo em primeiro lugar"
       }
     },
     "hints": {
@@ -2868,6 +2876,8 @@
     "days_one": "{{count}} dia",
     "days_other": "{{count}} dias",
     "rule": "Conta como dia de treino: concluir uma página de treino ou ficar 30 min ou mais no Modo Treino.",
+    "medal": "{{place}}º lugar: prêmio do desafio",
+    "prizes": "No fim, o 1º lugar ganha a conquista Campeão de desafio e o título Campeão; até o 3º, a conquista Pódio (quando pelo menos duas pessoas treinaram).",
     "removeChallenge": "Encerrar",
     "removeTitle": "Encerrar \"{{name}}\"?",
     "removeMessage": "O desafio e o ranking somem para todos. Os dias de treino de cada um continuam.",

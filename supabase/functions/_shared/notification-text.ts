@@ -37,6 +37,8 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} começou o treino "${p.page_name}" com você: entrar`,
     challenge_started: (p, by) =>
       `${by} começou o desafio "${p.name}" (${p.days} ${n(p.days) === 1 ? 'dia' : 'dias'})`,
+    challenge_finished: (p) =>
+      `O desafio "${p.name}" terminou: você ficou em ${p.place}º lugar ${n(p.place) === 1 ? '🥇' : n(p.place) === 2 ? '🥈' : '🥉'}`,
     workout_reminder: (p) => `Hoje é dia de ${p.page_name}: ainda sem treino registrado`,
     reaction: (p, by) => `${by} reagiu ${p.emoji} a "${p.title}"`,
     reaction_comment: (p, by) => `${by} reagiu ${p.emoji} ao seu comentário em "${p.title}"`,
@@ -67,6 +69,8 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} started the workout "${p.page_name}" with you: join`,
     challenge_started: (p, by) =>
       `${by} started the challenge "${p.name}" (${p.days} ${n(p.days) === 1 ? 'day' : 'days'})`,
+    challenge_finished: (p) =>
+      `The challenge "${p.name}" is over: you finished in place ${p.place} ${n(p.place) === 1 ? '🥇' : n(p.place) === 2 ? '🥈' : '🥉'}`,
     workout_reminder: (p) => `Today is ${p.page_name} day: no workout logged yet`,
     reaction: (p, by) => `${by} reacted ${p.emoji} to "${p.title}"`,
     reaction_comment: (p, by) => `${by} reacted ${p.emoji} to your comment on "${p.title}"`,
@@ -98,6 +102,8 @@ const TEXT: Record<
     workout_invite: (p, by) => `${by} empezó el entrenamiento "${p.page_name}" contigo: entrar`,
     challenge_started: (p, by) =>
       `${by} empezó el desafío "${p.name}" (${p.days} ${n(p.days) === 1 ? 'día' : 'días'})`,
+    challenge_finished: (p) =>
+      `El desafío "${p.name}" terminó: quedaste en el ${p.place}º lugar ${n(p.place) === 1 ? '🥇' : n(p.place) === 2 ? '🥈' : '🥉'}`,
     workout_reminder: (p) => `Hoy toca ${p.page_name}: todavía no registraste el entrenamiento`,
     reaction: (p, by) => `${by} reaccionó ${p.emoji} a "${p.title}"`,
     reaction_comment: (p, by) => `${by} reaccionó ${p.emoji} a tu comentario en "${p.title}"`,
@@ -182,6 +188,8 @@ export function describeNotification(
       };
     case 'challenge_started':
       return { text: say('challenge_started'), url: `/desafio/${p.challenge_id}` };
+    case 'challenge_finished':
+      return { text: say('challenge_finished'), url: `/desafio/${p.challenge_id}` };
     case 'reaction':
       return {
         text: p.comment_id ? say('reaction_comment') : say('reaction'),

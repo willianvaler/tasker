@@ -36,6 +36,8 @@ reset role;
 -- Lembrete: treino todo dia, ainda sem série, depois das 18 h no fuso da pessoa (o fuso do teste
 -- é escolhido para a hora local passar das 18 agora)
 update public.pages set train_days = '{0,1,2,3,4,5,6}' where id = 'bbbbbbbb-0000-0000-0000-000000000001';
+-- Os treinos que já estão no banco (de outros testes) ficam de fora
+update public.pages set train_days = null where id <> 'bbbbbbbb-0000-0000-0000-000000000001' and train_days is not null;
 delete from public.workout_moves;
 do $$
 declare

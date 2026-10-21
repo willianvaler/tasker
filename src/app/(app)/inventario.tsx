@@ -45,7 +45,8 @@ export default function InventoryScreen() {
       ({ item, source }) =>
         (!slot || item.slot === slot) &&
         (!rarity || item.rarity === rarity) &&
-        (!origin || (origin === 'drop' ? source === 'drop' : source !== 'drop')),
+        // Prêmio de desafio (AC11) não é da loja nem de boss: aparece só sem o filtro
+        (!origin || source === origin),
     )
     // Equipados primeiro, depois do mais raro para o mais comum
     .sort(

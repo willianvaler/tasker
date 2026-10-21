@@ -93,3 +93,66 @@ test('treino em grupo: desafio, ranking, mural e chat', async ({ page, browser }
   await expect(bia.getByText('Amanhã às 7?')).toBeVisible({ timeout: 15_000 });
   await biaContext.close();
 });
+
+// AC11 (D251): desafio terminado fecha no servidor e o pódio leva o prêmio (conquista, título e
+// aviso); o ranking mostra as medalhas
+test('desafio terminado: pódio, medalhas e aviso do prêmio', async ({
+  page,
+  browser,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'duas pessoas: basta um perfil');
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  const ana = await userIdOf(page);
+  const biaContext = await browser.newContext({ ...devices['Desktop Chrome'] });
+  const bia = await biaContext.newPage();
+  await signUp(bia, testInfo);
+  const biaId = await userIdOf(bia);
+  await biaContext.close();
+
+  const stamp = Date.now();
+  const [folder] = await adminRest('folders', {
+    method: 'POST',
+    body: JSON.stringify({
+      owner_id: ana,
+      name: `Turma ${stamp}`,
+      kind: 'project',
+      gym_group: true,
+      is_shared: true,
+    }),
+  });
+  await adminRest('folder_members', {
+    method: 'POST',
+    body: JSON.stringify({ folder_id: folder.id, user_id: biaId, role: 'editor' }),
+  });
+  // Sete dias que acabaram há três: a Ana treinou em dois, a Bia em um
+  const day = (ago: number) => new Date(Date.now() - ago * 86_400_000).toISOString().slice(0, 10);
+  const [challenge] = await adminRest('challenges', {
+    method: 'POST',
+    body: JSON.stringify({
+      folder_id: folder.id,
+      name: `Setembro ${stamp}`,
+      starts_on: day(10),
+      days: 7,
+      created_by: ana,
+    }),
+  });
+  await adminRest('workout_days', {
+    method: 'POST',
+    body: JSON.stringify([
+      { user_id: ana, day: day(9), source: 'page' },
+      { user_id: ana, day: day(8), source: 'page' },
+      { user_id: biaId, day: day(8), source: 'page' },
+    ]),
+  });
+  // O pg_cron chama de hora em hora; aqui, na hora
+  await adminRest('rpc/finish_challenges', { method: 'POST', body: '{}' });
+
+  await page.goto('/notifications');
+  await expect(
+    page.getByText(`O desafio "Setembro ${stamp}" terminou: você ficou em 1º lugar 🥇`),
+  ).toBeVisible({ timeout: 20_000 });
+  await page.goto(`/desafio/${challenge.id}`);
+  await expect(page.getByLabel('1º lugar: prêmio do desafio')).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByLabel('2º lugar: prêmio do desafio')).toBeVisible();
+});

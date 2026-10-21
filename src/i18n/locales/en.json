@@ -2756,6 +2756,14 @@
       "bench_bodyweight": {
         "name": "Bench your bodyweight",
         "description": "Reach an estimated bench press 1RM equal to or above your body weight"
+      },
+      "challenge_podium": {
+        "name": "Podium",
+        "description": "Finish a group challenge among the top three"
+      },
+      "challenge_win": {
+        "name": "Challenge champion",
+        "description": "Finish a group challenge in first place"
       }
     },
     "hints": {
@@ -2868,6 +2876,8 @@
     "days_one": "{{count}} day",
     "days_other": "{{count}} days",
     "rule": "Counts as a workout day: completing a workout page or spending 30 min or more in Workout mode.",
+    "medal": "Place {{place}}: challenge prize",
+    "prizes": "At the end, first place gets the Challenge champion achievement and the Champion title; up to third, the Podium achievement (when at least two people trained).",
     "removeChallenge": "End",
     "removeTitle": "End \"{{name}}\"?",
     "removeMessage": "The challenge and the ranking disappear for everyone. Everyone's workout days stay.",

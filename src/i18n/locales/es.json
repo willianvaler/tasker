@@ -2756,6 +2756,14 @@
       "bench_bodyweight": {
         "name": "Press de tu peso",
         "description": "Tener un 1RM estimado en press de banca igual o mayor que tu peso"
+      },
+      "challenge_podium": {
+        "name": "Podio",
+        "description": "Terminar un desafío del grupo entre los tres primeros"
+      },
+      "challenge_win": {
+        "name": "Campeón de desafío",
+        "description": "Terminar un desafío del grupo en primer lugar"
       }
     },
     "hints": {
@@ -2868,6 +2876,8 @@
     "days_one": "{{count}} día",
     "days_other": "{{count}} días",
     "rule": "Cuenta como día de entrenamiento: completar una página de entrenamiento o pasar 30 min o más en el Modo Entrenamiento.",
+    "medal": "{{place}}º lugar: premio del desafío",
+    "prizes": "Al final, el 1º lugar gana el logro Campeón de desafío y el título Campeón; hasta el 3º, el logro Podio (cuando al menos dos personas entrenaron).",
     "removeChallenge": "Terminar",
     "removeTitle": "¿Terminar \"{{name}}\"?",
     "removeMessage": "El desafío y el ranking desaparecen para todos. Los días de entrenamiento de cada uno se quedan.",
