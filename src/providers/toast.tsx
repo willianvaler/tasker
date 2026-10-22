@@ -64,7 +64,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   // nas telas com a barra de baixo, acima dela e do timer encaixado; nas outras, acima do timer
   // flutuante
   const inWorkout = (pathname ?? '').startsWith('/treino/');
-  const bottom = wide ? 24 : isTabPath(pathname) ? 64 + 44 + 16 : SIZE.timerBar + 44 + 16;
+  // (o timer flutuante fica no mesmo canto de baixo, no computador e nas telas sem barra)
+  const bottom = !wide && isTabPath(pathname) ? 64 + 44 + 16 : SIZE.timerBar + 44 + 16;
 
   const show = useCallback((next: ToastInput) => {
     const visible = current.current;
