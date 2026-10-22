@@ -2,7 +2,7 @@
 // texto de forma que importe para quem usa? Suba LEGAL_VERSION aqui **e** public.legal_version()
 // numa migração nova (o teste legal.test.ts compara); quem já usa aceita de novo ao abrir o app.
 
-export const LEGAL_VERSION = '2026-10-21';
+export const LEGAL_VERSION = '2026-10-22';
 
 /** Idade mínima para criar conta (LGPD art. 14: abaixo disso, só com os responsáveis). */
 export const MIN_AGE = 13;
@@ -52,7 +52,7 @@ const ptBR: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidade',
-    updated: 'Versão de 21 de outubro de 2026 (a foto da nota é lida no nosso servidor)',
+    updated: 'Versão de 22 de outubro de 2026 (remédios no Bem-estar)',
     sections: [
       {
         title: 'Quem cuida dos dados',
@@ -60,11 +60,11 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'O que guardamos',
-        body: 'Nome, nick, e-mail, fuso horário e idioma; a sua lista de amigos e os pedidos de amizade; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o diário de treino (cada série com carga, repetições, tempo, distância e esforço); se você ligar, o peso e as medidas do corpo, com as metas (dado de saúde, sensível); o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
+        body: 'Nome, nick, e-mail, fuso horário e idioma; a sua lista de amigos e os pedidos de amizade; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o diário de treino (cada série com carga, repetições, tempo, distância e esforço); se você ligar, o peso e as medidas do corpo, com as metas, e os remédios que você registra, com dose, frequência e estoque (dados de saúde, sensíveis); o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
       },
       {
         title: 'Para que usamos e com que base',
-        body: 'Só para o app funcionar (execução do contrato, LGPD art. 7º, V): mostrar e sincronizar suas tarefas, mostrar aos membros de um projeto ou clã o que é compartilhado com eles, mandar os avisos que você ligou e calcular XP, dano, ouro e sequência. O registro do aceite e os registros de segurança usam a base do cumprimento de obrigação legal e do legítimo interesse (proteger as contas). O peso e as medidas do corpo são dado sensível e usam o seu consentimento específico (LGPD art. 11, I), pedido na primeira vez: ficam só com você, nem quem treina você vê, e você pode revogar quando quiser, o que apaga tudo. Não vendemos dados, não mostramos anúncios e não rastreamos você fora do app.',
+        body: 'Só para o app funcionar (execução do contrato, LGPD art. 7º, V): mostrar e sincronizar suas tarefas, mostrar aos membros de um projeto ou clã o que é compartilhado com eles, mandar os avisos que você ligou e calcular XP, dano, ouro e sequência. O registro do aceite e os registros de segurança usam a base do cumprimento de obrigação legal e do legítimo interesse (proteger as contas). O peso e as medidas do corpo e os remédios são dados sensíveis e usam o seu consentimento específico (LGPD art. 11, I), pedido na primeira vez, separado para cada um: ficam só com você, nem quem treina você vê, e você pode revogar quando quiser, o que apaga tudo. Não vendemos dados, não mostramos anúncios e não rastreamos você fora do app.',
       },
       {
         title: 'Quem vê o quê',
@@ -139,7 +139,7 @@ const en: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Privacy policy',
-    updated: 'Version of October 21, 2026 (receipt photos are read on our server)',
+    updated: 'Version of October 22, 2026 (medicines in Wellness)',
     sections: [
       {
         title: 'Who looks after the data',
@@ -147,11 +147,11 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'What we store',
-        body: 'Name, nick, email, time zone and language; your friends list and friend requests; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the workout log (each set with weight, reps, time, distance and effort); if you turn it on, your body weight and measurements, with goals (health data, sensitive); the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
+        body: 'Name, nick, email, time zone and language; your friends list and friend requests; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the workout log (each set with weight, reps, time, distance and effort); if you turn it on, your body weight and measurements, with goals, and the medicines you log, with dose, frequency and stock (health data, sensitive); the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
       },
       {
         title: 'What we use it for, and on what basis',
-        body: 'Only to make the app work (performance of a contract, LGPD art. 7, V): show and sync your tasks, show project or clan members what is shared with them, send the notifications you turned on and compute XP, damage, gold and streaks. The acceptance record and security logs rely on legal obligation and legitimate interest (protecting accounts). Body weight and measurements are sensitive data and rely on your specific consent (LGPD art. 11, I), asked the first time: they stay with you only, not even your coach sees them, and you can withdraw it at any time, which deletes everything. We do not sell data, show ads or track you outside the app.',
+        body: 'Only to make the app work (performance of a contract, LGPD art. 7, V): show and sync your tasks, show project or clan members what is shared with them, send the notifications you turned on and compute XP, damage, gold and streaks. The acceptance record and security logs rely on legal obligation and legitimate interest (protecting accounts). Body weight and measurements, and medicines, are sensitive data and rely on your specific consent (LGPD art. 11, I), asked the first time, separately for each: they stay with you only, not even your coach sees them, and you can withdraw it at any time, which deletes everything. We do not sell data, show ads or track you outside the app.',
       },
       {
         title: 'Who sees what',
@@ -226,7 +226,7 @@ const es: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidad',
-    updated: 'Versión del 21 de octubre de 2026 (la foto del ticket se lee en nuestro servidor)',
+    updated: 'Versión del 22 de octubre de 2026 (medicamentos en Bienestar)',
     sections: [
       {
         title: 'Quién cuida los datos',
@@ -234,11 +234,11 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Qué guardamos',
-        body: 'Nombre, nick, correo, zona horaria e idioma; tu lista de amigos y las solicitudes de amistad; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el registro de entrenamiento (cada serie con carga, repeticiones, tiempo, distancia y esfuerzo); si lo activas, el peso y las medidas del cuerpo, con las metas (dato de salud, sensible); el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
+        body: 'Nombre, nick, correo, zona horaria e idioma; tu lista de amigos y las solicitudes de amistad; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el registro de entrenamiento (cada serie con carga, repeticiones, tiempo, distancia y esfuerzo); si lo activas, el peso y las medidas del cuerpo, con las metas, y los medicamentos que registras, con dosis, frecuencia y stock (datos de salud, sensibles); el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
       },
       {
         title: 'Para qué los usamos y con qué base',
-        body: 'Solo para que la app funcione (ejecución del contrato, LGPD art. 7, V): mostrar y sincronizar tus tareas, mostrar a los miembros de un proyecto o clan lo que se comparte con ellos, enviar los avisos que activaste y calcular XP, daño, oro y rachas. El registro de la aceptación y los registros de seguridad se basan en la obligación legal y el interés legítimo (proteger las cuentas). El peso y las medidas del cuerpo son datos sensibles y se basan en tu consentimiento específico (LGPD art. 11, I), pedido la primera vez: se quedan solo contigo, ni quien te entrena los ve, y puedes revocarlo cuando quieras, lo que borra todo. No vendemos datos, no mostramos anuncios y no te rastreamos fuera de la app.',
+        body: 'Solo para que la app funcione (ejecución del contrato, LGPD art. 7, V): mostrar y sincronizar tus tareas, mostrar a los miembros de un proyecto o clan lo que se comparte con ellos, enviar los avisos que activaste y calcular XP, daño, oro y rachas. El registro de la aceptación y los registros de seguridad se basan en la obligación legal y el interés legítimo (proteger las cuentas). El peso y las medidas del cuerpo y los medicamentos son datos sensibles y se basan en tu consentimiento específico (LGPD art. 11, I), pedido la primera vez, por separado para cada uno: se quedan solo contigo, ni quien te entrena los ve, y puedes revocarlo cuando quieras, lo que borra todo. No vendemos datos, no mostramos anuncios y no te rastreamos fuera de la app.',
       },
       {
         title: 'Quién ve qué',

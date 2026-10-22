@@ -75,6 +75,8 @@ export type UiPrefs = {
   tabs?: string[];
   /** Revisão semanal (PB3): última feita ou dispensada */
   review?: ReviewPrefs;
+  /** Bem-estar (D270): a Academia aparece dentro dele em vez de ter lugar próprio */
+  wellness?: { gym?: boolean };
   /** Registro do treino (AC4): unidade de carga e escala de esforço */
   gym?: {
     unit?: WeightUnit;
@@ -103,6 +105,13 @@ export function useGymPrefs(): {
     bar: typeof gym.bar === 'number' && gym.bar >= 0 ? gym.bar : DEFAULT_BAR[unit],
     plates: Array.isArray(gym.plates) && gym.plates.length ? gym.plates : DEFAULT_PLATES[unit],
   };
+}
+
+/** Treino ligado e "Academia dentro do Bem-estar" (D270): o Treino sai da navegação e mora lá. */
+export function useGymInWellness(): boolean {
+  const gymOn = useProfile().data?.gym_enabled === true;
+  const inside = useUiPrefs().wellness?.gym === true;
+  return gymOn && inside;
 }
 
 export function useUiPrefs(): UiPrefs {

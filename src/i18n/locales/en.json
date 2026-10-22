@@ -8,7 +8,8 @@
     "back": "Back",
     "loading": "Loading…",
     "loadError": "Could not load: {{message}}",
-    "someone": "Someone"
+    "someone": "Someone",
+    "edit": "Edit"
   },
   "language": {
     "label": "Language",
@@ -139,7 +140,8 @@
     "plan": "Plan",
     "workout": "Workouts",
     "moreCard": "More: {{name}}",
-    "moreCardLevel": "More: {{name}}, level {{level}}, {{into}} of {{next}} XP"
+    "moreCardLevel": "More: {{name}}, level {{level}}, {{into}} of {{next}} XP",
+    "wellness": "Wellness"
   },
   "quickAdd": {
     "label": "New task",
@@ -3481,5 +3483,60 @@
     "addTitle": "Add to the panel",
     "showAll": "Show every section of the task panel",
     "showAllHint": "When off, the panel shows what the task uses; the rest comes in through + Add."
+  },
+  "wellness": {
+    "eyebrow": "Workouts, health and medicines",
+    "workoutHint": "Workouts, the Library and stats (or turn on \"Gym inside Wellness\" in Settings)",
+    "workoutOffHint": "Turn on Workouts in Settings → Features",
+    "gymInside": "Gym inside Wellness",
+    "gymInsideHint": "Workouts, groups and gym tools show on the Wellness screen instead of having their own place in the sidebar, in Folders and in the bottom bar.",
+    "meds": {
+      "title": "Medicines",
+      "new": "New medicine",
+      "editTitle": "Edit medicine",
+      "empty": "No medicines yet. Add the ones you buy to know when they will run out.",
+      "consentBody": "The medicines you take are health data, sensitive personal data under the LGPD. They stay with you only: nobody else sees them. They are included in your data export and are deleted with your account. You can stop at any time, and what is stored is deleted.",
+      "consentAccept": "I agree and want to log medicines",
+      "revoke": "Stop storing medicines",
+      "revokeTitle": "Stop storing medicines?",
+      "revokeBody": "All medicines are deleted now. The consent is withdrawn, with the date.",
+      "name": "Name (e.g. Losartan 50 mg)",
+      "dosePerTime": "Pills per dose (0.5 works)",
+      "howOften": "How many times a day",
+      "whichDays": "Which days",
+      "packSize": "Pills per box",
+      "haveNow": "How many you have now",
+      "pills": "Pills",
+      "everyDay": "Every day",
+      "everyOther": "Every other day",
+      "weekly": "Once a week",
+      "everyN_one": "Every {{count}} day",
+      "everyN_other": "Every {{count}} days",
+      "timesPerDay_one": "{{count}}× a day",
+      "timesPerDay_other": "{{count}}× a day",
+      "half": "½ pill",
+      "dose_one": "{{n}} pill",
+      "dose_other": "{{n}} pills",
+      "left_one": "{{n}} pill left",
+      "left_other": "{{n}} pills left",
+      "until_one": "lasts until {{date}} ({{count}} day)",
+      "until_other": "lasts until {{date}} ({{count}} days)",
+      "endsToday": "runs out today",
+      "buySoon": "buy soon",
+      "out": "Ran out",
+      "paused": "Stopped",
+      "bought": "Bought",
+      "boughtTitle": "Bought {{name}}",
+      "boughtHint": "How many pills did you buy? They are added to what is left.",
+      "boughtToast": "{{name}}: stock updated",
+      "add": "Add",
+      "count": "Count again",
+      "countTitle": "How many {{name}} do you have?",
+      "countHint": "Count what is left: the estimate restarts today.",
+      "pause": "Stop taking",
+      "resume": "Take again",
+      "options": "Options for {{name}}",
+      "removeTitle": "Delete {{name}}?"
+    }
   }
 }

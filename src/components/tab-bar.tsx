@@ -2,6 +2,7 @@ import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import {
   CalendarRange,
   Dumbbell,
+  HeartPulse,
   House,
   Inbox,
   LayoutGrid,
@@ -23,7 +24,12 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { useGameLevel } from '@/lib/queries/game';
-import { useProfile, useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
+import {
+  useGymInWellness,
+  useProfile,
+  useUiPrefs,
+  useUpdateUiPrefs,
+} from '@/lib/queries/profile';
 import { availableSlots, barRoutes, resolveSlots, type TabSlot } from '@/lib/tab-slots';
 import { useIsOnline } from '@/providers/online';
 
@@ -34,6 +40,7 @@ const ICON: Record<'index' | 'mais' | TabSlot, LucideIcon> = {
   habits: Repeat,
   folders: LayoutGrid,
   treino: Dumbbell,
+  'bem-estar': HeartPulse,
   jogo: Swords,
   pessoas: Users,
   mais: User,
@@ -43,8 +50,9 @@ const ICON: Record<'index' | 'mais' | TabSlot, LucideIcon> = {
 export function useTabSlots() {
   const saved = useUiPrefs().tabs;
   const gym = useProfile().data?.gym_enabled === true;
+  const gymInWellness = useGymInWellness();
   const game = useGameLevel();
-  return resolveSlots(saved, { gym, game });
+  return resolveSlots(saved, { gym, game, gymInWellness });
 }
 
 /** Nome de cada destino da barra (o mesmo no seletor das Configurações). */
@@ -58,6 +66,7 @@ export function useTabLabel() {
       habits: t('nav.habits'),
       folders: t('nav.folders'),
       treino: t('nav.workout'),
+      'bem-estar': t('nav.wellness'),
       jogo: t('nav.game'),
       pessoas: t('nav.people'),
       mais: t('nav.more'),
@@ -141,8 +150,9 @@ export function TabBarSettings() {
   const slots = useTabSlots();
   const label = useTabLabel();
   const gym = useProfile().data?.gym_enabled === true;
+  const gymInWellness = useGymInWellness();
   const game = useGameLevel();
-  const options = availableSlots({ gym, game });
+  const options = availableSlots({ gym, game, gymInWellness });
   const pick = (position: 0 | 1, slot: TabSlot) => {
     const next: [TabSlot, TabSlot] = [...slots];
     const other = position === 0 ? 1 : 0;

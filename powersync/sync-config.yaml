@@ -78,6 +78,11 @@ streams:
       - SELECT * FROM body_goals WHERE user_id = auth.user_id()
       - SELECT * FROM sensitive_consents WHERE user_id = auth.user_id()
 
+  # Remédios do Bem-estar (BE4, dado sensível): só os meus
+  medications:
+    auto_subscribe: true
+    query: SELECT * FROM medications WHERE user_id = auth.user_id()
+
   # Remarcações de treino (AC9.5): só as minhas
   workout_moves:
     auto_subscribe: true

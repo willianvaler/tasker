@@ -6,6 +6,7 @@ import {
   ClipboardCheck,
   Dumbbell,
   Globe,
+  HeartPulse,
   Inbox,
   LayoutGrid,
   LayoutTemplate,
@@ -30,7 +31,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { useTabSlots } from '@/components/tab-bar';
 import { useMyFriends } from '@/lib/queries/friends';
 import { useGameState } from '@/lib/queries/game';
-import { useProfile } from '@/lib/queries/profile';
+import { useGymInWellness, useProfile } from '@/lib/queries/profile';
 import { useTree } from '@/lib/queries/tree';
 import { signOutHere } from '@/lib/sign-out';
 import type { TabSlot } from '@/lib/tab-slots';
@@ -49,6 +50,7 @@ export default function MoreScreen() {
   const requests = (useMyFriends().data ?? []).filter((f) => f.incoming).length;
   const inProject = !!tree.data?.folders.some((f) => f.is_shared);
   const gymOn = profile?.gym_enabled === true;
+  const gymInWellness = useGymInWellness();
   // No celular, o que já está na barra de baixo não se repete aqui
   const slots = useTabSlots();
   const narrow = useWindowDimensions().width < 768;
@@ -103,7 +105,15 @@ export default function MoreScreen() {
               href="/folders"
             />
           )}
-          {gymOn && show('treino') && (
+          {show('bem-estar') && (
+            <HubRow
+              icon={HeartPulse}
+              label={t('nav.wellness')}
+              hint={t('wellness.eyebrow')}
+              href="/bem-estar"
+            />
+          )}
+          {gymOn && !gymInWellness && show('treino') && (
             <HubRow
               icon={Dumbbell}
               label={t('nav.workout')}

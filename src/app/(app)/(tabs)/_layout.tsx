@@ -28,6 +28,7 @@ export default function TabsLayout() {
         <Tabs.Screen name="habits" options={{ title: t('nav.habits') }} />
         <Tabs.Screen name="folders" options={{ title: t('nav.folders') }} />
         <Tabs.Screen name="treino" options={{ title: t('nav.workout') }} />
+        <Tabs.Screen name="bem-estar" options={{ title: t('nav.wellness') }} />
         <Tabs.Screen name="jogo" options={{ title: t('nav.game') }} />
         <Tabs.Screen name="pessoas" options={{ title: t('nav.people') }} />
         <Tabs.Screen name="mine" options={{ title: t('nav.mine') }} />

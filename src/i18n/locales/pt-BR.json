@@ -8,7 +8,8 @@
     "back": "Voltar",
     "loading": "Carregando…",
     "loadError": "Não deu para carregar: {{message}}",
-    "someone": "Alguém"
+    "someone": "Alguém",
+    "edit": "Editar"
   },
   "language": {
     "label": "Idioma",
@@ -139,7 +140,8 @@
     "plan": "Planejar",
     "workout": "Treino",
     "moreCard": "Mais: {{name}}",
-    "moreCardLevel": "Mais: {{name}}, nível {{level}}, {{into}} de {{next}} XP"
+    "moreCardLevel": "Mais: {{name}}, nível {{level}}, {{into}} de {{next}} XP",
+    "wellness": "Bem-estar"
   },
   "quickAdd": {
     "label": "Nova tarefa",
@@ -3481,5 +3483,60 @@
     "addTitle": "Adicionar ao painel",
     "showAll": "Mostrar todas as seções do painel da tarefa",
     "showAllHint": "Desligado, o painel mostra o que a tarefa usa; o resto entra pelo + Adicionar."
+  },
+  "wellness": {
+    "eyebrow": "Treino, saúde e remédios",
+    "workoutHint": "Os treinos, a Biblioteca e as estatísticas (ou ligue \"Academia dentro do Bem-estar\" em Configurações)",
+    "workoutOffHint": "Ligue o Treino em Configurações → Recursos",
+    "gymInside": "Academia dentro do Bem-estar",
+    "gymInsideHint": "Os treinos, os grupos e as ferramentas de academia aparecem na tela Bem-estar, em vez de ter lugar próprio na barra lateral, em Pastas e na barra de baixo.",
+    "meds": {
+      "title": "Remédios",
+      "new": "Novo remédio",
+      "editTitle": "Editar remédio",
+      "empty": "Nenhum remédio ainda. Adicione os que você compra para saber quando vão acabar.",
+      "consentBody": "Os remédios que você toma são dados de saúde, um dado pessoal sensível pela LGPD. Eles ficam só com você: ninguém mais vê. Entram na exportação dos seus dados e saem se você excluir a conta. Você pode parar quando quiser, e o que estiver guardado é apagado.",
+      "consentAccept": "Concordo e quero registrar remédios",
+      "revoke": "Parar de guardar remédios",
+      "revokeTitle": "Parar de guardar remédios?",
+      "revokeBody": "Todos os remédios são apagados agora. O consentimento fica revogado, com a data.",
+      "name": "Nome (ex.: Losartana 50 mg)",
+      "dosePerTime": "Comprimidos por vez (aceita 0,5)",
+      "howOften": "Quantas vezes por dia",
+      "whichDays": "Em que dias",
+      "packSize": "Comprimidos por caixa",
+      "haveNow": "Quantos você tem agora",
+      "pills": "Comprimidos",
+      "everyDay": "Todo dia",
+      "everyOther": "Dia sim, dia não",
+      "weekly": "1 vez por semana",
+      "everyN_one": "A cada {{count}} dia",
+      "everyN_other": "A cada {{count}} dias",
+      "timesPerDay_one": "{{count}}× por dia",
+      "timesPerDay_other": "{{count}}× por dia",
+      "half": "½ comprimido",
+      "dose_one": "{{n}} comprimido",
+      "dose_other": "{{n}} comprimidos",
+      "left_one": "Resta {{n}} comprimido",
+      "left_other": "Restam {{n}} comprimidos",
+      "until_one": "dá até {{date}} ({{count}} dia)",
+      "until_other": "dá até {{date}} ({{count}} dias)",
+      "endsToday": "acaba hoje",
+      "buySoon": "compre logo",
+      "out": "Acabou",
+      "paused": "Parado",
+      "bought": "Comprei",
+      "boughtTitle": "Comprei {{name}}",
+      "boughtHint": "Quantos comprimidos você comprou? Eles somam ao que resta.",
+      "boughtToast": "{{name}}: estoque atualizado",
+      "add": "Somar",
+      "count": "Contar de novo",
+      "countTitle": "Quantos {{name}} você tem?",
+      "countHint": "Conte o que sobrou: a conta recomeça de hoje.",
+      "pause": "Parar de tomar",
+      "resume": "Voltar a tomar",
+      "options": "Opções de {{name}}",
+      "removeTitle": "Apagar {{name}}?"
+    }
   }
 }

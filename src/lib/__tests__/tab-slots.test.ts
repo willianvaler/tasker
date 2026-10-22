@@ -81,3 +81,21 @@ describe('tabUnderOverlay', () => {
     expect(tabUnderOverlay(root({ name: '(tabs)' }, { name: 'capture' }))).toBe('index');
   });
 });
+
+describe('Academia dentro do Bem-estar (D270)', () => {
+  const ctx = { gym: true, game: 'light' as const, gymInWellness: true };
+
+  it('o Treino sai das opções e o Bem-estar entra no lugar dele', () => {
+    expect(availableSlots(ctx)).not.toContain('treino');
+    expect(availableSlots(ctx)).toContain('bem-estar');
+    expect(defaultSlots(ctx)).toEqual(['bem-estar', 'folders']);
+  });
+
+  it('quem tinha o Treino na barra passa a ver o Bem-estar', () => {
+    expect(resolveSlots(['treino', 'inbox'], ctx)).toEqual(['bem-estar', 'inbox']);
+  });
+
+  it('sem treino, o Bem-estar continua escolhível', () => {
+    expect(availableSlots({ gym: false, game: 'off' })).toContain('bem-estar');
+  });
+});

@@ -2,7 +2,8 @@
 // do meio são escolhidas pela pessoa (como no Todoist e no TickTick); o que não está na barra fica
 // no Mais. O Material pede de 3 a 5 destinos; antes eram 6 abas e um "+" flutuante.
 
-export type TabSlot = 'planejar' | 'inbox' | 'habits' | 'folders' | 'treino' | 'jogo' | 'pessoas';
+export type TabSlot =
+  'planejar' | 'inbox' | 'habits' | 'folders' | 'treino' | 'bem-estar' | 'jogo' | 'pessoas';
 
 /** Na ordem em que aparecem para escolher. */
 export const TAB_SLOTS: readonly TabSlot[] = [
@@ -11,22 +12,37 @@ export const TAB_SLOTS: readonly TabSlot[] = [
   'habits',
   'folders',
   'treino',
+  'bem-estar',
   'jogo',
   'pessoas',
 ];
 
-export type TabContext = { gym: boolean; game: 'off' | 'light' | 'full' };
+export type TabContext = {
+  gym: boolean;
+  game: 'off' | 'light' | 'full';
+  /** Academia dentro do Bem-estar (D270): o Treino não tem posição própria */
+  gymInWellness?: boolean;
+};
 
-/** Opções que a conta tem: Treino só com o treino ligado; Jogo só com o jogo ligado. */
+/**
+ * Opções que a conta tem: Treino só com o treino ligado (e fora do Bem-estar); Jogo só com o jogo
+ * ligado. O Bem-estar vale para todos (tem os remédios).
+ */
 export function availableSlots(ctx: TabContext): TabSlot[] {
   return TAB_SLOTS.filter(
-    (slot) => (slot !== 'treino' || ctx.gym) && (slot !== 'jogo' || ctx.game !== 'off'),
+    (slot) =>
+      (slot !== 'treino' || (ctx.gym && !ctx.gymInWellness)) &&
+      (slot !== 'jogo' || ctx.game !== 'off'),
   );
 }
 
-/** Padrão sem escolha salva: quem treina vê o Treino; quem joga no RPG, o Jogo; os outros, o Planejar. */
+/**
+ * Padrão sem escolha salva: quem treina vê o Treino (ou o Bem-estar, se a Academia mora nele); quem
+ * joga no RPG, o Jogo; os outros, o Planejar.
+ */
 export function defaultSlots(ctx: TabContext): [TabSlot, TabSlot] {
-  return [ctx.gym ? 'treino' : ctx.game === 'full' ? 'jogo' : 'planejar', 'folders'];
+  const gym: TabSlot = ctx.gymInWellness ? 'bem-estar' : 'treino';
+  return [ctx.gym ? gym : ctx.game === 'full' ? 'jogo' : 'planejar', 'folders'];
 }
 
 /**
@@ -61,6 +77,7 @@ export const TAB_PATHS: readonly string[] = [
   '/habits',
   '/folders',
   '/treino',
+  '/bem-estar',
   '/jogo',
   '/pessoas',
   '/mine',

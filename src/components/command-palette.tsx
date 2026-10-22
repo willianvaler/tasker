@@ -11,6 +11,7 @@ import {
   Dumbbell,
   Folder,
   Globe,
+  HeartPulse,
   House,
   Inbox,
   LayoutGrid,
@@ -243,6 +244,13 @@ function Palette({
       icon: icon(Dumbbell),
       group: 0,
       run: go('/treino'),
+    },
+    {
+      id: 'go-wellness',
+      label: t('nav.wellness'),
+      icon: icon(HeartPulse),
+      group: 0,
+      run: go('/bem-estar'),
     },
     {
       id: 'go-inbox',

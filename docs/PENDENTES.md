@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V10.md`), numa tabela só
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 22/10/2026. Reforma de usabilidade (UX1 a UX14, D256 a D268, `docs/PROPOSTA_UX.md`) feita em 22/10; da proposta fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8). Produção v2026.10.18 até a próxima promoção. Nota fiscal lida pelo Tesseract no servidor (CD14, D254) e abas Gastos · Entradas na página de gastos (CD20, D255) em 21/10. ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; itens B do V3 que subiram de prioridade (PB1 a PB5) em 20/10; ESCOPO_V10 (amigos, visibilidade, comunidade) em 20/10, falta o bloco Bem-estar.
+Atualizado em 22/10/2026. Reforma de usabilidade (UX1 a UX14, D256 a D268, `docs/PROPOSTA_UX.md`) feita em 22/10; da proposta fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8). Produção v2026.10.18 até a próxima promoção. Nota fiscal lida pelo Tesseract no servidor (CD14, D254) e abas Gastos · Entradas na página de gastos (CD20, D255) em 21/10. ESCOPO_V8 (modo jogo) concluído em 19/10; correções do Modo Treino (TR1–TR4) e ESCOPO_V9 (gastos e leitura de foto, GA1–GA7) em 19/10; itens B do V3 que subiram de prioridade (PB1 a PB5) em 20/10; ESCOPO_V10 (amigos, visibilidade, comunidade) em 20/10; tela Bem-estar com a Academia dentro e os Remédios em 22/10 (BE1, BE4), faltam Dieta e Vida saudável (BE2, BE3).
 
 ## Para fazer depois (pedido do dono, 20/10, noite)
 
@@ -54,7 +54,7 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com listas de verdade (a nota não precisa mais, D254) | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
-| **V10** | BE1–BE3 | Bloco **Bem-estar** (treino, dieta, vida saudável) | pendente | — (nome decidido em 20/10) |
+| **V10** | BE2–BE3 | Bem-estar: **Dieta** (cardápio da semana, refeições, lista de compras) e **Vida saudável** (hábitos prontos; peso e medidas já existem). A tela, a Academia dentro e os Remédios foram feitos em 22/10 (BE1, BE4, D270) | pendente | — |
 
 ## Decisões do dono em aberto
 

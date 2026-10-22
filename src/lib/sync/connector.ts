@@ -153,6 +153,30 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['value', 'measured_on', 'note'],
   },
   body_goals: { insert: ['kind', 'target'], update: ['target'] },
+  medications: {
+    insert: [
+      'name',
+      'dose',
+      'times_per_day',
+      'every_days',
+      'pack_size',
+      'stock',
+      'stock_on',
+      'paused',
+      'notes',
+    ],
+    update: [
+      'name',
+      'dose',
+      'times_per_day',
+      'every_days',
+      'pack_size',
+      'stock',
+      'stock_on',
+      'paused',
+      'notes',
+    ],
+  },
   workout_moves: { insert: ['page_id', 'from_day', 'to_day'], update: ['to_day'] },
   expenses: {
     insert: [

@@ -12,7 +12,7 @@ import { Button, IconButton } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { usePendingShares, useReceivedPages } from '@/lib/queries/shares';
-import { useProfile, useUiPrefs } from '@/lib/queries/profile';
+import { useGymInWellness, useProfile, useUiPrefs } from '@/lib/queries/profile';
 import { resolveBlocks } from '@/lib/sidebar-blocks';
 import { splitRoots, useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
@@ -25,9 +25,12 @@ export default function FoldersScreen() {
   const [actions, dialog] = useFolderActions();
   const gymOn = useProfile().data?.gym_enabled === true;
   const { personal, projects, gym, groups } = splitRoots(tree.data, gymOn);
+  // Com a Academia dentro do Bem-estar (D270), ela não se repete aqui
+  const gymInWellness = useGymInWellness();
+  const gymHere = gymOn && !gymInWellness;
   const sectionOrder = resolveBlocks(
     { order: useUiPrefs().sidebar?.order },
-    gymOn ? ['folders', 'gym', 'projects'] : ['folders', 'projects'],
+    gymHere ? ['folders', 'gym', 'projects'] : ['folders', 'projects'],
   );
   const received = useReceivedPages();
   const pending = usePendingShares();

@@ -901,6 +901,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"medications": {
+                  Row: {
+                    "created_at": string,"dose": number,"every_days": number,"id": string,"name": string,"notes": string | null,"pack_size": number | null,"paused": boolean,"stock": number,"stock_on": string,"times_per_day": number,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"dose"?: number,"every_days"?: number,"id"?: string,"name": string,"notes"?: string | null,"pack_size"?: number | null,"paused"?: boolean,"stock"?: number,"stock_on": string,"times_per_day"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"dose"?: number,"every_days"?: number,"id"?: string,"name"?: string,"notes"?: string | null,"pack_size"?: number | null,"paused"?: boolean,"stock"?: number,"stock_on"?: string,"times_per_day"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "medications_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"milestones": {
                   Row: {
                     "created_at": string,"created_by": string | null,"done_at": string | null,"due_date": string | null,"folder_id": string,"id": string,"name": string,"position": number,"updated_at": string,"updated_by": string | null,"version": number

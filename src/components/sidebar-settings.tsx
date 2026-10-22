@@ -45,6 +45,28 @@ export function GymToggle() {
 }
 
 /**
+ * Configurações → Recursos (D270): a Academia mora dentro do Bem-estar, em vez de ter o bloco da
+ * barra lateral, a seção da tela Pastas e uma posição própria na barra de baixo.
+ */
+export function WellnessGymToggle() {
+  const { t } = useTranslation();
+  const online = useIsOnline();
+  const profile = useProfile();
+  const prefs = useUiPrefs();
+  const update = useUpdateUiPrefs();
+  if (profile.data?.gym_enabled !== true) return null;
+  return (
+    <ToggleRow
+      title={t('wellness.gymInside')}
+      hint={t('wellness.gymInsideHint')}
+      value={prefs.wellness?.gym === true}
+      disabled={!online || update.isPending}
+      onChange={(value) => update.mutate({ wellness: { ...prefs.wellness, gym: value } })}
+    />
+  );
+}
+
+/**
  * Configurações → Navegação (V6 §15.2): a ordem dos blocos da barra lateral, com subir, descer e
  * esconder. Salva no perfil, então vale em todos os aparelhos.
  */
@@ -52,10 +74,12 @@ export function SidebarSettings() {
   const { t } = useTranslation();
   const online = useIsOnline();
   const profile = useProfile();
+  const gymInWellness = useUiPrefs().wellness?.gym === true;
   const prefs = useUiPrefs().sidebar ?? {};
   const update = useUpdateUiPrefs();
   const label = useBlockLabel();
-  const gymOn = profile.data?.gym_enabled === true;
+  // Academia dentro do Bem-estar (D270): o bloco não está na barra lateral
+  const gymOn = profile.data?.gym_enabled === true && !gymInWellness;
 
   // Todos os blocos na ordem salva, inclusive os escondidos (para poder mostrar de novo)
   const order = resolveBlocks({ order: prefs.order }, availableBlocks(gymOn));

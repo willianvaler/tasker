@@ -8,6 +8,7 @@ import {
   ChevronRight,
   CircleHelp,
   Dumbbell,
+  HeartPulse,
   Inbox,
   LayoutGrid,
   Plus,
@@ -47,7 +48,7 @@ import { getOpenFolders, getSidebarWidth, setOpenFolders, setSidebarWidth } from
 import { useMyFriends } from '@/lib/queries/friends';
 import { useGameState } from '@/lib/queries/game';
 import { availableBlocks } from '@/components/sidebar-settings';
-import { useProfile, useUiPrefs } from '@/lib/queries/profile';
+import { useGymInWellness, useProfile, useUiPrefs } from '@/lib/queries/profile';
 import { resolveBlocks, type SidebarBlock } from '@/lib/sidebar-blocks';
 import { splitRoots, useTree, type Page, type SubFolder } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
@@ -61,7 +62,15 @@ export function useIsWide() {
   return useWindowDimensions().width >= WIDE;
 }
 
-type NavKey = 'today' | 'plan' | 'inbox' | 'habits' | 'calendar' | 'folders' | 'people';
+type NavKey =
+  | 'today'
+  | 'plan'
+  | 'inbox'
+  | 'habits'
+  | 'calendar'
+  | 'folders'
+  | 'wellness'
+  | 'people';
 
 // D258: a Hoje é a tela de abertura (o Início saiu); Planejar junta próximos dias, Entrada sem data,
 // Atribuídas a mim e a revisão; Pessoas junta amigos, times, clã e comunidade
@@ -72,6 +81,12 @@ const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; also?: string[]
   { href: '/habits', key: 'habits', icon: Repeat },
   { href: '/calendario', key: 'calendar', icon: CalendarDays },
   { href: '/folders', key: 'folders', icon: LayoutGrid, also: ['/folder/'] },
+  {
+    href: '/bem-estar',
+    key: 'wellness',
+    icon: HeartPulse,
+    also: ['/treino', '/biblioteca', '/corpo', '/treino-estatisticas'],
+  },
   {
     href: '/pessoas',
     key: 'people',
@@ -188,6 +203,8 @@ export function Sidebar() {
   }
 
   const gymOn = useProfile().data?.gym_enabled === true;
+  // Academia dentro do Bem-estar (D270): o bloco sai daqui e os treinos ficam na tela Bem-estar
+  const gymInWellness = useGymInWellness();
   const sidebarPrefs = useUiPrefs().sidebar;
   const { personal, projects, gym, groups } = splitRoots(tree.data, gymOn);
   // Páginas recebidas (L4): não estão em pasta nenhuma do usuário
@@ -405,7 +422,7 @@ export function Sidebar() {
       </View>
 
       <ScrollView className="mt-6 flex-1" contentContainerClassName="gap-6 px-2 pb-6">
-        {resolveBlocks(sidebarPrefs, availableBlocks(gymOn)).map((block) => (
+        {resolveBlocks(sidebarPrefs, availableBlocks(gymOn && !gymInWellness)).map((block) => (
           <Fragment key={block}>{blocks[block]}</Fragment>
         ))}
       </ScrollView>

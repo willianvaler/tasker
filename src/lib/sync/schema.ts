@@ -234,6 +234,21 @@ const body_goals = new Table({
   target: column.real,
   updated_at: column.text,
 });
+// Remédios do Bem-estar (BE4, dado sensível): só os meus
+const medications = new Table({
+  user_id: column.text,
+  name: column.text,
+  dose: column.real,
+  times_per_day: column.integer,
+  every_days: column.integer,
+  pack_size: column.integer,
+  stock: column.real,
+  stock_on: column.text,
+  paused: column.integer,
+  notes: column.text,
+  created_at: column.text,
+  updated_at: column.text,
+});
 const sensitive_consents = new Table({
   user_id: column.text,
   purpose: column.text,
@@ -556,6 +571,7 @@ export const AppSchema = new Schema({
   body_metrics,
   body_goals,
   sensitive_consents,
+  medications,
   page_shares,
   share_checks,
   my_day,

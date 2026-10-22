@@ -43,7 +43,8 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   workout_moves: [['workout-moves']],
   body_metrics: [['body']],
   body_goals: [['body']],
-  sensitive_consents: [['body']],
+  sensitive_consents: [['body'], ['medications']],
+  medications: [['medications']],
 };
 
 // Consultas com ramo local: as do AFFECTS

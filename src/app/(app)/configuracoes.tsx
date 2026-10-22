@@ -12,7 +12,7 @@ import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { GymPrefsSettings } from '@/components/gym/gym-prefs';
-import { GymToggle, SidebarSettings } from '@/components/sidebar-settings';
+import { GymToggle, SidebarSettings, WellnessGymToggle } from '@/components/sidebar-settings';
 import { TabBarSettings } from '@/components/tab-bar';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -113,6 +113,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
       <Group title={t('settings.resources')}>
         <Text className="text-sm text-ink-muted">{t('settings.resourcesHint')}</Text>
         <GymToggle />
+        <WellnessGymToggle />
         <GameLevelSettings />
       </Group>
 
