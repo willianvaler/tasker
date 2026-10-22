@@ -78,7 +78,8 @@ test('clã: convite por link, boss da semana e destaques', async ({ page, browse
   await created;
   await ageTask(title);
   await friend.getByRole('checkbox', { name: `Concluir ${title}` }).click();
-  await expect(shown(friend, /Clã: /)).toBeVisible();
+  // Faixa do jogo ("Clã 289/300 HP", D258) ou a coluna do herói ("Clã: nome")
+  await expect(shown(friend, /^Clã( \d+\/\d+ HP$|: )/).first()).toBeVisible();
 
   // Sem classe: 10 × 1,05 = 11 de dano por tarefa (21 num crítico, O2)
   await expect(page.getByText(/Destaque: Bia Amiga \((11|21) de dano\)/)).toBeVisible();

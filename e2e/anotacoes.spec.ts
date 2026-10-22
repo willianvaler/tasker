@@ -2,12 +2,16 @@ import { expect, test } from '@playwright/test';
 
 import { openTab, signUp } from './helpers';
 
-// W3 e D187: anotações em Markdown simples. No computador ficam na barra lateral; no celular, no Início.
+// W3 e D187: anotações em Markdown simples. No computador ficam na barra lateral; no celular, o menu
+// Novo cria (D261).
 test('anotações: criar, formatar, salvar sozinho, reabrir e apagar', async ({ page }, testInfo) => {
   const desktop = testInfo.project.name === 'desktop';
   await signUp(page, testInfo);
-  if (!desktop) await openTab(page, 'Início');
-  await page.getByRole('button', { name: 'Nova anotação' }).first().click();
+  if (desktop) await page.getByRole('button', { name: 'Nova anotação' }).first().click();
+  else {
+    await page.getByRole('button', { name: 'Novo', exact: true }).last().click();
+    await page.getByRole('menuitem', { name: 'Anotação' }).click();
+  }
   const title = `Mercado ${testInfo.project.name} ${Date.now()}`;
   await page.getByRole('textbox', { name: 'Título da anotação' }).fill(title);
   const body = page.getByRole('textbox', { name: 'Texto da anotação' });

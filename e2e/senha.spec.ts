@@ -54,7 +54,7 @@ test('esqueci minha senha: link por e-mail, senha nova e entrar', async ({ brows
   await page.getByPlaceholder('Nova senha').fill('senha-nova-456');
   await page.getByPlaceholder('Repita a senha').fill('senha-nova-456');
   await page.getByRole('button', { name: 'Salvar e entrar' }).click();
-  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible({ timeout: 20_000 });
   await context.close();
 
   // Entra com a senha nova
@@ -63,5 +63,5 @@ test('esqueci minha senha: link por e-mail, senha nova e entrar', async ({ brows
   await again.getByPlaceholder('E-mail').fill(email);
   await again.getByPlaceholder('Senha').fill('senha-nova-456');
   await again.getByRole('button', { name: 'Entrar', exact: true }).click();
-  await expect(again.getByRole('heading', { name: /^Olá/ })).toBeVisible({ timeout: 20_000 });
+  await expect(again.getByRole('heading', { name: /^Hoje/ })).toBeVisible({ timeout: 20_000 });
 });

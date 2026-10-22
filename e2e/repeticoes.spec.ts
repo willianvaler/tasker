@@ -137,5 +137,5 @@ test('repetições: XP só na última série; offline fica pendente e o oficial 
     .toBe('done');
   await expect(page.getByText('+10 XP pendente')).toHaveCount(0, { timeout: 15_000 });
   if (testInfo.project.name === 'desktop')
-    await expect(page.getByRole('navigation').getByText(/^10\/\d+ XP$/)).toBeVisible();
+    await expect(page.getByRole('navigation').getByLabel(/^10\/\d+ XP$/)).toBeVisible();
 });

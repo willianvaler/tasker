@@ -101,7 +101,7 @@ test('pomodoro: configurar durações e sugestões de pausa (em ordem)', async (
   // O primeiro foco usa a primeira sugestão
   if (testInfo.project.name === 'celular') return;
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
   await page.keyboard.press('Control+k');
   await page.getByRole('textbox', { name: 'Buscar ou executar' }).fill('iniciar pomodoro');
   await page.keyboard.press('Enter');

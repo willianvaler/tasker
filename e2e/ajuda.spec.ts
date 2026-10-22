@@ -44,5 +44,5 @@ test('ajuda contextual e refazer a introdução', async ({ page }, testInfo) => 
   await page.goto('/ajuda');
   await page.getByRole('button', { name: 'Refazer a introdução' }).click();
   await page.getByRole('button', { name: 'Pular introdução' }).click();
-  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
 });

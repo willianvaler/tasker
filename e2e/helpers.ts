@@ -52,7 +52,10 @@ export async function openTab(page: Page, tabName: string) {
     .first()
     .click();
   for (const step of INSIDE[name] ?? [name]) {
-    await page.getByRole('link', { name: new RegExp(`^${step}`) }).last().click();
+    await page
+      .getByRole('link', { name: new RegExp(`^${step}`) })
+      .last()
+      .click();
   }
 }
 
