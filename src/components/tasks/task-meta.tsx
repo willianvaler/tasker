@@ -107,8 +107,9 @@ export function TaskMeta({
         #{label}
       </Text>
     )),
+    // De onde é a tarefa: nome, não número; na fonte da interface (mono fica para datas e números)
     pageLabel && (
-      <Text key="page" className={cn(meta, 'max-w-40')} numberOfLines={1}>
+      <Text key="page" className="max-w-40 text-xs text-ink-muted" numberOfLines={1}>
         {pageLabel}
       </Text>
     ),
