@@ -1,6 +1,6 @@
 # Getting started in 1 minute
 
-Type in the **New task** field and press Enter. Done: the task goes to the Inbox (or to the open page).
+Type in the **New task** field and press Enter. Done: the task goes to the Inbox (or to the open list).
 
 ## Quick syntax
 
@@ -32,4 +32,4 @@ Tap the box. Mistake? The notice has **Undo**.
 - **+** in the middle of the bottom bar (or **New** in the sidebar): creates a task, habit, note, list, folder or project.
 - **More**: everything else, each with a name and a line explaining it: People (friends, teams, clan), Game, Settings, Help, Trash.
 
-On the phone, the two spots beside the **+** are yours: change them in **Settings → Navigation** (Plan, Inbox, Habits, Folders, Workouts, Game or People). The **magnifier** at the top finds any page, folder, screen or action.
+On the phone, the two spots beside the **+** are yours: change them in **Settings → Navigation** (Plan, Inbox, Habits, Folders, Workouts, Game or People). The **magnifier** at the top finds any list, folder, screen or action.

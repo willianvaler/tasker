@@ -1,6 +1,6 @@
 # Subtareas y niveles
 
-Una tarea puede tener **subtareas**, y ellas también. El límite por defecto es **4 niveles** (se cambia por página o proyecto).
+Una tarea puede tener **subtareas**, y ellas también. El límite por defecto es **4 niveles** (se cambia por lista o proyecto).
 
 ## Crear
 
@@ -14,4 +14,4 @@ La madre es un **paquete**: su progreso es el de las subtareas ("2/5"), y se com
 
 ## Códigos
 
-Pulsa `W` para ver códigos como **1.2.3**. La vista **Estructura** muestra el árbol entero y el menú de la página lo exporta como texto.
+Pulsa `W` para ver códigos como **1.2.3**. La vista **Estructura** muestra el árbol entero y el menú de la lista lo exporta como texto.

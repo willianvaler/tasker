@@ -16,7 +16,7 @@ In the project, **strict** mode doesn't let you start what's blocked. **Flexible
 
 ## A list waiting for a list
 
-A whole list can wait for another to reach 50%, 75% or 100% (Page settings → Unlocks after).
+A whole list can wait for another to reach 50%, 75% or 100% (List settings → Unlocks after).
 
 ## Shortcuts
 

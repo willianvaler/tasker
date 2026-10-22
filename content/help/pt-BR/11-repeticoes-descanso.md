@@ -10,7 +10,7 @@ Depois de cada série começa o **descanso** (60 s por padrão). Num treino, o p
 
 ## Modo Treino
 
-Em páginas de treino (da Academia ou de um grupo de treino) ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o **resumo** mostra séries, tempo, volume e XP e, com os exercícios ligados à Biblioteca, o mapa dos **músculos trabalhados**; **Fechar** volta para a página. Enquanto você monta o treino, a linha **Músculos deste treino** (acima da lista) diz quais músculos ele pega; tocar abre o mapa. Funciona sem internet e mantém a tela acesa. Saiu para a lista no meio do treino? O botão vira **Continuar treino** e você volta de onde parou (num grupo de treino, sem perguntar de novo com quem). Voltou a um exercício já feito com **Anterior**? O botão grande vira **Próximo exercício**. Com o treino pausado, o **Feita** fica apagado até você tocar em ▶.
+Em listas de treino (da Academia ou de um grupo de treino) ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o **resumo** mostra séries, tempo, volume e XP e, com os exercícios ligados à Biblioteca, o mapa dos **músculos trabalhados**; **Fechar** volta para a lista. Enquanto você monta o treino, a linha **Músculos deste treino** (acima da lista) diz quais músculos ele pega; tocar abre o mapa. Funciona sem internet e mantém a tela acesa. Saiu para a lista no meio do treino? O botão vira **Continuar treino** e você volta de onde parou (num grupo de treino, sem perguntar de novo com quem). Voltou a um exercício já feito com **Anterior**? O botão grande vira **Próximo exercício**. Com o treino pausado, o **Feita** fica apagado até você tocar em ▶.
 
 **Sem destravar o celular (Android):** com o Modo Treino aberto, a série aparece na tela de bloqueio, com **Feita**, **Pular descanso** e **+30 s**. Toque na setinha da notificação para ver os botões. Com o celular travado, o que você marca fica no aparelho e sobe quando você abrir o app de novo.
 
@@ -30,7 +30,7 @@ No painel do exercício e na ficha da Biblioteca ficam os melhores, de que séri
 
 ## Progressão automática
 
-A carga do próximo treino sai do seu diário. Cada treino tem uma regra (em Configurar a página; o padrão é a **progressão dupla**, de 8 a 12 repetições) e cada exercício pode ter a sua no painel:
+A carga do próximo treino sai do seu diário. Cada treino tem uma regra (em Configurar a lista; o padrão é a **progressão dupla**, de 8 a 12 repetições) e cada exercício pode ter a sua no painel:
 
 - **Linear**: fez todas as repetições de todas as séries, sobe um degrau;
 - **Dupla**: na mesma carga, vai de 8 a 12 repetições; chegou a 12 em todas, sobe a carga e volta a 8;
@@ -62,7 +62,7 @@ No painel do exercício, **Superset ou circuito** dá uma letra (A, B, C, D) ao 
 
 ## Plano da semana
 
-Em **Configurar página** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue em Configurações, em Registro do treino).
+Em **Configurar lista** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue em Configurações, em Registro do treino).
 
 ## Academia no jogo
 
@@ -70,7 +70,7 @@ Cada exercício concluído é um golpe no boss, como uma tarefa; com **recorde**
 
 ## Modo: treino, foco ou descanso
 
-O botão **Modo** (barra lateral; no celular, **Treino → Começar um treino** ou **Mais → Modo**; ou a busca) reúne os três: **Treino** abre o Modo Treino de uma página de treino ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
+O botão **Modo** (barra lateral; no celular, **Treino → Começar um treino** ou **Mais → Modo**; ou a busca) reúne os três: **Treino** abre o Modo Treino de uma lista de treino ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
 
 ## Treinar junto
 
@@ -78,4 +78,4 @@ Para treinar com outras pessoas, crie um **grupo de treino**: no bloco Academia 
 
 ## Desafios em grupo
 
-Num projeto compartilhado (ou num time), **Treino em grupo** abre os desafios, o mural e o chat. **Iniciar novo desafio** pede o nome e quantos dias ele dura; ganha quem treinar em mais dias até o fim. No dia seguinte ao último, o desafio fecha e o **pódio** leva o prêmio: o 1º lugar ganha a conquista **Campeão de desafio** e o título **Campeão** (para equipar no Personagem); até o 3º, a conquista **Pódio**. Empatados dividem a posição, e só há prêmio quando pelo menos duas pessoas treinaram. Conta como dia de treino **concluir uma página de treino** ou **ficar 30 minutos ou mais no Modo Treino** (um por dia). No **Mural**, faça o check-in do treino do dia com uma foto, se quiser; os outros reagem e comentam. O **Chat** é para combinar o resto.
+Num projeto compartilhado (ou num time), **Treino em grupo** abre os desafios, o mural e o chat. **Iniciar novo desafio** pede o nome e quantos dias ele dura; ganha quem treinar em mais dias até o fim. No dia seguinte ao último, o desafio fecha e o **pódio** leva o prêmio: o 1º lugar ganha a conquista **Campeão de desafio** e o título **Campeão** (para equipar no Personagem); até o 3º, a conquista **Pódio**. Empatados dividem a posição, e só há prêmio quando pelo menos duas pessoas treinaram. Conta como dia de treino **concluir uma lista de treino** ou **ficar 30 minutos ou mais no Modo Treino** (um por dia). No **Mural**, faça o check-in do treino do dia com uma foto, se quiser; os outros reagem e comentam. O **Chat** é para combinar o resto.

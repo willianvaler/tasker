@@ -4,11 +4,11 @@ The **Community** (sidebar, `Ctrl+K` or the globe at the top of Folders) has pro
 
 ## Use
 
-Open a post to see its pages and items. **Use** creates a **folder of yours** with the copy: change, delete and share it as you like, without touching the original. **Like** helps the good ones show up first.
+Open a post to see its lists and items. **Use** creates a **folder of yours** with the copy: change, delete and share it as you like, without touching the original. **Like** helps the good ones show up first.
 
 ## Publish
 
-In the menu of a **folder** (or project) or a **saved template**, or under **Share** on a **page**, tap **Publish to the community**, give it a title, a short description and the type. A **copy of the structure** goes: pages, tasks, subtasks, sets, recurrence and notes. **Not included:** people, assignees, dates, comments, attachments or expenses. Whoever publishes shows up by **nick**. In **My posts** you see yours and can **Unpublish** (whoever already used it keeps their copy).
+In the menu of a **folder** (or project) or a **saved template**, or under **Share** on a **list**, tap **Publish to the community**, give it a title, a short description and the type. A **copy of the structure** goes: lists, tasks, subtasks, sets, recurrence and notes. **Not included:** people, assignees, dates, comments, attachments or expenses. Whoever publishes shows up by **nick**. In **My posts** you see yours and can **Unpublish** (whoever already used it keeps their copy).
 
 ## Report
 

@@ -30,7 +30,7 @@ test('mover página para outra pasta leva as tarefas junto', async ({ page }, te
   await page.getByRole('textbox', { name: 'Nova tarefa' }).press('Enter');
   await expect(page.getByText('Arroz', { exact: true })).toBeVisible();
 
-  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
   await page.getByRole('menuitem', { name: 'Mover para…' }).click();
   const moved = page.waitForResponse(
     (r) => r.url().includes('/rest/v1/pages') && r.request().method() === 'PATCH',
@@ -157,7 +157,7 @@ test('paleta de comandos: Ctrl+K busca página e tarefa e abre', async ({ page }
   await created;
   await expect(page.getByText('Comprar passagem', { exact: true })).toBeVisible();
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
 
   // Ir para a página, sem acento e com ↓ Enter
   await page.keyboard.press('Control+k');

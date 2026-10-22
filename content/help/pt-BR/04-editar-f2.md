@@ -2,7 +2,7 @@
 
 Selecione uma tarefa (clique nela ou use `J` e `K`) e aperte **F2**: o título vira um campo. Enter salva, Esc desiste.
 
-Sem tarefa selecionada, **F2** renomeia a página ou a pasta aberta, e dá para trocar o **ícone** ali mesmo.
+Sem tarefa selecionada, **F2** renomeia a lista ou a pasta aberta, e dá para trocar o **ícone** ali mesmo.
 
 ## Outros atalhos da lista
 

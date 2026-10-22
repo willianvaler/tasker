@@ -16,7 +16,7 @@ No projeto, o modo **estrito** não deixa começar o que está bloqueado. O **fl
 
 ## Lista que espera lista
 
-Uma lista inteira pode esperar outra chegar a 50%, 75% ou 100% (Configurar página → Libera depois de).
+Uma lista inteira pode esperar outra chegar a 50%, 75% ou 100% (Configurar lista → Libera depois de).
 
 ## Atalhos
 

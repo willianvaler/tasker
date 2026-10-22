@@ -26,7 +26,7 @@ async function receive(browser: Browser, testInfo: TestInfo, link: string, name:
   await page.getByPlaceholder('Senha').fill('senha-forte-123');
   await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
-  await page.getByRole('button', { name: 'Receber a página' }).click();
+  await page.getByRole('button', { name: 'Receber a lista' }).click();
   return page;
 }
 
@@ -57,7 +57,7 @@ test('enviar página: link ao vivo (aluna só executa) e cópia (vira dele); e-m
   await expect(ana.getByRole('heading', { name: /Treino A$/ })).toBeVisible();
   await expect(shown(ana, /^Recebida de /)).toBeVisible();
   await expect(ana.getByRole('textbox', { name: 'Nova tarefa' })).toHaveCount(0);
-  await expect(ana.getByRole('button', { name: 'Opções da página' })).toHaveCount(0);
+  await expect(ana.getByRole('button', { name: 'Opções da lista' })).toHaveCount(0);
   await ana.getByRole('checkbox', { name: 'Alongar', exact: true }).click();
   await expect(ana.getByRole('checkbox', { name: 'Alongar', exact: true })).toHaveAttribute(
     'aria-checked',
@@ -178,7 +178,7 @@ test('Alunos: números, cargas, observação, lembrete e arquivar', async ({
   // Arquivar: sai da lista
   await page.getByRole('button', { name: 'Arquivar Ana Aluna' }).click();
   await page.getByRole('button', { name: 'Arquivar', exact: true }).click();
-  await expect(page.getByText('Ninguém recebeu esta página ao vivo ainda.')).toBeVisible();
+  await expect(page.getByText('Ninguém recebeu esta lista ao vivo ainda.')).toBeVisible();
   await ana.context().close();
 });
 

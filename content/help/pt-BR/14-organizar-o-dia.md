@@ -3,7 +3,7 @@
 - **Meu dia** — escolha o que vai fazer hoje (`M` ou no painel), coloque em ordem e diga quanto tempo tem: o app mostra se cabe.
 - **Fazer agora** — a sugestão do que fazer em seguida: o que já começou, o seu dia, o atrasado.
 - **Adiar** — o despertador na linha (ou `Z`) leva para amanhã.
-- **Campos** — no menu da página, crie campos como Valor, Fase ou Comprador.
+- **Campos** — no menu da lista, crie campos como Valor, Fase ou Comprador.
 - **Aprovação** — uma tarefa que só uma pessoa (ou quem gerencia) pode concluir: o dono aprova o orçamento antes da compra.
 
 ## Automações
@@ -12,8 +12,8 @@ No projeto, **Automações** cria regras "quando… então…". Exemplo: quando 
 
 ## Matriz de Eisenhower
 
-Numa página de tarefas, as abas do topo trocam a visão: **Lista**, **Quadro** (o kanban, com as colunas A fazer, Fazendo e Feito) e **Matriz**. A **Matriz** separa as tarefas abertas em quatro quadrantes: **Fazer** (importante e urgente), **Agendar** (importante, sem pressa), **Delegar** (urgente, pouco importante) e **Eliminar** (nem um nem outro). Importante é prioridade `!!` ou `!!!`; urgente é o que vence até depois de amanhã, atrasadas incluídas. O botão ao lado da tarefa muda o quadrante: ajusta a prioridade e, se for o caso, a data (vence hoje, ou vai para daqui a uma semana). A página lembra a última aba usada neste aparelho.
+Numa lista de tarefas, as abas do topo trocam a visão: **Lista**, **Quadro** (o kanban, com as colunas A fazer, Fazendo e Feito) e **Matriz**. A **Matriz** separa as tarefas abertas em quatro quadrantes: **Fazer** (importante e urgente), **Agendar** (importante, sem pressa), **Delegar** (urgente, pouco importante) e **Eliminar** (nem um nem outro). Importante é prioridade `!!` ou `!!!`; urgente é o que vence até depois de amanhã, atrasadas incluídas. O botão ao lado da tarefa muda o quadrante: ajusta a prioridade e, se for o caso, a data (vence hoje, ou vai para daqui a uma semana). A lista lembra a última aba usada neste aparelho.
 
 ## Revisão semanal
 
-Uma vez por semana, a Hoje sugere a **Revisão semanal**; ela fica sempre em **Planejar** (e na busca, `Ctrl+K`). São quatro passos: **Concluí** (o que você fez nos últimos 7 dias, por página), **Ficou** (as atrasadas: dê um dia novo, tire a data ou conclua), **Parado** (sem data e sem mexer há mais de 30 dias: dê uma data ou arquive, que vai para a lixeira) e **Próxima semana** (o que vence nos próximos 7 dias). **Concluir revisão** guarda a data; "Agora não" esconde o aviso por uma semana.
+Uma vez por semana, a Hoje sugere a **Revisão semanal**; ela fica sempre em **Planejar** (e na busca, `Ctrl+K`). São quatro passos: **Concluí** (o que você fez nos últimos 7 dias, por lista), **Ficou** (as atrasadas: dê um dia novo, tire a data ou conclua), **Parado** (sem data e sem mexer há mais de 30 dias: dê uma data ou arquive, que vai para a lixeira) e **Próxima semana** (o que vence nos próximos 7 dias). **Concluir revisão** guarda a data; "Agora não" esconde o aviso por uma semana.

@@ -17,7 +17,7 @@ test.beforeAll(async () => {
 async function openSync(page: Page) {
   await page.goto('/sync');
   await expect(page.getByText('Conectado', { exact: true })).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByText(/No aparelho: \d+ pastas, [1-9]\d* páginas/)).toBeVisible({
+  await expect(page.getByText(/No aparelho: \d+ pastas, [1-9]\d* listas/)).toBeVisible({
     timeout: 20_000,
   });
 }
@@ -133,7 +133,7 @@ test('sync: dois aparelhos offline na mesma tarefa chegam ao mesmo estado', asyn
   await b.getByPlaceholder('E-mail').fill(email);
   await b.getByPlaceholder('Senha').fill('senha-forte-123');
   await b.getByRole('button', { name: 'Entrar', exact: true }).click();
-  await expect(b.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await expect(b.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
   await b.goto('/sync');
   await expect(b.getByText(title)).toBeVisible({ timeout: 20_000 });
 
@@ -261,7 +261,7 @@ test('sync: XP pendente offline, trocado pelo oficial ao voltar', async ({
     .toBe('done');
   await expect(page.getByText('+10 XP pendente')).toHaveCount(0, { timeout: 15_000 });
   if (testInfo.project.name === 'desktop')
-    await expect(page.getByRole('navigation').getByText(/^10\/\d+ XP$/)).toBeVisible();
+    await expect(page.getByRole('navigation').getByLabel(/^10\/\d+ XP$/)).toBeVisible();
 });
 
 test('sync: criar, editar e apagar sem conexão, depois sincronizar', async ({

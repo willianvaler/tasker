@@ -19,9 +19,9 @@ async function newFolderPage(
   const folder = `Pasta ${Date.now()}`;
   await page.getByPlaceholder('Nome (ex.: Academia)').fill(folder);
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await page.getByRole('button', { name: 'Criar a primeira página' }).click();
+  await page.getByRole('button', { name: 'Criar a primeira lista' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Quadro');
-  if (kanban) await page.getByRole('radio', { name: /Kanban/ }).click();
+  if (kanban) await page.getByRole('radio', { name: /Quadro/ }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('heading', { name: 'Quadro' })).toBeVisible();
   return folder;
@@ -57,8 +57,8 @@ test('apagar a página aberta e anotação dentro da pasta', async ({ page }, te
   const folder = await newFolderPage(page, false);
 
   // A página aberta tem "Apagar página" no menu
-  await page.getByRole('button', { name: 'Opções da página' }).click();
-  await page.getByRole('menuitem', { name: 'Apagar página' }).click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
+  await page.getByRole('menuitem', { name: 'Apagar lista' }).click();
   await page.getByRole('button', { name: 'Apagar', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Quadro' })).toHaveCount(0);
 

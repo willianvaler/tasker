@@ -1,6 +1,6 @@
 # Subtasks and levels
 
-A task can have **subtasks**, and so can they. The default limit is **4 levels** (change it per page or project).
+A task can have **subtasks**, and so can they. The default limit is **4 levels** (change it per list or project).
 
 ## Creating
 
@@ -14,4 +14,4 @@ The parent is a **bundle**: its progress is its subtasks' ("2/5"), and it comple
 
 ## Codes
 
-Press `W` to see codes like **1.2.3**. The **Structure** view shows the whole tree, and the page menu exports it as text.
+Press `W` to see codes like **1.2.3**. The **Structure** view shows the whole tree, and the list menu exports it as text.

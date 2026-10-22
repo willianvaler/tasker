@@ -2,17 +2,17 @@
 
 **Quick:** the New task field. Type and press Enter. It covers almost everything.
 
-**Detailed:** the button next to the field, the **New** menu or `Alt+Shift+N`. It opens a panel with page, description, due date, priority, repeat, sets and labels. `Ctrl+Enter` creates.
+**Detailed:** the button next to the field, the **New** menu or `Alt+Shift+N`. It opens a panel with list, description, due date, priority, repeat, sets and labels. `Ctrl+Enter` creates.
 
 ## Editing later
 
-Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 10,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, page fields and comments. Each field saves when you leave it.
+Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 10,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, list fields and comments. Each field saves when you leave it.
 
 The panel shows the essentials (due date, priority, labels, description and subtasks; in a project, also who does it and the links) plus whatever the task already uses. The rest comes in through **+ Add**: repeat, time, sets, My day, weight, who sees it, attachments, approval and history. Want everything open all the time? Turn on **Show every section of the task panel** in Settings → Appearance.
 
 ## The New menu
 
-`Alt+N` (or the **New** button) and a letter: **T** task, **P** page, **F** folder, **J** project, **H** habit. The task goes to the open page (or to a page of the open folder); anywhere else, to the Inbox.
+`Alt+N` (or the **New** button) and a letter: **T** task, **P** list, **F** folder, **J** project, **H** habit. The task goes to the open list (or to a list of the open folder); anywhere else, to the Inbox.
 
 ## Attachments
 

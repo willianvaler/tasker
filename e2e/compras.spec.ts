@@ -30,7 +30,7 @@ test('lista de compras: ingredientes das notas viram uma lista nova, somando os 
   await page.reload();
   await expect(page.getByRole('checkbox', { name: 'Concluir Omelete' })).toBeVisible();
 
-  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
   await page.getByRole('menuitem', { name: 'Gerar lista de compras' }).click();
   await page.getByRole('menuitem', { name: 'Nova lista "Compras"' }).click();
 

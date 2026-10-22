@@ -110,9 +110,11 @@ export async function createPage(
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A pasta nova abre sozinha
   await expect(page.getByRole('heading', { name: folder })).toBeVisible();
-  await page.getByRole('button', { name: 'Criar a primeira página' }).click();
+  await page.getByRole('button', { name: 'Criar a primeira lista' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill(name);
-  await page.getByRole('radio', { name: new RegExp(type) }).click();
+  // UX13 (D267): os tipos viraram Tarefas · Rotina · Hábitos · Quadro · Gastos
+  const label = { Lista: 'Tarefas', Cards: 'Rotina', Hábitos: 'Hábitos', Gastos: 'Gastos' }[type];
+  await page.getByRole('radio', { name: new RegExp(label) }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('heading', { name: new RegExp(`^(\\S+ )?${name}$`) })).toBeVisible();
   return new URL(page.url()).pathname.split('/').pop()!;

@@ -1,28 +1,28 @@
-# Folders, projects and pages
+# Folders, projects and lists
 
-- A **page** is a list of things: groceries, a workout, a trip plan. It can be a **list**, **cards** (good for workouts), **kanban** or **habits**. Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows.
-- A **folder** groups your pages. Example: the **Gym** folder with Workout A and Workout B.
+- A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board** or **Expenses**. Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows.
+- A **folder** groups your lists. Example: the **Gym** folder with Workout A and Workout B.
 - A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks.
 
 ## When to use which
 
 - Just you, something recurring: **folder**.
 - More people, something with a start and an end: **project**.
-- A workout for a student, a meal plan for a patient: **send the page** (see "Sending a page").
+- A workout for a student, a meal plan for a patient: **send the list** (see "Sending a list").
 
 ## Reset
 
-A page can **reset** its checks every day, every week or when you say so. Great for weekly workouts and routines.
+A list can **reset** its checks every day, every week or when you say so. Great for weekly workouts and routines.
 
 ## Moving
 
-In the page menu, **Move to…** takes the page (with its tasks) to another folder or project.
+In the list menu, **Move to…** takes the list (with its tasks) to another folder or project.
 
-To change the order without dragging, use **Move up** and **Move down** in the folder or page menu (on the keyboard, **Alt+↑** and **Alt+↓** with it open).
+To change the order without dragging, use **Move up** and **Move down** in the folder or list menu (on the keyboard, **Alt+↑** and **Alt+↓** with it open).
 
 ## Gym
 
-If you said you will use the app to work out (or turned on **Workouts** in Settings → Features), the sidebar gets the **Gym** block, with your workouts. **+ New workout** creates the workout page right there, already as cards and resetting every week. Turning the mode off deletes nothing: the Gym folder goes back to Folders.
+If you said you will use the app to work out (or turned on **Workouts** in Settings → Features), the sidebar gets the **Gym** block, with your workouts. **+ New workout** creates the workout list right there, already as cards and resetting every week. Turning the mode off deletes nothing: the Gym folder goes back to Folders.
 
 ## Sidebar
 
@@ -36,4 +36,4 @@ Inside a **folder or project**, the **Notes** section keeps the folder’s texts
 
 ## Shopping list from a menu
 
-On a menu page (list or cards), each dish is a task and the ingredients are its **subtasks** or the lines starting with `-` in its **notes** ("- 500 g ground beef", "- 2 eggs"). In the page menu, **Make a shopping list** puts everything in one list, adding up what repeats (500 g + 300 g of beef become 800 g; kg and liters count too), and asks where it goes: a list in the same folder, a new "Shopping" list or the Inbox. Before creating, the list shows up in batch creation so you can check it. Completed dishes are left out (if they are all completed, all of them count).
+On a menu list (of type Tasks or Routine), each dish is a task and the ingredients are its **subtasks** or the lines starting with `-` in its **notes** ("- 500 g ground beef", "- 2 eggs"). In the list menu, **Make a shopping list** puts everything in one list, adding up what repeats (500 g + 300 g of beef become 800 g; kg and liters count too), and asks where it goes: a list in the same folder, a new "Shopping" list or the Inbox. Before creating, the list shows up in batch creation so you can check it. Completed dishes are left out (if they are all completed, all of them count).

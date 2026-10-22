@@ -30,9 +30,9 @@ test('cards em pasta pessoal: sem jeito de treino, com Depende de e Fluxo', asyn
   const folder = `Casa ${stamp}`;
   await page.getByPlaceholder('Nome (ex.: Academia)').fill(folder);
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await page.getByRole('button', { name: 'Criar a primeira página' }).click();
+  await page.getByRole('button', { name: 'Criar a primeira lista' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Churrasco');
-  await page.getByRole('radio', { name: /^Cards/ }).click();
+  await page.getByRole('radio', { name: /^Rotina/ }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
 
@@ -48,8 +48,8 @@ test('cards em pasta pessoal: sem jeito de treino, com Depende de e Fluxo', asyn
   await expect(page.getByRole('button', { name: 'Iniciar treino' })).toHaveCount(0);
 
   // CD17: no editor da página, "Mais opções" já vem aberto e recolhe
-  await page.getByRole('button', { name: 'Opções da página' }).click();
-  await page.getByRole('menuitem', { name: 'Configurar página' }).click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
+  await page.getByRole('menuitem', { name: 'Configurar lista' }).click();
   const less = page.getByRole('button', { name: 'Menos opções' });
   await expect(less).toHaveAttribute('aria-expanded', 'true');
   await less.click();

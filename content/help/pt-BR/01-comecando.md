@@ -1,6 +1,6 @@
 # Começando em 1 minuto
 
-Escreva no campo **Nova tarefa** e aperte Enter. Pronto: a tarefa foi para a Caixa de entrada (ou para a página aberta).
+Escreva no campo **Nova tarefa** e aperte Enter. Pronto: a tarefa foi para a Caixa de entrada (ou para a lista aberta).
 
 ## Escrever rápido
 
@@ -32,4 +32,4 @@ Toque na caixinha. Errou? O aviso tem **Desfazer**.
 - **+** no meio da barra de baixo (ou **Novo** na barra lateral): cria tarefa, hábito, anotação, lista, pasta ou projeto.
 - **Mais**: tudo o resto, com nome e uma linha explicando: Pessoas (amigos, times, clã), Jogo, Configurações, Ajuda, Lixeira.
 
-No celular, as duas posições ao lado do **+** são suas: troque em **Configurações → Navegação** (Planejar, Entrada, Hábitos, Pastas, Treino, Jogo ou Pessoas). A **lupa** no topo acha qualquer página, pasta, tela ou ação.
+No celular, as duas posições ao lado do **+** são suas: troque em **Configurações → Navegação** (Planejar, Entrada, Hábitos, Pastas, Treino, Jogo ou Pessoas). A **lupa** no topo acha qualquer lista, pasta, tela ou ação.

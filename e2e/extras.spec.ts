@@ -127,8 +127,8 @@ test('campos personalizados: moeda e seleção na página, preenchidos no painel
 }, testInfo) => {
   await signUp(page, testInfo);
   await createPage(page, { folder: 'Casa', name: 'Reforma', type: 'Lista' });
-  await page.getByRole('button', { name: 'Opções da página' }).click();
-  await shown(page, 'Campos da página…').click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
+  await shown(page, 'Campos da lista…').click();
   await page.getByRole('textbox', { name: 'Nome do campo' }).fill('Valor');
   await page.getByRole('radio', { name: 'Moeda' }).click();
   await page.getByRole('button', { name: 'Adicionar campo' }).click();

@@ -88,7 +88,7 @@ test('anexo sem internet entra na fila e sobe depois', async ({ page, context },
   test.setTimeout(90_000);
   await signUp(page, testInfo);
   await page.goto('/sync');
-  await expect(page.getByText(/No aparelho: \d+ pastas, [1-9]\d* páginas/)).toBeVisible({
+  await expect(page.getByText(/No aparelho: \d+ pastas, [1-9]\d* listas/)).toBeVisible({
     timeout: 20_000,
   });
   await page.goto('/inbox');

@@ -16,7 +16,7 @@ type ExportTask = {
 const COLUMNS: [keyof ExportTask, string][] = [
   ['title', 'Tarefa'],
   ['folder', 'Pasta'],
-  ['page', 'Página'],
+  ['page', 'Lista'],
   ['status', 'Status'],
   ['priority', 'Prioridade'],
   ['due_date', 'Vencimento'],

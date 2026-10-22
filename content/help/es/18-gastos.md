@@ -1,13 +1,13 @@
 # Gastos y foto del ticket
 
-Una página de tipo **Gastos** (Nuevo → Página → Gastos) es una hoja de registros: lo que salió y lo que entró, con fecha, categoría, forma de pago y quién pagó. Sirve para una reforma, un viaje, un evento o la casa. Funciona sin internet, como las tareas.
+Una lista de tipo **Gastos** (Nuevo → Lista → Gastos) es una hoja de registros: lo que salió y lo que entró, con fecha, categoría, forma de pago y quién pagó. Sirve para una reforma, un viaje, un evento o la casa. Funciona sin internet, como las tareas.
 
 ## Registrar
 
 - En el cuadro de arriba, escribe la **descripción** y el **importe** (`12,50`, `1.234,56`) y toca **Registrar** (o Enter). Elige **Gasto** o **Ingreso** y, si quieres, una categoría.
 - Toca una fila para abrir el registro completo: fecha (`12/10`, `ayer`), categoría, forma de pago, quién pagó (en un proyecto), observación. Al cerrar se guarda. **Borrar registro** lo manda a la papelera.
 - Arriba: **Gastado**, **Ingresos** y **Saldo** del periodo (**Este mes** o **Todo**), el **presupuesto** con la barra de cuánto se usó, y el gasto **por categoría**.
-- Las pestañas **General**, **Gastos** e **Ingresos** dividen la página: en **Gastos** quedan solo las salidas (con el presupuesto, las categorías y la división de cuentas) y en **Ingresos**, solo las entradas. El registro rápido, la lista y **Exportar** siguen la pestaña. El dispositivo recuerda la pestaña de cada página.
+- Las pestañas **General**, **Gastos** e **Ingresos** dividen la lista: en **Gastos** quedan solo las salidas (con el presupuesto, las categorías y la división de cuentas) y en **Ingresos**, solo las entradas. El registro rápido, la lista y **Exportar** siguen la pestaña. El dispositivo recuerda la pestaña de cada lista.
 - En un proyecto, el Lector ve; el Colaborador registra y cambia solo lo suyo; Editor, Gerente y Dueño cambian todo.
 
 ## Foto del ticket
@@ -18,7 +18,7 @@ La lectura necesita internet y se hace en el propio servidor de Questlist, con u
 
 ## Foto de una lista
 
-Al crear varias tareas (**Varias** en una página), **Foto de una lista** lee una lista en papel (compras, tareas, entrenamiento) y pone cada línea en el texto, con la sintaxis rápida de siempre (`3x12 40kg`, `mañana`). Revisa la vista previa y crea. Como la lista suele estar escrita a mano, esa foto la lee Google (Gemini), que recibe solo la foto.
+Al crear varias tareas (**Varias** en una lista), **Foto de una lista** lee una lista en papel (compras, tareas, entrenamiento) y pone cada línea en el texto, con la sintaxis rápida de siempre (`3x12 40kg`, `mañana`). Revisa la vista previa y crea. Como la lista suele estar escrita a mano, esa foto la lee Google (Gemini), que recibe solo la foto.
 
 ## Exportar
 

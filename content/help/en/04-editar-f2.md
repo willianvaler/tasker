@@ -2,7 +2,7 @@
 
 Select a task (click it or use `J` and `K`) and press **F2**: the title becomes a field. Enter saves, Esc cancels.
 
-With no task selected, **F2** renames the open page or folder, and you can change its **icon** right there.
+With no task selected, **F2** renames the open list or folder, and you can change its **icon** right there.
 
 ## Other list shortcuts
 

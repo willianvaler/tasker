@@ -96,7 +96,7 @@ test('pastas e páginas, detalhes da tarefa', async ({ page }, testInfo) => {
   // A pasta nova abre sozinha, vazia
   await expect(page.getByRole('heading', { name: 'Academia' })).toBeVisible();
 
-  await page.getByRole('button', { name: 'Criar a primeira página' }).click();
+  await page.getByRole('button', { name: 'Criar a primeira lista' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Treino A');
   await page.getByRole('button', { name: 'Salvar' }).click();
   // A página nova abre sozinha
@@ -152,7 +152,7 @@ test('barra lateral: criar pasta, ver a árvore e abrir a página', async ({ pag
   await expect(nav.getByRole('link', { name: 'Casa' })).toBeVisible();
   await expect(nav.getByRole('button', { name: 'Recolher Casa' })).toBeVisible();
 
-  await nav.getByRole('button', { name: 'Nova página' }).click();
+  await nav.getByRole('button', { name: 'Nova lista' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill('Mercado');
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('heading', { name: 'Mercado' })).toBeVisible();

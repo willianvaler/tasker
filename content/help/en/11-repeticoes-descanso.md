@@ -10,7 +10,7 @@ After each set a **rest** starts (60 s by default). In a workout, the exercise p
 
 ## Workout mode
 
-On workout pages (in the Gym folder or a workout group) or pages with tasks that have sets, **Start workout** opens full screen: current exercise, set, load, a big **Done** button (or `Space`), `R` skips the rest. After the last exercise, the **summary** shows sets, time, volume and XP and, with exercises linked to the Library, the map of **muscles worked**; **Close** goes back to the page. While you build the workout, the **Muscles in this workout** line (above the list) says which muscles it hits; tap it to open the map. Works offline and keeps the screen on. Left for the list mid-workout? The button becomes **Resume workout** and you pick up where you stopped (in a training group, without asking again who's with you). Went back to a finished exercise with **Previous**? The big button becomes **Next exercise**. While the workout is paused, **Done** stays dimmed until you tap ▶.
+On workout lists (in the Gym folder or a workout group) or lists with tasks that have sets, **Start workout** opens full screen: current exercise, set, load, a big **Done** button (or `Space`), `R` skips the rest. After the last exercise, the **summary** shows sets, time, volume and XP and, with exercises linked to the Library, the map of **muscles worked**; **Close** goes back to the list. While you build the workout, the **Muscles in this workout** line (above the list) says which muscles it hits; tap it to open the map. Works offline and keeps the screen on. Left for the list mid-workout? The button becomes **Resume workout** and you pick up where you stopped (in a training group, without asking again who's with you). Went back to a finished exercise with **Previous**? The big button becomes **Next exercise**. While the workout is paused, **Done** stays dimmed until you tap ▶.
 
 **Without unlocking the phone (Android):** with Workout Mode open, the set shows on the lock screen with **Done**, **Skip rest** and **+30 s**. Tap the notification's arrow to see the buttons. While the phone is locked, what you mark stays on the device and syncs when you open the app again.
 
@@ -18,7 +18,7 @@ On workout pages (in the Gym folder or a workout group) or pages with tasks that
 
 Every set done in Workout mode is saved as it happened: the weight, the reps you actually did (Workout mode starts with the plan; −1 and +1 change only this set) and the date. Cardio exercises ask for distance and time; timed ones, like the plank, keep the seconds. **Actual load:** during the rest (or before the set), `−10 −5 −2.5 −1` and `+1 +2.5 +5 +10` adjust the load of this set without changing the plan; it carries over to the next sets of the same exercise. Untouched, the plan's load counts. Tapping the load goes back to the plan, and **Use in the plan** saves the new one in the exercise. **Warm-up** logs a separate set that does not count toward the exercise total.
 
-**History** shows in the exercise panel and in the Library page: the sessions from newest to oldest, with the sets and volume of each one. A wrong set goes away with the trash icon (only from the log; the workout stays as it is). The log is yours alone, even in a shared workout.
+**History** shows in the exercise panel and in the Library list: the sessions from newest to oldest, with the sets and volume of each one. A wrong set goes away with the trash icon (only from the log; the workout stays as it is). The log is yours alone, even in a shared workout.
 
 In Settings, under **Workout log**, pick **kg or lb** and, if you like, **effort per set**: RIR (reps you had left) or RPE (effort up to 10). Changing the scale does not change what was already logged; history shows it in the current scale.
 
@@ -26,11 +26,11 @@ In Settings, under **Workout log**, pick **kg or lb** and, if you like, **effort
 
 From your second workout of an exercise on, each set is compared with the earlier ones: heaviest weight, more reps at a weight you have done before, best **estimated 1RM** (Epley formula, only up to 12 reps), most volume in a day, longest time or longest distance. Workout mode tells you right away, the summary at the end counts the records and, with the game on, the hit of an exercise with a record is a **guaranteed critical**. Warm-ups never count.
 
-The exercise panel and the Library page show the bests, which set the 1RM came from and how it changed day by day. The Library page also has the **1RM calculator**: weight and reps give the 1RM and the weights from 100% to 50%.
+The exercise panel and the Library list show the bests, which set the 1RM came from and how it changed day by day. The Library list also has the **1RM calculator**: weight and reps give the 1RM and the weights from 100% to 50%.
 
 ## Automatic progression
 
-The weight for your next workout comes from your log. Each workout has a rule (in Configure page; the default is **double progression**, from 8 to 12 reps) and each exercise can have its own in the panel:
+The weight for your next workout comes from your log. Each workout has a rule (in Configure list; the default is **double progression**, from 8 to 12 reps) and each exercise can have its own in the panel:
 
 - **Linear**: did every rep of every set, go up one step;
 - **Double**: at the same weight, go from 8 to 12 reps; hit 12 on every set, raise the weight and go back to 8;
@@ -54,7 +54,7 @@ Weight and measurements are health data, sensitive under Brazil’s LGPD: the fi
 
 ## Warm-up, plates and notes
 
-Before the first set of a weighted exercise, Workout mode suggests a **warm-up** (40%, 60% and 80% of the weight, rounded to the step and never below the bar); each suggestion is one tap and goes to the log as a warm-up. For barbell exercises it shows the **plates per side** ("Per side: 2 × 20 + 2.5"). The bar and plates you have are in Settings, under Workout log; the exercise page has the **plate calculator**. The item notes show in Workout mode as a **note** ("bench on hole 4").
+Before the first set of a weighted exercise, Workout mode suggests a **warm-up** (40%, 60% and 80% of the weight, rounded to the step and never below the bar); each suggestion is one tap and goes to the log as a warm-up. For barbell exercises it shows the **plates per side** ("Per side: 2 × 20 + 2.5"). The bar and plates you have are in Settings, under Workout log; the exercise list has the **plate calculator**. The item notes show in Workout mode as a **note** ("bench on hole 4").
 
 ## Superset and circuit
 
@@ -62,7 +62,7 @@ In the exercise panel, **Superset or circuit** gives the item a letter (A, B, C,
 
 ## Weekly plan
 
-In **Configure page** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Settings, under Workout log).
+In **Configure list** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Settings, under Workout log).
 
 ## Gym in the game
 
@@ -70,7 +70,7 @@ Each completed exercise is a hit on the boss, like a task; with a **record** in 
 
 ## Mode: workout, focus or rest
 
-The **Mode** button (sidebar; on the phone, **Workouts → Start a workout** or **More → Mode**; or search) gathers the three: **Workout** opens Workout Mode for a workout page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.
+The **Mode** button (sidebar; on the phone, **Workouts → Start a workout** or **More → Mode**; or search) gathers the three: **Workout** opens Workout Mode for a workout list or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.
 
 ## Working out together
 
@@ -78,4 +78,4 @@ To work out with other people, create a **training group**: in the Gym block (si
 
 ## Group challenges
 
-In a shared project (or a team), **Group training** opens the challenges, the wall and the chat. **Start a new challenge** asks for the name and how many days it lasts; whoever works out on the most days by the end wins. The day after the last one, the challenge closes and the **podium** gets the prize: first place gets the **Challenge champion** achievement and the **Champion** title (to equip in Character); up to third, the **Podium** achievement. Ties share the place, and there is a prize only when at least two people trained. A workout day counts when you **complete a workout page** or **spend 30 minutes or more in Workout mode** (one per day). On the **Wall**, check in today's workout with a photo if you like; the others react and comment. The **Chat** is for everything else.
+In a shared project (or a team), **Group training** opens the challenges, the wall and the chat. **Start a new challenge** asks for the name and how many days it lasts; whoever works out on the most days by the end wins. The day after the last one, the challenge closes and the **podium** gets the prize: first place gets the **Challenge champion** achievement and the **Champion** title (to equip in Character); up to third, the **Podium** achievement. Ties share the place, and there is a prize only when at least two people trained. A workout day counts when you **complete a workout list** or **spend 30 minutes or more in Workout mode** (one per day). On the **Wall**, check in today's workout with a photo if you like; the others react and comment. The **Chat** is for everything else.

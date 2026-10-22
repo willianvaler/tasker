@@ -76,7 +76,7 @@ test('tour de usabilidade', async ({ page }, testInfo) => {
   await step('pasta-aberta', async () => {});
   await step('nova-pagina', async () => {
     await page
-      .getByRole('button', { name: /Nova página|Criar a primeira página|Nova lista/ })
+      .getByRole('button', { name: /Nova lista|Criar a primeira lista/ })
       .first()
       .click();
   });

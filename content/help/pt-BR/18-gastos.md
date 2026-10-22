@@ -1,13 +1,13 @@
 # Gastos e foto da nota
 
-Uma página do tipo **Gastos** (Novo → Página → Gastos) é uma planilha de lançamentos: o que saiu e o que entrou, com data, categoria, forma de pagamento e quem pagou. Serve para uma reforma, uma viagem, um evento ou a casa. Funciona sem internet, como as tarefas.
+Uma lista do tipo **Gastos** (Novo → Lista → Gastos) é uma planilha de lançamentos: o que saiu e o que entrou, com data, categoria, forma de pagamento e quem pagou. Serve para uma reforma, uma viagem, um evento ou a casa. Funciona sem internet, como as tarefas.
 
 ## Lançar
 
 - No quadro de cima, escreva a **descrição** e o **valor** (`12,50`, `1.234,56`) e toque em **Lançar** (ou Enter). Escolha **Saída** ou **Entrada** e, se quiser, uma categoria.
 - Toque numa linha para abrir o lançamento inteiro: data (`12/10`, `ontem`), categoria, forma de pagamento, quem pagou (num projeto), observação. Fecha e salva. **Apagar lançamento** manda para a lixeira.
 - No topo: **Gasto**, **Entradas** e **Saldo** do período (**Este mês** ou **Tudo**), o **orçamento** com a barra do quanto já foi, e o gasto **por categoria**.
-- As abas **Geral**, **Gastos** e **Entradas** dividem a página: em **Gastos** ficam só as saídas (com o orçamento, as categorias e o racha) e em **Entradas**, só as entradas. O lançamento rápido, a lista e o **Exportar** seguem a aba. A aba escolhida fica lembrada no aparelho, para cada página.
+- As abas **Geral**, **Gastos** e **Entradas** dividem a lista: em **Gastos** ficam só as saídas (com o orçamento, as categorias e o racha) e em **Entradas**, só as entradas. O lançamento rápido, a lista e o **Exportar** seguem a aba. A aba escolhida fica lembrada no aparelho, para cada lista.
 - Num projeto, o Leitor vê; o Colaborador lança e mexe só no que lançou; Editor, Gerente e Dono mexem em tudo.
 
 ## Foto da nota
@@ -18,7 +18,7 @@ A leitura precisa de internet e é feita no próprio servidor do Questlist, por 
 
 ## Foto de uma lista
 
-Na criação de várias tarefas (**Várias** numa página), **Foto de uma lista** lê uma lista de papel (compras, tarefas, treino) e põe cada linha no texto, com a sintaxe rápida de sempre (`3x12 40kg`, `amanhã`). Confira na pré-visualização e crie. Como a lista costuma ser escrita à mão, essa foto é lida pelo Google (Gemini), que recebe só a foto.
+Na criação de várias tarefas (**Várias** numa lista), **Foto de uma lista** lê uma lista de papel (compras, tarefas, treino) e põe cada linha no texto, com a sintaxe rápida de sempre (`3x12 40kg`, `amanhã`). Confira na pré-visualização e crie. Como a lista costuma ser escrita à mão, essa foto é lida pelo Google (Gemini), que recebe só a foto.
 
 ## Exportar
 

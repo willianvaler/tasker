@@ -10,7 +10,7 @@ Tras cada serie empieza el **descanso** (60 s por defecto). En un entrenamiento,
 
 ## Modo Entrenamiento
 
-En páginas de entrenamiento (de la carpeta Gimnasio o de un grupo de entrenamiento) o con tareas que tienen series, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al terminar el último ejercicio, el **resumen** muestra series, tiempo, volumen y XP y, con los ejercicios unidos a la Biblioteca, el mapa de los **músculos trabajados**; **Cerrar** vuelve a la página. Mientras armas el entrenamiento, la línea **Músculos de este entrenamiento** (arriba de la lista) dice qué músculos trabaja; tócala para abrir el mapa. Funciona sin internet y mantiene la pantalla encendida. ¿Saliste a la lista a mitad del entrenamiento? El botón pasa a **Continuar entrenamiento** y vuelves donde lo dejaste (en un grupo de entrenamiento, sin preguntar otra vez con quién). ¿Volviste a un ejercicio hecho con **Anterior**? El botón grande pasa a **Siguiente ejercicio**. Con el entrenamiento en pausa, **Hecha** queda apagado hasta que toques ▶.
+En listas de entrenamiento (de la carpeta Gimnasio o de un grupo de entrenamiento) o con tareas que tienen series, **Empezar entrenamiento** abre la pantalla completa: ejercicio actual, serie, carga, un botón grande **Hecha** (o `Espacio`), `R` salta el descanso. Al terminar el último ejercicio, el **resumen** muestra series, tiempo, volumen y XP y, con los ejercicios unidos a la Biblioteca, el mapa de los **músculos trabajados**; **Cerrar** vuelve a la lista. Mientras armas el entrenamiento, la línea **Músculos de este entrenamiento** (arriba de la lista) dice qué músculos trabaja; tócala para abrir el mapa. Funciona sin internet y mantiene la pantalla encendida. ¿Saliste a la lista a mitad del entrenamiento? El botón pasa a **Continuar entrenamiento** y vuelves donde lo dejaste (en un grupo de entrenamiento, sin preguntar otra vez con quién). ¿Volviste a un ejercicio hecho con **Anterior**? El botón grande pasa a **Siguiente ejercicio**. Con el entrenamiento en pausa, **Hecha** queda apagado hasta que toques ▶.
 
 **Sin desbloquear el móvil (Android):** con el Modo Entrenamiento abierto, la serie aparece en la pantalla de bloqueo con **Hecha**, **Saltar descanso** y **+30 s**. Toca la flecha de la notificación para ver los botones. Con el móvil bloqueado, lo que marques queda en el dispositivo y se sube cuando vuelvas a abrir la app.
 
@@ -30,7 +30,7 @@ En el panel del ejercicio y en la ficha de la Biblioteca quedan los mejores, de 
 
 ## Progresión automática
 
-La carga del próximo entrenamiento sale de tu registro. Cada entrenamiento tiene una regla (en Configurar la página; por defecto es la **progresión doble**, de 8 a 12 repeticiones) y cada ejercicio puede tener la suya en el panel:
+La carga del próximo entrenamiento sale de tu registro. Cada entrenamiento tiene una regla (en Configurar la lista; por defecto es la **progresión doble**, de 8 a 12 repeticiones) y cada ejercicio puede tener la suya en el panel:
 
 - **Lineal**: hiciste todas las repeticiones de todas las series, sube un escalón;
 - **Doble**: con la misma carga, vas de 8 a 12 repeticiones; llegaste a 12 en todas, sube la carga y vuelve a 8;
@@ -62,7 +62,7 @@ En el panel del ejercicio, **Superserie o circuito** le da una letra (A, B, C, D
 
 ## Plan de la semana
 
-En **Configurar página** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en Ajustes, en Registro del entrenamiento).
+En **Configurar lista** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en Ajustes, en Registro del entrenamiento).
 
 ## El gimnasio en el juego
 
@@ -70,7 +70,7 @@ Cada ejercicio completado es un golpe al boss, como una tarea; con **récord** e
 
 ## Modo: entrenamiento, foco o descanso
 
-El botón **Modo** (barra lateral; en el móvil, **Entreno → Empezar un entrenamiento** o **Más → Modo**; o la búsqueda) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de entrenamiento o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.
+El botón **Modo** (barra lateral; en el móvil, **Entreno → Empezar un entrenamiento** o **Más → Modo**; o la búsqueda) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una lista de entrenamiento o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.
 
 ## Entrenar juntos
 
@@ -78,4 +78,4 @@ Para entrenar con otras personas, crea un **grupo de entrenamiento**: en el bloq
 
 ## Desafíos en grupo
 
-En un proyecto compartido (o en un equipo), **Entrenamiento en grupo** abre los desafíos, el muro y el chat. **Iniciar nuevo desafío** pide el nombre y cuántos días dura; gana quien entrene más días hasta el final. Al día siguiente del último, el desafío cierra y el **podio** se lleva el premio: el 1º lugar gana el logro **Campeón de desafío** y el título **Campeón** (para equipar en Personaje); hasta el 3º, el logro **Podio**. Los empatados comparten el puesto, y solo hay premio cuando al menos dos personas entrenaron. Cuenta como día de entrenamiento **completar una página de entrenamiento** o **pasar 30 minutos o más en el Modo Entrenamiento** (uno por día). En el **Muro**, haz el check-in del entrenamiento del día con una foto, si quieres; los demás reaccionan y comentan. El **Chat** es para lo demás.
+En un proyecto compartido (o en un equipo), **Entrenamiento en grupo** abre los desafíos, el muro y el chat. **Iniciar nuevo desafío** pide el nombre y cuántos días dura; gana quien entrene más días hasta el final. Al día siguiente del último, el desafío cierra y el **podio** se lleva el premio: el 1º lugar gana el logro **Campeón de desafío** y el título **Campeón** (para equipar en Personaje); hasta el 3º, el logro **Podio**. Los empatados comparten el puesto, y solo hay premio cuando al menos dos personas entrenaron. Cuenta como día de entrenamiento **completar una lista de entrenamiento** o **pasar 30 minutos o más en el Modo Entrenamiento** (uno por día). En el **Muro**, haz el check-in del entrenamiento del día con una foto, si quieres; los demás reaccionan y comentan. El **Chat** es para lo demás.

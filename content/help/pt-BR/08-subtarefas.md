@@ -1,6 +1,6 @@
 # Subtarefas e níveis
 
-Uma tarefa pode ter **subtarefas**, e elas também. O limite padrão é **4 níveis** (dá para mudar por página ou projeto).
+Uma tarefa pode ter **subtarefas**, e elas também. O limite padrão é **4 níveis** (dá para mudar por lista ou projeto).
 
 ## Criar
 
@@ -14,4 +14,4 @@ A mãe é um **pacote**: o progresso dela é o das subtarefas ("2/5"), e ela se 
 
 ## Códigos
 
-Aperte `W` para ver códigos como **1.2.3**. A visão **Estrutura** mostra a árvore inteira, e o menu da página exporta em texto.
+Aperte `W` para ver códigos como **1.2.3**. A visão **Estrutura** mostra a árvore inteira, e o menu da lista exporta em texto.

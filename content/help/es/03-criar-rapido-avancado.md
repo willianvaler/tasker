@@ -2,17 +2,17 @@
 
 **Rápido:** el campo Nueva tarea. Escribe y pulsa Enter. Sirve para casi todo.
 
-**Con detalles:** el botón junto al campo, el menú **Nuevo** o `Alt+Shift+N`. Abre un panel con página, descripción, vencimiento, prioridad, repetición, series y etiquetas. `Ctrl+Enter` crea.
+**Con detalles:** el botón junto al campo, el menú **Nuevo** o `Alt+Shift+N`. Abre un panel con lista, descripción, vencimiento, prioridad, repetición, series y etiquetas. `Ctrl+Enter` crea.
 
 ## Editar después
 
-Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 10.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la página y comentarios. Cada campo se guarda al salir de él.
+Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 10.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la lista y comentarios. Cada campo se guarda al salir de él.
 
 El panel muestra lo esencial (vencimiento, prioridad, etiquetas, descripción y subtareas; en un proyecto, también quién la hace y los vínculos) y lo que la tarea ya usa. Lo demás entra por **+ Agregar**: repetición, tiempo, series, Mi día, peso, quién la ve, adjuntos, aprobación e historial. ¿Quieres todo abierto siempre? Activa **Mostrar todas las secciones del panel de la tarea** en Ajustes → Apariencia.
 
 ## El menú Nuevo
 
-`Alt+N` (o el botón **Nuevo**) y una letra: **T** tarea, **P** página, **F** carpeta, **J** proyecto, **H** hábito. La tarea va a la página abierta (o a una página de la carpeta abierta); fuera de ellas, a la Bandeja de entrada.
+`Alt+N` (o el botón **Nuevo**) y una letra: **T** tarea, **P** lista, **F** carpeta, **J** proyecto, **H** hábito. La tarea va a la lista abierta (o a una lista de la carpeta abierta); fuera de ellas, a la Bandeja de entrada.
 
 ## Adjuntos
 

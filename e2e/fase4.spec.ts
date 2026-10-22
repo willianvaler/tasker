@@ -128,7 +128,7 @@ test('leitor só vê e comenta; @menção avisa', async ({ page, browser }, test
 
   const viewer = await joinByLink(browser, link, 'Vera Leitora', devices['Desktop Chrome']);
   await expect(viewer.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
-  await expect(viewer.getByRole('button', { name: 'Nova página' })).toHaveCount(0);
+  await expect(viewer.getByRole('button', { name: 'Nova lista' })).toHaveCount(0);
   await viewer.getByRole('link', { name: 'Compras' }).first().click();
   // A captura some para o Leitor
   await expect(viewer.getByText('Só leitura: você é leitor deste projeto')).toBeVisible();

@@ -1,6 +1,6 @@
 # Empezar en 1 minuto
 
-Escribe en el campo **Nueva tarea** y pulsa Enter. Listo: la tarea va a la Bandeja de entrada (o a la página abierta).
+Escribe en el campo **Nueva tarea** y pulsa Enter. Listo: la tarea va a la Bandeja de entrada (o a la lista abierta).
 
 ## Escritura rápida
 
@@ -32,4 +32,4 @@ Toca la casilla. ¿Te equivocaste? El aviso tiene **Deshacer**.
 - **+** en el medio de la barra inferior (o **Nuevo** en la barra lateral): crea tarea, hábito, nota, lista, carpeta o proyecto.
 - **Más**: todo lo demás, con nombre y una línea que lo explica: Personas (amigos, equipos, clan), Juego, Ajustes, Ayuda, Papelera.
 
-En el móvil, los dos lugares junto al **+** son tuyos: cámbialos en **Ajustes → Navegación** (Planificar, Entrada, Hábitos, Carpetas, Entreno, Juego o Personas). La **lupa** de arriba encuentra cualquier página, carpeta, pantalla o acción.
+En el móvil, los dos lugares junto al **+** son tuyos: cámbialos en **Ajustes → Navegación** (Planificar, Entrada, Hábitos, Carpetas, Entreno, Juego o Personas). La **lupa** de arriba encuentra cualquier lista, carpeta, pantalla o acción.

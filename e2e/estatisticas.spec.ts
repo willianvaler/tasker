@@ -134,8 +134,8 @@ test('plano da semana: treino de hoje e remarcar', async ({ page }, testInfo) =>
   await expect(page.getByRole('heading', { name })).toBeVisible();
 
   // Todos os dias: hoje é dia de treino, qualquer que seja
-  await page.getByRole('button', { name: 'Opções da página' }).click();
-  await page.getByRole('menuitem', { name: 'Configurar página' }).click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
+  await page.getByRole('menuitem', { name: 'Configurar lista' }).click();
   for (const day of ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'])
     await page.getByRole('checkbox', { name: day, exact: true }).click();
   await expect(page.getByRole('checkbox', { name: 'Dom', exact: true })).toHaveAttribute(

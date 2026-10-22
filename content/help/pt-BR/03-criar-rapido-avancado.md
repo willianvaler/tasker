@@ -2,17 +2,17 @@
 
 **Rápido:** o campo Nova tarefa. Escreva e aperte Enter. Serve para quase tudo.
 
-**Com detalhes:** o botão ao lado do campo, o menu **Novo** ou `Alt+Shift+N`. Abre um painel com página, descrição, vencimento, prioridade, repetição, séries e etiquetas. `Ctrl+Enter` cria.
+**Com detalhes:** o botão ao lado do campo, o menu **Novo** ou `Alt+Shift+N`. Abre um painel com lista, descrição, vencimento, prioridade, repetição, séries e etiquetas. `Ctrl+Enter` cria.
 
 ## Editar depois
 
-Toque na seta da tarefa (ou `Enter` com ela selecionada) para abrir o **painel**: descrição (até 10.000 caracteres; vazia, aparece "+ Adicionar descrição"), data, prioridade, peso, tempo, subtarefas, quem faz, dependências, campos da página e comentários. Cada campo salva sozinho ao sair dele.
+Toque na seta da tarefa (ou `Enter` com ela selecionada) para abrir o **painel**: descrição (até 10.000 caracteres; vazia, aparece "+ Adicionar descrição"), data, prioridade, peso, tempo, subtarefas, quem faz, dependências, campos da lista e comentários. Cada campo salva sozinho ao sair dele.
 
 O painel mostra o essencial (vencimento, prioridade, etiquetas, descrição e subtarefas; em projeto, também quem faz e as ligações) e o que a tarefa já usa. O resto entra por **+ Adicionar**: repetição, tempo, séries, Meu dia, peso, quem vê, anexos, aprovação e histórico. Quer tudo aberto sempre? Ligue **Mostrar todas as seções do painel da tarefa** em Configurações → Aparência.
 
 ## O menu Novo
 
-`Alt+N` (ou o botão **Novo**) e uma letra: **T** tarefa, **P** página, **F** pasta, **J** projeto, **H** hábito. A tarefa vai para a página aberta (ou para uma página da pasta aberta); fora delas, para a Caixa de entrada.
+`Alt+N` (ou o botão **Novo**) e uma letra: **T** tarefa, **P** lista, **F** pasta, **J** projeto, **H** hábito. A tarefa vai para a lista aberta (ou para uma lista da pasta aberta); fora delas, para a Caixa de entrada.
 
 ## Anexos
 

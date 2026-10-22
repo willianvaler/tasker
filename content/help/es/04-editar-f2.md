@@ -2,7 +2,7 @@
 
 Selecciona una tarea (haz clic o usa `J` y `K`) y pulsa **F2**: el título se vuelve un campo. Enter guarda, Esc cancela.
 
-Sin tarea seleccionada, **F2** renombra la página o carpeta abierta, y ahí mismo puedes cambiar el **ícono**.
+Sin tarea seleccionada, **F2** renombra la lista o carpeta abierta, y ahí mismo puedes cambiar el **ícono**.
 
 ## Otros atajos de la lista
 

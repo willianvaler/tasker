@@ -7,7 +7,7 @@ describe('tasksToCsv', () => {
     const csv = tasksToCsv([
       { title: 'Carne', folder: 'Churrasco', status: 'todo', labels: ['mercado', 'carne'] },
     ]);
-    expect(csv.startsWith('﻿Tarefa;Pasta;Página')).toBe(true);
+    expect(csv.startsWith('﻿Tarefa;Pasta;Lista')).toBe(true);
     expect(csv).toContain('Carne;Churrasco;;todo;;;mercado carne;;;\r\n');
   });
   test('aspas, ";" e quebra de linha ficam protegidos', () => {

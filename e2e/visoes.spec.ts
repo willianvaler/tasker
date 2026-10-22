@@ -182,8 +182,8 @@ test('lista que depende de outra: bloqueada até a anterior chegar ao percentual
   await page.goto(project);
   await page.getByRole('link', { name: 'Organização' }).last().click();
   await expect(page.getByRole('heading', { name: /Organização$/ })).toBeVisible();
-  await page.getByRole('button', { name: 'Opções da página' }).click();
-  await page.getByRole('menuitem', { name: 'Configurar página' }).click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
+  await page.getByRole('menuitem', { name: 'Configurar lista' }).click();
   await page.getByRole('button', { name: /^\+ .*Alvenaria$/ }).click();
   await expect(page.getByRole('radio', { name: '100%' })).toHaveAttribute('aria-checked', 'true');
   await page.getByRole('button', { name: 'Cancelar' }).click();
@@ -197,8 +197,8 @@ test('lista que depende de outra: bloqueada até a anterior chegar ao percentual
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/lista-bloqueada.png` });
 
   // A 50%: uma das duas tarefas da Alvenaria basta
-  await page.getByRole('button', { name: 'Opções da página' }).click();
-  await page.getByRole('menuitem', { name: 'Configurar página' }).click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
+  await page.getByRole('menuitem', { name: 'Configurar lista' }).click();
   await page.getByRole('radio', { name: '50%' }).click();
   await expect(page.getByRole('radio', { name: '50%' })).toHaveAttribute('aria-checked', 'true');
   await page.getByRole('button', { name: 'Cancelar' }).click();

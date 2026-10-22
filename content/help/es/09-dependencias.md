@@ -16,7 +16,7 @@ En el proyecto, el modo **estricto** no deja empezar lo bloqueado. El **flexible
 
 ## Lista que espera a otra
 
-Una lista entera puede esperar a que otra llegue al 50%, 75% o 100% (Configurar página → Se libera después de).
+Una lista entera puede esperar a que otra llegue al 50%, 75% o 100% (Configurar lista → Se libera después de).
 
 ## Atajos
 

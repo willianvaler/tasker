@@ -46,8 +46,8 @@ test('critério de aceite: Treino A com 8 exercícios, marcar tudo e reset na se
   await expect(page.getByRole('checkbox', { name: 'Supino', exact: true })).not.toBeChecked();
 
   // Duplicar: Treino B nasce com os mesmos exercícios, todos abertos
-  await page.getByRole('button', { name: 'Opções da página' }).click();
-  await shown(page, 'Duplicar página').click();
+  await page.getByRole('button', { name: 'Opções da lista' }).click();
+  await shown(page, 'Duplicar lista').click();
   await expect(page.getByPlaceholder('Nome da cópia')).toHaveValue('Treino B');
   await page.getByRole('button', { name: 'Duplicar' }).click();
   await expect(page.getByRole('heading', { name: 'Treino B' })).toBeVisible();
