@@ -18,7 +18,7 @@ Ejemplo: `Pagar la luz viernes !! #casa` queda "Pagar la luz", vence el viernes,
 
 ## Varias a la vez
 
-Pega una lista (una por línea) o toca **Varias**. Las líneas con sangría son subtareas. Antes de crear ves cómo quedará.
+Pega una lista (una por línea), toca **Varias** o usa **+ → Varias a la vez**. Las líneas con sangría son subtareas. Antes de crear ves cómo quedará.
 
 ## Marcar
 

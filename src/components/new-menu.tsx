@@ -3,6 +3,9 @@ import {
   CheckSquare,
   FileText,
   Folder,
+  LayoutTemplate,
+  ListPlus,
+  NotebookPen,
   Repeat,
   SlidersHorizontal,
   Users,
@@ -15,7 +18,10 @@ import { useFolderActions } from '@/components/folder-actions';
 import { Icon } from '@/components/ui/icon';
 import { MenuItem, Popover } from '@/components/ui/popover';
 import { Text } from '@/components/ui/text';
-import { captureContext } from '@/lib/capture-target';
+import { useNewNote } from '@/components/notes-block';
+import { setBatchDraft } from '@/lib/batch-draft';
+import { captureContext, captureTargetId, folderScope } from '@/lib/capture-target';
+import { getLastPageId } from '@/lib/prefs';
 import { useTree } from '@/lib/queries/tree';
 import { useShortcut } from '@/lib/use-shortcut';
 
@@ -28,8 +34,10 @@ export function useNewMenu() {
 }
 
 /**
- * Menu "+ Novo": Tarefa · Página · Pasta · Projeto · Hábito, com letras de atalho.
- * O contexto decide o destino: dentro de uma pasta ou projeto, "Página" cria nele.
+ * Menu "+ Novo": Tarefa · Página · Pasta · Projeto · Hábito · Anotação, e embaixo Várias de uma
+ * vez, A partir de um modelo e Criação avançada, com letras de atalho (D261: o lugar de criar
+ * tudo; lote e modelos ficavam só dentro da lista e num ícone da tela Pastas). O contexto decide o
+ * destino: dentro de uma pasta ou projeto, "Página", a anotação e o lote vão para ele.
  */
 export function NewMenuProvider({ children }: { children: ReactNode }) {
   const { t } = useTranslation();
@@ -47,6 +55,15 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
     ? tree.data?.pages.find((p) => p.id === routeId)?.folder_id
     : routeId;
   const pageTarget = contextFolder ?? tree.data?.folders[0]?.id;
+  const newNote = useNewNote(contextFolder ?? null);
+  // Lote: a página aberta, a da pasta aberta ou a Caixa de entrada (como a captura, CD19)
+  const batchTarget = () =>
+    captureTargetId(
+      captureContext(pathname),
+      tree.data?.pages ?? [],
+      (id) => folderScope(tree.data?.folders, id),
+      getLastPageId(),
+    ) ?? tree.data?.inbox?.id;
 
   const run = (action: () => void) => () => {
     close();
@@ -93,6 +110,33 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
       onPress: run(() => router.push('/habits')),
     },
     {
+      id: 'new.note',
+      label: t('newMenu.note'),
+      key: 'A',
+      icon: NotebookPen,
+      onPress: run(newNote),
+    },
+    {
+      id: 'new.batch',
+      label: t('newMenu.batch'),
+      key: 'V',
+      icon: ListPlus,
+      divider: true,
+      onPress: run(() => {
+        const target = batchTarget();
+        if (!target) return;
+        setBatchDraft(target, '');
+        router.push('/batch');
+      }),
+    },
+    {
+      id: 'new.template',
+      label: t('newMenu.template'),
+      key: 'M',
+      icon: LayoutTemplate,
+      onPress: run(() => router.push('/templates')),
+    },
+    {
       id: 'new.advanced',
       label: t('newMenu.advanced'),
       key: 'Alt ⇧ N',
@@ -112,6 +156,9 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
   useShortcut('new.folder', items[2].onPress, open);
   useShortcut('new.project', items[3].onPress, open);
   useShortcut('new.habit', items[4].onPress, open);
+  useShortcut('new.note', items[5].onPress, open);
+  useShortcut('new.batch', items[6].onPress, open);
+  useShortcut('new.template', items[7].onPress, open);
 
   return (
     <NewMenuContext.Provider value={{ open: (a) => setAnchor(a ?? fallbackAnchor) }}>
@@ -128,13 +175,15 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
           {t('newMenu.title')}
         </Text>
         {items.map((item) => (
-          <MenuItem
-            key={item.id}
-            label={item.label}
-            shortcut={item.key}
-            icon={<Icon icon={item.icon} tone="ink-muted" />}
-            onPress={item.onPress}
-          />
+          <View key={item.id}>
+            {'divider' in item && <View className="my-1 h-px bg-line" />}
+            <MenuItem
+              label={item.label}
+              shortcut={item.key}
+              icon={<Icon icon={item.icon} tone="ink-muted" />}
+              onPress={item.onPress}
+            />
+          </View>
         ))}
       </Popover>
       {dialog}

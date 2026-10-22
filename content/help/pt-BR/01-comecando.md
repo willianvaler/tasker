@@ -18,7 +18,7 @@ Exemplo: `Pagar a luz sexta !! #casa` vira "Pagar a luz", vence sexta, prioridad
 
 ## Várias de uma vez
 
-Cole uma lista (uma por linha) ou toque em **Várias**. Linhas com recuo viram subtarefas. Antes de criar, você vê como vai ficar.
+Cole uma lista (uma por linha), toque em **Várias** ou use **+ → Várias de uma vez**. Linhas com recuo viram subtarefas. Antes de criar, você vê como vai ficar.
 
 ## Marcar
 

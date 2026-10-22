@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { Globe, LayoutTemplate, Plus, Users } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { useWindowDimensions, View } from 'react-native';
+import { View } from 'react-native';
 
 import { FolderSection, PageRow } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
@@ -9,7 +9,6 @@ import { PendingShares } from '@/components/received';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
-import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { usePendingShares, useReceivedPages } from '@/lib/queries/shares';
@@ -24,7 +23,6 @@ export default function FoldersScreen() {
   const tree = useTree();
   const online = useIsOnline();
   const [actions, dialog] = useFolderActions();
-  const folders = tree.data?.folders ?? [];
   const gymOn = useProfile().data?.gym_enabled === true;
   const { personal, projects, gym, groups } = splitRoots(tree.data, gymOn);
   const sectionOrder = resolveBlocks(
@@ -34,47 +32,9 @@ export default function FoldersScreen() {
   const received = useReceivedPages();
   const pending = usePendingShares();
 
-  const narrow = useWindowDimensions().width < 768;
   return (
     <Screen size="medium">
-      <ScreenHeader
-        search
-        help="pastas-projetos-paginas"
-        title={t('folder.title')}
-        right={
-          <>
-            {/* Comunidade (V10 §4): no celular fica aqui (não tem aba própria) */}
-            <IconButton
-              icon={Globe}
-              label={t('nav.community')}
-              onPress={() => router.push('/comunidade')}
-            />
-            {/* Y2 (#4): no celular, "Usar modelo" só com o ícone (o título "Pastas" ficava cortado) */}
-            {narrow ? (
-              <IconButton
-                icon={LayoutTemplate}
-                label={t('folder.useTemplate')}
-                disabled={!online}
-                onPress={() => router.push('/templates')}
-              />
-            ) : (
-              <Button
-                variant="ghost"
-                icon={LayoutTemplate}
-                label={t('folder.useTemplate')}
-                disabled={!online}
-                onPress={() => router.push('/templates')}
-              />
-            )}
-            <Button
-              icon={Plus}
-              label={t('folder.newFolder')}
-              disabled={!online}
-              onPress={() => actions.newFolder()}
-            />
-          </>
-        }
-      />
+      <ScreenHeader search help="pastas-projetos-paginas" title={t('folder.title')} />
       {tree.error && (
         <Text className="text-sm text-danger">
           {t('common.loadError', { message: tree.error.message })}
@@ -112,8 +72,9 @@ export default function FoldersScreen() {
           // A ordem dos blocos do perfil (V6 §15.2) vale aqui também; esconder, só na barra lateral
           .sort((a, b) => sectionOrder.indexOf(a.block) - sectionOrder.indexOf(b.block))
           .map((section) =>
-            // W2: Projetos fica sempre (vazio, com o convite para criar o primeiro)
-            section.list.length === 0 && section.kind !== 'project' ? null : (
+            // W2: Projetos fica sempre (vazio, com o convite para criar o primeiro); Pastas também
+            // (D261: era o único "+" de pasta da tela, além do botão do topo, que saiu)
+            section.list.length === 0 && section.kind === 'gym' ? null : (
               <View key={section.kind} className="gap-6">
                 <SectionLabel
                   title={section.title}
@@ -138,7 +99,7 @@ export default function FoldersScreen() {
                   <Button
                     variant="ghost"
                     icon={Plus}
-                    label={t('nav.firstProject')}
+                    label={t(section.kind === 'project' ? 'nav.firstProject' : 'nav.firstFolder')}
                     className="self-start"
                     disabled={!online}
                     onPress={section.add}
@@ -190,18 +151,22 @@ export default function FoldersScreen() {
             <PendingShares />
           </View>
         )}
-        {tree.data && folders.length === 0 && !received.data?.length && (
-          <View className="items-center">
-            <EmptyState title={t('folder.emptyFolders')} />
-            <Button
-              variant="ghost"
-              icon={Plus}
-              label={t('folder.firstFolder')}
-              disabled={!online}
-              onPress={() => actions.newFolder()}
-            />
-          </View>
-        )}
+        {/* D261: modelos e comunidade com nome (eram um ícone sem rótulo e um globo no topo) */}
+        <View className="flex-row flex-wrap gap-2">
+          <Button
+            variant="ghost"
+            icon={LayoutTemplate}
+            label={t('folder.useTemplate')}
+            disabled={!online}
+            onPress={() => router.push('/templates')}
+          />
+          <Button
+            variant="ghost"
+            icon={Globe}
+            label={t('nav.community')}
+            onPress={() => router.push('/comunidade')}
+          />
+        </View>
       </ScreenScroll>
       {dialog}
     </Screen>

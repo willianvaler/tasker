@@ -69,7 +69,10 @@
     "taskMyDay": "Add to or remove from My day",
     "treeMoveUp": "Move the open folder or page up",
     "treeMoveDown": "Move the open folder or page down",
-    "goCalendar": "Go to Calendar"
+    "goCalendar": "Go to Calendar",
+    "newNote": "New note (in the New menu)",
+    "newBatch": "Several at once (in the New menu)",
+    "newTemplate": "From a template (in the New menu)"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -1268,7 +1271,10 @@
     "project": "Project",
     "habit": "Habit",
     "button": "New",
-    "advanced": "Advanced creation"
+    "advanced": "Advanced creation",
+    "note": "Note",
+    "batch": "Several at once…",
+    "template": "From a template…"
   },
   "iconPicker": {
     "search": "Search icon (home, workout, 🔥…)",

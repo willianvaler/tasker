@@ -69,7 +69,10 @@
     "taskMyDay": "Poner o quitar de Mi día",
     "treeMoveUp": "Subir la carpeta o página abierta",
     "treeMoveDown": "Bajar la carpeta o página abierta",
-    "goCalendar": "Ir al Calendario"
+    "goCalendar": "Ir al Calendario",
+    "newNote": "Nueva nota (en el menú Nuevo)",
+    "newBatch": "Varias a la vez (en el menú Nuevo)",
+    "newTemplate": "Desde una plantilla (en el menú Nuevo)"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -1268,7 +1271,10 @@
     "project": "Proyecto",
     "habit": "Hábito",
     "button": "Nuevo",
-    "advanced": "Creación avanzada"
+    "advanced": "Creación avanzada",
+    "note": "Nota",
+    "batch": "Varias a la vez…",
+    "template": "Desde una plantilla…"
   },
   "iconPicker": {
     "search": "Buscar ícono (casa, entrenamiento, 🔥…)",

@@ -18,7 +18,7 @@ Example: `Pay the power bill friday !! #home` becomes "Pay the power bill", due 
 
 ## Many at once
 
-Paste a list (one per line) or tap **Many**. Indented lines become subtasks. You see a preview before creating.
+Paste a list (one per line), tap **Many** or use **+ → Several at once**. Indented lines become subtasks. You see a preview before creating.
 
 ## Checking off
 
