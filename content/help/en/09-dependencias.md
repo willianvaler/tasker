@@ -8,7 +8,7 @@ Until the charcoal is bought, the fire is **blocked** (padlock) and shows "Waiti
 
 When creating a task, `^` followed by part of a name links the new task to an existing one: `Light the fire ^charcoal`. Matching tasks show up as you type; Enter picks one. In a batch, `^2` points to item 2 of the same list. It works in projects and in your own folders, between tasks of the same folder (and its subfolders).
 
-**Depends on** is always visible in the task panel. The folder's **Flow** tab shows who waits for whom.
+**Depends on** is always visible in the task panel, in the **Links** section (near the top in a project, after the subtasks in a personal folder), next to **Related**: "depends on" waits for the other one to finish; "related" is just a shortcut between the two. The folder's **Flow** tab shows who waits for whom.
 
 ## Strict or flexible
 

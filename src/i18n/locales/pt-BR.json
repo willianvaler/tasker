@@ -3475,5 +3475,9 @@
     "statsHint": "Volume, frequência e recordes",
     "off": "O treino está desligado",
     "offHint": "Ligando, você ganha os treinos com séries e cargas, o Modo Treino e a Biblioteca."
+  },
+  "links": {
+    "title": "Ligações",
+    "hint": "\"Depende de\" espera a outra terminar; \"Relacionados\" é só um atalho entre as duas."
   }
 }

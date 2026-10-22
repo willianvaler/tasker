@@ -388,15 +388,19 @@ function TaskDetails({ task }: { task: Task }) {
         )}
 
         {/* UX4 (D263): em projeto, logo no alto (o fluxo depende dele); em pasta pessoal, depois das
-            subtarefas (CD16: sempre à vista) */}
+            subtarefas (CD16: sempre à vista). UX10 (D264): "Depende de" e "Relacionados" juntos */}
         {project && !isHabit && !received && gym('dependencies') && (
-          <DependencyEditor
-            task={task}
-            dependsOn={flow.dependsOn}
-            unlocks={flow.unlocks}
-            titleOf={flow.titleOf}
-            inputRef={depsRef}
-          />
+          <Section title={t('links.title')}>
+            <Text className="text-xs text-ink-muted">{t('links.hint')}</Text>
+            <DependencyEditor
+              task={task}
+              dependsOn={flow.dependsOn}
+              unlocks={flow.unlocks}
+              titleOf={flow.titleOf}
+              inputRef={depsRef}
+            />
+            <Related type="task" id={task.id} editable={writable} />
+          </Section>
         )}
 
         {!isHabit && gym('due') && (
@@ -751,13 +755,17 @@ function TaskDetails({ task }: { task: Task }) {
         )}
 
         {!project && !isHabit && !received && gym('dependencies') && (
-          <DependencyEditor
-            task={task}
-            dependsOn={flow.dependsOn}
-            unlocks={flow.unlocks}
-            titleOf={flow.titleOf}
-            inputRef={depsRef}
-          />
+          <Section title={t('links.title')}>
+            <Text className="text-xs text-ink-muted">{t('links.hint')}</Text>
+            <DependencyEditor
+              task={task}
+              dependsOn={flow.dependsOn}
+              unlocks={flow.unlocks}
+              titleOf={flow.titleOf}
+              inputRef={depsRef}
+            />
+            <Related type="task" id={task.id} editable={writable} />
+          </Section>
         )}
 
         {gym('attachments') && (
@@ -802,10 +810,6 @@ function TaskDetails({ task }: { task: Task }) {
               </View>
             )}
           </Section>
-        )}
-
-        {show('extras') && gym('extras') && (
-          <Related type="task" id={task.id} editable={writable} />
         )}
 
         {show('extras') && gym('extras') && (

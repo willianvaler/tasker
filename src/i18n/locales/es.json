@@ -3475,5 +3475,9 @@
     "statsHint": "Volumen, frecuencia y récords",
     "off": "El entrenamiento está apagado",
     "offHint": "Al activarlo tienes entrenamientos con series y cargas, el Modo Entrenamiento y la Biblioteca."
+  },
+  "links": {
+    "title": "Vínculos",
+    "hint": "\"Depende de\" espera a que la otra termine; \"Relacionados\" es solo un atajo entre las dos."
   }
 }

@@ -8,7 +8,7 @@ Enquanto o carvão não for comprado, o fogo fica **bloqueado** (cadeado) e most
 
 Ao criar a tarefa, `^` seguido de um pedaço do nome liga a nova tarefa à que já existe: `Acender o fogo ^carvão`. Enquanto você digita, aparecem as tarefas que batem; Enter escolhe. No lote, `^2` aponta para o item 2 da própria lista. Vale em projetos e nas suas pastas, entre tarefas da mesma pasta (e das subpastas dela).
 
-O **Depende de** fica sempre à vista no painel da tarefa. A aba **Fluxo** da pasta mostra quem espera quem.
+O **Depende de** fica sempre à vista no painel da tarefa, na seção **Ligações** (no alto em projeto, depois das subtarefas numa pasta pessoal), junto com os **Relacionados**: "depende de" espera a outra terminar; "relacionado" é só um atalho entre as duas. A aba **Fluxo** da pasta mostra quem espera quem.
 
 ## Estrito ou flexível
 
