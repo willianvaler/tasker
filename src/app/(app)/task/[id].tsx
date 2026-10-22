@@ -19,13 +19,17 @@ import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
 import { ApprovalEditor } from '@/components/tasks/assignee-chips';
 import { TaskTime } from '@/components/tasks/task-time';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
-import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import type { Json } from '@/lib/db';
 import { asRecurrence } from '@/lib/recurrence';
 import { showInWorkout, usedExtras, type WorkoutExtra } from '@/lib/gym/fields';
-import { showSection, usedSections, type AdvancedSection } from '@/lib/panel-sections';
-import { getPanelMode, setPanelMode, type PanelMode } from '@/lib/prefs';
+import {
+  addableSections,
+  showSection,
+  usedSections,
+  type AdvancedSection,
+} from '@/lib/panel-sections';
+import { getPanelMode } from '@/lib/prefs';
 import { readRepeatPlan } from '@/lib/repeat';
 import { Button, IconButton } from '@/components/ui/button';
 import { ConflictNotice } from '@/components/tasks/conflict-notice';
@@ -128,44 +132,14 @@ const parseLabelsText = (text: string) =>
 /** Descrição da tarefa (W4): o mesmo limite do banco (tasks_notes_check) */
 const NOTES_MAX = 10000;
 
-function PanelHeader({
-  path,
-  mode,
-  onMode,
-}: {
-  path: string;
-  mode?: PanelMode;
-  onMode?: (mode: PanelMode) => void;
-}) {
+function PanelHeader({ path }: { path: string }) {
   const { t } = useTranslation();
-  const [menu, setMenu, closeMenu] = useDialog<true>();
   return (
     <View className="min-h-12 flex-row items-center gap-2 border-b border-line pl-4 pr-2">
       <Text className="flex-1 font-mono text-xs uppercase text-ink-muted" numberOfLines={1}>
         {path}
       </Text>
-      {mode && onMode && (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t('panelMode.label', { mode: t(`panelMode.${mode}`) })}
-          onPress={() => setMenu(true)}
-          className="h-11 flex-row items-center gap-1 rounded px-2 hover:bg-wash md:h-8"
-        >
-          <Text className="text-sm text-ink-muted">{t(`panelMode.${mode}`)}</Text>
-          <Icon icon={ChevronDown} tone="ink-muted" />
-        </Pressable>
-      )}
       <IconButton icon={X} label={t('common.back')} onPress={close} />
-      {menu && onMode && (
-        <ActionMenu
-          title={t('panelMode.title')}
-          onClose={closeMenu}
-          actions={(['simple', 'full'] as const).map((value) => ({
-            label: `${value === mode ? '✓ ' : ''}${t(`panelMode.${value}`)} · ${t(`panelMode.${value}Hint`)}`,
-            onPress: () => onMode(value),
-          }))}
-        />
-      )}
     </View>
   );
 }
@@ -178,12 +152,11 @@ function TaskDetails({ task }: { task: Task }) {
   // Item de página recebida (L): o aluno deixa observação para quem enviou
   const received = useIsReceived(task.page_id);
   const myDay = useMyDayToggle(today);
-  // Painel simples × completo (U2): o avançado só aparece no completo ou se a tarefa já usa
-  const [mode, setMode] = useState<PanelMode>(getPanelMode);
-  const changeMode = (value: PanelMode) => {
-    setPanelMode(value);
-    setMode(value);
-  };
+  // Painel por uso (UX11, D265): a seção aparece se a tarefa usa, se a pessoa adicionou pelo
+  // "+ Adicionar" ou com "Mostrar todas as seções" ligado (Configurações → Aparência)
+  const showAll = getPanelMode() === 'full';
+  const [added, setAdded] = useState<ReadonlySet<AdvancedSection>>(() => new Set());
+  const [adding, setAdding, closeAdding] = useDialog<true>();
   // Colaborador: só mexe no que criou ou no que é dele (o resto fica só de leitura)
   const writable = useCanWrite(task.folder_id) && allowed.edit;
   const tree = useTree();
@@ -199,8 +172,12 @@ function TaskDetails({ task }: { task: Task }) {
   const parent = siblings.data?.find((s) => s.id === task.parent_task_id);
   // Fluxo: bloqueada (estrito) não inicia nem conclui; no flexível, quem pode, força
   const flow = useTaskFlow(task);
-  const used = usedSections(task, { inMyDay: myDay.has(task.id) });
-  const show = (section: AdvancedSection) => showSection(mode, used, section);
+  const attachmentList = useAttachments(task.id);
+  const used = usedSections(task, {
+    inMyDay: myDay.has(task.id),
+    attachments: attachmentList.data?.length,
+  });
+  const show = (section: AdvancedSection) => showSection(showAll, used, added, section);
   const start = useStartTask();
   const force = useForceTask();
   const [confirmForce, setConfirmForce, closeConfirmForce] = useDialog<'start' | 'complete'>();
@@ -263,7 +240,6 @@ function TaskDetails({ task }: { task: Task }) {
   const project = !!rootFolder(tree.data, task.folder_id)?.is_shared;
   // Página de treino (AC2, D234): só o exercício e a observação; o resto em "Mais opções"
   const [more, setMore] = useState(false);
-  const attachmentList = useAttachments(isWorkout ? task.id : undefined);
   const commentList = useComments(isWorkout && project ? task.id : undefined);
   const assigneeList = useAssignees();
   const gymUsed = usedExtras(task, {
@@ -275,6 +251,34 @@ function TaskDetails({ task }: { task: Task }) {
   });
   const gym = (extra: WorkoutExtra) =>
     showInWorkout(extra, { workout: isWorkout, more, used: gymUsed });
+
+  // Seções que valem para esta tarefa (o "+ Adicionar" só oferece estas)
+  const projectRoot = rootFolder(tree.data, task.folder_id)?.kind === 'project';
+  const available = new Set<AdvancedSection>([
+    ...(!isHabit && !task.parent_task_id && task.habit_kind !== 'plusminus'
+      ? (['recurrence'] as const)
+      : []),
+    ...(!isHabit && !isWorkout ? (['time'] as const) : []),
+    ...(!isHabit && !leaves && !isWorkout ? (['repeat'] as const) : []),
+    ...(!isHabit && !received && !done ? (['myDay'] as const) : []),
+    ...(!isHabit ? (['weight'] as const) : []),
+    ...(!project && !task.parent_task_id ? (['visibility'] as const) : []),
+    'attachments',
+    ...(!isHabit && !received && projectRoot ? (['approval'] as const) : []),
+    'extras',
+  ]);
+  const addable = addableSections(available, showAll, used, added);
+  const sectionLabel: Record<AdvancedSection, string> = {
+    recurrence: t('taskDetail.repeat'),
+    time: t('taskDetail.time'),
+    repeat: t('repeat.section'),
+    myDay: t('myDay.title'),
+    weight: t('weight.title'),
+    visibility: t('visibility.title'),
+    attachments: t('attach.section'),
+    approval: t('approval.title'),
+    extras: t('events.title'),
+  };
 
   function saveDateText() {
     const parsed = parseQuickInput(`x ${dateText}`, { today });
@@ -304,8 +308,6 @@ function TaskDetails({ task }: { task: Task }) {
         onClose={close}
         header={
           <PanelHeader
-            mode={mode}
-            onMode={changeMode}
             path={[
               place?.folder.name,
               page ? pageLabel(page) : null,
@@ -351,9 +353,9 @@ function TaskDetails({ task }: { task: Task }) {
           />
         </View>
 
-        {/* Y2 (#2): "Iniciar" sozinho numa tarefa comum confundia: no Simples, só em projeto, com
-            dependência ou com a tarefa já em andamento */}
-        {!done && !isHabit && (mode === 'full' || project || blocked || flow.state === 'doing') && (
+        {/* Y2 (#2): "Iniciar" sozinho numa tarefa comum confundia: só em projeto, com dependência ou
+            com a tarefa já em andamento */}
+        {!done && !isHabit && (project || blocked || flow.state === 'doing') && (
           <View className="flex-row flex-wrap items-center gap-2">
             {blocked ? (
               <Text className="flex-1 text-sm text-ink-muted">
@@ -615,7 +617,8 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {show('fields') && gym('fields') && (
+        {/* Campos da página: aparecem quando a página tem algum (quem criou quer preenchidos) */}
+        {gym('fields') && (
           <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
         )}
 
@@ -688,26 +691,28 @@ function TaskDetails({ task }: { task: Task }) {
             </Section>
           )}
 
-        {!task.parent_task_id && task.habit_kind !== 'plusminus' && (
-          <Section title={t('taskDetail.repeat')}>
-            <RecurrenceEditor
-              habit={isHabit}
-              value={asRecurrence(task.recurrence)}
-              onChange={(r) => save({ recurrence: r as Json })}
-            />
-            {!isHabit && asRecurrence(task.recurrence) && (
-              <Text className="text-sm text-ink-muted">
-                {t(
-                  page?.reset_cycle !== 'none'
-                    ? 'taskDetail.repeatCycle'
-                    : task.due_date
-                      ? 'taskDetail.repeatNext'
-                      : 'taskDetail.repeatNextNoDate',
-                )}
-              </Text>
-            )}
-          </Section>
-        )}
+        {!task.parent_task_id &&
+          task.habit_kind !== 'plusminus' &&
+          (isHabit || show('recurrence')) && (
+            <Section title={t('taskDetail.repeat')}>
+              <RecurrenceEditor
+                habit={isHabit}
+                value={asRecurrence(task.recurrence)}
+                onChange={(r) => save({ recurrence: r as Json })}
+              />
+              {!isHabit && asRecurrence(task.recurrence) && (
+                <Text className="text-sm text-ink-muted">
+                  {t(
+                    page?.reset_cycle !== 'none'
+                      ? 'taskDetail.repeatCycle'
+                      : task.due_date
+                        ? 'taskDetail.repeatNext'
+                        : 'taskDetail.repeatNextNoDate',
+                  )}
+                </Text>
+              )}
+            </Section>
+          )}
 
         {!isHabit && show('weight') && gym('weight') && (
           <Section title={t('weight.title')}>
@@ -735,7 +740,7 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {!project && !task.parent_task_id && gym('visibility') && (
+        {!project && !task.parent_task_id && show('visibility') && gym('visibility') && (
           // V10 §2 (D232): quem mais vê, pelo perfil; em projeto vale quem é do projeto
           <Section title={t('visibility.title')}>
             <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
@@ -768,7 +773,7 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {gym('attachments') && (
+        {show('attachments') && gym('attachments') && (
           <Section title={t('attach.section')}>
             <Attachments task={task} writable={allowed.edit} />
           </Section>
@@ -828,13 +833,24 @@ function TaskDetails({ task }: { task: Task }) {
           />
         )}
 
-        {mode === 'simple' && (!isWorkout || more) && (
+        {/* UX11 (D265): o que não aparece entra por aqui, com o nome à vista */}
+        {writable && (!isWorkout || more) && addable.length > 0 && (
           <Button
             variant="ghost"
-            icon={ChevronDown}
-            label={t('panelMode.showAll')}
-            onPress={() => changeMode('full')}
+            icon={Plus}
+            label={t('panel.add')}
+            onPress={() => setAdding(true)}
             className="self-start"
+          />
+        )}
+        {adding && (
+          <ActionMenu
+            title={t('panel.addTitle')}
+            onClose={closeAdding}
+            actions={addable.map((section) => ({
+              label: sectionLabel[section],
+              onPress: () => setAdded(new Set([...added, section])),
+            }))}
           />
         )}
 

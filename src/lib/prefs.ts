@@ -193,7 +193,10 @@ export function getDeviceId(): string {
 const PANEL_MODE_KEY = 'questlist:panel-mode';
 export type PanelMode = 'simple' | 'full';
 
-/** Painel da tarefa simples ou completo (U2). Simples por padrão. */
+/**
+ * Painel da tarefa (U2, D265): 'full' mostra todas as seções; 'simple' (padrão) mostra o que a
+ * tarefa usa e o resto pelo "+ Adicionar".
+ */
 export function getPanelMode(): PanelMode {
   return localStore.getItem(PANEL_MODE_KEY) === 'full' ? 'full' : 'simple';
 }

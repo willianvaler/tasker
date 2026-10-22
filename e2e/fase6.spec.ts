@@ -65,10 +65,7 @@ test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando',
   // Sistema (padrão) com o navegador escuro
   await expect(html).toHaveClass(/dark/);
 
-  await page
-    .getByRole('navigation')
-    .getByRole('link', { name: /Perfil/ })
-    .click();
+  await openSettings(page);
   await page.getByRole('radio', { name: 'Claro' }).click();
   await expect(html).not.toHaveClass(/dark/);
   await page.reload();
@@ -101,12 +98,11 @@ test('assistente de primeiro uso: do seu jeito, captura, pasta inicial e gamific
   await page.getByRole('checkbox', { name: /aceito os Termos/ }).click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
 
-  // 0. Do seu jeito (U4): tema e painel, e segue
+  // 0. Do seu jeito (U4): tema, e segue
   await expect(page.getByRole('heading', { name: 'Do seu jeito' })).toBeVisible();
   await expect(page.getByText('1/4')).toBeVisible();
   await page.getByRole('radio', { name: 'Escuro' }).click();
   await expect(page.getByRole('radio', { name: 'Escuro' })).toHaveAttribute('aria-checked', 'true');
-  await page.getByRole('radio', { name: 'Completo' }).click();
   await expect(page.getByRole('button', { name: 'Testar aviso' })).toBeVisible();
   await page.getByRole('button', { name: 'Próximo' }).click();
 
@@ -142,7 +138,7 @@ test('assistente de primeiro uso: do seu jeito, captura, pasta inicial e gamific
   await page.getByRole('button', { name: 'Começar' }).click();
   await saved;
 
-  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
   await openTab(page, 'Hábitos');
   await expect(page.getByLabel('0 de 8')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Hábito bom: Comer bem' })).toBeVisible();

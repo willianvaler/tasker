@@ -891,7 +891,7 @@
     "habitRead": "Leer 10 páginas",
     "habitEat": "Comer bien",
     "setupTitle": "A tu manera",
-    "setupText": "Elige el idioma, el tema y cuánto muestra el panel de la tarea. Para que el fin del descanso y del foco avise incluso con la app cerrada, permite las notificaciones. Todo esto se cambia después en Ajustes."
+    "setupText": "Elige el idioma y el tema. Para que el fin del descanso y del foco avise incluso con la app cerrada, permite las notificaciones. Todo esto se cambia después en Ajustes."
   },
   "extras": {
     "noRepeat": "No se repite",
@@ -2324,15 +2324,6 @@
     "deniedWeb": "Bloqueado en este navegador. Toca el candado junto a la dirección → Notificaciones → Permitir.",
     "deniedApp": "Bloqueado. Abre Ajustes → Apps → Questlist → Notificaciones y actívalas."
   },
-  "panelMode": {
-    "title": "Mostrar en el panel",
-    "label": "Panel: {{mode}}. Cambiar",
-    "simple": "Simple",
-    "full": "Completo",
-    "simpleHint": "lo esencial",
-    "fullHint": "tiempo, series, peso, campos, aprobación…",
-    "showAll": "Mostrar todo (tiempo, series, peso, campos…)"
-  },
   "modes": {
     "title": "Modo",
     "open": "Modo: entrenamiento, foco o descanso",
@@ -3479,5 +3470,11 @@
   "links": {
     "title": "Vínculos",
     "hint": "\"Depende de\" espera a que la otra termine; \"Relacionados\" es solo un atajo entre las dos."
+  },
+  "panel": {
+    "add": "Agregar",
+    "addTitle": "Agregar al panel",
+    "showAll": "Mostrar todas las secciones del panel de la tarea",
+    "showAllHint": "Desactivado, el panel muestra lo que la tarea usa; lo demás entra por + Agregar."
   }
 }

@@ -8,7 +8,7 @@
 
 Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 10,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, page fields and comments. Each field saves when you leave it.
 
-At the top of the panel, **Simple ▾** shows only the essentials; switch to **Full** to see time, sets, weight, dependencies, fields, approval, My day and history. Whatever the task already uses shows even in Simple.
+The panel shows the essentials (due date, priority, labels, description and subtasks; in a project, also who does it and the links) plus whatever the task already uses. The rest comes in through **+ Add**: repeat, time, sets, My day, weight, who sees it, attachments, approval and history. Want everything open all the time? Turn on **Show every section of the task panel** in Settings → Appearance.
 
 ## The New menu
 

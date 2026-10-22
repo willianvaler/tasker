@@ -8,7 +8,7 @@
 
 Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 10.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la página y comentarios. Cada campo se guarda al salir de él.
 
-Arriba del panel, **Simple ▾** muestra solo lo esencial; cambia a **Completo** para ver tiempo, series, peso, dependencias, campos, aprobación, Mi día e historial. Lo que la tarea ya usa aparece incluso en Simple.
+El panel muestra lo esencial (vencimiento, prioridad, etiquetas, descripción y subtareas; en un proyecto, también quién la hace y los vínculos) y lo que la tarea ya usa. Lo demás entra por **+ Agregar**: repetición, tiempo, series, Mi día, peso, quién la ve, adjuntos, aprobación e historial. ¿Quieres todo abierto siempre? Activa **Mostrar todas las secciones del panel de la tarea** en Ajustes → Apariencia.
 
 ## El menú Nuevo
 

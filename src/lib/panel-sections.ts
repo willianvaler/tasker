@@ -1,46 +1,79 @@
-// Painel da tarefa simples × completo (U2, D158). No simples ficam o título, as notas, a data e a
-// repetição, a prioridade, as etiquetas, quem faz, as subtarefas, o "Depende de" (CD16), os
-// anexos, os comentários e a página. As seções avançadas só aparecem no completo, ou quando a tarefa já usa (senão a
-// pessoa não veria um valor que existe).
+// Painel da tarefa por uso (UX11, D265; antes Simples × Completo, U2/D158). Uma seção aparece
+// porque a tarefa já usa (para nenhum valor ficar escondido), porque a pessoa a adicionou pelo
+// "+ Adicionar" ou porque ligou "Mostrar todas as seções" (Configurações → Aparência). Título,
+// vencimento, prioridade, etiquetas, descrição, subtarefas e o que é do contexto (projeto, hábito,
+// treino) não passam por aqui: aparecem sempre.
 
 export type AdvancedSection =
-  'fields' | 'approval' | 'myDay' | 'time' | 'repeat' | 'weight' | 'extras';
+  | 'approval'
+  | 'myDay'
+  | 'time'
+  | 'repeat'
+  | 'recurrence'
+  | 'weight'
+  | 'visibility'
+  | 'attachments'
+  | 'extras';
+
+/** Na ordem em que aparecem no "+ Adicionar". */
+export const ADVANCED_SECTIONS: readonly AdvancedSection[] = [
+  'recurrence',
+  'time',
+  'repeat',
+  'myDay',
+  'weight',
+  'visibility',
+  'attachments',
+  'approval',
+  'extras',
+];
 
 type TaskLike = {
-  custom?: unknown;
   approver_id?: string | null;
   approver_role?: string | null;
   estimate_minutes?: number | null;
   actual_minutes?: number | null;
   repeat_plan?: unknown;
+  recurrence?: unknown;
   weight?: number | null;
+  visibility?: string | null;
 };
 
-/** Seções avançadas que a tarefa já usa */
+/** Seções que a tarefa já usa */
 export function usedSections(
   task: TaskLike,
-  context: { inMyDay: boolean },
+  context: { inMyDay: boolean; attachments?: number },
 ): Set<AdvancedSection> {
   const used = new Set<AdvancedSection>();
-  if (
-    task.custom &&
-    typeof task.custom === 'object' &&
-    Object.values(task.custom).some((v) => v !== null && v !== '')
-  )
-    used.add('fields');
   if (task.approver_id || task.approver_role) used.add('approval');
   if (context.inMyDay) used.add('myDay');
   if (task.estimate_minutes || task.actual_minutes) used.add('time');
   if (task.repeat_plan) used.add('repeat');
+  if (task.recurrence) used.add('recurrence');
   if ((task.weight ?? 1) > 1) used.add('weight');
+  if (task.visibility && task.visibility !== 'private') used.add('visibility');
+  if ((context.attachments ?? 0) > 0) used.add('attachments');
   return used;
 }
 
 /** A seção aparece? */
 export function showSection(
-  mode: 'simple' | 'full',
-  used: Set<AdvancedSection>,
+  showAll: boolean,
+  used: ReadonlySet<AdvancedSection>,
+  added: ReadonlySet<AdvancedSection>,
   s: AdvancedSection,
 ) {
-  return mode === 'full' || used.has(s);
+  return showAll || used.has(s) || added.has(s);
+}
+
+/** O que o "+ Adicionar" oferece: as seções que valem aqui e ainda não aparecem. */
+export function addableSections(
+  available: ReadonlySet<AdvancedSection>,
+  showAll: boolean,
+  used: ReadonlySet<AdvancedSection>,
+  added: ReadonlySet<AdvancedSection>,
+) {
+  return ADVANCED_SECTIONS.filter(
+    (s) => available.has(s) && !showSection(showAll, used, added, s),
+  );
 }

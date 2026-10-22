@@ -8,7 +8,7 @@
 
 Toque na seta da tarefa (ou `Enter` com ela selecionada) para abrir o **painel**: descrição (até 10.000 caracteres; vazia, aparece "+ Adicionar descrição"), data, prioridade, peso, tempo, subtarefas, quem faz, dependências, campos da página e comentários. Cada campo salva sozinho ao sair dele.
 
-No topo do painel, **Simples ▾** mostra só o essencial; troque para **Completo** para ver tempo, séries, peso, dependências, campos, aprovação, Meu dia e histórico. O que a tarefa já usa aparece mesmo no Simples.
+O painel mostra o essencial (vencimento, prioridade, etiquetas, descrição e subtarefas; em projeto, também quem faz e as ligações) e o que a tarefa já usa. O resto entra por **+ Adicionar**: repetição, tempo, séries, Meu dia, peso, quem vê, anexos, aprovação e histórico. Quer tudo aberto sempre? Ligue **Mostrar todas as seções do painel da tarefa** em Configurações → Aparência.
 
 ## O menu Novo
 

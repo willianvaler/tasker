@@ -15,7 +15,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ItemIcon } from '@/components/item-icon';
-import { LanguageChooser, PanelModeChooser, ThemeChooser } from '@/components/preference-choosers';
+import { LanguageChooser, ThemeChooser } from '@/components/preference-choosers';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { Button } from '@/components/ui/button';
@@ -289,7 +289,6 @@ function SetupStep() {
       </Title>
       <LanguageChooser />
       <ThemeChooser />
-      <PanelModeChooser />
       <TimerAlertSetting />
     </>
   );

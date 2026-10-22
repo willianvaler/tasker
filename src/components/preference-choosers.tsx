@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Chip } from '@/components/ui/chip';
+import { ToggleRow } from '@/components/ui/toggle-row';
 import { Text } from '@/components/ui/text';
 import { LOCALES, type LocalePreference } from '@/i18n/locale';
 import { useLocalePreference } from '@/i18n/use-locale';
@@ -10,7 +11,7 @@ import { getPanelMode, setPanelMode, type PanelMode, type ThemePreference } from
 import { useThemePreference } from '@/providers/theme';
 
 // Preferências do aparelho usadas no Perfil e no assistente de primeiro uso (U4): tema, idioma e
-// o painel da tarefa simples/completo.
+// mostrar todas as seções do painel da tarefa.
 
 function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
@@ -73,25 +74,23 @@ export function LanguageChooser() {
 }
 
 /** Painel da tarefa simples ou completo (U2, D158) */
+/**
+ * Painel da tarefa (D265): por padrão mostra o que a tarefa usa e o resto entra pelo "+ Adicionar";
+ * ligado, mostra todas as seções (o antigo "Completo"). É do aparelho.
+ */
 export function PanelModeChooser() {
   const { t } = useTranslation();
   const [mode, setMode] = useState<PanelMode>(getPanelMode);
   return (
-    <Field label={t('panelMode.title')} hint={t(`panelMode.${mode}Hint`)}>
-      <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-        {(['simple', 'full'] as const).map((value) => (
-          <Chip
-            key={value}
-            role="radio"
-            label={t(`panelMode.${value}`)}
-            selected={mode === value}
-            onPress={() => {
-              setPanelMode(value);
-              setMode(value);
-            }}
-          />
-        ))}
-      </View>
-    </Field>
+    <ToggleRow
+      title={t('panel.showAll')}
+      hint={t('panel.showAllHint')}
+      value={mode === 'full'}
+      onChange={(on) => {
+        const value: PanelMode = on ? 'full' : 'simple';
+        setPanelMode(value);
+        setMode(value);
+      }}
+    />
   );
 }

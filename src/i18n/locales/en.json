@@ -891,7 +891,7 @@
     "habitRead": "Read 10 pages",
     "habitEat": "Eat well",
     "setupTitle": "Your way",
-    "setupText": "Pick the language, the theme and how much the task panel shows. To be alerted when rest and focus end even with the app closed, allow notifications. You can change all of this later in Settings."
+    "setupText": "Pick the language and the theme. To be alerted when rest and focus end even with the app closed, allow notifications. You can change all of this later in Settings."
   },
   "extras": {
     "noRepeat": "Does not repeat",
@@ -2324,15 +2324,6 @@
     "deniedWeb": "Blocked in this browser. Tap the lock next to the address → Notifications → Allow.",
     "deniedApp": "Blocked. Open Settings → Apps → Questlist → Notifications and turn them on."
   },
-  "panelMode": {
-    "title": "Show in the panel",
-    "label": "Panel: {{mode}}. Change",
-    "simple": "Simple",
-    "full": "Full",
-    "simpleHint": "the essentials",
-    "fullHint": "time, sets, weight, fields, approval…",
-    "showAll": "Show everything (time, sets, weight, fields…)"
-  },
   "modes": {
     "title": "Mode",
     "open": "Mode: workout, focus or rest",
@@ -3479,5 +3470,11 @@
   "links": {
     "title": "Links",
     "hint": "\"Depends on\" waits for the other one to finish; \"Related\" is just a shortcut between the two."
+  },
+  "panel": {
+    "add": "Add",
+    "addTitle": "Add to the panel",
+    "showAll": "Show every section of the task panel",
+    "showAllHint": "When off, the panel shows what the task uses; the rest comes in through + Add."
   }
 }
