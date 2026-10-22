@@ -23,7 +23,7 @@ São 68, de **comum** a **lendária** (o nome da raridade aparece escrito, junto
 
 ## Personagem
 
-Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O ouro compra itens na **loja** (só visual). O **inventário** (Jogo ou Personagem) mostra tudo o que você tem, da loja e dos bosses, com filtro por espaço, raridade (de comum a lendária) e origem, e equipa com um toque.
+Escolha uma **classe** (o personagem ganha o retrato pintado dela; troque o retrato e o cenário em **Personagem → Aparência**), distribua **atributos** e use uma habilidade por dia. A conta do dano fica em **Como funciona o dano**, no Personagem. O ouro compra itens na **loja** (só visual). O **inventário** (Jogo ou Personagem) mostra tudo o que você tem, da loja e dos bosses, com filtro por espaço, raridade (de comum a lendária) e origem, e equipa com um toque.
 
 ## Renascer
 

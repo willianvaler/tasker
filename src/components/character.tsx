@@ -57,6 +57,8 @@ function useItemMap() {
 /** Lado de cada tamanho em pt (escolhe a miniatura da arte) */
 const AVATAR_PX = { sm: 56, md: 96, lg: 144 } as const;
 
+const emojiStyle = (size: number) => ({ fontSize: size, lineHeight: Math.round(size * 1.2) });
+
 const AVATAR = {
   sm: { box: 'h-14 w-14 rounded-lg', figure: 30, extra: 16 },
   md: { box: 'h-24 w-24 rounded-lg', figure: 48, extra: 24 },
@@ -74,8 +76,9 @@ export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof ty
   const hand = icon('hand');
   const pet = icon('pet');
   const aura = game.equipped.aura ? AURA_BG[game.equipped.aura] : undefined;
-  // Modo Completo (HB10): retrato pintado da classe sobre o cenário escolhido
-  const portraitId = game.mode === 'full' ? portraitKey(cls, game.avatar.portrait) : null;
+  // Retrato pintado da classe sobre o cenário escolhido (HB10). UX14 (D268): em todos os níveis do
+  // jogo, não só no RPG (o herói em emoji destoava dos bosses pintados); sem classe, o emoji fica
+  const portraitId = portraitKey(cls, game.avatar.portrait);
   const px = AVATAR_PX[size];
   const portrait = artSource('retratos', portraitId, px);
   if (portrait) {
@@ -96,6 +99,26 @@ export function Avatar({ game, size = 'md' }: { game: GameState; size?: keyof ty
           />
         )}
         <Image source={portrait} contentFit="contain" style={{ width: '100%', height: '100%' }} />
+        {/* No Discreto, os itens da loja continuam à vista, em volta do retrato */}
+        {game.mode !== 'full' && (
+          <>
+            {head && (
+              <Text className="absolute right-1 top-1" style={emojiStyle(s.extra)}>
+                {head}
+              </Text>
+            )}
+            {hand && (
+              <Text className="absolute bottom-1 right-1" style={emojiStyle(s.extra)}>
+                {hand}
+              </Text>
+            )}
+            {pet && (
+              <Text className="absolute bottom-1 left-1" style={emojiStyle(s.extra)}>
+                {pet}
+              </Text>
+            )}
+          </>
+        )}
       </View>
     );
   }

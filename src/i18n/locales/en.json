@@ -589,7 +589,9 @@
     "dailyTitle": "Daily boss · level {{level}}",
     "dailyHint": "Born every day at midnight (about 6 tasks). Each win raises the next one's level (level {{next}}: {{hp}} HP) and gives {{xp}} XP, gold and a {{chance}}% chance of an item. If it escapes, tomorrow's comes with no penalty.",
     "dailyDefeated": "daily bosses beaten",
-    "dailyStreak": "days in a row"
+    "dailyStreak": "days in a row",
+    "howDamage": "How damage works",
+    "hideDamage": "Hide the damage math"
   },
   "shop": {
     "title": "Shop",

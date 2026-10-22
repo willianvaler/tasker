@@ -13,6 +13,9 @@ test('personagem: escolher classe, ver o golpe e a habilidade do dia', async ({
   await expect(page.getByRole('heading', { name: 'Personagem' })).toBeVisible();
   await expect(page.getByLabel('Força: 4')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Mais um ponto em Força' })).toBeDisabled();
+  // A conta do dano fica recolhida (D268)
+  await expect(shown(page, 'Seu golpe agora')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Como funciona o dano' }).click();
   await expect(shown(page, 'Seu golpe agora')).toBeVisible();
 
   const skill = page.waitForResponse((r) => r.url().includes('use_skill') && r.ok());
@@ -113,6 +116,8 @@ test('hábitos: contador com meta e bom/ruim com + e −', async ({ page }, test
 });
 
 test('atalho de tema claro/escuro', async ({ page }, testInfo) => {
+  // O atalho fica na barra lateral; no celular o tema muda em Configurações (D258)
+  test.skip(testInfo.project.name === 'celular', 'Atalho só na barra lateral');
   await page.emulateMedia({ colorScheme: 'light' });
   await signUp(page, testInfo);
   const html = page.locator('html');

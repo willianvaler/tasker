@@ -1,3 +1,4 @@
+import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -32,6 +33,7 @@ export default function CharacterScreen() {
   const { data: game } = useGameState();
   const profile = useProfile();
   const [choosing, setChoosing] = useState(false);
+  const [damageOpen, setDamageOpen] = useState(false);
   const full = useGameLevel() === 'full';
 
   if (!game) return <Screen size="wide">{null}</Screen>;
@@ -86,7 +88,16 @@ export default function CharacterScreen() {
           </View>
           <View className="gap-6 lg:flex-1">
             <AttributesPanel game={game} />
-            <DamagePanel game={game} />
+            {/* UX14 (D268): a conta do dano é consulta, não a primeira coisa da tela */}
+            <Button
+              variant="ghost"
+              className="self-start"
+              icon={damageOpen ? ChevronUp : ChevronDown}
+              label={t(damageOpen ? 'character.hideDamage' : 'character.howDamage')}
+              aria-expanded={damageOpen}
+              onPress={() => setDamageOpen(!damageOpen)}
+            />
+            {damageOpen && <DamagePanel game={game} />}
           </View>
           <View className="gap-6 lg:flex-1">
             {game.daily_boss && (
@@ -122,7 +133,7 @@ export default function CharacterScreen() {
               <Stat value={game.damage_today} label={t('character.damageToday')} />
             </View>
             <EquipmentPanel game={game} />
-            {full && <AppearancePanel game={game} />}
+            <AppearancePanel game={game} />
           </View>
         </View>
       </ScreenScroll>

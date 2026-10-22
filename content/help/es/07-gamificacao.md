@@ -23,7 +23,7 @@ Son 68, de **común** a **legendaria** (el nombre de la rareza aparece escrito, 
 
 ## Personaje
 
-Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro compra objetos en la **tienda** (solo estéticos). El **inventario** (Juego o Personaje) muestra todo lo que tienes, de la tienda y de los jefes, con filtros por espacio, rareza (de común a legendario) y origen, y equipa con un toque.
+Elige una **clase** (el personaje recibe su retrato pintado; cambia el retrato y el escenario en **Personaje → Apariencia**), reparte **atributos** y usa una habilidad al día. La cuenta del daño está en **Cómo funciona el daño**, en Personaje. El oro compra objetos en la **tienda** (solo estéticos). El **inventario** (Juego o Personaje) muestra todo lo que tienes, de la tienda y de los jefes, con filtros por espacio, rareza (de común a legendario) y origen, y equipa con un toque.
 
 ## Renacer
 

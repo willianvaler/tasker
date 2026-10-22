@@ -589,7 +589,9 @@
     "dailyTitle": "Boss do dia · nível {{level}}",
     "dailyHint": "Nasce todo dia à meia-noite (umas 6 tarefas). Cada vitória sobe o nível do próximo (nível {{next}}: {{hp}} HP) e dá {{xp}} XP, ouro e {{chance}}% de chance de item. Se ele fugir, o de amanhã vem sem punição.",
     "dailyDefeated": "bosses do dia vencidos",
-    "dailyStreak": "dias seguidos"
+    "dailyStreak": "dias seguidos",
+    "howDamage": "Como funciona o dano",
+    "hideDamage": "Esconder a conta do dano"
   },
   "shop": {
     "title": "Loja",

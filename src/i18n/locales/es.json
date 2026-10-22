@@ -589,7 +589,9 @@
     "dailyTitle": "Jefe del día · nivel {{level}}",
     "dailyHint": "Nace cada día a medianoche (unas 6 tareas). Cada victoria sube el nivel del siguiente (nivel {{next}}: {{hp}} HP) y da {{xp}} XP, oro y un {{chance}}% de probabilidad de objeto. Si huye, el de mañana llega sin castigo.",
     "dailyDefeated": "jefes del día vencidos",
-    "dailyStreak": "días seguidos"
+    "dailyStreak": "días seguidos",
+    "howDamage": "Cómo funciona el daño",
+    "hideDamage": "Ocultar la cuenta del daño"
   },
   "shop": {
     "title": "Tienda",
