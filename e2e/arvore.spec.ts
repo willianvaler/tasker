@@ -138,7 +138,8 @@ test('lote: recuo além do limite da página sobe para o último nível, com avi
   await signUp(page, testInfo);
   await createPage(page, { folder: 'Casa', name: 'Curta', type: 'Lista' });
   // Página com limite de 2 níveis
-  await page.getByRole('button', { name: 'Configurar página' }).click();
+  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await page.getByRole('menuitem', { name: 'Configurar página' }).click();
   await page
     .getByRole('radiogroup', { name: 'Níveis de subtarefa' })
     .getByRole('radio', { name: '2', exact: true })
@@ -171,7 +172,9 @@ test('limite: baixar abaixo do que já existe é recusado e diz quais tarefas pa
   await expect(page.getByLabel('0 de 1 subtarefas').first()).toBeVisible();
   await waitForSync(page);
 
-  await page.getByRole('button', { name: 'Configurar página' }).click();
+  await page.getByRole('button', { name: 'Opções da página' }).click();
+
+  await page.getByRole('menuitem', { name: 'Configurar página' }).click();
   await page
     .getByRole('radiogroup', { name: 'Níveis de subtarefa' })
     .getByRole('radio', { name: '2', exact: true })

@@ -1,6 +1,6 @@
 # Carpetas, proyectos y páginas
 
-- Una **página** es una lista de cosas: compras, entrenamiento, plan de viaje. Puede ser **lista**, **tarjetas** (buena para entrenar), **kanban** o **hábitos**. En el kanban, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta.
+- Una **página** es una lista de cosas: compras, entrenamiento, plan de viaje. Puede ser **lista**, **tarjetas** (buena para entrenar), **kanban** o **hábitos**. Toda lista de tareas también se abre como **Tablero** (pestaña arriba). En el tablero, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta.
 - Una **carpeta** agrupa tus páginas. Ejemplo: la carpeta **Gimnasio** con Entrenamiento A y B.
 - Un **proyecto** es una carpeta para hacer **con otras personas**. Ejemplo: el proyecto **Asado** con las listas Compras y Día, cada amigo con sus tareas.
 

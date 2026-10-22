@@ -1,6 +1,6 @@
 # Pastas, projetos e páginas
 
-- **Página** é uma lista de coisas: compras, treino, roteiro da viagem. Pode ser **lista**, **cards** (bom para treino), **kanban** ou **hábitos**. No kanban, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card.
+- **Página** é uma lista de coisas: compras, treino, roteiro da viagem. Pode ser **lista**, **cards** (bom para treino), **kanban** ou **hábitos**. Toda lista de tarefas também abre como **Quadro** (aba no topo). No quadro, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card.
 - **Pasta** junta páginas suas. Exemplo: a pasta **Academia** com as páginas Treino A e Treino B.
 - **Projeto** é uma pasta para fazer **com outras pessoas**. Exemplo: o projeto **Churrasco** com as listas Compras e Dia, e cada amigo com as tarefas dele.
 

@@ -27,7 +27,7 @@ test('comunidade: publicar uma página, outra pessoa acha, curte e usa (a cópia
     body: JSON.stringify({ notes: '- 500 g de carne' }),
   });
 
-  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await page.getByRole('button', { name: 'Compartilhar' }).click();
   await page.getByRole('menuitem', { name: 'Publicar na comunidade' }).click();
   await page.getByRole('textbox', { name: 'Título' }).fill(`Cardápio ${stamp}`);
   await page.getByRole('radio', { name: 'Cardápio' }).click();

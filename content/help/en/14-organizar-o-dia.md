@@ -12,7 +12,7 @@ In a project, **Automations** creates "when… then…" rules. Example: when a t
 
 ## Eisenhower matrix
 
-On a list page, the **Matrix** tab splits the open tasks into four quadrants: **Do** (important and urgent), **Schedule** (important, no rush), **Delegate** (urgent, not very important) and **Drop** (neither). Important means priority `!!` or `!!!`; urgent means due by the day after tomorrow, overdue included. The button next to a task moves it to another quadrant: it adjusts the priority and, when needed, the date (due today, or a week from now). The page remembers the last tab used on this device.
+On a task page, the tabs at the top switch the view: **List**, **Board** (the kanban, with To do, Doing and Done columns) and **Matrix**. The **Matrix** splits the open tasks into four quadrants: **Do** (important and urgent), **Schedule** (important, no rush), **Delegate** (urgent, not very important) and **Drop** (neither). Important means priority `!!` or `!!!`; urgent means due by the day after tomorrow, overdue included. The button next to a task moves it to another quadrant: it adjusts the priority and, when needed, the date (due today, or a week from now). The page remembers the last tab used on this device.
 
 ## Weekly review
 

@@ -22,7 +22,6 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { Tabs } from '@/components/ui/tabs';
 import { setBatchDraft } from '@/lib/batch-draft';
-import { getListMode, setListMode, type ListMode } from '@/lib/prefs';
 import { useToday } from '@/lib/queries/profile';
 import { usePageTasks, type Task } from '@/lib/queries/tasks';
 import { useSelectableList } from '@/lib/selection';
@@ -32,6 +31,7 @@ import { useToast } from '@/providers/toast';
 import { EisenhowerMatrix } from './eisenhower-matrix';
 import { HabitRow, useHabitDates } from './habit-row';
 import { KanbanBoard } from './kanban-board';
+import { isTaskPage, usePageMode } from './page-mode';
 import { QuickAdd } from './quick-add';
 import { branchRows, childrenMap, leafProgress, parentIds, wbsCodes } from '@/lib/task-tree';
 import { treeState, useExpanded, useShowCodes } from '@/lib/tree-state';
@@ -60,19 +60,9 @@ export function PageView({ page }: { page: Page | undefined }) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const screenGutter = useScreenGutter();
   const viewType = page?.view_type ?? 'list';
-  // Lista ou matriz de Eisenhower (D221), lembrado por página no aparelho
-  const [modeOf, setModeOf] = useState<{ id: string; mode: ListMode } | null>(null);
-  const mode: ListMode =
-    viewType !== 'list' || !page
-      ? 'list'
-      : modeOf?.id === page.id
-        ? modeOf.mode
-        : getListMode(page.id);
-  function changeMode(next: ListMode) {
-    if (!page) return;
-    setListMode(page.id, next);
-    setModeOf({ id: page.id, mode: next });
-  }
+  // Lista, quadro ou matriz (D221, D262), lembrado por página no aparelho
+  const [mode, changeMode] = usePageMode(page);
+  const taskPage = isTaskPage(page);
 
   const expanded = useExpanded();
   const { open, done, all, subtaskCount, kids } = useMemo(() => {
@@ -209,13 +199,14 @@ export function PageView({ page }: { page: Page | undefined }) {
           </Text>
         </View>
       )}
-      {viewType === 'list' && page && (
+      {taskPage && page && (
         <Tabs
           label={t('matrix.views')}
           value={mode}
           onChange={changeMode}
           tabs={[
             { value: 'list', label: t('matrix.list') },
+            { value: 'board', label: t('matrix.board') },
             { value: 'matrix', label: t('matrix.title') },
           ]}
         />
@@ -268,7 +259,7 @@ export function PageView({ page }: { page: Page | undefined }) {
         contentContainerStyle={{ paddingHorizontal: screenGutter.px }}
         keyboardShouldPersistTaps="handled"
       >
-        {viewType === 'kanban' && page ? (
+        {taskPage && mode === 'board' && page ? (
           <KanbanBoard tasks={all} folderId={page.folder_id} subtaskCount={subtaskCount} />
         ) : viewType === 'cards' && page ? (
           <CardsBody tasks={all} subtaskCount={subtaskCount} scrollRef={scrollRef} />

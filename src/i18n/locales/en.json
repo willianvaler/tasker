@@ -250,7 +250,12 @@
     "emptyCards": "Build the routine: paste the items, one per line.",
     "emptyCardsHint": "Tip: \"Bench press 4x12 20kg\".",
     "emptyHabits": "Add habits like \"Drink water\" or \"Read 10 pages /mon,wed,fri\".",
-    "emptyKanban": "Empty board. Type a task above: it goes to \"To do\"."
+    "emptyKanban": "Empty board. Type a task above: it goes to \"To do\".",
+    "share": "Share",
+    "groupArrange": "Arrange",
+    "groupTools": "Page tools",
+    "groupOther": "Other",
+    "invite": "Invite people"
   },
   "taskDetail": {
     "title": "Task",
@@ -1240,7 +1245,8 @@
     "dropHint": "Neither urgent nor important",
     "empty": "Nothing here.",
     "move": "Move \"{{title}}\" to another quadrant",
-    "moveTitle": "Move \"{{title}}\" to"
+    "moveTitle": "Move \"{{title}}\" to",
+    "board": "Board"
   },
   "kanban": {
     "todo": "To do",

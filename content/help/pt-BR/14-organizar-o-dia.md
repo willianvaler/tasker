@@ -12,7 +12,7 @@ No projeto, **Automações** cria regras "quando… então…". Exemplo: quando 
 
 ## Matriz de Eisenhower
 
-Numa página de lista, a aba **Matriz** separa as tarefas abertas em quatro quadrantes: **Fazer** (importante e urgente), **Agendar** (importante, sem pressa), **Delegar** (urgente, pouco importante) e **Eliminar** (nem um nem outro). Importante é prioridade `!!` ou `!!!`; urgente é o que vence até depois de amanhã, atrasadas incluídas. O botão ao lado da tarefa muda o quadrante: ajusta a prioridade e, se for o caso, a data (vence hoje, ou vai para daqui a uma semana). A página lembra a última aba usada neste aparelho.
+Numa página de tarefas, as abas do topo trocam a visão: **Lista**, **Quadro** (o kanban, com as colunas A fazer, Fazendo e Feito) e **Matriz**. A **Matriz** separa as tarefas abertas em quatro quadrantes: **Fazer** (importante e urgente), **Agendar** (importante, sem pressa), **Delegar** (urgente, pouco importante) e **Eliminar** (nem um nem outro). Importante é prioridade `!!` ou `!!!`; urgente é o que vence até depois de amanhã, atrasadas incluídas. O botão ao lado da tarefa muda o quadrante: ajusta a prioridade e, se for o caso, a data (vence hoje, ou vai para daqui a uma semana). A página lembra a última aba usada neste aparelho.
 
 ## Revisão semanal
 

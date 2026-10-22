@@ -137,7 +137,13 @@ export function ConfirmDialog({
   );
 }
 
-export type MenuAction = { label: string; onPress: () => void; destructive?: boolean };
+export type MenuAction = {
+  label: string;
+  onPress: () => void;
+  destructive?: boolean;
+  /** Grupo da ação: um rótulo pequeno aparece quando o grupo muda (D262, menu da página) */
+  group?: string;
+};
 
 export function ActionMenu({
   title,
@@ -157,16 +163,20 @@ export function ActionMenu({
         {title}
       </Text>
       <View>
-        {actions.map((action) => (
-          <MenuItem
-            key={action.label}
-            label={action.label}
-            danger={action.destructive}
-            onPress={() => {
-              onClose();
-              action.onPress();
-            }}
-          />
+        {actions.map((action, i) => (
+          <View key={action.label}>
+            {action.group && action.group !== actions[i - 1]?.group && (
+              <Text className="px-2 pb-1 pt-3 text-xs text-ink-muted">{action.group}</Text>
+            )}
+            <MenuItem
+              label={action.label}
+              danger={action.destructive}
+              onPress={() => {
+                onClose();
+                action.onPress();
+              }}
+            />
+          </View>
         ))}
       </View>
     </Backdrop>

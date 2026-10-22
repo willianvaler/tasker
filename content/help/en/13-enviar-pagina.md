@@ -1,6 +1,6 @@
 # Sending a page (a workout for a student)
 
-Build the page (a workout, a meal plan, homework) and, in its menu, tap **Send to…**.
+Build the page (a workout, a meal plan, homework) and tap **Share → Send to…** (at the top of the page).
 
 - **Live** — you keep adjusting; the recipient sees the changes and tracks their own progress. Each student only sees their own.
 - **Copy** — the person gets a copy that becomes theirs.
@@ -13,4 +13,4 @@ The page shows up under **Received**. They can check things off, log sets and lo
 
 ## Students panel
 
-On a sent page, the **Students** button shows each one: how much they did this week, adherence over the last 4 weeks, how their loads evolved and their notes. You can **remind** whoever went quiet and **archive** whoever stopped.
+On a sent page, **Share → Students** shows each one: how much they did this week, adherence over the last 4 weeks, how their loads evolved and their notes. You can **remind** whoever went quiet and **archive** whoever stopped.

@@ -202,17 +202,31 @@ export function setPanelMode(value: PanelMode) {
   localStore.setItem(PANEL_MODE_KEY, value);
 }
 
-/** Página de lista vista como lista ou como matriz de Eisenhower (D221). É do aparelho. */
-export type ListMode = 'list' | 'matrix';
+/**
+ * Visão de uma página de tarefas (D221, D262): lista, quadro (kanban) ou matriz de Eisenhower. É do
+ * aparelho; sem escolha, vale a visão padrão da página (o tipo salvo: `kanban` abre no quadro).
+ */
+export type ListMode = 'list' | 'board' | 'matrix';
 const listModeKey = (pageId: string) => `questlist:list-mode:${pageId}`;
+const listModeListeners = new Set<() => void>();
 
-export function getListMode(pageId: string): ListMode {
-  return localStore.getItem(listModeKey(pageId)) === 'matrix' ? 'matrix' : 'list';
+export function getListMode(pageId: string, fallback: ListMode = 'list'): ListMode {
+  const saved = localStore.getItem(listModeKey(pageId));
+  return saved === 'matrix' || saved === 'board' || saved === 'list' ? saved : fallback;
 }
 
-export function setListMode(pageId: string, mode: ListMode) {
-  if (mode === 'list') localStore.removeItem(listModeKey(pageId));
+export function setListMode(pageId: string, mode: ListMode, fallback: ListMode = 'list') {
+  if (mode === fallback) localStore.removeItem(listModeKey(pageId));
   else localStore.setItem(listModeKey(pageId), mode);
+  listModeListeners.forEach((listener) => listener());
+}
+
+/** Para a tela da página e a lista trocarem juntas (a largura do quadro é maior). */
+export function subscribeListMode(listener: () => void) {
+  listModeListeners.add(listener);
+  return () => {
+    listModeListeners.delete(listener);
+  };
 }
 
 /** Aba da página de gastos: geral, só gastos ou só entradas (D255). É do aparelho. */

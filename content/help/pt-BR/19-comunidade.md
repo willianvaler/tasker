@@ -8,7 +8,7 @@ Abra uma publicação para ver as páginas e os itens. **Usar** cria uma **pasta
 
 ## Publicar
 
-No menu de uma **pasta** (ou projeto), de uma **página** ou de um **modelo salvo**, toque em **Publicar na comunidade**, dê um título, uma descrição curta e o tipo. Vai uma **cópia da estrutura**: páginas, tarefas, subtarefas, séries, repetições e notas. **Não vão** pessoas, responsáveis, datas, comentários, anexos nem gastos. Quem publica aparece pelo **nick**. Em **Minhas publicações** você vê as suas e pode **Despublicar** (quem já usou continua com a cópia).
+No menu de uma **pasta** (ou projeto) ou de um **modelo salvo**, ou em **Compartilhar** numa **página**, toque em **Publicar na comunidade**, dê um título, uma descrição curta e o tipo. Vai uma **cópia da estrutura**: páginas, tarefas, subtarefas, séries, repetições e notas. **Não vão** pessoas, responsáveis, datas, comentários, anexos nem gastos. Quem publica aparece pelo **nick**. Em **Minhas publicações** você vê as suas e pode **Despublicar** (quem já usou continua com a cópia).
 
 ## Denunciar
 

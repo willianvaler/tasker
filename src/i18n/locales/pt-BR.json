@@ -250,7 +250,12 @@
     "emptyCards": "Monte a rotina: cole os itens, um por linha.",
     "emptyCardsHint": "Dica: \"Supino 4x12 20kg\".",
     "emptyHabits": "Adicione hábitos, como \"Beber água\" ou \"Ler 10 páginas /seg,qua,sex\".",
-    "emptyKanban": "Quadro vazio. Digite uma tarefa acima: ela entra em \"A fazer\"."
+    "emptyKanban": "Quadro vazio. Digite uma tarefa acima: ela entra em \"A fazer\".",
+    "share": "Compartilhar",
+    "groupArrange": "Arrumar",
+    "groupTools": "Recursos da página",
+    "groupOther": "Outros",
+    "invite": "Convidar pessoas"
   },
   "taskDetail": {
     "title": "Tarefa",
@@ -1240,7 +1245,8 @@
     "dropHint": "Nem urgente nem importante",
     "empty": "Nada aqui.",
     "move": "Mudar \"{{title}}\" de quadrante",
-    "moveTitle": "Mover \"{{title}}\" para"
+    "moveTitle": "Mover \"{{title}}\" para",
+    "board": "Quadro"
   },
   "kanban": {
     "todo": "A fazer",

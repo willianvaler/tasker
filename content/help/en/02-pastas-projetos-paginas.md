@@ -1,6 +1,6 @@
 # Folders, projects and pages
 
-- A **page** is a list of things: groceries, a workout, a trip plan. It can be a **list**, **cards** (good for workouts), **kanban** or **habits**. On a kanban, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows.
+- A **page** is a list of things: groceries, a workout, a trip plan. It can be a **list**, **cards** (good for workouts), **kanban** or **habits**. Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows.
 - A **folder** groups your pages. Example: the **Gym** folder with Workout A and Workout B.
 - A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks.
 

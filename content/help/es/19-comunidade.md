@@ -8,7 +8,7 @@ Abre una publicación para ver sus páginas y elementos. **Usar** crea una **car
 
 ## Publicar
 
-En el menú de una **carpeta** (o proyecto), de una **página** o de una **plantilla guardada**, toca **Publicar en la comunidad**, ponle un título, una descripción corta y el tipo. Va una **copia de la estructura**: páginas, tareas, subtareas, series, repeticiones y notas. **No van** personas, responsables, fechas, comentarios, adjuntos ni gastos. Quien publica aparece por su **nick**. En **Mis publicaciones** ves las tuyas y puedes **Despublicar** (quien ya la usó conserva su copia).
+En el menú de una **carpeta** (o proyecto) o de una **plantilla guardada**, o en **Compartir** en una **página**, toca **Publicar en la comunidad**, ponle un título, una descripción corta y el tipo. Va una **copia de la estructura**: páginas, tareas, subtareas, series, repeticiones y notas. **No van** personas, responsables, fechas, comentarios, adjuntos ni gastos. Quien publica aparece por su **nick**. En **Mis publicaciones** ves las tuyas y puedes **Despublicar** (quien ya la usó conserva su copia).
 
 ## Denunciar
 

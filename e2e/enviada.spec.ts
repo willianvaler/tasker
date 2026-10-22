@@ -4,7 +4,7 @@ import { createPage, openTab, shown, signUp, waitForSync } from './helpers';
 
 /** Treinador: cria o link de envio no modo pedido e devolve o endereço. */
 async function makeLink(page: Page, mode: 'Ao vivo' | 'Cópia') {
-  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await page.getByRole('button', { name: 'Compartilhar' }).click();
   await shown(page, 'Enviar para…').click();
   await page.getByRole('radio', { name: mode, exact: true }).click();
   await page.getByRole('button', { name: 'Criar link e copiar' }).click();
@@ -94,7 +94,7 @@ test('Recebidas: convite por e-mail aparece, receber abre a página e ela fica n
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
   await input.fill('Prancha');
   await input.press('Enter');
-  await page.getByRole('button', { name: 'Opções da página' }).click();
+  await page.getByRole('button', { name: 'Compartilhar' }).click();
   await shown(page, 'Enviar para…').click();
   await page.getByRole('textbox', { name: 'E-mails' }).fill(anaEmail);
   await page.getByRole('button', { name: 'Enviar convites' }).click();
@@ -156,7 +156,8 @@ test('Alunos: números, cargas, observação, lembrete e arquivar', async ({
   // O treinador abre "Alunos" (depois de a fila da aluna subir)
   await waitForSync(ana);
   await page.reload();
-  await page.getByRole('button', { name: 'Alunos' }).click();
+  await page.getByRole('button', { name: 'Compartilhar' }).click();
+  await page.getByRole('menuitem', { name: 'Alunos' }).click();
   await expect(page.getByRole('button', { name: /^Ana Aluna: Neste ciclo: 2\/2/ })).toBeVisible({
     timeout: 15_000,
   });
@@ -242,7 +243,8 @@ test('aceite da Fase L: treino em lote para 2 alunos, cada um no seu (um offline
 
   // O treinador vê cada um, com as cargas
   await page.reload();
-  await page.getByRole('button', { name: 'Alunos' }).click();
+  await page.getByRole('button', { name: 'Compartilhar' }).click();
+  await page.getByRole('menuitem', { name: 'Alunos' }).click();
   await expect(page.getByRole('button', { name: /^Ana Aluna: Neste ciclo: 2\/3/ })).toBeVisible({
     timeout: 20_000,
   });

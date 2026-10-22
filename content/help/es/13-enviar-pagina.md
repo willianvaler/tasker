@@ -1,6 +1,6 @@
 # Enviar una página (un entrenamiento para un alumno)
 
-Arma la página (un entrenamiento, un menú, una tarea escolar) y, en su menú, toca **Enviar a…**.
+Arma la página (un entrenamiento, un menú, una tarea escolar) y toca **Compartir → Enviar a…** (arriba de la página).
 
 - **En vivo** — sigues ajustando; quien recibe ve los cambios y marca su propio progreso. Cada alumno solo ve el suyo.
 - **Copia** — la persona recibe una copia que pasa a ser suya.
@@ -13,4 +13,4 @@ La página aparece en **Recibidas**. Puede marcar, registrar series y carga, dej
 
 ## Panel Alumnos
 
-En la página enviada, el botón **Alumnos** muestra a cada uno: cuánto hizo esta semana, la adherencia de las últimas 4 semanas, la evolución de las cargas y las observaciones. Puedes **recordar** a quien desapareció y **archivar** a quien dejó.
+En la página enviada, **Compartir → Alumnos** muestra a cada uno: cuánto hizo esta semana, la adherencia de las últimas 4 semanas, la evolución de las cargas y las observaciones. Puedes **recordar** a quien desapareció y **archivar** a quien dejó.

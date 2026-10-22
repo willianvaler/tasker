@@ -250,7 +250,12 @@
     "emptyCards": "Arma la rutina: pega los ítems, uno por línea.",
     "emptyCardsHint": "Consejo: \"Press banca 4x12 20kg\".",
     "emptyHabits": "Agrega hábitos, como \"Beber agua\" o \"Leer 10 páginas /lun,mié,vie\".",
-    "emptyKanban": "Tablero vacío. Escribe una tarea arriba: entra en \"Por hacer\"."
+    "emptyKanban": "Tablero vacío. Escribe una tarea arriba: entra en \"Por hacer\".",
+    "share": "Compartir",
+    "groupArrange": "Organizar",
+    "groupTools": "Herramientas de la página",
+    "groupOther": "Otros",
+    "invite": "Invitar personas"
   },
   "taskDetail": {
     "title": "Tarea",
@@ -1240,7 +1245,8 @@
     "dropHint": "Ni urgente ni importante",
     "empty": "Nada aquí.",
     "move": "Cambiar \"{{title}}\" de cuadrante",
-    "moveTitle": "Mover \"{{title}}\" a"
+    "moveTitle": "Mover \"{{title}}\" a",
+    "board": "Tablero"
   },
   "kanban": {
     "todo": "Por hacer",

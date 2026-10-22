@@ -3,9 +3,9 @@ import type { TFunction } from 'i18next';
 import { PageProgressionEditor } from '@/components/gym/progression';
 import { TrainDaysEditor } from '@/components/gym/week-plan';
 import { WorkoutMuscles } from '@/components/gym/workout-muscles';
-import { MoreHorizontal, Play, SlidersHorizontal, Users } from 'lucide-react-native';
+import { MoreHorizontal, Play, Share2 } from 'lucide-react-native';
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { FieldsDialog } from '@/components/fields';
@@ -20,6 +20,7 @@ import { Screen } from '@/components/screen';
 import { SendPageDialog } from '@/components/send-page';
 import { ScreenHeader } from '@/components/screen-header';
 import { ExpensesView } from '@/components/expenses/expenses-view';
+import { usePageMode } from '@/components/tasks/page-mode';
 import { PageView } from '@/components/tasks/page-view';
 import { Text } from '@/components/ui/text';
 import { Button, IconButton } from '@/components/ui/button';
@@ -48,7 +49,8 @@ import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
-type DialogState = 'menu' | 'settings' | 'duplicate' | 'send' | 'fields' | 'shopping' | 'publish';
+type DialogState =
+  'menu' | 'share' | 'settings' | 'duplicate' | 'send' | 'fields' | 'shopping' | 'publish';
 
 export default function PageScreen() {
   const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
@@ -94,6 +96,39 @@ export default function PageScreen() {
   // Painel "Alunos" (L5): só para quem gerencia e com alguém recebendo ao vivo
   const shares = usePageShares(sharable ? page?.id : undefined);
   const hasStudents = !!shares.data?.shares.some((s) => s.mode === 'live' && s.status === 'active');
+  // Compartilhar (D262): convidar para a pasta/projeto, enviar a página, publicar e os alunos
+  const shareRoot = page ? rootFolder(tree.data, page.folder_id) : null;
+  const shareActions =
+    !page || receivedPage || !online || page.is_inbox || page.is_habits
+      ? []
+      : [
+          ...(shareRoot && !shareRoot.is_inbox && actorCan(pageActor, 'member.manage')
+            ? [
+                {
+                  label: t('page.invite'),
+                  onPress: () =>
+                    router.push({ pathname: '/share/[id]', params: { id: shareRoot.id } }),
+                },
+              ]
+            : []),
+          ...(sharable && !expensesPage
+            ? [{ label: t('send.menu'), onPress: () => setDialog('send') }]
+            : []),
+          ...(!expensesPage
+            ? [{ label: t('publish.menu'), onPress: () => setDialog('publish') }]
+            : []),
+          ...(hasStudents
+            ? [
+                {
+                  label: t('students.open'),
+                  onPress: () => router.push({ pathname: '/alunos/[id]', params: { id: page.id } }),
+                },
+              ]
+            : []),
+        ];
+  const wide = useWindowDimensions().width >= 768;
+  // O quadro (kanban) aproveita a tela toda, como os cards
+  const [mode] = usePageMode(page);
   // Paleta: "Enviar esta página"
   useEffect(() => {
     if (send && sharable) setDialog('send');
@@ -121,7 +156,7 @@ export default function PageScreen() {
 
   // Cards e kanban aproveitam a tela toda; lista e hábitos ficam numa coluna de leitura
   const size =
-    page?.view_type === 'cards' || page?.view_type === 'kanban' || page?.view_type === 'expenses'
+    page?.view_type === 'cards' || page?.view_type === 'expenses' || mode === 'board'
       ? 'wide'
       : 'medium';
   return (
@@ -146,21 +181,26 @@ export default function PageScreen() {
         }
         back
         right={
-          // Página de hábitos de sistema: sem configurar nem duplicar; recebida: só executar
+          // Página de hábitos de sistema: sem configurar nem duplicar; recebida: só executar.
+          // D262: Compartilhar (convidar, enviar, publicar, alunos) e o "…" agrupado; o ícone de
+          // ajustes saiu (era igual ao da criação avançada, a um dedo dele no celular)
           page && online && !page.is_habits && !receivedPage ? (
             <>
-              {hasStudents && (
-                <IconButton
-                  icon={Users}
-                  label={t('students.open')}
-                  onPress={() => router.push({ pathname: '/alunos/[id]', params: { id: page.id } })}
-                />
-              )}
-              <IconButton
-                icon={SlidersHorizontal}
-                label={t('page.settings')}
-                onPress={() => setDialog('settings')}
-              />
+              {shareActions.length > 0 &&
+                (wide ? (
+                  <Button
+                    variant="ghost"
+                    icon={Share2}
+                    label={t('page.share')}
+                    onPress={() => setDialog('share')}
+                  />
+                ) : (
+                  <IconButton
+                    icon={Share2}
+                    label={t('page.share')}
+                    onPress={() => setDialog('share')}
+                  />
+                ))}
               <IconButton
                 icon={MoreHorizontal}
                 label={t('page.options')}
@@ -215,23 +255,44 @@ export default function PageScreen() {
           title={pageLabel(page)}
           onClose={closeDialog}
           actions={[
-            { label: t('page.settings'), onPress: () => setDialog('settings') },
+            // Arrumar
+            {
+              group: t('page.groupArrange'),
+              label: t('page.settings'),
+              onPress: () => setDialog('settings'),
+            },
             // Página de gastos (V9) não tem tarefas: duplicar, enviar e campos não se aplicam
             ...(expensesPage
               ? []
-              : [{ label: t('page.duplicate'), onPress: () => setDialog('duplicate') }]),
-            ...(sharable && !expensesPage
-              ? [{ label: t('send.menu'), onPress: () => setDialog('send') }]
-              : []),
+              : [
+                  {
+                    group: t('page.groupArrange'),
+                    label: t('page.duplicate'),
+                    onPress: () => setDialog('duplicate'),
+                  },
+                ]),
+            {
+              group: t('page.groupArrange'),
+              label: t('folder.moveTo'),
+              onPress: () => folderActions.movePage(page),
+            },
+            // Recursos da página
             ...(actorCan(pageActor, 'page.manage') &&
             !page.is_inbox &&
             !page.is_habits &&
             !expensesPage
-              ? [{ label: t('fields.menu'), onPress: () => setDialog('fields') }]
+              ? [
+                  {
+                    group: t('page.groupTools'),
+                    label: t('fields.menu'),
+                    onPress: () => setDialog('fields'),
+                  },
+                ]
               : []),
             ...(actorCan(pageActor, 'automation.manage') && !page.is_inbox && !page.is_habits
               ? [
                   {
+                    group: t('page.groupTools'),
                     label: t('auto.menu'),
                     onPress: () => {
                       const root = rootFolder(tree.data, page.folder_id);
@@ -244,6 +305,7 @@ export default function PageScreen() {
             ...(relatable
               ? [
                   {
+                    group: t('page.groupTools'),
                     label: t('related.addTo'),
                     onPress: () => {
                       closeDialog();
@@ -253,28 +315,19 @@ export default function PageScreen() {
                 ]
               : []),
             ...(shopping
-              ? [{ label: t('shopping.menu'), onPress: () => setDialog('shopping') }]
-              : []),
-            // Comunidade (D233): a cópia da página, para outras pessoas usarem
-            ...(!receivedPage && !expensesPage && !page.is_inbox && !page.is_habits && online
-              ? [{ label: t('publish.menu'), onPress: () => setDialog('publish') }]
-              : []),
-            { label: t('folder.moveTo'), onPress: () => folderActions.movePage(page) },
-            ...(actorCan(pageActor, 'page.manage') && !page.is_inbox && !page.is_habits
               ? [
                   {
-                    label: t('folder.deletePage'),
-                    destructive: true,
-                    onPress: () =>
-                      folderActions.deletePage(page, () =>
-                        router.canGoBack() ? router.back() : router.replace('/'),
-                      ),
+                    group: t('page.groupTools'),
+                    label: t('shopping.menu'),
+                    onPress: () => setDialog('shopping'),
                   },
                 ]
               : []),
+            // Outros
             ...(pageTasks.data?.some((task) => task.parent_task_id)
               ? [
                   {
+                    group: t('page.groupOther'),
                     label: t('tree.export'),
                     onPress: () =>
                       saveTextFile(
@@ -285,8 +338,24 @@ export default function PageScreen() {
                   },
                 ]
               : []),
+            ...(actorCan(pageActor, 'page.manage') && !page.is_inbox && !page.is_habits
+              ? [
+                  {
+                    group: t('page.groupOther'),
+                    label: t('folder.deletePage'),
+                    destructive: true,
+                    onPress: () =>
+                      folderActions.deletePage(page, () =>
+                        router.canGoBack() ? router.back() : router.replace('/'),
+                      ),
+                  },
+                ]
+              : []),
           ]}
         />
+      )}
+      {page && dialog === 'share' && (
+        <ActionMenu title={t('page.share')} onClose={closeDialog} actions={shareActions} />
       )}
       {page && dialog === 'send' && <SendPageDialog page={page} onClose={closeDialog} />}
       {page && dialog === 'publish' && (
