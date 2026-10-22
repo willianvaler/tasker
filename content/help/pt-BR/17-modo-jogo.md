@@ -4,7 +4,7 @@ Em **Configurações → Recursos → Jogo → RPG** o Questlist vira um jogo de
 
 ## Acampamento
 
-O **Início** mostra seu personagem pintado (escolha o retrato e o cenário em **Personagem → Aparência**), a **vida**, a **mana**, os bosses do dia e da semana e as missões em andamento. O vocabulário muda: tarefas viram **missões**, e a aba de hábitos vira **Hábitos e diárias** (dá para desligar em Configurações).
+A tela **Jogo** (dá para pôr na barra de baixo em Configurações → Navegação) mostra seu personagem pintado (escolha o retrato e o cenário em **Personagem → Aparência**), a **vida**, a **mana**, os bosses do dia e da semana e as missões em andamento. O vocabulário muda: tarefas viram **missões**, e a aba de hábitos vira **Hábitos e diárias** (dá para desligar em Configurações).
 
 ## Vida e diárias
 

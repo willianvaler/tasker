@@ -70,11 +70,11 @@ Each completed exercise is a hit on the boss, like a task; with a **record** in 
 
 ## Mode: workout, focus or rest
 
-The **Mode** button (sidebar; on the phone, **⚡ Mode** at the top of Today and Home; or `Ctrl+K`) gathers the three: **Workout** opens Workout Mode for a workout page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.
+The **Mode** button (sidebar; on the phone, **Workouts → Start a workout** or **More → Mode**; or search) gathers the three: **Workout** opens Workout Mode for a workout page or one with sets; **Focus** starts a pomodoro; **Rest** starts a 30 s to 5 min timer that alerts at the end with sound, vibration and a notification.
 
 ## Working out together
 
-To work out with other people, create a **training group**: in the Gym block (sidebar or Folders tab), tap **New training group**, name it and invite people with the link. The group shows up in the Gym block of whoever joins, and the workouts created in it belong to everyone. In a group workout (or a project one), Workout mode asks **who is working out with you now**. Whoever you check gets a notice (in 🔔 and on the phone) and joins with **Join**. During the session, sets count for the group: anyone taps **Done** on whatever phone is at hand, and everyone sees the same count, the same exercise and the same rest. Whoever logs the last set completes the exercise and gets the XP, as with project tasks. The session ends when everyone leaves.
+To work out with other people, create a **training group**: in the Gym block (sidebar) or on the **Workouts** screen, tap **New training group**, name it and invite people with the link. The group shows up in the Gym block of whoever joins, and the workouts created in it belong to everyone. In a group workout (or a project one), Workout mode asks **who is working out with you now**. Whoever you check gets a notice (in 🔔 and on the phone) and joins with **Join**. During the session, sets count for the group: anyone taps **Done** on whatever phone is at hand, and everyone sees the same count, the same exercise and the same rest. Whoever logs the last set completes the exercise and gets the XP, as with project tasks. The session ends when everyone leaves.
 
 ## Group challenges
 

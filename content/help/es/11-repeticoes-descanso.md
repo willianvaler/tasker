@@ -70,11 +70,11 @@ Cada ejercicio completado es un golpe al boss, como una tarea; con **récord** e
 
 ## Modo: entrenamiento, foco o descanso
 
-El botón **Modo** (barra lateral; en el móvil, **⚡ Modo** arriba de Hoy y de Inicio; o `Ctrl+K`) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de entrenamiento o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.
+El botón **Modo** (barra lateral; en el móvil, **Entreno → Empezar un entrenamiento** o **Más → Modo**; o la búsqueda) reúne los tres: **Entrenamiento** abre el Modo Entrenamiento de una página de entrenamiento o con series; **Foco** empieza un pomodoro; **Descanso** empieza un temporizador de 30 s a 5 min que avisa al final con sonido, vibración y notificación.
 
 ## Entrenar juntos
 
-Para entrenar con otras personas, crea un **grupo de entrenamiento**: en el bloque Gimnasio (barra lateral o pestaña Carpetas), toca **Nuevo grupo de entrenamiento**, ponle nombre e invita con el enlace. El grupo aparece en el bloque Gimnasio de quien entra, y los entrenamientos creados en él son de todos. En un entrenamiento del grupo (o de proyecto), el Modo Entrenamiento pregunta **quién entrena contigo ahora**. Quien marques recibe el aviso (en 🔔 y en el móvil) y entra con **Entrar**. Durante la sesión, las series valen para el grupo: cualquiera toca **Hecha** en el móvil que tenga a mano, y todos ven el mismo conteo, el mismo ejercicio y el mismo descanso. Quien marca la última serie completa el ejercicio y se lleva el XP, como en las tareas de proyecto. La sesión termina cuando todos salen.
+Para entrenar con otras personas, crea un **grupo de entrenamiento**: en el bloque Gimnasio (barra lateral) o en la pantalla **Entreno**, toca **Nuevo grupo de entrenamiento**, ponle nombre e invita con el enlace. El grupo aparece en el bloque Gimnasio de quien entra, y los entrenamientos creados en él son de todos. En un entrenamiento del grupo (o de proyecto), el Modo Entrenamiento pregunta **quién entrena contigo ahora**. Quien marques recibe el aviso (en 🔔 y en el móvil) y entra con **Entrar**. Durante la sesión, las series valen para el grupo: cualquiera toca **Hecha** en el móvil que tenga a mano, y todos ven el mismo conteo, el mismo ejercicio y el mismo descanso. Quien marca la última serie completa el ejercicio y se lleva el XP, como en las tareas de proyecto. La sesión termina cuando todos salen.
 
 ## Desafíos en grupo
 

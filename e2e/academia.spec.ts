@@ -5,17 +5,13 @@ import { openTab, signUp, openSettings } from './helpers';
 const QUESTION = 'Vai usar o Questlist para treinar?';
 
 async function openProfile(page: Page, desktop: boolean) {
-  if (desktop) {
-    await page.getByRole('navigation').getByRole('link', { name: 'Perfil' }).click();
-    return;
-  }
   // No celular a página do treino abre por cima das abas
-  await page.getByRole('button', { name: 'Voltar' }).first().click();
+  if (!desktop) await page.getByRole('button', { name: 'Voltar' }).first().click();
   await openSettings(page);
 }
 
 // V6 §15.1 e §15.2 (AC1): pergunta no primeiro acesso, bloco Academia com "Novo treino",
-// subir/descer pasta e esconder o bloco pelo Perfil.
+// subir/descer pasta e esconder o bloco pelas Configurações.
 test('modo academia: pergunta, Academia, novo treino, mover e esconder', async ({
   page,
 }, testInfo) => {
@@ -60,7 +56,7 @@ test('modo academia: pergunta, Academia, novo treino, mover e esconder', async (
     await expect.poll(links).toEqual(['Segunda', 'Primeira']);
   }
 
-  // Esconder o bloco Academia e desligar o modo pelo Perfil
+  // Esconder o bloco Academia e desligar o treino pelas Configurações
   await openProfile(page, desktop);
   await page.getByRole('button', { name: 'Esconder Academia' }).click();
   if (desktop) {
@@ -70,7 +66,7 @@ test('modo academia: pergunta, Academia, novo treino, mover e esconder', async (
   }
   await page.getByRole('button', { name: 'Mostrar Academia' }).click();
   const off = page.waitForResponse((r) => r.url().includes('/rpc/set_gym_mode'));
-  await page.getByRole('switch', { name: 'Modo academia' }).click();
+  await page.getByRole('switch', { name: 'Treino (academia)' }).click();
   await off;
   // Desligado, a pasta Academia volta para Pastas (nada some)
   if (desktop) {

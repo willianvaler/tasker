@@ -4,7 +4,7 @@ En **Ajustes → Funciones → Juego → RPG**, Questlist se vuelve un juego de 
 
 ## Campamento
 
-El **Inicio** muestra tu personaje pintado (elige el retrato y el escenario en **Personaje → Apariencia**), la **vida**, el **maná**, los jefes del día y de la semana y las misiones en curso. El vocabulario cambia: las tareas pasan a ser **misiones** y la pestaña de hábitos, **Hábitos y diarias** (puedes desactivarlo en Ajustes).
+La pantalla **Juego** (puedes ponerla en la barra inferior en Ajustes → Navegación) muestra tu personaje pintado (elige el retrato y el escenario en **Personaje → Apariencia**), la **vida**, el **maná**, los jefes del día y de la semana y las misiones en curso. El vocabulario cambia: las tareas pasan a ser **misiones** y la pestaña de hábitos, **Hábitos y diarias** (puedes desactivarlo en Ajustes).
 
 ## Vida y diarias
 

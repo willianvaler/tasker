@@ -324,7 +324,7 @@ export function ListKeys() {
   });
   useShortcut('app.sidebar', () => toggleSidebar());
   useShortcut('help.open', () => router.navigate('/ajuda'));
-  useShortcut('go.today', () => router.navigate('/today'));
+  useShortcut('go.today', () => router.navigate('/'));
   useShortcut('go.inbox', () => router.navigate('/inbox'));
   useShortcut('go.mine', () => router.navigate('/mine'));
   useShortcut('go.calendar', () => router.navigate('/calendario'));

@@ -4,7 +4,7 @@ In **Settings → Features → Game → RPG**, Questlist becomes a medieval fant
 
 ## Camp
 
-**Home** shows your painted character (pick the portrait and scene in **Character → Appearance**), **health**, **mana**, the daily and weekly bosses and the quests in progress. The vocabulary changes: tasks become **quests**, and the habits tab becomes **Habits & dailies** (you can turn this off in Settings).
+The **Game** screen (you can put it on the bottom bar in Settings → Navigation) shows your painted character (pick the portrait and scene in **Character → Appearance**), **health**, **mana**, the daily and weekly bosses and the quests in progress. The vocabulary changes: tasks become **quests**, and the habits tab becomes **Habits & dailies** (you can turn this off in Settings).
 
 ## Health and dailies
 

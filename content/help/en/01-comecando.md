@@ -23,3 +23,13 @@ Paste a list (one per line) or tap **Many**. Indented lines become subtasks. You
 ## Checking off
 
 Tap the box. Mistake? The notice has **Undo**.
+
+## Where things are
+
+- **Today**: what to do now (overdue, due today, today's habits). It's the opening screen.
+- **Plan**: calendar, weekly review, the next 7 days, the Inbox without a date and what was assigned to you.
+- **Folders**: folders, lists and projects (and the Gym, if you work out).
+- **+** in the middle of the bottom bar (or **New** in the sidebar): creates a task, habit, note, list, folder or project.
+- **More**: everything else, each with a name and a line explaining it: People (friends, teams, clan), Game, Settings, Help, Trash.
+
+On the phone, the two spots beside the **+** are yours: change them in **Settings → Navigation** (Plan, Inbox, Habits, Folders, Workouts, Game or People). The **magnifier** at the top finds any page, folder, screen or action.

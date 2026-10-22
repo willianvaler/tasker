@@ -70,11 +70,11 @@ Cada exercício concluído é um golpe no boss, como uma tarefa; com **recorde**
 
 ## Modo: treino, foco ou descanso
 
-O botão **Modo** (barra lateral; no celular, **⚡ Modo** no topo da Hoje e do Início; ou `Ctrl+K`) reúne os três: **Treino** abre o Modo Treino de uma página de treino ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
+O botão **Modo** (barra lateral; no celular, **Treino → Começar um treino** ou **Mais → Modo**; ou a busca) reúne os três: **Treino** abre o Modo Treino de uma página de treino ou com séries; **Foco** começa um pomodoro; **Descanso** começa um timer de 30 s a 5 min, que avisa no fim com som, vibração e notificação.
 
 ## Treinar junto
 
-Para treinar com outras pessoas, crie um **grupo de treino**: no bloco Academia (barra lateral ou aba Pastas), toque em **Novo grupo de treino**, dê um nome e convide pelo link. O grupo aparece no bloco Academia de quem entra, e os treinos criados nele são de todos. Num treino do grupo (ou de projeto), o Modo Treino pergunta **quem está treinando junto agora**. Quem você marcar recebe o aviso (no 🔔 e no celular) e entra com **Entrar**. Durante a sessão, as séries valem para o grupo: qualquer um marca **Feita** no celular que estiver à mão, e todos veem a mesma contagem, o mesmo exercício e o mesmo descanso. Quem marca a última série conclui o exercício e leva o XP, como nas tarefas de projeto. A sessão acaba quando todos saem.
+Para treinar com outras pessoas, crie um **grupo de treino**: no bloco Academia (barra lateral) ou na tela **Treino**, toque em **Novo grupo de treino**, dê um nome e convide pelo link. O grupo aparece no bloco Academia de quem entra, e os treinos criados nele são de todos. Num treino do grupo (ou de projeto), o Modo Treino pergunta **quem está treinando junto agora**. Quem você marcar recebe o aviso (no 🔔 e no celular) e entra com **Entrar**. Durante a sessão, as séries valem para o grupo: qualquer um marca **Feita** no celular que estiver à mão, e todos veem a mesma contagem, o mesmo exercício e o mesmo descanso. Quem marca a última série conclui o exercício e leva o XP, como nas tarefas de projeto. A sessão acaba quando todos saem.
 
 ## Desafios em grupo
 

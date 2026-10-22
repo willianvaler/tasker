@@ -1,6 +1,6 @@
 import { expect, type Page, type Response, type TestInfo } from '@playwright/test';
 
-/** Cria uma conta nova e espera a tela Hoje. */
+/** Cria uma conta nova e espera a tela Hoje (a de abertura). */
 export async function signUp(page: Page, testInfo: TestInfo) {
   const email = `e2e-${testInfo.project.name}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`;
   await page.goto('/');
@@ -12,19 +12,48 @@ export async function signUp(page: Page, testInfo: TestInfo) {
   await page.getByRole('button', { name: 'Criar conta' }).click();
   // Conta nova abre a introdução (fase6.spec.ts testa ela); aqui, pula
   await page.getByRole('button', { name: 'Pular introdução' }).click();
-  // Abre no Início (D69); os testes começam na Hoje
-  await expect(page.getByRole('heading', { name: /^Olá/ })).toBeVisible();
-  await openTab(page, 'Hoje');
+  // Abre na Hoje (D258, que juntou o Início e a Hoje)
   await expect(page.getByRole('heading', { name: /^Hoje/ })).toBeVisible();
   return email;
 }
 
-/** Vai para uma aba: na barra de baixo no celular, nos links da barra lateral no desktop. */
-export async function openTab(page: Page, name: string) {
+/** Nomes antigos das abas (D258: o Início virou a Hoje). */
+const ALIASES: Record<string, string> = { Início: 'Hoje' };
+/** Telas que ficam dentro de outra no Mais (D257). */
+const INSIDE: Record<string, string[]> = { Clã: ['Pessoas', 'Clã'] };
+
+/**
+ * Vai para uma tela principal: na barra de baixo no celular, nos links da barra lateral no desktop.
+ * O que não está na barra (no celular, as posições do meio são escolhidas, D258) abre pelo Mais.
+ */
+export async function openTab(page: Page, tabName: string) {
+  const name = ALIASES[tabName] ?? tabName;
+  // Tela aberta por cima da barra (no celular: página, Configurações): volta até a barra aparecer
+  const nav = page.getByRole('tab').or(page.getByRole('navigation').getByRole('link'));
+  const back = page.getByRole('button', { name: 'Voltar' });
+  for (let i = 0; i < 4; i++) {
+    if (await nav.first().isVisible()) break;
+    if (await back.first().isVisible()) await back.first().click();
+    else await page.waitForTimeout(300);
+  }
+  await nav.first().waitFor();
+  const tab = page.getByRole('tab', { name, exact: true });
+  const side = page
+    .getByRole('navigation')
+    .getByRole('link', { name: new RegExp(`^(\\S+ )?${name}$`) });
+  if (!INSIDE[name] && (await tab.or(side).count())) {
+    await tab.or(side).first().click();
+    return;
+  }
+  // Fora da barra: Mais (aba no celular; cartão do rodapé da barra lateral no computador)
   await page
-    .getByRole('tab', { name })
-    .or(page.getByRole('navigation').getByRole('link', { name: new RegExp(`^(\\S+ )?${name}$`) }))
+    .getByRole('tab', { name: 'Mais', exact: true })
+    .or(page.getByRole('navigation').getByRole('link', { name: /^Mais/ }))
+    .first()
     .click();
+  for (const step of INSIDE[name] ?? [name]) {
+    await page.getByRole('link', { name: new RegExp(`^${step}`) }).last().click();
+  }
 }
 
 /** Configurações (D257): pelo Mais (aba no celular, rodapé da barra lateral no computador). */

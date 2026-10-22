@@ -23,3 +23,13 @@ Cole uma lista (uma por linha) ou toque em **Várias**. Linhas com recuo viram s
 ## Marcar
 
 Toque na caixinha. Errou? O aviso tem **Desfazer**.
+
+## Onde fica cada coisa
+
+- **Hoje**: o que fazer agora (atrasadas, de hoje, hábitos do dia). É a tela de abertura.
+- **Planejar**: calendário, revisão semanal, próximos 7 dias, Caixa de entrada sem data e o que foi atribuído a você.
+- **Pastas**: pastas, listas e projetos (e a Academia, se você treina).
+- **+** no meio da barra de baixo (ou **Novo** na barra lateral): cria tarefa, hábito, anotação, lista, pasta ou projeto.
+- **Mais**: tudo o resto, com nome e uma linha explicando: Pessoas (amigos, times, clã), Jogo, Configurações, Ajuda, Lixeira.
+
+No celular, as duas posições ao lado do **+** são suas: troque em **Configurações → Navegação** (Planejar, Entrada, Hábitos, Pastas, Treino, Jogo ou Pessoas). A **lupa** no topo acha qualquer página, pasta, tela ou ação.

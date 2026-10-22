@@ -10,7 +10,7 @@ test('boss do dia: aparece antes do semanal, apanha junto e o aviso mostra as ba
   const game = page
     .getByRole('link', { name: 'Personagem, nível, XP e boss da semana' })
     .or(page.getByLabel('Personagem e boss da semana'));
-  await expect(game.getByText(/^Do dia: /)).toBeVisible();
+  await expect(game.getByText(/^Do dia/).first()).toBeVisible();
   await expect(game.getByText('60/60 HP')).toBeVisible();
   await expect(game.getByText('300/300 HP')).toBeVisible();
 

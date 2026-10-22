@@ -23,3 +23,13 @@ Pega una lista (una por línea) o toca **Varias**. Las líneas con sangría son 
 ## Marcar
 
 Toca la casilla. ¿Te equivocaste? El aviso tiene **Deshacer**.
+
+## Dónde está cada cosa
+
+- **Hoy**: lo que hacer ahora (atrasadas, de hoy, hábitos del día). Es la pantalla de inicio.
+- **Planificar**: calendario, revisión semanal, los próximos 7 días, la Entrada sin fecha y lo que te asignaron.
+- **Carpetas**: carpetas, listas y proyectos (y el Gimnasio, si entrenas).
+- **+** en el medio de la barra inferior (o **Nuevo** en la barra lateral): crea tarea, hábito, nota, lista, carpeta o proyecto.
+- **Más**: todo lo demás, con nombre y una línea que lo explica: Personas (amigos, equipos, clan), Juego, Ajustes, Ayuda, Papelera.
+
+En el móvil, los dos lugares junto al **+** son tuyos: cámbialos en **Ajustes → Navegación** (Planificar, Entrada, Hábitos, Carpetas, Entreno, Juego o Personas). La **lupa** de arriba encuentra cualquier página, carpeta, pantalla o acción.

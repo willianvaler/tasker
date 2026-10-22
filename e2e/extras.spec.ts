@@ -45,7 +45,7 @@ test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na sele
   await page.keyboard.press('j');
   await page.keyboard.press('z');
   await expect(page.getByRole('alert').filter({ hasText: /: adiada para Amanhã/ })).toBeVisible();
-  await openTab(page, 'Início');
+  await openTab(page, 'Planejar');
   await expect(shown(page, 'Próximos 7 dias').first()).toBeVisible();
 });
 
@@ -102,9 +102,10 @@ test('Meu dia e Próxima ação', async ({ page }, testInfo) => {
   await input.fill('Ler livro');
   await input.press('Enter');
 
-  // Sem Meu dia, a sugestão aparece no Início (na Hoje seria a mesma primeira linha)
-  await openTab(page, 'Início');
-  await expect(page.getByRole('button', { name: 'Fazer agora: Pagar conta' }).last()).toBeVisible();
+  // Sem Meu dia, a Hoje não repete a primeira linha da lista como sugestão (D258)
+  await openTab(page, 'Hoje');
+  await expect(shown(page, 'Pagar conta').first()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Fazer agora: Pagar conta' })).toHaveCount(0);
 
   // "Ler livro" (sem data) vai para o Meu dia e passa a ser a próxima ação
   await openTab(page, 'Caixa de entrada');

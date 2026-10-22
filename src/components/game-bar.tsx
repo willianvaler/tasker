@@ -38,7 +38,11 @@ export function BossArt({ size = 28 }: { size?: 28 | 48 }) {
 export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
   const { t, i18n } = useTranslation();
   const art = bossArtId(boss);
-  const icon = art ? <ArtImage group="bosses" id={art} size={36} fallback={boss.icon} /> : <BossArt />;
+  const icon = art ? (
+    <ArtImage group="bosses" id={art} size={36} fallback={boss.icon} />
+  ) : (
+    <BossArt />
+  );
   const scope = boss.scope ?? 'user';
   const name = prefix ? `${prefix}: ${boss.name}` : boss.name;
   if (boss.status === 'defeated') {
@@ -101,19 +105,26 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
 }
 
 /**
- * Resumo do jogo no topo da Hoje e do Início: nível e XP em mono com o fio de 2 px, sequência, e a
- * faixa do boss da semana (e do clã). Discreto: marcação, não um jogo por cima.
+ * Resumo do jogo no topo da Hoje (D258): duas linhas curtas em mono, nível e XP com o fio de 2 px e a
+ * sequência; embaixo, o HP dos bosses. A arte dos bosses fica no Jogo e na coluna do computador: no
+ * celular, a faixa antiga (três blocos com arte) ocupava um terço da tela antes da primeira tarefa.
+ * Toque abre o Jogo.
  */
 export function GameHeader() {
   const { t } = useTranslation();
   const { data: game } = useGameState();
   if (!game?.enabled) return null;
+  const bosses = [
+    game.daily_boss && { prefix: t('boss.dailyPrefix'), boss: game.daily_boss },
+    game.boss && { prefix: t('boss.weeklyPrefix'), boss: game.boss },
+    game.clan_boss && { prefix: t('boss.clanPrefix'), boss: game.clan_boss },
+  ].filter((b): b is { prefix: string; boss: Boss } => !!b);
   return (
-    <Link href="/character" asChild>
+    <Link href="/jogo" asChild>
       <Pressable
         accessibilityRole="link"
         accessibilityLabel={t('boss.gameLink')}
-        className="-mx-2 gap-3 rounded border-y border-line px-2 py-3 hover:bg-wash active:bg-wash"
+        className="-mx-2 gap-2 rounded border-y border-line px-2 py-2 hover:bg-wash active:bg-wash"
       >
         <View className="flex-row items-center gap-3">
           <Text className="font-mono text-xs text-ink">
@@ -135,15 +146,35 @@ export function GameHeader() {
             {t('boss.streakShort', { count: game.streak })}
           </Text>
         </View>
-        {/* O4: o do dia vem antes do da semana */}
-        {game.daily_boss && <BossLine boss={game.daily_boss} prefix={t('boss.dailyPrefix')} />}
-        {game.boss && (
-          <BossLine
-            boss={game.boss}
-            prefix={game.daily_boss ? t('boss.weeklyPrefix') : undefined}
-          />
+        {bosses.length > 0 && (
+          // O4: o do dia vem antes do da semana
+          <View className="flex-row flex-wrap gap-x-4 gap-y-1">
+            {bosses.map(({ prefix, boss }) => (
+              <Text
+                key={prefix}
+                className="font-mono text-xs text-ink-muted"
+                accessibilityLabel={t('boss.label', {
+                  name: boss.name,
+                  hp: boss.hp,
+                  max: boss.max_hp,
+                  unit: t('boss.unitHp'),
+                })}
+              >
+                {prefix}{' '}
+                <Text
+                  className={cn(
+                    'font-mono text-xs',
+                    boss.status === 'defeated' ? 'text-ok' : 'text-ink',
+                  )}
+                >
+                  {boss.status === 'defeated'
+                    ? t('boss.defeatedShort')
+                    : t('boss.hp', { hp: boss.hp, max: boss.max_hp })}
+                </Text>
+              </Text>
+            ))}
+          </View>
         )}
-        {game.clan_boss && <BossLine boss={game.clan_boss} prefix={t('boss.clanPrefix')} />}
       </Pressable>
     </Link>
   );

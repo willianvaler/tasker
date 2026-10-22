@@ -2,8 +2,9 @@ import { expect, test } from '@playwright/test';
 
 import { adminRest, openTab, signUp, openSettings } from './helpers';
 
-// HB3 e HB4 (ESCOPO_V8): três níveis de jogo no Perfil; no Completo o Início vira o acampamento.
-test('modo jogo: Completo mostra o acampamento no Início', async ({ page }, testInfo) => {
+// HB3 e HB4 (ESCOPO_V8): três níveis de jogo nas Configurações; no RPG a tela Jogo é o acampamento
+// (D257) e, sem escolha salva, o Jogo entra na barra de baixo (D258).
+test('modo jogo: RPG mostra o acampamento no Jogo', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
   await openSettings(page);
   const level = page.getByRole('radiogroup', { name: 'Gamificação' });
@@ -15,7 +16,7 @@ test('modo jogo: Completo mostra o acampamento no Início', async ({ page }, tes
   const saved = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
   await level.getByRole('radio', { name: 'RPG' }).click();
   await saved;
-  await openTab(page, 'Início');
+  await openTab(page, 'Jogo');
   const camp = page.getByLabel('Acampamento');
   await expect(camp).toBeVisible();
   await expect(camp.getByRole('heading', { name: 'Teste' })).toBeVisible();
@@ -28,7 +29,7 @@ test('modo jogo: Completo mostra o acampamento no Início', async ({ page }, tes
   const back = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
   await level.getByRole('radio', { name: 'Discreto' }).click();
   await back;
-  await openTab(page, 'Início');
+  await openTab(page, 'Jogo');
   await expect(page.getByLabel('Acampamento')).toHaveCount(0);
 });
 
@@ -86,7 +87,7 @@ test('modo jogo: virada do dia, recompensa, mascote e morte', async ({ page }, t
   await expect(page.getByText('Alongar').first()).toBeVisible();
   await page.getByRole('button', { name: 'Começar o dia' }).click();
   await expect(page.getByText(/Uma diária ficou para trás: −4 de vida/)).toBeVisible();
-  await openTab(page, 'Início');
+  await openTab(page, 'Jogo');
   await expect(page.getByLabel('Acampamento').getByText('❤ 46/50 de vida')).toBeVisible();
 
   // Recompensa: criar e resgatar com o ouro

@@ -39,7 +39,7 @@ export default function GameScreen() {
   return (
     <Screen size="wide">
       <ScreenScroll contentContainerClassName="gap-8 pb-clear">
-        <ScreenHeader help="gamificacao" title={t('nav.game')} />
+        <ScreenHeader search help="gamificacao" title={t('nav.game')} />
         {!game?.enabled ? (
           <View className="items-center">
             <EmptyState title={t('hub.game.off')} hint={t('hub.game.offHint')} />

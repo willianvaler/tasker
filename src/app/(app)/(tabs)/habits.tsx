@@ -63,7 +63,7 @@ export default function HabitsScreen() {
 
   return (
     <Screen size="medium">
-      <ScreenHeader title={t('habits.title')} icon={<ItemIcon kind="habits" size={20} />} />
+      <ScreenHeader search title={t('habits.title')} icon={<ItemIcon kind="habits" size={20} />} />
       <View className="gap-3">
         <View className="flex-row flex-wrap items-center gap-2" accessibilityRole="radiogroup">
           {KINDS.map((k) => (

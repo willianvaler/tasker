@@ -11,7 +11,7 @@ export default function InboxScreen() {
   const tree = useTree();
   return (
     <Screen size="medium">
-      <ScreenHeader title={t('nav.inbox')} icon={<ItemIcon kind="inbox" size={20} />} />
+      <ScreenHeader search title={t('nav.inbox')} icon={<ItemIcon kind="inbox" size={20} />} />
       <PageView page={tree.data?.inbox ?? undefined} />
     </Screen>
   );

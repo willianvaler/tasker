@@ -21,15 +21,13 @@ export default function PeopleScreen() {
   return (
     <Screen size="medium">
       <ScreenScroll contentContainerClassName="gap-6 pb-clear">
-        <ScreenHeader title={t('nav.people')} eyebrow={t('hub.peopleHint')} />
+        <ScreenHeader search title={t('nav.people')} eyebrow={t('hub.peopleHint')} />
         <HubSection>
           <HubRow
             icon={UserPlus}
             label={t('nav.friends')}
             hint={
-              requests
-                ? t('hub.people.requests', { count: requests })
-                : t('hub.people.friendsHint')
+              requests ? t('hub.people.requests', { count: requests }) : t('hub.people.friendsHint')
             }
             href="/amigos"
             badge={requests || accepted || null}

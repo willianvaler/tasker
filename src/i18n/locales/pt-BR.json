@@ -132,7 +132,9 @@
     "more": "Mais",
     "people": "Pessoas",
     "game": "Jogo",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "plan": "Planejar",
+    "workout": "Treino"
   },
   "quickAdd": {
     "label": "Nova tarefa",
@@ -177,7 +179,8 @@
     "dailyStreak_one": "🔥 {{count}} dia seguido derrotando o boss do dia",
     "dailyStreak_other": "🔥 {{count}} dias seguidos derrotando o boss do dia",
     "dailyHint": "Nasce todo dia à meia-noite e foge no fim do dia. Todo golpe vale para ele e para o da semana.",
-    "defeatedQuest": "Missão cumprida!"
+    "defeatedQuest": "Missão cumprida!",
+    "defeatedShort": "derrotado"
   },
   "today": {
     "title": "Hoje",
@@ -3433,6 +3436,30 @@
     "focus": "Foco",
     "data": "Dados",
     "about": "Sobre o app",
-    "gameTitle": "Jogo"
+    "gameTitle": "Jogo",
+    "bottomBar": "Barra de baixo (celular)",
+    "bottomBarHint": "Hoje e Mais ficam fixos. Escolha as duas do meio; o resto fica no Mais.",
+    "slotLeft": "À esquerda do +",
+    "slotRight": "À direita do +"
+  },
+  "plan": {
+    "eyebrow": "Datas, Entrada e a semana",
+    "calendarHint": "Mês e semana, com tudo que tem data",
+    "reviewHint": "Cinco minutos: o que concluiu, o que ficou, o que está parado",
+    "reviewDue": "hora",
+    "mineHint": "O que foi atribuído a você nos projetos",
+    "openInbox": "Abrir a Entrada"
+  },
+  "workoutHub": {
+    "eyebrow": "Treinos, exercícios e evolução",
+    "start": "Começar um treino",
+    "startHint": "Modo Treino, foco ou descanso",
+    "workouts": "Treinos",
+    "tools": "Ferramentas",
+    "libraryHint": "Exercícios com músculos, equipamento e fotos",
+    "bodyHint": "Peso, medidas e metas, com gráfico",
+    "statsHint": "Volume, frequência e recordes",
+    "off": "O treino está desligado",
+    "offHint": "Ligando, você ganha os treinos com séries e cargas, o Modo Treino e a Biblioteca."
   }
 }

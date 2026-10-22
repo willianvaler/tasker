@@ -2,13 +2,13 @@ import { Link, router, usePathname, type Href } from 'expo-router';
 import {
   Bell,
   CalendarDays,
+  CalendarRange,
   ChartColumn,
   ChevronDown,
   ChevronRight,
   CircleHelp,
   Dumbbell,
   Globe,
-  House,
   Inbox,
   LayoutGrid,
   Plus,
@@ -19,7 +19,6 @@ import {
   ShoppingBag,
   Sun,
   User,
-  UserCheck,
   UserPlus,
   Users,
   Zap,
@@ -66,17 +65,23 @@ export function useIsWide() {
   return useWindowDimensions().width >= WIDE;
 }
 
-type NavKey = 'home' | 'today' | 'inbox' | 'habits' | 'calendar' | 'mine' | 'folders';
+type NavKey = 'today' | 'plan' | 'inbox' | 'habits' | 'calendar' | 'folders' | 'people';
 
-const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; projectsOnly?: boolean }[] = [
-  { href: '/', key: 'home', icon: House },
-  { href: '/today', key: 'today', icon: Sun },
+// D258: a Hoje é a tela de abertura (o Início saiu); Planejar junta próximos dias, Entrada sem data,
+// Atribuídas a mim e a revisão; Pessoas junta amigos, times, clã e comunidade
+const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; also?: string[] }[] = [
+  { href: '/', key: 'today', icon: Sun },
+  { href: '/planejar', key: 'plan', icon: CalendarRange, also: ['/mine', '/revisao'] },
   { href: '/inbox', key: 'inbox', icon: Inbox },
   { href: '/habits', key: 'habits', icon: Repeat },
   { href: '/calendario', key: 'calendar', icon: CalendarDays },
-  // Só para quem participa de algum projeto
-  { href: '/mine', key: 'mine', icon: UserCheck, projectsOnly: true },
-  { href: '/folders', key: 'folders', icon: LayoutGrid },
+  { href: '/folders', key: 'folders', icon: LayoutGrid, also: ['/folder/'] },
+  {
+    href: '/pessoas',
+    key: 'people',
+    icon: Users,
+    also: ['/amigos', '/teams', '/team/', '/clan', '/comunidade', '/projetos'],
+  },
 ];
 
 /**
@@ -192,7 +197,6 @@ export function Sidebar() {
   // Páginas recebidas (L4): não estão em pasta nenhuma do usuário
   const received = useReceivedPages();
   const pending = usePendingShares();
-  const inProject = projects.length > 0;
   const newNote = useNewNote();
 
   // Blocos da barra lateral, na ordem e com os escondidos do perfil (V6 §15.2)
@@ -389,7 +393,7 @@ export function Sidebar() {
             <Icon icon={Zap} tone="ink-muted" />
             <Text className="flex-1 text-sm text-ink">{t('modes.title')}</Text>
           </Pressable>
-          {NAV.filter((item) => !item.projectsOnly || inProject).map((item) => (
+          {NAV.map((item) => (
             <NavRow
               key={item.href}
               href={item.href}
@@ -397,7 +401,7 @@ export function Sidebar() {
               label={t(`nav.${item.key}`)}
               selected={
                 pathname === item.href ||
-                (item.href === '/folders' && pathname.startsWith('/folder/'))
+                (item.also ?? []).some((p) => pathname === p || pathname.startsWith(p))
               }
             />
           ))}

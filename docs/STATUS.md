@@ -349,14 +349,14 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 
 Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam escondidas ou espalhadas"; aprovou a proposta inteira ("corrija tudo"). Os ids são UX1 a UX14 (a Fase U já usa U1 a U9).
 
-- [ ] **UX1** Caminhos que faltam: busca no topo das telas do celular; Biblioteca, Peso e medidas e Estatísticas de treino no celular; Revisão semanal com entrada fixa
+- [x] **UX1** Caminhos que faltam, entregues com o UX8: busca (lupa) no topo das telas principais do celular, abrindo a paleta; tela **Treino** (`/treino`) com os treinos, grupos, Biblioteca, Peso e medidas e Estatísticas; Revisão semanal fixa no Planejar e no Mais (D258)
 - [ ] **UX2** Rodapé da barra lateral com três alvos (cartão do avatar, sino, ajuda)
 - [x] **UX3** Nomes e rótulos: jogo Desligado · Discreto · RPG; "Recompensas" e "Estábulo" com ícone em vez de emoji; botão primário desabilitado com contorno e texto apagado (o laranja claro parecia ativo); pasta Academia vazia diz "Criar o primeiro treino" na tela Pastas, como na barra lateral (D256)
 - [ ] **UX4** Painel da tarefa: subtarefas para cima, "Depende de" em primeiro só em projeto
 - [ ] **UX5** Menu Novo completo (anotação, várias de uma vez, a partir de um modelo) e um só "Nova pasta"
 - [ ] **UX6** Doca: timer encaixado acima da navegação, aviso acima dele
 - [x] **UX7** Configurações, Mais, Jogo e Pessoas separados: o Perfil vira **Configurações** (`/configuracoes`, só ajustes: conta, aparência, **Recursos** com Treino e o nível do jogo, **Navegação**, avisos, foco, dados, sobre o app); a aba vira **Mais** (`/mais`, o índice de tudo, com nome e dica em cada linha); **Pessoas** (`/pessoas`: amigos, times, projetos, clã, comunidade, notificações) e **Jogo** (`/jogo`: acampamento ou herói, lugares do jogo, números, bosses e conquistas); `/profile` redireciona; Ajuda nos 3 idiomas com os caminhos novos (D257)
-- [ ] **UX8** Hoje única (Início + Hoje), Planejar, barra do celular com 5 posições configuráveis e "Mais"
+- [x] **UX8** **Hoje** única (o Início saiu; `/today` redireciona): próxima ação só com Meu dia, captura, atrasadas, de hoje e hábitos; faixa do jogo em duas linhas; avisos de treino e revisão como linha (`NoticeLine`); **Planejar** (`/planejar`: calendário, revisão, Atribuídas a mim, próximos 7 dias, Entrada sem data); **barra de baixo** com Hoje · 2 posições escolhidas · + · Mais (`components/tab-bar.tsx`, `lib/tab-slots.ts` com testes; escolha em Configurações → Navegação; padrão Planejar e Pastas, Treino para quem treina, Jogo para quem joga no RPG); barra lateral com Hoje, Planejar, Entrada, Hábitos, Calendário, Pastas e Pessoas; Ajuda nos 3 idiomas ("Onde fica cada coisa") (D258)
 - [ ] **UX9** Topo da página: Compartilhar, "…" agrupado, visões em abas
 - [ ] **UX10** Ligações: "Depende de" e "Relacionados" numa seção só
 - [ ] **UX11** Painel por uso e "+ Adicionar", sem o seletor Simples/Completo

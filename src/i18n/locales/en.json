@@ -132,7 +132,9 @@
     "more": "More",
     "people": "People",
     "game": "Game",
-    "settings": "Settings"
+    "settings": "Settings",
+    "plan": "Plan",
+    "workout": "Workouts"
   },
   "quickAdd": {
     "label": "New task",
@@ -177,7 +179,8 @@
     "dailyStreak_one": "🔥 {{count}} day in a row beating the daily boss",
     "dailyStreak_other": "🔥 {{count}} days in a row beating the daily boss",
     "dailyHint": "Born every day at midnight and escapes at the end of the day. Every hit counts for it and for the weekly one.",
-    "defeatedQuest": "Quest complete!"
+    "defeatedQuest": "Quest complete!",
+    "defeatedShort": "defeated"
   },
   "today": {
     "title": "Today",
@@ -3433,6 +3436,30 @@
     "focus": "Focus",
     "data": "Data",
     "about": "About the app",
-    "gameTitle": "Game"
+    "gameTitle": "Game",
+    "bottomBar": "Bottom bar (phone)",
+    "bottomBarHint": "Today and More stay put. Pick the two in the middle; the rest lives in More.",
+    "slotLeft": "Left of +",
+    "slotRight": "Right of +"
+  },
+  "plan": {
+    "eyebrow": "Dates, Inbox and the week",
+    "calendarHint": "Month and week, with everything that has a date",
+    "reviewHint": "Five minutes: what you finished, what is left, what is stuck",
+    "reviewDue": "due",
+    "mineHint": "What was assigned to you in projects",
+    "openInbox": "Open the Inbox"
+  },
+  "workoutHub": {
+    "eyebrow": "Workouts, exercises and progress",
+    "start": "Start a workout",
+    "startHint": "Workout Mode, focus or rest",
+    "workouts": "Workouts",
+    "tools": "Tools",
+    "libraryHint": "Exercises with muscles, equipment and photos",
+    "bodyHint": "Weight, measurements and goals, with a chart",
+    "statsHint": "Volume, frequency and records",
+    "off": "Workouts are off",
+    "offHint": "Turn it on to get workouts with sets and loads, Workout Mode and the Library."
   }
 }

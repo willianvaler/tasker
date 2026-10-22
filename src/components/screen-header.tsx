@@ -2,9 +2,10 @@ import { router } from 'expo-router';
 import { ChevronLeft, CircleHelp } from 'lucide-react-native';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, TextInput, useWindowDimensions, View } from 'react-native';
 
 import { IconPicker } from '@/components/icon-picker';
+import { SearchButton } from '@/components/search-button';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { IconButton } from '@/components/ui/button';
 import { Popover } from '@/components/ui/popover';
@@ -33,6 +34,7 @@ export function ScreenHeader({
   rename,
   help,
   wrap,
+  search,
 }: {
   title: string;
   /** Contexto acima do título: "TER, 13 OUT", "PASTAS / MERCADO" */
@@ -46,8 +48,12 @@ export function ScreenHeader({
   help?: string;
   /** Título longo (artigo da Ajuda) quebra a linha em vez de cortar */
   wrap?: boolean;
+  /** Telas principais: botão de busca no celular (no computador a busca fica na barra lateral, D258) */
+  search?: boolean;
 }) {
   const { t } = useTranslation();
+  const narrow = useWindowDimensions().width < 768;
+  const showSearch = search && narrow;
   const requested = useSelection(
     (s) => !!rename && s.rename?.kind === rename.target.kind && s.rename.id === rename.target.id,
   );
@@ -92,8 +98,9 @@ export function ScreenHeader({
           </View>
         )}
       </View>
-      {(right || help) && (
+      {(right || help || showSearch) && (
         <View className="flex-row items-center gap-1">
+          {showSearch && <SearchButton />}
           {right}
           {help && (
             <IconButton

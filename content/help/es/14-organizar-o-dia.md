@@ -16,4 +16,4 @@ En una página de lista, la pestaña **Matriz** separa las tareas abiertas en cu
 
 ## Revisión semanal
 
-Una vez por semana, el Inicio sugiere la **Revisión semanal** (también en la paleta, `Ctrl+K`). Son cuatro pasos: **Hecho** (lo que hiciste en los últimos 7 días, por página), **Quedó** (las atrasadas: elige un día nuevo, quita la fecha o complétalas), **Parado** (sin fecha y sin tocar hace más de 30 días: dale una fecha o archívala, que va a la papelera) y **Próxima semana** (lo que vence en los próximos 7 días). **Terminar revisión** guarda la fecha; "Ahora no" esconde el aviso por una semana.
+Una vez por semana, Hoy sugiere la **Revisión semanal**; siempre está en **Planificar** (y en la búsqueda, `Ctrl+K`). Son cuatro pasos: **Hecho** (lo que hiciste en los últimos 7 días, por página), **Quedó** (las atrasadas: elige un día nuevo, quita la fecha o complétalas), **Parado** (sin fecha y sin tocar hace más de 30 días: dale una fecha o archívala, que va a la papelera) y **Próxima semana** (lo que vence en los próximos 7 días). **Terminar revisión** guarda la fecha; "Ahora no" esconde el aviso por una semana.

@@ -13,6 +13,7 @@ import { PushSetting } from '@/components/push-setting';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { GymPrefsSettings } from '@/components/gym/gym-prefs';
 import { GymToggle, SidebarSettings } from '@/components/sidebar-settings';
+import { TabBarSettings } from '@/components/tab-bar';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -116,6 +117,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
       </Group>
 
       <Group title={t('settings.navigation')}>
+        <TabBarSettings />
         <Text className="text-sm font-semibold text-ink">{t('sidebarPrefs.title')}</Text>
         <SidebarSettings />
       </Group>

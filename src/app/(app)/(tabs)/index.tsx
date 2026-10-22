@@ -1,318 +1,190 @@
-import { Link, useIsFocused, type Href } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useIsFocused } from 'expo-router';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, useWindowDimensions, View } from 'react-native';
+import { SectionList, useWindowDimensions, View } from 'react-native';
 
-import { CampView } from '@/components/camp';
 import { GameHeader } from '@/components/game-bar';
-import { HeroPanel } from '@/components/hero-panel';
-import { NotificationsBell } from '@/components/notifications-bell';
-import { NextActionCard } from '@/components/my-day';
-import { Screen, ScreenScroll } from '@/components/screen';
 import { GymPrompt } from '@/components/gym-prompt';
+import { HeroPanel } from '@/components/hero-panel';
+import { MyDaySection, NextActionCard } from '@/components/my-day';
+import { NotificationsBell } from '@/components/notifications-bell';
 import { ReviewPrompt } from '@/components/review-prompt';
+import { Screen, useScreenGutter } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
+import { TodayWorkout } from '@/components/gym/week-plan';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
+import { QuickAdd } from '@/components/tasks/quick-add';
 import { TaskRow } from '@/components/tasks/task-row';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { ModeButton } from '@/components/mode-button';
-import { NotesBlock } from '@/components/notes-block';
+import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { addDays, formatShortDate } from '@/lib/parser/dates';
-import { useGameLevel } from '@/lib/queries/game';
-import { useMyTasks } from '@/lib/queries/projects';
-import { useProfile, useToday } from '@/lib/queries/profile';
-import {
-  useHabits,
-  usePageTasks,
-  useTodayTasks,
-  useUpcomingTasks,
-  type TaskWithPage,
-} from '@/lib/queries/tasks';
+import { formatShortDate } from '@/lib/parser/dates';
+import { useToday } from '@/lib/queries/profile';
+import { useHabits, useTodayTasks, type HabitTask, type TaskWithPage } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
 import { asRecurrence, isHabitDueOn } from '@/lib/recurrence';
+import { useSelectableList } from '@/lib/selection';
 
-/** Quantos itens cada seção mostra antes do "ver tudo". */
-const PREVIEW = 6;
+type Row = { kind: 'task'; task: TaskWithPage } | { kind: 'habit'; task: HabitTask };
+type Section = { title: string; count: string; tone?: 'warn'; data: Row[] };
 
-// Início: visão geral do que está pendente — atrasadas e de hoje, hábitos do dia, próximos
-// 7 dias, Caixa de entrada e (em projetos) o que foi atribuído a você. Sem cartões de número em
-// grade: o resumo é uma linha em mono, e as seções são listas com rótulo, sem caixa.
-// No computador, o personagem e o boss ficam numa coluna à direita.
-export default function HomeScreen() {
+// Hoje (D258): a tela de abertura. Junta o Início e a Hoje antigos, que mostravam quase a mesma
+// coisa (a mesma tarefa aparecia duas vezes no Início, em "Fazer agora" e "Para fazer agora").
+// Fica o que responde "o que eu faço agora?": a próxima ação, a captura para hoje, atrasadas, de
+// hoje e os hábitos do dia. Próximos dias, Entrada sem data e Atribuídas a mim foram para o
+// Planejar; o acampamento do RPG, para o Jogo. No computador largo, o herói e os bosses ficam à
+// direita; no celular, o jogo é uma faixa de duas linhas.
+export default function TodayScreen() {
   const { t } = useTranslation();
+  const gutter = useScreenGutter('medium');
   const today = useToday();
-  const profile = useProfile();
   const tree = useTree();
+  const tasks = useTodayTasks(today);
   const { width } = useWindowDimensions();
+  const narrow = width < 768;
   const wide = width >= 1024;
-  // Tela bem larga (1600+): as listas se dividem em duas colunas ao lado do personagem
-  const triple = width >= 1600;
-  // HB4: no modo Completo o topo é o acampamento (e a coluna do personagem sai, para não repetir)
-  const camp = useGameLevel() === 'full';
 
-  const todayTasks = useTodayTasks(today);
-  const upcoming = useUpcomingTasks(today, addDays(today, 7));
-  const inbox = usePageTasks(tree.data?.inbox?.id);
   const habits = useHabits(today);
   const habitDates = useHabitDates(habits.data ?? []);
-  // "Atribuídas a mim" só faz sentido para quem participa de algum projeto
-  const inProject = !!tree.data?.folders.some((f) => f.is_shared);
-  const mine = useMyTasks({ enabled: inProject });
-
-  const overdue = (todayTasks.data ?? []).filter((task) => task.due_date! < today);
-  const dueToday = (todayTasks.data ?? []).filter((task) => task.due_date === today);
-  // Da Caixa de entrada, só o que ainda não tem data (o que tem já aparece em "agora" ou nos próximos dias)
-  const inboxOpen = (inbox.data ?? []).filter(
-    (task) => !task.parent_task_id && task.status !== 'done' && !task.due_date,
-  );
-  const todaysHabits = (habits.data ?? []).filter(
-    (h) => h.habit_kind === 'plusminus' || isHabitDueOn(asRecurrence(h.recurrence), today),
-  );
+  const todaysHabits = (habits.data ?? [])
+    .filter((h) => h.habit_kind === 'plusminus' || isHabitDueOn(asRecurrence(h.recurrence), today))
+    // Os feitos descem; bom/ruim (sem "feito") fica no fim
+    .sort((a, b) => habitOrder(a) - habitOrder(b));
   const withGoal = todaysHabits.filter((h) => h.habit_kind !== 'plusminus');
   const habitsDone = withGoal.filter((h) => h.status === 'done').length;
-  const pendingHabits = todaysHabits
-    .filter((h) => h.habit_kind === 'plusminus' || h.status !== 'done')
-    .sort((a, b) => Number(a.habit_kind === 'plusminus') - Number(b.habit_kind === 'plusminus'));
-  const assigned = inProject ? (mine.data ?? []) : [];
 
-  // As abas ficam montadas atrás da ativa: fora de foco o Início não desenha as listas (repetiria
-  // as tarefas da Hoje na árvore da página e custaria render à toa); os dados seguem no cache
+  const overdue = (tasks.data ?? []).filter((task) => task.due_date! < today);
+  // Com horário primeiro, pela hora; as sem horário depois, na ordem de sempre (D206)
+  const dueToday = (tasks.data ?? [])
+    .filter((task) => task.due_date === today)
+    .map((task, i) => ({ task, i }))
+    .sort((a, b) =>
+      a.task.due_time && b.task.due_time
+        ? a.task.due_time.localeCompare(b.task.due_time)
+        : a.task.due_time
+          ? -1
+          : b.task.due_time
+            ? 1
+            : a.i - b.i,
+    )
+    .map(({ task }) => task);
+  const keyboardOrder = useMemo(() => [...overdue, ...dueToday], [overdue, dueToday]);
+  useSelectableList(keyboardOrder);
+  const asRows = (list: TaskWithPage[]) => list.map((task) => ({ kind: 'task' as const, task }));
+  const candidates: (Section | false)[] = [
+    overdue.length > 0 && {
+      title: t('today.overdue'),
+      count: String(overdue.length),
+      tone: 'warn' as const,
+      data: asRows(overdue),
+    },
+    dueToday.length > 0 && {
+      title: t('today.dueToday'),
+      count: String(dueToday.length),
+      data: asRows(dueToday),
+    },
+    todaysHabits.length > 0 && {
+      title: t('today.habits'),
+      count: withGoal.length ? `${habitsDone}/${withGoal.length}` : '',
+      data: todaysHabits.map((task) => ({ kind: 'habit' as const, task })),
+    },
+  ];
+  const sections = candidates.filter((s): s is Section => !!s);
+
+  // As abas ficam montadas atrás da ativa: fora de foco a Hoje não desenha as listas (repetiria as
+  // tarefas na árvore de acessibilidade da página aberta por cima); os dados seguem no cache
   const focused = useIsFocused();
-  const firstName = profile.data?.display_name.split(' ')[0];
-  const nothingPending =
-    !todayTasks.isPending &&
-    overdue.length + dueToday.length + pendingHabits.length + inboxOpen.length === 0;
-  const labelOf = (task: TaskWithPage) => (task.page ? pageLabel(task.page) : undefined);
+  if (!focused) return <Screen size="medium">{null}</Screen>;
 
-  // Resumo em uma linha: cada número leva para a tela dele
-  const summary = (
-    // -mx-2: cada número tem a folga do realce sem desalinhar o primeiro do título
-    <View className="-mx-2 flex-row flex-wrap items-center gap-1">
-      <Stat href="/today" warn={overdue.length > 0}>
-        {t('home.overdue', { count: overdue.length })}
-      </Stat>
-      <Stat href="/today">{t('home.today', { count: dueToday.length })}</Stat>
-      <Stat href="/habits">
-        {withGoal.length
-          ? t('home.habits', { done: habitsDone, total: withGoal.length })
-          : t('home.habitsCount', { count: todaysHabits.length })}
-      </Stat>
-      <Stat href="/inbox">{t('home.noDate', { count: inboxOpen.length })}</Stat>
-    </View>
-  );
-
-  const nowSection = (
-    <>
-      <Section
-        title={t('home.now')}
-        count={overdue.length + dueToday.length}
-        link={{ href: '/today', label: t('home.openToday') }}
-        empty={overdue.length + dueToday.length === 0 ? t('home.nowEmpty') : undefined}
-      >
-        {[...overdue, ...dueToday].slice(0, PREVIEW).map((task) => (
-          <TaskRow key={task.id} task={task} today={today} pageLabel={labelOf(task)} />
-        ))}
-        <More count={overdue.length + dueToday.length} />
-      </Section>
-    </>
-  );
-  const laterSections = (
-    <>
-      <Section
-        title={t('home.upcoming')}
-        count={(upcoming.data ?? []).length}
-        link={{ href: '/calendario', label: t('home.openCalendar') }}
-        empty={(upcoming.data ?? []).length === 0 ? t('home.upcomingEmpty') : undefined}
-      >
-        {(upcoming.data ?? []).slice(0, PREVIEW).map((task) => (
-          <TaskRow key={task.id} task={task} today={today} pageLabel={labelOf(task)} />
-        ))}
-        <More count={(upcoming.data ?? []).length} />
-      </Section>
-      <Section
-        title={t('home.inbox')}
-        count={inboxOpen.length}
-        link={{ href: '/inbox', label: t('home.open') }}
-        empty={inboxOpen.length === 0 ? t('home.inboxEmpty') : undefined}
-      >
-        {inboxOpen.slice(0, PREVIEW).map((task) => (
-          <TaskRow key={task.id} task={task} today={today} />
-        ))}
-        <More count={inboxOpen.length} />
-      </Section>
-      {assigned.length > 0 && (
-        <Section
-          title={t('home.mine')}
-          count={assigned.length}
-          link={{ href: '/mine', label: t('home.seeAll') }}
-        >
-          {assigned.slice(0, PREVIEW).map((task) => (
-            <TaskRow key={task.id} task={task} today={today} pageLabel={labelOf(task)} />
-          ))}
-          <More count={assigned.length} />
-        </Section>
-      )}
-    </>
-  );
-
-  const habitsSection = (
-    <Section
-      title={t('home.habitsToday')}
-      count={withGoal.length ? `${habitsDone}/${withGoal.length}` : undefined}
-      link={{ href: '/habits', label: t('home.allHabits') }}
-      empty={
-        todaysHabits.length === 0
-          ? t('home.habitsNone')
-          : pendingHabits.length === 0
-            ? t('home.habitsAllDone')
-            : undefined
-      }
-    >
-      {pendingHabits.map((h) => (
-        <HabitRow key={h.id} task={h} dates={habitDates.datesOf(h)} today={today} />
-      ))}
-    </Section>
-  );
-
-  if (!focused) return <Screen size="full">{null}</Screen>;
-
-  return (
-    <Screen size="full">
-      <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-        <View className={cn('w-full self-center', !triple && 'max-w-[1120px]')}>
+  const list = (
+    <SectionList
+      sections={sections}
+      keyExtractor={(row) => row.task.id}
+      keyboardShouldPersistTaps="handled"
+      stickySectionHeadersEnabled={false}
+      className={cn(gutter.bleed, wide && 'flex-1')}
+      contentContainerClassName={cn('pb-clear', gutter.pad)}
+      ListHeaderComponent={
+        <View className="gap-4">
           <ScreenHeader
-            eyebrow={`${formatShortDate(today)} · ${t(nothingPending ? 'home.nothing' : 'home.pending')}`}
-            title={firstName ? t('home.hello', { name: firstName }) : t('home.title')}
+            search
+            help="comecando"
+            eyebrow={formatShortDate(today)}
+            title={t('today.title')}
+            wrap
             right={
-              width < 768 && (
+              // Em tela larga a busca e as notificações ficam na barra lateral
+              narrow && (
                 <>
-                  <ModeButton />
-                  <ThemeToggle />
                   <NotificationsBell />
                 </>
               )
             }
           />
-          {summary}
+          {!wide && <GameHeader />}
           <GymPrompt />
           <ReviewPrompt />
-          {camp && (
-            <View className="pt-4">
-              <CampView
-                name={firstName}
-                missions={overdue.length + dueToday.length + withGoal.length - habitsDone}
-              />
-            </View>
-          )}
-          <View className="pt-4">
-            <NextActionCard tasks={[...overdue, ...dueToday]} today={today} />
-          </View>
-          {triple ? (
-            <View className="mt-4 flex-row items-start gap-12">
-              <View className="flex-1">
-                {habitsSection}
-                {nowSection}
-              </View>
-              <View className="flex-1">{laterSections}</View>
-              {!camp && (
-                <View className="w-80 pt-6">
-                  <HeroPanel />
-                </View>
-              )}
-            </View>
-          ) : wide ? (
-            <View className="mt-4 flex-row items-start gap-12">
-              <View className="flex-1">
-                {habitsSection}
-                {nowSection}
-                {laterSections}
-              </View>
-              {!camp && (
-                <View className="w-80 pt-6">
-                  <HeroPanel />
-                </View>
-              )}
-            </View>
-          ) : (
-            <View className="mt-4">
-              {!camp && <GameHeader />}
-              {/* W3: no celular as anotações ficam no Início (no computador, na barra lateral) */}
-              <NotesBlock limit={3} />
-              {habitsSection}
-              {nowSection}
-              {laterSections}
-            </View>
+          {/* Sem Meu dia, a sugestão seria só a primeira linha da lista: não repete (A4) */}
+          <NextActionCard tasks={[...overdue, ...dueToday]} today={today} onlyWithMyDay />
+          <QuickAdd
+            pageId={tree.data?.inbox?.id}
+            defaultDueDate={today}
+            placeholder={t('today.placeholder')}
+          />
+          <TodayWorkout />
+          <MyDaySection today={today} />
+          {tasks.error && (
+            <Text className="text-sm text-danger">
+              {t('common.loadError', { message: tasks.error.message })}
+            </Text>
           )}
         </View>
-      </ScreenScroll>
+      }
+      renderSectionHeader={({ section }) => (
+        <SectionLabel title={section.title} count={section.count} tone={section.tone} />
+      )}
+      renderItem={({ item }) =>
+        item.kind === 'habit' ? (
+          <HabitRow
+            task={item.task}
+            dates={habitDates.datesOf(item.task)}
+            today={today}
+            pageLabel={pageLabel(item.task.page)}
+          />
+        ) : (
+          <TaskRow
+            task={item.task}
+            today={today}
+            pageLabel={item.task.page ? pageLabel(item.task.page) : undefined}
+          />
+        )
+      }
+      ListEmptyComponent={
+        tasks.isPending || habits.isPending ? null : (
+          <EmptyState title={t('today.empty')} hint={t('today.emptyHint')} />
+        )
+      }
+    />
+  );
+
+  return (
+    <Screen size={wide ? 'wide' : 'medium'}>
+      {wide ? (
+        <View className="flex-1 flex-row gap-12">
+          {list}
+          <View className="w-80 pt-12">
+            <HeroPanel />
+          </View>
+        </View>
+      ) : (
+        list
+      )}
     </Screen>
   );
 }
 
-function Stat({ href, warn, children }: { href: Href; warn?: boolean; children: string }) {
-  return (
-    <Link href={href} asChild>
-      <Pressable
-        accessibilityRole="link"
-        className="min-h-8 justify-center rounded px-2 hover:bg-wash active:bg-wash"
-      >
-        <Text className={cn('font-mono text-xs', warn ? 'text-warn' : 'text-ink-muted')}>
-          {children}
-        </Text>
-      </Pressable>
-    </Link>
-  );
-}
-
-function Section({
-  title,
-  count,
-  link,
-  empty,
-  children,
-}: {
-  title: string;
-  count?: number | string;
-  link?: { href: Href; label: string };
-  empty?: string;
-  children?: ReactNode;
-}) {
-  return (
-    <View>
-      <SectionLabel
-        title={title}
-        count={count === 0 ? undefined : count}
-        right={
-          // Sem link, a mesma altura: as colunas lado a lado começam alinhadas
-          !link ? (
-            <View className="min-h-8" />
-          ) : (
-            <Link href={link.href} asChild>
-              <Pressable
-                accessibilityRole="link"
-                className="-mr-2 min-h-8 justify-center rounded px-2 hover:bg-wash active:bg-wash"
-              >
-                <Text className="text-xs font-semibold text-ink">{link.label}</Text>
-              </Pressable>
-            </Link>
-          )
-        }
-      />
-      {empty ? <Text className="py-3 text-sm text-ink-muted">{empty}</Text> : children}
-    </View>
-  );
-}
-
-/** "e mais N" quando a seção cortou a lista. */
-function More({ count }: { count: number }) {
-  const { t } = useTranslation();
-  if (count <= PREVIEW) return null;
-  return (
-    <Text className="pt-2 font-mono text-xs text-ink-muted">
-      {t('home.more', { count: count - PREVIEW })}
-    </Text>
-  );
+function habitOrder(h: HabitTask) {
+  if (h.habit_kind === 'plusminus') return 2;
+  return h.status === 'done' ? 1 : 0;
 }

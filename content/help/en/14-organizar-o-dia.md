@@ -16,4 +16,4 @@ On a list page, the **Matrix** tab splits the open tasks into four quadrants: **
 
 ## Weekly review
 
-Once a week, Home suggests the **Weekly review** (also in the palette, `Ctrl+K`). It has four steps: **Done** (what you did in the last 7 days, by page), **Left over** (overdue tasks: pick a new day, remove the date or complete them), **Stalled** (no date and untouched for more than 30 days: give a date or archive, which sends it to the trash) and **Next week** (what is due in the next 7 days). **Finish review** saves the date; "Not now" hides the prompt for a week.
+Once a week, Today suggests the **Weekly review**; it always lives in **Plan** (and in search, `Ctrl+K`). It has four steps: **Done** (what you did in the last 7 days, by page), **Left over** (overdue tasks: pick a new day, remove the date or complete them), **Stalled** (no date and untouched for more than 30 days: give a date or archive, which sends it to the trash) and **Next week** (what is due in the next 7 days). **Finish review** saves the date; "Not now" hides the prompt for a week.

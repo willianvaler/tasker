@@ -71,6 +71,8 @@ export function useUpdateProfile() {
 /** Preferências de interface salvas no perfil (valem em todos os aparelhos, V6 §15.2). */
 export type UiPrefs = {
   sidebar?: { order?: string[]; hidden?: string[] };
+  /** As duas posições do meio da barra de baixo do celular (D258, `lib/tab-slots.ts`) */
+  tabs?: string[];
   /** Revisão semanal (PB3): última feita ou dispensada */
   review?: ReviewPrefs;
   /** Registro do treino (AC4): unidade de carga e escala de esforço */

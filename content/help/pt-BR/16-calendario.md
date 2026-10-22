@@ -1,6 +1,6 @@
 # Calendário e Google Agenda
 
-O **Calendário** (na barra lateral, em "Próximos 7 dias" no Início ou com `G C`) mostra as tarefas com data de todas as suas pastas e projetos, por **mês** ou por **semana**. Toque num dia para ver a lista dele; toque numa tarefa para abri-la.
+O **Calendário** (em **Planejar**, na barra lateral ou com `G C`) mostra as tarefas com data de todas as suas pastas e projetos, por **mês** ou por **semana**. Toque num dia para ver a lista dele; toque numa tarefa para abri-la.
 
 - Tarefa que se repete aparece em todos os dias em que vai vencer.
 - **Treino** (página da Academia ou de um grupo de treino) aparece uma vez por dia, com o nome da página e quantos exercícios caem nele. Tocar abre a página.
