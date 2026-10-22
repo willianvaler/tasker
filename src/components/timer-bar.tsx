@@ -271,7 +271,12 @@ export function AdjustButtons({
   );
 }
 
-export function TimerBar({ floating }: { floating?: boolean }) {
+/**
+ * Barra do timer. `docked` (D260): no celular, nas telas com a barra de baixo, ela encaixa acima da
+ * barra, como um mini player, e empurra o conteúdo em vez de cobrir. `floating`: nas outras telas
+ * (página aberta, computador), no canto de baixo, onde não há barra.
+ */
+export function TimerBar({ floating, docked }: { floating?: boolean; docked?: boolean }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   // No Modo Treino o descanso já está na tela, em grande
@@ -299,9 +304,14 @@ export function TimerBar({ floating }: { floating?: boolean }) {
           ? { position: 'absolute', right: 8, bottom: insets.bottom + SIZE.timerBar }
           : undefined
       }
-      className="max-w-[360px] flex-row items-center gap-1 rounded-lg border border-line bg-surface pl-3 pr-1"
+      className={cn(
+        'flex-row items-center gap-1 bg-surface pr-1',
+        docked
+          ? 'min-h-11 border-b border-line pl-4'
+          : 'max-w-[360px] rounded-lg border border-line pl-3',
+      )}
     >
-      <Text className="shrink text-sm text-ink" numberOfLines={1}>
+      <Text className={cn('shrink text-sm text-ink', docked && 'flex-1')} numberOfLines={1}>
         {label}
       </Text>
       <Text className={cn('font-mono text-sm', paused ? 'text-ink-muted' : 'text-ink')}>

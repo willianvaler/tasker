@@ -51,3 +51,22 @@ export function resolveSlots(saved: unknown, ctx: TabContext): [TabSlot, TabSlot
 export function barRoutes(slots: [TabSlot, TabSlot]) {
   return ['index', slots[0], slots[1], 'mais'] as const;
 }
+
+/** Endereços das telas que mostram a barra de baixo no celular (o resto abre por cima dela). */
+export const TAB_PATHS: readonly string[] = [
+  '/',
+  '/today',
+  '/planejar',
+  '/inbox',
+  '/habits',
+  '/folders',
+  '/treino',
+  '/jogo',
+  '/pessoas',
+  '/mine',
+  '/mais',
+];
+
+export function isTabPath(pathname: string | null | undefined) {
+  return TAB_PATHS.includes(pathname ?? '');
+}

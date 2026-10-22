@@ -17,6 +17,7 @@ import { SyncDot } from '@/components/sync-dot';
 import { SyncRejections } from '@/components/sync-rejections';
 import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
+import { isTabPath } from '@/lib/tab-slots';
 import { useSidebarHidden } from '@/lib/ui-state';
 import { useProfile } from '@/lib/queries/profile';
 import { useRealtimeSync } from '@/providers/realtime';
@@ -28,6 +29,7 @@ export default function AppLayout() {
   const onboarding = useOnboarding();
   const wide = useIsWide();
   const sidebarHidden = useSidebarHidden();
+  const pathname = usePathname();
   return (
     // Em tela larga, a barra lateral fica ao lado da pilha e não some ao abrir uma página
     <CommandPaletteProvider>
@@ -94,7 +96,8 @@ export default function AppLayout() {
               <Stack.Screen name="treino/[id]" options={{ presentation: 'fullScreenModal' }} />
             </Stack>
             {!wide && !onboarding && <SyncDot floating />}
-            {!onboarding && <TimerBar floating />}
+            {/* D260: nas telas com a barra de baixo, o timer fica encaixado nela (components/tab-bar) */}
+            {!onboarding && (wide || !isTabPath(pathname)) && <TimerBar floating />}
             {!onboarding && <WorkoutInviteBanner />}
             {/* ESCOPO_V8: virada do dia ("o que você fez ontem?"), morte e celebrações do modo Completo */}
             {!onboarding && <GameGate />}

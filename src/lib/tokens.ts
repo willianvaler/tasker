@@ -88,8 +88,8 @@ export const SIZE = {
   panel: 480,
   panelMax: 680,
   reading: 760,
-  /** Barra do timer flutuante no celular: distância do fundo (acima das abas) */
-  timerBar: 72,
+  /** Barra do timer flutuante (telas sem a barra de baixo): distância do fundo */
+  timerBar: 16,
   /** Espaço no fim de uma rolagem para a barra do timer não cobrir o último item */
   timerBarClear: 72 + 44 + 24,
 } as const;

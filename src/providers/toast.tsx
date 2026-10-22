@@ -1,10 +1,12 @@
+import { usePathname } from 'expo-router';
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react';
 import { Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeInDown, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Text } from '@/components/ui/text';
-import { DURATION } from '@/lib/tokens';
+import { isTabPath } from '@/lib/tab-slots';
+import { DURATION, SIZE } from '@/lib/tokens';
 
 type Toast = {
   id: number;
@@ -57,6 +59,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const { width } = useWindowDimensions();
   const wide = width >= 768;
   const reduced = useReducedMotion();
+  const pathname = usePathname();
+  // Doca (D260): no Modo Treino o aviso vai para o topo (embaixo ficam "Feita" e "Pular exercício");
+  // nas telas com a barra de baixo, acima dela e do timer encaixado; nas outras, acima do timer
+  // flutuante
+  const inWorkout = (pathname ?? '').startsWith('/treino/');
+  const bottom = wide ? 24 : isTabPath(pathname) ? 64 + 44 + 16 : SIZE.timerBar + 44 + 16;
 
   const show = useCallback((next: ToastInput) => {
     const visible = current.current;
@@ -98,8 +106,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         <View
           pointerEvents="box-none"
           className="absolute inset-x-0 items-center px-4 md:items-end md:px-6"
-          // No celular, acima da barra de abas e do botão de captura
-          style={{ bottom: insets.bottom + (wide ? 24 : 152) }}
+          style={inWorkout ? { top: insets.top + 16 } : { bottom: insets.bottom + bottom }}
         >
           {/* Tinta sobre papel invertida: o aviso se destaca sem sombra nem cor nova */}
           <Animated.View

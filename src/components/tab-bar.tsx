@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { useNewMenu } from '@/components/new-menu';
+import { TimerBar } from '@/components/timer-bar';
 import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
@@ -107,26 +108,27 @@ export function QuestTabBar({ state, navigation, insets }: BottomTabBarProps) {
   };
 
   return (
-    <View
-      className="flex-row items-stretch border-t border-line bg-surface"
-      style={{ height: 64 + insets.bottom, paddingBottom: insets.bottom }}
-    >
-      {item(routes[0])}
-      {item(routes[1])}
-      <View className="flex-1 items-center justify-center">
-        <View ref={plus} collapsable={false}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t('newMenu.button')}
-            className="h-11 w-11 items-center justify-center rounded bg-accent active:opacity-80"
-            onPress={() => newMenu.open(plus)}
-          >
-            <Icon icon={Plus} size={24} tone="on-accent" />
-          </Pressable>
+    <View className="border-t border-line bg-surface" style={{ paddingBottom: insets.bottom }}>
+      {/* Doca (D260): o timer encaixa aqui, acima dos destinos, e empurra o conteúdo */}
+      <TimerBar docked />
+      <View className="h-16 flex-row items-stretch">
+        {item(routes[0])}
+        {item(routes[1])}
+        <View className="flex-1 items-center justify-center">
+          <View ref={plus} collapsable={false}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('newMenu.button')}
+              className="h-11 w-11 items-center justify-center rounded bg-accent active:opacity-80"
+              onPress={() => newMenu.open(plus)}
+            >
+              <Icon icon={Plus} size={24} tone="on-accent" />
+            </Pressable>
+          </View>
         </View>
+        {item(routes[2])}
+        {item(routes[3])}
       </View>
-      {item(routes[2])}
-      {item(routes[3])}
     </View>
   );
 }
