@@ -381,8 +381,15 @@ function TaskDetails({ task }: { task: Task }) {
           </View>
         )}
 
-        {/* CD16: à vista também no painel simples, em projeto e em pasta pessoal */}
-        {!isHabit && !received && gym('dependencies') && (
+        {project && gym('assignees') && (
+          <Section title={t('taskDetail.assignees')}>
+            <AssigneesEditor task={task} />
+          </Section>
+        )}
+
+        {/* UX4 (D263): em projeto, logo no alto (o fluxo depende dele); em pasta pessoal, depois das
+            subtarefas (CD16: sempre à vista) */}
+        {project && !isHabit && !received && gym('dependencies') && (
           <DependencyEditor
             task={task}
             dependsOn={flow.dependsOn}
@@ -390,121 +397,6 @@ function TaskDetails({ task }: { task: Task }) {
             titleOf={flow.titleOf}
             inputRef={depsRef}
           />
-        )}
-
-        {/* W4: descrição vazia é só um botão; aberta, até 4.000 caracteres */}
-        {!notes && !showNotes ? (
-          writable && (
-            <Button
-              variant="ghost"
-              icon={Plus}
-              label={t('taskDetail.addDescription')}
-              className="self-start"
-              onPress={() => setShowNotes(true)}
-            />
-          )
-        ) : (
-          <Section
-            title={t('taskDetail.notes')}
-            count={notes.length > NOTES_MAX * 0.8 ? `${notes.length}/${NOTES_MAX}` : undefined}
-          >
-            <TextInput
-              value={notes}
-              onChangeText={setNotes}
-              onBlur={() => notes !== (task.notes ?? '') && save({ notes: notes.trim() || null })}
-              editable={writable}
-              autoFocus={showNotes && !task.notes}
-              maxLength={NOTES_MAX}
-              multiline
-              placeholder={t('taskDetail.notesPlaceholder')}
-              placeholderTextColor={colors['ink-muted']}
-              accessibilityLabel={t('taskDetail.notes')}
-              textAlignVertical="top"
-              className={textClass(
-                'min-h-20 rounded border border-line bg-paper p-3 text-base text-ink focus:border-accent',
-              )}
-            />
-            <ConflictNotice
-              taskId={task.id}
-              writable={writable}
-              onRestore={(body) => {
-                setNotes(body);
-                save({ notes: body });
-              }}
-            />
-          </Section>
-        )}
-
-        {isHabit && !task.parent_task_id && (
-          <Section title={t('taskDetail.habitKind')}>
-            <HabitKindEditor task={task} onSave={save} />
-          </Section>
-        )}
-
-        {isHabit && !task.parent_task_id && task.habit_kind !== 'plusminus' && (
-          <Section title={t('taskDetail.history')}>
-            <HabitHistory task={task} dates={habitDates.datesOf(task)} today={today} />
-          </Section>
-        )}
-
-        {isWorkout && !leaves && (
-          <Section title={t('taskDetail.exercise')}>
-            <ExerciseLink
-              task={task}
-              editable={writable}
-              onLink={(exerciseId) => save({ exercise_id: exerciseId })}
-            />
-            <MetaEditor task={task} onSave={save} />
-            <ProgressionEditor task={task} editable={writable} onSave={save} />
-            <SupersetEditor
-              value={task.superset}
-              editable={writable}
-              onSave={(superset) => save({ superset })}
-            />
-            {repeatPlan?.mode === 'sets' && (
-              <RepeatCounter
-                task={task}
-                disabled={!allowed.complete || (blocked && !flow.forceable)}
-              />
-            )}
-          </Section>
-        )}
-
-        {isWorkout && !leaves && (
-          <Section title={t('diary.history')}>
-            <ExerciseRecords exerciseId={task.exercise_id} taskId={task.id} />
-            <ExerciseHistory exerciseId={task.exercise_id} taskId={task.id} showTitle={false} />
-          </Section>
-        )}
-
-        {received && (
-          <Section title={t('received.noteTitle')}>
-            <ReceivedNote task={task} />
-          </Section>
-        )}
-
-        {show('fields') && gym('fields') && (
-          <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
-        )}
-
-        {!isHabit &&
-          !received &&
-          show('approval') &&
-          gym('approval') &&
-          rootFolder(tree.data, task.folder_id)?.kind === 'project' && (
-            <Section title={t('approval.title')}>
-              <ApprovalEditor task={task} disabled={!writable} onChange={(patch) => save(patch)} />
-            </Section>
-          )}
-
-        {!isHabit && !received && task.status !== 'done' && show('myDay') && gym('myDay') && (
-          <Section title={t('myDay.title')}>
-            <Chip
-              label={t(myDay.has(task.id) ? 'myDay.inDay' : 'myDay.add')}
-              selected={myDay.has(task.id)}
-              onPress={() => myDay.toggle(task.id)}
-            />
-          </Section>
         )}
 
         {!isHabit && gym('due') && (
@@ -594,6 +486,155 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
+        {gym('priority') && (
+          <Section title={t('taskDetail.priority')}>
+            <View className="flex-row flex-wrap gap-2">
+              {PRIORITIES.map((p) => (
+                <Chip
+                  key={p.value}
+                  label={t(p.label)}
+                  selected={task.priority === p.value}
+                  onPress={() => save({ priority: p.value })}
+                />
+              ))}
+            </View>
+          </Section>
+        )}
+
+        {gym('labels') && (
+          <Section title={t('taskDetail.labels')}>
+            <Input
+              value={labels}
+              onChangeText={setLabels}
+              onBlur={() => {
+                const next = parseLabelsText(labels);
+                if (next.join() !== task.labels.join()) save({ labels: next });
+              }}
+              editable={writable}
+              autoCapitalize="none"
+              placeholder="#casa #mercado"
+              accessibilityLabel={t('taskDetail.labels')}
+            />
+          </Section>
+        )}
+
+        {/* W4: descrição vazia é só um botão; aberta, até 4.000 caracteres */}
+        {!notes && !showNotes ? (
+          writable && (
+            <Button
+              variant="ghost"
+              icon={Plus}
+              label={t('taskDetail.addDescription')}
+              className="self-start"
+              onPress={() => setShowNotes(true)}
+            />
+          )
+        ) : (
+          <Section
+            title={t('taskDetail.notes')}
+            count={notes.length > NOTES_MAX * 0.8 ? `${notes.length}/${NOTES_MAX}` : undefined}
+          >
+            <TextInput
+              value={notes}
+              onChangeText={setNotes}
+              onBlur={() => notes !== (task.notes ?? '') && save({ notes: notes.trim() || null })}
+              editable={writable}
+              autoFocus={showNotes && !task.notes}
+              maxLength={NOTES_MAX}
+              multiline
+              placeholder={t('taskDetail.notesPlaceholder')}
+              placeholderTextColor={colors['ink-muted']}
+              accessibilityLabel={t('taskDetail.notes')}
+              textAlignVertical="top"
+              className={textClass(
+                'min-h-20 rounded border border-line bg-paper p-3 text-base text-ink focus:border-accent',
+              )}
+            />
+            <ConflictNotice
+              taskId={task.id}
+              writable={writable}
+              onRestore={(body) => {
+                setNotes(body);
+                save({ notes: body });
+              }}
+            />
+          </Section>
+        )}
+
+        {!task.parent_task_id && gym('subtasks') && <Subtasks task={task} />}
+
+        {isHabit && !task.parent_task_id && (
+          <Section title={t('taskDetail.habitKind')}>
+            <HabitKindEditor task={task} onSave={save} />
+          </Section>
+        )}
+
+        {isHabit && !task.parent_task_id && task.habit_kind !== 'plusminus' && (
+          <Section title={t('taskDetail.history')}>
+            <HabitHistory task={task} dates={habitDates.datesOf(task)} today={today} />
+          </Section>
+        )}
+
+        {isWorkout && !leaves && (
+          <Section title={t('taskDetail.exercise')}>
+            <ExerciseLink
+              task={task}
+              editable={writable}
+              onLink={(exerciseId) => save({ exercise_id: exerciseId })}
+            />
+            <MetaEditor task={task} onSave={save} />
+            <ProgressionEditor task={task} editable={writable} onSave={save} />
+            <SupersetEditor
+              value={task.superset}
+              editable={writable}
+              onSave={(superset) => save({ superset })}
+            />
+            {repeatPlan?.mode === 'sets' && (
+              <RepeatCounter
+                task={task}
+                disabled={!allowed.complete || (blocked && !flow.forceable)}
+              />
+            )}
+          </Section>
+        )}
+
+        {isWorkout && !leaves && (
+          <Section title={t('diary.history')}>
+            <ExerciseRecords exerciseId={task.exercise_id} taskId={task.id} />
+            <ExerciseHistory exerciseId={task.exercise_id} taskId={task.id} showTitle={false} />
+          </Section>
+        )}
+
+        {received && (
+          <Section title={t('received.noteTitle')}>
+            <ReceivedNote task={task} />
+          </Section>
+        )}
+
+        {show('fields') && gym('fields') && (
+          <PanelFields task={task} disabled={!writable} title={t('fields.section')} />
+        )}
+
+        {!isHabit &&
+          !received &&
+          show('approval') &&
+          gym('approval') &&
+          rootFolder(tree.data, task.folder_id)?.kind === 'project' && (
+            <Section title={t('approval.title')}>
+              <ApprovalEditor task={task} disabled={!writable} onChange={(patch) => save(patch)} />
+            </Section>
+          )}
+
+        {!isHabit && !received && task.status !== 'done' && show('myDay') && gym('myDay') && (
+          <Section title={t('myDay.title')}>
+            <Chip
+              label={t(myDay.has(task.id) ? 'myDay.inDay' : 'myDay.add')}
+              selected={myDay.has(task.id)}
+              onPress={() => myDay.toggle(task.id)}
+            />
+          </Section>
+        )}
+
         {!isHabit && !isWorkout && (show('time') || !!leaves) && (
           <Section title={t('taskDetail.time')}>
             {leaves ? (
@@ -664,21 +705,6 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {gym('priority') && (
-          <Section title={t('taskDetail.priority')}>
-            <View className="flex-row flex-wrap gap-2">
-              {PRIORITIES.map((p) => (
-                <Chip
-                  key={p.value}
-                  label={t(p.label)}
-                  selected={task.priority === p.value}
-                  onPress={() => save({ priority: p.value })}
-                />
-              ))}
-            </View>
-          </Section>
-        )}
-
         {!isHabit && show('weight') && gym('weight') && (
           <Section title={t('weight.title')}>
             {leaves ? (
@@ -705,23 +731,6 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {gym('labels') && (
-          <Section title={t('taskDetail.labels')}>
-            <Input
-              value={labels}
-              onChangeText={setLabels}
-              onBlur={() => {
-                const next = parseLabelsText(labels);
-                if (next.join() !== task.labels.join()) save({ labels: next });
-              }}
-              editable={writable}
-              autoCapitalize="none"
-              placeholder="#casa #mercado"
-              accessibilityLabel={t('taskDetail.labels')}
-            />
-          </Section>
-        )}
-
         {!project && !task.parent_task_id && gym('visibility') && (
           // V10 §2 (D232): quem mais vê, pelo perfil; em projeto vale quem é do projeto
           <Section title={t('visibility.title')}>
@@ -741,13 +750,15 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
-        {project && gym('assignees') && (
-          <Section title={t('taskDetail.assignees')}>
-            <AssigneesEditor task={task} />
-          </Section>
+        {!project && !isHabit && !received && gym('dependencies') && (
+          <DependencyEditor
+            task={task}
+            dependsOn={flow.dependsOn}
+            unlocks={flow.unlocks}
+            titleOf={flow.titleOf}
+            inputRef={depsRef}
+          />
         )}
-
-        {!task.parent_task_id && gym('subtasks') && <Subtasks task={task} />}
 
         {gym('attachments') && (
           <Section title={t('attach.section')}>
