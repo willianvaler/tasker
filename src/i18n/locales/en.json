@@ -134,7 +134,9 @@
     "game": "Game",
     "settings": "Settings",
     "plan": "Plan",
-    "workout": "Workouts"
+    "workout": "Workouts",
+    "moreCard": "More: {{name}}",
+    "moreCardLevel": "More: {{name}}, level {{level}}, {{into}} of {{next}} XP"
   },
   "quickAdd": {
     "label": "New task",

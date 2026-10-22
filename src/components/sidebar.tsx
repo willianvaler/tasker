@@ -8,18 +8,14 @@ import {
   ChevronRight,
   CircleHelp,
   Dumbbell,
-  Globe,
   Inbox,
   LayoutGrid,
   Plus,
   Repeat,
   Scale,
   Search,
-  Shield,
-  ShoppingBag,
   Sun,
   User,
-  UserPlus,
   Users,
   Zap,
   type LucideIcon,
@@ -420,16 +416,23 @@ export function Sidebar() {
   );
 }
 
-/** Rodapé: nível e XP (fio de 2 px), atalhos do jogo e da conta, e o ponto de sincronização. */
+/**
+ * Rodapé (D259): o Novo, o cartão da pessoa (nome, nível e XP com o fio de 2 px), que abre o Mais,
+ * o sino, a Ajuda e o ponto de sincronização. Antes eram 8 ícones sem texto (Perfil, Notificações,
+ * Comunidade, Amigos, Times, Clã, Loja, Ajuda), que não cabiam em 1280 px; os destinos agora ficam
+ * no Mais, em Pessoas e no Jogo, com nome.
+ */
 function SidebarFooter({ online }: { online: boolean }) {
   const { t } = useTranslation();
   const newMenu = useNewMenu();
   const anchor = useRef<View>(null);
   const pathname = usePathname();
   const unread = useUnreadCount();
-  // Pedidos de amizade recebidos (V10)
+  // Pedidos de amizade recebidos (V10): o ponto no cartão avisa
   const friendRequests = (useMyFriends().data ?? []).filter((f) => f.incoming).length;
   const { data: game } = useGameState();
+  const name = useProfile().data?.display_name ?? '';
+  const onMore = ['/mais', '/configuracoes', '/jogo', '/character', '/shop'].includes(pathname);
   return (
     <View className="gap-2 border-t border-line px-2 py-2">
       <View ref={anchor} collapsable={false}>
@@ -444,32 +447,49 @@ function SidebarFooter({ online }: { online: boolean }) {
           <Kbd>Alt N</Kbd>
         </Pressable>
       </View>
-      {game?.enabled && (
-        <Link href="/character" asChild>
+      <View className="flex-row items-center gap-1">
+        <Link href="/mais" asChild>
           <Pressable
             accessibilityRole="link"
-            accessibilityLabel={t('nav.characterSummary', {
-              level: game.level,
-              into: game.into_level,
-              next: game.for_next,
-            })}
-            className="gap-1 rounded px-2 py-2 hover:bg-wash active:bg-wash"
+            accessibilityLabel={
+              game?.enabled
+                ? t('nav.moreCardLevel', {
+                    name,
+                    level: game.level,
+                    into: game.into_level,
+                    next: game.for_next,
+                  })
+                : t('nav.moreCard', { name })
+            }
+            aria-current={onMore ? 'page' : undefined}
+            className={cn(
+              'min-h-10 flex-1 flex-row items-center gap-2 rounded px-2 py-1 hover:bg-wash active:bg-wash',
+              onMore && 'bg-wash',
+            )}
           >
-            <View className="flex-row justify-between">
-              <Text className="font-mono text-xs text-ink">
-                {t('nav.level', { level: game.level })}
-              </Text>
-              <PendingXp />
-              <Text className="font-mono text-xs text-ink-muted">
-                {t('nav.xp', { into: game.into_level, next: game.for_next })}
-              </Text>
+            <Icon icon={User} tone="ink-muted" />
+            <View className="flex-1 gap-1">
+              <View className="flex-row items-baseline gap-2">
+                <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
+                  {name || t('nav.more')}
+                </Text>
+                {game?.enabled && (
+                  <Text className="font-mono text-xs text-ink-muted">
+                    {t('nav.level', { level: game.level })}
+                  </Text>
+                )}
+                <PendingXp />
+              </View>
+              {game?.enabled && (
+                <ProgressBar
+                  value={game.into_level / game.for_next}
+                  label={t('nav.xp', { into: game.into_level, next: game.for_next })}
+                />
+              )}
             </View>
-            <ProgressBar value={game.into_level / game.for_next} label="" />
+            {friendRequests > 0 && <Badge count={friendRequests} />}
           </Pressable>
         </Link>
-      )}
-      <View className="flex-row items-center">
-        <FooterLink href="/mais" icon={User} label={t('nav.more')} active={pathname === '/mais'} />
         <FooterLink
           href="/notifications"
           icon={Bell}
@@ -478,47 +498,12 @@ function SidebarFooter({ online }: { online: boolean }) {
           badge={unread > 0 ? <Badge count={unread} /> : null}
         />
         <FooterLink
-          href="/comunidade"
-          icon={Globe}
-          label={t('nav.community')}
-          active={pathname.startsWith('/comunidade')}
-        />
-        <FooterLink
-          href="/amigos"
-          icon={UserPlus}
-          label={
-            friendRequests ? t('nav.friendsPending', { count: friendRequests }) : t('nav.friends')
-          }
-          active={pathname === '/amigos'}
-          badge={friendRequests > 0 ? <Badge count={friendRequests} /> : null}
-        />
-        <FooterLink
-          href="/teams"
-          icon={Users}
-          label={t('nav.teams')}
-          active={pathname === '/teams' || pathname.startsWith('/team/')}
-        />
-        <FooterLink
-          href="/clan"
-          icon={Shield}
-          label={t('nav.clan')}
-          active={pathname === '/clan'}
-        />
-        <FooterLink
-          href="/shop"
-          icon={ShoppingBag}
-          label={t('nav.shop')}
-          active={pathname === '/shop'}
-        />
-        <FooterLink
           href="/ajuda"
           icon={CircleHelp}
           label={t('help.link')}
-          active={pathname === '/ajuda'}
+          active={pathname.startsWith('/ajuda')}
         />
-        <View className="ml-auto">
-          <SyncDot />
-        </View>
+        <SyncDot />
       </View>
     </View>
   );

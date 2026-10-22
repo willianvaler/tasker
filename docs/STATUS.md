@@ -350,7 +350,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam escondidas ou espalhadas"; aprovou a proposta inteira ("corrija tudo"). Os ids são UX1 a UX14 (a Fase U já usa U1 a U9).
 
 - [x] **UX1** Caminhos que faltam, entregues com o UX8: busca (lupa) no topo das telas principais do celular, abrindo a paleta; tela **Treino** (`/treino`) com os treinos, grupos, Biblioteca, Peso e medidas e Estatísticas; Revisão semanal fixa no Planejar e no Mais (D258)
-- [ ] **UX2** Rodapé da barra lateral com três alvos (cartão do avatar, sino, ajuda)
+- [x] **UX2** Rodapé da barra lateral com três alvos: o cartão da pessoa (nome, nível e XP, com o ponto dos pedidos de amizade) que abre o Mais, o sino e a Ajuda, mais o ponto de sincronização; saíram os 8 ícones sem texto, cortados em 1280 px (D259)
 - [x] **UX3** Nomes e rótulos: jogo Desligado · Discreto · RPG; "Recompensas" e "Estábulo" com ícone em vez de emoji; botão primário desabilitado com contorno e texto apagado (o laranja claro parecia ativo); pasta Academia vazia diz "Criar o primeiro treino" na tela Pastas, como na barra lateral (D256)
 - [ ] **UX4** Painel da tarefa: subtarefas para cima, "Depende de" em primeiro só em projeto
 - [ ] **UX5** Menu Novo completo (anotação, várias de uma vez, a partir de um modelo) e um só "Nova pasta"

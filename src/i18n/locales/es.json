@@ -134,7 +134,9 @@
     "game": "Juego",
     "settings": "Ajustes",
     "plan": "Planificar",
-    "workout": "Entreno"
+    "workout": "Entreno",
+    "moreCard": "Más: {{name}}",
+    "moreCardLevel": "Más: {{name}}, nivel {{level}}, {{into}} de {{next}} XP"
   },
   "quickAdd": {
     "label": "Nueva tarea",
