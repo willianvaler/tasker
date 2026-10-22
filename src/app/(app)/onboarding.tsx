@@ -5,7 +5,7 @@ import {
   Check,
   Folder,
   SlidersHorizontal,
-  Swords,
+  Sparkles,
   Zap,
   type LucideIcon,
 } from 'lucide-react-native';
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { GameLevelSettings } from '@/components/game-profile';
 import { ItemIcon } from '@/components/item-icon';
 import { LanguageChooser, ThemeChooser } from '@/components/preference-choosers';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
@@ -23,9 +24,14 @@ import { Icon } from '@/components/ui/icon';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { ToggleRow } from '@/components/ui/toggle-row';
-import { useGameState, useSetGamification } from '@/lib/queries/game';
 import { keys } from '@/lib/queries/keys';
-import { useToday, useUpdateProfile, type Profile } from '@/lib/queries/profile';
+import {
+  useProfile,
+  useSetGymMode,
+  useToday,
+  useUpdateProfile,
+  type Profile,
+} from '@/lib/queries/profile';
 import { useTemplateMutations } from '@/lib/queries/projects';
 import { useCreateTasks, type Task } from '@/lib/queries/tasks';
 import { useTree } from '@/lib/queries/tree';
@@ -36,8 +42,8 @@ import { useToast } from '@/providers/toast';
 const STEPS = 4;
 
 /**
- * Assistente de primeiro uso em 4 passos (U4, D160): deixar do seu jeito (idioma, tema, painel e
- * avisos), capturar rápido, organizar em pastas e o jogo (liga/desliga). Aparece uma vez por
+ * Assistente de primeiro uso em 4 passos (U4, D160): deixar do seu jeito (idioma, tema e avisos),
+ * capturar rápido, organizar em pastas e "Para que você vai usar?" (treino e jogo, D266). Aparece uma vez por
  * conta; dá para pular a qualquer momento e refazer pela Ajuda.
  */
 export default function OnboardingScreen() {
@@ -45,8 +51,15 @@ export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
   const update = useUpdateProfile();
   const queryClient = useQueryClient();
+  const profile = useProfile().data;
+  const setGymMode = useSetGymMode();
+  // Treino (UX12): a resposta vai ao começar; quem pula não responde (a Hoje pergunta depois)
+  const [gym, setGym] = useState(profile?.gym_enabled === true);
+  const [answered, setAnswered] = useState(false);
 
   function finish() {
+    if (answered && (profile?.gym_enabled == null || gym !== profile.gym_enabled))
+      setGymMode.mutate(gym);
     const now = new Date().toISOString();
     // Já marca no cache: senão o layout manda de volta para cá enquanto o servidor responde
     queryClient.setQueryData<Profile>(keys.profile, (p) => (p ? { ...p, onboarded_at: now } : p));
@@ -74,7 +87,15 @@ export default function OnboardingScreen() {
           {step === 0 && <SetupStep />}
           {step === 1 && <CaptureStep />}
           {step === 2 && <OrganizeStep />}
-          {step === 3 && <GameStep />}
+          {step === 3 && (
+            <UsesStep
+              gym={gym}
+              onGym={(value) => {
+                setGym(value);
+                setAnswered(true);
+              }}
+            />
+          )}
         </ScrollView>
 
         <View className="flex-row justify-between py-4">
@@ -84,7 +105,14 @@ export default function OnboardingScreen() {
             <View />
           )}
           {step < STEPS - 1 ? (
-            <Button label={t('onboarding.next')} onPress={() => setStep(step + 1)} />
+            <Button
+              label={t('onboarding.next')}
+              onPress={() => {
+                // Chegar ao último passo já é responder (mesmo deixando o treino desligado)
+                if (step + 1 === STEPS - 1) setAnswered(true);
+                setStep(step + 1);
+              }}
+            />
           ) : (
             <Button label={t('onboarding.start')} onPress={finish} />
           )}
@@ -294,23 +322,26 @@ function SetupStep() {
   );
 }
 
-function GameStep() {
+/**
+ * "Para que você vai usar?" (UX12, D266): treino e jogo, que mudam o que aparece (a Academia, o
+ * Treino, o Jogo e as posições da barra de baixo). A resposta do treino vale ao começar (o "Vai
+ * usar para treinar?" da Hoje não aparece mais para quem passou por aqui).
+ */
+function UsesStep({ gym, onGym }: { gym: boolean; onGym: (value: boolean) => void }) {
   const { t } = useTranslation();
-  const game = useGameState();
-  const setEnabled = useSetGamification();
-  const enabled = game.data?.enabled ?? true;
   return (
     <>
-      <Title icon={Swords} title={t('onboarding.gameTitle')}>
-        {t('onboarding.gameText')}
+      <Title icon={Sparkles} title={t('onboarding.usesTitle')}>
+        {t('onboarding.usesText')}
       </Title>
-      <Hints lines={[t('onboarding.noPunish'), t('onboarding.shared')]} />
-      <ToggleRow
-        title={t('gameProfile.toggle')}
-        hint={t(enabled ? 'onboarding.gameOn' : 'onboarding.gameOff')}
-        value={enabled}
-        onChange={(value) => setEnabled.mutate(value)}
-      />
+      <ToggleRow title={t('gym.toggle')} hint={t('gym.toggleHint')} value={gym} onChange={onGym} />
+      <View className="gap-2 pt-2">
+        <Text className="font-serif text-lg text-ink">{t('onboarding.gameTitle')}</Text>
+        <Text className="text-sm text-ink-muted">{t('onboarding.gameText')}</Text>
+        <Hints lines={[t('onboarding.noPunish'), t('onboarding.shared')]} />
+        <GameLevelSettings />
+      </View>
+      <Text className="text-sm text-ink-muted">{t('onboarding.barHint')}</Text>
     </>
   );
 }

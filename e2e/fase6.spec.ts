@@ -129,9 +129,12 @@ test('assistente de primeiro uso: do seu jeito, captura, pasta inicial e gamific
   );
   await page.getByRole('button', { name: 'Próximo' }).click();
 
-  // 3. Gamificação
-  await expect(page.getByRole('heading', { name: 'Ganhe XP fazendo' })).toBeVisible();
-  await expect(page.getByRole('switch', { name: 'Gamificação' })).toBeChecked();
+  // 3. Para que você vai usar? (D266): treino e jogo
+  await expect(page.getByRole('heading', { name: 'Para que você vai usar?' })).toBeVisible();
+  await expect(page.getByRole('switch', { name: 'Treino (academia)' })).not.toBeChecked();
+  await expect(
+    page.getByRole('radiogroup', { name: 'Gamificação' }).getByRole('radio', { name: 'Discreto' }),
+  ).toHaveAttribute('aria-checked', 'true');
   const saved = page.waitForResponse(
     (r) => r.url().includes('/profiles') && r.request().method() === 'PATCH' && r.ok(),
   );

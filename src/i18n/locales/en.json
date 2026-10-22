@@ -879,7 +879,7 @@
     "habitsTitle": "Suggested habits",
     "habitsText": "Water (counter, goal 8), meditate, read and \"eat well\" (good and bad). They live in Habits, in the menu.",
     "createFolder": "Create folder {{name}}",
-    "gameTitle": "Earn XP by doing",
+    "gameTitle": "Game: earn XP by doing",
     "gameText": "Every completed task is worth XP and raises your level. Days in a row become a streak (one day off a week doesn't break it). Every week a boss shows up: your XP is the damage on it.",
     "noPunish": "No punishment: a forgotten task doesn't take XP away.",
     "shared": "In projects and clans, the boss belongs to everyone, and whoever helped gets the reward.",
@@ -891,7 +891,10 @@
     "habitRead": "Read 10 pages",
     "habitEat": "Eat well",
     "setupTitle": "Your way",
-    "setupText": "Pick the language and the theme. To be alerted when rest and focus end even with the app closed, allow notifications. You can change all of this later in Settings."
+    "setupText": "Pick the language and the theme. To be alerted when rest and focus end even with the app closed, allow notifications. You can change all of this later in Settings.",
+    "usesTitle": "What will you use it for?",
+    "usesText": "Turn on only what makes sense for you: the rest leaves the screens, nothing is deleted. Tasks, lists, habits and projects are always there. Change it later in Settings → Features.",
+    "barHint": "The phone's bottom bar gets Workouts (if you work out) or Game (in RPG mode); you can change it in Settings → Navigation."
   },
   "extras": {
     "noRepeat": "Does not repeat",

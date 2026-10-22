@@ -879,7 +879,7 @@
     "habitsTitle": "Hábitos sugeridos",
     "habitsText": "Água (contador, meta 8), meditar, ler e \"comer bem\" (bom e ruim). Ficam em Hábitos, no menu.",
     "createFolder": "Criar pasta {{name}}",
-    "gameTitle": "Ganhe XP fazendo",
+    "gameTitle": "Jogo: ganhe XP fazendo",
     "gameText": "Cada tarefa concluída vale XP e sobe seu nível. Dias seguidos viram sequência (um dia de folga por semana não quebra). Toda semana aparece um boss: seu XP é o dano nele.",
     "noPunish": "Nada de punição: tarefa esquecida não tira XP.",
     "shared": "Em projetos e clãs, o boss é de todo mundo, e quem ajudou ganha a recompensa.",
@@ -891,7 +891,10 @@
     "habitRead": "Ler 10 páginas",
     "habitEat": "Comer bem",
     "setupTitle": "Do seu jeito",
-    "setupText": "Escolha o idioma e o tema. Para o fim do descanso e do foco avisarem mesmo com o app fechado, permita as notificações. Tudo isso muda depois em Configurações."
+    "setupText": "Escolha o idioma e o tema. Para o fim do descanso e do foco avisarem mesmo com o app fechado, permita as notificações. Tudo isso muda depois em Configurações.",
+    "usesTitle": "Para que você vai usar?",
+    "usesText": "Ligue só o que faz sentido para você: o resto some das telas, sem apagar nada. Tarefas, listas, hábitos e projetos estão sempre lá. Muda depois em Configurações → Recursos.",
+    "barHint": "Na barra de baixo do celular entram Treino (se você treina) ou Jogo (no RPG); dá para trocar em Configurações → Navegação."
   },
   "extras": {
     "noRepeat": "Não repete",
