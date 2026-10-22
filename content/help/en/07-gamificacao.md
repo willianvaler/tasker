@@ -6,7 +6,7 @@ Every day a **daily boss** is born (about 6 tasks) and every week a **weekly bos
 
 ## Three game levels
 
-In **Profile → Gamification** you choose: **Off** (just the lists; your history is kept), **Light** (the default: XP, character and bosses quietly beside the lists) or **Full** (game mode: Home becomes your **camp**, with your character up front, the daily and weekly bosses and today's open quests). The rules are the same in all three: switching never gains or loses anything.
+In **Profile → Gamification** you choose: **Off** (just the lists; your history is kept), **Subtle** (the default: XP, character and bosses quietly beside the lists) or **RPG** (RPG: Home becomes your **camp**, with your character up front, the daily and weekly bosses and today's open quests). The rules are the same in all three: switching never gains or loses anything.
 
 ## Fair, no tricks
 

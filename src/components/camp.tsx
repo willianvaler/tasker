@@ -1,4 +1,5 @@
 import { Link, router } from 'expo-router';
+import { Gift, PawPrint } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
@@ -94,12 +95,14 @@ export function CampView({ name, missions }: { name?: string; missions: number }
       <View className="flex-row flex-wrap gap-2">
         <Button
           variant="ghost"
-          label={`🎁 ${t('game.rewardsLink')}`}
+          icon={Gift}
+          label={t('game.rewardsLink')}
           onPress={() => router.push('/recompensas')}
         />
         <Button
           variant="ghost"
-          label={`🐾 ${t('game.stableLink')}`}
+          icon={PawPrint}
+          label={t('game.stableLink')}
           onPress={() => router.push('/estabulo')}
         />
       </View>

@@ -148,6 +148,9 @@ export default function FoldersScreen() {
                     key={folder.id}
                     folder={folder}
                     onMenu={online ? () => actions.folderMenu(folder) : undefined}
+                    firstLabel={
+                      folder.is_gym || folder.gym_group ? t('gym.firstWorkout') : undefined
+                    }
                     onNewPage={
                       !online
                         ? undefined

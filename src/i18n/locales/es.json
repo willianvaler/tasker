@@ -473,13 +473,13 @@
     "dailyBoss": "Jefe del día",
     "levels": {
       "off": "Apagado",
-      "light": "Ligero",
-      "full": "Completo"
+      "light": "Discreto",
+      "full": "RPG"
     },
     "levelHints": {
       "off": "Solo las listas: XP, personaje y jefes desaparecen de la pantalla (el historial se guarda).",
       "light": "XP, nivel, personaje, jefes y tienda, discretos junto a las listas.",
-      "full": "Modo juego: el Inicio se vuelve el campamento del personaje, con los jefes y las misiones del día al frente."
+      "full": "RPG: personaje con vida y maná, campamento, mascotas y misiones, en un espacio propio (Juego)."
     },
     "sounds": "Sonidos del juego",
     "soundsHint": "Un sonido corto al subir de nivel, derrotar a un jefe y ganar un objeto. Solo en este dispositivo."
@@ -2987,7 +2987,7 @@
     "eggOf": "Huevo de {{name}}",
     "potionOf": "Poción {{name}}",
     "petName": "{{species}} {{potion}}",
-    "emptyInventory": "Nada todavía. Huevos, pociones, comida y pergaminos caen al completar tareas en el modo Completo.",
+    "emptyInventory": "Nada todavía. Huevos, pociones, comida y pergaminos caen al completar tareas en el juego RPG.",
     "emptyPets": "Ninguna mascota. Junta un huevo y una poción de eclosión para incubar.",
     "emptyMounts": "Ninguna montura. Alimenta una mascota hasta que crezca.",
     "hatchTitle": "Incubar una mascota",
@@ -3170,13 +3170,13 @@
     "noTime": "Sin hora",
     "label": "Recordatorio",
     "options": {
-      "none": "Sin recordatorio",
       "0": "A la hora",
       "5": "5 min antes",
       "15": "15 min antes",
       "30": "30 min antes",
       "60": "1 h antes",
-      "1440": "1 día antes"
+      "1440": "1 día antes",
+      "none": "Sin recordatorio"
     },
     "channel": "Recordatorios de tareas",
     "notifyTitle": "⏰ {{time}} · {{title}}",
@@ -3218,7 +3218,7 @@
       },
       "jogo": {
         "title": "Un juego, si quieres",
-        "text": "XP, nivel y clase, bosses del día y de la semana, clan, logros, mascotas y misiones. Elige entre apagado, ligero y completo.",
+        "text": "XP, nivel y clase, bosses del día y de la semana, clan, logros, mascotas y misiones. Elige entre apagado, discreto y RPG.",
         "shot": "Pantalla del personaje con habilidades"
       },
       "treino": {

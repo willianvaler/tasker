@@ -7,10 +7,10 @@ test('modo jogo: Completo mostra o acampamento no Início', async ({ page }, tes
   await signUp(page, testInfo);
   await openTab(page, 'Perfil');
   const level = page.getByRole('radiogroup', { name: 'Gamificação' });
-  await expect(level.getByRole('radio', { name: 'Leve' })).toHaveAttribute('aria-checked', 'true');
+  await expect(level.getByRole('radio', { name: 'Discreto' })).toHaveAttribute('aria-checked', 'true');
 
   const saved = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
-  await level.getByRole('radio', { name: 'Completo' }).click();
+  await level.getByRole('radio', { name: 'RPG' }).click();
   await saved;
   await openTab(page, 'Início');
   const camp = page.getByLabel('Acampamento');
@@ -20,10 +20,10 @@ test('modo jogo: Completo mostra o acampamento no Início', async ({ page }, tes
   // O boss tem uma fala (entre aspas)
   await expect(camp.getByText(/^“.+”$/).first()).toBeVisible();
 
-  // Voltar ao Leve tira o acampamento
+  // Voltar ao Discreto tira o acampamento
   await openTab(page, 'Perfil');
   const back = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
-  await level.getByRole('radio', { name: 'Leve' }).click();
+  await level.getByRole('radio', { name: 'Discreto' }).click();
   await back;
   await openTab(page, 'Início');
   await expect(page.getByLabel('Acampamento')).toHaveCount(0);

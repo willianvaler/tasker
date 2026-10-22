@@ -30,16 +30,20 @@ export function Button({
 }: ButtonProps) {
   const colors = useColors();
   const primary = variant === 'primary';
-  const fg = primary ? 'on-accent' : destructive ? 'danger' : 'ink';
+  const fg = primary && disabled ? 'ink-muted' : primary ? 'on-accent' : destructive ? 'danger' : 'ink';
   return (
     <Pressable
       accessibilityRole="button"
       disabled={disabled || loading}
       className={cn(
         'min-h-11 flex-row items-center justify-center gap-2 rounded px-3 md:min-h-8',
-        primary
-          ? cn(destructive ? 'bg-danger' : 'bg-accent', 'hover:opacity-90 active:opacity-80')
-          : 'hover:bg-wash active:bg-wash',
+        // Primário desabilitado: contorno e texto apagado, sem o acento (o laranja claro parecia
+        // ativo); carregando continua no acento, com o indicador
+        primary && disabled && !loading
+          ? 'border border-line'
+          : primary
+            ? cn(destructive ? 'bg-danger' : 'bg-accent', 'hover:opacity-90 active:opacity-80')
+            : 'hover:bg-wash active:bg-wash',
         (disabled || loading) && 'opacity-40',
         className,
       )}
@@ -53,7 +57,13 @@ export function Button({
           <Text
             className={cn(
               'text-sm font-semibold',
-              primary ? 'text-on-accent' : destructive ? 'text-danger' : 'text-ink',
+              primary && disabled
+                ? 'text-ink-muted'
+                : primary
+                  ? 'text-on-accent'
+                  : destructive
+                    ? 'text-danger'
+                    : 'text-ink',
             )}
           >
             {label}

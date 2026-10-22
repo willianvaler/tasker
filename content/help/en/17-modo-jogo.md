@@ -1,6 +1,6 @@
 # Game mode
 
-In **Profile → Gamification → Full**, Questlist becomes a medieval fantasy game, like Habitica: the same tasks, with more at stake.
+In **Profile → Gamification → RPG**, Questlist becomes a medieval fantasy game, like Habitica: the same tasks, with more at stake.
 
 ## Camp
 
@@ -24,7 +24,7 @@ Every completed task gives mana, and the start of the day refills more. Each cla
 
 ## Rewards and armoire
 
-In **Rewards** you create real-life treats with a gold price ("one episode: 30") and redeem them whenever you want. This works in Light mode too. The **enchanted armoire** (100 gold) gives you a shop item you don't have yet.
+In **Rewards** you create real-life treats with a gold price ("one episode: 30") and redeem them whenever you want. This works in Subtle mode too. The **enchanted armoire** (100 gold) gives you a shop item you don't have yet.
 
 ## Pets, mounts and quests
 

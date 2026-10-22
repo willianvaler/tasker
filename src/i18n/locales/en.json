@@ -473,13 +473,13 @@
     "dailyBoss": "Daily boss",
     "levels": {
       "off": "Off",
-      "light": "Light",
-      "full": "Full"
+      "light": "Subtle",
+      "full": "RPG"
     },
     "levelHints": {
       "off": "Just the lists: XP, character and bosses leave the screen (your history is kept).",
       "light": "XP, level, character, bosses and shop, quietly beside the lists.",
-      "full": "Game mode: Home becomes your character's camp, with the bosses and today's quests up front."
+      "full": "RPG: a character with health and mana, a camp, pets and quests, in a space of its own (Game)."
     },
     "sounds": "Game sounds",
     "soundsHint": "A short sound when you level up, defeat a boss or get an item. This device only."
@@ -2987,7 +2987,7 @@
     "eggOf": "{{name}} egg",
     "potionOf": "{{name}} potion",
     "petName": "{{potion}} {{species}}",
-    "emptyInventory": "Nothing yet. Eggs, potions, food and scrolls drop when you complete tasks in Full mode.",
+    "emptyInventory": "Nothing yet. Eggs, potions, food and scrolls drop when you complete tasks in RPG mode.",
     "emptyPets": "No pets. Combine an egg and a hatching potion to hatch one.",
     "emptyMounts": "No mounts. Feed a pet until it grows up.",
     "hatchTitle": "Hatch a pet",
@@ -3170,13 +3170,13 @@
     "noTime": "No time",
     "label": "Reminder",
     "options": {
-      "none": "No reminder",
       "0": "At time",
       "5": "5 min before",
       "15": "15 min before",
       "30": "30 min before",
       "60": "1 h before",
-      "1440": "1 day before"
+      "1440": "1 day before",
+      "none": "No reminder"
     },
     "channel": "Task reminders",
     "notifyTitle": "⏰ {{time}} · {{title}}",
@@ -3218,7 +3218,7 @@
       },
       "jogo": {
         "title": "A game, if you want one",
-        "text": "XP, level and class, daily and weekly bosses, clan, achievements, pets and quests. Choose between off, light and full.",
+        "text": "XP, level and class, daily and weekly bosses, clan, achievements, pets and quests. Choose between off, subtle and RPG.",
         "shot": "Character screen with skills"
       },
       "treino": {

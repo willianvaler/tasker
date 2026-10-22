@@ -473,13 +473,13 @@
     "dailyBoss": "Boss do dia",
     "levels": {
       "off": "Desligado",
-      "light": "Leve",
-      "full": "Completo"
+      "light": "Discreto",
+      "full": "RPG"
     },
     "levelHints": {
       "off": "Só as listas: XP, personagem e bosses somem da tela (o histórico continua guardado).",
       "light": "XP, nível, personagem, bosses e loja, discretos ao lado das listas.",
-      "full": "Modo jogo: o Início vira o acampamento do personagem, com os bosses e as missões do dia em destaque."
+      "full": "RPG: personagem com vida e mana, acampamento, mascotes e missões, num espaço próprio (Jogo)."
     },
     "sounds": "Sons do jogo",
     "soundsHint": "Um som curto ao subir de nível, derrubar um boss e ganhar um item. Só neste aparelho."
@@ -2987,7 +2987,7 @@
     "eggOf": "Ovo de {{name}}",
     "potionOf": "Poção {{name}}",
     "petName": "{{species}} {{potion}}",
-    "emptyInventory": "Nada ainda. Ovos, poções, comida e pergaminhos caem ao concluir tarefas no modo Completo.",
+    "emptyInventory": "Nada ainda. Ovos, poções, comida e pergaminhos caem ao concluir tarefas no jogo RPG.",
     "emptyPets": "Nenhum mascote. Junte um ovo e uma poção de eclosão para chocar.",
     "emptyMounts": "Nenhuma montaria. Alimente um mascote até ele crescer.",
     "hatchTitle": "Chocar um mascote",
@@ -3170,13 +3170,13 @@
     "noTime": "Sem horário",
     "label": "Lembrete",
     "options": {
-      "none": "Sem lembrete",
       "0": "Na hora",
       "5": "5 min antes",
       "15": "15 min antes",
       "30": "30 min antes",
       "60": "1 h antes",
-      "1440": "1 dia antes"
+      "1440": "1 dia antes",
+      "none": "Sem lembrete"
     },
     "channel": "Lembretes de tarefas",
     "notifyTitle": "⏰ {{time}} · {{title}}",
@@ -3218,7 +3218,7 @@
       },
       "jogo": {
         "title": "Um jogo, se você quiser",
-        "text": "XP, nível e classe, bosses do dia e da semana, clã, conquistas, mascotes e missões. Escolha entre desligado, leve e completo.",
+        "text": "XP, nível e classe, bosses do dia e da semana, clã, conquistas, mascotes e missões. Escolha entre desligado, discreto e RPG.",
         "shot": "Tela do personagem com habilidades"
       },
       "treino": {

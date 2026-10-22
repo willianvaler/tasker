@@ -1,6 +1,6 @@
 # Modo juego
 
-En **Perfil → Gamificación → Completo**, Questlist se vuelve un juego de fantasía medieval, como Habitica: las mismas tareas, con más en juego.
+En **Perfil → Gamificación → RPG**, Questlist se vuelve un juego de fantasía medieval, como Habitica: las mismas tareas, con más en juego.
 
 ## Campamento
 
@@ -24,7 +24,7 @@ Cada tarea completada da maná, y el cambio de día recarga más. Cada clase tie
 
 ## Recompensas y cofre
 
-En **Recompensas** creas premios de la vida real con precio en oro ("un episodio: 30") y los canjeas cuando quieras. Esto vale también en el modo Ligero. El **cofre encantado** (100 de oro) trae un objeto de la tienda que aún no tienes.
+En **Recompensas** creas premios de la vida real con precio en oro ("un episodio: 30") y los canjeas cuando quieras. Esto vale también en el modo Discreto. El **cofre encantado** (100 de oro) trae un objeto de la tienda que aún no tienes.
 
 ## Mascotas, monturas y misiones
 

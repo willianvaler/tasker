@@ -45,10 +45,13 @@ export function FolderSection({
   folder,
   onMenu,
   onNewPage,
+  firstLabel,
 }: {
   folder: FolderNode;
   onMenu?: () => void;
   onNewPage?: () => void;
+  /** Texto do convite da pasta vazia (na Academia: "Criar o primeiro treino", como na barra lateral) */
+  firstLabel?: string;
 }) {
   const { t } = useTranslation();
   const empty = folder.pages.length === 0 && folder.children.length === 0;
@@ -104,7 +107,7 @@ export function FolderSection({
           onPress={onNewPage}
         >
           <Icon icon={Plus} tone="accent" />
-          <Text className="text-sm text-ink">{t('folder.firstPage')}</Text>
+          <Text className="text-sm text-ink">{firstLabel ?? t('folder.firstPage')}</Text>
         </Pressable>
       )}
     </View>

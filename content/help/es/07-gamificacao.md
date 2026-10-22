@@ -6,7 +6,7 @@ Cada día nace un **jefe del día** (unas 6 tareas) y cada semana un **jefe de l
 
 ## Tres niveles de juego
 
-En **Perfil → Gamificación** eliges: **Apagado** (solo las listas; el historial se guarda), **Ligero** (el predeterminado: XP, personaje y jefes discretos junto a las listas) o **Completo** (modo juego: el Inicio se vuelve el **campamento**, con el personaje al frente, los jefes del día y de la semana y las misiones abiertas de hoy). Las reglas son las mismas en los tres: cambiar no gana ni pierde nada.
+En **Perfil → Gamificación** eliges: **Apagado** (solo las listas; el historial se guarda), **Discreto** (el predeterminado: XP, personaje y jefes discretos junto a las listas) o **RPG** (RPG: el Inicio se vuelve el **campamento**, con el personaje al frente, los jefes del día y de la semana y las misiones abiertas de hoy). Las reglas son las mismas en los tres: cambiar no gana ni pierde nada.
 
 ## Justo, sin trucos
 

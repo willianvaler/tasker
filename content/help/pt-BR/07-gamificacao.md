@@ -6,7 +6,7 @@ Todo dia nasce um **boss do dia** (umas 6 tarefas) e toda semana um **boss da se
 
 ## Três níveis de jogo
 
-Em **Perfil → Gamificação** você escolhe: **Desligado** (só as listas; o histórico fica guardado), **Leve** (o padrão: XP, personagem e bosses discretos ao lado das listas) ou **Completo** (modo jogo: o Início vira o **acampamento**, com o personagem em destaque, os bosses do dia e da semana e as missões abertas de hoje). As regras são as mesmas nos três: trocar não ganha nem perde nada.
+Em **Perfil → Gamificação** você escolhe: **Desligado** (só as listas; o histórico fica guardado), **Discreto** (o padrão: XP, personagem e bosses discretos ao lado das listas) ou **RPG** (RPG: o Início vira o **acampamento**, com o personagem em destaque, os bosses do dia e da semana e as missões abertas de hoje). As regras são as mesmas nos três: trocar não ganha nem perde nada.
 
 ## Justo, sem truque
 

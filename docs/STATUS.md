@@ -345,6 +345,25 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **CD14** Foto da nota lida pelo Tesseract no próprio servidor, sem o Gemini: `tesseract-wasm` (modelo `por` do tessdata_fast) dentro da Edge Function `read-photo` (`ocr.ts`, WEBP, JPEG e PNG), e o texto vira os mesmos campos de antes pelo parser puro `functions/_shared/receipt-ocr.ts` (loja, CNPJ, data, total pago, forma de pagamento, chave da NFC-e, itens e categoria, com testes); APK antigo continua funcionando. A foto de uma lista segue no Gemini (escrita à mão). Política de privacidade nova (`2026-10-21`) e Ajuda nos 3 idiomas (D254)
 - [x] **CD20** Página de gastos dividida em abas **Geral · Gastos · Entradas**: cada aba é a página só com as saídas ou só com as entradas (totais, lançamento rápido sem escolher o tipo, lista, categorias e exportação da aba), lembrada por página no aparelho (`inTab` em `lib/expenses.ts`, com testes; e2e em `gastos.spec.ts`; Ajuda nos 3 idiomas) (D255)
 
+## Correções do dono (22/10) — reforma de usabilidade (`docs/PROPOSTA_UX.md`)
+
+Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam escondidas ou espalhadas"; aprovou a proposta inteira ("corrija tudo"). Os ids são UX1 a UX14 (a Fase U já usa U1 a U9).
+
+- [ ] **UX1** Caminhos que faltam: busca no topo das telas do celular; Biblioteca, Peso e medidas e Estatísticas de treino no celular; Revisão semanal com entrada fixa
+- [ ] **UX2** Rodapé da barra lateral com três alvos (cartão do avatar, sino, ajuda)
+- [x] **UX3** Nomes e rótulos: jogo Desligado · Discreto · RPG; "Recompensas" e "Estábulo" com ícone em vez de emoji; botão primário desabilitado com contorno e texto apagado (o laranja claro parecia ativo); pasta Academia vazia diz "Criar o primeiro treino" na tela Pastas, como na barra lateral (D256)
+- [ ] **UX4** Painel da tarefa: subtarefas para cima, "Depende de" em primeiro só em projeto
+- [ ] **UX5** Menu Novo completo (anotação, várias de uma vez, a partir de um modelo) e um só "Nova pasta"
+- [ ] **UX6** Doca: timer encaixado acima da navegação, aviso acima dele
+- [ ] **UX7** Configurações, Perfil, Jogo e Pessoas separados
+- [ ] **UX8** Hoje única (Início + Hoje), Planejar, barra do celular com 5 posições configuráveis e "Mais"
+- [ ] **UX9** Topo da página: Compartilhar, "…" agrupado, visões em abas
+- [ ] **UX10** Ligações: "Depende de" e "Relacionados" numa seção só
+- [ ] **UX11** Painel por uso e "+ Adicionar", sem o seletor Simples/Completo
+- [ ] **UX12** Introdução "Para que você vai usar?" e Configurações → Recursos
+- [ ] **UX13** "Página" → "Lista", Kanban → visão "Quadro", Cards → "Rotina"
+- [ ] **UX14** Personagem: "Como funciona" recolhido; retratos das classes
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar
