@@ -13,8 +13,11 @@ test('painel da tarefa: o que a tarefa usa, + Adicionar e mostrar todas', async 
   await openTab(page, 'Caixa de entrada');
   const title = `Painel ${testInfo.project.name} ${Date.now()}`;
   const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  // Espera a tarefa subir: a releitura depois do envio redesenha o painel e fecharia o menu
+  const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
   await input.fill(title);
   await input.press('Enter');
+  await created;
   await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
 
   // O essencial, sem tempo nem peso; subtarefas e vencimento à vista
