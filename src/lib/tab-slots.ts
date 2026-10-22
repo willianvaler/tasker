@@ -70,3 +70,30 @@ export const TAB_PATHS: readonly string[] = [
 export function isTabPath(pathname: string | null | undefined) {
   return TAB_PATHS.includes(pathname ?? '');
 }
+
+/** Telas que abrem por cima sem cobrir a de baixo (presentation: 'transparentModal' no layout). */
+const OVERLAYS = new Set(['task/[id]', 'task/new', 'gasto/[id]', 'modos', 'capture']);
+
+export type NavState = {
+  index?: number;
+  routes: { name: string; state?: NavState }[];
+};
+
+/**
+ * A aba que aparece atrás de um painel transparente (o da tarefa, a captura), ou null se o que está
+ * por cima cobre a tela (uma página aberta) ou não há nada por cima.
+ */
+export function tabUnderOverlay(state: NavState | undefined): string | null {
+  let s = state;
+  while (s) {
+    const i = s.routes.findIndex((r) => r.name === '(tabs)');
+    if (i >= 0) {
+      const above = s.routes.slice(i + 1);
+      if (!above.length || !above.every((r) => OVERLAYS.has(r.name))) return null;
+      const tabs = s.routes[i].state;
+      return tabs ? (tabs.routes[tabs.index ?? 0]?.name ?? null) : 'index';
+    }
+    s = s.routes[s.index ?? s.routes.length - 1]?.state;
+  }
+  return null;
+}

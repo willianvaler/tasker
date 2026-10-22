@@ -367,6 +367,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 ## Correções do dono (22/10, tarde)
 
 - [x] **CD21** Quadro: arrastar começando pelo título soltava o card e abria a tarefa; o título não abre mais nada e o card ganhou um lápis (**Detalhes de…**) para editar; Ajuda nos 3 idiomas, e2e em `correcoes-2010.spec.ts` (D269)
+- [x] **CD22** Hoje e Planejar sumiam atrás do painel da tarefa (criar ou editar deixava o fundo vazio): fora de foco elas não desenham as listas, e o painel transparente tirava o foco; agora continuam desenhadas quando só um painel transparente está por cima (`useShownTab`, `tabUnderOverlay` em `lib/tab-slots.ts`, com testes; e2e em `correcoes-2010.spec.ts`) (D269)
 
 ## ESCOPO v1 — backlog (§11)
 

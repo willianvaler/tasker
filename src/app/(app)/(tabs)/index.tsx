@@ -1,4 +1,3 @@
-import { useIsFocused } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionList, useWindowDimensions, View } from 'react-native';
@@ -25,6 +24,7 @@ import { useHabits, useTodayTasks, type HabitTask, type TaskWithPage } from '@/l
 import { pageLabel, useTree } from '@/lib/queries/tree';
 import { asRecurrence, isHabitDueOn } from '@/lib/recurrence';
 import { useSelectableList } from '@/lib/selection';
+import { useShownTab } from '@/lib/use-shown';
 
 type Row = { kind: 'task'; task: TaskWithPage } | { kind: 'habit'; task: HabitTask };
 type Section = { title: string; count: string; tone?: 'warn'; data: Row[] };
@@ -93,8 +93,9 @@ export default function TodayScreen() {
   const sections = candidates.filter((s): s is Section => !!s);
 
   // As abas ficam montadas atrás da ativa: fora de foco a Hoje não desenha as listas (repetiria as
-  // tarefas na árvore de acessibilidade da página aberta por cima); os dados seguem no cache
-  const focused = useIsFocused();
+  // tarefas na árvore de acessibilidade da página aberta por cima); atrás do painel da tarefa
+  // continua desenhada (useShownTab). Os dados seguem no cache
+  const focused = useShownTab('index');
   if (!focused) return <Screen size="medium">{null}</Screen>;
 
   const list = (

@@ -1,4 +1,4 @@
-import { Link, useIsFocused, type Href } from 'expo-router';
+import { Link, type Href } from 'expo-router';
 import { CalendarDays, ClipboardCheck, UserCheck } from 'lucide-react-native';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ import { useMyTasks } from '@/lib/queries/projects';
 import { useToday, useUiPrefs } from '@/lib/queries/profile';
 import { usePageTasks, useUpcomingTasks, type TaskWithPage } from '@/lib/queries/tasks';
 import { pageLabel, useTree } from '@/lib/queries/tree';
+import { useShownTab } from '@/lib/use-shown';
 import { isReviewDue } from '@/lib/weekly-review';
 
 /** Quantos itens cada seção mostra antes do "ver tudo". */
@@ -43,7 +44,7 @@ export default function PlanScreen() {
   const labelOf = (task: TaskWithPage) => (task.page ? pageLabel(task.page) : undefined);
 
   // Abas montadas atrás da ativa: fora de foco não desenha as listas
-  const focused = useIsFocused();
+  const focused = useShownTab('planejar');
   if (!focused) return <Screen size="medium">{null}</Screen>;
 
   return (

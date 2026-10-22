@@ -49,6 +49,27 @@ test('kanban: arrastar o card para outra coluna', async ({ page }, testInfo) => 
   await expect(page.getByLabel('Coluna Fazendo').getByText(title)).toBeVisible({
     timeout: 10_000,
   });
+  // Arrastar pelo título não abre a tarefa depois de soltar, nem clicar nele; editar é pelo lápis
+  await expect(page).not.toHaveURL(/\/task\//);
+  await page.getByLabel('Coluna Fazendo').getByText(title).click();
+  await expect(page).not.toHaveURL(/\/task\//);
+  await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
+  await expect(page).toHaveURL(/\/task\//);
+});
+
+test('Hoje: a lista continua atrás do painel da tarefa', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  const title = `Fundo ${Date.now()}`;
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill(title);
+  await input.press('Enter');
+  const row = page.locator(`text=${title}`).first();
+  await expect(row).toBeVisible();
+  await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
+  await expect(page).toHaveURL(/\/task\//);
+  // A linha da Hoje (e o título da tela) ficam desenhados atrás do painel
+  await expect(page.locator('text=/^Hoje/').first()).toBeVisible();
+  await expect(page.locator(`text=${title}`).first()).toBeVisible();
 });
 
 test('apagar a página aberta e anotação dentro da pasta', async ({ page }, testInfo) => {

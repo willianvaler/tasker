@@ -1,6 +1,13 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { availableSlots, barRoutes, defaultSlots, resolveSlots } from '@/lib/tab-slots';
+import {
+  availableSlots,
+  barRoutes,
+  defaultSlots,
+  resolveSlots,
+  tabUnderOverlay,
+  type NavState,
+} from '@/lib/tab-slots';
 
 const base = { gym: false, game: 'light' as const };
 
@@ -43,5 +50,34 @@ describe('barra de baixo (D258)', () => {
 
   it('Hoje e Mais nas pontas', () => {
     expect(barRoutes(['planejar', 'folders'])).toEqual(['index', 'planejar', 'folders', 'mais']);
+  });
+});
+
+describe('tabUnderOverlay', () => {
+  const tabs = (name: string, index: number) => ({
+    name: '(tabs)',
+    state: { index, routes: [{ name: 'index' }, { name: name }] },
+  });
+  const root = (...routes: NavState['routes']): NavState => ({
+    index: 0,
+    routes: [{ name: '(app)', state: { index: routes.length - 1, routes } }],
+  });
+
+  it('painel da tarefa por cima da Hoje: a Hoje continua à vista', () => {
+    expect(tabUnderOverlay(root(tabs('planejar', 0), { name: 'task/[id]' }))).toBe('index');
+    expect(tabUnderOverlay(root(tabs('planejar', 1), { name: 'task/new' }))).toBe('planejar');
+  });
+
+  it('página aberta por cima cobre a aba', () => {
+    expect(tabUnderOverlay(root(tabs('planejar', 0), { name: 'page/[id]' }))).toBeNull();
+    expect(
+      tabUnderOverlay(root(tabs('planejar', 0), { name: 'page/[id]' }, { name: 'task/[id]' })),
+    ).toBeNull();
+  });
+
+  it('nada por cima, ou sem estado', () => {
+    expect(tabUnderOverlay(root(tabs('planejar', 0)))).toBeNull();
+    expect(tabUnderOverlay(undefined)).toBeNull();
+    expect(tabUnderOverlay(root({ name: '(tabs)' }, { name: 'capture' }))).toBe('index');
   });
 });
