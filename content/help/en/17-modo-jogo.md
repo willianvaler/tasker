@@ -1,10 +1,10 @@
 # Game mode
 
-In **Profile → Gamification → RPG**, Questlist becomes a medieval fantasy game, like Habitica: the same tasks, with more at stake.
+In **Settings → Features → Game → RPG**, Questlist becomes a medieval fantasy game, like Habitica: the same tasks, with more at stake.
 
 ## Camp
 
-**Home** shows your painted character (pick the portrait and scene in **Character → Appearance**), **health**, **mana**, the daily and weekly bosses and the quests in progress. The vocabulary changes: tasks become **quests**, and the habits tab becomes **Habits & dailies** (you can turn this off in Profile).
+**Home** shows your painted character (pick the portrait and scene in **Character → Appearance**), **health**, **mana**, the daily and weekly bosses and the quests in progress. The vocabulary changes: tasks become **quests**, and the habits tab becomes **Habits & dailies** (you can turn this off in Settings).
 
 ## Health and dailies
 

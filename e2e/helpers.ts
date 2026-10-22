@@ -27,6 +27,13 @@ export async function openTab(page: Page, name: string) {
     .click();
 }
 
+/** Configurações (D257): pelo Mais (aba no celular, rodapé da barra lateral no computador). */
+export async function openSettings(page: Page) {
+  await openTab(page, 'Mais');
+  await page.getByRole('link', { name: /^Configurações/ }).click();
+  await expect(page.getByRole('heading', { name: 'Configurações' })).toBeVisible();
+}
+
 /** Simula colar texto no campo focado (o Playwright não tem área de transferência no headless). */
 export async function paste(page: Page, text: string) {
   await page.evaluate((value) => {

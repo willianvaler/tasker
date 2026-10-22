@@ -51,6 +51,7 @@ export default function AppLayout() {
               <Stack.Screen name="ajuda/index" />
               <Stack.Screen name="ajuda/[slug]" />
               <Stack.Screen name="sync" />
+              <Stack.Screen name="configuracoes" />
               <Stack.Screen name="lixeira" />
               <Stack.Screen name="calendario" />
               <Stack.Screen name="revisao" />

@@ -6,7 +6,7 @@ Todo dia nasce um **boss do dia** (umas 6 tarefas) e toda semana um **boss da se
 
 ## Três níveis de jogo
 
-Em **Perfil → Gamificação** você escolhe: **Desligado** (só as listas; o histórico fica guardado), **Discreto** (o padrão: XP, personagem e bosses discretos ao lado das listas) ou **RPG** (RPG: o Início vira o **acampamento**, com o personagem em destaque, os bosses do dia e da semana e as missões abertas de hoje). As regras são as mesmas nos três: trocar não ganha nem perde nada.
+Em **Configurações → Recursos → Jogo** você escolhe: **Desligado** (só as listas; o histórico fica guardado), **Discreto** (o padrão: XP, personagem e bosses discretos ao lado das listas) ou **RPG** (RPG: o Início vira o **acampamento**, com o personagem em destaque, os bosses do dia e da semana e as missões abertas de hoje). As regras são as mesmas nos três: trocar não ganha nem perde nada.
 
 ## Justo, sem truque
 
@@ -19,11 +19,11 @@ Em **Perfil → Gamificação** você escolhe: **Desligado** (só as listas; o h
 
 ## Conquistas
 
-São 68, de **comum** a **lendária** (o nome da raridade aparece escrito, junto com pontos de 1 a 5). Perfil → **Ver todas as conquistas** mostra todas, com filtro por raridade e categoria, quantos % dos jogadores têm cada uma e quanto falta para a próxima de cada faixa (tarefas, sequência, bosses, níveis…). Algumas são **secretas**: aparecem só com uma dica até você conquistá-las.
+São 68, de **comum** a **lendária** (o nome da raridade aparece escrito, junto com pontos de 1 a 5). Mais → Jogo → **Conquistas** mostra todas, com filtro por raridade e categoria, quantos % dos jogadores têm cada uma e quanto falta para a próxima de cada faixa (tarefas, sequência, bosses, níveis…). Algumas são **secretas**: aparecem só com uma dica até você conquistá-las.
 
 ## Personagem
 
-Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O ouro compra itens na **loja** (só visual). O **inventário** (Perfil ou Personagem) mostra tudo o que você tem, da loja e dos bosses, com filtro por espaço, raridade (de comum a lendária) e origem, e equipa com um toque.
+Escolha uma **classe**, distribua **atributos** e use uma habilidade por dia. O ouro compra itens na **loja** (só visual). O **inventário** (Jogo ou Personagem) mostra tudo o que você tem, da loja e dos bosses, com filtro por espaço, raridade (de comum a lendária) e origem, e equipa com um toque.
 
 ## Renascer
 
@@ -31,4 +31,4 @@ A partir do **nível 20**, o painel **Renascer** do Personagem leva você de vol
 
 ## Desligar
 
-Perfil → **Gamificação** → **Desligado**. O app vira só lista de tarefas.
+Configurações → Recursos → **Jogo** → **Desligado**. O app vira só lista de tarefas.

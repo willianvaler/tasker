@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, paste, signUp, isRpc } from './helpers';
+import { openTab, paste, signUp, isRpc, openSettings } from './helpers';
 
 test('Hoje: criar com data, concluir com 1 toque e desfazer', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
@@ -200,7 +200,7 @@ test('sair limpa os dados da tela', async ({ page }, testInfo) => {
   await page.getByRole('textbox', { name: 'Nova tarefa' }).press('Enter');
   await expect(page.getByText('Segredo', { exact: true })).toBeVisible();
 
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   await page.getByRole('button', { name: 'Sair da conta' }).click();
   await expect(page.getByRole('button', { name: 'Entrar', exact: true })).toBeVisible();
   const cache = await page.evaluate(() => localStorage.getItem('questlist-cache'));

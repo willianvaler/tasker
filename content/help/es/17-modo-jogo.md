@@ -1,10 +1,10 @@
 # Modo juego
 
-En **Perfil → Gamificación → RPG**, Questlist se vuelve un juego de fantasía medieval, como Habitica: las mismas tareas, con más en juego.
+En **Ajustes → Funciones → Juego → RPG**, Questlist se vuelve un juego de fantasía medieval, como Habitica: las mismas tareas, con más en juego.
 
 ## Campamento
 
-El **Inicio** muestra tu personaje pintado (elige el retrato y el escenario en **Personaje → Apariencia**), la **vida**, el **maná**, los jefes del día y de la semana y las misiones en curso. El vocabulario cambia: las tareas pasan a ser **misiones** y la pestaña de hábitos, **Hábitos y diarias** (puedes desactivarlo en el Perfil).
+El **Inicio** muestra tu personaje pintado (elige el retrato y el escenario en **Personaje → Apariencia**), la **vida**, el **maná**, los jefes del día y de la semana y las misiones en curso. El vocabulario cambia: las tareas pasan a ser **misiones** y la pestaña de hábitos, **Hábitos y diarias** (puedes desactivarlo en Ajustes).
 
 ## Vida y diarias
 

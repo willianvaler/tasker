@@ -20,7 +20,7 @@ Cada série feita no Modo Treino fica guardada como aconteceu: a carga, as repet
 
 O **Histórico** aparece no painel do exercício e na ficha da Biblioteca: as sessões do dia mais novo para o mais velho, com as séries e o volume de cada uma. Uma série errada sai pelo ícone da lixeira (só do diário; o treino fica como está). O diário é só seu, mesmo num treino compartilhado.
 
-No Perfil, em **Registro do treino**, escolha **kg ou lb** e, se quiser, o **esforço por série**: RIR (quantas repetições sobraram) ou RPE (esforço até 10). Trocar a escala não muda o que já foi anotado; o histórico mostra na escala atual.
+Em Configurações, em **Registro do treino**, escolha **kg ou lb** e, se quiser, o **esforço por série**: RIR (quantas repetições sobraram) ou RPE (esforço até 10). Trocar a escala não muda o que já foi anotado; o histórico mostra na escala atual.
 
 ## Recordes e 1RM
 
@@ -44,7 +44,7 @@ No treino só seu, o Modo Treino já abre o exercício com a carga nova e diz po
 
 ## Peso e medidas
 
-Em **Peso e medidas** (no bloco Academia da barra lateral) você registra o peso, a gordura e as medidas (cintura, peito, quadril, braço, coxa, panturrilha, pescoço), com a data, e põe uma meta para cada um. O gráfico mostra a linha da meta tracejada e pinta cada trecho de verde quando aproximou da meta e de vermelho quando afastou. O peso aparece na unidade do Perfil; medidas em centímetros.
+Em **Peso e medidas** (no bloco Academia da barra lateral) você registra o peso, a gordura e as medidas (cintura, peito, quadril, braço, coxa, panturrilha, pescoço), com a data, e põe uma meta para cada um. O gráfico mostra a linha da meta tracejada e pinta cada trecho de verde quando aproximou da meta e de vermelho quando afastou. O peso aparece na unidade escolhida em Configurações; medidas em centímetros.
 
 Peso e medidas são dados de saúde, sensíveis pela LGPD: na primeira vez o app pede o seu consentimento, e só então guarda. Ficam só com você (nem quem treina você vê), entram na exportação e saem com a conta. **Parar de guardar e apagar tudo** revoga o consentimento e apaga os registros e as metas na hora.
 
@@ -54,7 +54,7 @@ Em **Estatísticas de treino** (no bloco Academia) ficam os dias e o tempo trein
 
 ## Aquecimento, anilhas e observação
 
-Antes da primeira série de um exercício com carga, o Modo Treino sugere o **aquecimento** (40%, 60% e 80% da carga, arredondados ao degrau e nunca abaixo da barra); cada sugestão é um toque e entra no diário como aquecimento. Em exercício com barra, ele mostra as **anilhas de cada lado** ("Por lado: 2 × 20 + 2,5"). A barra e as anilhas que você tem ficam no Perfil, em Registro do treino; a ficha do exercício tem a **calculadora de anilhas**. As notas do item aparecem no Modo Treino como **observação** ("banco no furo 4").
+Antes da primeira série de um exercício com carga, o Modo Treino sugere o **aquecimento** (40%, 60% e 80% da carga, arredondados ao degrau e nunca abaixo da barra); cada sugestão é um toque e entra no diário como aquecimento. Em exercício com barra, ele mostra as **anilhas de cada lado** ("Por lado: 2 × 20 + 2,5"). A barra e as anilhas que você tem ficam em Configurações, em Registro do treino; a ficha do exercício tem a **calculadora de anilhas**. As notas do item aparecem no Modo Treino como **observação** ("banco no furo 4").
 
 ## Superset e circuito
 
@@ -62,7 +62,7 @@ No painel do exercício, **Superset ou circuito** dá uma letra (A, B, C, D) ao 
 
 ## Plano da semana
 
-Em **Configurar página** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue no Perfil, em Registro do treino).
+Em **Configurar página** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue em Configurações, em Registro do treino).
 
 ## Academia no jogo
 

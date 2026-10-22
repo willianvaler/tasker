@@ -22,11 +22,11 @@ Para cambiar el orden sin arrastrar, usa **Mover arriba** y **Mover abajo** en e
 
 ## Gimnasio
 
-Si respondiste que vas a usar la app para entrenar (o activaste el **Modo gimnasio** en el Perfil), la barra lateral gana el bloque **Gimnasio**, con tus entrenamientos. **+ Nuevo entrenamiento** crea la página de entrenamiento ahí mismo, ya en tarjetas y reiniciándose cada semana. Desactivar el modo no borra nada: la carpeta Gimnasio vuelve a Carpetas.
+Si respondiste que vas a usar la app para entrenar (o activaste **Entrenamiento** en Ajustes → Funciones), la barra lateral gana el bloque **Gimnasio**, con tus entrenamientos. **+ Nuevo entrenamiento** crea la página de entrenamiento ahí mismo, ya en tarjetas y reiniciándose cada semana. Desactivar el modo no borra nada: la carpeta Gimnasio vuelve a Carpetas.
 
 ## Barra lateral
 
-En **Perfil → Barra lateral** cambias el orden de los bloques (Notas, Carpetas, Gimnasio, Proyectos, Recibidas) y ocultas los que no usas. Vale en todos tus dispositivos.
+En **Ajustes → Navegación** cambias el orden de los bloques (Notas, Carpetas, Gimnasio, Proyectos, Recibidas) y ocultas los que no usas. Vale en todos tus dispositivos.
 
 ## Notas
 

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { adminRest, openTab, signUp } from './helpers';
+import { adminRest, openTab, signUp, openSettings } from './helpers';
 
 const userIdOf = (page: import('@playwright/test').Page) =>
   page.evaluate(() => {
@@ -26,7 +26,7 @@ test('LGPD: cadastro exige o aceite, que fica registrado; pedido do titular', as
   await page.getByRole('button', { name: 'Voltar' }).click();
 
   await signUp(page, testInfo);
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   await expect(page.getByText(/Termos aceitos: versão \d{4}-\d{2}-\d{2}/)).toBeVisible();
   await page.getByRole('button', { name: 'Pedido sobre meus dados' }).click();
   await page.getByRole('menuitem', { name: 'Corrigir dados' }).click();

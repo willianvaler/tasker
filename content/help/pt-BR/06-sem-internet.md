@@ -8,7 +8,7 @@ Depois da primeira sincronização, o app guarda seus dados **no aparelho**. Sem
 - **Amarelo** — enviando ou recebendo
 - **Vermelho** — sem conexão (o que você faz fica guardado) ou algo foi recusado; abra para ver qual
 
-Toque nele (ou em Perfil → Sincronização) para ver a fila e forçar o envio.
+Toque nele (ou em Mais → Sincronização) para ver a fila e forçar o envio.
 
 ## Servidor fora do ar
 

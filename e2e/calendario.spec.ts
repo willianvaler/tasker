@@ -41,7 +41,10 @@ test('calendário: tarefa e treino do dia, e o link para o Google Agenda', async
   await page.getByRole('tab', { name: 'Semana' }).click();
   await expect(shown(page, title)).toBeVisible();
   // (no desktop, o treino também está no bloco Academia da barra lateral)
-  await page.getByRole('link', { name: /Treino Cal/ }).last().click();
+  await page
+    .getByRole('link', { name: /Treino Cal/ })
+    .last()
+    .click();
   await expect(page).toHaveURL(new RegExp(`/page/${pageId}`));
 
   // Link do feed: o .ics tem a tarefa e o treino

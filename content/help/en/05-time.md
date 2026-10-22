@@ -24,7 +24,7 @@ In a project you can react with 👏 🔥 💪 ❤️ or 🎉 to a completed tas
 
 ## Friends
 
-**Friends** (sidebar, Profile or `Ctrl+K`) holds your **nick**, the name people find you by (3 to 20 lowercase letters, numbers, `_` or `.`; you can change it). To add someone, type their **@nick** or **e-mail** and tap **Send request**: they get a notification and accept or decline. By e-mail, the app does not say whether the account exists. Your **friend link** is the fastest way: whoever opens it and signs in becomes your friend right away (they can create the account right there). If the link ends up where it should not, **Change link** and the old one stops working. Unfriending does not notify the other person.
+**Friends** (More → People, or `Ctrl+K`) holds your **nick**, the name people find you by (3 to 20 lowercase letters, numbers, `_` or `.`; you can change it). To add someone, type their **@nick** or **e-mail** and tap **Send request**: they get a notification and accept or decline. By e-mail, the app does not say whether the account exists. Your **friend link** is the fastest way: whoever opens it and signs in becomes your friend right away (they can create the account right there). If the link ends up where it should not, **Change link** and the old one stops working. Unfriending does not notify the other person.
 
 **Add from friends:** in a project's **People** (and a workout group's), on the team page and in the clan, the **Add from friends** list shows who is not there yet. **Add** puts the person straight into the group (in a project, with the "Invite as" role), and they get a notification; if they do not want it, they can just leave. It only shows for whoever can already invite in that group.
 

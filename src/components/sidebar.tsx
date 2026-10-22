@@ -465,12 +465,7 @@ function SidebarFooter({ online }: { online: boolean }) {
         </Link>
       )}
       <View className="flex-row items-center">
-        <FooterLink
-          href="/profile"
-          icon={User}
-          label={t('nav.profile')}
-          active={pathname === '/profile'}
-        />
+        <FooterLink href="/mais" icon={User} label={t('nav.more')} active={pathname === '/mais'} />
         <FooterLink
           href="/notifications"
           icon={Bell}

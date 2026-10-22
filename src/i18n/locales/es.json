@@ -128,7 +128,11 @@
     "resizeSidebar": "Ancho de la barra lateral (arrastra o usa ← →)",
     "newProjectHere": "Nuevo proyecto",
     "firstProject": "Crear el primer proyecto",
-    "calendar": "Calendario"
+    "calendar": "Calendario",
+    "more": "Más",
+    "people": "Personas",
+    "game": "Juego",
+    "settings": "Ajustes"
   },
   "quickAdd": {
     "label": "Nueva tarea",
@@ -512,7 +516,7 @@
   },
   "character": {
     "title": "Personaje",
-    "off": "La gamificación está apagada. Actívala en Perfil para tener personaje, jefe y tienda.",
+    "off": "La gamificación está apagada. Actívala en Ajustes → Funciones para tener personaje, jefe y tienda.",
     "pick": "Elige tu clase",
     "change": "Cambiar de clase",
     "pickHint": "La clase es tu estilo: cambia los atributos iniciales y da una pasiva y una habilidad por día. Puedes cambiarla después, sin costo.",
@@ -740,7 +744,7 @@
     "clanMembers_one": "{{count}} persona enfrentando al jefe de la semana.",
     "clanMembers_other": "{{count}} personas enfrentando juntas al jefe de la semana.",
     "openClan": "Abrir el clan",
-    "otherClan": "Ya estás en otro clan. Sal de él (Perfil → Clan) para entrar en este.",
+    "otherClan": "Ya estás en otro clan. Sal de él (Más → Personas → Clan) para entrar en este.",
     "joinClan": "Entrar al clan",
     "roleManager": "gerente",
     "roleContributor": "colaborador",
@@ -867,14 +871,14 @@
     "noPunish": "Sin castigo: una tarea olvidada no quita XP.",
     "shared": "En proyectos y clanes, el jefe es de todos, y quien ayudó recibe la recompensa.",
     "gameOn": "Gamificación activada",
-    "gameOff": "Gamificación desactivada (puedes activarla en Perfil)",
+    "gameOff": "Gamificación desactivada (puedes activarla en Ajustes)",
     "error": "Algo salió mal: {{message}}",
     "habitWater": "Tomar un vaso de agua",
     "habitMeditate": "Meditar 5 minutos",
     "habitRead": "Leer 10 páginas",
     "habitEat": "Comer bien",
     "setupTitle": "A tu manera",
-    "setupText": "Elige el idioma, el tema y cuánto muestra el panel de la tarea. Para que el fin del descanso y del foco avise incluso con la app cerrada, permite las notificaciones. Todo esto se cambia después en el Perfil."
+    "setupText": "Elige el idioma, el tema y cuánto muestra el panel de la tarea. Para que el fin del descanso y del foco avise incluso con la app cerrada, permite las notificaciones. Todo esto se cambia después en Ajustes."
   },
   "extras": {
     "noRepeat": "No se repite",
@@ -2317,7 +2321,7 @@
     "open": "Modo: entrenamiento, foco o descanso",
     "workout": "Entrenamiento",
     "workoutHint": "Series, carga y descanso a pantalla completa, un ejercicio a la vez.",
-    "noWorkout": "Aún no hay página de entrenamiento. Activa el Modo gimnasio en el Perfil y usa + Nuevo entrenamiento, o ponles series a los elementos de una página.",
+    "noWorkout": "Aún no hay entrenamiento. Activa Entrenamiento en Ajustes → Funciones y usa + Nuevo entrenamiento, o ponles series a los elementos de una lista.",
     "startWorkout": "Entrenar: {{page}}",
     "focus": "Foco",
     "focusHint": "Pomodoro: foco con pausas sugeridas al final.",
@@ -2818,8 +2822,8 @@
     "newWorkout": "Nuevo entrenamiento",
     "workoutPlaceholder": "Nombre del entrenamiento (ej.: Entrenamiento A)",
     "firstWorkout": "Crear el primer entrenamiento",
-    "toggle": "Modo gimnasio",
-    "toggleHint": "Muestra el bloque Gimnasio en la barra lateral, con tus entrenamientos.",
+    "toggle": "Entrenamiento (gimnasio)",
+    "toggleHint": "Entrenamientos, series y cargas, el Modo Entrenamiento, la Biblioteca y el bloque Gimnasio en la barra lateral.",
     "newGroup": "Nuevo grupo de entrenamiento",
     "groupPlaceholder": "Nombre (ej.: Entreno con Ana)"
   },
@@ -2834,7 +2838,7 @@
   },
   "gymMode": {
     "title": "¿Vas a usar Questlist para entrenar?",
-    "body": "Si lo activas, la barra lateral gana el bloque Gimnasio, con tus entrenamientos, series y cargas y el Modo Entrenamiento. Puedes cambiarlo después en el Perfil.",
+    "body": "Si lo activas, tienes los entrenamientos, con series y cargas, el Modo Entrenamiento y la Biblioteca de ejercicios. Puedes cambiarlo después en Ajustes → Funciones.",
     "yes": "Sí, voy a entrenar",
     "no": "Ahora no"
   },
@@ -3253,7 +3257,7 @@
     "message": "Cuéntanos qué necesitas (opcional)",
     "messageHint": "La solicitud queda registrada aquí y se responde en hasta 15 días.",
     "send": "Enviar solicitud",
-    "sent": "Solicitud enviada. La respuesta aparece aquí en el Perfil.",
+    "sent": "Solicitud enviada. La respuesta aparece aquí en Ajustes.",
     "open": "Abierta · respuesta hasta el {{date}}",
     "answered": "Respondida",
     "kinds": {
@@ -3382,5 +3386,53 @@
     "read_one": "{{count}} elemento leído de la foto: revisa antes de crear.",
     "read_other": "{{count}} elementos leídos de la foto: revisa antes de crear.",
     "offline": "Sin internet: la foto necesita conexión para leerse."
+  },
+  "hub": {
+    "goTo": "Ir a",
+    "spaces": "Organizar",
+    "you": "Tú",
+    "app": "App",
+    "signOut": "Cerrar sesión",
+    "settingsHint": "Cuenta, apariencia, funciones, avisos y datos",
+    "peopleHint": "Amigos, equipos, clan y comunidad",
+    "gameHint": "Personaje, jefes, tienda y logros",
+    "helpHint": "Cómo usar, atajos y preguntas",
+    "trashHint": "Lo que se borró en los últimos 30 días",
+    "syncHint": "Lo que falta enviar y el estado de la conexión",
+    "templatesHint": "Listos y los que guardaste",
+    "notesHint": "Texto libre, solo tuyo",
+    "foldersHint": "Tus carpetas, listas y proyectos",
+    "people": {
+      "friendsHint": "Agregar por nick, correo o enlace",
+      "teamsHint": "Grupos de trabajo, con cargos y proyectos",
+      "clanHint": "Grupo del juego, con jefe cooperativo",
+      "projectsHint": "Personas, invitaciones y automatizaciones de cada proyecto",
+      "communityHint": "Plantillas y entrenamientos que la gente publicó",
+      "notificationsHint": "Invitaciones, menciones y avisos",
+      "projects": "Proyectos e invitaciones",
+      "requests_one": "{{count}} solicitud de amistad",
+      "requests_other": "{{count}} solicitudes de amistad"
+    },
+    "game": {
+      "characterHint": "Clase, atributos, habilidades y equipo",
+      "shopHint": "Objetos de apariencia, con oro",
+      "inventoryHint": "Lo que tienes y lo que está equipado",
+      "achievementsHint": "Todos, con la rareza",
+      "rewardsHint": "Premios de la vida real con precio en oro",
+      "stableHint": "Mascotas y monturas",
+      "off": "El juego está apagado",
+      "offHint": "Actívalo en Ajustes → Funciones para tener personaje, jefes y tienda.",
+      "places": "Lugares"
+    }
+  },
+  "settings": {
+    "title": "Ajustes",
+    "resources": "Funciones",
+    "resourcesHint": "Activa solo lo que usas: lo demás sale de las pantallas, sin borrar nada.",
+    "navigation": "Navegación",
+    "focus": "Enfoque",
+    "data": "Datos",
+    "about": "Sobre la app",
+    "gameTitle": "Juego"
   }
 }

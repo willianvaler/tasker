@@ -8,7 +8,7 @@ After the first sync, the app keeps your data **on the device**. With no signal 
 - **Yellow** — sending or receiving
 - **Red** — offline (what you do is kept) or something was refused; open it to see which
 
-Tap it (or Profile → Sync) to see the queue and force a send.
+Tap it (or More → Sync) to see the queue and force a send.
 
 ## Server unavailable
 

@@ -128,7 +128,11 @@
     "resizeSidebar": "Sidebar width (drag or use ← →)",
     "newProjectHere": "New project",
     "firstProject": "Create the first project",
-    "calendar": "Calendar"
+    "calendar": "Calendar",
+    "more": "More",
+    "people": "People",
+    "game": "Game",
+    "settings": "Settings"
   },
   "quickAdd": {
     "label": "New task",
@@ -512,7 +516,7 @@
   },
   "character": {
     "title": "Character",
-    "off": "Gamification is off. Turn it on in Profile to get a character, boss and shop.",
+    "off": "Gamification is off. Turn it on in Settings → Features to get a character, boss and shop.",
     "pick": "Pick your class",
     "change": "Change class",
     "pickHint": "Your class is your style: it changes your starting attributes and gives a passive and a daily skill. You can change it later, for free.",
@@ -740,7 +744,7 @@
     "clanMembers_one": "{{count}} person facing the boss of the week.",
     "clanMembers_other": "{{count}} people facing the boss of the week together.",
     "openClan": "Open the clan",
-    "otherClan": "You are already in another clan. Leave it (Profile → Clan) to join this one.",
+    "otherClan": "You are already in another clan. Leave it (More → People → Clan) to join this one.",
     "joinClan": "Join the clan",
     "roleManager": "manager",
     "roleContributor": "contributor",
@@ -867,14 +871,14 @@
     "noPunish": "No punishment: a forgotten task doesn't take XP away.",
     "shared": "In projects and clans, the boss belongs to everyone, and whoever helped gets the reward.",
     "gameOn": "Gamification on",
-    "gameOff": "Gamification off (you can turn it on in Profile)",
+    "gameOff": "Gamification off (you can turn it on in Settings)",
     "error": "Something went wrong: {{message}}",
     "habitWater": "Drink a glass of water",
     "habitMeditate": "Meditate 5 minutes",
     "habitRead": "Read 10 pages",
     "habitEat": "Eat well",
     "setupTitle": "Your way",
-    "setupText": "Pick the language, the theme and how much the task panel shows. To be alerted when rest and focus end even with the app closed, allow notifications. You can change all of this later in Profile."
+    "setupText": "Pick the language, the theme and how much the task panel shows. To be alerted when rest and focus end even with the app closed, allow notifications. You can change all of this later in Settings."
   },
   "extras": {
     "noRepeat": "Does not repeat",
@@ -2317,7 +2321,7 @@
     "open": "Mode: workout, focus or rest",
     "workout": "Workout",
     "workoutHint": "Sets, load and rest full screen, one exercise at a time.",
-    "noWorkout": "No workout page yet. Turn on Gym mode in your Profile and use + New workout, or give sets to the items of a page.",
+    "noWorkout": "No workout yet. Turn on Workouts in Settings → Features and use + New workout, or give sets to the items of a list.",
     "startWorkout": "Train: {{page}}",
     "focus": "Focus",
     "focusHint": "Pomodoro: focus with suggested breaks at the end.",
@@ -2818,8 +2822,8 @@
     "newWorkout": "New workout",
     "workoutPlaceholder": "Workout name (e.g. Workout A)",
     "firstWorkout": "Create your first workout",
-    "toggle": "Gym mode",
-    "toggleHint": "Shows the Gym block in the sidebar, with your workouts.",
+    "toggle": "Workouts (gym)",
+    "toggleHint": "Workouts, sets and loads, Workout Mode, the Library and the Gym block in the sidebar.",
     "newGroup": "New training group",
     "groupPlaceholder": "Name (e.g. Training with Ana)"
   },
@@ -2834,7 +2838,7 @@
   },
   "gymMode": {
     "title": "Will you use Questlist to work out?",
-    "body": "If you turn it on, the sidebar gets the Gym block, with your workouts, sets and loads and Workout Mode. You can change it later in Profile.",
+    "body": "If you turn it on, you get workouts, with sets and loads, Workout Mode and the exercise Library. You can change it later in Settings → Features.",
     "yes": "Yes, I'll work out",
     "no": "Not now"
   },
@@ -3253,7 +3257,7 @@
     "message": "Tell us what you need (optional)",
     "messageHint": "The request is recorded here and answered within 15 days.",
     "send": "Send request",
-    "sent": "Request sent. The answer shows up here in the Profile.",
+    "sent": "Request sent. The answer shows up here in Settings.",
     "open": "Open · answer by {{date}}",
     "answered": "Answered",
     "kinds": {
@@ -3382,5 +3386,53 @@
     "read_one": "{{count}} item read from the photo: check before creating.",
     "read_other": "{{count}} items read from the photo: check before creating.",
     "offline": "Offline: the photo needs a connection to be read."
+  },
+  "hub": {
+    "goTo": "Go to",
+    "spaces": "Organize",
+    "you": "You",
+    "app": "App",
+    "signOut": "Sign out",
+    "settingsHint": "Account, appearance, features, alerts and data",
+    "peopleHint": "Friends, teams, clan and community",
+    "gameHint": "Character, bosses, shop and achievements",
+    "helpHint": "How to use, shortcuts and questions",
+    "trashHint": "What was deleted in the last 30 days",
+    "syncHint": "What is still to send and the connection state",
+    "templatesHint": "Ready-made and the ones you saved",
+    "notesHint": "Free text, just yours",
+    "foldersHint": "Your folders, lists and projects",
+    "people": {
+      "friendsHint": "Add by nick, email or link",
+      "teamsHint": "Work groups, with roles and projects",
+      "clanHint": "Game group, with a co-op boss",
+      "projectsHint": "People, invites and automations of each project",
+      "communityHint": "Templates and workouts people published",
+      "notificationsHint": "Invites, mentions and alerts",
+      "projects": "Projects and invites",
+      "requests_one": "{{count}} friend request",
+      "requests_other": "{{count}} friend requests"
+    },
+    "game": {
+      "characterHint": "Class, attributes, skills and gear",
+      "shopHint": "Cosmetic items, with gold",
+      "inventoryHint": "What you own and what is equipped",
+      "achievementsHint": "All of them, with rarity",
+      "rewardsHint": "Real-life treats with a gold price",
+      "stableHint": "Pets and mounts",
+      "off": "The game is off",
+      "offHint": "Turn it on in Settings → Features to get a character, bosses and a shop.",
+      "places": "Places"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "resources": "Features",
+    "resourcesHint": "Turn on only what you use: the rest leaves the screens, nothing is deleted.",
+    "navigation": "Navigation",
+    "focus": "Focus",
+    "data": "Data",
+    "about": "About the app",
+    "gameTitle": "Game"
   }
 }

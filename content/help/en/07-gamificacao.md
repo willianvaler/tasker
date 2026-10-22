@@ -6,7 +6,7 @@ Every day a **daily boss** is born (about 6 tasks) and every week a **weekly bos
 
 ## Three game levels
 
-In **Profile → Gamification** you choose: **Off** (just the lists; your history is kept), **Subtle** (the default: XP, character and bosses quietly beside the lists) or **RPG** (RPG: Home becomes your **camp**, with your character up front, the daily and weekly bosses and today's open quests). The rules are the same in all three: switching never gains or loses anything.
+In **Settings → Features → Game** you choose: **Off** (just the lists; your history is kept), **Subtle** (the default: XP, character and bosses quietly beside the lists) or **RPG** (RPG: Home becomes your **camp**, with your character up front, the daily and weekly bosses and today's open quests). The rules are the same in all three: switching never gains or loses anything.
 
 ## Fair, no tricks
 
@@ -19,11 +19,11 @@ In **Profile → Gamification** you choose: **Off** (just the lists; your histor
 
 ## Achievements
 
-There are 68, from **common** to **legendary** (the rarity name is written out, along with 1 to 5 dots). Profile → **See all achievements** lists them all, with filters by rarity and category, the % of players who have each one and how far you are from the next one in each track (tasks, streak, bosses, levels…). Some are **secret**: they only show a hint until you unlock them.
+There are 68, from **common** to **legendary** (the rarity name is written out, along with 1 to 5 dots). More → Game → **Achievements** lists them all, with filters by rarity and category, the % of players who have each one and how far you are from the next one in each track (tasks, streak, bosses, levels…). Some are **secret**: they only show a hint until you unlock them.
 
 ## Character
 
-Pick a **class**, spend **attributes** and use one skill a day. Gold buys items in the **shop** (cosmetic only). The **inventory** (Profile or Character) shows everything you own, from the shop and from bosses, with filters by slot, rarity (common to legendary) and origin, and equips with one tap.
+Pick a **class**, spend **attributes** and use one skill a day. Gold buys items in the **shop** (cosmetic only). The **inventory** (Game or Character) shows everything you own, from the shop and from bosses, with filters by slot, rarity (common to legendary) and origin, and equips with one tap.
 
 ## Rebirth
 
@@ -31,4 +31,4 @@ From **level 20**, the **Rebirth** panel on the Character screen takes you back 
 
 ## Turning it off
 
-Profile → **Gamification** → **Off**. The app becomes just a task list.
+Settings → Features → **Game** → **Off**. The app becomes just a task list.

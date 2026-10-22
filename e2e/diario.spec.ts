@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { adminRest, openTab, shown, signUp } from './helpers';
+import { adminRest, openTab, shown, signUp, openSettings } from './helpers';
 
 // AC4 (D236): o Modo Treino grava cada série como aconteceu (repetições reais, esforço,
 // aquecimento à parte) e o painel do exercício mostra o histórico.
@@ -11,7 +11,7 @@ test('diário: série real, esforço e aquecimento no histórico', async ({ page
   await page.getByRole('button', { name: 'Sim, vou treinar' }).click();
 
   // Esforço por série ligado no Perfil (RPE)
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   await page.getByRole('radio', { name: 'RPE' }).click();
   await expect(page.getByRole('radio', { name: 'RPE' })).toHaveAttribute('aria-checked', 'true');
   await openTab(page, 'Início');

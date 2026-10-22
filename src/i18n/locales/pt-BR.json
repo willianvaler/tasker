@@ -128,7 +128,11 @@
     "resizeSidebar": "Largura da barra lateral (arraste ou use ← →)",
     "newProjectHere": "Novo projeto",
     "firstProject": "Criar o primeiro projeto",
-    "calendar": "Calendário"
+    "calendar": "Calendário",
+    "more": "Mais",
+    "people": "Pessoas",
+    "game": "Jogo",
+    "settings": "Configurações"
   },
   "quickAdd": {
     "label": "Nova tarefa",
@@ -512,7 +516,7 @@
   },
   "character": {
     "title": "Personagem",
-    "off": "A gamificação está desligada. Ligue no Perfil para ter personagem, boss e loja.",
+    "off": "A gamificação está desligada. Ligue em Configurações → Recursos para ter personagem, boss e loja.",
     "pick": "Escolha sua classe",
     "change": "Trocar de classe",
     "pickHint": "A classe é o seu estilo: muda os atributos iniciais e dá uma passiva e uma habilidade por dia. Dá para trocar depois, sem custo.",
@@ -740,7 +744,7 @@
     "clanMembers_one": "{{count}} pessoa enfrentando o boss da semana.",
     "clanMembers_other": "{{count}} pessoas enfrentando o boss da semana juntas.",
     "openClan": "Abrir o clã",
-    "otherClan": "Você já está em outro clã. Saia dele (Perfil → Clã) para entrar neste.",
+    "otherClan": "Você já está em outro clã. Saia dele (Mais → Pessoas → Clã) para entrar neste.",
     "joinClan": "Entrar no clã",
     "roleManager": "gerente",
     "roleContributor": "colaborador",
@@ -867,14 +871,14 @@
     "noPunish": "Nada de punição: tarefa esquecida não tira XP.",
     "shared": "Em projetos e clãs, o boss é de todo mundo, e quem ajudou ganha a recompensa.",
     "gameOn": "Gamificação ligada",
-    "gameOff": "Gamificação desligada (dá para ligar no Perfil)",
+    "gameOff": "Gamificação desligada (dá para ligar em Configurações)",
     "error": "Não deu certo: {{message}}",
     "habitWater": "Beber um copo de água",
     "habitMeditate": "Meditar 5 minutos",
     "habitRead": "Ler 10 páginas",
     "habitEat": "Comer bem",
     "setupTitle": "Do seu jeito",
-    "setupText": "Escolha o idioma, o tema e quanto o painel da tarefa mostra. Para o fim do descanso e do foco avisarem mesmo com o app fechado, permita as notificações. Tudo isso muda depois no Perfil."
+    "setupText": "Escolha o idioma, o tema e quanto o painel da tarefa mostra. Para o fim do descanso e do foco avisarem mesmo com o app fechado, permita as notificações. Tudo isso muda depois em Configurações."
   },
   "extras": {
     "noRepeat": "Não repete",
@@ -2317,7 +2321,7 @@
     "open": "Modo: treino, foco ou descanso",
     "workout": "Treino",
     "workoutHint": "Séries, carga e descanso em tela cheia, um exercício por vez.",
-    "noWorkout": "Nenhuma página de treino ainda. Ligue o Modo academia no Perfil e use + Novo treino, ou dê séries aos itens de uma página.",
+    "noWorkout": "Nenhum treino ainda. Ligue o Treino em Configurações → Recursos e use + Novo treino, ou dê séries aos itens de uma lista.",
     "startWorkout": "Treinar: {{page}}",
     "focus": "Foco",
     "focusHint": "Pomodoro: foco com pausas sugeridas no fim.",
@@ -2818,8 +2822,8 @@
     "newWorkout": "Novo treino",
     "workoutPlaceholder": "Nome do treino (ex.: Treino A)",
     "firstWorkout": "Criar o primeiro treino",
-    "toggle": "Modo academia",
-    "toggleHint": "Mostra o bloco Academia na barra lateral, com os seus treinos.",
+    "toggle": "Treino (academia)",
+    "toggleHint": "Treinos, séries e cargas, o Modo Treino, a Biblioteca e o bloco Academia na barra lateral.",
     "newGroup": "Novo grupo de treino",
     "groupPlaceholder": "Nome (ex.: Treino com a Ana)"
   },
@@ -2834,7 +2838,7 @@
   },
   "gymMode": {
     "title": "Vai usar o Questlist para treinar?",
-    "body": "Ligando, a barra lateral ganha o bloco Academia, com seus treinos, séries e cargas e o Modo Treino. Dá para mudar depois no Perfil.",
+    "body": "Ligando, você ganha os treinos, com séries e cargas, o Modo Treino e a Biblioteca de exercícios. Dá para mudar depois em Configurações → Recursos.",
     "yes": "Sim, vou treinar",
     "no": "Agora não"
   },
@@ -3253,7 +3257,7 @@
     "message": "Conte o que precisa (opcional)",
     "messageHint": "O pedido fica registrado aqui e é respondido em até 15 dias.",
     "send": "Enviar pedido",
-    "sent": "Pedido enviado. A resposta aparece aqui no Perfil.",
+    "sent": "Pedido enviado. A resposta aparece aqui em Configurações.",
     "open": "Em aberto · resposta até {{date}}",
     "answered": "Respondido",
     "kinds": {
@@ -3382,5 +3386,53 @@
     "read_one": "{{count}} item lido da foto: confira antes de criar.",
     "read_other": "{{count}} itens lidos da foto: confira antes de criar.",
     "offline": "Sem internet: a foto precisa de conexão para ser lida."
+  },
+  "hub": {
+    "goTo": "Ir para",
+    "spaces": "Organizar",
+    "you": "Você",
+    "app": "App",
+    "signOut": "Sair da conta",
+    "settingsHint": "Conta, aparência, recursos, avisos e dados",
+    "peopleHint": "Amigos, times, clã e comunidade",
+    "gameHint": "Personagem, bosses, loja e conquistas",
+    "helpHint": "Como usar, atalhos e perguntas",
+    "trashHint": "O que foi apagado nos últimos 30 dias",
+    "syncHint": "O que falta enviar e o estado da conexão",
+    "templatesHint": "Prontos e os que você salvou",
+    "notesHint": "Texto livre, só seu",
+    "foldersHint": "Suas pastas, listas e projetos",
+    "people": {
+      "friendsHint": "Adicionar por nick, e-mail ou link",
+      "teamsHint": "Grupos de trabalho, com cargos e projetos",
+      "clanHint": "Grupo do jogo, com boss cooperativo",
+      "projectsHint": "Pessoas, convites e automações de cada projeto",
+      "communityHint": "Modelos e treinos que as pessoas publicaram",
+      "notificationsHint": "Convites, menções e avisos",
+      "projects": "Projetos e convites",
+      "requests_one": "{{count}} pedido de amizade",
+      "requests_other": "{{count}} pedidos de amizade"
+    },
+    "game": {
+      "characterHint": "Classe, atributos, habilidades e equipamento",
+      "shopHint": "Itens de visual, com o ouro",
+      "inventoryHint": "O que você tem e o que está equipado",
+      "achievementsHint": "Todas, com a raridade",
+      "rewardsHint": "Prêmios da vida real com preço em ouro",
+      "stableHint": "Mascotes e montarias",
+      "off": "O jogo está desligado",
+      "offHint": "Ligue em Configurações → Recursos para ter personagem, bosses e loja.",
+      "places": "Lugares"
+    }
+  },
+  "settings": {
+    "title": "Configurações",
+    "resources": "Recursos",
+    "resourcesHint": "Ligue só o que você usa: o resto some das telas, sem apagar nada.",
+    "navigation": "Navegação",
+    "focus": "Foco",
+    "data": "Dados",
+    "about": "Sobre o app",
+    "gameTitle": "Jogo"
   }
 }

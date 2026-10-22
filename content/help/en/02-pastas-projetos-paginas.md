@@ -22,11 +22,11 @@ To change the order without dragging, use **Move up** and **Move down** in the f
 
 ## Gym
 
-If you said you will use the app to work out (or turned on **Gym mode** in Profile), the sidebar gets the **Gym** block, with your workouts. **+ New workout** creates the workout page right there, already as cards and resetting every week. Turning the mode off deletes nothing: the Gym folder goes back to Folders.
+If you said you will use the app to work out (or turned on **Workouts** in Settings → Features), the sidebar gets the **Gym** block, with your workouts. **+ New workout** creates the workout page right there, already as cards and resetting every week. Turning the mode off deletes nothing: the Gym folder goes back to Folders.
 
 ## Sidebar
 
-In **Profile → Sidebar** you change the order of the blocks (Notes, Folders, Gym, Projects, Received) and hide the ones you don't use. It applies on all your devices.
+In **Settings → Navigation** you change the order of the blocks (Notes, Folders, Gym, Projects, Received) and hide the ones you don't use. It applies on all your devices.
 
 ## Notes
 

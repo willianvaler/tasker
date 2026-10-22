@@ -27,7 +27,9 @@ test('amigos: pelo link vira amizade na hora; desfazer; pedido por nick e aceite
   const context = await browser.newContext({ ...devices['Desktop Chrome'] });
   const bia = await context.newPage();
   await bia.goto(link);
-  await expect(bia.getByRole('heading', { name: /quer fazer amizade com você no Questlist/ })).toBeVisible();
+  await expect(
+    bia.getByRole('heading', { name: /quer fazer amizade com você no Questlist/ }),
+  ).toBeVisible();
   await bia.getByPlaceholder('Seu nome').fill('Bia Reis');
   await bia
     .getByPlaceholder('E-mail')

@@ -6,7 +6,7 @@ Cada día nace un **jefe del día** (unas 6 tareas) y cada semana un **jefe de l
 
 ## Tres niveles de juego
 
-En **Perfil → Gamificación** eliges: **Apagado** (solo las listas; el historial se guarda), **Discreto** (el predeterminado: XP, personaje y jefes discretos junto a las listas) o **RPG** (RPG: el Inicio se vuelve el **campamento**, con el personaje al frente, los jefes del día y de la semana y las misiones abiertas de hoy). Las reglas son las mismas en los tres: cambiar no gana ni pierde nada.
+En **Ajustes → Funciones → Juego** eliges: **Apagado** (solo las listas; el historial se guarda), **Discreto** (el predeterminado: XP, personaje y jefes discretos junto a las listas) o **RPG** (RPG: el Inicio se vuelve el **campamento**, con el personaje al frente, los jefes del día y de la semana y las misiones abiertas de hoy). Las reglas son las mismas en los tres: cambiar no gana ni pierde nada.
 
 ## Justo, sin trucos
 
@@ -19,11 +19,11 @@ En **Perfil → Gamificación** eliges: **Apagado** (solo las listas; el histori
 
 ## Logros
 
-Son 68, de **común** a **legendaria** (el nombre de la rareza aparece escrito, junto con puntos de 1 a 5). Perfil → **Ver todos los logros** los muestra todos, con filtros por rareza y categoría, el % de jugadores que tiene cada uno y cuánto falta para el siguiente de cada serie (tareas, racha, jefes, niveles…). Algunos son **secretos**: solo muestran una pista hasta que los consigues.
+Son 68, de **común** a **legendaria** (el nombre de la rareza aparece escrito, junto con puntos de 1 a 5). Más → Juego → **Logros** los muestra todos, con filtros por rareza y categoría, el % de jugadores que tiene cada uno y cuánto falta para el siguiente de cada serie (tareas, racha, jefes, niveles…). Algunos son **secretos**: solo muestran una pista hasta que los consigues.
 
 ## Personaje
 
-Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro compra objetos en la **tienda** (solo estéticos). El **inventario** (Perfil o Personaje) muestra todo lo que tienes, de la tienda y de los jefes, con filtros por espacio, rareza (de común a legendario) y origen, y equipa con un toque.
+Elige una **clase**, reparte **atributos** y usa una habilidad al día. El oro compra objetos en la **tienda** (solo estéticos). El **inventario** (Juego o Personaje) muestra todo lo que tienes, de la tienda y de los jefes, con filtros por espacio, rareza (de común a legendario) y origen, y equipa con un toque.
 
 ## Renacer
 
@@ -31,4 +31,4 @@ A partir del **nivel 20**, el panel **Renacer** del Personaje te lleva de vuelta
 
 ## Apagar
 
-Perfil → **Gamificación** → **Apagado**. La app queda solo como lista de tareas.
+Ajustes → Funciones → **Juego** → **Apagado**. La app queda solo como lista de tareas.

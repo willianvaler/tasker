@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, signUp } from './helpers';
+import { openTab, signUp, openSettings } from './helpers';
 
 test('idioma: escolher no Perfil vale na hora e continua depois de recarregar', async ({
   page,
 }, testInfo) => {
   await signUp(page, testInfo);
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   await expect(page.getByText('Idioma', { exact: true })).toBeVisible();
 
   const saved = page.waitForResponse(

@@ -1,13 +1,16 @@
 import { expect, test } from '@playwright/test';
 
-import { adminRest, openTab, signUp } from './helpers';
+import { adminRest, openTab, signUp, openSettings } from './helpers';
 
 // HB3 e HB4 (ESCOPO_V8): três níveis de jogo no Perfil; no Completo o Início vira o acampamento.
 test('modo jogo: Completo mostra o acampamento no Início', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   const level = page.getByRole('radiogroup', { name: 'Gamificação' });
-  await expect(level.getByRole('radio', { name: 'Discreto' })).toHaveAttribute('aria-checked', 'true');
+  await expect(level.getByRole('radio', { name: 'Discreto' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
 
   const saved = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
   await level.getByRole('radio', { name: 'RPG' }).click();
@@ -21,7 +24,7 @@ test('modo jogo: Completo mostra o acampamento no Início', async ({ page }, tes
   await expect(camp.getByText(/^“.+”$/).first()).toBeVisible();
 
   // Voltar ao Discreto tira o acampamento
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   const back = page.waitForResponse((r) => r.url().includes('/profiles') && r.ok());
   await level.getByRole('radio', { name: 'Discreto' }).click();
   await back;

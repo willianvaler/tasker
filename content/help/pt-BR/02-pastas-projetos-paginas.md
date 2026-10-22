@@ -22,11 +22,11 @@ Para mudar a ordem sem arrastar, use **Mover para cima** e **Mover para baixo** 
 
 ## Academia
 
-Se você respondeu que vai usar o app para treinar (ou ligou o **Modo academia** no Perfil), a barra lateral ganha o bloco **Academia**, com os seus treinos. **+ Novo treino** cria a página de treino direto ali, já em cards e reiniciando toda semana. Desligar o modo não apaga nada: a pasta Academia volta para Pastas.
+Se você respondeu que vai usar o app para treinar (ou ligou o **Treino** em Configurações → Recursos), a barra lateral ganha o bloco **Academia**, com os seus treinos. **+ Novo treino** cria a página de treino direto ali, já em cards e reiniciando toda semana. Desligar o modo não apaga nada: a pasta Academia volta para Pastas.
 
 ## Barra lateral
 
-Em **Perfil → Barra lateral** você muda a ordem dos blocos (Anotações, Pastas, Academia, Projetos, Recebidas) e esconde os que não usa. Vale em todos os seus aparelhos.
+Em **Configurações → Navegação** você muda a ordem dos blocos (Anotações, Pastas, Academia, Projetos, Recebidas) e esconde os que não usa. Vale em todos os seus aparelhos.
 
 ## Anotações
 

@@ -8,7 +8,7 @@ Tras la primera sincronización, la app guarda tus datos **en el dispositivo**. 
 - **Amarillo** — enviando o recibiendo
 - **Rojo** — sin conexión (lo que hagas queda guardado) o algo fue rechazado; ábrelo para ver cuál
 
-Tócalo (o Perfil → Sincronización) para ver la cola y forzar el envío.
+Tócalo (o Más → Sincronización) para ver la cola y forzar el envío.
 
 ## Servidor no disponible
 

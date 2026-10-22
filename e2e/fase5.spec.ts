@@ -1,6 +1,6 @@
 import { devices, expect, test } from '@playwright/test';
 
-import { ageTask, openTab, shown, signUp, isRpc } from './helpers';
+import { ageTask, openTab, shown, signUp, isRpc, openSettings } from './helpers';
 
 test('fila offline: cria e marca sem internet, envia ao voltar', async ({
   page,
@@ -115,7 +115,7 @@ test('exportar os dados em JSON', async ({ page }, testInfo) => {
   await input.press('Enter');
   await created;
 
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Exportar (JSON)' }).click();
   const file = await download;
@@ -129,7 +129,7 @@ test('exportar os dados em JSON', async ({ page }, testInfo) => {
 test('excluir a conta', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === 'celular', 'Igual nos dois perfis');
   await signUp(page, testInfo);
-  await openTab(page, 'Perfil');
+  await openSettings(page);
   await page.getByRole('button', { name: 'Excluir minha conta' }).click();
   await page.getByPlaceholder('Digite EXCLUIR para confirmar').fill('excluir');
   await page.getByRole('button', { name: 'Excluir para sempre' }).click();

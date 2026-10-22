@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { openTab, signUp } from './helpers';
+import { openTab, signUp, openSettings } from './helpers';
 
 const QUESTION = 'Vai usar o Questlist para treinar?';
 
@@ -11,7 +11,7 @@ async function openProfile(page: Page, desktop: boolean) {
   }
   // No celular a página do treino abre por cima das abas
   await page.getByRole('button', { name: 'Voltar' }).first().click();
-  await openTab(page, 'Perfil');
+  await openSettings(page);
 }
 
 // V6 §15.1 e §15.2 (AC1): pergunta no primeiro acesso, bloco Academia com "Novo treino",

@@ -16,4 +16,4 @@ No topo do painel, **Simples ▾** mostra só o essencial; troque para **Complet
 
 ## Anexos
 
-No painel, **Anexar** põe uma foto (da galeria ou, no celular, da câmera) ou um arquivo na tarefa. Fotos são reduzidas no aparelho antes de enviar (cabem num quadrado de 2048 px), então ocupam pouco; a lista mostra só a miniatura e a foto grande baixa quando você abre. Cada arquivo pode ter até **10 MB**, e cada conta tem **1 GB** (veja quanto usa no Perfil). Quem vê a tarefa vê os anexos; quem pode editá-la anexa e remove. Sem internet, o anexo espera no aparelho e sobe sozinho depois.
+No painel, **Anexar** põe uma foto (da galeria ou, no celular, da câmera) ou um arquivo na tarefa. Fotos são reduzidas no aparelho antes de enviar (cabem num quadrado de 2048 px), então ocupam pouco; a lista mostra só a miniatura e a foto grande baixa quando você abre. Cada arquivo pode ter até **10 MB**, e cada conta tem **1 GB** (veja quanto usa em Configurações). Quem vê a tarefa vê os anexos; quem pode editá-la anexa e remove. Sem internet, o anexo espera no aparelho e sobe sozinho depois.

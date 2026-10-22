@@ -24,7 +24,7 @@ No projeto, dá para reagir com 👏 🔥 💪 ❤️ ou 🎉 a uma tarefa concl
 
 ## Amigos
 
-Em **Amigos** (barra lateral, Perfil ou `Ctrl+K`) fica o seu **nick**, o nome pelo qual as pessoas te acham (3 a 20 letras minúsculas, números, `_` ou `.`; dá para trocar). Para adicionar alguém, digite o **@nick** ou o **e-mail** e toque em **Pedir amizade**: a pessoa recebe um aviso e aceita ou recusa. Pelo e-mail, o app não diz se a conta existe. O seu **link de amizade** é o caminho mais rápido: quem abre e entra vira seu amigo na hora (crie a conta ali mesmo, se precisar). Se o link parar onde não devia, **Trocar link** e o anterior para de valer. Desfazer uma amizade não avisa a outra pessoa.
+Em **Amigos** (Mais → Pessoas, ou `Ctrl+K`) fica o seu **nick**, o nome pelo qual as pessoas te acham (3 a 20 letras minúsculas, números, `_` ou `.`; dá para trocar). Para adicionar alguém, digite o **@nick** ou o **e-mail** e toque em **Pedir amizade**: a pessoa recebe um aviso e aceita ou recusa. Pelo e-mail, o app não diz se a conta existe. O seu **link de amizade** é o caminho mais rápido: quem abre e entra vira seu amigo na hora (crie a conta ali mesmo, se precisar). Se o link parar onde não devia, **Trocar link** e o anterior para de valer. Desfazer uma amizade não avisa a outra pessoa.
 
 **Adicionar dos amigos:** em **Pessoas** do projeto (e do grupo de treino), na página do time e no clã, a lista **Adicionar dos amigos** mostra quem ainda não está ali. **Adicionar** põe a pessoa direto no grupo (no projeto, com o cargo de "Convidar como"), e ela recebe um aviso; se não quiser, é só sair. Só aparece para quem já pode convidar naquele grupo.
 

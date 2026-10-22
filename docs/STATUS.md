@@ -355,7 +355,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [ ] **UX4** Painel da tarefa: subtarefas para cima, "Depende de" em primeiro só em projeto
 - [ ] **UX5** Menu Novo completo (anotação, várias de uma vez, a partir de um modelo) e um só "Nova pasta"
 - [ ] **UX6** Doca: timer encaixado acima da navegação, aviso acima dele
-- [ ] **UX7** Configurações, Perfil, Jogo e Pessoas separados
+- [x] **UX7** Configurações, Mais, Jogo e Pessoas separados: o Perfil vira **Configurações** (`/configuracoes`, só ajustes: conta, aparência, **Recursos** com Treino e o nível do jogo, **Navegação**, avisos, foco, dados, sobre o app); a aba vira **Mais** (`/mais`, o índice de tudo, com nome e dica em cada linha); **Pessoas** (`/pessoas`: amigos, times, projetos, clã, comunidade, notificações) e **Jogo** (`/jogo`: acampamento ou herói, lugares do jogo, números, bosses e conquistas); `/profile` redireciona; Ajuda nos 3 idiomas com os caminhos novos (D257)
 - [ ] **UX8** Hoje única (Início + Hoje), Planejar, barra do celular com 5 posições configuráveis e "Mais"
 - [ ] **UX9** Topo da página: Compartilhar, "…" agrupado, visões em abas
 - [ ] **UX10** Ligações: "Depende de" e "Relacionados" numa seção só

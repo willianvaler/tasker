@@ -20,7 +20,7 @@ Every set done in Workout mode is saved as it happened: the weight, the reps you
 
 **History** shows in the exercise panel and in the Library page: the sessions from newest to oldest, with the sets and volume of each one. A wrong set goes away with the trash icon (only from the log; the workout stays as it is). The log is yours alone, even in a shared workout.
 
-In Profile, under **Workout log**, pick **kg or lb** and, if you like, **effort per set**: RIR (reps you had left) or RPE (effort up to 10). Changing the scale does not change what was already logged; history shows it in the current scale.
+In Settings, under **Workout log**, pick **kg or lb** and, if you like, **effort per set**: RIR (reps you had left) or RPE (effort up to 10). Changing the scale does not change what was already logged; history shows it in the current scale.
 
 ## Records and 1RM
 
@@ -44,7 +44,7 @@ In a workout that is only yours, Workout mode opens the exercise with the new we
 
 ## Weight and measurements
 
-In **Weight and measurements** (in the Gym block of the sidebar) you log weight, body fat and measurements (waist, chest, hips, arm, thigh, calf, neck), with the date, and set a goal for each. The chart shows the goal as a dashed line and paints each stretch green when it got closer to the goal and red when it moved away. Weight uses the Profile unit; measurements are in centimeters.
+In **Weight and measurements** (in the Gym block of the sidebar) you log weight, body fat and measurements (waist, chest, hips, arm, thigh, calf, neck), with the date, and set a goal for each. The chart shows the goal as a dashed line and paints each stretch green when it got closer to the goal and red when it moved away. Weight uses the unit chosen in Settings; measurements are in centimeters.
 
 Weight and measurements are health data, sensitive under Brazil’s LGPD: the first time, the app asks for your consent, and only then saves anything. They stay with you only (not even your coach sees them), are part of the export and leave with the account. **Stop saving and delete everything** withdraws consent and deletes the entries and goals right away.
 
@@ -54,7 +54,7 @@ Weight and measurements are health data, sensitive under Brazil’s LGPD: the fi
 
 ## Warm-up, plates and notes
 
-Before the first set of a weighted exercise, Workout mode suggests a **warm-up** (40%, 60% and 80% of the weight, rounded to the step and never below the bar); each suggestion is one tap and goes to the log as a warm-up. For barbell exercises it shows the **plates per side** ("Per side: 2 × 20 + 2.5"). The bar and plates you have are in Profile, under Workout log; the exercise page has the **plate calculator**. The item notes show in Workout mode as a **note** ("bench on hole 4").
+Before the first set of a weighted exercise, Workout mode suggests a **warm-up** (40%, 60% and 80% of the weight, rounded to the step and never below the bar); each suggestion is one tap and goes to the log as a warm-up. For barbell exercises it shows the **plates per side** ("Per side: 2 × 20 + 2.5"). The bar and plates you have are in Settings, under Workout log; the exercise page has the **plate calculator**. The item notes show in Workout mode as a **note** ("bench on hole 4").
 
 ## Superset and circuit
 
@@ -62,7 +62,7 @@ In the exercise panel, **Superset or circuit** gives the item a letter (A, B, C,
 
 ## Weekly plan
 
-In **Configure page** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Profile, under Workout log).
+In **Configure page** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Settings, under Workout log).
 
 ## Gym in the game
 

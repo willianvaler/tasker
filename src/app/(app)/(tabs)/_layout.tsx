@@ -88,13 +88,16 @@ export default function TabsLayout() {
           }}
         />
         <Tabs.Screen
-          name="profile"
+          name="mais"
           options={{
-            title: t('nav.profile'),
+            title: t('nav.more'),
             tabBarIcon: tabIcon(User),
-            tabBarAccessibilityLabel: t('nav.profile'),
+            tabBarAccessibilityLabel: t('nav.more'),
           }}
         />
+        {/* Índices de Pessoas e do Jogo (D257): pelo Mais e pela barra lateral */}
+        <Tabs.Screen name="pessoas" options={{ title: t('nav.people'), href: null }} />
+        <Tabs.Screen name="jogo" options={{ title: t('nav.game'), href: null }} />
       </Tabs>
       {!wide && (
         // "+" abre o menu Novo, como folha de baixo para cima

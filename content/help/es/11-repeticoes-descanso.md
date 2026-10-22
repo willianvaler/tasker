@@ -20,7 +20,7 @@ Cada serie hecha en el modo Entrenamiento queda guardada tal como fue: la carga,
 
 El **Historial** aparece en el panel del ejercicio y en la ficha de la Biblioteca: las sesiones de la más nueva a la más vieja, con las series y el volumen de cada una. Una serie equivocada sale con el icono de la papelera (solo del registro; el entrenamiento sigue como está). El registro es solo tuyo, incluso en un entrenamiento compartido.
 
-En el Perfil, en **Registro del entrenamiento**, elige **kg o lb** y, si quieres, el **esfuerzo por serie**: RIR (cuántas repeticiones te sobraron) o RPE (esfuerzo hasta 10). Cambiar la escala no cambia lo ya anotado; el historial lo muestra en la escala actual.
+En Ajustes, en **Registro del entrenamiento**, elige **kg o lb** y, si quieres, el **esfuerzo por serie**: RIR (cuántas repeticiones te sobraron) o RPE (esfuerzo hasta 10). Cambiar la escala no cambia lo ya anotado; el historial lo muestra en la escala actual.
 
 ## Récords y 1RM
 
@@ -44,7 +44,7 @@ En un entrenamiento solo tuyo, el modo Entrenamiento ya abre el ejercicio con la
 
 ## Peso y medidas
 
-En **Peso y medidas** (en el bloque Gimnasio de la barra lateral) registras el peso, la grasa y las medidas (cintura, pecho, cadera, brazo, muslo, pantorrilla, cuello), con la fecha, y pones una meta para cada uno. El gráfico muestra la meta con una línea discontinua y pinta cada tramo de verde cuando te acercaste a la meta y de rojo cuando te alejaste. El peso usa la unidad del Perfil; las medidas, centímetros.
+En **Peso y medidas** (en el bloque Gimnasio de la barra lateral) registras el peso, la grasa y las medidas (cintura, pecho, cadera, brazo, muslo, pantorrilla, cuello), con la fecha, y pones una meta para cada uno. El gráfico muestra la meta con una línea discontinua y pinta cada tramo de verde cuando te acercaste a la meta y de rojo cuando te alejaste. El peso usa la unidad elegida en Ajustes; las medidas, centímetros.
 
 El peso y las medidas son datos de salud, sensibles según la LGPD de Brasil: la primera vez la app pide tu consentimiento, y solo entonces guarda. Se quedan solo contigo (ni quien te entrena los ve), entran en la exportación y se van con la cuenta. **Dejar de guardar y borrar todo** revoca el consentimiento y borra los registros y las metas en el momento.
 
@@ -54,7 +54,7 @@ En **Estadísticas de entrenamiento** (en el bloque Gimnasio) están los días y
 
 ## Calentamiento, discos y observación
 
-Antes de la primera serie de un ejercicio con carga, el modo Entrenamiento sugiere el **calentamiento** (40%, 60% y 80% de la carga, redondeados al escalón y nunca por debajo de la barra); cada sugerencia es un toque y entra en el registro como calentamiento. En ejercicios con barra muestra los **discos de cada lado** ("Por lado: 2 × 20 + 2,5"). La barra y los discos que tienes están en el Perfil, en Registro del entrenamiento; la ficha del ejercicio tiene la **calculadora de discos**. Las notas del ítem aparecen en el modo Entrenamiento como **observación** ("banco en el agujero 4").
+Antes de la primera serie de un ejercicio con carga, el modo Entrenamiento sugiere el **calentamiento** (40%, 60% y 80% de la carga, redondeados al escalón y nunca por debajo de la barra); cada sugerencia es un toque y entra en el registro como calentamiento. En ejercicios con barra muestra los **discos de cada lado** ("Por lado: 2 × 20 + 2,5"). La barra y los discos que tienes están en Ajustes, en Registro del entrenamiento; la ficha del ejercicio tiene la **calculadora de discos**. Las notas del ítem aparecen en el modo Entrenamiento como **observación** ("banco en el agujero 4").
 
 ## Superserie y circuito
 
@@ -62,7 +62,7 @@ En el panel del ejercicio, **Superserie o circuito** le da una letra (A, B, C, D
 
 ## Plan de la semana
 
-En **Configurar página** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en el Perfil, en Registro del entrenamiento).
+En **Configurar página** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en Ajustes, en Registro del entrenamiento).
 
 ## El gimnasio en el juego
 

@@ -27,15 +27,31 @@ export function useBlockLabel() {
     })[block];
 }
 
+/** Configurações → Recursos: treino (o antigo "modo academia", V6 §15.1). */
+export function GymToggle() {
+  const { t } = useTranslation();
+  const online = useIsOnline();
+  const profile = useProfile();
+  const setGymMode = useSetGymMode();
+  return (
+    <ToggleRow
+      title={t('gym.toggle')}
+      hint={t('gym.toggleHint')}
+      value={profile.data?.gym_enabled === true}
+      disabled={!online || setGymMode.isPending || !profile.data}
+      onChange={(value) => setGymMode.mutate(value)}
+    />
+  );
+}
+
 /**
- * Perfil → Barra lateral (V6 §15.1, §15.2): o modo academia e a ordem dos blocos, com subir,
- * descer e esconder. Salva no perfil, então vale em todos os aparelhos.
+ * Configurações → Navegação (V6 §15.2): a ordem dos blocos da barra lateral, com subir, descer e
+ * esconder. Salva no perfil, então vale em todos os aparelhos.
  */
 export function SidebarSettings() {
   const { t } = useTranslation();
   const online = useIsOnline();
   const profile = useProfile();
-  const setGymMode = useSetGymMode();
   const prefs = useUiPrefs().sidebar ?? {};
   const update = useUpdateUiPrefs();
   const label = useBlockLabel();
@@ -48,13 +64,6 @@ export function SidebarSettings() {
 
   return (
     <View className="gap-4">
-      <ToggleRow
-        title={t('gym.toggle')}
-        hint={t('gym.toggleHint')}
-        value={gymOn}
-        disabled={!online || setGymMode.isPending || !profile.data}
-        onChange={(value) => setGymMode.mutate(value)}
-      />
       <View className="gap-1">
         <Text className="text-sm text-ink-muted">{t('sidebarPrefs.hint')}</Text>
         {order.map((block, index) => {

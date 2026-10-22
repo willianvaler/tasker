@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { openTab } from './helpers';
+import { openTab, openSettings } from './helpers';
 
 // Roteiro da revisão de usabilidade (Y1): não é teste de regressão, só capturas de cada passo.
 // Só roda quando pedido (UX_TOUR=1): não é teste de regressão
@@ -123,7 +123,7 @@ test('tour de usabilidade', async ({ page }, testInfo) => {
   await step('projeto-aberto', async () => {});
 
   // 7. Anotações, perfil
-  await step('perfil', () => openTab(page, 'Perfil'));
+  await step('perfil', () => openSettings(page));
   await step('ajuda', () => page.goto('/ajuda'));
   await expect(page).toHaveURL(/ajuda/);
 });
