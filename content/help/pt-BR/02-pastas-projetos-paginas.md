@@ -1,6 +1,6 @@
 # Pastas, projetos e listas
 
-- **Lista** é onde ficam as coisas: compras, treino, roteiro da viagem. O tipo pode ser **Tarefas**, **Rotina** (checklist em cards que reinicia; bom para treino), **Hábitos**, **Quadro** ou **Gastos**. Toda lista de tarefas também abre como **Quadro** (aba no topo). No quadro, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card.
+- **Lista** é onde ficam as coisas: compras, treino, roteiro da viagem. O tipo pode ser **Tarefas**, **Rotina** (checklist em cards que reinicia; bom para treino), **Hábitos**, **Quadro** ou **Gastos**. Toda lista de tarefas também abre como **Quadro** (aba no topo). No quadro, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card. Para abrir a tarefa, toque no lápis do card.
 - **Pasta** junta listas suas. Exemplo: a pasta **Academia** com as listas Treino A e Treino B.
 - **Projeto** é uma pasta para fazer **com outras pessoas**. Exemplo: o projeto **Churrasco** com as listas Compras e Dia, e cada amigo com as tarefas dele.
 

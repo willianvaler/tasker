@@ -1,6 +1,6 @@
 # Folders, projects and lists
 
-- A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board** or **Expenses**. Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows.
+- A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board** or **Expenses**. Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows. To open the task, tap the pencil on the card.
 - A **folder** groups your lists. Example: the **Gym** folder with Workout A and Workout B.
 - A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks.
 

@@ -364,6 +364,10 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **UX13** "Página" virou **Lista** em toda a interface e na Ajuda, nos 3 idiomas (em projeto já era "lista"); os tipos viraram **Tarefas · Rotina · Hábitos · Quadro · Gastos** (Rotina é o antigo Cards: checklist que reinicia; Quadro é o antigo Kanban, que abre na visão Quadro, D262); a coluna do CSV exportado também; fica "página" só onde é página de livro e no texto legal (mudar o texto pediria novo aceite de todos, sem mudar o sentido) (D267)
 - [x] **UX14** Personagem: o retrato pintado da classe vale em todos os níveis do jogo (antes só no RPG; o herói em emoji destoava dos bosses pintados), com os itens da loja por cima no Discreto e a escolha de retrato e cenário em Aparência; a conta do dano fica em **Como funciona o dano**, recolhida; Ajuda nos 3 idiomas (D268)
 
+## Correções do dono (22/10, tarde)
+
+- [x] **CD21** Quadro: arrastar começando pelo título soltava o card e abria a tarefa; o título não abre mais nada e o card ganhou um lápis (**Detalhes de…**) para editar; Ajuda nos 3 idiomas, e2e em `correcoes-2010.spec.ts` (D269)
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar

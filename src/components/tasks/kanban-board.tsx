@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import type { TFunction } from 'i18next';
-import { ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react-native';
+import { ChevronLeft, ChevronRight, Pencil, type LucideIcon } from 'lucide-react-native';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
@@ -241,20 +241,27 @@ function KanbanCardBody({
   return (
     // Classes do NativeWind não pegam no Animated.View: o visual fica neste View de dentro
     <View className="gap-2 rounded-lg border border-line bg-surface p-3">
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={t('task.details', { title: task.title })}
-        onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
-      >
+      {/* O título não abre a tarefa: arrastar começando por ele soltava e abria o painel. Editar é pelo
+          lápis */}
+      <View className="flex-row items-start gap-2">
         <Text
           className={cn(
-            'text-sm',
+            'flex-1 text-sm',
             task.status === 'done' ? 'text-ink-muted line-through' : 'text-ink',
           )}
         >
           {task.title}
         </Text>
-      </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('task.details', { title: task.title })}
+          hitSlop={8}
+          className="-m-1 rounded p-1 hover:bg-wash active:bg-wash"
+          onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
+        >
+          <Icon icon={Pencil} size={16} tone="ink-muted" />
+        </Pressable>
+      </View>
       <TaskMeta task={task} today={today} subtasks={subtasks} />
       <AssigneeChips taskId={task.id} folderId={task.folder_id} />
       {writable && (
