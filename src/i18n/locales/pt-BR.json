@@ -1356,6 +1356,7 @@
     "remapResetAll": "Voltar todos os atalhos ao padrão"
   },
   "sync": {
+    "badResponse": "O servidor não respondeu como esperado (a rede pode estar bloqueando o acesso). Tente de novo daqui a pouco ou em outra rede.",
     "title": "Sincronização",
     "disabled": "A sincronização local está desligada neste build (falta EXPO_PUBLIC_POWERSYNC_URL).",
     "connected": "Conectado",

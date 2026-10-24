@@ -370,6 +370,10 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **CD21** Quadro: arrastar começando pelo título soltava o card e abria a tarefa; o título não abre mais nada e o card ganhou um lápis (**Detalhes de…**) para editar; Ajuda nos 3 idiomas, e2e em `correcoes-2010.spec.ts` (D269)
 - [x] **CD22** Hoje e Planejar sumiam atrás do painel da tarefa (criar ou editar deixava o fundo vazio): fora de foco elas não desenham as listas, e o painel transparente tirava o foco; agora continuam desenhadas quando só um painel transparente está por cima (`useShownTab`, `tabUnderOverlay` em `lib/tab-slots.ts`, com testes; e2e em `correcoes-2010.spec.ts`) (D269)
 
+## Correções do dono (24/10)
+
+- [x] **CD23** Erro em HTML na tela (ex.: "Concordo e quero registrar" na rede da empresa): o cliente do Supabase troca toda resposta HTML (proxy, inspeção de SSL, página de erro da Cloudflare; o Supabase nunca responde HTML) por um erro curto em JSON com status 502 (`lib/html-guard.ts`, com testes). O login passa a tratar isso como falha passageira: antes, um 4xx em HTML na renovação do token apagava a sessão e a pessoa tinha de entrar de novo
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar

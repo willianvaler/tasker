@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { AppState, Platform } from 'react-native';
 
 import type { Database } from './db';
+import { guardedFetch } from './html-guard';
 import { authStorage } from './storage';
 
 // Caminho relativo ("/supabase") = mesmo endereço do app: o servidor remoto (scripts/serve.mjs)
@@ -16,6 +17,7 @@ if (!url || !key) {
 }
 
 export const supabase = createClient<Database>(url, key, {
+  global: { fetch: guardedFetch },
   auth: {
     storage: authStorage,
     autoRefreshToken: true,

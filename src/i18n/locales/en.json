@@ -1356,6 +1356,7 @@
     "remapResetAll": "Restore all shortcuts to default"
   },
   "sync": {
+    "badResponse": "The server didn't answer as expected (the network may be blocking access). Try again in a moment or on another network.",
     "title": "Sync",
     "disabled": "Local sync is off in this build (EXPO_PUBLIC_POWERSYNC_URL is missing).",
     "connected": "Connected",
