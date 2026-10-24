@@ -373,6 +373,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 
 - [x] **CD23** Erro em HTML na tela (ex.: "Concordo e quero registrar" na rede da empresa): o cliente do Supabase troca toda resposta HTML (proxy, inspeção de SSL, página de erro da Cloudflare; o Supabase nunca responde HTML) por um erro curto em JSON com status 502 (`lib/html-guard.ts`, com testes). O login passa a tratar isso como falha passageira: antes, um 4xx em HTML na renovação do token apagava a sessão e a pessoa tinha de entrar de novo
 - [x] **CD24** Sync parado depois do Wi-Fi da empresa (erro de SSL) até fechar o app: a conexão aberta na rede anterior ficava pendurada sem erro. Agora o app reconecta o sync quando a rede muda (Wi-Fi ↔ dados móveis, volta da conexão) e quando volta do segundo plano sem conexão com o sync (`providers/sync.tsx`)
+- [x] **CD25** Web: passar o mouse no ponto vermelho do sync quebrava o rodapé da barra lateral (o texto longo entrava na linha e espremia o cartão, o sino e a ajuda); o nome do estado aparece num balão por cima (`components/sync-dot.tsx`)
 
 ## ESCOPO v1 — backlog (§11)
 

@@ -198,6 +198,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD22 | Hoje e Planejar sumiam atrás do painel da tarefa (criar ou editar deixava o fundo vazio): fora de foco elas não desenham as listas, e o painel transparente tirava o foco; agora continuam desenhadas quando só um painel transparente está por cima (`useShownTab`, `tabUnderOverlay` em `lib/tab-slots.ts`, com testes; e2e em `correcoes-2010.spec.ts`) | D269 |
 | V5 | CD23 | Erro em HTML na tela (ex.: "Concordo e quero registrar" na rede da empresa): o cliente do Supabase troca toda resposta HTML (proxy, inspeção de SSL, página de erro da Cloudflare; o Supabase nunca responde HTML) por um erro curto em JSON com status 502 (`lib/html-guard.ts`, com testes) | — |
 | V5 | CD24 | Sync parado depois do Wi-Fi da empresa (erro de SSL) até fechar o app: a conexão aberta na rede anterior ficava pendurada sem erro | — |
+| V5 | CD25 | Web: passar o mouse no ponto vermelho do sync quebrava o rodapé da barra lateral (o texto longo entrava na linha e espremia o cartão, o sino e a ajuda); o nome do estado aparece num balão por cima (`components/sync-dot.tsx`) | — |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |

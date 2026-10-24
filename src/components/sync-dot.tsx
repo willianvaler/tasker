@@ -89,8 +89,14 @@ export function SyncDot({ floating }: { floating?: boolean }) {
         const { hovered, focused } = state as { hovered?: boolean; focused?: boolean };
         return (
           <>
+            {/* Balão por cima do rodapé: o texto na linha espremia o cartão, o sino e a ajuda */}
             {(hovered || focused) && !floating && (
-              <Text className="text-xs text-ink-muted">{label}</Text>
+              <View
+                pointerEvents="none"
+                className="absolute bottom-full right-0 z-10 mb-1 w-56 rounded border border-line bg-paper px-2 py-1"
+              >
+                <Text className="text-xs text-ink-muted">{label}</Text>
+              </View>
             )}
             <View className={cn('h-2 w-2 rounded-full', COLOR[syncState])} />
           </>
