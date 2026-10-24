@@ -19,8 +19,13 @@ import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
 import { isTabPath } from '@/lib/tab-slots';
 import { useSidebarHidden } from '@/lib/ui-state';
+import { clearWorkoutNotification } from '@/lib/workout-notification';
 import { useProfile } from '@/lib/queries/profile';
 import { useRealtimeSync } from '@/providers/realtime';
+
+// Série do treino que ficou na tela de bloqueio de um app encerrado pelo sistema: sai ao abrir. Na
+// carga do módulo (antes de qualquer tela): o Modo Treino que reabrir mostra a dele depois, na fila
+void clearWorkoutNotification();
 
 export default function AppLayout() {
   useRealtimeSync();

@@ -12,9 +12,10 @@ import { tr } from '@/lib/i18n-ref';
 export type WorkoutAction = 'done' | 'skip_rest' | 'plus30';
 
 // Cada atualização ganha um id novo (e a anterior sai): o Android reaproveitava os botões da versão
-// anterior da notificação e o toque em "Pular descanso"/"+30 s" não chegava
+// anterior da notificação e o toque em "Pular descanso"/"+30 s" não chegava. Quem sai é toda
+// notificação do treino que está na tela, não só a última que este processo mostrou: o app fechado
+// pelo sistema (ou recarregado) esquecia o id e as fixas iam se acumulando na tela de bloqueio
 const ID_PREFIX = 'questlist-workout-';
-let currentId: string | null = null;
 let seq = 0;
 // Mostrar e apagar em fila, na ordem: um "apagar" atrasado não pode levar a notificação nova
 let chain: Promise<unknown> = Promise.resolve();
@@ -84,16 +85,24 @@ export async function showWorkoutNotification(content: {
       },
       trigger: Platform.OS === 'android' ? { channelId: CHANNEL } : null,
     });
-    if (currentId) await Notifications.dismissNotificationAsync(currentId).catch(() => {});
-    currentId = id;
+    await dismissWorkout(id);
   });
 }
 
+/** Apaga as notificações do treino na tela, menos a `keep` */
+async function dismissWorkout(keep?: string) {
+  const shown = await Notifications.getPresentedNotificationsAsync().catch(() => []);
+  await Promise.all(
+    shown
+      .map((n) => n.request.identifier)
+      .filter((id) => id.startsWith(ID_PREFIX) && id !== keep)
+      .map((id) => Notifications.dismissNotificationAsync(id).catch(() => {})),
+  );
+}
+
+/** Tira a notificação do treino (sair do Modo Treino ou abrir o app sem treino aberto) */
 export function clearWorkoutNotification() {
-  return enqueue(async () => {
-    if (currentId) await Notifications.dismissNotificationAsync(currentId).catch(() => {});
-    currentId = null;
-  });
+  return enqueue(() => dismissWorkout());
 }
 
 /** Toques nos botões da notificação do treino; devolve a função de parar de ouvir */

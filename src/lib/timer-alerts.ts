@@ -56,15 +56,29 @@ export async function syncTimerAlert(timer: Timer | null, previousId: string | n
   if (at <= Date.now()) return;
   const current = await Notifications.getPermissionsAsync();
   if (!current.granted) return;
+  await dismissFinishedAlerts();
   await Notifications.scheduleNotificationAsync({
     identifier: timer.id,
-    content: { ...alertText(timer), sound: true },
+    content: { ...alertText(timer), sound: true, data: { timerAlert: true } },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DATE,
       date: at,
       channelId: CHANNEL,
     },
   });
+}
+
+/**
+ * Timer novo correndo: os avisos de fim que ficaram na tela já foram vistos. No Modo Treino cada
+ * descanso deixava o seu "acabou" e eles se empilhavam na tela de bloqueio.
+ */
+async function dismissFinishedAlerts() {
+  const shown = await Notifications.getPresentedNotificationsAsync().catch(() => []);
+  await Promise.all(
+    shown
+      .filter((n) => n.request.content.data?.timerAlert === true)
+      .map((n) => Notifications.dismissNotificationAsync(n.request.identifier).catch(() => {})),
+  );
 }
 
 /**
