@@ -1,5 +1,7 @@
+import NetInfo from '@react-native-community/netinfo';
 import { PowerSyncContext } from '@powersync/react';
 import { useEffect, useSyncExternalStore, type ReactNode } from 'react';
+import { AppState } from 'react-native';
 import { onlineManager } from '@tanstack/react-query';
 
 import { flushUploads } from '@/lib/queries/attachments';
@@ -57,6 +59,8 @@ const LOCAL_KEYS = new Set(
 if (typeof window !== 'undefined')
   Object.assign(window, { questlistDb: db, questlistQueries: queryClient });
 
+const SYNC_OPTIONS = { crudUploadThrottleMs: 0 };
+
 async function clearLocal() {
   pendingXp.clear();
   setSyncReady(false);
@@ -74,8 +78,35 @@ export function SyncProvider({ children }: { children: ReactNode }) {
       const previous = getSyncUser();
       if (previous && previous !== userId) await clearLocal();
       setSyncUser(userId);
-      await db.connect(connector, { crudUploadThrottleMs: 0 });
+      await db.connect(connector, SYNC_OPTIONS);
     })();
+  }, [isLoading, userId]);
+
+  useEffect(() => {
+    if (isLoading || !POWERSYNC_URL || !userId) return;
+    // Rede trocada (Wi-Fi → dados móveis, Wi-Fi da empresa com erro de SSL que sai do ar) ou app que
+    // volta do segundo plano sem conexão com o sync: conecta de novo na hora. A conexão aberta na
+    // rede anterior podia ficar pendurada sem erro, e o sync só voltava fechando o app
+    let network: string | null = null;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const reconnect = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => void db.connect(connector, SYNC_OPTIONS), 1000);
+    };
+    const stopNet = NetInfo.addEventListener((state) => {
+      const now = state.isConnected === false ? 'off' : state.type;
+      const changed = network !== null && now !== network;
+      network = now;
+      if (changed && now !== 'off') reconnect();
+    });
+    const app = AppState.addEventListener('change', (state) => {
+      if (state === 'active' && !db.currentStatus.connected) reconnect();
+    });
+    return () => {
+      clearTimeout(timer);
+      stopNet();
+      app.remove();
+    };
   }, [isLoading, userId]);
 
   useEffect(() => {
