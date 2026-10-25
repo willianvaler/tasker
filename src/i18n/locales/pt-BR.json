@@ -1237,7 +1237,9 @@
     "useSuggestion": "Ligar",
     "pick": "Escolher na biblioteca",
     "pickTitle": "Ligar a um exercício",
-    "open": "Abrir a ficha"
+    "open": "Abrir a ficha",
+    "photo": "Foto de {{name}}: posição inicial e final",
+    "photoCredit": "Fotos: free-exercise-db (domínio público)"
   },
   "matrix": {
     "views": "Visões da lista",

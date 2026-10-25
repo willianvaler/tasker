@@ -11,6 +11,7 @@ import { filterExercises } from '@/lib/gym/exercise-filter';
 import { suggestExercises } from '@/lib/gym/exercise-match';
 import { exerciseName, useExerciseCatalog, type Exercise } from '@/lib/queries/exercises';
 import type { Task } from '@/lib/queries/tasks';
+import { ExercisePhoto } from './exercise-photo';
 import { equipmentLabel } from './labels';
 
 /**
@@ -40,18 +41,25 @@ export function ExerciseLink({
 
   if (linked)
     return (
-      <View className="flex-row flex-wrap items-center gap-2">
-        <Text className="flex-1 text-sm text-ink">
-          {t('library.linked', { name: exerciseName(linked, i18n.language) })}
-        </Text>
-        <Button
-          variant="ghost"
-          label={t('library.open')}
-          onPress={() => router.push({ pathname: '/biblioteca/[id]', params: { id: linked.id } })}
+      <View className="gap-2">
+        <ExercisePhoto
+          exerciseId={linked.id}
+          name={exerciseName(linked, i18n.language)}
+          className="w-full max-w-xs"
         />
-        {editable && (
-          <Button variant="ghost" label={t('library.unlink')} onPress={() => onLink(null)} />
-        )}
+        <View className="flex-row flex-wrap items-center gap-2">
+          <Text className="flex-1 text-sm text-ink">
+            {t('library.linked', { name: exerciseName(linked, i18n.language) })}
+          </Text>
+          <Button
+            variant="ghost"
+            label={t('library.open')}
+            onPress={() => router.push({ pathname: '/biblioteca/[id]', params: { id: linked.id } })}
+          />
+          {editable && (
+            <Button variant="ghost" label={t('library.unlink')} onPress={() => onLink(null)} />
+          )}
+        </View>
       </View>
     );
   if (!editable) return null;

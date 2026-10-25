@@ -1237,7 +1237,9 @@
     "useSuggestion": "Vincular",
     "pick": "Elegir en la biblioteca",
     "pickTitle": "Vincular a un ejercicio",
-    "open": "Abrir la ficha"
+    "open": "Abrir la ficha",
+    "photo": "Foto de {{name}}: posición inicial y final",
+    "photoCredit": "Fotos: free-exercise-db (dominio público)"
   },
   "matrix": {
     "views": "Vistas de la lista",

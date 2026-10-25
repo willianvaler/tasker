@@ -70,6 +70,12 @@ fi
 echo "==> Migrações do banco"
 npx supabase migration up
 
+# Fotos dos exercícios (AC3.10, D274): sobem uma vez por versão da lista; falhar não derruba a
+# atualização (o app só não mostra as fotos até a próxima)
+echo "==> Fotos dos exercícios"
+node scripts/exercicios/fotos.mjs --se-faltar ||
+  echo "ATENÇÃO: as fotos dos exercícios não subiram (node scripts/exercicios/fotos.mjs)" >&2
+
 echo "==> Web e serviços"
 bash scripts/deploy.sh
 systemctl --user restart "$SERVICO-powersync.service"

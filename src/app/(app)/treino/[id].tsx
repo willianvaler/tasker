@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { ExercisePhoto } from '@/components/gym/exercise-photo';
 import { prescriptionMeta, useProgression, useWhy } from '@/components/gym/progression';
 import { usePlatesText } from '@/components/gym/plates';
 import { WorkoutMuscles } from '@/components/gym/workout-muscles';
@@ -819,6 +820,12 @@ function Running({
         <Text className="text-xl font-semibold text-ink" accessibilityRole="header">
           {task.title}
         </Text>
+        {/* AC3.10: posição inicial e final alternando, para lembrar o movimento */}
+        <ExercisePhoto
+          exerciseId={task.exercise_id}
+          name={task.title}
+          className="w-full max-w-xs"
+        />
         {metaLabel(meta) ? (
           <Text className="font-mono text-sm text-ink-muted">{metaLabel(meta)}</Text>
         ) : null}
@@ -963,7 +970,10 @@ function Running({
                     accessibilityRole="button"
                     accessibilityLabel={
                       loadChanged
-                        ? t('workout.loadReset', { weight: load ?? '—', plan: planned.weight ?? '—' })
+                        ? t('workout.loadReset', {
+                            weight: load ?? '—',
+                            plan: planned.weight ?? '—',
+                          })
                         : t('workout.load', { weight: load ?? '—' })
                     }
                     disabled={!loadChanged}

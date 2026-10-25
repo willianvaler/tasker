@@ -6,12 +6,14 @@ import { bodyPartLabel, equipmentLabel, muscleLabel } from '@/components/gym/lab
 import { ExerciseHistory } from '@/components/gym/exercise-history';
 import { ExerciseRecords, OneRmCalculator } from '@/components/gym/exercise-records';
 import { PlateCalculator } from '@/components/gym/plates';
+import { ExercisePhoto } from '@/components/gym/exercise-photo';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
+import { hasExercisePhoto } from '@/lib/gym/exercise-photos';
 import { exerciseName, useExercise, useUserExerciseMutations } from '@/lib/queries/exercises';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
@@ -46,6 +48,12 @@ export default function ExerciseScreen() {
         back
       />
       <ScreenScroll contentContainerClassName="gap-6 pb-12">
+        {e && hasExercisePhoto(e.id) && (
+          <View className="w-full max-w-md gap-1">
+            <ExercisePhoto exerciseId={e.id} name={exerciseName(e, i18n.language)} />
+            <Text className="text-xs text-ink-muted">{t('library.photoCredit')}</Text>
+          </View>
+        )}
         {e && (
           <View className="gap-1">
             <Fact label={t('library.equipment')} value={equipmentLabel(t, e.equipment)} />
@@ -85,7 +93,8 @@ export default function ExerciseScreen() {
         <OneRmCalculator />
         <PlateCalculator />
         {e?.own && me && (
-          <Button destructive
+          <Button
+            destructive
             variant="ghost"
             className="self-start"
             label={t('library.delete')}

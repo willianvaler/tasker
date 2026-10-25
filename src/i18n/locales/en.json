@@ -1237,7 +1237,9 @@
     "useSuggestion": "Link",
     "pick": "Pick from the library",
     "pickTitle": "Link to an exercise",
-    "open": "Open the sheet"
+    "open": "Open the sheet",
+    "photo": "Photo of {{name}}: start and end position",
+    "photoCredit": "Photos: free-exercise-db (public domain)"
   },
   "matrix": {
     "views": "List views",

@@ -82,6 +82,10 @@ printf "insert into public.app_config values ('storage_url', 'http://supabase_ko
 
 Sem isso, a fila só cresce (nada se perde; apaga quando configurar). Em produção, `storage_url` é `https://<projeto>.supabase.co/storage/v1`.
 
+## Fotos dos exercícios (AC3.10, D274)
+
+As duas fotos de cada exercício da free-exercise-db (873 do catálogo) ficam no bucket público `exercise-photos` (480 px em `<id>/0.jpg` e `1.jpg`, miniatura de 160 px em `mini/<id>/…`, uns 60 MB). Quem sobe é o `node scripts/exercicios/fotos.mjs`, com a chave de serviço do `supabase status` da pasta: baixa do GitHub uma vez (cache em `data/exercicios/cache/fotos/`), reduz com o `jimp-compact` e envia. O `atualizar.sh` roda com `--se-faltar` a cada atualização: compara o `versao.txt` do bucket e só sobe se a lista ou os tamanhos mudaram (a primeira vez leva alguns minutos). Falhar não derruba a atualização; o app só não mostra as fotos. A lista de quem tem foto que o app usa é o `src/lib/gym/exercise-photos.json` (versionado; regere com `--so-lista` se o catálogo mudar). As fotos não entram no backup do banco: dá para subir de novo a qualquer hora.
+
 ## Leitura de fotos (Gemini, V9)
 
 **Foto da nota** e **Foto de uma lista** chamam a Edge Function `read-photo`, que manda a foto ao Gemini (API do Google AI Studio). O portão do `/supabase` só deixa passar essa função, e só com login de verdade. A chave **não vai para o repositório**: fica em `supabase/functions/.env` (no `.gitignore`), que o `supabase start` carrega:

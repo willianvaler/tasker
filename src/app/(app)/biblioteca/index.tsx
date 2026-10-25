@@ -6,6 +6,7 @@ import { Pressable, View } from 'react-native';
 
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
+import { ExercisePhoto } from '@/components/gym/exercise-photo';
 import { bodyPartLabel, equipmentLabel, muscleLabel } from '@/components/gym/labels';
 import { NewExerciseDialog } from '@/components/gym/new-exercise-dialog';
 import { Button } from '@/components/ui/button';
@@ -151,17 +152,23 @@ function ExerciseRow({ exercise: e, name }: { exercise: Exercise; name: string }
       accessibilityRole="button"
       accessibilityLabel={name}
       onPress={() => router.push({ pathname: '/biblioteca/[id]', params: { id: e.id } })}
-      className="min-h-12 justify-center gap-1 border-b border-line py-2 hover:bg-wash"
+      className="min-h-12 flex-row items-center gap-3 border-b border-line py-2 hover:bg-wash"
     >
-      <Text className="text-sm text-ink">
-        {name}
-        {e.own ? ` · ${t('library.own')}` : ''}
-      </Text>
-      <Text className="text-xs text-ink-muted">
-        {[equipmentLabel(t, e.equipment), e.target ? muscleLabel(t, e.target) : null]
-          .filter(Boolean)
-          .join(' · ')}
-      </Text>
+      {/* Miniatura parada (AC3.10): numa lista longa, 60 animações ao mesmo tempo distraem */}
+      <View className="w-16">
+        <ExercisePhoto exerciseId={e.id} name={name} mini animate={false} />
+      </View>
+      <View className="flex-1 justify-center gap-1">
+        <Text className="text-sm text-ink">
+          {name}
+          {e.own ? ` · ${t('library.own')}` : ''}
+        </Text>
+        <Text className="text-xs text-ink-muted">
+          {[equipmentLabel(t, e.equipment), e.target ? muscleLabel(t, e.target) : null]
+            .filter(Boolean)
+            .join(' · ')}
+        </Text>
+      </View>
     </Pressable>
   );
 }

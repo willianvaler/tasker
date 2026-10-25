@@ -8,6 +8,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
+import { EQUIPMENT, nameKey } from './comum.mjs';
+
 const root = path.join(import.meta.dirname, '..', '..');
 const cache = path.join(root, 'data/exercicios/cache');
 const SOURCES = {
@@ -26,19 +28,6 @@ async function load(name) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
-// Vocabulário fixo do app (lib/gym/exercise-filter.ts usa os mesmos ids)
-const EQUIPMENT = {
-  'body weight': 'bodyweight', 'body only': 'bodyweight', assisted: 'machine', weighted: 'bodyweight',
-  dumbbell: 'dumbbell', barbell: 'barbell', 'olympic barbell': 'barbell', 'ez barbell': 'ez_bar',
-  'e-z curl bar': 'ez_bar', 'trap bar': 'barbell', cable: 'cable', 'leverage machine': 'machine',
-  machine: 'machine', 'smith machine': 'smith', 'sled machine': 'machine', kettlebell: 'kettlebell',
-  kettlebells: 'kettlebell', band: 'band', bands: 'band', 'resistance band': 'band',
-  'stability ball': 'ball', 'exercise ball': 'ball', 'bosu ball': 'ball', 'medicine ball': 'medicine_ball',
-  roller: 'foam_roller', 'foam roll': 'foam_roller', 'wheel roller': 'other', rope: 'other',
-  hammer: 'other', tire: 'other', other: 'other', 'upper body ergometer': 'cardio_machine',
-  'skierg machine': 'cardio_machine', 'stationary bike': 'cardio_machine',
-  'elliptical machine': 'cardio_machine', 'stepmill machine': 'cardio_machine',
-};
 const BODY_PART = {
   'upper arms': 'arms', 'lower arms': 'arms', 'upper legs': 'legs', 'lower legs': 'legs', back: 'back',
   waist: 'core', chest: 'chest', shoulders: 'shoulders', cardio: 'cardio', neck: 'neck',
@@ -60,18 +49,6 @@ const MUSCLE = {
 };
 const muscle = (m) => MUSCLE[String(m).toLowerCase()] ?? null;
 const uniq = (list) => [...new Set(list.filter(Boolean))];
-
-// Chave para juntar: minúsculas, sem pontuação, sem palavras vazias, tokens em ordem
-const STOP = new Set(['the', 'a', 'with', 'on', 'of', 'and', 'to', 'in', 'v', 'version']);
-export const nameKey = (name) =>
-  String(name)
-    .toLowerCase()
-    .replace(/[^a-z0-9 ]+/g, ' ')
-    .split(/\s+/)
-    .filter((w) => w && !STOP.has(w))
-    .map((w) => (w.length > 3 && w.endsWith('s') ? w.slice(0, -1) : w))
-    .sort()
-    .join(' ');
 
 // Como se registra: tempo (prancha, alongamento), cardio, ou repetições
 function kindOf(e) {

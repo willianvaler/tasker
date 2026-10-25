@@ -60,6 +60,10 @@ Antes da primeira série de um exercício com carga, o Modo Treino sugere o **aq
 
 No painel do exercício, **Superset ou circuito** dá uma letra (A, B, C, D) ao item. Os itens do mesmo treino com a mesma letra formam um grupo: no Modo Treino, a série de um passa direto para o próximo do grupo, sem descanso, e o descanso vem no fim de cada rodada. Com três ou mais itens, é um circuito. Quando um acaba, os outros seguem; quando o grupo todo acaba, o treino vai para o próximo exercício.
 
+## Fotos dos exercícios
+
+Os exercícios da Biblioteca que vieram da free-exercise-db (quase 900) têm duas fotos, a posição inicial e a final, que se alternam como uma animação curta na ficha, no painel do exercício ligado e no **Modo Treino**, abaixo do nome. Na lista da Biblioteca aparece a miniatura parada. Com **reduzir movimento** ligado no aparelho, a foto fica parada na posição inicial. Exercício próprio ou sem foto na base não mostra nada.
+
 ## Planos prontos
 
 Em **Treino → Planos prontos** (ou Ctrl+K → "Planos prontos") há oito planos: **Iniciante: corpo inteiro 3×**, **ABC**, **ABCD**, **Superior/inferior 4×**, **Empurrar/puxar/pernas**, **5×5**, **Greyskull LP** e **Em casa, sem equipamento**. **Ver os treinos** mostra os exercícios, as séries e os dias. **Usar este plano** cria uma pasta com o nome do plano dentro da Academia (e liga o Treino, se estiver desligado), com um treino por dia de treino: os dias da semana já marcados no plano da semana, a progressão do plano (dupla, linear ou Greyskull) e os exercícios ligados à Biblioteca. Exercícios por tempo, como a prancha, vêm com a regra **tempo**. Falta só a carga: anote a do primeiro treino, e as próximas o app sugere. Dá para mudar tudo depois, como em qualquer treino.

@@ -34,7 +34,7 @@ SOFTWARE.
 
 ### free-exercise-db, de yuhonas
 
-<https://github.com/yuhonas/free-exercise-db> — Unlicense (domínio público). Usados **só os dados técnicos** (nível, mecânica, força, músculos, categoria). As instruções e as fotos dela ficam de fora, porque a origem dos textos é duvidosa (V6 §14.1); onde não havia instrução livre, os passos foram escritos pelo nosso modelo local.
+<https://github.com/yuhonas/free-exercise-db> — Unlicense (domínio público). Usados os dados técnicos (nível, mecânica, força, músculos, categoria) e, desde 24/10/2026, **as fotos** (duas por exercício, posição inicial e final), reduzidas e servidas pelo Questlist (bucket `exercise-photos`, `scripts/exercicios/fotos.mjs`). A ressalva sobre a origem (V6 §14.1) continua registrada; o dono decidiu usar as fotos pela licença (D247). As instruções dela continuam de fora; onde não havia instrução livre, os passos foram escritos pelo nosso modelo local.
 
 ### Traduções
 

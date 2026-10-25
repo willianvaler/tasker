@@ -60,6 +60,10 @@ Before the first set of a weighted exercise, Workout mode suggests a **warm-up**
 
 In the exercise panel, **Superset or circuit** gives the item a letter (A, B, C, D). Items in the same workout with the same letter form a group: in Workout mode, a set of one goes straight to the next one in the group, with no rest, and rest comes at the end of each round. With three or more items it is a circuit. When one finishes, the others go on; when the whole group is done, the workout moves to the next exercise.
 
+## Exercise photos
+
+Library exercises that came from free-exercise-db (almost 900) have two photos, the start and end positions, which alternate like a short animation on the exercise page, in the linked exercise panel and in **Workout mode**, below the name. The Library list shows a still thumbnail. With **reduce motion** on in the device, the photo stays still on the start position. Your own exercises, or ones without a photo in the database, show nothing.
+
 ## Ready-made plans
 
 In **Workouts → Ready-made plans** (or Ctrl+K → "Ready-made plans") there are eight plans: **Beginner: full body 3×**, **ABC split**, **ABCD split**, **Upper/lower 4×**, **Push/pull/legs**, **5×5**, **Greyskull LP** and **At home, no equipment**. **Show the workouts** lists the exercises, sets and days. **Use this plan** creates a folder named after the plan inside the Gym (and turns Workouts on if it is off), with one workout per training day: the weekdays already set in the weekly plan, the plan's progression (double, linear or Greyskull) and the exercises linked to the Library. Timed exercises, like the plank, get the **time** rule. Only the weight is missing: log it on the first workout and the app suggests the next ones. You can change everything later, like any workout.

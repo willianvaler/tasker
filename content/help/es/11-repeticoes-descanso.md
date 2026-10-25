@@ -60,6 +60,10 @@ Antes de la primera serie de un ejercicio con carga, el modo Entrenamiento sugie
 
 En el panel del ejercicio, **Superserie o circuito** le da una letra (A, B, C, D) al ítem. Los ítems del mismo entrenamiento con la misma letra forman un grupo: en el modo Entrenamiento, la serie de uno pasa directo al siguiente del grupo, sin descanso, y el descanso llega al final de cada ronda. Con tres o más ítems es un circuito. Cuando uno termina, los demás siguen; cuando todo el grupo termina, el entrenamiento pasa al siguiente ejercicio.
 
+## Fotos de los ejercicios
+
+Los ejercicios de la Biblioteca que vinieron de free-exercise-db (casi 900) tienen dos fotos, la posición inicial y la final, que se alternan como una animación corta en la ficha, en el panel del ejercicio enlazado y en el **Modo Entrenamiento**, debajo del nombre. En la lista de la Biblioteca aparece la miniatura quieta. Con **reducir movimiento** activado en el dispositivo, la foto queda quieta en la posición inicial. Los ejercicios propios o sin foto en la base no muestran nada.
+
 ## Planes listos
 
 En **Entrenamiento → Planes listos** (o Ctrl+K → "Planes listos") hay ocho planes: **Principiante: cuerpo completo 3×**, **ABC**, **ABCD**, **Superior/inferior 4×**, **Empuje/tirón/piernas**, **5×5**, **Greyskull LP** y **En casa, sin equipo**. **Ver los entrenamientos** muestra los ejercicios, las series y los días. **Usar este plan** crea una carpeta con el nombre del plan dentro del Gimnasio (y activa el Entrenamiento si está apagado), con un entrenamiento por día: los días de la semana ya marcados en el plan de la semana, la progresión del plan (doble, lineal o Greyskull) y los ejercicios enlazados a la Biblioteca. Los ejercicios por tiempo, como la plancha, llevan la regla **tiempo**. Solo falta el peso: anótalo en el primer entrenamiento y los siguientes los sugiere la app. Puedes cambiarlo todo después, como en cualquier entrenamiento.
