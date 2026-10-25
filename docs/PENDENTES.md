@@ -1,6 +1,6 @@
 # Pendentes
 
-O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V10.md`), numa tabela só, para ler rápido. O detalhe fica em `docs/STATUS.md`, `docs/TAREFAS_V6.md` e nos escopos; o que já foi feito, em `docs/FEITOS.md`.
+O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V11.md`), numa tabela só, para ler rápido. O detalhe fica em `docs/STATUS.md`, `docs/TAREFAS_V6.md` e nos escopos; o que já foi feito, em `docs/FEITOS.md`.
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
@@ -55,11 +55,13 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com listas de verdade (a nota não precisa mais, D254) | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
 | **V10** | BE2–BE3 | Bem-estar: **Dieta** (cardápio da semana, refeições, lista de compras) e **Vida saudável** (hábitos prontos; peso e medidas já existem). A tela, a Academia dentro e os Remédios foram feitos em 22/10 (BE1, BE4, D270) | pendente | — |
+| **V11** | OB1–OB15 | Funções do Obsidian nas anotações e tarefas: links `[[...]]` e backlinks, propriedades e etiquetas, nota do dia, consultas e Bases, grafo, canvas, callouts e incorporar, versões, importar/exportar cofre, publicar (`ESCOPO_V11.md` §10) | pendente | V11-1 (por onde começar) |
 
 ## Decisões do dono em aberto
 
 | # | Pergunta | Bloqueia |
 |---|---|---|
 | V5-3 | Provedor de e-mail e domínio de envio (em espera: servidor próprio, Google ou outro) | V5 §5 |
+| V11-1 a V11-5 | Por onde começar o V11, propriedades × campos, compartilhar antes do CRDT, publicação aberta, versões no espaço (`ESCOPO_V11.md` §11) | V11 |
 
 As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`) e em 20/10 (D247).
