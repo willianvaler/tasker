@@ -72,6 +72,10 @@ En **Entrenamiento → Planes listos** (o Ctrl+K → "Planes listos") hay ocho p
 
 En el **…** de un entrenamiento, **Llevar ejercicios a otro entrenamiento** muestra sus ejercicios: marca uno, varios o **Todos**, elige el entrenamiento de destino y toca **Copiar** (el ejercicio queda en los dos) o **Mover** (sale de este). Van juntos el ejercicio de la Biblioteca, las series, el peso y la regla de progresión; el historial es del ejercicio, así que el próximo peso sugerido sigue desde donde estaba. La superserie no se lleva, porque la letra solo vale dentro del entrenamiento donde se marcó.
 
+## Organizar entrenamientos (arrastrar)
+
+En **Entrenamiento → Organizar entrenamientos** (o en el **…** de un entrenamiento) están todos los entrenamientos lado a lado (en el celular, uno debajo del otro). Arrastra un ejercicio por el asa (⋮⋮) y suéltalo en otro entrenamiento: en **Al soltar**, elige **Mover** (lo predeterminado) o **Copiar**. En el celular, mantén pulsada el asa antes de arrastrar, para que la pantalla siga desplazándose normalmente. Soltar fuera de un entrenamiento no cambia nada.
+
 ## Plan de la semana
 
 En **Configurar lista** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en Ajustes, en Registro del entrenamiento).

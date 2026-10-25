@@ -3734,5 +3734,15 @@
       "screens": "Sem tela 1 hora antes de dormir",
       "sun": "Pegar sol 15 minutos"
     }
+  },
+  "organize": {
+    "title": "Organizar treinos",
+    "hubHint": "Todos os treinos lado a lado, para arrastar exercícios de um para outro",
+    "hintWeb": "Arraste um exercício pela alça (⋮⋮) e solte em outro treino.",
+    "hint": "Toque e segure a alça (⋮⋮) de um exercício e arraste para outro treino.",
+    "mode": "Ao soltar:",
+    "drag": "Arrastar {{name}} para outro treino",
+    "dropHere": "Solte um exercício aqui.",
+    "empty": "É preciso ter dois treinos ou mais"
   }
 }

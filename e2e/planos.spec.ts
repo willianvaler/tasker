@@ -147,3 +147,56 @@ test('levar exercícios para outro treino: copiar e mover', async ({ page }, tes
     .poll(() => titlesIn('5×5 A'))
     .toEqual(['Agachamento com barra', 'Supino reto com barra (pegada média)']);
 });
+
+// AC12.3 (D276): arrastar um exercício de um treino para outro na tela Organizar treinos
+test('organizar treinos: arrastar move ou copia para outro treino', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  const me = await userIdOf(page);
+  await page.goto('/planos');
+  await page.getByRole('button', { name: 'Usar o plano 5×5' }).click();
+  await expect(page.getByText('Plano 5×5 criado na Academia')).toBeVisible({ timeout: 20_000 });
+  await page.goto('/organizar-treinos');
+  await expect(page.getByRole('heading', { name: 'Organizar treinos' })).toBeVisible();
+  const columnA = page.getByLabel('5×5 A', { exact: true });
+  const columnB = page.getByLabel('5×5 B', { exact: true });
+  await expect(columnA.getByText('Remada curvada com barra')).toBeVisible();
+
+  const dragTo = async (name: string) => {
+    const handle = columnA.getByLabel(`Arrastar ${name} para outro treino`);
+    const from = (await handle.boundingBox())!;
+    const to = (await columnB.boundingBox())!;
+    await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(from.x + 20, from.y + 20, { steps: 5 });
+    await page.mouse.move(to.x + to.width / 2, to.y + to.height / 2, { steps: 15 });
+    await page.mouse.up();
+  };
+  const titlesIn = (name: string) =>
+    adminRest(
+      `tasks?select=title,pages!inner(name,folders!inner(owner_id))&pages.folders.owner_id=eq.${me}&pages.name=eq.${encodeURIComponent(name)}&parent_task_id=is.null&order=position`,
+    ).then((rows: { title: string }[]) => rows.map((r) => r.title));
+
+  // Mover (o padrão): sai do A e entra no fim do B
+  await dragTo('Remada curvada com barra');
+  await expect(page.getByText('1 exercício movido para 5×5 B')).toBeVisible();
+  await expect
+    .poll(() => titlesIn('5×5 A'))
+    .toEqual(['Agachamento com barra', 'Supino reto com barra (pegada média)']);
+  await expect(columnB.getByText('Remada curvada com barra')).toBeVisible();
+
+  // Copiar: fica nos dois
+  await page.getByRole('radio', { name: 'Copiar' }).click();
+  await dragTo('Supino reto com barra (pegada média)');
+  await expect(page.getByText('1 exercício copiado para 5×5 B')).toBeVisible();
+  await expect
+    .poll(() => titlesIn('5×5 B'))
+    .toEqual([
+      'Agachamento com barra',
+      'Desenvolvimento militar em pé',
+      'Levantamento terra com barra',
+      'Remada curvada com barra',
+      'Supino reto com barra (pegada média)',
+    ]);
+  expect(await titlesIn('5×5 A')).toContain('Supino reto com barra (pegada média)');
+});

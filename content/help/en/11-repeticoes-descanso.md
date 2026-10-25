@@ -72,6 +72,10 @@ In **Workouts → Ready-made plans** (or Ctrl+K → "Ready-made plans") there ar
 
 In a workout's **…**, **Take exercises to another workout** lists its exercises: check one, several or **All**, pick the destination workout and tap **Copy** (the exercise stays in both) or **Move** (it leaves this one). The Library exercise, sets, weight and progression rule go along; the history belongs to the exercise, so the next suggested weight picks up where it was. Supersets don't carry over, because the letter only applies inside the workout where it was set.
 
+## Organize workouts (drag)
+
+In **Workouts → Organize workouts** (or in a workout's **…**) all workouts sit side by side (one under the other on a phone). Drag an exercise by its handle (⋮⋮) and drop it on another workout: under **On drop**, choose **Move** (the default) or **Copy**. On a phone, press and hold the handle before dragging, so the screen still scrolls normally. Dropping outside a workout changes nothing.
+
 ## Weekly plan
 
 In **Configure list** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Settings, under Workout log).

@@ -3734,5 +3734,15 @@
       "screens": "Sin pantallas 1 hora antes de dormir",
       "sun": "Tomar sol 15 minutos"
     }
+  },
+  "organize": {
+    "title": "Organizar entrenamientos",
+    "hubHint": "Todos los entrenamientos lado a lado, para arrastrar ejercicios de uno a otro",
+    "hintWeb": "Arrastra un ejercicio por el asa (⋮⋮) y suéltalo en otro entrenamiento.",
+    "hint": "Mantén pulsada el asa (⋮⋮) de un ejercicio y arrástralo a otro entrenamiento.",
+    "mode": "Al soltar:",
+    "drag": "Arrastrar {{name}} a otro entrenamiento",
+    "dropHere": "Suelta un ejercicio aquí.",
+    "empty": "Necesitas dos entrenamientos o más"
   }
 }

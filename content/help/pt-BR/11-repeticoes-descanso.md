@@ -72,6 +72,10 @@ Em **Treino → Planos prontos** (ou Ctrl+K → "Planos prontos") há oito plano
 
 No **…** de um treino, **Levar exercícios para outro treino** abre a lista dos exercícios: marque um, vários ou **Todos**, escolha o treino de destino e toque em **Copiar** (o exercício fica nos dois) ou **Mover** (sai deste). Vão junto o exercício da Biblioteca, as séries, a carga e a regra de progressão; o histórico é do exercício, então a próxima carga sugerida continua de onde estava. Superset não vai junto, porque a letra só vale dentro do treino em que foi marcada.
 
+## Organizar treinos (arrastar)
+
+Em **Treino → Organizar treinos** (ou no **…** de um treino) ficam todos os treinos lado a lado (no celular, um embaixo do outro). Arraste um exercício pela alça (⋮⋮) e solte em outro treino: em **Ao soltar**, escolha **Mover** (o padrão) ou **Copiar**. No celular, toque e segure a alça antes de arrastar, para a tela continuar rolando normalmente. Soltar fora de um treino não muda nada.
+
 ## Plano da semana
 
 Em **Configurar lista** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue em Configurações, em Registro do treino).

@@ -1,6 +1,7 @@
 import {
   ChartColumn,
   ClipboardList,
+  Columns3,
   Dumbbell,
   Folder,
   Plus,
@@ -112,6 +113,12 @@ export function WorkoutHub() {
               label={t('workoutHub.plans')}
               hint={t('plans.hubHint')}
               href="/planos"
+            />
+            <HubRow
+              icon={Columns3}
+              label={t('organize.title')}
+              hint={t('organize.hubHint')}
+              href="/organizar-treinos"
             />
             <HubRow
               icon={Dumbbell}

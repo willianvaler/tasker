@@ -3734,5 +3734,15 @@
       "screens": "No screens 1 hour before bed",
       "sun": "Get 15 minutes of sun"
     }
+  },
+  "organize": {
+    "title": "Organize workouts",
+    "hubHint": "All workouts side by side, to drag exercises from one to another",
+    "hintWeb": "Drag an exercise by its handle (⋮⋮) and drop it on another workout.",
+    "hint": "Press and hold an exercise's handle (⋮⋮) and drag it to another workout.",
+    "mode": "On drop:",
+    "drag": "Drag {{name}} to another workout",
+    "dropHere": "Drop an exercise here.",
+    "empty": "You need two workouts or more"
   }
 }

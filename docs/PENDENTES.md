@@ -12,7 +12,6 @@ Atualizado em 25/10/2026. Produção na v2026.10.24.2 (https://questlist.wavdev.
 
 | Ordem | Id | O que | Tamanho |
 |---|---|---|---|
-| 4 | AC12.3 | Arrastar exercícios entre treinos (copiar e mover pelo menu e os planos prontos, AC12.1, saíram em 24/10) | pequeno |
 | 6 | AC13 | Painel do treinador (recordes, 1RM, estagnação) | médio |
 | 7 | AC15A–C | Treinar com… em qualquer treino, treino ↔ grupo nos dois sentidos e bloco Desafios estilo GymRats (decidido em 21/10, D252; **não começar sem o dono pedir**) | pequeno + médio + grande |
 
@@ -39,7 +38,6 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias (V5-4), lixeira para anotações e anexos; troca de e-mail fica com o e-mail | pendente | e-mail só para a troca |
 | V5 | §8 | Login com o Google (Supabase Auth, nativo no Android/iOS) — **não fazer agora** | pendente | projeto no Google Cloud (dono) |
 | **V6** | AC7.4 | Pergunta do peso do corpo no início do treino: **desligada por padrão** (liga no Perfil); importar do Health Connect / Apple Saúde fica com o V7 | pendente | AC7.3, V7 |
-| V6 | AC12.3 | Arrastar exercícios de um treino para outro (copiar e mover um, vários ou todos pelo menu do treino já existe, D273) | parcial | — |
 | V6 | AC12.2 | Importadores Strong, Hevy e FitNotes | pendente | arquivos de exemplo do dono |
 | V6 | AC15A | **Treinar com…** em qualquer treino (também na Academia pessoal e no meio do Modo Treino): chamar amigos, gente dos times, dos grupos e dos desafios; quem entra treina pelo treino de quem chamou e a atividade conta para todos (D252) | decidido, aguardando o dono | — |
 | V6 | AC15B | **Treino ↔ grupo nos dois sentidos**: continua criar o grupo e pôr treinos dentro; e, num treino da Academia, "Adicionar a um grupo" (um ou vários), com o treino seguindo da pessoa e cada um com o próprio diário (reaproveita a página enviada ao vivo, D133) (D252) | decidido, aguardando o dono | AC15A |

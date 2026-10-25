@@ -299,6 +299,14 @@ export default function PageScreen() {
                     label: t('carry.menu'),
                     onPress: () => setDialog('carry'),
                   },
+                  {
+                    group: t('page.groupArrange'),
+                    label: t('organize.title'),
+                    onPress: () => {
+                      closeDialog();
+                      router.push('/organizar-treinos');
+                    },
+                  },
                 ]
               : []),
             // Recursos da página

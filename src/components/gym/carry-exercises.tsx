@@ -14,45 +14,18 @@ import { isWorkoutPage, pageLabel, useTree, type Page } from '@/lib/queries/tree
 import { uuidv7 } from '@/lib/uuid';
 import { useToast } from '@/providers/toast';
 
+export type CarryMode = 'copy' | 'move';
+
 /**
- * Levar exercícios para outro treino (AC12.3): marcar um, vários ou todos, escolher o treino e
- * copiar (o exercício continua aqui) ou mover. A cópia leva o exercício da biblioteca, as séries, a
- * carga e a regra de progressão; o diário continua do exercício, então a progressão segue de onde
- * estava. Superset fica para trás: a letra só vale dentro da lista dele.
+ * Copiar ou mover exercícios para outro treino (AC12.3), com o aviso do resultado. Usado pelo
+ * diálogo do menu e pelo arrastar da tela Organizar treinos. Devolve se deu certo.
  */
-export function CarryExercisesDialog({
-  page,
-  tasks,
-  onClose,
-}: {
-  page: Page;
-  tasks: Task[];
-  onClose: () => void;
-}) {
+export function useCarryExercises() {
   const { t } = useTranslation();
-  const tree = useTree();
   const toast = useToast();
   const createTasks = useCreateTasks();
   const updateTask = useUpdateTask();
-  const items = tasks
-    .filter((task) => !task.parent_task_id)
-    .sort((a, b) => a.position - b.position);
-  const [picked, setPicked] = useState<string[]>([]);
-  const [targetId, setTargetId] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-  const targets = (tree.data?.pages ?? []).filter(
-    (p) => p.id !== page.id && isWorkoutPage(tree.data, p),
-  );
-  const target = targets.find((p) => p.id === targetId);
-  const all = picked.length === items.length && items.length > 0;
-  const chosen = items.filter((task) => picked.includes(task.id));
-
-  const toggle = (id: string, on: boolean) =>
-    setPicked((list) => (on ? [...list, id] : list.filter((x) => x !== id)));
-
-  async function carry(mode: 'copy' | 'move') {
-    if (!target || !chosen.length) return;
-    setBusy(true);
+  return async (chosen: Task[], target: Page, mode: CarryMode) => {
     try {
       if (mode === 'copy') {
         await createTasks.mutateAsync({
@@ -73,7 +46,7 @@ export function CarryExercisesDialog({
           })),
         });
       } else {
-        // No fim do treino de destino, na ordem em que estavam aqui
+        // No fim do treino de destino, na ordem em que estavam
         const base = endPosition();
         await Promise.all(
           chosen.map((task, i) =>
@@ -90,12 +63,54 @@ export function CarryExercisesDialog({
           page: pageLabel(target),
         }),
       });
-      onClose();
+      return true;
     } catch (err) {
       toast({ message: t('carry.error', { message: (err as Error).message }) });
-    } finally {
-      setBusy(false);
+      return false;
     }
+  };
+}
+
+/**
+ * Levar exercícios para outro treino (AC12.3): marcar um, vários ou todos, escolher o treino e
+ * copiar (o exercício continua aqui) ou mover. A cópia leva o exercício da biblioteca, as séries, a
+ * carga e a regra de progressão; o diário continua do exercício, então a progressão segue de onde
+ * estava. Superset fica para trás: a letra só vale dentro da lista dele.
+ */
+export function CarryExercisesDialog({
+  page,
+  tasks,
+  onClose,
+}: {
+  page: Page;
+  tasks: Task[];
+  onClose: () => void;
+}) {
+  const { t } = useTranslation();
+  const tree = useTree();
+  const carryTo = useCarryExercises();
+  const items = tasks
+    .filter((task) => !task.parent_task_id)
+    .sort((a, b) => a.position - b.position);
+  const [picked, setPicked] = useState<string[]>([]);
+  const [targetId, setTargetId] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const targets = (tree.data?.pages ?? []).filter(
+    (p) => p.id !== page.id && isWorkoutPage(tree.data, p),
+  );
+  const target = targets.find((p) => p.id === targetId);
+  const all = picked.length === items.length && items.length > 0;
+  const chosen = items.filter((task) => picked.includes(task.id));
+
+  const toggle = (id: string, on: boolean) =>
+    setPicked((list) => (on ? [...list, id] : list.filter((x) => x !== id)));
+
+  async function carry(mode: CarryMode) {
+    if (!target || !chosen.length) return;
+    setBusy(true);
+    const ok = await carryTo(chosen, target, mode);
+    setBusy(false);
+    if (ok) onClose();
   }
 
   return (
