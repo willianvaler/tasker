@@ -34,7 +34,11 @@ test('dieta: montar o cardápio, prato de hoje e lista de compras', async ({ pag
   const me = await userIdOf(page);
   await openTab(page, 'Bem-estar');
   await page.getByRole('button', { name: 'Montar o cardápio da semana' }).click();
-  await expect(page.getByRole('heading', { name: 'Cardápio da semana' })).toBeVisible();
+  // Logo depois de criar a conta a primeira sincronização ainda está baixando o catálogo de
+  // exercícios: com outros testes em paralelo, criar a pasta e a lista passa dos 5 s
+  await expect(page.getByRole('heading', { name: 'Cardápio da semana' })).toBeVisible({
+    timeout: 20_000,
+  });
 
   const { day: dayName, index } = todayParts();
   // Os cartões do cardápio mostram o dia com maiúscula
