@@ -307,6 +307,8 @@ type NewTask = Omit<ParsedTask, 'dueTime'> & {
   habitTarget?: number | null;
   /** Exercício da biblioteca (AC3.8) */
   exerciseId?: string | null;
+  /** Regra de progressão do exercício (AC12.1, AC12.3); sem isto, a da lista */
+  progression?: Task['progression'];
   assignees?: NewAssignee[];
   children?: NewSubtask[];
 };
@@ -338,6 +340,7 @@ type RpcItem = {
   habit_target?: number | null;
   visibility?: Task['visibility'];
   exercise_id?: string | null;
+  progression?: string;
 };
 
 function toRpcItem(item: NewTask & { id: string }): RpcItem {
@@ -362,6 +365,7 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     children: (item.children ?? []).map((c) => toRpcItem({ ...c, id: c.id ?? uuidv7() })),
     ...(item.visibility ? { visibility: item.visibility } : {}),
     ...('exerciseId' in item && item.exerciseId ? { exercise_id: item.exerciseId } : {}),
+    ...('progression' in item && item.progression ? { progression: item.progression } : {}),
     ...(item.habitKind
       ? { habit_kind: item.habitKind, habit_target: item.habitTarget ?? null }
       : {}),
@@ -412,7 +416,7 @@ function optimisticTask(
     habit_sides: 'both',
     visibility: item.visibility ?? 'private',
     exercise_id: item.exerciseId ?? null,
-    progression: null,
+    progression: item.progression ?? null,
     progression_step: null,
     superset: null,
     created_by: '',
@@ -691,7 +695,9 @@ export type StatusTaskVars = { id: string; status: TaskStatus };
 export type HabitTickVars = { taskId: string; delta: 1 | -1; id: string };
 
 export async function createTasksFn({ pageId, items }: CreateTasksVars) {
-  if (isLocal()) return createLocalTasks(pageId, items);
+  // Lista criada pelo servidor logo antes da primeira sincronização terminar ainda não está no
+  // aparelho: as tarefas vão direto pela RPC (o sync as traz depois), em vez de falhar
+  if (isLocal() && (await localPageExists(pageId))) return createLocalTasks(pageId, items);
   const { error } = await supabase.rpc('create_tasks_batch', {
     p_page_id: pageId,
     p_items: items.map(toRpcItem) as unknown as Json,
@@ -1073,6 +1079,7 @@ type LocalTaskInsert = {
   habit_target?: number | null;
   visibility?: string;
   exercise_id?: string | null;
+  progression?: string | null;
 };
 
 type Tx = { execute: (sql: string, params?: unknown[]) => Promise<unknown> };
@@ -1082,8 +1089,9 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
   await tx.execute(
     `insert into tasks (id, page_id, folder_id, parent_task_id, depth, title, status, priority, due_date,
        labels, recurrence, meta, repeat_plan, position, habit_kind, habit_target, count_up, count_down,
-       created_by, created_at, updated_at, version, due_time, remind_before, visibility, exercise_id)
-     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?, ?, ?)`,
+       created_by, created_at, updated_at, version, due_time, remind_before, visibility, exercise_id,
+       progression)
+     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?, ?, ?, ?)`,
     [
       task.id,
       task.page_id,
@@ -1108,6 +1116,7 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
       task.due_date && task.due_time ? (task.remind_before ?? 0) : null,
       task.visibility ?? 'private',
       task.exercise_id ?? null,
+      task.progression ?? null,
     ],
   );
 }
@@ -1122,6 +1131,10 @@ async function completeInTx(tx: Tx, id: string) {
     'complete_task',
     JSON.stringify({ p_task_id: id }),
   ]);
+}
+
+async function localPageExists(pageId: string) {
+  return !!(await db.getOptional('select 1 from pages where id = ?', [pageId]));
 }
 
 /** Tudo numa transação: o envio junta as tarefas da mesma página num create_tasks_batch só. */
@@ -1160,6 +1173,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
           habit_target: item.habitKind === 'counter' ? (item.habitTarget ?? 1) : null,
           visibility: item.visibility ?? 'private',
           exercise_id: item.exerciseId ?? null,
+          progression: item.progression ?? null,
         },
         userId,
       );

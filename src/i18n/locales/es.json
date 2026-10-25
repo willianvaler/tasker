@@ -3475,7 +3475,8 @@
     "bodyHint": "Peso, medidas y metas, con gráfico",
     "statsHint": "Volumen, frecuencia y récords",
     "off": "El entrenamiento está apagado",
-    "offHint": "Al activarlo tienes entrenamientos con series y cargas, el Modo Entrenamiento y la Biblioteca."
+    "offHint": "Al activarlo tienes entrenamientos con series y cargas, el Modo Entrenamiento y la Biblioteca.",
+    "plans": "Planes listos"
   },
   "links": {
     "title": "Vínculos",
@@ -3560,6 +3561,103 @@
       "daily": "Jefe del día",
       "weekly": "Jefe de la semana",
       "clan": "Jefe del clan"
+    }
+  },
+  "plans": {
+    "title": "Planes listos",
+    "hubHint": "Cuerpo completo, ABC, 5×5 y otros, ya con días y progresión",
+    "intro": "Elige un plan y el Gimnasio recibe una carpeta con los entrenamientos, los días de la semana ya marcados, la progresión y los ejercicios de la biblioteca. Después solo pon el peso en el primer entrenamiento: los siguientes los sugiere la app.",
+    "place": "Dónde entrenar",
+    "places": {
+      "all": "Todos",
+      "gym": "Gimnasio",
+      "home": "En casa"
+    },
+    "levels": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio"
+    },
+    "perWeek_one": "{{count}}× por semana",
+    "perWeek_other": "{{count}}× por semana",
+    "dose": "{{sets}}×{{reps}}",
+    "doseTime": "{{sets}}×{{sec}} s",
+    "show": "Ver los entrenamientos",
+    "hide": "Ocultar los entrenamientos",
+    "use": "Usar este plan",
+    "useLabel": "Usar el plan {{name}}",
+    "created": "Plan {{name}} creado en el Gimnasio",
+    "error": "No se pudo crear el plan: {{message}}",
+    "items": {
+      "fullbody3": {
+        "name": "Principiante: cuerpo completo 3×",
+        "desc": "Dos entrenamientos de cuerpo completo alternados (A el lunes y el viernes, B el miércoles). Bueno para los primeros meses: cada grupo muscular trabaja tres veces por semana.",
+        "w": {
+          "a": "Cuerpo completo A",
+          "b": "Cuerpo completo B"
+        }
+      },
+      "abc": {
+        "name": "ABC",
+        "desc": "Tres entrenamientos por grupo: pecho, hombro y tríceps; espalda y bíceps; piernas. Un día cada uno, con descanso entre ellos.",
+        "w": {
+          "a": "A: pecho, hombro y tríceps",
+          "b": "B: espalda y bíceps",
+          "c": "C: piernas"
+        }
+      },
+      "abcd": {
+        "name": "ABCD",
+        "desc": "Cuatro entrenamientos: pecho y tríceps; espalda y bíceps; piernas; hombros y abdomen. Para quien ya entrena hace algunos meses.",
+        "w": {
+          "a": "A: pecho y tríceps",
+          "b": "B: espalda y bíceps",
+          "c": "C: piernas",
+          "d": "D: hombros y abdomen"
+        }
+      },
+      "upperlower": {
+        "name": "Superior/inferior 4×",
+        "desc": "Tren superior e inferior, dos veces cada uno por semana, con un día más pesado y otro más ligero.",
+        "w": {
+          "upperA": "Superior A",
+          "lowerA": "Inferior A",
+          "upperB": "Superior B",
+          "lowerB": "Inferior B"
+        }
+      },
+      "ppl": {
+        "name": "Empuje/tirón/piernas",
+        "desc": "Seis días: empuje (pecho, hombro, tríceps), tirón (espalda, bíceps) y piernas, dos veces cada uno.",
+        "w": {
+          "push": "Empuje",
+          "pull": "Tirón",
+          "legs": "Piernas"
+        }
+      },
+      "fivebyfive": {
+        "name": "5×5",
+        "desc": "Cinco series de cinco en los ejercicios con barra, subiendo el peso tras cada entrenamiento que salga bien. A el lunes y el viernes, B el miércoles (alterna A y B de una semana a otra para el 5×5 clásico).",
+        "w": {
+          "a": "5×5 A",
+          "b": "5×5 B"
+        }
+      },
+      "greyskull": {
+        "name": "Greyskull LP",
+        "desc": "Tres series de cinco, la última hasta donde puedas: más de 5 sube el peso; si no llegas, baja un 10%. A el lunes y el viernes, B el miércoles.",
+        "w": {
+          "a": "Greyskull A",
+          "b": "Greyskull B"
+        }
+      },
+      "home": {
+        "name": "En casa, sin equipo",
+        "desc": "Solo el peso del cuerpo y una silla firme. Dos entrenamientos de cuerpo completo: cuando se vuelva fácil, la app sugiere más repeticiones.",
+        "w": {
+          "a": "Casa A",
+          "b": "Casa B"
+        }
+      }
     }
   }
 }

@@ -3475,7 +3475,8 @@
     "bodyHint": "Weight, measurements and goals, with a chart",
     "statsHint": "Volume, frequency and records",
     "off": "Workouts are off",
-    "offHint": "Turn it on to get workouts with sets and loads, Workout Mode and the Library."
+    "offHint": "Turn it on to get workouts with sets and loads, Workout Mode and the Library.",
+    "plans": "Ready-made plans"
   },
   "links": {
     "title": "Links",
@@ -3560,6 +3561,103 @@
       "daily": "Daily boss",
       "weekly": "Weekly boss",
       "clan": "Clan boss"
+    }
+  },
+  "plans": {
+    "title": "Ready-made plans",
+    "hubHint": "Full body, ABC, 5×5 and more, with days and progression set",
+    "intro": "Pick a plan and the Gym gets a folder with the workouts, the weekdays already set, the progression and the exercises from the library. Then just add the weight on the first workout: the app suggests the next ones.",
+    "place": "Where to train",
+    "places": {
+      "all": "All",
+      "gym": "Gym",
+      "home": "At home"
+    },
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate"
+    },
+    "perWeek_one": "{{count}}× a week",
+    "perWeek_other": "{{count}}× a week",
+    "dose": "{{sets}}×{{reps}}",
+    "doseTime": "{{sets}}×{{sec}} s",
+    "show": "Show the workouts",
+    "hide": "Hide the workouts",
+    "use": "Use this plan",
+    "useLabel": "Use the {{name}} plan",
+    "created": "{{name}} plan created in the Gym",
+    "error": "Couldn't create the plan: {{message}}",
+    "items": {
+      "fullbody3": {
+        "name": "Beginner: full body 3×",
+        "desc": "Two alternating full-body workouts (A on Monday and Friday, B on Wednesday). Good for the first months: every muscle group works three times a week.",
+        "w": {
+          "a": "Full body A",
+          "b": "Full body B"
+        }
+      },
+      "abc": {
+        "name": "ABC split",
+        "desc": "Three workouts by group: chest, shoulders and triceps; back and biceps; legs. One day each, with rest in between.",
+        "w": {
+          "a": "A: chest, shoulders, triceps",
+          "b": "B: back and biceps",
+          "c": "C: legs"
+        }
+      },
+      "abcd": {
+        "name": "ABCD split",
+        "desc": "Four workouts: chest and triceps; back and biceps; legs; shoulders and abs. For people who have been training for a few months.",
+        "w": {
+          "a": "A: chest and triceps",
+          "b": "B: back and biceps",
+          "c": "C: legs",
+          "d": "D: shoulders and abs"
+        }
+      },
+      "upperlower": {
+        "name": "Upper/lower 4×",
+        "desc": "Upper body and lower body, twice each a week, with a heavier day and a lighter one.",
+        "w": {
+          "upperA": "Upper A",
+          "lowerA": "Lower A",
+          "upperB": "Upper B",
+          "lowerB": "Lower B"
+        }
+      },
+      "ppl": {
+        "name": "Push/pull/legs",
+        "desc": "Six days: push (chest, shoulders, triceps), pull (back, biceps) and legs, twice each.",
+        "w": {
+          "push": "Push",
+          "pull": "Pull",
+          "legs": "Legs"
+        }
+      },
+      "fivebyfive": {
+        "name": "5×5",
+        "desc": "Five sets of five on the barbell lifts, adding weight after every successful workout. A on Monday and Friday, B on Wednesday (swap A and B week to week for the classic 5×5).",
+        "w": {
+          "a": "5×5 A",
+          "b": "5×5 B"
+        }
+      },
+      "greyskull": {
+        "name": "Greyskull LP",
+        "desc": "Three sets of five, the last one as many as you can: more than 5 adds weight; short of it takes off 10%. A on Monday and Friday, B on Wednesday.",
+        "w": {
+          "a": "Greyskull A",
+          "b": "Greyskull B"
+        }
+      },
+      "home": {
+        "name": "At home, no equipment",
+        "desc": "Just bodyweight and a sturdy chair. Two full-body workouts: when it gets easy, the app suggests more reps.",
+        "w": {
+          "a": "Home A",
+          "b": "Home B"
+        }
+      }
     }
   }
 }

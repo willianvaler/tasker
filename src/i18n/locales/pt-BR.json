@@ -3475,7 +3475,8 @@
     "bodyHint": "Peso, medidas e metas, com gráfico",
     "statsHint": "Volume, frequência e recordes",
     "off": "O treino está desligado",
-    "offHint": "Ligando, você ganha os treinos com séries e cargas, o Modo Treino e a Biblioteca."
+    "offHint": "Ligando, você ganha os treinos com séries e cargas, o Modo Treino e a Biblioteca.",
+    "plans": "Planos prontos"
   },
   "links": {
     "title": "Ligações",
@@ -3560,6 +3561,103 @@
       "daily": "Boss do dia",
       "weekly": "Boss da semana",
       "clan": "Boss do clã"
+    }
+  },
+  "plans": {
+    "title": "Planos prontos",
+    "hubHint": "Corpo inteiro, ABC, 5×5 e outros, já com dias e progressão",
+    "intro": "Escolha um plano e a Academia ganha uma pasta com os treinos, os dias da semana já marcados, a progressão e os exercícios da biblioteca. Depois é só pôr a carga no primeiro treino: as próximas o app sugere.",
+    "place": "Onde treinar",
+    "places": {
+      "all": "Todos",
+      "gym": "Academia",
+      "home": "Em casa"
+    },
+    "levels": {
+      "beginner": "Iniciante",
+      "intermediate": "Intermediário"
+    },
+    "perWeek_one": "{{count}}× por semana",
+    "perWeek_other": "{{count}}× por semana",
+    "dose": "{{sets}}×{{reps}}",
+    "doseTime": "{{sets}}×{{sec}} s",
+    "show": "Ver os treinos",
+    "hide": "Esconder os treinos",
+    "use": "Usar este plano",
+    "useLabel": "Usar o plano {{name}}",
+    "created": "Plano {{name}} criado na Academia",
+    "error": "Não deu para criar o plano: {{message}}",
+    "items": {
+      "fullbody3": {
+        "name": "Iniciante: corpo inteiro 3×",
+        "desc": "Dois treinos de corpo inteiro alternados (A na segunda e na sexta, B na quarta). Bom para os primeiros meses: cada grupo muscular trabalha três vezes por semana.",
+        "w": {
+          "a": "Corpo inteiro A",
+          "b": "Corpo inteiro B"
+        }
+      },
+      "abc": {
+        "name": "ABC",
+        "desc": "Três treinos por grupo: peito, ombro e tríceps; costas e bíceps; pernas. Um dia cada, com descanso entre eles.",
+        "w": {
+          "a": "A: peito, ombro e tríceps",
+          "b": "B: costas e bíceps",
+          "c": "C: pernas"
+        }
+      },
+      "abcd": {
+        "name": "ABCD",
+        "desc": "Quatro treinos: peito e tríceps; costas e bíceps; pernas; ombros e abdômen. Para quem já treina há alguns meses.",
+        "w": {
+          "a": "A: peito e tríceps",
+          "b": "B: costas e bíceps",
+          "c": "C: pernas",
+          "d": "D: ombros e abdômen"
+        }
+      },
+      "upperlower": {
+        "name": "Superior/inferior 4×",
+        "desc": "Parte de cima e parte de baixo, duas vezes cada por semana, com um dia mais pesado e outro mais leve.",
+        "w": {
+          "upperA": "Superior A",
+          "lowerA": "Inferior A",
+          "upperB": "Superior B",
+          "lowerB": "Inferior B"
+        }
+      },
+      "ppl": {
+        "name": "Empurrar/puxar/pernas",
+        "desc": "Push/pull/legs em seis dias: empurrar (peito, ombro, tríceps), puxar (costas, bíceps) e pernas, duas vezes cada.",
+        "w": {
+          "push": "Empurrar",
+          "pull": "Puxar",
+          "legs": "Pernas"
+        }
+      },
+      "fivebyfive": {
+        "name": "5×5",
+        "desc": "Cinco séries de cinco nos exercícios de barra, subindo a carga a cada treino que der certo. A na segunda e na sexta, B na quarta (alterne A e B de uma semana para outra, se quiser o 5×5 clássico).",
+        "w": {
+          "a": "5×5 A",
+          "b": "5×5 B"
+        }
+      },
+      "greyskull": {
+        "name": "Greyskull LP",
+        "desc": "Três séries de cinco, a última até onde der: passou de 5, sobe a carga; não chegou, tira 10%. A na segunda e na sexta, B na quarta.",
+        "w": {
+          "a": "Greyskull A",
+          "b": "Greyskull B"
+        }
+      },
+      "home": {
+        "name": "Em casa, sem equipamento",
+        "desc": "Só o peso do corpo e uma cadeira firme. Dois treinos de corpo inteiro: quando ficar fácil, o app sugere mais repetições.",
+        "w": {
+          "a": "Casa A",
+          "b": "Casa B"
+        }
+      }
     }
   }
 }

@@ -67,6 +67,7 @@ export default function AppLayout() {
               <Stack.Screen name="comunidade/index" />
               <Stack.Screen name="comunidade/[id]" />
               <Stack.Screen name="biblioteca/index" />
+              <Stack.Screen name="planos" />
               <Stack.Screen name="biblioteca/[id]" />
               <Stack.Screen name="pomodoro" />
               <Stack.Screen name="recompensas" />

@@ -1,4 +1,13 @@
-import { ChartColumn, Dumbbell, Folder, Plus, Scale, Users, Zap } from 'lucide-react-native';
+import {
+  ChartColumn,
+  ClipboardList,
+  Dumbbell,
+  Folder,
+  Plus,
+  Scale,
+  Users,
+  Zap,
+} from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -98,6 +107,12 @@ export function WorkoutHub() {
             />
           </View>
           <HubSection title={t('workoutHub.tools')}>
+            <HubRow
+              icon={ClipboardList}
+              label={t('workoutHub.plans')}
+              hint={t('plans.hubHint')}
+              href="/planos"
+            />
             <HubRow
               icon={Dumbbell}
               label={t('library.title')}

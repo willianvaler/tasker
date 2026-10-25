@@ -8,6 +8,7 @@ import {
   CheckSquare,
   CircleHelp,
   ClipboardCheck,
+  ClipboardList,
   Dumbbell,
   Folder,
   Globe,
@@ -237,7 +238,13 @@ function Palette({
       group: 0,
       run: go('/'),
     },
-    { id: 'go-plan', label: t('nav.plan'), icon: icon(CalendarRange), group: 0, run: go('/planejar') },
+    {
+      id: 'go-plan',
+      label: t('nav.plan'),
+      icon: icon(CalendarRange),
+      group: 0,
+      run: go('/planejar'),
+    },
     {
       id: 'go-workout',
       label: t('nav.workout'),
@@ -274,6 +281,13 @@ function Palette({
       icon: icon(Dumbbell),
       group: 0,
       run: go('/biblioteca'),
+    },
+    {
+      id: 'go-plans',
+      label: t('plans.title'),
+      icon: icon(ClipboardList),
+      group: 0,
+      run: go('/planos'),
     },
     {
       id: 'go-body',
