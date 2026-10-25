@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, type TextInput, useWindowDimensions, View } from 'react-native';
 
+import { ScreenScroll } from '@/components/screen';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { PromptDialog, useDialog } from '@/components/ui/dialog';
@@ -149,7 +150,8 @@ export function ExpensesView({ page }: { page: Page }) {
           : 'expenses.empty';
 
   return (
-    <View className="gap-6">
+    // A tela de gastos não é lista: a rolagem é a da tela (D189), senão o fim fica cortado
+    <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-6 pb-clear">
       <Tabs
         label={t('expenses.tabs')}
         value={tab}
@@ -372,7 +374,7 @@ export function ExpensesView({ page }: { page: Page }) {
           onClose={closeDialog}
         />
       )}
-    </View>
+    </ScreenScroll>
   );
 }
 

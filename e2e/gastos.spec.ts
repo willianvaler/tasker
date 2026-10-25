@@ -222,3 +222,27 @@ test('duas notas: a conferência não recomeça, mostra a anterior salva e a de 
   await expect(page.getByRole('radio', { name: 'Tudo' })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByRole('button', { name: /^Primeira nota, −R\$\s87,90/ })).toBeVisible();
 });
+
+// CD30: a tela de gastos rola inteira (com 4 lançamentos e uma categoria o fim ficava cortado no
+// celular, sem rolagem)
+test('gastos: a tela rola até o último lançamento', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Casa', name: 'Contas', type: 'Gastos' });
+  const items = ['Luz', 'Água', 'Internet', 'Gás', 'Condomínio', 'Mercado'];
+  for (const [i, name] of items.entries()) {
+    await page.getByRole('textbox', { name: 'Descrição' }).fill(name);
+    await page.getByRole('textbox', { name: 'Valor' }).fill(String(100 + i));
+    if (i === 0) await page.getByRole('radio', { name: 'Material' }).click();
+    await page.getByRole('textbox', { name: 'Valor' }).press('Enter');
+    await expect(page.getByRole('button', { name: new RegExp(`^${name}, `) })).toBeVisible();
+  }
+  // Rolar como a pessoa rola (roda do mouse / dedo): sem a rolagem da tela, nada se mexia e o
+  // fim ficava cortado (o scrollIntoView do Playwright rola por fora e não pegava o problema)
+  const last = page.getByRole('button', { name: /^Mercado, / });
+  await expect(async () => {
+    await page.mouse.move(200, 400);
+    await page.mouse.wheel(0, 2000);
+    await expect(last).toBeInViewport({ timeout: 1000 });
+  }).toPass({ timeout: 10_000 });
+});

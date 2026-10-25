@@ -203,6 +203,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD27 | Computador: abrir o painel de uma tarefa na "Missões de hoje" deixava o fundo vazio | — |
 | V5 | CD28 | Painel dos bosses mais fácil de entender (pedido do dono): no Jogo os bosses apareciam duas vezes (acampamento ou herói e a coluna dos números) e também no Personagem, com a vida num fio de 2 px que, cheio, parecia sublinhado | — |
 | V5 | CD29 | Fundo do modo escuro à escolha: Marrom, Verde-escuro, Azul-noite, Grafite, Preto e Ameixa em Configurações → Aparência, com amostra de cada um; guardado no aparelho (`lib/dark-palette.ts`), aplicado no `<html>` na web e pelo `vars()` do NativeWind no celular; contraste AA testado nos seis (`design-tokens.test.ts`) e e2e `tema-escuro.spec.ts` (parcial) | D271 |
+| V5 | CD30 | Tela de gastos sem rolagem (pedido do dono, 25/10: "com 4 itens e uma categoria ele não adicionou um scroll e deu uma ideia de corte seco"): a `ExpensesView` era uma `View` comum dentro do `Screen` e, diferente das listas, não tinha rolagem própria; no celular a tela parava nos chips de categoria e o resto ficava cortado | D189 |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |
