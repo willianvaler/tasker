@@ -3659,5 +3659,21 @@
         }
       }
     }
+  },
+  "carry": {
+    "menu": "Llevar ejercicios a otro entrenamiento",
+    "title": "Llevar ejercicios a otro entrenamiento",
+    "all": "Todos",
+    "count_one": "{{count}} marcado",
+    "count_other": "{{count}} marcados",
+    "to": "¿A qué entrenamiento?",
+    "copy": "Copiar",
+    "move": "Mover",
+    "noTargets": "Todavía no hay otro entrenamiento. Crea uno en Entrenamiento → Nuevo entrenamiento o usa un plan listo.",
+    "copied_one": "1 ejercicio copiado a {{page}}",
+    "copied_other": "{{count}} ejercicios copiados a {{page}}",
+    "moved_one": "1 ejercicio movido a {{page}}",
+    "moved_other": "{{count}} ejercicios movidos a {{page}}",
+    "error": "No se pudieron llevar: {{message}}"
   }
 }

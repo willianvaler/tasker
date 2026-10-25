@@ -53,10 +53,11 @@ export function WorkoutMuscles({
           accessibilityRole="button"
           aria-expanded={open}
           onPress={() => setOpen(!open)}
-          className="min-h-11 flex-row items-center gap-2 self-start rounded px-1 hover:bg-wash"
+          // max-w-full + shrink: numa linha só, a lista longa de músculos alargava a página no celular
+          className="min-h-11 max-w-full flex-row items-center gap-2 self-start rounded px-1 hover:bg-wash"
         >
           <Icon icon={open ? ChevronUp : ChevronDown} tone="ink-muted" />
-          <Text className="text-sm text-ink-muted" numberOfLines={open ? undefined : 1}>
+          <Text className="shrink text-sm text-ink-muted" numberOfLines={open ? undefined : 1}>
             {t('workoutMap.toggle', { title, list })}
           </Text>
         </Pressable>

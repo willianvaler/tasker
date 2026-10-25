@@ -64,6 +64,10 @@ In the exercise panel, **Superset or circuit** gives the item a letter (A, B, C,
 
 In **Workouts → Ready-made plans** (or Ctrl+K → "Ready-made plans") there are eight plans: **Beginner: full body 3×**, **ABC split**, **ABCD split**, **Upper/lower 4×**, **Push/pull/legs**, **5×5**, **Greyskull LP** and **At home, no equipment**. **Show the workouts** lists the exercises, sets and days. **Use this plan** creates a folder named after the plan inside the Gym (and turns Workouts on if it is off), with one workout per training day: the weekdays already set in the weekly plan, the plan's progression (double, linear or Greyskull) and the exercises linked to the Library. Timed exercises, like the plank, get the **time** rule. Only the weight is missing: log it on the first workout and the app suggests the next ones. You can change everything later, like any workout.
 
+## Taking exercises to another workout
+
+In a workout's **…**, **Take exercises to another workout** lists its exercises: check one, several or **All**, pick the destination workout and tap **Copy** (the exercise stays in both) or **Move** (it leaves this one). The Library exercise, sets, weight and progression rule go along; the history belongs to the exercise, so the next suggested weight picks up where it was. Supersets don't carry over, because the letter only applies inside the workout where it was set.
+
 ## Weekly plan
 
 In **Configure list** of a workout, mark the **training days** (Monday to Sunday). The Today screen shows **Today’s workout**, with Open and **Reschedule** (tomorrow, the day after or skip), and the week in one line. Rescheduling is only yours and does not change the plan; the notice has **Undo**. At 6 pm, if the day’s workout has no set logged yet, a **reminder** arrives (turn it off in Settings, under Workout log).

@@ -64,6 +64,10 @@ En el panel del ejercicio, **Superserie o circuito** le da una letra (A, B, C, D
 
 En **Entrenamiento → Planes listos** (o Ctrl+K → "Planes listos") hay ocho planes: **Principiante: cuerpo completo 3×**, **ABC**, **ABCD**, **Superior/inferior 4×**, **Empuje/tirón/piernas**, **5×5**, **Greyskull LP** y **En casa, sin equipo**. **Ver los entrenamientos** muestra los ejercicios, las series y los días. **Usar este plan** crea una carpeta con el nombre del plan dentro del Gimnasio (y activa el Entrenamiento si está apagado), con un entrenamiento por día: los días de la semana ya marcados en el plan de la semana, la progresión del plan (doble, lineal o Greyskull) y los ejercicios enlazados a la Biblioteca. Los ejercicios por tiempo, como la plancha, llevan la regla **tiempo**. Solo falta el peso: anótalo en el primer entrenamiento y los siguientes los sugiere la app. Puedes cambiarlo todo después, como en cualquier entrenamiento.
 
+## Llevar ejercicios a otro entrenamiento
+
+En el **…** de un entrenamiento, **Llevar ejercicios a otro entrenamiento** muestra sus ejercicios: marca uno, varios o **Todos**, elige el entrenamiento de destino y toca **Copiar** (el ejercicio queda en los dos) o **Mover** (sale de este). Van juntos el ejercicio de la Biblioteca, las series, el peso y la regla de progresión; el historial es del ejercicio, así que el próximo peso sugerido sigue desde donde estaba. La superserie no se lleva, porque la letra solo vale dentro del entrenamiento donde se marcó.
+
 ## Plan de la semana
 
 En **Configurar lista** de un entrenamiento, marca los **días de entrenamiento** (de lunes a domingo). La pantalla Hoy muestra el **Entrenamiento de hoy**, con Abrir y **Reprogramar** (mañana, pasado mañana o saltar), y la semana en una línea. Reprogramar es solo tuyo y no cambia el plan; el aviso tiene **Deshacer**. A las 18 h, si el entrenamiento del día todavía no tiene ninguna serie registrada, llega un **recordatorio** (desactívalo en Ajustes, en Registro del entrenamiento).

@@ -3659,5 +3659,21 @@
         }
       }
     }
+  },
+  "carry": {
+    "menu": "Take exercises to another workout",
+    "title": "Take exercises to another workout",
+    "all": "All",
+    "count_one": "{{count}} selected",
+    "count_other": "{{count}} selected",
+    "to": "To which workout?",
+    "copy": "Copy",
+    "move": "Move",
+    "noTargets": "There is no other workout yet. Create one in Workouts → New workout or use a ready-made plan.",
+    "copied_one": "1 exercise copied to {{page}}",
+    "copied_other": "{{count}} exercises copied to {{page}}",
+    "moved_one": "1 exercise moved to {{page}}",
+    "moved_other": "{{count}} exercises moved to {{page}}",
+    "error": "Couldn't take them: {{message}}"
   }
 }

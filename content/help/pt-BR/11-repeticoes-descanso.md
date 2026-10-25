@@ -64,6 +64,10 @@ No painel do exercício, **Superset ou circuito** dá uma letra (A, B, C, D) ao 
 
 Em **Treino → Planos prontos** (ou Ctrl+K → "Planos prontos") há oito planos: **Iniciante: corpo inteiro 3×**, **ABC**, **ABCD**, **Superior/inferior 4×**, **Empurrar/puxar/pernas**, **5×5**, **Greyskull LP** e **Em casa, sem equipamento**. **Ver os treinos** mostra os exercícios, as séries e os dias. **Usar este plano** cria uma pasta com o nome do plano dentro da Academia (e liga o Treino, se estiver desligado), com um treino por dia de treino: os dias da semana já marcados no plano da semana, a progressão do plano (dupla, linear ou Greyskull) e os exercícios ligados à Biblioteca. Exercícios por tempo, como a prancha, vêm com a regra **tempo**. Falta só a carga: anote a do primeiro treino, e as próximas o app sugere. Dá para mudar tudo depois, como em qualquer treino.
 
+## Levar exercícios para outro treino
+
+No **…** de um treino, **Levar exercícios para outro treino** abre a lista dos exercícios: marque um, vários ou **Todos**, escolha o treino de destino e toque em **Copiar** (o exercício fica nos dois) ou **Mover** (sai deste). Vão junto o exercício da Biblioteca, as séries, a carga e a regra de progressão; o histórico é do exercício, então a próxima carga sugerida continua de onde estava. Superset não vai junto, porque a letra só vale dentro do treino em que foi marcada.
+
 ## Plano da semana
 
 Em **Configurar lista** de um treino, marque os **dias de treino** (segunda a domingo). A tela Hoje mostra o **Treino de hoje**, com Abrir e **Remarcar** (amanhã, depois de amanhã ou pular), e a semana em uma linha. Remarcar é só seu e não muda o plano; o aviso tem **Desfazer**. Às 18h, se o treino do dia ainda não tiver nenhuma série registrada, chega um **lembrete** (desligue em Configurações, em Registro do treino).

@@ -24,6 +24,7 @@ import { usePageMode } from '@/components/tasks/page-mode';
 import { PageView } from '@/components/tasks/page-view';
 import { Text } from '@/components/ui/text';
 import { Button, IconButton } from '@/components/ui/button';
+import { CarryExercisesDialog } from '@/components/gym/carry-exercises';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { effectiveMaxDepth } from '@/config/limits';
@@ -50,7 +51,15 @@ import { useToast } from '@/providers/toast';
 import { useCanWrite } from '@/providers/write';
 
 type DialogState =
-  'menu' | 'share' | 'settings' | 'duplicate' | 'send' | 'fields' | 'shopping' | 'publish';
+  | 'menu'
+  | 'share'
+  | 'settings'
+  | 'duplicate'
+  | 'send'
+  | 'fields'
+  | 'shopping'
+  | 'publish'
+  | 'carry';
 
 export default function PageScreen() {
   const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
@@ -75,6 +84,12 @@ export default function PageScreen() {
   const pageActor = useFolderActor(page?.folder_id);
   const pageWritable = useCanWrite(page?.folder_id);
   const relatable = pageWritable && actorCan(pageActor, 'task.edit');
+  const carriable =
+    !!page &&
+    !receivedPage &&
+    relatable &&
+    isWorkoutPage(tree.data, page) &&
+    !!pageTasks.data?.some((task) => !task.parent_task_id);
   // Lista de compras do cardápio (PB4): pratos com ingredientes nas subtarefas ou nas notas
   const shopping =
     page && !receivedPage && (page.view_type === 'list' || page.view_type === 'cards')
@@ -276,6 +291,16 @@ export default function PageScreen() {
               label: t('folder.moveTo'),
               onPress: () => folderActions.movePage(page),
             },
+            // AC12.3: copiar ou mover exercícios para outro treino
+            ...(carriable
+              ? [
+                  {
+                    group: t('page.groupArrange'),
+                    label: t('carry.menu'),
+                    onPress: () => setDialog('carry'),
+                  },
+                ]
+              : []),
             // Recursos da página
             ...(actorCan(pageActor, 'page.manage') &&
             !page.is_inbox &&
@@ -358,6 +383,9 @@ export default function PageScreen() {
         <ActionMenu title={t('page.share')} onClose={closeDialog} actions={shareActions} />
       )}
       {page && dialog === 'send' && <SendPageDialog page={page} onClose={closeDialog} />}
+      {page && dialog === 'carry' && (
+        <CarryExercisesDialog page={page} tasks={pageTasks.data ?? []} onClose={closeDialog} />
+      )}
       {page && dialog === 'publish' && (
         <PublishDialog
           source={{ pageId: page.id }}

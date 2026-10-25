@@ -81,3 +81,69 @@ test('planos prontos: em casa, prancha por tempo', async ({ page }, testInfo) =>
     })
     .toEqual([['time', 'timed']]);
 });
+
+// AC12.3: levar exercícios de um treino para outro (copiar e mover, um ou vários)
+test('levar exercícios para outro treino: copiar e mover', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  const me = await userIdOf(page);
+  await page.goto('/planos');
+  await page.getByRole('button', { name: 'Usar o plano 5×5' }).click();
+  await expect(page.getByText('Plano 5×5 criado na Academia')).toBeVisible({ timeout: 20_000 });
+  const [a] = await adminRest(
+    `pages?select=id,folders!inner(owner_id)&folders.owner_id=eq.${me}&name=eq.5×5 A`,
+  );
+  await page.goto(`/page/${a.id}`);
+  await expect(page.getByRole('heading', { name: /5×5 A$/ })).toBeVisible();
+
+  const open = async () => {
+    await page.getByRole('button', { name: 'Opções da lista' }).click();
+    await page.getByRole('menuitem', { name: 'Levar exercícios para outro treino' }).click();
+  };
+  const titlesIn = (name: string) =>
+    adminRest(
+      `tasks?select=title,exercise_id,repeat_plan,pages!inner(name,folders!inner(owner_id))&pages.folders.owner_id=eq.${me}&pages.name=eq.${encodeURIComponent(name)}&order=position`,
+    ).then((rows: { title: string }[]) => rows.map((r) => r.title));
+
+  // Copiar todos para o B: o A continua com os três
+  await open();
+  await page.getByRole('checkbox', { name: 'Todos' }).click();
+  await expect(page.getByText('3 marcados')).toBeVisible();
+  await page
+    .getByRole('radiogroup', { name: 'Para qual treino?' })
+    .getByRole('radio', { name: '5×5 B' })
+    .click();
+  await page.getByRole('button', { name: 'Copiar', exact: true }).click();
+  await expect(page.getByText('3 exercícios copiados para 5×5 B')).toBeVisible();
+  await expect
+    .poll(() => titlesIn('5×5 B'))
+    .toEqual([
+      'Agachamento com barra',
+      'Desenvolvimento militar em pé',
+      'Levantamento terra com barra',
+      'Agachamento com barra',
+      'Supino reto com barra (pegada média)',
+      'Remada curvada com barra',
+    ]);
+  const copied = await adminRest(
+    `tasks?select=exercise_id,repeat_plan,pages!inner(name,folders!inner(owner_id))&pages.folders.owner_id=eq.${me}&pages.name=eq.${encodeURIComponent('5×5 B')}&title=eq.${encodeURIComponent('Remada curvada com barra')}`,
+  );
+  expect(copied[0]).toMatchObject({
+    exercise_id: 'mit-0027',
+    repeat_plan: { mode: 'sets', total: 5, rest_seconds: 180 },
+  });
+
+  // Mover só a remada: sai do A
+  await open();
+  // A lista atrás também tem o checkbox da remada; o do diálogo é o último
+  await page.getByRole('checkbox', { name: 'Remada curvada com barra' }).last().click();
+  await page
+    .getByRole('radiogroup', { name: 'Para qual treino?' })
+    .getByRole('radio', { name: '5×5 B' })
+    .click();
+  await page.getByRole('button', { name: 'Mover', exact: true }).click();
+  await expect(page.getByText('1 exercício movido para 5×5 B')).toBeVisible();
+  await expect
+    .poll(() => titlesIn('5×5 A'))
+    .toEqual(['Agachamento com barra', 'Supino reto com barra (pegada média)']);
+});
