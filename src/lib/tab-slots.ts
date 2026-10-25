@@ -103,7 +103,9 @@ export type NavState = {
 export function tabUnderOverlay(state: NavState | undefined): string | null {
   let s = state;
   while (s) {
-    const i = s.routes.findIndex((r) => r.name === '(tabs)');
+    // A última: na tela larga a barra lateral pode empilhar outra (tabs) sobre uma tela aberta
+    // (Configurações), e a de baixo não é a que aparece atrás do painel
+    const i = s.routes.map((r) => r.name).lastIndexOf('(tabs)');
     if (i >= 0) {
       const above = s.routes.slice(i + 1);
       if (!above.length || !above.every((r) => OVERLAYS.has(r.name))) return null;

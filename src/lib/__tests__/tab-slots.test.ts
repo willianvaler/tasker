@@ -68,6 +68,14 @@ describe('tabUnderOverlay', () => {
     expect(tabUnderOverlay(root(tabs('planejar', 1), { name: 'task/new' }))).toBe('planejar');
   });
 
+  it('barra lateral empilhou outra (tabs) sobre Configurações: vale a de cima', () => {
+    expect(
+      tabUnderOverlay(
+        root(tabs('mais', 1), { name: 'configuracoes' }, { name: '(tabs)' }, { name: 'task/[id]' }),
+      ),
+    ).toBe('index');
+  });
+
   it('página aberta por cima cobre a aba', () => {
     expect(tabUnderOverlay(root(tabs('planejar', 0), { name: 'page/[id]' }))).toBeNull();
     expect(

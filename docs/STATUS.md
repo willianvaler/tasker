@@ -375,6 +375,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **CD24** Sync parado depois do Wi-Fi da empresa (erro de SSL) até fechar o app: a conexão aberta na rede anterior ficava pendurada sem erro. Agora o app reconecta o sync quando a rede muda (Wi-Fi ↔ dados móveis, volta da conexão) e quando volta do segundo plano sem conexão com o sync (`providers/sync.tsx`)
 - [x] **CD25** Web: passar o mouse no ponto vermelho do sync quebrava o rodapé da barra lateral (o texto longo entrava na linha e espremia o cartão, o sino e a ajuda); o nome do estado aparece num balão por cima (`components/sync-dot.tsx`)
 - [x] **CD26** Android: notificações do Modo Treino se acumulavam na tela de bloqueio (8 fixas): o app guardava só na memória o id da última e, encerrado pelo sistema, esquecia as anteriores. Agora cada atualização tira todas as do treino pelo prefixo do id, o app limpa as que sobraram ao abrir, e um descanso novo tira os avisos de "descanso acabou" que ficaram (`lib/workout-notification.ts`, `lib/timer-alerts.ts`)
+- [x] **CD27** Computador: abrir o painel de uma tarefa na "Missões de hoje" deixava o fundo vazio. Indo para Configurações e voltando pela barra lateral, a pilha fica com duas `(tabs)`, e o `tabUnderOverlay` olhava a primeira (coberta por Configurações), então a Hoje parava de desenhar atrás do painel. Agora vale a última (`lib/tab-slots.ts`, com teste)
 
 ## ESCOPO v1 — backlog (§11)
 
