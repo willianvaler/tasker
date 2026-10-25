@@ -185,7 +185,6 @@
     "weeklyPrefix": "Da semana",
     "dailyStreak_one": "🔥 {{count}} dia seguido derrotando o boss do dia",
     "dailyStreak_other": "🔥 {{count}} dias seguidos derrotando o boss do dia",
-    "dailyHint": "Nasce todo dia à meia-noite e foge no fim do dia. Todo golpe vale para ele e para o da semana.",
     "defeatedQuest": "Missão cumprida!",
     "defeatedShort": "derrotado"
   },
@@ -484,12 +483,9 @@
     "gold": "ouro",
     "freezeOn": "Congelamento da semana disponível: um dia sem tarefas não quebra a sequência.",
     "freezeOff": "O congelamento desta semana já foi usado.",
-    "weeklyBoss": "Boss da semana",
-    "bossHint": "Cada tarefa, hábito e card é um golpe; atributos e classe mudam o dano (veja em Personagem). Vencer sobe o nível do próximo. Se ele fugir, o próximo vem sem punição.",
     "achievements": "Conquistas",
     "achievementLabel": "{{name}}: {{description}}",
     "achievementLocked": "{{name}}: {{description}} (bloqueada)",
-    "dailyBoss": "Boss do dia",
     "levels": {
       "off": "Desligado",
       "light": "Discreto",
@@ -536,8 +532,6 @@
     "change": "Trocar de classe",
     "pickHint": "A classe é o seu estilo: muda os atributos iniciais e dá uma passiva e uma habilidade por dia. Dá para trocar depois, sem custo.",
     "keep": "Manter a classe atual",
-    "bossTitle": "Boss da semana · nível {{level}}",
-    "bossHint": "Cada vitória sobe o nível do próximo boss (nível {{next}}: {{hp}} HP) e dá {{xp}} XP, ouro e um item sorteado. Se ele fugir, o próximo vem sem punição. Hábitos ruins curam o boss.",
     "defeated": "bosses vencidos",
     "bestHit": "maior golpe",
     "damageToday": "dano hoje",
@@ -588,8 +582,6 @@
     "shop": "Loja",
     "nothingYet": "Nada ainda.",
     "itemLabel": "{{name}} ({{rarity}})",
-    "dailyTitle": "Boss do dia · nível {{level}}",
-    "dailyHint": "Nasce todo dia à meia-noite (umas 6 tarefas). Cada vitória sobe o nível do próximo (nível {{next}}: {{hp}} HP) e dá {{xp}} XP, ouro e {{chance}}% de chance de item. Se ele fugir, o de amanhã vem sem punição.",
     "dailyDefeated": "bosses do dia vencidos",
     "dailyStreak": "dias seguidos",
     "howDamage": "Como funciona o dano",
@@ -3538,6 +3530,26 @@
       "resume": "Voltar a tomar",
       "options": "Opções de {{name}}",
       "removeTitle": "Apagar {{name}}?"
+    }
+  },
+  "bossPanel": {
+    "label": "Bosses",
+    "how": "Cada tarefa, hábito ou card que você conclui é um golpe em todos os bosses abaixo ao mesmo tempo. Hábito ruim cura. Força, Inteligência e a classe aumentam o golpe (veja em Personagem).",
+    "today": "Hoje: {{damage}} de dano · maior golpe {{best}}",
+    "life": "Vida",
+    "leftSoon": "foge em menos de 1 hora",
+    "leftHours_one": "foge em 1 hora",
+    "leftHours_other": "foge em {{count}} horas",
+    "leftDays_one": "foge {{when}} (falta 1 dia)",
+    "leftDays_other": "foge {{when}} (faltam {{count}} dias)",
+    "defeated": "Derrotado!",
+    "reward": "Vencer dá {{xp}} XP, {{gold}} de ouro e um item; o próximo vem mais forte ({{hp}} HP). Se fugir, não perde nada.",
+    "rewardChance": "Vencer dá {{xp}} XP, {{gold}} de ouro e {{chance}}% de chance de item; o próximo vem mais forte ({{hp}} HP). Se fugir, não perde nada.",
+    "clanHint": "Todo mundo do clã bate junto; quem ajudou ganha a recompensa.",
+    "kind": {
+      "daily": "Boss do dia",
+      "weekly": "Boss da semana",
+      "clan": "Boss do clã"
     }
   }
 }

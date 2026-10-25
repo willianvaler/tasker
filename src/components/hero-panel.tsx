@@ -17,7 +17,7 @@ import { useToast } from '@/providers/toast';
  * Personagem e bosses na coluna da direita do Início (computador): nível, XP e ouro em mono, a
  * habilidade do dia e as faixas dos bosses. Sem caixas: só divisórias finas.
  */
-export function HeroPanel() {
+export function HeroPanel({ bosses = true }: { bosses?: boolean }) {
   const { t } = useTranslation();
   const { data: game } = useGameState();
   if (!game?.enabled) return null;
@@ -55,7 +55,7 @@ export function HeroPanel() {
         )}
         {cls && <SkillButton game={game} />}
       </View>
-      {game.boss && (
+      {bosses && game.boss && (
         <View className="gap-3 border-t border-line pt-4">
           {game.daily_boss && <BossLine boss={game.daily_boss} prefix={t('boss.dailyPrefix')} />}
           {game.daily_streak > 0 && (

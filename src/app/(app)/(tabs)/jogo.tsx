@@ -3,6 +3,7 @@ import { Backpack, Gift, PawPrint, Shield, ShoppingBag, Swords, Trophy } from 'l
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
+import { BossesPanel } from '@/components/bosses-panel';
 import { CampView } from '@/components/camp';
 import { GameProfile } from '@/components/game-profile';
 import { HeroPanel } from '@/components/hero-panel';
@@ -55,8 +56,9 @@ export default function GameScreen() {
               {level === 'full' ? (
                 <CampView name={firstName} missions={open + habitsLeft} />
               ) : (
-                <HeroPanel />
+                <HeroPanel bosses={false} />
               )}
+              <BossesPanel />
               <HubSection title={t('hub.game.places')}>
                 <HubRow
                   icon={Swords}

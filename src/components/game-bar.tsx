@@ -32,7 +32,7 @@ export function BossArt({ size = 28 }: { size?: 28 | 48 }) {
 }
 
 /**
- * Faixa do boss: nome serifado, nível em mono, linha de HP de 2 px e
+ * Faixa do boss: nome serifado, nível em mono, barra de vida (CD28) e
  * `120/120 HP`. Solo e clã são semanais; o de projeto tem prazo e conta tarefas.
  */
 export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
@@ -90,6 +90,8 @@ export function BossLine({ boss, prefix }: { boss: Boss; prefix?: string }) {
         </View>
         <ProgressBar
           value={boss.hp / boss.max_hp}
+          thick
+          fillClassName="rounded-full bg-danger"
           label={t('boss.label', { name: boss.name, hp: boss.hp, max: boss.max_hp, unit })}
         />
         <Text className="font-mono text-xs text-ink-muted">

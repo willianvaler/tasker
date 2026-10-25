@@ -6,45 +6,15 @@ import { Pressable, View } from 'react-native';
 import { classOf, useEquippedTitle } from '@/components/character';
 import { HeroPortrait, QuestCard, VitalActions, VitalBars } from '@/components/game-mode';
 import { Button } from '@/components/ui/button';
-import { BossLine } from '@/components/game-bar';
 import { SkillButton } from '@/components/hero-panel';
 import { ProgressBar } from '@/components/ui/progress-bar';
-import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { CLASSES } from '@/lib/character';
-import { useGameState, type Boss } from '@/lib/queries/game';
-
-const TAUNTS = 4;
-
-/** Fala curta do boss: fixa por boss (pelo id), e outra quando ele está quase caindo. */
-function useTaunt(boss: Boss) {
-  const { t } = useTranslation();
-  if (boss.status === 'defeated') return null;
-  if (boss.hp / boss.max_hp < 0.3) return t('camp.tauntLow');
-  let hash = 0;
-  for (const ch of boss.id) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
-  return t(`camp.taunt${(hash % TAUNTS) + 1}` as 'camp.taunt1');
-}
-
-function BossCard({ boss, prefix }: { boss: Boss; prefix?: string }) {
-  const taunt = useTaunt(boss);
-  return (
-    <View className="gap-2">
-      <BossLine boss={boss} prefix={prefix} />
-      {taunt && (
-        // Alinha com o nome: o espaço da arte (28 px) e o mesmo gap-3 da faixa do boss
-        <View className="flex-row gap-3">
-          <View style={{ width: 28 }} />
-          <Text className="flex-1 font-serif text-sm italic text-ink-muted">“{taunt}”</Text>
-        </View>
-      )}
-    </View>
-  );
-}
+import { useGameState } from '@/lib/queries/game';
 
 /**
  * Início no modo Completo (HB4, ESCOPO_V8 §3): o acampamento. Personagem em destaque, barra de XP,
- * ouro e pontos; os bosses do dia, da semana e do clã com uma fala; e as missões abertas de hoje.
+ * ouro e pontos e as missões abertas de hoje. Os bosses ficam no BossesPanel, logo abaixo (CD28).
  * Vida e mana entram com o HB5 e o HB6. A arte é provisória (emoji e traço), até os lotes do ComfyUI.
  */
 export function CampView({ name, missions }: { name?: string; missions: number }) {
@@ -109,15 +79,6 @@ export function CampView({ name, missions }: { name?: string; missions: number }
       {game.quests.map((q) => (
         <QuestCard key={q.id} quest={q} />
       ))}
-
-      {(game.daily_boss || game.boss || game.clan_boss) && (
-        <View className="gap-4">
-          <SectionLabel title={t('camp.bosses')} />
-          {game.daily_boss && <BossCard boss={game.daily_boss} prefix={t('boss.dailyPrefix')} />}
-          {game.boss && <BossCard boss={game.boss} prefix={t('boss.weeklyPrefix')} />}
-          {game.clan_boss && <BossCard boss={game.clan_boss} prefix={t('boss.clanPrefix')} />}
-        </View>
-      )}
 
       <Text className="font-mono text-xs text-ink-muted">
         {missions > 0 ? t('camp.missions', { count: missions }) : t('camp.missionsDone')}

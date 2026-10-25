@@ -15,8 +15,11 @@ export function ProgressBar({
   className,
   fillClassName = 'bg-accent',
   label,
+  thick,
 }: {
   value: number;
+  /** Barra de 8 px arredondada, com fundo visível (vida dos bosses); o padrão é o fio de 2 px */
+  thick?: boolean;
   className?: string;
   fillClassName?: string;
   label: string;
@@ -35,7 +38,11 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(ratio * 100)}
-      className={cn('h-0.5 overflow-hidden bg-line', className)}
+      className={cn(
+        'overflow-hidden',
+        thick ? 'h-2 rounded-full bg-wash' : 'h-0.5 bg-line',
+        className,
+      )}
     >
       {/* A cor fica num View comum: o Animated.View não recebe as classes do NativeWind */}
       <Animated.View style={[{ height: '100%' }, style]}>

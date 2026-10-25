@@ -185,7 +185,6 @@
     "weeklyPrefix": "De la semana",
     "dailyStreak_one": "🔥 {{count}} día seguido derrotando al jefe del día",
     "dailyStreak_other": "🔥 {{count}} días seguidos derrotando al jefe del día",
-    "dailyHint": "Nace cada día a medianoche y huye al final del día. Cada golpe cuenta para él y para el de la semana.",
     "defeatedQuest": "¡Misión cumplida!",
     "defeatedShort": "derrotado"
   },
@@ -484,12 +483,9 @@
     "gold": "oro",
     "freezeOn": "Congelamiento semanal disponible: un día sin tareas no rompe la racha.",
     "freezeOff": "El congelamiento de esta semana ya se usó.",
-    "weeklyBoss": "Jefe de la semana",
-    "bossHint": "Cada tarea, hábito y tarjeta es un golpe; atributos y clase cambian el daño (ver Personaje). Vencer sube el nivel del próximo. Si escapa, el próximo llega sin castigo.",
     "achievements": "Logros",
     "achievementLabel": "{{name}}: {{description}}",
     "achievementLocked": "{{name}}: {{description}} (bloqueado)",
-    "dailyBoss": "Jefe del día",
     "levels": {
       "off": "Apagado",
       "light": "Discreto",
@@ -536,8 +532,6 @@
     "change": "Cambiar de clase",
     "pickHint": "La clase es tu estilo: cambia los atributos iniciales y da una pasiva y una habilidad por día. Puedes cambiarla después, sin costo.",
     "keep": "Mantener la clase actual",
-    "bossTitle": "Jefe de la semana · nivel {{level}}",
-    "bossHint": "Cada victoria sube el nivel del próximo jefe (nivel {{next}}: {{hp}} HP) y da {{xp}} XP, oro y un ítem al azar. Si escapa, el próximo llega sin castigo. Los hábitos malos curan al jefe.",
     "defeated": "jefes vencidos",
     "bestHit": "mejor golpe",
     "damageToday": "daño hoy",
@@ -588,8 +582,6 @@
     "shop": "Tienda",
     "nothingYet": "Nada todavía.",
     "itemLabel": "{{name}} ({{rarity}})",
-    "dailyTitle": "Jefe del día · nivel {{level}}",
-    "dailyHint": "Nace cada día a medianoche (unas 6 tareas). Cada victoria sube el nivel del siguiente (nivel {{next}}: {{hp}} HP) y da {{xp}} XP, oro y un {{chance}}% de probabilidad de objeto. Si huye, el de mañana llega sin castigo.",
     "dailyDefeated": "jefes del día vencidos",
     "dailyStreak": "días seguidos",
     "howDamage": "Cómo funciona el daño",
@@ -3538,6 +3530,26 @@
       "resume": "Volver a tomar",
       "options": "Opciones de {{name}}",
       "removeTitle": "¿Borrar {{name}}?"
+    }
+  },
+  "bossPanel": {
+    "label": "Jefes",
+    "how": "Cada tarea, hábito o tarjeta que completas es un golpe a todos los jefes de abajo a la vez. Los hábitos malos los curan. Fuerza, Inteligencia y la clase aumentan el golpe (mira en Personaje).",
+    "today": "Hoy: {{damage}} de daño · mayor golpe {{best}}",
+    "life": "Vida",
+    "leftSoon": "huye en menos de 1 hora",
+    "leftHours_one": "huye en 1 hora",
+    "leftHours_other": "huye en {{count}} horas",
+    "leftDays_one": "huye el {{when}} (falta 1 día)",
+    "leftDays_other": "huye el {{when}} (faltan {{count}} días)",
+    "defeated": "¡Derrotado!",
+    "reward": "Vencer da {{xp}} XP, {{gold}} de oro y un objeto; el próximo viene más fuerte ({{hp}} HP). Si huye, no pierdes nada.",
+    "rewardChance": "Vencer da {{xp}} XP, {{gold}} de oro y {{chance}}% de probabilidad de objeto; el próximo viene más fuerte ({{hp}} HP). Si huye, no pierdes nada.",
+    "clanHint": "Todo el clan golpea junto; quien ayudó gana la recompensa.",
+    "kind": {
+      "daily": "Jefe del día",
+      "weekly": "Jefe de la semana",
+      "clan": "Jefe del clan"
     }
   }
 }

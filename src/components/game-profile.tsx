@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { BossLine, ProgressBar } from '@/components/game-bar';
+import { ProgressBar } from '@/components/game-bar';
 import { Button } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
@@ -51,7 +51,7 @@ export function GameLevelSettings() {
   );
 }
 
-/** Jogo (D257): números do jogo em mono, bosses e as conquistas mais recentes. */
+/** Jogo (D257): números do jogo em mono e as conquistas mais recentes (os bosses, no BossesPanel). */
 export function GameProfile() {
   const { t } = useTranslation();
   const { data: game } = useGameState();
@@ -104,27 +104,6 @@ export function GameProfile() {
           <Text className="text-xs text-ink-muted">
             {t(game.freeze_available ? 'gameProfile.freezeOn' : 'gameProfile.freezeOff')}
           </Text>
-
-          {game.daily_boss && (
-            <View className="gap-2">
-              <SectionLabel title={t('gameProfile.dailyBoss')} className="pt-2" />
-              <BossLine boss={game.daily_boss} />
-              <Text className="text-xs text-ink-muted">
-                {t('boss.dailyHint')}
-                {game.daily_streak > 0
-                  ? ` ${t('boss.dailyStreak', { count: game.daily_streak })}`
-                  : ''}
-              </Text>
-            </View>
-          )}
-
-          {game.boss && (
-            <View className="gap-2">
-              <SectionLabel title={t('gameProfile.weeklyBoss')} className="pt-2" />
-              <BossLine boss={game.boss} />
-              <Text className="text-xs text-ink-muted">{t('gameProfile.bossHint')}</Text>
-            </View>
-          )}
 
           <View>
             <SectionLabel

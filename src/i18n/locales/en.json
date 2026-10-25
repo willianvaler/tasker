@@ -185,7 +185,6 @@
     "weeklyPrefix": "This week's",
     "dailyStreak_one": "🔥 {{count}} day in a row beating the daily boss",
     "dailyStreak_other": "🔥 {{count}} days in a row beating the daily boss",
-    "dailyHint": "Born every day at midnight and escapes at the end of the day. Every hit counts for it and for the weekly one.",
     "defeatedQuest": "Quest complete!",
     "defeatedShort": "defeated"
   },
@@ -484,12 +483,9 @@
     "gold": "gold",
     "freezeOn": "Weekly freeze available: one day without tasks won't break the streak.",
     "freezeOff": "This week's freeze has been used.",
-    "weeklyBoss": "Boss of the week",
-    "bossHint": "Every task, habit and card is a hit; attributes and class change the damage (see Character). Winning raises the next one's level. If it escapes, the next one comes with no penalty.",
     "achievements": "Achievements",
     "achievementLabel": "{{name}}: {{description}}",
     "achievementLocked": "{{name}}: {{description}} (locked)",
-    "dailyBoss": "Daily boss",
     "levels": {
       "off": "Off",
       "light": "Subtle",
@@ -536,8 +532,6 @@
     "change": "Change class",
     "pickHint": "Your class is your style: it changes your starting attributes and gives a passive and a daily skill. You can change it later, for free.",
     "keep": "Keep the current class",
-    "bossTitle": "Boss of the week · level {{level}}",
-    "bossHint": "Each win raises the next boss's level (level {{next}}: {{hp}} HP) and gives {{xp}} XP, gold and a random item. If it escapes, the next one comes with no penalty. Bad habits heal the boss.",
     "defeated": "bosses defeated",
     "bestHit": "best hit",
     "damageToday": "damage today",
@@ -588,8 +582,6 @@
     "shop": "Shop",
     "nothingYet": "Nothing yet.",
     "itemLabel": "{{name}} ({{rarity}})",
-    "dailyTitle": "Daily boss · level {{level}}",
-    "dailyHint": "Born every day at midnight (about 6 tasks). Each win raises the next one's level (level {{next}}: {{hp}} HP) and gives {{xp}} XP, gold and a {{chance}}% chance of an item. If it escapes, tomorrow's comes with no penalty.",
     "dailyDefeated": "daily bosses beaten",
     "dailyStreak": "days in a row",
     "howDamage": "How damage works",
@@ -3538,6 +3530,26 @@
       "resume": "Take again",
       "options": "Options for {{name}}",
       "removeTitle": "Delete {{name}}?"
+    }
+  },
+  "bossPanel": {
+    "label": "Bosses",
+    "how": "Every task, habit or card you complete hits all the bosses below at once. Bad habits heal them. Strength, Intelligence and your class make hits stronger (see Character).",
+    "today": "Today: {{damage}} damage · best hit {{best}}",
+    "life": "Health",
+    "leftSoon": "escapes in less than 1 hour",
+    "leftHours_one": "escapes in 1 hour",
+    "leftHours_other": "escapes in {{count}} hours",
+    "leftDays_one": "escapes {{when}} (1 day left)",
+    "leftDays_other": "escapes {{when}} ({{count}} days left)",
+    "defeated": "Defeated!",
+    "reward": "Winning gives {{xp}} XP, {{gold}} gold and an item; the next one is stronger ({{hp}} HP). If it escapes, you lose nothing.",
+    "rewardChance": "Winning gives {{xp}} XP, {{gold}} gold and a {{chance}}% chance of an item; the next one is stronger ({{hp}} HP). If it escapes, you lose nothing.",
+    "clanHint": "The whole clan hits it together; everyone who helped gets the reward.",
+    "kind": {
+      "daily": "Daily boss",
+      "weekly": "Weekly boss",
+      "clan": "Clan boss"
     }
   }
 }

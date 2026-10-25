@@ -20,9 +20,13 @@ test('modo jogo: RPG mostra o acampamento no Jogo', async ({ page }, testInfo) =
   const camp = page.getByLabel('Acampamento');
   await expect(camp).toBeVisible();
   await expect(camp.getByRole('heading', { name: 'Teste' })).toBeVisible();
-  await expect(camp.getByText('Bosses')).toBeVisible();
+  // Bosses num bloco só, abaixo do acampamento (CD28): como bater, vida, quando foge, prêmio
+  const bosses = page.getByLabel('Bosses', { exact: true });
+  await expect(bosses.getByText('Boss do dia · nv 1')).toBeVisible();
+  await expect(bosses.getByText('60/60 HP')).toBeVisible();
+  await expect(bosses.getByText(/^Vencer dá 50 XP, 20 de ouro e um item/)).toBeVisible();
   // O boss tem uma fala (entre aspas)
-  await expect(camp.getByText(/^“.+”$/).first()).toBeVisible();
+  await expect(bosses.getByText(/^“.+”$/).first()).toBeVisible();
 
   // Voltar ao Discreto tira o acampamento
   await openSettings(page);

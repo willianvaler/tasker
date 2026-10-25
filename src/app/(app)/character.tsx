@@ -10,10 +10,9 @@ import {
   DamagePanel,
   EquipmentPanel,
   HeroCard,
-  Panel,
   SkillsPanel,
 } from '@/components/character';
-import { BossLine } from '@/components/game-bar';
+import { BossesPanel } from '@/components/bosses-panel';
 import { AppearancePanel, ManaSkillsPanel, VitalBars } from '@/components/game-mode';
 import { RebirthPanel } from '@/components/rebirth-panel';
 import { Screen, ScreenScroll } from '@/components/screen';
@@ -21,8 +20,6 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
-import { bossHpForLevel, dailyBossHp } from '@/lib/character';
-import { gamificationConfig as config } from '@/lib/gamification.config';
 import { useGameLevel, useGameState } from '@/lib/queries/game';
 import { useProfile } from '@/lib/queries/profile';
 
@@ -100,31 +97,7 @@ export default function CharacterScreen() {
             {damageOpen && <DamagePanel game={game} />}
           </View>
           <View className="gap-6 lg:flex-1">
-            {game.daily_boss && (
-              <Panel title={t('character.dailyTitle', { level: game.daily_boss.level ?? 1 })}>
-                <BossLine boss={game.daily_boss} />
-                <Text className="text-xs text-ink-muted">
-                  {t('character.dailyHint', {
-                    next: (game.daily_boss.level ?? 1) + 1,
-                    hp: dailyBossHp((game.daily_boss.level ?? 1) + 1),
-                    xp: config.dailyBoss.rewardXp,
-                    chance: Math.round(config.dailyBoss.dropChance * 100),
-                  })}
-                </Text>
-              </Panel>
-            )}
-            {game.boss && (
-              <Panel title={t('character.bossTitle', { level: game.boss.level ?? 1 })}>
-                <BossLine boss={game.boss} />
-                <Text className="text-xs text-ink-muted">
-                  {t('character.bossHint', {
-                    next: (game.boss.level ?? 1) + 1,
-                    hp: bossHpForLevel((game.boss.level ?? 1) + 1),
-                    xp: config.boss.rewardXp,
-                  })}
-                </Text>
-              </Panel>
-            )}
+            <BossesPanel />
             <View className="flex-row flex-wrap gap-x-4 gap-y-1">
               <Stat value={game.bosses_defeated} label={t('character.defeated')} />
               <Stat value={game.daily_defeated} label={t('character.dailyDefeated')} />
