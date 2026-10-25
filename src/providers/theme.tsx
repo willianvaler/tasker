@@ -1,8 +1,15 @@
-import { colorScheme } from 'nativewind';
+import { colorScheme, useColorScheme, vars } from 'nativewind';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 
+import { useDarkPalette } from '@/lib/dark-palette';
 import { getThemePreference, setThemePreference, type ThemePreference } from '@/lib/prefs';
+import { DARK_PALETTE_IDS, darkPaletteVars } from '@/lib/tokens';
+
+/** Todas as variáveis que algum fundo escuro troca (para limpar ao voltar ao claro ou ao marrom). */
+const PALETTE_VARS = [
+  ...new Set(DARK_PALETTE_IDS.flatMap((id) => Object.keys(darkPaletteVars(id)))),
+];
 
 const ThemeContext = createContext<{
   preference: ThemePreference;
@@ -39,7 +46,37 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <ThemeContext.Provider value={{ preference, setPreference }}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ preference, setPreference }}>
+      <DarkPalette>{children}</DarkPalette>
+    </ThemeContext.Provider>
+  );
+}
+
+/**
+ * Fundo escolhido para o escuro (CD29): por cima das variáveis do `.dark:root`. Na web vão no
+ * <html> (o estilo da própria tag vence a regra do global.css, e o fundo atrás das telas muda
+ * junto); no celular, pelo vars() do NativeWind numa View que envolve o app.
+ */
+function DarkPalette({ children }: { children: ReactNode }) {
+  const palette = useDarkPalette();
+  const dark = useColorScheme().colorScheme === 'dark';
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const root = globalThis.document?.documentElement;
+    if (!root) return;
+    for (const name of PALETTE_VARS) root.style.removeProperty(name);
+    if (dark) {
+      for (const [name, value] of Object.entries(darkPaletteVars(palette)))
+        root.style.setProperty(name, value);
+    }
+  }, [dark, palette]);
+  if (Platform.OS === 'web') return children;
+  return (
+    <View
+      style={[{ flex: 1 }, dark && palette !== 'brown' ? vars(darkPaletteVars(palette)) : null]}
+    >
+      {children}
+    </View>
   );
 }
 

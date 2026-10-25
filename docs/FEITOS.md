@@ -202,6 +202,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD26 | Android: notificações do Modo Treino se acumulavam na tela de bloqueio (8 fixas): o app guardava só na memória o id da última e, encerrado pelo sistema, esquecia as anteriores | — |
 | V5 | CD27 | Computador: abrir o painel de uma tarefa na "Missões de hoje" deixava o fundo vazio | — |
 | V5 | CD28 | Painel dos bosses mais fácil de entender (pedido do dono): no Jogo os bosses apareciam duas vezes (acampamento ou herói e a coluna dos números) e também no Personagem, com a vida num fio de 2 px que, cheio, parecia sublinhado | — |
+| V5 | CD29 | Fundo do modo escuro à escolha: Marrom, Verde-escuro, Azul-noite, Grafite, Preto e Ameixa em Configurações → Aparência, com amostra de cada um; guardado no aparelho (`lib/dark-palette.ts`), aplicado no `<html>` na web e pelo `vars()` do NativeWind no celular; contraste AA testado nos seis (`design-tokens.test.ts`) e e2e `tema-escuro.spec.ts` (parcial) | D271 |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |

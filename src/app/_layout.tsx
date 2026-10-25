@@ -10,7 +10,8 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { FONT_FAMILY, FONTS } from '@/lib/fonts';
-import { COLORS } from '@/lib/tokens';
+import { useDarkPalette } from '@/lib/dark-palette';
+import { COLORS, darkColors, type DarkPalette, type Palette } from '@/lib/tokens';
 import { QueryProvider } from '@/providers/query';
 import { SessionProvider, useSession } from '@/providers/session';
 import { SyncProvider } from '@/providers/sync';
@@ -20,7 +21,7 @@ import { ToastProvider } from '@/providers/toast';
 SplashScreen.preventAutoHideAsync();
 
 // Navegação (abas, cabeçalhos) com as cores do tema
-const navColors = (c: (typeof COLORS)['light' | 'dark']) => ({
+const navColors = (c: Palette) => ({
   primary: c.ink,
   background: c.paper,
   card: c.surface,
@@ -39,11 +40,11 @@ const lightNavTheme = {
   colors: { ...DefaultTheme.colors, ...navColors(COLORS.light) },
   fonts: navFonts(DefaultTheme.fonts),
 };
-const darkNavTheme = {
+const darkNavTheme = (palette: DarkPalette) => ({
   ...DarkTheme,
-  colors: { ...DarkTheme.colors, ...navColors(COLORS.dark) },
+  colors: { ...DarkTheme.colors, ...navColors(darkColors(palette)) },
   fonts: navFonts(DarkTheme.fonts),
-};
+});
 
 export default function RootLayout() {
   return (
@@ -59,8 +60,9 @@ export default function RootLayout() {
 function ThemedApp() {
   // Do NativeWind: segue a escolha de tema (Sistema, Claro, Escuro), não só o sistema
   const { colorScheme } = useColorScheme();
+  const palette = useDarkPalette();
   return (
-    <NavThemeProvider value={colorScheme === 'dark' ? darkNavTheme : lightNavTheme}>
+    <NavThemeProvider value={colorScheme === 'dark' ? darkNavTheme(palette) : lightNavTheme}>
       <SessionProvider>
         <SyncProvider>
           <QueryProvider>

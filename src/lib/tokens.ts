@@ -1,5 +1,7 @@
 import { useColorScheme } from 'nativewind';
 
+import { useDarkPalette } from './dark-palette';
+
 // Tokens do design "Caderno de bolso". As cores valem também como variáveis em
 // src/global.css (o teste design-tokens compara); aqui ficam para o que não aceita classe: tema da
 // navegação, placeholder, traço de SVG.
@@ -48,11 +50,92 @@ export const COLORS = {
 } as const;
 
 export type ColorToken = keyof (typeof COLORS)['light'];
+export type Palette = Record<ColorToken, string>;
+
+/**
+ * Fundos do modo escuro (CD29): o marrom é o de sempre (COLORS.dark, também no global.css); os
+ * outros trocam só os fundos, as linhas e os tons apagados, com a luminância perto da do marrom
+ * para o texto, o acento e as cores de estado manterem o AA (o teste design-tokens confere todos).
+ */
+export const DARK_PALETTES = {
+  brown: {},
+  green: {
+    paper: '#141C18',
+    surface: '#1A241F',
+    wash: '#222E27',
+    line: '#2D3B33',
+    'ink-muted': '#95A399',
+    'accent-soft': '#3A2C1D',
+    'on-accent': '#141C18',
+    scrim: '#0A0F0C',
+    'rarity-common': '#95A399',
+  },
+  blue: {
+    paper: '#141821',
+    surface: '#1A1F2A',
+    wash: '#222834',
+    line: '#2D3441',
+    'ink-muted': '#979EAD',
+    'accent-soft': '#3A2B22',
+    'on-accent': '#141821',
+    scrim: '#0A0C11',
+    'rarity-common': '#979EAD',
+  },
+  graphite: {
+    paper: '#18181A',
+    surface: '#1F1F22',
+    wash: '#28282C',
+    line: '#333338',
+    'ink-muted': '#9C9CA3',
+    'accent-soft': '#3B2A1E',
+    'on-accent': '#18181A',
+    scrim: '#0C0C0D',
+    'rarity-common': '#9C9CA3',
+  },
+  black: {
+    paper: '#000000',
+    surface: '#0D0D0D',
+    wash: '#1A1A1A',
+    line: '#262626',
+    'ink-muted': '#9E9E9E',
+    'accent-soft': '#33220F',
+    'on-accent': '#000000',
+    scrim: '#000000',
+    'rarity-common': '#9E9E9E',
+  },
+  plum: {
+    paper: '#1A1620',
+    surface: '#211C28',
+    wash: '#2A2432',
+    line: '#362E3F',
+    'ink-muted': '#A398AE',
+    'accent-soft': '#3C2A22',
+    'on-accent': '#1A1620',
+    scrim: '#0D0B10',
+    'rarity-common': '#A398AE',
+  },
+} as const satisfies Record<string, Partial<Palette>>;
+
+export type DarkPalette = keyof typeof DARK_PALETTES;
+export const DARK_PALETTE_IDS = Object.keys(DARK_PALETTES) as DarkPalette[];
+
+/** As cores do escuro com o fundo escolhido. */
+export function darkColors(palette: DarkPalette): Palette {
+  return { ...COLORS.dark, ...DARK_PALETTES[palette] };
+}
+
+/** Variáveis do global.css que o fundo escolhido troca ({"--paper": "20 28 24"}). */
+export function darkPaletteVars(palette: DarkPalette): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(DARK_PALETTES[palette]).map(([k, hex]) => [`--${k}`, hexToRgbTriplet(hex)]),
+  );
+}
 
 /** Cores do tema que está na tela agora. */
-export function useColors() {
+export function useColors(): Palette {
   const { colorScheme } = useColorScheme();
-  return COLORS[colorScheme === 'dark' ? 'dark' : 'light'];
+  const palette = useDarkPalette();
+  return colorScheme === 'dark' ? darkColors(palette) : COLORS.light;
 }
 
 /** Cores da marca (logo, ícone, lojas; ESCOPO_V8 §0). Só no símbolo: o app usa as do tema. */

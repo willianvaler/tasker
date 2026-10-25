@@ -468,7 +468,17 @@
     "signOut": "Sign out",
     "game": "Game",
     "theme": "Theme",
-    "projectsGroup": "Projects and teams"
+    "projectsGroup": "Projects and teams",
+    "darkPalette": "Dark mode background",
+    "darkPaletteHint": "Applies when the theme is dark (chosen or from the system).",
+    "darkPalettes": {
+      "brown": "Brown",
+      "green": "Dark green",
+      "blue": "Midnight blue",
+      "graphite": "Graphite",
+      "black": "Black",
+      "plum": "Plum"
+    }
   },
   "gameProfile": {
     "toggle": "Gamification",

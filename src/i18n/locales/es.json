@@ -468,7 +468,17 @@
     "signOut": "Cerrar sesión",
     "game": "Juego",
     "theme": "Tema",
-    "projectsGroup": "Proyectos y equipos"
+    "projectsGroup": "Proyectos y equipos",
+    "darkPalette": "Fondo del modo oscuro",
+    "darkPaletteHint": "Vale cuando el tema está oscuro (elegido o por el sistema).",
+    "darkPalettes": {
+      "brown": "Marrón",
+      "green": "Verde oscuro",
+      "blue": "Azul noche",
+      "graphite": "Grafito",
+      "black": "Negro",
+      "plum": "Ciruela"
+    }
   },
   "gameProfile": {
     "toggle": "Gamificación",

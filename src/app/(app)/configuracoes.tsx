@@ -5,7 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 
 import { GameLevelSettings } from '@/components/game-profile';
-import { LanguageChooser, PanelModeChooser, ThemeChooser } from '@/components/preference-choosers';
+import {
+  DarkPaletteChooser,
+  LanguageChooser,
+  PanelModeChooser,
+  ThemeChooser,
+} from '@/components/preference-choosers';
 import { AppDownload, useApkInfo } from '@/components/app-download';
 import { PrivacySection } from '@/components/privacy-section';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
@@ -56,7 +61,6 @@ function ProfileForm({ profile }: { profile: Profile }) {
   const changed = name.trim() !== profile.display_name || timezone.trim() !== profile.timezone;
   const validTimezone = isValidTimezone(timezone.trim());
 
-
   const accountGroups = (
     <>
       <Group title={t('profile.account')}>
@@ -106,6 +110,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
 
       <Group title={t('profile.appearance')}>
         <ThemeChooser />
+        <DarkPaletteChooser />
         <LanguageChooser />
         <PanelModeChooser />
       </Group>

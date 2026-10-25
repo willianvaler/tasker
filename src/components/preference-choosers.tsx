@@ -1,13 +1,16 @@
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Chip } from '@/components/ui/chip';
 import { ToggleRow } from '@/components/ui/toggle-row';
 import { Text } from '@/components/ui/text';
 import { LOCALES, type LocalePreference } from '@/i18n/locale';
 import { useLocalePreference } from '@/i18n/use-locale';
+import { cn } from '@/lib/cn';
+import { setDarkPalette, useDarkPalette } from '@/lib/dark-palette';
 import { getPanelMode, setPanelMode, type PanelMode, type ThemePreference } from '@/lib/prefs';
+import { DARK_PALETTE_IDS, darkColors } from '@/lib/tokens';
 import { useThemePreference } from '@/providers/theme';
 
 // Preferências do aparelho usadas no Perfil e no assistente de primeiro uso (U4): tema, idioma e
@@ -45,6 +48,53 @@ export function ThemeChooser() {
             onPress={() => setPreference(theme.value)}
           />
         ))}
+      </View>
+    </Field>
+  );
+}
+
+/**
+ * Fundo do modo escuro (CD29): amostras com o fundo, o cartão e o acento de cada um. Vale quando o
+ * escuro está na tela (escolhido ou pelo sistema); dá para escolher antes, no claro.
+ */
+export function DarkPaletteChooser() {
+  const { t } = useTranslation();
+  const palette = useDarkPalette();
+  return (
+    <Field label={t('profile.darkPalette')} hint={t('profile.darkPaletteHint')}>
+      <View
+        className="flex-row flex-wrap gap-3"
+        accessibilityRole="radiogroup"
+        accessibilityLabel={t('profile.darkPalette')}
+      >
+        {DARK_PALETTE_IDS.map((id) => {
+          const c = darkColors(id);
+          const selected = palette === id;
+          return (
+            <Pressable
+              key={id}
+              accessibilityRole="radio"
+              aria-checked={selected}
+              accessibilityLabel={t(`profile.darkPalettes.${id}`)}
+              onPress={() => setDarkPalette(id)}
+              className={cn(
+                'min-h-11 items-center gap-1 rounded-lg border-2 p-1',
+                selected ? 'border-accent' : 'border-transparent hover:border-line',
+              )}
+            >
+              <View
+                style={{ backgroundColor: c.paper, borderColor: c.line }}
+                className="h-12 w-16 justify-end gap-1 rounded border p-1"
+              >
+                <View style={{ backgroundColor: c.surface }} className="h-3 rounded" />
+                <View style={{ backgroundColor: c.accent }} className="h-1 w-6 rounded-full" />
+              </View>
+              <Text className={cn('text-xs', selected ? 'font-semibold text-accent' : 'text-ink')}>
+                {t(`profile.darkPalettes.${id}`)}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
     </Field>
   );

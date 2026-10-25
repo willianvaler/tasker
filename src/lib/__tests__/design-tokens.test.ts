@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 
-import { COLORS, hexToRgbTriplet } from '../tokens';
+import { COLORS, DARK_PALETTE_IDS, darkColors, hexToRgbTriplet } from '../tokens';
 
 // Nada de valor solto em componente.
 declare const require: (id: string) => unknown;
@@ -82,8 +82,12 @@ describe('contraste AA (F4)', () => {
     const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
     return (x + 0.05) / (y + 0.05);
   };
-  test.each(['light', 'dark'] as const)('texto %s tem pelo menos 4,5:1 nos fundos', (scheme) => {
-    const c = COLORS[scheme];
+  // Claro, escuro (marrom) e os outros fundos do escuro (CD29)
+  const schemes = [
+    ['light', COLORS.light],
+    ...DARK_PALETTE_IDS.map((id) => [`dark ${id}`, darkColors(id)] as const),
+  ] as const;
+  test.each(schemes)('texto %s tem pelo menos 4,5:1 nos fundos', (_, c) => {
     for (const fg of [
       'ink',
       'ink-muted',
