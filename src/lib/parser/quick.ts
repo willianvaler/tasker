@@ -33,6 +33,9 @@ export type TaskMeta = {
   weight?: string;
   /** Séries avançadas ("1×14, 2×10, 1×8"): o que cada série pede; `sets` é a soma */
   groups?: SetGroup[];
+  /** Prato do cardápio da semana (BE2, lib/diet.ts): refeição e dias da semana (0 = domingo) */
+  meal?: 'breakfast' | 'lunch' | 'snack' | 'dinner';
+  days?: number[];
 };
 
 export type ParsedTask = {

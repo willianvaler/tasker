@@ -3491,7 +3491,7 @@
     "showAllHint": "Desactivado, el panel muestra lo que la tarea usa; lo demás entra por + Agregar."
   },
   "wellness": {
-    "eyebrow": "Entrenamiento, salud y medicamentos",
+    "eyebrow": "Entrenamiento, dieta, hábitos y medicamentos",
     "workoutHint": "Los entrenamientos, la Biblioteca y las estadísticas (o activa \"Gimnasio dentro de Bienestar\" en Ajustes)",
     "workoutOffHint": "Activa el Entrenamiento en Ajustes → Recursos",
     "gymInside": "Gimnasio dentro de Bienestar",
@@ -3677,5 +3677,62 @@
     "moved_one": "1 ejercicio movido a {{page}}",
     "moved_other": "{{count}} ejercicios movidos a {{page}}",
     "error": "No se pudieron llevar: {{message}}"
+  },
+  "diet": {
+    "title": "Dieta",
+    "intro": "Arma el menú de la semana: los platos de cada día, por comida, con los ingredientes. La app muestra aquí lo que hay para hoy y genera la lista de compras de la semana.",
+    "start": "Armar el menú de la semana",
+    "folder": "Dieta",
+    "pageName": "Menú de la semana",
+    "error": "No se pudo guardar: {{message}}",
+    "today": "Menú de hoy",
+    "nothingToday": "Nada en el menú de hoy.",
+    "week": "Menú de la semana",
+    "weekHint": "Toca el + de una comida para poner un plato. Marcado, el plato queda marcado hasta que cambie la semana, el lunes.",
+    "asList": "Ver como lista",
+    "todayTag": "hoy",
+    "addTo": "Poner plato en {{meal}} del {{day}}",
+    "noDay": "Sin día",
+    "missing": "Todavía no hay menú",
+    "missingHint": "Arma uno en Bienestar → Dieta.",
+    "newDish": "Plato nuevo",
+    "dishName": "Nombre del plato",
+    "dishPlaceholder": "ej.: Pollo a la plancha con arroz",
+    "meal": "Comida",
+    "days": "Qué días",
+    "ingredients": "Ingredientes",
+    "ingredientsPlaceholder": "Uno por línea (ej.: 200 g de pollo)",
+    "meals": {
+      "breakfast": "Desayuno",
+      "lunch": "Almuerzo",
+      "snack": "Merienda",
+      "dinner": "Cena"
+    }
+  },
+  "healthy": {
+    "title": "Vida saludable",
+    "intro": "Hábitos listos para poner en la pantalla Hábitos con un toque. Después puedes cambiar el nombre, la meta y los días, como cualquier hábito.",
+    "daily": "todos los días",
+    "perDay_one": "{{count}} vez al día",
+    "perDay_other": "{{count}} veces al día",
+    "add": "Añadir",
+    "addLabel": "Añadir el hábito {{title}}",
+    "done": "Añadido",
+    "doneLabel": "{{title}} ya está en los hábitos",
+    "added": "\"{{title}}\" fue a los hábitos",
+    "error": "No se pudo añadir: {{message}}",
+    "items": {
+      "water": "Tomar un vaso de agua",
+      "sleep": "Dormir 8 horas",
+      "walk": "Caminar 30 minutos",
+      "steps": "Dar 10 mil pasos",
+      "fruit": "Comer una fruta",
+      "veggies": "Comer verdura en el almuerzo",
+      "noSugar": "Sin azúcar",
+      "stretch": "Estirar",
+      "meditate": "Meditar 10 minutos",
+      "screens": "Sin pantallas 1 hora antes de dormir",
+      "sun": "Tomar sol 15 minutos"
+    }
   }
 }

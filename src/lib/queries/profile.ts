@@ -76,7 +76,11 @@ export type UiPrefs = {
   /** Revisão semanal (PB3): última feita ou dispensada */
   review?: ReviewPrefs;
   /** Bem-estar (D270): a Academia aparece dentro dele em vez de ter lugar próprio */
-  wellness?: { gym?: boolean };
+  wellness?: {
+    gym?: boolean;
+    /** Cardápio da semana (BE2): a lista da pasta Dieta */
+    diet?: { pageId?: string };
+  };
   /** Registro do treino (AC4): unidade de carga e escala de esforço */
   gym?: {
     unit?: WeightUnit;

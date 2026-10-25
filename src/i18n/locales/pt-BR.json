@@ -3491,7 +3491,7 @@
     "showAllHint": "Desligado, o painel mostra o que a tarefa usa; o resto entra pelo + Adicionar."
   },
   "wellness": {
-    "eyebrow": "Treino, saúde e remédios",
+    "eyebrow": "Treino, dieta, hábitos e remédios",
     "workoutHint": "Os treinos, a Biblioteca e as estatísticas (ou ligue \"Academia dentro do Bem-estar\" em Configurações)",
     "workoutOffHint": "Ligue o Treino em Configurações → Recursos",
     "gymInside": "Academia dentro do Bem-estar",
@@ -3677,5 +3677,62 @@
     "moved_one": "1 exercício movido para {{page}}",
     "moved_other": "{{count}} exercícios movidos para {{page}}",
     "error": "Não deu para levar: {{message}}"
+  },
+  "diet": {
+    "title": "Dieta",
+    "intro": "Monte o cardápio da semana: os pratos de cada dia, por refeição, com os ingredientes. O app mostra aqui o que tem para hoje e gera a lista de compras da semana.",
+    "start": "Montar o cardápio da semana",
+    "folder": "Dieta",
+    "pageName": "Cardápio da semana",
+    "error": "Não deu para salvar: {{message}}",
+    "today": "Cardápio de hoje",
+    "nothingToday": "Nada no cardápio de hoje.",
+    "week": "Cardápio da semana",
+    "weekHint": "Toque no + de uma refeição para pôr um prato. Marcado, o prato fica marcado até a semana virar, na segunda.",
+    "asList": "Ver como lista",
+    "todayTag": "hoje",
+    "addTo": "Pôr prato no {{meal}} de {{day}}",
+    "noDay": "Sem dia",
+    "missing": "Ainda não há cardápio",
+    "missingHint": "Monte um em Bem-estar → Dieta.",
+    "newDish": "Novo prato",
+    "dishName": "Nome do prato",
+    "dishPlaceholder": "ex.: Frango grelhado com arroz",
+    "meal": "Refeição",
+    "days": "Em que dias",
+    "ingredients": "Ingredientes",
+    "ingredientsPlaceholder": "Um por linha (ex.: 200 g de frango)",
+    "meals": {
+      "breakfast": "Café",
+      "lunch": "Almoço",
+      "snack": "Lanche",
+      "dinner": "Jantar"
+    }
+  },
+  "healthy": {
+    "title": "Vida saudável",
+    "intro": "Hábitos prontos para pôr na tela Hábitos com um toque. Depois dá para mudar o nome, a meta e os dias, como qualquer hábito.",
+    "daily": "todo dia",
+    "perDay_one": "{{count}} vez por dia",
+    "perDay_other": "{{count}} vezes por dia",
+    "add": "Adicionar",
+    "addLabel": "Adicionar o hábito {{title}}",
+    "done": "Adicionado",
+    "doneLabel": "{{title}} já está nos hábitos",
+    "added": "\"{{title}}\" foi para os hábitos",
+    "error": "Não deu para adicionar: {{message}}",
+    "items": {
+      "water": "Beber um copo de água",
+      "sleep": "Dormir 8 horas",
+      "walk": "Caminhar 30 minutos",
+      "steps": "Dar 10 mil passos",
+      "fruit": "Comer uma fruta",
+      "veggies": "Comer verdura no almoço",
+      "noSugar": "Ficar sem açúcar",
+      "stretch": "Alongar",
+      "meditate": "Meditar 10 minutos",
+      "screens": "Sem tela 1 hora antes de dormir",
+      "sun": "Pegar sol 15 minutos"
+    }
   }
 }

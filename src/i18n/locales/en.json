@@ -3491,7 +3491,7 @@
     "showAllHint": "When off, the panel shows what the task uses; the rest comes in through + Add."
   },
   "wellness": {
-    "eyebrow": "Workouts, health and medicines",
+    "eyebrow": "Workouts, diet, habits and medicines",
     "workoutHint": "Workouts, the Library and stats (or turn on \"Gym inside Wellness\" in Settings)",
     "workoutOffHint": "Turn on Workouts in Settings → Features",
     "gymInside": "Gym inside Wellness",
@@ -3677,5 +3677,62 @@
     "moved_one": "1 exercise moved to {{page}}",
     "moved_other": "{{count}} exercises moved to {{page}}",
     "error": "Couldn't take them: {{message}}"
+  },
+  "diet": {
+    "title": "Diet",
+    "intro": "Plan the week's menu: each day's dishes, by meal, with the ingredients. The app shows what's on for today here and makes the week's shopping list.",
+    "start": "Plan the week's menu",
+    "folder": "Diet",
+    "pageName": "Weekly menu",
+    "error": "Couldn't save: {{message}}",
+    "today": "Today's menu",
+    "nothingToday": "Nothing on today's menu.",
+    "week": "Weekly menu",
+    "weekHint": "Tap a meal's + to add a dish. A checked dish stays checked until the week turns, on Monday.",
+    "asList": "View as a list",
+    "todayTag": "today",
+    "addTo": "Add a dish to {{day}} {{meal}}",
+    "noDay": "No day",
+    "missing": "There is no menu yet",
+    "missingHint": "Make one in Wellness → Diet.",
+    "newDish": "New dish",
+    "dishName": "Dish name",
+    "dishPlaceholder": "e.g. Grilled chicken with rice",
+    "meal": "Meal",
+    "days": "On which days",
+    "ingredients": "Ingredients",
+    "ingredientsPlaceholder": "One per line (e.g. 200 g chicken)",
+    "meals": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "snack": "Snack",
+      "dinner": "Dinner"
+    }
+  },
+  "healthy": {
+    "title": "Healthy living",
+    "intro": "Ready-made habits to add to the Habits screen with one tap. You can change the name, goal and days later, like any habit.",
+    "daily": "every day",
+    "perDay_one": "{{count}} time a day",
+    "perDay_other": "{{count}} times a day",
+    "add": "Add",
+    "addLabel": "Add the {{title}} habit",
+    "done": "Added",
+    "doneLabel": "{{title}} is already in your habits",
+    "added": "\"{{title}}\" went to your habits",
+    "error": "Couldn't add it: {{message}}",
+    "items": {
+      "water": "Drink a glass of water",
+      "sleep": "Sleep 8 hours",
+      "walk": "Walk 30 minutes",
+      "steps": "Take 10,000 steps",
+      "fruit": "Eat a piece of fruit",
+      "veggies": "Eat vegetables at lunch",
+      "noSugar": "Skip sugar",
+      "stretch": "Stretch",
+      "meditate": "Meditate 10 minutes",
+      "screens": "No screens 1 hour before bed",
+      "sun": "Get 15 minutes of sun"
+    }
   }
 }
