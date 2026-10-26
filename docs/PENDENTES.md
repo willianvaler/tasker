@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V11.md`), numa tabela só
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 26/10/2026. Produção na v2026.10.24.2 (https://questlist.wavdev.org). Em 26/10: Treinar com… em qualquer treino (AC15A, D277) e painel do treinador no Alunos (AC13, D278). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
+Atualizado em 26/10/2026. Produção na v2026.10.26 (https://questlist.wavdev.org; APK código 380). Em 26/10: Treinar com… em qualquer treino (AC15A, D277) e painel do treinador no Alunos (AC13, D278). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
 
 ## Para fazer depois (pedido do dono, 20/10, noite)
 
