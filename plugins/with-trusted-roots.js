@@ -1,4 +1,4 @@
-// Raízes do Let's Encrypt dentro do APK (D215). O certificado do tasker.wavdev.org vem da cadeia
+// Raízes do Let's Encrypt dentro do APK (D215). O certificado do questlist.wavdev.org vem da cadeia
 // nova do Let's Encrypt (YE1 → Root YE → ISRG Root X2 → ISRG Root X1, só ECDSA): celular com o
 // repositório de raízes antigo (Android 7.0 não tem o X1; vários não têm X2 nem Root YE) falhava
 // no handshake. Com estas raízes como âncoras extras, a cadeia fecha em qualquer Android 7+. As

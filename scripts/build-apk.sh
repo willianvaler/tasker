@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # APK para Android instalado direto (U7, D155), sem loja e sem EAS: gera android/ (CNG, fora do
 # git), compila o release assinado e deixa em downloads/questlist.apk + downloads/apk.json, que o
-# scripts/serve.mjs entrega em https://tasker.wavdev.org/downloads/. O botão do Perfil lê o apk.json.
+# scripts/serve.mjs entrega em https://questlist.wavdev.org/downloads/. O botão do Perfil lê o apk.json.
 #
 # Precisa do JDK 17 e do Android SDK 36 (docs/OPERACOES.md). A chave de assinatura e a senha ficam
 # em ~/.config/questlist/ (NUNCA no repositório); se não existirem, são criadas. Perder a chave =
@@ -36,7 +36,7 @@ fi
 # shellcheck disable=SC1090
 source "$SECRETS"
 
-URL="${QUESTLIST_URL:-https://tasker.wavdev.org}"
+URL="${QUESTLIST_URL:-https://questlist.wavdev.org}"
 export EXPO_PUBLIC_SUPABASE_URL="$URL/supabase"
 export EXPO_PUBLIC_POWERSYNC_URL="$URL/powersync"
 export EXPO_PUBLIC_WEB_URL="$URL"
