@@ -77,7 +77,7 @@ test('tema: Sistema segue o navegador; Claro e Escuro valem mesmo recarregando',
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(html).not.toHaveClass(/dark/);
 
-  await page.getByRole('radio', { name: 'Escuro' }).click();
+  await page.getByRole('radio', { name: 'Escuro', exact: true }).click();
   await expect(html).toHaveClass(/dark/);
   const background = await page.evaluate(() =>
     getComputedStyle(document.documentElement).getPropertyValue('--paper').trim(),
@@ -101,8 +101,8 @@ test('assistente de primeiro uso: do seu jeito, captura, pasta inicial e gamific
   // 0. Do seu jeito (U4): tema, e segue
   await expect(page.getByRole('heading', { name: 'Do seu jeito' })).toBeVisible();
   await expect(page.getByText('1/4')).toBeVisible();
-  await page.getByRole('radio', { name: 'Escuro' }).click();
-  await expect(page.getByRole('radio', { name: 'Escuro' })).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('radio', { name: 'Escuro', exact: true }).click();
+  await expect(page.getByRole('radio', { name: 'Escuro', exact: true })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByRole('button', { name: 'Testar aviso' })).toBeVisible();
   await page.getByRole('button', { name: 'Próximo' }).click();
 
