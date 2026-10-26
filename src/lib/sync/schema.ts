@@ -270,6 +270,7 @@ const page_shares = new Table(
     created_at: column.text,
     accepted_at: column.text,
     last_reminded_at: column.text,
+    group_id: column.text,
   },
   { indexes: { page: ['page_id'] } },
 );

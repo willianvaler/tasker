@@ -25,6 +25,7 @@ import { PageView } from '@/components/tasks/page-view';
 import { Text } from '@/components/ui/text';
 import { Button, IconButton } from '@/components/ui/button';
 import { CarryExercisesDialog } from '@/components/gym/carry-exercises';
+import { PageGroupsDialog } from '@/components/gym/page-groups';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { effectiveMaxDepth } from '@/config/limits';
@@ -59,7 +60,8 @@ type DialogState =
   | 'fields'
   | 'shopping'
   | 'publish'
-  | 'carry';
+  | 'carry'
+  | 'groups';
 
 export default function PageScreen() {
   const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
@@ -128,6 +130,10 @@ export default function PageScreen() {
             : []),
           ...(sharable && !expensesPage
             ? [{ label: t('send.menu'), onPress: () => setDialog('send') }]
+            : []),
+          // AC15B: treino da Academia também aparece em grupos de treino
+          ...(sharable && shareRoot?.is_gym
+            ? [{ label: t('pageGroups.menu'), onPress: () => setDialog('groups') }]
             : []),
           ...(!expensesPage
             ? [{ label: t('publish.menu'), onPress: () => setDialog('publish') }]
@@ -391,6 +397,7 @@ export default function PageScreen() {
         <ActionMenu title={t('page.share')} onClose={closeDialog} actions={shareActions} />
       )}
       {page && dialog === 'send' && <SendPageDialog page={page} onClose={closeDialog} />}
+      {page && dialog === 'groups' && <PageGroupsDialog page={page} onClose={closeDialog} />}
       {page && dialog === 'carry' && (
         <CarryExercisesDialog page={page} tasks={pageTasks.data ?? []} onClose={closeDialog} />
       )}

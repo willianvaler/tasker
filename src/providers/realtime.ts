@@ -37,6 +37,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   workout_session_members: [['workout-session'], ['workout-invites']],
   // Desafios do grupo (AC10.4): ranking, mural e chat
   challenges: [['challenges']],
+  // Treino da Academia num grupo (AC15B): os treinos do grupo e os recebidos
+  page_group_links: [['page-groups'], ['received']],
   group_posts: [['group-posts']],
   group_post_reactions: [['group-posts']],
 };

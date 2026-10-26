@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
+import { GroupLinkedPages } from '@/components/gym/page-groups';
 import { useFolderActions } from '@/components/folder-actions';
 import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
 import { ItemIcon } from '@/components/item-icon';
@@ -223,6 +224,8 @@ export default function FolderScreen() {
                 onMenu={writable ? () => actions.pageMenu(page) : undefined}
               />
             ))}
+            {/* AC15B: treinos que membros puseram no grupo, vindos da Academia deles */}
+            {folder?.gym_group && <GroupLinkedPages folderId={folder.id} />}
           </View>
           {empty && (
             <View className="items-center">

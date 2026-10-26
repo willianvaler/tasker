@@ -1083,6 +1083,38 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"page_group_links": {
+                  Row: {
+                    "added_by": string | null,"created_at": string,"folder_id": string,"page_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "added_by"?: string | null,"created_at"?: string,"folder_id": string,"page_id": string
+                  }
+                  Update: {
+                    "added_by"?: string | null,"created_at"?: string,"folder_id"?: string,"page_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "page_group_links_added_by_fkey"
+      columns: ["added_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_group_links_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_group_links_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"page_share_links": {
                   Row: {
                     "created_at": string,"created_by": string,"expires_at": string,"id": string,"mode": string,"page_id": string,"revoked_at": string | null,"token": string
@@ -1111,14 +1143,14 @@ isOneToOne: false
                   ]
                 },"page_shares": {
                   Row: {
-                    "accepted_at": string | null,"copy_page_id": string | null,"created_at": string,"id": string,"last_reminded_at": string | null,"link_id": string | null,"mode": string,"owner_id": string,"page_id": string,"recipient_email": string | null,"recipient_id": string | null,"status": string
+                    "accepted_at": string | null,"copy_page_id": string | null,"created_at": string,"group_id": string | null,"id": string,"last_reminded_at": string | null,"link_id": string | null,"mode": string,"owner_id": string,"page_id": string,"recipient_email": string | null,"recipient_id": string | null,"status": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id": string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
+                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"group_id"?: string | null,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id": string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
                   }
                   Update: {
-                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id"?: string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
+                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"group_id"?: string | null,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id"?: string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
                   }
                   Relationships: [
                     {
@@ -1126,6 +1158,12 @@ isOneToOne: false
       columns: ["copy_page_id"]
 isOneToOne: false
       referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "page_shares_group_id_fkey"
+      columns: ["group_id"]
+isOneToOne: false
+      referencedRelation: "folders"
       referencedColumns: ["id"]
     },{
       foreignKeyName: "page_shares_link_fk"
@@ -2491,6 +2529,9 @@ isOneToOne: false
 "_sync_boss_rewards":
 { Args: { "p_boss": Omit<Database["public"]['Tables']["bosses"]['Row'], Database["public"]['Tables']["bosses"]['ComputedFields']> }; Returns: undefined
                            },
+"_sync_group_shares":
+{ Args: { "p_page_id": string }; Returns: undefined
+                           },
 "_sync_team_access":
 { Args: { "p_folder_id"?: string,"p_team_id": string,"p_user_id": string }; Returns: undefined
                            },
@@ -2962,6 +3003,11 @@ isOneToOne: false
 "grants_can":
 { Args: { "p_grants": (string)[],"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
                            },
+"group_linked_pages":
+{ Args: { "p_folder_id": string }; Returns: {
+              "icon": string,"name": string,"owner_id": string,"owner_name": string,"page_id": string,"view_type": string
+            }[]
+                           },
 "habit_count_key":
 { Args: { "p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: string
                            },
@@ -3112,6 +3158,11 @@ isOneToOne: false
 "page_dependency_path":
 { Args: { "p_from": string,"p_to": string }; Returns: (string)[]
                            },
+"page_group_options":
+{ Args: { "p_page_id": string }; Returns: {
+              "folder_id": string,"icon": string,"linked": boolean,"members": number,"name": string
+            }[]
+                           },
 "page_max_depth":
 { Args: { "p_page_id": string }; Returns: number
                            },
@@ -3252,6 +3303,9 @@ isOneToOne: false
                            },
 "set_member_role":
 { Args: { "p_folder_id": string,"p_role": Database["public"]['Enums']["folder_role"],"p_user_id": string }; Returns: undefined
+                           },
+"set_page_groups":
+{ Args: { "p_folder_ids": (string)[],"p_page_id": string }; Returns: undefined
                            },
 "set_project_team":
 { Args: { "p_folder_id": string,"p_team_id": string }; Returns: undefined
@@ -3431,6 +3485,9 @@ isOneToOne: false
                            },
 "undo_habit_tick":
 { Args: { "p_event_id": string }; Returns: Json
+                           },
+"unlink_page_group":
+{ Args: { "p_folder_id": string,"p_page_id": string }; Returns: undefined
                            },
 "update_timer":
 { Args: { "p_action": string,"p_at"?: string,"p_id": string,"p_seconds"?: number }; Returns: {

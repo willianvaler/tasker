@@ -3770,5 +3770,18 @@
     "drag": "Drag {{name}} to another workout",
     "dropHere": "Drop an exercise here.",
     "empty": "You need two workouts or more"
+  },
+  "pageGroups": {
+    "menu": "Add to a group",
+    "title": "Add to a group",
+    "hint": "The workout stays in your Gym. Group members see it and train with it, each with their own log; what you change here reaches everyone.",
+    "none": "You're not in any workout group where you can add workouts yet.",
+    "members_one": "{{count}} person",
+    "members_other": "{{count}} people",
+    "saved_one": "Workout in {{count}} group",
+    "saved_other": "Workout in {{count}} groups",
+    "yours": "yours, from the Gym",
+    "from": "by {{name}}",
+    "remove": "Remove {{name}} from the group"
   }
 }

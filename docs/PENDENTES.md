@@ -12,7 +12,7 @@ Atualizado em 26/10/2026. Produção na v2026.10.26 (https://questlist.wavdev.or
 
 | Ordem | Id | O que | Tamanho |
 |---|---|---|---|
-| 7 | AC15B–C | Treino ↔ grupo nos dois sentidos e bloco Desafios estilo GymRats (decidido em 21/10, D252; **não começar sem o dono pedir**; o AC15A saiu em 26/10, D277) | médio + grande |
+| 7 | AC15C | Bloco Desafios estilo GymRats (decidido em 21/10, D252; o AC15A saiu em 26/10, D277, e o AC15B em 26/10, D279) | grande |
 
 Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.2 (arquivos de exemplo do dono), AC14 (treinador por IA). O trabalho vai direto na `main` (alpha) e sobe para a produção pelo `npm run promover`.
 
@@ -38,7 +38,6 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V5 | §8 | Login com o Google (Supabase Auth, nativo no Android/iOS) — **não fazer agora** | pendente | projeto no Google Cloud (dono) |
 | **V6** | AC7.4 | Pergunta do peso do corpo no início do treino: **desligada por padrão** (liga no Perfil); importar do Health Connect / Apple Saúde fica com o V7 | pendente | AC7.3, V7 |
 | V6 | AC12.2 | Importadores Strong, Hevy e FitNotes | pendente | arquivos de exemplo do dono |
-| V6 | AC15B | **Treino ↔ grupo nos dois sentidos**: continua criar o grupo e pôr treinos dentro; e, num treino da Academia, "Adicionar a um grupo" (um ou vários), com o treino seguindo da pessoa e cada um com o próprio diário (reaproveita a página enviada ao vivo, D133) (D252) | decidido, aguardando o dono | — |
 | V6 | AC15C | **Bloco Desafios (estilo GymRats)** abaixo da Academia: o desafio é o próprio grupo (membros, mural, chat, prêmio); "+" cria, traz gente de grupos/times/amigos e gera código ou link que qualquer um usa para entrar direto (o criador remove gente e cancela ou troca o código); cada treino concluído no app (ou vindo de outro app, V7) é uma atividade; ranking configurável: dias ativos, número de atividades, minutos, pontos; os desafios atuais migram (D252). **Medir a complexidade de novo antes de começar** | decidido, aguardando o dono | — |
 | V6 | AC15D | Atividades de apps de terceiros (Strava, Health Connect, Apple Saúde) entram como mais uma origem do AC15C | pendente | V7 |
 | V6 | AC13.2 | Treinador define a regra de progressão e a carga inicial de cada aluno ("definido pelo treinador"; o painel saiu em 26/10, D278) | pendente | — |

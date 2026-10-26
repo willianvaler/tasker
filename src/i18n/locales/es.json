@@ -3770,5 +3770,18 @@
     "drag": "Arrastrar {{name}} a otro entrenamiento",
     "dropHere": "Suelta un ejercicio aquí.",
     "empty": "Necesitas dos entrenamientos o más"
+  },
+  "pageGroups": {
+    "menu": "Añadir a un grupo",
+    "title": "Añadir a un grupo",
+    "hint": "El entrenamiento sigue en tu Gimnasio. Quien es del grupo lo ve y entrena con él, cada uno con su propio diario; lo que cambies aquí llega a todos.",
+    "none": "Todavía no estás en ningún grupo de entrenamiento donde puedas poner entrenamientos.",
+    "members_one": "{{count}} persona",
+    "members_other": "{{count}} personas",
+    "saved_one": "Entrenamiento en {{count}} grupo",
+    "saved_other": "Entrenamiento en {{count}} grupos",
+    "yours": "tuyo, del Gimnasio",
+    "from": "de {{name}}",
+    "remove": "Quitar {{name}} del grupo"
   }
 }

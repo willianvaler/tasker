@@ -3770,5 +3770,18 @@
     "drag": "Arrastar {{name}} para outro treino",
     "dropHere": "Solte um exercício aqui.",
     "empty": "É preciso ter dois treinos ou mais"
+  },
+  "pageGroups": {
+    "menu": "Adicionar a um grupo",
+    "title": "Adicionar a um grupo",
+    "hint": "O treino continua na sua Academia. Quem é do grupo vê e treina por ele, cada um com o próprio diário; o que você mudar aqui chega para todos.",
+    "none": "Você ainda não está em nenhum grupo de treino em que possa pôr treinos.",
+    "members_one": "{{count}} pessoa",
+    "members_other": "{{count}} pessoas",
+    "saved_one": "Treino em {{count}} grupo",
+    "saved_other": "Treino em {{count}} grupos",
+    "yours": "seu, da Academia",
+    "from": "de {{name}}",
+    "remove": "Tirar {{name}} do grupo"
   }
 }

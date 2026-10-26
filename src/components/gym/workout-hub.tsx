@@ -14,6 +14,7 @@ import { View } from 'react-native';
 
 import { FolderSection, PageRow } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
+import { GroupLinkedPages } from '@/components/gym/page-groups';
 import { TodayWorkout } from '@/components/gym/week-plan';
 import { HubRow, HubSection } from '@/components/hub';
 import { GymToggle } from '@/components/sidebar-settings';
@@ -90,13 +91,15 @@ export function WorkoutHub() {
               />
             )}
             {groups.map((group) => (
-              <FolderSection
-                key={group.id}
-                folder={group}
-                onMenu={online ? () => actions.folderMenu(group) : undefined}
-                firstLabel={t('gym.firstWorkout')}
-                onNewPage={online ? () => actions.newGroupWorkout(group.id) : undefined}
-              />
+              <View key={group.id}>
+                <FolderSection
+                  folder={group}
+                  onMenu={online ? () => actions.folderMenu(group) : undefined}
+                  firstLabel={t('gym.firstWorkout')}
+                  onNewPage={online ? () => actions.newGroupWorkout(group.id) : undefined}
+                />
+                <GroupLinkedPages folderId={group.id} indent />
+              </View>
             ))}
             <Button
               variant="ghost"
