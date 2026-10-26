@@ -13,7 +13,7 @@ Passo a passo para tirar o app do PC e pôr num servidor com **Linux Mint 22** (
 | `downloads/` | O APK publicado (`/downloads/questlist.apk`) |
 | Volumes do banco e do Storage | Cópia fiel: contas, senhas, tarefas e anexos |
 | `banco.dump` | `pg_dump` de segurança (se a cópia dos volumes der problema) |
-| Token e config do túnel | O mesmo `tasker.wavdev.org`, sem mexer no painel da Cloudflare |
+| Token e config do túnel | O mesmo `questlist.wavdev.org` (e `tasker.wavdev.org`), sem mexer no painel da Cloudflare |
 | `~/.config/questlist/` | A chave que assina o APK (sem ela, o celular não aceita atualizar o app) |
 
 Fica de fora o que se refaz sozinho: `node_modules`, `android/`, `dist*`.
@@ -71,7 +71,7 @@ Depois:
 - **SSH:** login como root desligado e `fail2ban` contra tentativas de senha. Com `--chave-ssh`, só a sua chave entra (login por senha desligado). Por padrão, aceita SSH só da rede de casa; `--ssh-de-fora` libera de qualquer rede (só faça isso com chave).
 - **Firewall (ufw):** recusa tudo o que chega, menos SSH e a porta 80, ambos só da rede de casa. O túnel não precisa de porta aberta (ele sai do servidor para a Cloudflare).
 - **Docker:** as portas dos containers ficam só em `127.0.0.1`. Sem isso, o Docker passaria por fora do ufw e o Postgres apareceria na rede.
-- **nginx:** `http://IP-DO-SERVIDOR` abre o app na rede de casa (repassa para o `serve.mjs`). O acesso de fora continua pelo túnel em `https://tasker.wavdev.org`. Para não instalar: `--sem-nginx`.
+- **nginx:** `http://IP-DO-SERVIDOR` abre o app na rede de casa (repassa para o `serve.mjs`). O acesso de fora continua pelo túnel em `https://questlist.wavdev.org`. Para não instalar: `--sem-nginx`.
 - **Serviços** (systemd do usuário, sobem no boot sem login): `tasker-db`, `tasker-powersync`, `tasker-web` e `tasker-tunnel`, como no PC.
 
 ## Diferenças em relação ao PC

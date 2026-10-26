@@ -2,7 +2,7 @@
 
 | Ambiente | Onde | Endereço | Versão | Dados |
 |---|---|---|---|---|
-| **Produção** | Servidor, `~/projects/task_tracking` | https://tasker.wavdev.org | Uma tag `vAAAA.MM.DD` | Os de verdade |
+| **Produção** | Servidor, `~/projects/task_tracking` | https://questlist.wavdev.org | Uma tag `vAAAA.MM.DD` | Os de verdade |
 | **Alpha** (pré-produção) | Servidor, `~/projects/task_tracking-alpha` | https://alpha-questlist.wavdev.org | A última `main` (atualiza sozinho a cada 5 min) | Cópia da produção, quando você pedir |
 | **Desenvolvimento** | PC, `~/projects/task_tracking` | http://localhost:8082 | O que está sendo feito | Banco local de testes |
 | **Lab** (experimental) | PC, `~/projects/task_tracking-lab` (branch `lab`) | http://localhost:8083 | O que você quiser testar | Banco próprio, mínimo |
@@ -32,7 +32,7 @@ Voltar a produção para uma versão anterior: no servidor, `cd ~/projects/task_
 - Recopiar os dados da produção: `cd ~/projects/task_tracking-alpha && bash scripts/servidor/alpha-copiar-producao.sh`. Apaga os dados do alpha. Copia com a produção rodando e só a pausa para acertar a diferença, alguns segundos (os pedidos esperam e seguem; a primeira cópia, de 17/10, ainda sem isso, pausou 59 s). No alpha, todos entram de novo, com o mesmo e-mail e senha; o alpha nunca manda push.
 - Segredos próprios: um login do alpha não vale na produção, e vice-versa.
 - Sem Studio e logs, para economizar memória no servidor. As funções sobem (leitura de foto, D219): a chave do Gemini vai em `supabase/functions/.env` do alpha, e o `systemctl --user restart tasker-alpha-db` aplica.
-- Endereço com um nível só (`alpha-questlist`, não `alpha.questlist`): o certificado gratuito da Cloudflare cobre só `*.wavdev.org`. A produção responde por `tasker.wavdev.org` e por `questlist.wavdev.org` (mesma rota, porta 8081).
+- Endereço com um nível só (`alpha-questlist`, não `alpha.questlist`): o certificado gratuito da Cloudflare cobre só `*.wavdev.org`. A produção responde por `questlist.wavdev.org` (o principal) e ainda por `tasker.wavdev.org` (mesma rota, porta 8081).
 - Logs: `journalctl --user -u tasker-alpha-web` (ou `-db`, `-powersync`, `-atualizar`).
 
 ## Lab (PC)

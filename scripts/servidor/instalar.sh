@@ -193,7 +193,7 @@ if [ -n "${EXPECT_USERS:-}" ] && [ "$USERS" != "$EXPECT_USERS" ]; then
 fi
 
 passo "Web publicada (dist-remote)"
-EXPO_PUBLIC_SUPABASE_URL=/supabase EXPO_PUBLIC_POWERSYNC_URL=/powersync EXPO_PUBLIC_WEB_URL=https://tasker.wavdev.org \
+EXPO_PUBLIC_SUPABASE_URL=/supabase EXPO_PUBLIC_POWERSYNC_URL=/powersync EXPO_PUBLIC_WEB_URL=https://questlist.wavdev.org \
   npx expo export --platform web --clear --output-dir dist-remote >/dev/null
 echo ok
 
@@ -255,7 +255,7 @@ WantedBy=default.target
 EOF
 cat >"$UNITS/tasker-tunnel.service" <<EOF
 [Unit]
-Description=Túnel Cloudflare tasker.wavdev.org
+Description=Túnel Cloudflare questlist.wavdev.org
 
 [Service]
 ExecStart=$(command -v cloudflared) tunnel --no-autoupdate --config $HOME/.cloudflared/config.yml run --token-file $HOME/.config/cloudflared/tasker.token
@@ -381,11 +381,11 @@ curl -sf -o /dev/null http://127.0.0.1:8081/supabase/auth/v1/.well-known/jwks.js
 for _ in $(seq 60); do curl -sf -o /dev/null http://127.0.0.1:8095/probes/liveness && break; sleep 2; done
 curl -sf -o /dev/null http://127.0.0.1:8095/probes/liveness && ok "PowerSync" || falha "PowerSync (journalctl --user -u tasker-powersync)"
 sleep 5
-curl -sf -o /dev/null https://tasker.wavdev.org/ && ok "https://tasker.wavdev.org pelo túnel" || falha "túnel (journalctl --user -u tasker-tunnel)"
+curl -sf -o /dev/null https://questlist.wavdev.org/ && ok "https://questlist.wavdev.org pelo túnel" || falha "túnel (journalctl --user -u tasker-tunnel)"
 
 cat <<EOF
 
-Instalado. O app está em https://tasker.wavdev.org (e na rede de casa em http://$(hostname -I | awk '{print $1}')).
+Instalado. O app está em https://questlist.wavdev.org (e na rede de casa em http://$(hostname -I | awk '{print $1}')).
 Pasta do projeto: $APP · operação: $APP/docs/OPERACOES.md e docs/SERVIDOR.md
 
 Saia e entre de novo na sessão (ou reinicie) para o seu usuário usar o docker sem sudo.

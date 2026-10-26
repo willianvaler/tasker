@@ -48,7 +48,7 @@ test('esqueci minha senha: link por e-mail, senha nova e entrar', async ({ brows
     .toBe(true);
   link = link
     .replace(/&amp;/g, '&')
-    .replace('https://tasker.wavdev.org/supabase', 'http://127.0.0.1:54321');
+    .replace('https://questlist.wavdev.org/supabase', 'http://127.0.0.1:54321');
   await page.goto(link);
   await expect(page.getByRole('heading', { name: 'Nova senha' })).toBeVisible({ timeout: 20_000 });
   await page.getByPlaceholder('Nova senha').fill('senha-nova-456');

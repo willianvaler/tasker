@@ -66,7 +66,7 @@ Em 19/10/2026 o dono priorizou o modo jogo e pediu mais funcionalidades do Habit
 ## 8. Login com o Google — pendente (não fazer agora; pedido do dono em 19/10/2026)
 
 - **Entrar com o Google** na tela de login, no cadastro e nos convites (projeto, clã, time), ao lado de e-mail e senha.
-- **Supabase Auth** com o provedor Google (OAuth). Web: redirecionamento para `https://tasker.wavdev.org` (e o alpha). Android/iOS: login nativo (Credential Manager no Android, o botão do Google no iOS) com `signInWithIdToken`, que pede development build; no Expo Go só o fluxo pelo navegador (`expo-auth-session`/`expo-web-browser`).
+- **Supabase Auth** com o provedor Google (OAuth). Web: redirecionamento para `https://questlist.wavdev.org` (e o alpha). Android/iOS: login nativo (Credential Manager no Android, o botão do Google no iOS) com `signInWithIdToken`, que pede development build; no Expo Go só o fluxo pelo navegador (`expo-auth-session`/`expo-web-browser`).
 - **Depende do dono:** projeto no Google Cloud com a tela de consentimento (nome, logo do ESCOPO_V8 §0, política de privacidade, domínio verificado) e os IDs de cliente web, Android (pacote `com.willianvaler.questlist` + SHA-1 da chave de assinatura da Play) e iOS.
 - **Conta que já existe com o mesmo e-mail:** ligar as identidades (o Supabase faz por e-mail confirmado), sem criar conta duplicada; no Perfil, ver e desligar o Google se houver senha.
 - Nome e foto do Google preenchem o perfil só na criação (a pessoa pode trocar).
