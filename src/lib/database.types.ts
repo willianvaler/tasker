@@ -2238,6 +2238,9 @@ isOneToOne: false
             "_achievement_progress":
 { Args: { "p_user": string }; Returns: Json
                            },
+"_act_as":
+{ Args: { "p_user": string }; Returns: Json
+                           },
 "_activate_share":
 { Args: { "p_folder_name": string,"p_share_id": string }; Returns: Json
                            },
@@ -2367,6 +2370,9 @@ isOneToOne: false
 "_invite_problem":
 { Args: { "p_invite": Omit<Database["public"]['Tables']["invites"]['Row'], Database["public"]['Tables']["invites"]['ComputedFields']> }; Returns: string
                            },
+"_invite_to_session":
+{ Args: { "p_session": Omit<Database["public"]['Tables']["workout_sessions"]['Row'], Database["public"]['Tables']["workout_sessions"]['ComputedFields']>,"p_with": (string)[] }; Returns: undefined
+                           },
 "_is_member_of":
 { Args: { "p_folder_id": string,"p_user": string }; Returns: boolean
                            },
@@ -2443,6 +2449,9 @@ isOneToOne: false
 "_refresh_profile_stats":
 { Args: { "p_user": string }; Returns: undefined
                            },
+"_restore_actor":
+{ Args: { "p_previous": Json }; Returns: undefined
+                           },
 "_revert_completion":
 { Args: { "p_completion_id": string,"p_page_id": string }; Returns: number
                            },
@@ -2454,6 +2463,9 @@ isOneToOne: false
                            },
 "_run_automations":
 { Args: { "p_task_id": string,"p_trigger": string }; Returns: undefined
+                           },
+"_seed_session_progress":
+{ Args: { "p_session_id": string }; Returns: undefined
                            },
 "_set_records":
 { Args: { "p_set": Omit<Database["public"]['Tables']["workout_sets"]['Row'], Database["public"]['Tables']["workout_sets"]['ComputedFields']> }; Returns: (string)[]
@@ -2974,6 +2986,9 @@ isOneToOne: false
 "invite_preview":
 { Args: { "p_token": string }; Returns: Json
                            },
+"invite_to_workout_session":
+{ Args: { "p_session_id": string,"p_with": (string)[] }; Returns: undefined
+                           },
 "is_folder_member":
 { Args: { "p_folder_id": string,"p_min_role"?: Database["public"]['Enums']["folder_role"] }; Returns: boolean
                            },
@@ -3067,6 +3082,9 @@ isOneToOne: false
 { Args: Record<PropertyKey, never>; Returns: {
               "created_at": string,"id": string,"mode": string,"owner_name": string,"page_icon": string,"page_name": string,"view_type": string
             }[]
+                           },
+"my_session_pages":
+{ Args: Record<PropertyKey, never>; Returns: string[]
                            },
 "my_workout_invites":
 { Args: Record<PropertyKey, never>; Returns: {
@@ -3443,8 +3461,18 @@ isOneToOne: false
 "weight_factor":
 { Args: { "p_weight": number }; Returns: number
                            },
+"workout_partners":
+{ Args: { "p_page_id": string }; Returns: {
+              "display_name": string,"source": string,"user_id": string
+            }[]
+                           },
 "workout_reminder_hour":
 { Args: Record<PropertyKey, never>; Returns: number
+                           },
+"workout_session_people":
+{ Args: { "p_session_id": string }; Returns: {
+              "display_name": string,"status": string,"user_id": string
+            }[]
                            },
 "xp_rules":
 { Args: Record<PropertyKey, never>; Returns: Json

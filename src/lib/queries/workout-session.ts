@@ -7,7 +7,11 @@ import { keys } from './keys';
 // Treinar junto (V6 §15.4, AC10.1, D183): a sessão do Modo Treino no servidor. Só online; o tempo
 // real chega pelo useRealtimeSync (workout_sessions e workout_session_members no AFFECTS).
 
-export type SessionMember = { userId: string; status: 'invited' | 'joined' | 'left' };
+export type SessionMember = {
+  userId: string;
+  status: 'invited' | 'joined' | 'left';
+  displayName: string;
+};
 export type SessionState = { task_id?: string; rest_ends_at?: string | null };
 export type WorkoutSession = {
   id: string;
@@ -54,10 +58,8 @@ export function useWorkoutSession(id: string | null | undefined) {
           .select('*')
           .eq('id', id ?? '')
           .maybeSingle(),
-        supabase
-          .from('workout_session_members')
-          .select('user_id, status')
-          .eq('session_id', id ?? ''),
+        // Com o nome: quem vem de fora da pasta (AC15A) não está nos membros dela
+        supabase.rpc('workout_session_people', { p_session_id: id ?? '' }),
       ]);
       if (session.error) throw session.error;
       if (members.error) throw members.error;
@@ -74,8 +76,61 @@ export function useWorkoutSession(id: string | null | undefined) {
         members: members.data.map((m) => ({
           userId: m.user_id,
           status: m.status as SessionMember['status'],
+          displayName: m.display_name,
         })),
       };
+    },
+  });
+}
+
+export type PartnerSource = 'folder' | 'friend' | 'team' | 'group';
+export type WorkoutPartner = { userId: string; displayName: string; source: PartnerSource };
+
+/**
+ * Com quem dá para treinar (AC15A): quem é da pasta, amigos e gente dos mesmos times e grupos,
+ * nessa ordem.
+ */
+export function useWorkoutPartners(pageId: string | undefined, enabled = true) {
+  return useQuery({
+    queryKey: ['workout-partners', pageId ?? ''] as const,
+    enabled: !!pageId && enabled,
+    queryFn: async (): Promise<WorkoutPartner[]> => {
+      const { data, error } = await supabase.rpc('workout_partners', { p_page_id: pageId ?? '' });
+      if (error) throw error;
+      return data.map((p) => ({
+        userId: p.user_id,
+        displayName: p.display_name,
+        source: p.source as PartnerSource,
+      }));
+    },
+  });
+}
+
+/**
+ * Treino de outra pessoa (AC15A): quem foi chamado e não é da pasta lê a página e as tarefas do
+ * servidor enquanto está na sessão (não estão no aparelho).
+ */
+export function useGuestWorkout(pageId: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: ['workout-guest', pageId ?? ''] as const,
+    enabled: !!pageId && enabled,
+    queryFn: async () => {
+      const [page, tasks] = await Promise.all([
+        supabase
+          .from('pages')
+          .select('*')
+          .eq('id', pageId ?? '')
+          .maybeSingle(),
+        supabase
+          .from('tasks')
+          .select('*')
+          .eq('page_id', pageId ?? '')
+          .order('position')
+          .order('created_at'),
+      ]);
+      if (page.error) throw page.error;
+      if (tasks.error) throw tasks.error;
+      return { page: page.data, tasks: tasks.data };
     },
   });
 }
@@ -108,6 +163,19 @@ export function useWorkoutSessionActions() {
       });
       if (error) throw error;
       return data;
+    },
+    onSuccess: (id) => refresh(id),
+  });
+
+  /** Chamar gente no meio do treino (AC15A) */
+  const invite = useMutation({
+    mutationFn: async ({ id, withUsers }: { id: string; withUsers: string[] }) => {
+      const { error } = await supabase.rpc('invite_to_workout_session', {
+        p_session_id: id,
+        p_with: withUsers,
+      });
+      if (error) throw error;
+      return id;
     },
     onSuccess: (id) => refresh(id),
   });
@@ -181,9 +249,10 @@ export function useWorkoutSessionActions() {
     onSettled: (_d, _e, { id }) => {
       queryClient.invalidateQueries({ queryKey: sessionKey(id) });
       queryClient.invalidateQueries({ queryKey: keys.tasks });
+      queryClient.invalidateQueries({ queryKey: ['workout-guest'] });
       queryClient.invalidateQueries({ queryKey: keys.game });
     },
   });
 
-  return { start, join, leave, setState, logGroupSet };
+  return { start, invite, join, leave, setState, logGroupSet };
 }

@@ -2874,7 +2874,20 @@
     "join": "Entrar",
     "decline": "Ahora no",
     "alone": "Por ahora solo estás tú. Invita a quienes entrenan contigo: cuando entren, aparecen en esta lista y reciben el aviso al empezar.",
-    "invitePeople": "Invitar personas"
+    "invitePeople": "Invitar personas",
+    "inviteTitle": "Invitar a entrenar juntos",
+    "nobody": "Todavía no hay a quién invitar. Aquí aparecen quienes están en la carpeta, tus amigos y quienes están en tus equipos y grupos.",
+    "inviteSend_one": "Invitar a 1 persona",
+    "inviteSend_other": "Invitar a {{count}} personas",
+    "trainWith": "Entrenar con…",
+    "invited_one": "Invitación enviada a 1 persona",
+    "invited_other": "Invitación enviada a {{count}} personas",
+    "source": {
+      "folder": "carpeta",
+      "friend": "amigo",
+      "team": "equipo",
+      "group": "grupo"
+    }
   },
   "group": {
     "title": "Entrenamiento en grupo",

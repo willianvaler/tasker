@@ -2874,7 +2874,20 @@
     "join": "Join",
     "decline": "Not now",
     "alone": "It's just you here so far. Invite the people you work out with: once they join, they show up in this list and get notified when you start.",
-    "invitePeople": "Invite people"
+    "invitePeople": "Invite people",
+    "inviteTitle": "Invite to work out together",
+    "nobody": "No one to invite yet. People in this folder, your friends and people in your teams and groups show up here.",
+    "inviteSend_one": "Invite 1 person",
+    "inviteSend_other": "Invite {{count}} people",
+    "trainWith": "Work out with…",
+    "invited_one": "Invite sent to 1 person",
+    "invited_other": "Invite sent to {{count}} people",
+    "source": {
+      "folder": "folder",
+      "friend": "friend",
+      "team": "team",
+      "group": "group"
+    }
   },
   "group": {
     "title": "Group training",

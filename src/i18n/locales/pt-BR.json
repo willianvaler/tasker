@@ -2874,7 +2874,20 @@
     "join": "Entrar",
     "decline": "Agora não",
     "alone": "Ainda é só você aqui. Convide quem treina com você: quem entrar aparece nesta lista e recebe o aviso quando você começar.",
-    "invitePeople": "Convidar pessoas"
+    "invitePeople": "Convidar pessoas",
+    "inviteTitle": "Chamar para treinar junto",
+    "nobody": "Ninguém para chamar ainda. Aqui aparecem quem é da pasta, seus amigos e quem está nos seus times e grupos.",
+    "inviteSend_one": "Chamar 1 pessoa",
+    "inviteSend_other": "Chamar {{count}} pessoas",
+    "trainWith": "Treinar com…",
+    "invited_one": "Convite enviado para 1 pessoa",
+    "invited_other": "Convite enviado para {{count}} pessoas",
+    "source": {
+      "folder": "pasta",
+      "friend": "amigo",
+      "team": "time",
+      "group": "grupo"
+    }
   },
   "group": {
     "title": "Treino em grupo",

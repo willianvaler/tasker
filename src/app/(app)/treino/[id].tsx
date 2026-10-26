@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { ChevronLeft, Pause, Play, SkipForward, X } from 'lucide-react-native';
+import { ChevronLeft, Pause, Play, SkipForward, Users, X } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import i18next, { type TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -42,6 +42,8 @@ import { fromKg, textToKg, toKg, weightStep } from '@/lib/gym/units';
 import { suggestWarmup, type WarmupSet } from '@/lib/gym/warmup';
 import { todayIn } from '@/lib/parser/dates';
 import {
+  useGuestWorkout,
+  useWorkoutPartners,
   useWorkoutSession,
   useWorkoutSessionActions,
   type WorkoutSession,
@@ -103,8 +105,21 @@ export default function WorkoutScreen() {
   const { id, sessao } = useLocalSearchParams<{ id: string; sessao?: string }>();
   const { t } = useTranslation();
   const tree = useTree();
-  const page = tree.data?.pages.find((p) => p.id === id);
-  const tasks = usePageTasks(id);
+  const ownPage = tree.data?.pages.find((p) => p.id === id);
+  // AC15A: chamado para o treino de outra pessoa, de fora da pasta. A página e as tarefas vêm do
+  // servidor enquanto a pessoa está na sessão
+  const guest = !!sessao && !!tree.data && !ownPage;
+  const guestWorkout = useGuestWorkout(id, guest);
+  const page = ownPage ?? guestWorkout.data?.page ?? undefined;
+  const ownTasks = usePageTasks(guest ? undefined : id);
+  const tasks = guest
+    ? {
+        data: guestWorkout.data?.tasks,
+        isPending: guestWorkout.isPending,
+        isFetchedAfterMount: guestWorkout.isFetchedAfterMount,
+        isFetching: guestWorkout.isFetching,
+      }
+    : ownTasks;
   const progress = useMyProgress();
 
   // AC10.1: todo treino aberto é uma sessão no servidor (online); em pasta compartilhada, antes
@@ -116,6 +131,8 @@ export default function WorkoutScreen() {
   const togetherFolder = !!root && (root.is_shared || root.kind === 'project');
   const members = useMembers(togetherFolder ? root.id : undefined);
   const others = (members.data ?? []).filter((m) => m.userId !== me);
+  // Com quem dá para treinar (AC15A): a pasta, amigos, times e grupos
+  const partnersQuery = useWorkoutPartners(id, online && !guest && !!page);
   const sessionActions = useWorkoutSessionActions();
   const [sessionId, setSessionId] = useState<string | null>(null);
   // Em pasta compartilhada, antes de começar: com quem (até escolher)
@@ -123,12 +140,26 @@ export default function WorkoutScreen() {
   const [partners, setPartners] = useState<string[]>([]);
   const live = useWorkoutSession(sessionId);
   const inSession = (live.data?.members ?? []).filter((m) => m.status !== 'left');
-  const group = live.data && !live.data.endedAt && inSession.length > 1 ? live.data : null;
+  const group =
+    live.data && !live.data.endedAt && (inSession.length > 1 || guest) ? live.data : null;
   const items = workoutItems(tasks.data ?? [], group ? group.progress : (progress.data ?? {}));
-  const partnerNames = inSession
-    .filter((m) => m.userId !== me)
-    .map((m) => (members.data ?? []).find((x) => x.userId === m.userId)?.displayName)
-    .filter((name): name is string => !!name);
+  const partnerNames = inSession.filter((m) => m.userId !== me).map((m) => m.displayName);
+  // Chamar gente no meio do treino (AC15A): quem ainda não está na sessão
+  const [inviting, setInviting] = useState(false);
+  const invitable = (partnersQuery.data ?? []).filter(
+    (p) => !inSession.some((m) => m.userId === p.userId),
+  );
+  function inviteMore() {
+    if (!sessionId) return;
+    const count = partners.length;
+    sessionActions.invite
+      .mutateAsync({ id: sessionId, withUsers: partners })
+      .then(() => toast({ message: t('together.invited', { count }) }), () => {})
+      .finally(() => {
+        setPartners([]);
+        setInviting(false);
+      });
+  }
 
   const [{ run: initial, resumed }] = useState(() => loadWorkoutRun(id));
   const [session, setSession] = useState(initial);
@@ -183,7 +214,8 @@ export default function WorkoutScreen() {
       .then(joined, () => {})
       .finally(() => setPicked(true));
   }
-  const picking = online && !sessao && !resumed && !picked && togetherFolder && !members.isPending;
+  const picking =
+    online && !sessao && !resumed && !picked && togetherFolder && !partnersQuery.isPending;
 
   // Depois do fim, nada grava de novo (o XP da última série pode chegar com a tela saindo)
   const ended = useRef(false);
@@ -279,7 +311,7 @@ export default function WorkoutScreen() {
     return (
       <Shell title={page ? pageLabel(page) : ''}>
         <TrainingPartners
-          people={others}
+          people={partnersQuery.data ?? []}
           onInvite={
             root
               ? () => router.push({ pathname: '/share/[id]', params: { id: root.id } })
@@ -292,7 +324,26 @@ export default function WorkoutScreen() {
         />
       </Shell>
     );
-  if (tasks.isPending) return <Shell title={page ? pageLabel(page) : ''}>{null}</Shell>;
+  if (inviting)
+    return (
+      <Shell title={page ? pageLabel(page) : ''}>
+        <TrainingPartners
+          mode="invite"
+          people={invitable}
+          selected={partners}
+          onChange={setPartners}
+          onStart={inviteMore}
+          onCancel={() => {
+            setPartners([]);
+            setInviting(false);
+          }}
+          busy={sessionActions.invite.isPending}
+        />
+      </Shell>
+    );
+  // O convidado só marca pela sessão do grupo: espera ela chegar
+  if (tasks.isPending || (guest && !group))
+    return <Shell title={page ? pageLabel(page) : ''}>{null}</Shell>;
   if (items.length === 0)
     return (
       <Shell title={page ? pageLabel(page) : ''}>
@@ -335,6 +386,8 @@ export default function WorkoutScreen() {
       }}
       group={group}
       partnerNames={partnerNames}
+      guest={guest}
+      onTrainWith={sessionId && online && !guest ? () => setInviting(true) : undefined}
       shared={others.length > 0}
       fresh={tasks.isFetchedAfterMount && !tasks.isFetching}
       onRestShared={(iso) => {
@@ -392,6 +445,8 @@ function Running({
   onResult,
   group,
   partnerNames,
+  guest,
+  onTrainWith,
   shared,
   fresh,
   onRestShared,
@@ -407,6 +462,10 @@ function Running({
   /** Treino junto (AC10.1): a série vale para o grupo */
   group: WorkoutSession | null;
   partnerNames: string[];
+  /** Treino de outra pessoa (AC15A): marca a série do grupo, não muda o treino */
+  guest: boolean;
+  /** Chamar mais gente para treinar junto (AC15A) */
+  onTrainWith?: () => void;
   /** Pasta com mais gente: a progressão sugere em vez de mudar o plano de todos */
   shared: boolean;
   /** A lista foi lida de novo nesta abertura (antes disso, a progressão não mexe no plano) */
@@ -417,7 +476,8 @@ function Running({
   const { t, i18n } = useTranslation();
   const item = items[index];
   const task = item.task;
-  const allowed = useTaskCan(task);
+  const taskCan = useTaskCan(task);
+  const allowed = guest ? { complete: true, edit: false, delete: false } : taskCan;
   const { logSet } = useLogSet();
   const sessionActions = useWorkoutSessionActions();
   const startTimer = useStartTimer();
@@ -473,7 +533,7 @@ function Running({
         ? workWeight.value
         : fromKg(toKg(workWeight.value, workUnit), gymPrefs2.unit);
   const warmups =
-    kind === 'reps' && item.reps === 0 && !item.done && allowed.complete
+    kind === 'reps' && item.reps === 0 && !item.done && allowed.complete && !guest
       ? suggestWarmup(workInPref, gymPrefs2.bar, weightStep(gymPrefs2.unit))
       : [];
   // Os aquecimentos já feitos deste exercício (trocar de exercício começa do zero)
@@ -791,6 +851,9 @@ function Running({
             label={t(paused ? 'workout.resume' : 'workout.pause')}
             onPress={togglePause}
           />
+          {onTrainWith && (
+            <IconButton icon={Users} label={t('together.trainWith')} onPress={onTrainWith} />
+          )}
         </>
       }
     >
