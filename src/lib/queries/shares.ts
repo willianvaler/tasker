@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { Tables } from '../db';
 import { todayIn } from '../parser/dates';
+import type { CoachSet } from '../gym/coach';
 import { cycleKeyFor, taskCycleKind, withMyChecks } from '../share';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
@@ -440,6 +441,25 @@ export function useStudentHistory(pageId: string | undefined, userId: string | u
         values: (c.values as StudentCheck['values']) ?? null,
         title: (task as { title: string } | null)?.title ?? '—',
       }));
+    },
+  });
+}
+
+/**
+ * O diário do aluno nesta página (AC13): as séries dos exercícios dela, com os recordes, para o
+ * painel do treinador. Só quem acompanha a página lê (o servidor confere).
+ */
+export function useStudentSets(pageId: string | undefined, userId: string | null | undefined) {
+  return useQuery({
+    queryKey: ['student-sets', pageId ?? '', userId ?? ''],
+    enabled: !!pageId && !!userId,
+    queryFn: async (): Promise<CoachSet[]> => {
+      const { data, error } = await supabase.rpc('student_workout_sets', {
+        p_page_id: pageId ?? '',
+        p_user: userId ?? '',
+      });
+      if (error) throw error;
+      return data.map((s) => ({ ...s, records: s.records ?? [] }));
     },
   });
 }

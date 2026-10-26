@@ -2161,7 +2161,20 @@
     "loads": "Loads",
     "history": "History",
     "noHistory": "Nothing logged yet.",
-    "cycleOf": "Since {{date}}"
+    "cycleOf": "Since {{date}}",
+    "coach": "Training",
+    "coachRecords_one": "{{count}} record",
+    "coachRecords_other": "{{count}} records",
+    "coachVolume": "Volume in 28 days: {{volume}}",
+    "coachPlan": "Weekly plan: {{done}} of {{expected}} days",
+    "stalled_one": "{{count}} exercise stalled",
+    "stalled_other": "{{count}} exercises stalled",
+    "stalledLine": "{{sessions}} sessions without beating {{best}} (since {{date}})",
+    "best1Rm": "Est. 1RM {{oneRm}} ({{weight}} × {{reps}})",
+    "sessions_one": "{{count}} session",
+    "sessions_other": "{{count}} sessions",
+    "lastDay": "last {{date}}",
+    "noSets": "No sets logged on this list yet."
   },
   "snooze": {
     "button": "Snooze {{title}} to tomorrow",

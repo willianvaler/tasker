@@ -165,6 +165,8 @@ test('Alunos: números, cargas, observação, lembrete e arquivar', async ({
   await page.getByRole('button', { name: /^Ana Aluna:/ }).click();
   await expect(page.getByLabel('Supino: 40kg')).toBeVisible();
   await expect(page.getByText('“senti o ombro”')).toBeVisible();
+  // Painel do treinador (AC13): o diário da aluna nesta lista, com o 1RM estimado
+  await expect(page.getByLabel(/^Supino: 1RM est\. .*1 sessão/)).toBeVisible({ timeout: 15_000 });
 
   // Lembrete chega para a aluna
   await page.getByRole('button', { name: 'Lembrar Ana Aluna' }).click();

@@ -12,12 +12,15 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { formatDueDate, todayIn } from '@/lib/parser/dates';
-import { useTimeZone, useToday } from '@/lib/queries/profile';
+import { coachSummary, planAdherence, type CoachSummary } from '@/lib/gym/coach';
+import { formatWeight } from '@/lib/gym/units';
+import { formatDueDate, formatShortDate, todayIn } from '@/lib/parser/dates';
+import { useGymPrefs, useTimeZone, useToday } from '@/lib/queries/profile';
 import {
   usePageStudents,
   useStudentActions,
   useStudentHistory,
+  useStudentSets,
   type Student,
 } from '@/lib/queries/shares';
 import { pageLabel, useTree } from '@/lib/queries/tree';
@@ -26,7 +29,16 @@ import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
 // Painel "Alunos" (L5, D137): quem recebe a página, como está cada um e o histórico do escolhido.
-// Precisa de conexão (os números vêm do servidor).
+// Com o painel do treinador (AC13, D278): recordes, 1RM, volume, exercícios parados e aderência
+// ao plano da semana, do diário do aluno nesta página. Precisa de conexão (vem do servidor).
+
+/** O resumo de treino do aluno nesta página (o mesmo cache na linha e no detalhe) */
+function useCoach(pageId: string, userId: string | null) {
+  const sets = useStudentSets(pageId, userId);
+  const tz = useTimeZone();
+  const today = useToday();
+  return sets.data ? coachSummary(sets.data, tz, today) : null;
+}
 
 export default function StudentsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -73,6 +85,8 @@ export default function StudentsScreen() {
               {list.map((student) => (
                 <StudentRow
                   key={student.share_id}
+                  pageId={id}
+                  trainDays={page?.train_days}
                   student={student}
                   active={current?.share_id === student.share_id}
                   onOpen={() => setSelected(student.share_id)}
@@ -90,7 +104,7 @@ export default function StudentsScreen() {
             </View>
             {current && page && (
               <View className="flex-1">
-                <StudentDetail pageId={page.id} student={current} />
+                <StudentDetail pageId={page.id} student={current} trainDays={page.train_days} />
               </View>
             )}
           </View>
@@ -115,6 +129,8 @@ export default function StudentsScreen() {
 }
 
 function StudentRow({
+  pageId,
+  trainDays,
   student,
   active,
   onOpen,
@@ -122,6 +138,8 @@ function StudentRow({
   onArchive,
   disabled,
 }: {
+  pageId: string;
+  trainDays: number[] | null | undefined;
   student: Student;
   active: boolean;
   onOpen: () => void;
@@ -133,11 +151,17 @@ function StudentRow({
   const [now] = useState(() => Date.now());
   const days = daysSince(student.last_activity, now);
   const remindedToday = daysSince(student.last_reminded_at, now) === 0;
+  const today = useToday();
+  const coach = useCoach(pageId, student.recipient_id);
+  const stalled = coach?.exercises.filter((e) => e.stagnation).length ?? 0;
+  const plan = coach ? planAdherence(coach.days, trainDays, today) : null;
   const summary = [
     t('students.thisCycle', { done: student.done_now, total: student.items }),
-    student.expected != null
-      ? t('students.adherence', { done: student.sessions, expected: student.expected })
-      : null,
+    plan
+      ? t('students.coachPlan', plan)
+      : student.expected != null
+        ? t('students.adherence', { done: student.sessions, expected: student.expected })
+        : null,
     days == null ? t('students.never') : t('students.lastActivity', { count: days }),
     student.notes_recent ? t('students.notes', { count: student.notes_recent }) : null,
   ]
@@ -154,6 +178,11 @@ function StudentRow({
       >
         <Text className="text-base font-semibold text-ink">{student.name}</Text>
         <Text className="font-mono text-xs text-ink-muted">{summary}</Text>
+        {stalled > 0 && (
+          <Text className="font-mono text-xs text-warn">
+            {t('students.stalled', { count: stalled })}
+          </Text>
+        )}
       </Pressable>
       <View className="flex-row gap-1">
         <Button
@@ -175,10 +204,19 @@ function StudentRow({
   );
 }
 
-function StudentDetail({ pageId, student }: { pageId: string; student: Student }) {
+function StudentDetail({
+  pageId,
+  student,
+  trainDays,
+}: {
+  pageId: string;
+  student: Student;
+  trainDays: number[] | null | undefined;
+}) {
   const { t } = useTranslation();
   const today = useToday();
   const tz = useTimeZone();
+  const coach = useCoach(pageId, student.recipient_id);
   const history = useStudentHistory(pageId, student.recipient_id);
   const checks = history.data ?? [];
   const groups = historyByCycle(checks);
@@ -190,6 +228,7 @@ function StudentDetail({ pageId, student }: { pageId: string; student: Student }
       <Text className="text-lg font-semibold text-ink" accessibilityRole="header">
         {student.name}
       </Text>
+      {coach && <CoachPanel coach={coach} trainDays={trainDays} />}
       {loads.length > 0 && (
         <View className="gap-2">
           <SectionLabel title={t('students.loads')} />
@@ -253,6 +292,90 @@ function StudentDetail({ pageId, student }: { pageId: string; student: Student }
           </View>
         ))}
       </View>
+    </View>
+  );
+}
+
+/** Painel do treinador (AC13): o resumo e um item por exercício, os parados primeiro. */
+function CoachPanel({
+  coach,
+  trainDays,
+}: {
+  coach: CoachSummary;
+  trainDays: number[] | null | undefined;
+}) {
+  const { t, i18n } = useTranslation();
+  const today = useToday();
+  const { unit } = useGymPrefs();
+  const kg = (v: number) => formatWeight(v, unit, i18n.language);
+  const plan = planAdherence(coach.days, trainDays, today);
+  const best = (value: number, metric: string | null) =>
+    metric === 'one_rm'
+      ? kg(value)
+      : metric === 'reps'
+        ? t('workout.reps', { count: value })
+        : metric === 'duration'
+          ? t('diary.seconds', { count: value })
+          : t('diary.km', {
+              value: new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 2 }).format(
+                value / 1000,
+              ),
+            });
+  const header = [
+    t('students.coachRecords', { count: coach.records }),
+    coach.recentVolumeKg > 0
+      ? t('students.coachVolume', { volume: kg(coach.recentVolumeKg) })
+      : null,
+    plan ? t('students.coachPlan', plan) : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+  return (
+    <View className="gap-2">
+      <SectionLabel title={t('students.coach')} />
+      {coach.exercises.length === 0 ? (
+        <Text className="text-sm text-ink-muted">{t('students.noSets')}</Text>
+      ) : (
+        <>
+          <Text className="font-mono text-xs text-ink-muted">{header}</Text>
+          {coach.exercises.map((e) => {
+            const details = [
+              e.best1Rm
+                ? t('students.best1Rm', {
+                    oneRm: kg(e.best1Rm.oneRm),
+                    weight: kg(e.best1Rm.weightKg),
+                    reps: e.best1Rm.reps,
+                  })
+                : null,
+              e.records ? t('students.coachRecords', { count: e.records }) : null,
+              t('students.sessions', { count: e.sessions }),
+              t('students.lastDay', { date: formatShortDate(e.lastDay) }),
+            ]
+              .filter(Boolean)
+              .join(' · ');
+            return (
+              <View
+                key={e.key}
+                accessible
+                accessibilityLabel={`${e.name}: ${details}`}
+                className="min-h-9 justify-center gap-1 border-b border-line py-1"
+              >
+                <Text className="text-sm text-ink">{e.name}</Text>
+                <Text className="font-mono text-xs text-ink-muted">{details}</Text>
+                {e.stagnation && (
+                  <Text className="text-sm text-warn">
+                    {t('students.stalledLine', {
+                      sessions: e.stagnation.sessions,
+                      best: best(e.stagnation.best, e.metric),
+                      date: formatShortDate(e.stagnation.since),
+                    })}
+                  </Text>
+                )}
+              </View>
+            );
+          })}
+        </>
+      )}
     </View>
   );
 }

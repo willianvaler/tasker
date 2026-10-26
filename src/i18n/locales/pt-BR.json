@@ -2161,7 +2161,20 @@
     "loads": "Cargas",
     "history": "Histórico",
     "noHistory": "Nada registrado ainda.",
-    "cycleOf": "Desde {{date}}"
+    "cycleOf": "Desde {{date}}",
+    "coach": "Treino",
+    "coachRecords_one": "{{count}} recorde",
+    "coachRecords_other": "{{count}} recordes",
+    "coachVolume": "Volume em 28 dias: {{volume}}",
+    "coachPlan": "Plano da semana: {{done}} de {{expected}} dias",
+    "stalled_one": "{{count}} exercício parado",
+    "stalled_other": "{{count}} exercícios parados",
+    "stalledLine": "{{sessions}} sessões sem passar de {{best}} (desde {{date}})",
+    "best1Rm": "1RM est. {{oneRm}} ({{weight}} × {{reps}})",
+    "sessions_one": "{{count}} sessão",
+    "sessions_other": "{{count}} sessões",
+    "lastDay": "última {{date}}",
+    "noSets": "Nenhuma série registrada nesta lista ainda."
   },
   "snooze": {
     "button": "Adiar {{title}} para amanhã",

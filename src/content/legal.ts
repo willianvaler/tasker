@@ -2,7 +2,7 @@
 // texto de forma que importe para quem usa? Suba LEGAL_VERSION aqui **e** public.legal_version()
 // numa migração nova (o teste legal.test.ts compara); quem já usa aceita de novo ao abrir o app.
 
-export const LEGAL_VERSION = '2026-10-22';
+export const LEGAL_VERSION = '2026-10-26';
 
 /** Idade mínima para criar conta (LGPD art. 14: abaixo disso, só com os responsáveis). */
 export const MIN_AGE = 13;
@@ -52,7 +52,7 @@ const ptBR: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidade',
-    updated: 'Versão de 22 de outubro de 2026 (remédios no Bem-estar)',
+    updated: 'Versão de 26 de outubro de 2026 (treinador e treino junto)',
     sections: [
       {
         title: 'Quem cuida dos dados',
@@ -68,7 +68,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Quem vê o quê',
-        body: 'Suas pastas pessoais são só suas. Em um projeto compartilhado, os membros veem as tarefas, os comentários e a atividade daquele projeto. Num clã, os membros veem seu nome, nível, classe, aparência do personagem, conquistas e dano no boss, nunca as suas tarefas. Quem tem conta pode achar você pelo nick (vê o nome e o nick); pelo e-mail, só se já souber o endereço, e o app não confirma se a conta existe. Seus amigos veem seu nome e seu nick, e as tarefas que você marcar como de amigos; as que marcar como públicas, qualquer pessoa com conta vê no seu perfil. O que você publica na Comunidade (uma cópia da estrutura, sem pessoas, datas, comentários, anexos nem gastos) fica visível para qualquer pessoa com conta, com o seu nick, até você despublicar.',
+        body: 'Suas pastas pessoais são só suas. Em um projeto compartilhado, os membros veem as tarefas, os comentários e a atividade daquele projeto. Numa página que alguém enviou para você, quem enviou vê o que você marca nela e as séries que faz nos exercícios dela (carga, repetições, tempo, distância e recordes), nunca o resto do seu diário de treino. Quem você chama para treinar junto vê o treino só enquanto está na sessão. Num clã, os membros veem seu nome, nível, classe, aparência do personagem, conquistas e dano no boss, nunca as suas tarefas. Quem tem conta pode achar você pelo nick (vê o nome e o nick); pelo e-mail, só se já souber o endereço, e o app não confirma se a conta existe. Seus amigos veem seu nome e seu nick, e as tarefas que você marcar como de amigos; as que marcar como públicas, qualquer pessoa com conta vê no seu perfil. O que você publica na Comunidade (uma cópia da estrutura, sem pessoas, datas, comentários, anexos nem gastos) fica visível para qualquer pessoa com conta, com o seu nick, até você despublicar.',
       },
       {
         title: 'Terceiros e transferência internacional',
@@ -139,7 +139,7 @@ const en: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Privacy policy',
-    updated: 'Version of October 22, 2026 (medicines in Wellness)',
+    updated: 'Version of October 26, 2026 (coach and working out together)',
     sections: [
       {
         title: 'Who looks after the data',
@@ -155,7 +155,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Who sees what',
-        body: "Your personal folders are only yours. In a shared project, members see that project's tasks, comments and activity. In a clan, members see your name, level, class, character look, achievements and boss damage, never your tasks. Anyone with an account can find you by your nick (they see your name and nick); by email only if they already know the address, and the app does not confirm whether the account exists. Your friends see your name and nick, and the tasks you mark for friends; tasks you mark public can be seen on your profile by anyone with an account. What you publish to the Community (a copy of the structure, without people, dates, comments, attachments or expenses) is visible to anyone with an account, with your nick, until you unpublish it.",
+        body: "Your personal folders are only yours. In a shared project, members see that project's tasks, comments and activity. On a page someone sent you, the sender sees what you check on it and the sets you do in its exercises (weight, reps, time, distance and records), never the rest of your workout log. People you invite to work out together see the workout only while they are in the session. In a clan, members see your name, level, class, character look, achievements and boss damage, never your tasks. Anyone with an account can find you by your nick (they see your name and nick); by email only if they already know the address, and the app does not confirm whether the account exists. Your friends see your name and nick, and the tasks you mark for friends; tasks you mark public can be seen on your profile by anyone with an account. What you publish to the Community (a copy of the structure, without people, dates, comments, attachments or expenses) is visible to anyone with an account, with your nick, until you unpublish it.",
       },
       {
         title: 'Third parties and international transfer',
@@ -226,7 +226,7 @@ const es: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidad',
-    updated: 'Versión del 22 de octubre de 2026 (medicamentos en Bienestar)',
+    updated: 'Versión del 26 de octubre de 2026 (entrenador y entrenar juntos)',
     sections: [
       {
         title: 'Quién cuida los datos',
@@ -242,7 +242,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Quién ve qué',
-        body: 'Tus carpetas personales son solo tuyas. En un proyecto compartido, los miembros ven las tareas, los comentarios y la actividad de ese proyecto. En un clan, los miembros ven tu nombre, nivel, clase, aspecto del personaje, logros y daño al boss, nunca tus tareas. Quien tiene cuenta puede encontrarte por tu nick (ve tu nombre y tu nick); por el correo, solo si ya conoce la dirección, y la app no confirma si la cuenta existe. Tus amigos ven tu nombre y tu nick, y las tareas que marques para amigos; las que marques como públicas, cualquier persona con cuenta las ve en tu perfil. Lo que publicas en la Comunidad (una copia de la estructura, sin personas, fechas, comentarios, adjuntos ni gastos) queda visible para cualquier persona con cuenta, con tu nick, hasta que lo despubliques.',
+        body: 'Tus carpetas personales son solo tuyas. En un proyecto compartido, los miembros ven las tareas, los comentarios y la actividad de ese proyecto. En una página que alguien te envió, quien la envió ve lo que marcas en ella y las series que haces en sus ejercicios (peso, repeticiones, tiempo, distancia y récords), nunca el resto de tu diario de entrenamiento. Quienes invitas a entrenar juntos ven el entrenamiento solo mientras están en la sesión. En un clan, los miembros ven tu nombre, nivel, clase, aspecto del personaje, logros y daño al boss, nunca tus tareas. Quien tiene cuenta puede encontrarte por tu nick (ve tu nombre y tu nick); por el correo, solo si ya conoce la dirección, y la app no confirma si la cuenta existe. Tus amigos ven tu nombre y tu nick, y las tareas que marques para amigos; las que marques como públicas, cualquier persona con cuenta las ve en tu perfil. Lo que publicas en la Comunidad (una copia de la estructura, sin personas, fechas, comentarios, adjuntos ni gastos) queda visible para cualquier persona con cuenta, con tu nick, hasta que lo despubliques.',
       },
       {
         title: 'Terceros y transferencia internacional',

@@ -3389,6 +3389,11 @@ isOneToOne: false
 "streak_stats":
 { Args: { "p_today": string,"p_user": string }; Returns: Record<string, unknown>
                            },
+"student_workout_sets":
+{ Args: { "p_page_id": string,"p_user": string }; Returns: {
+              "distance_m": number,"duration_seconds": number,"exercise_id": string,"exercise_name": string,"performed_at": string,"records": (string)[],"reps": number,"set_index": number,"task_id": string,"warmup": boolean,"weight_kg": number
+            }[]
+                           },
 "subtree_height":
 { Args: { "p_task_id": string }; Returns: number
                            },

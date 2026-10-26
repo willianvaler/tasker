@@ -14,3 +14,5 @@ The list shows up under **Received**. They can check things off, log sets and lo
 ## Students panel
 
 On a sent list, **Share → Students** shows each one: how much they did this week, adherence over the last 4 weeks, how their loads evolved and their notes. You can **remind** whoever went quiet and **archive** whoever stopped.
+
+Under **Training**, the panel reads the sets the student did in this list's exercises: records, volume over the last 28 days, the best estimated 1RM of each exercise (and which set it came from) and, if the workout has days in the weekly plan, how many planned days they hit (training on another day of the same week counts). A **stalled** exercise is one that went 3 sessions without beating the earlier best; it shows first, and the student's row says how many are stalled. The rest of the student's log stays theirs.
