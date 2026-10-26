@@ -1,15 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import type { Scoring } from '../gym/leaderboard';
 import { prepareImage } from '../image-prep';
 import { supabase } from '../supabase';
 import { uuidv7 } from '../uuid';
 import { keys } from './keys';
 
-// Modo competição do grupo (V6 §15.5, AC10.4/AC10.5, D184): desafios, ranking, mural e chat de um
-// projeto ou de um time. Só online; o tempo real chega pelo useRealtimeSync.
+// Desafios (V6 §15.5, AC10.4/AC10.5, D184; estilo GymRats no AC15C, D280): o desafio é o próprio
+// grupo, com membros, código, ranking, mural e chat. Os de antes saíram de um projeto ou de um time
+// (que ainda têm o mural deles). Só online; o tempo real chega pelo useRealtimeSync.
 
-/** O grupo: um projeto (pasta raiz) ou um time. */
-export type Group = { kind: 'project' | 'team'; id: string };
+/** Onde ficam o mural e o chat: um desafio, ou o projeto (pasta raiz) ou o time de antes. */
+export type Group = { kind: 'project' | 'team' | 'challenge'; id: string };
 
 export type Challenge = {
   id: string;
@@ -21,9 +23,49 @@ export type Challenge = {
   ends_on: string | null;
   days: number;
   created_by: string | null;
+  scoring: Scoring;
+  /** Código para entrar (só quem é do desafio lê); nulo: cancelado */
+  code: string | null;
+  finished_at: string | null;
 };
 
-export type BoardRow = { user_id: string; display_name: string; days: string[] };
+export type BoardActivity = { day: string; minutes: number; sets: number; volume: number };
+export type BoardRow = {
+  user_id: string;
+  display_name: string;
+  days: string[];
+  activities: BoardActivity[];
+};
+
+export type MyChallenge = {
+  id: string;
+  name: string;
+  starts_on: string;
+  ends_on: string;
+  days: number;
+  scoring: Scoring;
+  members: number;
+  created_by: string | null;
+  finished_at: string | null;
+};
+
+export type ChallengePerson = { user_id: string; display_name: string; source: string };
+
+export type ChallengePreview =
+  | { valid: false }
+  | {
+      valid: true;
+      id: string;
+      name: string;
+      starts_on: string;
+      ends_on: string;
+      days: number;
+      scoring: Scoring;
+      members: number;
+      creator: string | null;
+      member: boolean;
+      over: boolean;
+    };
 
 export type GroupPost = {
   id: string;
@@ -39,14 +81,29 @@ export type GroupPost = {
 export const REACTIONS = ['💪', '🔥', '👏', '❤️'] as const;
 const BUCKET = 'group-photos';
 
-const groupColumn = (g: Group) => (g.kind === 'project' ? 'folder_id' : 'team_id');
+const groupColumn = (g: Group) =>
+  g.kind === 'project' ? 'folder_id' : g.kind === 'team' ? 'team_id' : 'challenge_id';
 const groupKey = (g: Group) => [g.kind, g.id] as const;
+/** Pasta da foto no bucket: f|t|c/<grupo>/<pessoa>/<arquivo> */
+const photoPrefix = (g: Group) => (g.kind === 'project' ? 'f' : g.kind === 'team' ? 't' : 'c');
+const COLUMNS =
+  'id, folder_id, team_id, name, starts_on, ends_on, days, created_by, scoring, code, finished_at';
 export const challengeKeys = {
   list: (g: Group) => ['challenges', ...groupKey(g)] as const,
+  mine: ['challenges', 'mine'] as const,
   one: (id: string) => ['challenges', 'one', id] as const,
   board: (id: string) => ['challenge-board', id] as const,
   posts: (g: Group) => ['group-posts', ...groupKey(g)] as const,
 };
+
+/** Link do código para mandar (WhatsApp etc.): abre com ou sem login. */
+export function challengeUrl(code: string) {
+  const base =
+    process.env.EXPO_PUBLIC_WEB_URL ||
+    (typeof window !== 'undefined' && window.location?.origin) ||
+    'http://localhost:8082';
+  return `${base.replace(/\/$/, '')}/desafio-entrar/${encodeURIComponent(code)}`;
+}
 
 export function useGroupChallenges(group: Group | null) {
   return useQuery({
@@ -56,11 +113,11 @@ export function useGroupChallenges(group: Group | null) {
       if (!group) return [];
       const { data, error } = await supabase
         .from('challenges')
-        .select('id, folder_id, team_id, name, starts_on, ends_on, days, created_by')
-        .eq(groupColumn(group), group.id)
+        .select(COLUMNS)
+        .eq(group.kind === 'project' ? 'folder_id' : 'team_id', group.id)
         .order('ends_on', { ascending: false });
       if (error) throw error;
-      return data;
+      return data as Challenge[];
     },
   });
 }
@@ -72,11 +129,11 @@ export function useChallenge(id: string | undefined) {
     queryFn: async (): Promise<Challenge | null> => {
       const { data, error } = await supabase
         .from('challenges')
-        .select('id, folder_id, team_id, name, starts_on, ends_on, days, created_by')
+        .select(COLUMNS)
         .eq('id', id ?? '')
         .maybeSingle();
       if (error) throw error;
-      return data;
+      return data as Challenge | null;
     },
   });
 }
@@ -88,9 +145,111 @@ export function useChallengeBoard(id: string | undefined) {
     queryFn: async (): Promise<BoardRow[]> => {
       const { data, error } = await supabase.rpc('challenge_board', { p_challenge_id: id ?? '' });
       if (error) throw error;
-      return data.map((r) => ({ ...r, days: r.days ?? [] }));
+      return data.map((r) => ({
+        ...r,
+        days: r.days ?? [],
+        activities: (r.activities ?? []) as BoardActivity[],
+      }));
     },
   });
+}
+
+/** Os desafios de que faço parte (o bloco Desafios do Treino). */
+export function useMyChallenges() {
+  return useQuery({
+    queryKey: challengeKeys.mine,
+    queryFn: async (): Promise<MyChallenge[]> => {
+      const { data, error } = await supabase.rpc('my_challenges');
+      if (error) throw error;
+      return data as MyChallenge[];
+    },
+  });
+}
+
+/** Quem dá para trazer: amigos, gente dos times, dos grupos e dos outros desafios. */
+export function useChallengePeople(enabled = true) {
+  return useQuery({
+    queryKey: ['challenge-people'],
+    enabled,
+    queryFn: async (): Promise<ChallengePerson[]> => {
+      const { data, error } = await supabase.rpc('challenge_people');
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+/** Prévia do código (também sem login). */
+export function useChallengePreview(code: string, loggedIn: boolean) {
+  return useQuery({
+    queryKey: ['challenge-preview', code, loggedIn],
+    enabled: !!code,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('challenge_preview', { p_code: code });
+      if (error) throw error;
+      return data as unknown as ChallengePreview;
+    },
+  });
+}
+
+/** Criar, entrar, trazer e tirar gente, trocar o código, sair e apagar. */
+export function useChallengeMutations() {
+  const queryClient = useQueryClient();
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['challenges'] });
+    queryClient.invalidateQueries({ queryKey: ['challenge-board'] });
+  };
+  const rpc = async (fn: PromiseLike<{ data: unknown; error: Error | null }>) => {
+    const { data, error } = await fn;
+    if (error) throw error;
+    return data;
+  };
+  return {
+    create: useMutation({
+      mutationFn: async (vars: {
+        name: string;
+        days: number;
+        scoring: Scoring;
+        members: string[];
+      }) =>
+        (await rpc(
+          supabase.rpc('create_challenge', {
+            p_name: vars.name,
+            p_days: vars.days,
+            p_scoring: vars.scoring,
+            p_members: vars.members,
+          }),
+        )) as string,
+      onSettled: refresh,
+    }),
+    join: useMutation({
+      mutationFn: async (code: string) =>
+        (await rpc(supabase.rpc('join_challenge', { p_code: code }))) as string,
+      onSettled: refresh,
+    }),
+    add: useMutation({
+      mutationFn: async ({ id, members }: { id: string; members: string[] }) =>
+        rpc(supabase.rpc('add_challenge_members', { p_challenge_id: id, p_members: members })),
+      onSettled: refresh,
+    }),
+    code: useMutation({
+      mutationFn: async ({ id, enabled }: { id: string; enabled: boolean }) =>
+        (await rpc(
+          supabase.rpc('set_challenge_code', { p_challenge_id: id, p_enabled: enabled }),
+        )) as string | null,
+      onSettled: refresh,
+    }),
+    removeMember: useMutation({
+      mutationFn: async ({ id, userId }: { id: string; userId: string }) =>
+        rpc(supabase.rpc('remove_challenge_member', { p_challenge_id: id, p_user_id: userId })),
+      onSettled: refresh,
+    }),
+    remove: useMutation({
+      mutationFn: async (id: string) =>
+        rpc(supabase.rpc('delete_challenge', { p_challenge_id: id })),
+      onSettled: refresh,
+    }),
+  };
 }
 
 export function useChallengeActions(group: Group | null) {
@@ -184,7 +343,7 @@ export function usePostActions(group: Group | null, userId: string | undefined) 
       let photoPath: string | null = null;
       if (vars.photo) {
         const { full } = await prepareImage(vars.photo.uri, vars.photo.width, vars.photo.height);
-        photoPath = `${group.kind === 'project' ? 'f' : 't'}/${group.id}/${userId}/${id}.${full.ext}`;
+        photoPath = `${photoPrefix(group)}/${group.id}/${userId}/${id}.${full.ext}`;
         const { error } = await supabase.storage
           .from(BUCKET)
           .upload(photoPath, full.body, { contentType: full.mime, upsert: true });
@@ -194,6 +353,7 @@ export function usePostActions(group: Group | null, userId: string | undefined) 
         id,
         folder_id: group.kind === 'project' ? group.id : null,
         team_id: group.kind === 'team' ? group.id : null,
+        challenge_id: group.kind === 'challenge' ? group.id : null,
         kind: vars.kind,
         parent_id: vars.parentId ?? null,
         body: vars.body.trim(),

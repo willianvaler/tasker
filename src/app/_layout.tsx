@@ -104,6 +104,7 @@ function RootNavigator() {
       <Stack.Screen name="team-invite/[token]" />
       <Stack.Screen name="amigo/[token]" />
       <Stack.Screen name="enviada/[token]" />
+      <Stack.Screen name="desafio-entrar/[code]" />
       {/* Política de privacidade: pública (as lojas pedem o endereço) */}
       <Stack.Screen name="privacidade" />
       <Stack.Screen name="termos" />

@@ -269,16 +269,42 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
-                },"challenges": {
+                },"challenge_members": {
                   Row: {
-                    "created_at": string,"created_by": string | null,"days": number,"ends_on": string | null,"finished_at": string | null,"folder_id": string | null,"id": string,"name": string,"starts_on": string,"team_id": string | null
+                    "challenge_id": string,"joined_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"created_by"?: string | null,"days": number,"ends_on"?: never,"finished_at"?: string | null,"folder_id"?: string | null,"id"?: string,"name": string,"starts_on": string,"team_id"?: string | null
+                    "challenge_id": string,"joined_at"?: string,"user_id": string
                   }
                   Update: {
-                    "created_at"?: string,"created_by"?: string | null,"days"?: number,"ends_on"?: never,"finished_at"?: string | null,"folder_id"?: string | null,"id"?: string,"name"?: string,"starts_on"?: string,"team_id"?: string | null
+                    "challenge_id"?: string,"joined_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "challenge_members_challenge_id_fkey"
+      columns: ["challenge_id"]
+isOneToOne: false
+      referencedRelation: "challenges"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "challenge_members_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"challenges": {
+                  Row: {
+                    "code": string | null,"created_at": string,"created_by": string | null,"days": number,"ends_on": string | null,"finished_at": string | null,"folder_id": string | null,"id": string,"name": string,"scoring": string,"starts_on": string,"team_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "code"?: string | null,"created_at"?: string,"created_by"?: string | null,"days": number,"ends_on"?: never,"finished_at"?: string | null,"folder_id"?: string | null,"id"?: string,"name": string,"scoring"?: string,"starts_on": string,"team_id"?: string | null
+                  }
+                  Update: {
+                    "code"?: string | null,"created_at"?: string,"created_by"?: string | null,"days"?: number,"ends_on"?: never,"finished_at"?: string | null,"folder_id"?: string | null,"id"?: string,"name"?: string,"scoring"?: string,"starts_on"?: string,"team_id"?: string | null
                   }
                   Relationships: [
                     {
@@ -805,17 +831,23 @@ isOneToOne: false
                   ]
                 },"group_posts": {
                   Row: {
-                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"kind": string,"parent_id": string | null,"photo_path": string | null,"team_id": string | null,"user_id": string
+                    "body": string,"challenge_id": string | null,"created_at": string,"folder_id": string | null,"id": string,"kind": string,"parent_id": string | null,"photo_path": string | null,"team_id": string | null,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind": string,"parent_id"?: string | null,"photo_path"?: string | null,"team_id"?: string | null,"user_id"?: string
+                    "body"?: string,"challenge_id"?: string | null,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind": string,"parent_id"?: string | null,"photo_path"?: string | null,"team_id"?: string | null,"user_id"?: string
                   }
                   Update: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind"?: string,"parent_id"?: string | null,"photo_path"?: string | null,"team_id"?: string | null,"user_id"?: string
+                    "body"?: string,"challenge_id"?: string | null,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind"?: string,"parent_id"?: string | null,"photo_path"?: string | null,"team_id"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     {
+      foreignKeyName: "group_posts_challenge_id_fkey"
+      columns: ["challenge_id"]
+isOneToOne: false
+      referencedRelation: "challenges"
+      referencedColumns: ["id"]
+    },{
       foreignKeyName: "group_posts_folder_id_fkey"
       columns: ["folder_id"]
 isOneToOne: false
@@ -2069,6 +2101,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"workout_activities": {
+                  Row: {
+                    "created_at": string,"day": string,"id": string,"minutes": number,"page_id": string | null,"sets": number,"source": string,"updated_at": string,"user_id": string,"volume_kg": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"day": string,"id"?: string,"minutes"?: number,"page_id"?: string | null,"sets"?: number,"source": string,"updated_at"?: string,"user_id": string,"volume_kg"?: number
+                  }
+                  Update: {
+                    "created_at"?: string,"day"?: string,"id"?: string,"minutes"?: number,"page_id"?: string | null,"sets"?: number,"source"?: string,"updated_at"?: string,"user_id"?: string,"volume_kg"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "workout_activities_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "workout_activities_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"workout_days": {
                   Row: {
                     "created_at": string,"day": string,"minutes": number | null,"page_id": string | null,"source": string,"user_id": string
@@ -2307,6 +2365,9 @@ isOneToOne: false
         isOneToOne: false
         isSetofReturn: true
       } },
+"_activity_points":
+{ Args: { "p_minutes": number,"p_sets": number }; Returns: number
+                           },
 "_add_stack":
 { Args: { "p_key": string,"p_kind": string,"p_qty"?: number,"p_user": string }; Returns: undefined
                            },
@@ -2337,9 +2398,17 @@ isOneToOne: false
 "_cap_quick_damage":
 { Args: { "p_damage": number,"p_user": string }; Returns: number
                            },
+"_challenge_code":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
 "_challenge_podium":
 { Args: { "p_challenge_id": string }; Returns: {
               "days": number,"place": number,"user_id": string
+            }[]
+                           },
+"_challenge_scores":
+{ Args: { "p_challenge_id": string }; Returns: {
+              "days": number,"score": number,"user_id": string
             }[]
                            },
 "_check_achievements":
@@ -2461,6 +2530,9 @@ isOneToOne: false
 "_notify":
 { Args: { "p_kind": string,"p_payload": Json,"p_user": string }; Returns: undefined
                            },
+"_notify_challenge":
+{ Args: { "p_challenge_id": string,"p_users": (string)[] }; Returns: undefined
+                           },
 "_page_all_done":
 { Args: { "p_page_id": string }; Returns: boolean
                            },
@@ -2477,6 +2549,9 @@ isOneToOne: false
                            },
 "_random_of":
 { Args: { "p_list": Json }; Returns: string
+                           },
+"_record_activity":
+{ Args: { "p_minutes": number,"p_page": string,"p_source": string,"p_user": string }; Returns: undefined
                            },
 "_record_set":
 { Args: { "p_cycle": string,"p_index": number,"p_session": string,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']>,"p_values": Json }; Returns: string
@@ -2571,6 +2646,9 @@ isOneToOne: false
 "accept_terms":
 { Args: { "p_version": string }; Returns: undefined
                            },
+"add_challenge_members":
+{ Args: { "p_challenge_id": string,"p_members": (string)[] }; Returns: undefined
+                           },
 "add_friend_to_group":
 { Args: { "p_clan"?: boolean,"p_folder_id"?: string,"p_friend": string,"p_role"?: string,"p_team_id"?: string }; Returns: string
                            },
@@ -2648,8 +2726,16 @@ isOneToOne: false
                            },
 "challenge_board":
 { Args: { "p_challenge_id": string }; Returns: {
-              "days": (string)[],"display_name": string,"user_id": string
+              "activities": Json,"days": (string)[],"display_name": string,"user_id": string
             }[]
+                           },
+"challenge_people":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "display_name": string,"source": string,"user_id": string
+            }[]
+                           },
+"challenge_preview":
+{ Args: { "p_code": string }; Returns: Json
                            },
 "character_attributes":
 { Args: { "p_user": string }; Returns: Record<string, unknown>
@@ -2697,6 +2783,9 @@ isOneToOne: false
                            },
 "consent_status":
 { Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"create_challenge":
+{ Args: { "p_days": number,"p_folder_id"?: string,"p_members"?: (string)[],"p_name": string,"p_scoring"?: string,"p_starts_on"?: string,"p_team_id"?: string }; Returns: string
                            },
 "create_clan":
 { Args: { "p_icon"?: string,"p_name": string }; Returns: string
@@ -3026,8 +3115,14 @@ isOneToOne: false
 "hatch_pet":
 { Args: { "p_potion": string,"p_species": string }; Returns: Json
                            },
+"in_challenge":
+{ Args: { "p_challenge_id": string }; Returns: boolean
+                           },
 "in_group":
 { Args: { "p_folder_id": string,"p_team_id": string }; Returns: boolean
+                           },
+"in_post_group":
+{ Args: { "p_challenge_id": string,"p_folder_id": string,"p_team_id": string }; Returns: boolean
                            },
 "invite_preview":
 { Args: { "p_token": string }; Returns: Json
@@ -3054,6 +3149,9 @@ isOneToOne: false
 { Args: { "p_id": string,"p_type": string }; Returns: {
               "can_unlink": boolean,"icon": string,"id": string,"other_id": string,"other_type": string,"title": string
             }[]
+                           },
+"join_challenge":
+{ Args: { "p_code": string }; Returns: string
                            },
 "join_clan":
 { Args: { "p_token": string }; Returns: string
@@ -3110,7 +3208,7 @@ isOneToOne: false
                            },
 "my_challenges":
 { Args: Record<PropertyKey, never>; Returns: {
-              "days": number,"ends_on": string,"folder_id": string,"group_name": string,"id": string,"name": string,"starts_on": string,"team_id": string
+              "created_by": string,"days": number,"ends_on": string,"finished_at": string,"id": string,"members": number,"name": string,"scoring": string,"starts_on": string
             }[]
                            },
 "my_clan":
@@ -3232,6 +3330,9 @@ isOneToOne: false
 "remind_student":
 { Args: { "p_share_id": string }; Returns: undefined
                            },
+"remove_challenge_member":
+{ Args: { "p_challenge_id": string,"p_user_id": string }; Returns: undefined
+                           },
 "remove_member":
 { Args: { "p_folder_id": string,"p_user_id": string }; Returns: undefined
                            },
@@ -3288,6 +3389,9 @@ isOneToOne: false
                            },
 "set_appearance":
 { Args: { "p_background": string,"p_portrait": string }; Returns: undefined
+                           },
+"set_challenge_code":
+{ Args: { "p_challenge_id": string,"p_enabled": boolean }; Returns: string
                            },
 "set_class":
 { Args: { "p_class": string }; Returns: Json

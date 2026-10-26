@@ -1,7 +1,9 @@
+import type { TFunction } from 'i18next';
+import { Link } from 'expo-router';
 import { Flame, Plus, Trophy } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, PromptDialog } from '@/components/ui/dialog';
@@ -12,7 +14,14 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { challengeProgress, leaderboard, podium } from '@/lib/gym/leaderboard';
+import {
+  boardActivity,
+  challengeProgress,
+  leaderboard,
+  podium,
+  type BoardEntry,
+  type Scoring,
+} from '@/lib/gym/leaderboard';
 import { formatShortDate } from '@/lib/parser/dates';
 import {
   useChallengeActions,
@@ -29,8 +38,9 @@ const endOf = (c: Challenge) => c.ends_on ?? c.starts_on;
 const MEDALS = { 1: '🥇', 2: '🥈', 3: '🥉' } as const;
 
 /**
- * Desafios do grupo (V6 §15.5, AC10.5): o que está valendo, com o ranking de dias de treino, os
- * que acabaram e "Iniciar novo desafio" (nome e quantos dias dura).
+ * Desafios que saíram do projeto ou do time (V6 §15.5, AC10.5): o que está valendo, com o ranking,
+ * os que acabaram e "Iniciar novo desafio" (nome e quantos dias dura; o grupo inteiro entra). Cada
+ * um abre a tela do desafio (AC15C), com o mural, o chat e as pessoas.
  */
 export function ChallengesPanel({
   group,
@@ -68,13 +78,13 @@ export function ChallengesPanel({
         <EmptyState title={t('group.noChallenges')} hint={t('group.noChallengesHint')} />
       )}
       {running.map((c) => (
-        <ChallengeCard key={c.id} challenge={c} canRemove={canStart} />
+        <ChallengeCard key={c.id} challenge={c} canRemove={canStart} link />
       ))}
       {past.length > 0 && (
         <View className="gap-3">
           <SectionLabel title={t('group.pastChallenges')} count={past.length} />
           {past.map((c) => (
-            <ChallengeCard key={c.id} challenge={c} canRemove={canStart} compact />
+            <ChallengeCard key={c.id} challenge={c} canRemove={canStart} compact link />
           ))}
         </View>
       )}
@@ -105,14 +115,26 @@ export function ChallengesPanel({
   );
 }
 
-function ChallengeCard({
+/** O valor do critério de uma linha: "12 dias", "5 treinos", "340 min", "86 pts". */
+export function scoreLabel(entry: BoardEntry, scoring: Scoring, t: TFunction) {
+  return t(`challenge.score.${scoring}`, { count: entry.score });
+}
+
+/** Ranking de um desafio, com o pódio quando terminou. */
+export function ChallengeCard({
   challenge,
   canRemove,
   compact,
+  link,
+  bare,
 }: {
   challenge: Challenge;
   canRemove: boolean;
   compact?: boolean;
+  /** O nome abre a tela do desafio */
+  link?: boolean;
+  /** Sem o nome (a tela do desafio já o tem no topo) */
+  bare?: boolean;
 }) {
   const { t } = useTranslation();
   const today = useToday();
@@ -125,23 +147,35 @@ function ChallengeCard({
   const rows = board.data ?? [];
   const names = new Map(rows.map((r) => [r.user_id, r.display_name]));
   const entries = leaderboard(
-    rows.flatMap((r) => r.days.map((day) => ({ userId: r.user_id, day }))),
+    boardActivity(rows),
     rows.map((r) => r.user_id),
     range,
+    challenge.scoring,
   );
   const shown = compact ? entries.slice(0, 3) : entries;
   // Terminado (AC11): o pódio leva o prêmio, entregue pelo servidor no dia seguinte ao fim
   const over = today > range.end;
   const places = over ? podium(entries) : new Map<string, 1 | 2 | 3>();
+  const title = (
+    <Text accessibilityRole="header" className="text-base font-semibold text-ink">
+      {challenge.name}
+    </Text>
+  );
 
   return (
     <View className="gap-3 rounded-lg border border-line bg-surface p-4">
       <View className="flex-row items-start gap-3">
         <Icon icon={Trophy} tone="ink" />
         <View className="flex-1 gap-1">
-          <Text accessibilityRole="header" className="text-base font-semibold text-ink">
-            {challenge.name}
-          </Text>
+          {bare ? null : link ? (
+            <Link href={{ pathname: '/desafio/[id]', params: { id: challenge.id } }} asChild>
+              <Pressable accessibilityRole="link" className="self-start hover:opacity-80">
+                {title}
+              </Pressable>
+            </Link>
+          ) : (
+            title
+          )}
           <Text className="font-mono text-xs text-ink-muted">
             {formatShortDate(range.start)} – {formatShortDate(range.end)} ·{' '}
             {progress.left > 0
@@ -171,10 +205,10 @@ function ChallengeCard({
             <View
               key={entry.userId}
               accessibilityRole="text"
-              accessibilityLabel={t('group.rankRow', {
+              accessibilityLabel={t('challenge.rankRow', {
                 rank: entry.rank,
                 name,
-                count: entry.days,
+                score: scoreLabel(entry, challenge.scoring, t),
               })}
               className={cn(
                 'min-h-10 flex-row items-center gap-3 border-b border-line px-2',
@@ -201,13 +235,15 @@ function ChallengeCard({
                 </View>
               )}
               <Text className="font-mono text-sm text-ink">
-                {t('group.days', { count: entry.days })}
+                {scoreLabel(entry, challenge.scoring, t)}
               </Text>
             </View>
           );
         })}
       </View>
-      {!compact && <Text className="text-xs text-ink-muted">{t('group.rule')}</Text>}
+      {!compact && (
+        <Text className="text-xs text-ink-muted">{t(`challenge.rule.${challenge.scoring}`)}</Text>
+      )}
       {!compact && <Text className="text-xs text-ink-muted">{t('group.prizes')}</Text>}
       {removing && (
         <ConfirmDialog

@@ -15,6 +15,7 @@ import { View } from 'react-native';
 import { FolderSection, PageRow } from '@/components/folder-cards';
 import { useFolderActions } from '@/components/folder-actions';
 import { GroupLinkedPages } from '@/components/gym/page-groups';
+import { ChallengesBlock } from '@/components/group/challenges-block';
 import { TodayWorkout } from '@/components/gym/week-plan';
 import { HubRow, HubSection } from '@/components/hub';
 import { GymToggle } from '@/components/sidebar-settings';
@@ -110,6 +111,7 @@ export function WorkoutHub() {
               onPress={actions.newGymGroup}
             />
           </View>
+          <ChallengesBlock />
           <HubSection title={t('workoutHub.tools')}>
             <HubRow
               icon={ClipboardList}

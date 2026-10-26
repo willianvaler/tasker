@@ -1,15 +1,32 @@
 import { addDays } from '../parser/dates';
 
-// Ranking do desafio do grupo (V6 §15.5, AC10.3): dias ativos (um dia de treino conta uma vez),
-// pontos opcionais, empates e sequência. Função pura: o servidor dá os dias de treino de cada um.
+// Ranking do desafio (V6 §15.5, AC10.3, AC15C): dias ativos (um dia de treino conta uma vez),
+// atividades, minutos ou pontos, empates e sequência. Função pura: o servidor dá os dias de treino e
+// as atividades de cada um. O mesmo critério de public._challenge_scores (o servidor dá o prêmio).
 
-export type ActivityDay = { userId: string; day: string; points?: number };
+export type Scoring = 'days' | 'activities' | 'minutes' | 'points';
+export const SCORINGS: readonly Scoring[] = ['days', 'activities', 'minutes', 'points'];
+
+export type ActivityDay = {
+  userId: string;
+  day: string;
+  /** Pontos já calculados; sem eles, os de activityPoints */
+  points?: number;
+  minutes?: number;
+  sets?: number;
+  /** false: só o dia de treino, sem uma atividade (conta nos dias, não nas atividades) */
+  activity?: boolean;
+};
 
 export type BoardEntry = {
   userId: string;
   /** Dias distintos com treino dentro do desafio */
   days: number;
+  activities: number;
+  minutes: number;
   points: number;
+  /** O valor do critério do desafio */
+  score: number;
   /** Sequência atual: dias seguidos terminando hoje (ou ontem, se hoje ainda não treinou) */
   streak: number;
   /** Maior sequência dentro do desafio */
@@ -21,37 +38,74 @@ export type BoardEntry = {
 export type ChallengeRange = { start: string; end: string; today: string };
 
 /**
- * Uma linha por participante (mesmo quem não treinou), na ordem do ranking: pelo critério
- * (dias ou pontos), desempate de exibição pela maior sequência e depois pelo id (estável).
+ * Pontos de um treino: 10 pelo treino, 1 por série feita (sem aquecimento) e 1 a cada 10 minutos.
+ * O mesmo que public._activity_points.
+ */
+export function activityPoints(minutes = 0, sets = 0) {
+  return 10 + Math.max(0, sets) + Math.floor(Math.max(0, minutes) / 10);
+}
+
+/**
+ * Uma linha por participante (mesmo quem não treinou), na ordem do ranking: pelo critério,
+ * desempate de exibição pela maior sequência e depois pelo id (estável).
  */
 export function leaderboard(
   activity: readonly ActivityDay[],
   participants: readonly string[],
   range: ChallengeRange,
-  by: 'days' | 'points' = 'days',
+  by: Scoring = 'days',
 ): BoardEntry[] {
   const inRange = activity.filter((a) => a.day >= range.start && a.day <= range.end);
   const entries = [...new Set(participants)].map((userId) => {
     const mine = inRange.filter((a) => a.userId === userId);
+    const acts = mine.filter((a) => a.activity !== false);
     const days = [...new Set(mine.map((a) => a.day))].sort();
-    return {
+    const entry: BoardEntry = {
       userId,
       days: days.length,
-      points: mine.reduce((sum, a) => sum + (a.points ?? 0), 0),
+      activities: acts.length,
+      minutes: acts.reduce((sum, a) => sum + (a.minutes ?? 0), 0),
+      points: acts.reduce((sum, a) => sum + (a.points ?? activityPoints(a.minutes, a.sets)), 0),
+      score: 0,
       streak: currentStreak(days, range),
       best: bestStreak(days),
       rank: 0,
     };
+    entry.score = by === 'days' ? entry.days : entry[by];
+    return entry;
   });
 
-  const value = (e: BoardEntry) => (by === 'points' ? e.points : e.days);
-  entries.sort(
-    (a, b) => value(b) - value(a) || b.best - a.best || a.userId.localeCompare(b.userId),
-  );
+  entries.sort((a, b) => b.score - a.score || b.best - a.best || a.userId.localeCompare(b.userId));
   entries.forEach((e, i) => {
-    e.rank = i > 0 && value(entries[i - 1]) === value(e) ? entries[i - 1].rank : i + 1;
+    e.rank = i > 0 && entries[i - 1].score === e.score ? entries[i - 1].rank : i + 1;
   });
   return entries;
+}
+
+/**
+ * As linhas do ranking a partir do challenge_board: as atividades e os dias de treino sem
+ * atividade (os de antes do AC15C, se houver).
+ */
+export function boardActivity(
+  rows: readonly {
+    user_id: string;
+    days: readonly string[];
+    activities: readonly { day: string; minutes?: number; sets?: number }[];
+  }[],
+): ActivityDay[] {
+  return rows.flatMap((r) => {
+    const acts = r.activities.map((a) => ({
+      userId: r.user_id,
+      day: a.day,
+      minutes: a.minutes ?? 0,
+      sets: a.sets ?? 0,
+    }));
+    const withActivity = new Set(acts.map((a) => a.day));
+    const bare = r.days
+      .filter((day) => !withActivity.has(day))
+      .map((day) => ({ userId: r.user_id, day, activity: false }));
+    return [...acts, ...bare];
+  });
 }
 
 /** Dias seguidos até hoje; hoje sem treino ainda não quebra (conta a partir de ontem). */
@@ -80,8 +134,8 @@ function bestStreak(sortedDays: readonly string[]) {
 }
 
 /**
- * Pódio do desafio terminado (AC11): até o 3º lugar, só quem treinou, e só quando pelo menos duas
- * pessoas treinaram. O mesmo que public._challenge_podium (o servidor dá os prêmios).
+ * Pódio do desafio terminado (AC11): até o 3º lugar pelo critério, só quem treinou, e só quando
+ * pelo menos duas pessoas treinaram. O mesmo que public._challenge_podium (o servidor dá os prêmios).
  */
 export function podium(entries: readonly BoardEntry[]): Map<string, 1 | 2 | 3> {
   const trained = entries.filter((e) => e.days > 0);

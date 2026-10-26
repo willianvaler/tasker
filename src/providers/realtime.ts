@@ -37,6 +37,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   workout_session_members: [['workout-session'], ['workout-invites']],
   // Desafios do grupo (AC10.4): ranking, mural e chat
   challenges: [['challenges']],
+  // Desafio estilo GymRats (AC15C): quem entra e sai muda a lista, o ranking e o mural
+  challenge_members: [['challenges'], ['challenge-board']],
   // Treino da Academia num grupo (AC15B): os treinos do grupo e os recebidos
   page_group_links: [['page-groups'], ['received']],
   group_posts: [['group-posts']],

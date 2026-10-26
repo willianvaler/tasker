@@ -1,6 +1,13 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { challengeProgress, leaderboard, podium, type ActivityDay } from '../leaderboard';
+import {
+  activityPoints,
+  boardActivity,
+  challengeProgress,
+  leaderboard,
+  podium,
+  type ActivityDay,
+} from '../leaderboard';
 
 const range = { start: '2026-10-01', end: '2026-10-10', today: '2026-10-05' };
 const day = (userId: string, d: number, points?: number): ActivityDay => ({
@@ -70,6 +77,69 @@ describe('leaderboard', () => {
   });
   it('participante repetido aparece uma vez', () =>
     expect(leaderboard([], ['ana', 'ana'], range)).toHaveLength(1));
+  it('por atividades: dois treinos no mesmo dia contam dois', () => {
+    const board = leaderboard(
+      [day('ana', 1), day('ana', 1), day('bia', 1), day('bia', 2), day('bia', 3)],
+      ['ana', 'bia'],
+      { ...range, today: '2026-10-01' },
+      'activities',
+    );
+    expect(board.map((e) => [e.userId, e.score, e.rank])).toEqual([
+      ['bia', 3, 1],
+      ['ana', 2, 2],
+    ]);
+  });
+  it('por minutos, e o dia sem atividade não conta nas atividades', () => {
+    const board = leaderboard(
+      [
+        { userId: 'ana', day: '2026-10-01', minutes: 50 },
+        { userId: 'bia', day: '2026-10-01', minutes: 30 },
+        { userId: 'bia', day: '2026-10-02', minutes: 30 },
+        { userId: 'bia', day: '2026-10-03', activity: false },
+      ],
+      ['ana', 'bia'],
+      range,
+      'minutes',
+    );
+    expect(board.map((e) => [e.userId, e.score, e.activities, e.days])).toEqual([
+      ['bia', 60, 2, 3],
+      ['ana', 50, 1, 1],
+    ]);
+  });
+  it('pontos calculados das séries e dos minutos', () => {
+    const board = leaderboard(
+      [{ userId: 'ana', day: '2026-10-01', minutes: 20, sets: 2 }],
+      ['ana'],
+      range,
+      'points',
+    );
+    expect(board[0].score).toBe(14);
+  });
+});
+
+describe('activityPoints', () => {
+  it('10 pelo treino, 1 por série, 1 a cada 10 minutos (o mesmo do banco)', () => {
+    expect(activityPoints(25, 12)).toBe(24);
+    expect(activityPoints(0, 0)).toBe(10);
+    expect(activityPoints(9, 0)).toBe(10);
+  });
+});
+
+describe('boardActivity', () => {
+  it('atividades e os dias de treino sem atividade', () => {
+    expect(
+      boardActivity([
+        {
+          user_id: 'ana',
+          days: ['2026-10-01', '2026-10-02'],
+          activities: [{ day: '2026-10-02', minutes: 30, sets: 4 }],
+        },
+      ]),
+    ).toEqual([
+      { userId: 'ana', day: '2026-10-02', minutes: 30, sets: 4 },
+      { userId: 'ana', day: '2026-10-01', activity: false },
+    ]);
+  });
 });
 
 describe('challengeProgress', () => {

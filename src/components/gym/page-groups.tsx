@@ -61,7 +61,10 @@ export function PageGroupsDialog({ page, onClose }: { page: Page; onClose: () =>
       ) : (
         <ScrollView style={{ maxHeight: 320 }} className="border-y border-line">
           {groups.map((group) => (
-            <View key={group.folder_id} className="flex-row items-center gap-2 border-b border-line">
+            <View
+              key={group.folder_id}
+              className="flex-row items-center gap-2 border-b border-line"
+            >
               <Checkbox
                 checked={chosen.includes(group.folder_id)}
                 label={group.name}
@@ -97,13 +100,7 @@ export function PageGroupsDialog({ page, onClose }: { page: Page; onClose: () =>
  * Os treinos que membros puseram no grupo (a outra visão do vínculo), com quem pôs. Tira do grupo
  * quem pôs ou quem gerencia o grupo.
  */
-export function GroupLinkedPages({
-  folderId,
-  indent,
-}: {
-  folderId: string;
-  indent?: boolean;
-}) {
+export function GroupLinkedPages({ folderId, indent }: { folderId: string; indent?: boolean }) {
   const { t } = useTranslation();
   const online = useIsOnline();
   const me = useSession().session?.user.id;

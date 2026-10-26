@@ -10,7 +10,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Tabs } from '@/components/ui/tabs';
 import { actorCan } from '@/lib/permissions';
-import type { Group } from '@/lib/queries/challenges';
+import { useGroupPosts, type Group } from '@/lib/queries/challenges';
 import { useFolderActor, useMembers } from '@/lib/queries/projects';
 import { teamRoleAtLeast, useTeam } from '@/lib/queries/teams';
 import { useTree } from '@/lib/queries/tree';
@@ -19,8 +19,9 @@ import { useIsOnline } from '@/providers/online';
 type Tab = 'challenges' | 'wall' | 'chat';
 
 /**
- * Treino em grupo (V6 §15.5, AC10.5): desafios com ranking, mural de check-ins e chat de um
- * projeto (/grupo/projeto/<id>) ou de um time (/grupo/time/<id>).
+ * Treino em grupo (V6 §15.5, AC10.5) de um projeto (/grupo/projeto/<id>) ou de um time
+ * (/grupo/time/<id>): os desafios que saíram dele. Desde o AC15C o mural e o chat são de cada
+ * desafio; as abas daqui ficam só enquanto o grupo tiver posts de antes (de quando não havia desafio).
  */
 export default function GroupScreen() {
   const { kind, id, desafio } = useLocalSearchParams<{
@@ -49,20 +50,23 @@ export default function GroupScreen() {
     : actorCan(actor, 'page.manage');
   const name = isTeam ? team.data?.name : folder?.name;
   const [tab, setTab] = useState<Tab>('challenges');
+  const legacy = (useGroupPosts(group).data?.length ?? 0) > 0;
 
   return (
     <Screen size="medium">
       <ScreenHeader back eyebrow={name ?? ''} title={t('group.title')} />
-      <Tabs
-        label={t('group.title')}
-        value={tab}
-        onChange={setTab}
-        tabs={[
-          { value: 'challenges', label: t('group.challenges') },
-          { value: 'wall', label: t('group.wall') },
-          { value: 'chat', label: t('group.chat') },
-        ]}
-      />
+      {legacy && (
+        <Tabs
+          label={t('group.title')}
+          value={tab}
+          onChange={setTab}
+          tabs={[
+            { value: 'challenges', label: t('group.challenges') },
+            { value: 'wall', label: t('group.wall') },
+            { value: 'chat', label: t('group.chat') },
+          ]}
+        />
+      )}
       {!online ? (
         <EmptyState title={t('group.offline')} />
       ) : (

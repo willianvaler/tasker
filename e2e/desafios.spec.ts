@@ -9,7 +9,7 @@ const userIdOf = (page: Page) =>
   });
 
 // V6 §15.5 (AC10.4, AC10.5): desafio do projeto com ranking de dias de treino, check-in no mural
-// com reação e chat do grupo, entre duas pessoas.
+// com reação e chat, entre duas pessoas. Desde o AC15C o mural e o chat são da tela do desafio.
 test('treino em grupo: desafio, ranking, mural e chat', async ({ page, browser }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'duas pessoas: basta um perfil');
   test.setTimeout(120_000);
@@ -72,9 +72,18 @@ test('treino em grupo: desafio, ranking, mural e chat', async ({ page, browser }
     },
   );
 
+  // O grupo inteiro entrou no desafio; a Ana abre a tela dele
+  await page.getByRole('link', { name: `Outubro ${stamp}` }).click();
+  await expect(page.getByText('Dias ativos · 2 pessoas')).toBeVisible({ timeout: 15_000 });
+  const [challenge] = await adminRest(
+    `challenges?name=eq.${encodeURIComponent(`Outubro ${stamp}`)}&select=id`,
+  );
+
   // A Bia faz check-in no mural; a Ana vê e reage
-  await bia.goto(`/grupo/projeto/${folder.id}`);
-  await expect(bia.getByRole('heading', { name: `Outubro ${stamp}` })).toBeVisible();
+  await bia.goto(`/desafio/${challenge.id}`);
+  await expect(bia.getByRole('heading', { name: `Outubro ${stamp}` })).toBeVisible({
+    timeout: 15_000,
+  });
   await bia.getByRole('tab', { name: 'Mural' }).click();
   await bia.getByRole('textbox', { name: 'Como foi o treino?' }).fill('Perna feita');
   await bia.getByRole('button', { name: 'Fazer check-in' }).click();
@@ -155,4 +164,65 @@ test('desafio terminado: pódio, medalhas e aviso do prêmio', async ({
   await page.goto(`/desafio/${challenge.id}`);
   await expect(page.getByLabel('1º lugar: prêmio do desafio')).toBeVisible({ timeout: 20_000 });
   await expect(page.getByLabel('2º lugar: prêmio do desafio')).toBeVisible();
+});
+
+// AC15C: desafio estilo GymRats. Ana cria um desafio por pontos sem ninguém; a Bia entra pelo link
+// do código, aparece no ranking e manda mensagem no chat; Ana vê e tira a Bia.
+test('desafio: criar, entrar pelo código, chat e tirar pessoa', async ({
+  page,
+  browser,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'duas pessoas: basta um perfil');
+  test.setTimeout(120_000);
+  await signUp(page, testInfo);
+  const biaContext = await browser.newContext({ ...devices['Desktop Chrome'] });
+  const bia = await biaContext.newPage();
+  await signUp(bia, testInfo);
+
+  const name = `Outubro ${Date.now()}`;
+  await page.goto('/desafio/novo');
+  await page.getByLabel('Nome do desafio').fill(name);
+  await page.getByLabel('Quantos dias dura (1 a 365)').fill('14');
+  await page.getByRole('radio', { name: 'Pontos' }).click();
+  await page.getByRole('button', { name: 'Criar desafio' }).click();
+  await expect(page.getByRole('heading', { name })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText('Pontos · 1 pessoa')).toBeVisible();
+
+  const [challenge] = await adminRest(
+    `challenges?name=eq.${encodeURIComponent(name)}&select=id,code,scoring`,
+  );
+  expect(challenge.scoring).toBe('points');
+  await page.getByRole('tab', { name: 'Pessoas' }).click();
+  await expect(page.getByLabel('Código para entrar')).toHaveText(challenge.code);
+
+  // A Bia abre o link e entra direto
+  await bia.goto(`/desafio-entrar/${challenge.code}`);
+  await expect(bia.getByRole('heading', { name })).toBeVisible({ timeout: 20_000 });
+  await bia.getByRole('button', { name: 'Entrar no desafio' }).click();
+  await expect(bia.getByText('Pontos · 2 pessoas')).toBeVisible({ timeout: 20_000 });
+  await expect(bia.getByRole('list', { name: 'Ranking' })).toContainText('0 pts');
+
+  await bia.getByRole('tab', { name: 'Chat' }).click();
+  await bia.getByPlaceholder('Mensagem para o grupo').fill('Bora treinar!');
+  await bia.getByRole('button', { name: 'Enviar' }).click();
+
+  await page.getByRole('tab', { name: 'Chat' }).click();
+  await expect(page.getByText('Bora treinar!')).toBeVisible({ timeout: 20_000 });
+
+  // Ana tira a Bia
+  await page.getByRole('tab', { name: 'Pessoas' }).click();
+  await page.getByRole('button', { name: /^Tirar / }).click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: /^Tirar / })
+    .click();
+  await expect
+    .poll(
+      async () =>
+        (await adminRest(`challenge_members?challenge_id=eq.${challenge.id}&select=user_id`))
+          .length,
+      { timeout: 20_000 },
+    )
+    .toBe(1);
+  await biaContext.close();
 });
