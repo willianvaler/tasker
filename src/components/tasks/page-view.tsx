@@ -40,7 +40,8 @@ import { actorCan } from '@/lib/permissions';
 import { useProjectDependencies } from '@/lib/queries/dependencies';
 import { usePageDeps } from '@/lib/queries/page-deps';
 import { rootFolder, useFolderActor } from '@/lib/queries/projects';
-import { useTree } from '@/lib/queries/tree';
+import { isWorkoutPage, useTree } from '@/lib/queries/tree';
+import { AddFromLibrary } from '@/components/gym/add-from-library';
 import { taskState, type StateTask } from '@/lib/task-state';
 import { SortableTasks } from './sortable-tasks';
 import { TaskCard } from './task-card';
@@ -83,6 +84,9 @@ export function PageView({ page }: { page: Page | undefined }) {
   // Fluxo (V3 §2.2): estado de cada tarefa com pré-requisito (dela ou de uma mãe)
   const tree = useTree();
   const root = rootFolder(tree.data, page?.folder_id);
+  // Treino: o item é um exercício (nem "tarefa" nem, no vocabulário de jogo, "missão")
+  const workout = !!page && isWorkoutPage(tree.data, page);
+  const wideInput = useWindowDimensions().width >= 768;
   const dependencies = useProjectDependencies(root?.id);
   // Lista que espera outra chegar a X% (V3 §2.3): todas as tarefas abertas ficam bloqueadas
   const pageDeps = usePageDeps(root);
@@ -219,10 +223,17 @@ export function PageView({ page }: { page: Page | undefined }) {
           <QuickAdd
             pageId={page?.id}
             parseMeta={viewType === 'cards'}
-            placeholder={viewType === 'habits' ? t('page.habitPlaceholder') : undefined}
+            placeholder={
+              viewType === 'habits'
+                ? t('page.habitPlaceholder')
+                : workout
+                  ? t(wideInput ? 'gym.quickAdd' : 'gym.quickAddShort')
+                  : undefined
+            }
             autoFocus={viewType === 'list' && !isTouchScreen()}
           />
         </View>
+        {workout && page && <AddFromLibrary pageId={page.id} disabled={!writable} />}
         {viewType === 'list' && gutter && (
           <Button
             variant="ghost"

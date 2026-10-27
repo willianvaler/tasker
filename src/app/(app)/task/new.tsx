@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput, View } from 'react-native';
 
+import { ExercisePicker } from '@/components/gym/exercise-link';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { RepeatPlanEditor } from '@/components/tasks/repeat';
 import { RecurrenceEditor } from '@/components/tasks/task-extras';
@@ -21,6 +22,7 @@ import { captureTargetId, folderScope } from '@/lib/capture-target';
 import { getLastPageId, setLastPageId } from '@/lib/prefs';
 import type { RepeatPlan } from '@/lib/repeat';
 import { useToday } from '@/lib/queries/profile';
+import { exerciseName, useExerciseCatalog } from '@/lib/queries/exercises';
 import { useCreateTasks, useUpdateTask } from '@/lib/queries/tasks';
 import { isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { useColors } from '@/lib/tokens';
@@ -35,7 +37,7 @@ const PRIORITIES = [
 ] as const;
 
 export default function NewTaskScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const colors = useColors();
   const params = useLocalSearchParams<{ page?: string; folder?: string }>();
   const tree = useTree();
@@ -58,7 +60,13 @@ export default function NewTaskScreen() {
   const page = pages.find((p) => p.id === pageId) ?? tree.data?.inbox ?? undefined;
   // Página de treino (AC2, D234): séries e observação; data, prioridade e etiquetas em "Mais opções"
   const [more, setMore] = useState(false);
-  const lean = !!page && isWorkoutPage(tree.data, page) && !more;
+  const workout = !!page && isWorkoutPage(tree.data, page);
+  const lean = workout && !more;
+  // Exercício da biblioteca já na criação (antes, só nos detalhes depois de criar)
+  const catalog = useExerciseCatalog();
+  const [exerciseId, setExerciseId] = useState<string | null>(null);
+  const [picking, setPicking] = useState(false);
+  const exercise = workout ? catalog.data?.find((e) => e.id === exerciseId) : undefined;
 
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
@@ -91,6 +99,7 @@ export default function NewTaskScreen() {
           recurrence,
           meta: null,
           repeatPlan,
+          exerciseId: exercise?.id ?? null,
           mentions: [],
           prereqs: [],
         },
@@ -128,7 +137,7 @@ export default function NewTaskScreen() {
         autoFocus={!isTouchScreen()}
         value={title}
         onChangeText={setTitle}
-        placeholder={t('advanced.newTask')}
+        placeholder={t(workout ? 'gym.quickAddLabel' : 'advanced.newTask')}
         placeholderTextColor={colors['ink-muted']}
         accessibilityLabel={t('taskDetail.titleField')}
         maxLength={500}
@@ -157,6 +166,44 @@ export default function NewTaskScreen() {
           </View>
         )}
       </Field>
+
+      {workout && (
+        <Field label={t('taskDetail.exercise')}>
+          {exercise && (
+            <Text className="text-sm text-ink">
+              {t('library.linked', { name: exerciseName(exercise, i18n.language) })}
+            </Text>
+          )}
+          <View className="flex-row flex-wrap gap-2">
+            <Button
+              variant="ghost"
+              label={t(exercise ? 'library.pick' : 'library.link')}
+              onPress={() => setPicking(true)}
+            />
+            {exercise && (
+              <Button
+                variant="ghost"
+                label={t('library.unlink')}
+                onPress={() => setExerciseId(null)}
+              />
+            )}
+          </View>
+          {picking && (
+            <ExercisePicker
+              initialQuery={title}
+              list={catalog.data ?? []}
+              onClose={() => setPicking(false)}
+              onPick={(id) => {
+                setPicking(false);
+                setExerciseId(id);
+                // Sem título ainda: o nome do exercício
+                const picked = catalog.data?.find((e) => e.id === id);
+                if (picked && !title.trim()) setTitle(exerciseName(picked, i18n.language));
+              }}
+            />
+          )}
+        </Field>
+      )}
 
       <Field label={t('taskDetail.notes')}>
         <TextInput

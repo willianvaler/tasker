@@ -2866,7 +2866,13 @@
     "toggle": "Workouts (gym)",
     "toggleHint": "Workouts, sets and loads, Workout Mode, the Library and the Gym block in the sidebar.",
     "newGroup": "New training group",
-    "groupPlaceholder": "Name (e.g. Training with Ana)"
+    "groupPlaceholder": "Name (e.g. Training with Ana)",
+    "quickAdd": "New exercise… (Enter to create)",
+    "quickAddShort": "New exercise…",
+    "quickAddLabel": "New exercise",
+    "fromLibrary": "From library",
+    "fromLibraryLabel": "Add exercise from the library",
+    "added": "{{name}} is in the workout."
   },
   "sidebarPrefs": {
     "title": "Sidebar",

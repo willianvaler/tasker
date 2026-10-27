@@ -42,4 +42,23 @@ test('biblioteca: busca, ficha e o item de treino ligado ao exercício', async (
       { timeout: 15_000 },
     )
     .toBeGreaterThanOrEqual(1);
+
+  // Direto da biblioteca: o item já nasce ligado, sem abrir os detalhes
+  await page.goBack();
+  await page.getByRole('button', { name: 'Adicionar exercício da biblioteca' }).click();
+  await page
+    .getByRole('textbox', { name: /^Buscar exercício/ })
+    .last()
+    .fill('agachamento');
+  const squat = page.getByRole('button', { name: /^Agachamento/ }).first();
+  await expect(squat).toBeVisible({ timeout: 15_000 });
+  await squat.click();
+  await expect(page.getByText(/entrou no treino\.$/)).toBeVisible();
+  await expect
+    .poll(
+      async () =>
+        (await adminRest(`tasks?title=like.Agachamento*&exercise_id=not.is.null&select=id`)).length,
+      { timeout: 15_000 },
+    )
+    .toBeGreaterThanOrEqual(1);
 });

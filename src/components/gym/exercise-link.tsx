@@ -98,7 +98,7 @@ export function ExerciseLink({
   );
 }
 
-function ExercisePicker({
+export function ExercisePicker({
   initialQuery,
   list,
   onPick,

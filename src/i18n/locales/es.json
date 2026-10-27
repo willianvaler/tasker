@@ -2866,7 +2866,13 @@
     "toggle": "Entrenamiento (gimnasio)",
     "toggleHint": "Entrenamientos, series y cargas, el Modo Entrenamiento, la Biblioteca y el bloque Gimnasio en la barra lateral.",
     "newGroup": "Nuevo grupo de entrenamiento",
-    "groupPlaceholder": "Nombre (ej.: Entreno con Ana)"
+    "groupPlaceholder": "Nombre (ej.: Entreno con Ana)",
+    "quickAdd": "Nuevo ejercicio… (Enter para crear)",
+    "quickAddShort": "Nuevo ejercicio…",
+    "quickAddLabel": "Nuevo ejercicio",
+    "fromLibrary": "De la biblioteca",
+    "fromLibraryLabel": "Añadir ejercicio de la biblioteca",
+    "added": "{{name}} está en el entrenamiento."
   },
   "sidebarPrefs": {
     "title": "Barra lateral",

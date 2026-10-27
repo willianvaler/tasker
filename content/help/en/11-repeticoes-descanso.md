@@ -8,6 +8,8 @@ After each set a **rest** starts (60 s by default). In a workout, the exercise p
 
 **Advanced sets:** for a workout like "1 set of 14, 2 of 10, 1 of 8", turn on **Advanced sets** in the exercise panel. The first line stays the same, and the **+** at its end adds another line with its own sets, reps and weight (it starts with the reps and weight of the line before). The **×** removes a line. In Workout mode, each set shows what it asks for ("10 reps · 45kg"), and weight −/+ changes only that line's sets.
 
+**From library:** in the workout's create line (**New exercise…**), the **From library** button opens the search; the chosen exercise joins the workout already linked to its entry, with its name. In the workout's advanced creation, the **Exercise** field does the same. An item created from plain text suggests the closest exercise in its panel.
+
 ## Workout mode
 
 On workout lists (in the Gym folder or a workout group) or lists with tasks that have sets, **Start workout** opens full screen: current exercise, set, load, a big **Done** button (or `Space`), `R` skips the rest. After the last exercise, the **summary** shows sets, time, volume and XP and, with exercises linked to the Library, the map of **muscles worked**; **Close** goes back to the list. While you build the workout, the **Muscles in this workout** line (above the list) says which muscles it hits; tap it to open the map. Works offline and keeps the screen on. Left for the list mid-workout? The button becomes **Resume workout** and you pick up where you stopped (in a training group, without asking again who's with you). Went back to a finished exercise with **Previous**? The big button becomes **Next exercise**. While the workout is paused, **Done** stays dimmed until you tap ▶.

@@ -8,6 +8,8 @@ Depois de cada série começa o **descanso** (60 s por padrão). Num treino, o p
 
 **Séries avançadas:** para um treino como "1 série de 14, 2 de 10, 1 de 8", ligue **Séries avançadas** no painel do exercício. A primeira linha continua igual, e o **+** no fim dela acrescenta outra linha com séries, repetições e carga próprias (ela já vem com as repetições e a carga da anterior). O **×** tira uma linha. No Modo Treino, cada série mostra o que pede ("10 reps · 45kg"), e a carga −/+ muda só a das séries daquela linha.
 
+**Da biblioteca:** na linha de criar do treino (**Novo exercício…**), o botão **Da biblioteca** abre a busca; o exercício escolhido entra no treino já ligado à ficha, com o nome dela. Na criação avançada do treino, o campo **Exercício** faz o mesmo. Um item criado só com texto sugere o exercício parecido no painel.
+
 ## Modo Treino
 
 Em listas de treino (da Academia ou de um grupo de treino) ou com tarefas que têm séries, **Iniciar treino** abre a tela cheia: exercício atual, série, carga, botão grande **Feita** (ou `Espaço`), `R` pula o descanso. Feito o último exercício, o **resumo** mostra séries, tempo, volume e XP e, com os exercícios ligados à Biblioteca, o mapa dos **músculos trabalhados**; **Fechar** volta para a lista. Enquanto você monta o treino, a linha **Músculos deste treino** (acima da lista) diz quais músculos ele pega; tocar abre o mapa. Funciona sem internet e mantém a tela acesa. Saiu para a lista no meio do treino? O botão vira **Continuar treino** e você volta de onde parou (num grupo de treino, sem perguntar de novo com quem). Voltou a um exercício já feito com **Anterior**? O botão grande vira **Próximo exercício**. Com o treino pausado, o **Feita** fica apagado até você tocar em ▶.

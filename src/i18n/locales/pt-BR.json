@@ -2866,7 +2866,13 @@
     "toggle": "Treino (academia)",
     "toggleHint": "Treinos, séries e cargas, o Modo Treino, a Biblioteca e o bloco Academia na barra lateral.",
     "newGroup": "Novo grupo de treino",
-    "groupPlaceholder": "Nome (ex.: Treino com a Ana)"
+    "groupPlaceholder": "Nome (ex.: Treino com a Ana)",
+    "quickAdd": "Novo exercício… (Enter para criar)",
+    "quickAddShort": "Novo exercício…",
+    "quickAddLabel": "Novo exercício",
+    "fromLibrary": "Da biblioteca",
+    "fromLibraryLabel": "Adicionar exercício da biblioteca",
+    "added": "{{name}} entrou no treino."
   },
   "sidebarPrefs": {
     "title": "Barra lateral",
