@@ -14,9 +14,9 @@ Before inviting, you can write `@gregory` in tasks. When Gregory joins, he says 
 
 Teams can have **custom roles**, picking permission by permission.
 
-## I'll take it
+## Take it
 
-On a task with nobody assigned, **I'll take it** makes you the assignee. Great for splitting the barbecue.
+On a task with nobody assigned, **Take it** makes you the assignee. Handy for splitting the team's work without waiting for someone to hand it out.
 
 ## Reactions
 

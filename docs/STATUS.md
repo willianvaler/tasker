@@ -385,6 +385,10 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **CD29** Fundo do modo escuro à escolha (D271): Marrom, Verde-escuro, Azul-noite, Grafite, Preto e Ameixa em Configurações → Aparência, com amostra de cada um; guardado no aparelho (`lib/dark-palette.ts`), aplicado no `<html>` na web e pelo `vars()` do NativeWind no celular; contraste AA testado nos seis (`design-tokens.test.ts`) e e2e `tema-escuro.spec.ts`. Falta ver no celular de verdade (o `vars()` só roda no app nativo)
 - [x] **CD30** Tela de gastos sem rolagem (pedido do dono, 25/10: "com 4 itens e uma categoria ele não adicionou um scroll e deu uma ideia de corte seco"): a `ExpensesView` era uma `View` comum dentro do `Screen` e, diferente das listas, não tinha rolagem própria; no celular a tela parava nos chips de categoria e o resto ficava cortado. Agora é o `ScreenScroll` da tela (D189), com a folga do fim (`pb-clear`). E2E em `e2e/gastos.spec.ts` rolando pela roda do mouse (o `scrollIntoView` do Playwright rolava por fora e não pegava o problema)
 
+## Correções do dono (27/10)
+
+- [x] **CD33** Tarefa sem responsável em projeto mostrava **Eu levo**, estranho fora de churrasco ou lista de compras: virou **Assumir** (en: Take it, es: Asumir) na linha, no aviso e na Ajuda dos 3 idiomas; e2e em `extras.spec.ts` (D283)
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar

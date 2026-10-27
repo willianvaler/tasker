@@ -49,7 +49,7 @@ test('adiar: um toque leva para amanhã (sai da Hoje), Desfazer volta; Z na sele
   await expect(shown(page, 'Próximos 7 dias').first()).toBeVisible();
 });
 
-test('eu levo: em projeto, tarefa sem responsável vira minha num toque', async ({
+test('assumir: em projeto, tarefa sem responsável vira minha num toque', async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name === 'celular', 'Projeto pelo menu Novo (Alt+N)');
@@ -67,9 +67,9 @@ test('eu levo: em projeto, tarefa sem responsável vira minha num toque', async 
   await input.fill('Carvão');
   await input.press('Enter');
 
-  await page.getByRole('button', { name: 'Eu levo: Carvão' }).click();
-  await expect(page.getByRole('alert').filter({ hasText: 'Carvão é sua.' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Eu levo: Carvão' })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Assumir: Carvão' }).click();
+  await expect(page.getByRole('alert').filter({ hasText: 'Carvão agora é sua.' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Assumir: Carvão' })).toHaveCount(0);
   await expect(page.getByLabel(/^Responsáveis: /)).toBeVisible();
 });
 

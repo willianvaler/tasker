@@ -14,9 +14,9 @@ Antes de invitar, puedes escribir `@gregorio` en las tareas. Cuando Gregorio ent
 
 Los equipos pueden tener **cargos personalizados**, eligiendo permiso por permiso.
 
-## Yo lo llevo
+## Asumir
 
-En una tarea sin nadie, **Yo lo llevo** te pone como responsable. Ideal para repartir el asado.
+En una tarea sin nadie, **Asumir** te pone como responsable. Sirve para repartir el trabajo del equipo sin esperar a que alguien lo distribuya.
 
 ## Reacciones
 

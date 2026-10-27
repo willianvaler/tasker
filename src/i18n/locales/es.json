@@ -2189,10 +2189,10 @@
     "done": "{{title}}: pospuesta para {{date}}"
   },
   "claim": {
-    "button": "Yo lo llevo",
-    "label": "Yo lo llevo: {{title}}",
+    "button": "Asumir",
+    "label": "Asumir: {{title}}",
     "done": "{{title}} es tuya.",
-    "taken": "Otra persona ya la tomó."
+    "taken": "Otra persona ya la asumió."
   },
   "weight": {
     "level1": "Trivial",

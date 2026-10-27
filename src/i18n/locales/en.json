@@ -2189,8 +2189,8 @@
     "done": "{{title}}: snoozed to {{date}}"
   },
   "claim": {
-    "button": "I'll take it",
-    "label": "I'll take it: {{title}}",
+    "button": "Take it",
+    "label": "Take it: {{title}}",
     "done": "{{title}} is yours.",
     "taken": "Someone else already took this one."
   },

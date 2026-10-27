@@ -14,9 +14,9 @@ Antes de convidar, dá para escrever `@gregory` nas tarefas. Quando o Gregory en
 
 Times podem ter **cargos personalizados**, escolhendo permissão por permissão.
 
-## Eu levo
+## Assumir
 
-Em tarefa sem ninguém, o botão **Eu levo** coloca você como responsável. Ótimo para dividir o churrasco.
+Em tarefa sem ninguém, o botão **Assumir** coloca você como responsável. Serve para dividir o trabalho do time sem esperar alguém distribuir.
 
 ## Reações
 
