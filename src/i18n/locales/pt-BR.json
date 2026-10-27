@@ -1844,7 +1844,8 @@
     "step": "Degrau",
     "stepHint": "Vazio: o padrão da parte do corpo ({{step}})",
     "pageRule": "Progressão do treino",
-    "pageRuleHint": "Vale para os exercícios deste treino; cada um pode ter a sua no painel."
+    "pageRuleHint": "Vale para os exercícios deste treino; cada um pode ter a sua no painel.",
+    "byCoach": "Definido pelo treinador"
   },
   "body": {
     "title": "Peso e medidas",
@@ -2174,7 +2175,14 @@
     "sessions_one": "{{count}} sessão",
     "sessions_other": "{{count}} sessões",
     "lastDay": "última {{date}}",
-    "noSets": "Nenhuma série registrada nesta lista ainda."
+    "noSets": "Nenhuma série registrada nesta lista ainda.",
+    "plan": "Plano deste aluno",
+    "planHint": "Regra e carga inicial só para {{name}}; vazio segue a página. A carga inicial vale até o primeiro treino (com a regra Nenhuma, sempre); depois, a regra segue o diário.",
+    "planRule": "Progressão de {{title}}",
+    "planWeight": "Carga inicial",
+    "planWeightLabel": "Carga inicial de {{title}}",
+    "planWeightInvalid": "Use a carga com a unidade, como 40kg ou 90lb",
+    "planSaved": "Plano de {{name}} salvo"
   },
   "snooze": {
     "button": "Adiar {{title}} para amanhã",

@@ -56,6 +56,34 @@ export type Prescription = {
   why: { key: string; vars?: Record<string, string | number> };
 };
 
+/** O que o treinador definiu para um aluno num exercício (AC13.2): regra e carga inicial. */
+export type CoachEntry = { progression: ProgressionRule | null; weight: string | null };
+
+/**
+ * Lê o `page_shares.coach_plan` (objeto, ou texto JSON vindo do banco do aparelho) e devolve o
+ * plano do treinador para a tarefa; sem nada definido, null.
+ */
+export function readCoachPlan(raw: unknown, taskId: string): CoachEntry | null {
+  let plan = raw;
+  if (typeof plan === 'string') {
+    try {
+      plan = JSON.parse(plan);
+    } catch {
+      return null;
+    }
+  }
+  if (!plan || typeof plan !== 'object') return null;
+  const entry = (plan as Record<string, unknown>)[taskId];
+  if (!entry || typeof entry !== 'object') return null;
+  const { progression, weight } = entry as Record<string, unknown>;
+  const rule =
+    typeof progression === 'string' && (PROGRESSION_RULES as string[]).includes(progression)
+      ? (progression as ProgressionRule)
+      : null;
+  const load = typeof weight === 'string' && weight ? weight : null;
+  return rule || load ? { progression: rule, weight: load } : null;
+}
+
 /** Degrau padrão (V6 §5): 2,5 kg em cima, 5 kg em pernas, costas e quadril; 5/10 lb. */
 export function defaultStep(bodyPart: string | null | undefined, unit: WeightUnit) {
   const lower = ['upper legs', 'lower legs', 'legs', 'back', 'glutes', 'hips'].includes(

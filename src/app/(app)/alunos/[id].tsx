@@ -7,24 +7,36 @@ import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { SendPageDialog } from '@/components/send-page';
 import { Button } from '@/components/ui/button';
+import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
+import { Input } from '@/components/ui/input';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { coachSummary, planAdherence, type CoachSummary } from '@/lib/gym/coach';
+import {
+  DEFAULT_RULE,
+  PROGRESSION_RULES,
+  readCoachPlan,
+  type ProgressionRule,
+} from '@/lib/gym/progression';
 import { formatWeight } from '@/lib/gym/units';
 import { formatDueDate, formatShortDate, todayIn } from '@/lib/parser/dates';
 import { useGymPrefs, useTimeZone, useToday } from '@/lib/queries/profile';
 import {
+  usePageShares,
   usePageStudents,
   useStudentActions,
   useStudentHistory,
   useStudentSets,
   type Student,
 } from '@/lib/queries/shares';
-import { pageLabel, useTree } from '@/lib/queries/tree';
+import { usePageTasks } from '@/lib/queries/tasks';
+import { pageLabel, useTree, type Page } from '@/lib/queries/tree';
 import { daysSince, historyByCycle, loadEvolution } from '@/lib/students';
+import type { TaskMeta } from '@/lib/parser/quick';
+import { parseWeight } from '@/lib/workout';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
@@ -104,7 +116,7 @@ export default function StudentsScreen() {
             </View>
             {current && page && (
               <View className="flex-1">
-                <StudentDetail pageId={page.id} student={current} trainDays={page.train_days} />
+                <StudentDetail page={page} student={current} />
               </View>
             )}
           </View>
@@ -204,15 +216,9 @@ function StudentRow({
   );
 }
 
-function StudentDetail({
-  pageId,
-  student,
-  trainDays,
-}: {
-  pageId: string;
-  student: Student;
-  trainDays: number[] | null | undefined;
-}) {
+function StudentDetail({ page, student }: { page: Page; student: Student }) {
+  const pageId = page.id;
+  const trainDays = page.train_days;
   const { t } = useTranslation();
   const today = useToday();
   const tz = useTimeZone();
@@ -229,6 +235,7 @@ function StudentDetail({
         {student.name}
       </Text>
       {coach && <CoachPanel coach={coach} trainDays={trainDays} />}
+      <StudentPlan page={page} student={student} />
       {loads.length > 0 && (
         <View className="gap-2">
           <SectionLabel title={t('students.loads')} />
@@ -376,6 +383,117 @@ function CoachPanel({
           })}
         </>
       )}
+    </View>
+  );
+}
+
+/**
+ * Plano deste aluno (AC13.2): para cada exercício da página, a regra de progressão e a carga
+ * inicial que valem só para ele; vazio segue o da página. O aluno vê "definido pelo treinador".
+ */
+function StudentPlan({ page, student }: { page: Page; student: Student }) {
+  const { t } = useTranslation();
+  const tasks = usePageTasks(page.id);
+  const shares = usePageShares(page.id);
+  const actions = useStudentActions(page.id);
+  const toast = useToast();
+  const online = useIsOnline();
+  const share = shares.data?.shares.find((s) => s.id === student.share_id);
+  const all = tasks.data ?? [];
+  const parents = new Set(all.map((task) => task.parent_task_id).filter(Boolean));
+  const exercises = all.filter((task) => {
+    const meta = (task.meta && typeof task.meta === 'object' ? task.meta : {}) as TaskMeta;
+    return !parents.has(task.id) && (!!task.exercise_id || !!meta.weight || !!task.repeat_plan);
+  });
+  // O que está sendo digitado na carga de cada exercício (sem entrada: mostra a salva)
+  const [typing, setTyping] = useState<Record<string, string>>({});
+  if (!share || student.mode !== 'live' || exercises.length === 0) return null;
+  const pageRule = (PROGRESSION_RULES as string[]).includes(page.progression ?? '')
+    ? (page.progression as ProgressionRule)
+    : DEFAULT_RULE;
+
+  function save(taskId: string, patch: { progression?: string | null; weight?: string | null }) {
+    if (!share) return;
+    const current = readCoachPlan(share.coach_plan, taskId);
+    actions.setPlan.mutate(
+      {
+        shareId: share.id,
+        taskId,
+        progression:
+          patch.progression !== undefined ? patch.progression : (current?.progression ?? null),
+        weight: patch.weight !== undefined ? patch.weight : (current?.weight ?? null),
+      },
+      {
+        onSuccess: () => toast({ message: t('students.planSaved', { name: student.name }) }),
+        onError: (err) => toast({ message: err.message }),
+      },
+    );
+  }
+
+  return (
+    <View className="gap-2">
+      <SectionLabel title={t('students.plan')} />
+      <Text className="text-sm text-ink-muted">{t('students.planHint', { name: student.name })}</Text>
+      {exercises.map((task) => {
+        const meta = (task.meta && typeof task.meta === 'object' ? task.meta : {}) as TaskMeta;
+        const entry = readCoachPlan(share.coach_plan, task.id);
+        const own = (PROGRESSION_RULES as string[]).includes(task.progression ?? '')
+          ? (task.progression as ProgressionRule)
+          : null;
+        const inherited = own ?? pageRule;
+        const text = typing[task.id] ?? entry?.weight ?? '';
+        return (
+          <View key={task.id} className="gap-2 border-b border-line py-2">
+            <Text className="text-sm text-ink">{task.title}</Text>
+            <View
+              accessibilityRole="radiogroup"
+              accessibilityLabel={t('students.planRule', { title: task.title })}
+              className="flex-row flex-wrap gap-1"
+            >
+              <Chip
+                role="radio"
+                label={t('progression.ruleInherit', { rule: t(`progression.rule_${inherited}`) })}
+                selected={!entry?.progression}
+                disabled={!online}
+                onPress={() => save(task.id, { progression: null })}
+              />
+              {PROGRESSION_RULES.map((r) => (
+                <Chip
+                  key={r}
+                  role="radio"
+                  label={t(`progression.rule_${r}`)}
+                  selected={entry?.progression === r}
+                  disabled={!online}
+                  onPress={() => save(task.id, { progression: r })}
+                />
+              ))}
+            </View>
+            <View className="flex-row items-center gap-2">
+              <Text className="text-sm text-ink-muted">{t('students.planWeight')}</Text>
+              <Input
+                className="w-28"
+                value={text}
+                onChangeText={(v) => setTyping((prev) => ({ ...prev, [task.id]: v }))}
+                placeholder={meta.weight ?? '—'}
+                editable={online}
+                accessibilityLabel={t('students.planWeightLabel', { title: task.title })}
+                onBlur={() => {
+                  const value = typing[task.id];
+                  if (value == null) return;
+                  setTyping(({ [task.id]: _, ...rest }) => rest);
+                  const weight = value.trim() || null;
+                  if (weight === (entry?.weight ?? null)) return;
+                  if (weight && !parseWeight(weight)) {
+                    toast({ message: t('students.planWeightInvalid') });
+                    return;
+                  }
+                  save(task.id, { weight });
+                }}
+              />
+            </View>
+          </View>
+        );
+      })}
     </View>
   );
 }

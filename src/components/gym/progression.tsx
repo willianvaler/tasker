@@ -12,6 +12,7 @@ import {
   PROGRESSION_RULES,
   prescribe,
   type Plan,
+  readCoachPlan,
   type Prescription,
   type ProgressionRule,
 } from '@/lib/gym/progression';
@@ -19,6 +20,7 @@ import type { WeightUnit } from '@/lib/gym/types';
 import type { TaskMeta } from '@/lib/parser/quick';
 import { useExercise } from '@/lib/queries/exercises';
 import { useGymPrefs, useTimeZone, useToday } from '@/lib/queries/profile';
+import { useReceivedPages } from '@/lib/queries/shares';
 import type { Task } from '@/lib/queries/tasks';
 import { useTree } from '@/lib/queries/tree';
 import { useWorkoutHistory } from '@/lib/queries/workout-sets';
@@ -46,11 +48,14 @@ export function planOf(task: Task, fallbackUnit: WeightUnit): Plan {
 /**
  * A progressão do item (AC6.3): regra do exercício, senão a do treino, senão a padrão (dupla);
  * degrau próprio ou o da parte do corpo; prescrição tirada do diário. `excludeToday`: no Modo
- * Treino, a sessão de hoje ainda está acontecendo e não conta.
+ * Treino, a sessão de hoje ainda está acontecendo e não conta. Na página recebida, o que o
+ * treinador definiu para o aluno vem antes (AC13.2): a regra e a carga inicial (`coach`).
  */
 export function useProgression(task: Task, { excludeToday = false } = {}) {
   const tree = useTree();
-  const page = tree.data?.pages.find((p) => p.id === task.page_id);
+  const received = useReceivedPages().data?.find((p) => p.id === task.page_id);
+  const page = tree.data?.pages.find((p) => p.id === task.page_id) ?? received;
+  const coach = received ? readCoachPlan(received.coach_plan, task.id) : null;
   const exercise = useExercise(task.exercise_id);
   const history = useWorkoutHistory({ exerciseId: task.exercise_id, taskId: task.id });
   const timeZone = useTimeZone();
@@ -59,8 +64,15 @@ export function useProgression(task: Task, { excludeToday = false } = {}) {
 
   const pageRule: ProgressionRule = isRule(page?.progression) ? page.progression : DEFAULT_RULE;
   const own = isRule(task.progression) ? task.progression : null;
-  const rule = own ?? pageRule;
-  const plan = planOf(task, prefUnit);
+  const rule = coach?.progression ?? own ?? pageRule;
+  const coachWeight = parseWeight(coach?.weight);
+  const plan = coachWeight
+    ? {
+        ...planOf(task, prefUnit),
+        weight: coachWeight.value,
+        unit: coachWeight.unit.startsWith('lb') ? ('lb' as const) : ('kg' as const),
+      }
+    : planOf(task, prefUnit);
   const autoStep = defaultStep(exercise.data?.body_part, plan.unit);
   const step = task.progression_step ?? autoStep;
   const sessions = diarySessions(history.data ?? [], timeZone, plan.unit).filter(
@@ -69,7 +81,7 @@ export function useProgression(task: Task, { excludeToday = false } = {}) {
   const prescription = history.isPending ? null : prescribe(rule, plan, sessions, step);
   // Lido de novo nesta abertura (o cache do disco pode trazer a regra ou o diário de antes)
   const fresh = history.isFetchedAfterMount && !history.isFetching;
-  return { rule, own, pageRule, plan, step, autoStep, prescription, fresh };
+  return { rule, own, pageRule, plan, step, autoStep, prescription, fresh, coach, received: !!received };
 }
 
 /**
@@ -138,7 +150,9 @@ export function ProgressionEditor({
   }) => void;
 }) {
   const { t, i18n } = useTranslation();
-  const { own, pageRule, plan, step, autoStep, prescription } = useProgression(task);
+  const { own, pageRule, plan, step, autoStep, prescription, coach } = useProgression(task);
+  // Aluno de página recebida: a regra do treinador manda e não se muda daqui (AC13.2)
+  const chosen = coach?.progression ?? own;
   const why = useWhy();
   const label = usePrescriptionLabel();
   const number = (v: number) =>
@@ -154,7 +168,7 @@ export function ProgressionEditor({
         <Chip
           role="radio"
           label={t('progression.ruleInherit', { rule: ruleName(pageRule) })}
-          selected={own == null}
+          selected={chosen == null}
           disabled={!editable}
           onPress={() => onSave({ progression: null })}
         />
@@ -163,12 +177,13 @@ export function ProgressionEditor({
             key={r}
             role="radio"
             label={ruleName(r)}
-            selected={own === r}
+            selected={chosen === r}
             disabled={!editable}
             onPress={() => onSave({ progression: r })}
           />
         ))}
       </View>
+      {coach && <Text className="text-sm text-ink-muted">{t('progression.byCoach')}</Text>}
       {plan.weight != null && (
         <View className="flex-row items-center gap-2">
           <Text className="text-sm text-ink-muted">{t('progression.step')}</Text>

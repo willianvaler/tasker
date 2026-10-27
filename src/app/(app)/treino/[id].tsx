@@ -489,8 +489,18 @@ function Running({
   const paused = session.pausedAt != null;
   const meta = (task.meta && typeof task.meta === 'object' ? task.meta : {}) as TaskMeta;
   const totals = workoutProgress(items);
+  // Progressão (AC6.3): a carga do plano já vem com a prescrição (no treino pessoal, antes da
+  // primeira série do exercício); em pasta com mais gente, só sugere, com "Usar"
+  const progression = useProgression(task, { excludeToday: true });
+  const prescribed = progression.prescription;
+  // Aluno de página recebida (AC13.2): o plano do autor é de todos, então a carga e as repetições
+  // da série vêm da progressão dele (com a regra e a carga inicial do treinador, se houver)
+  const personalMeta =
+    progression.received && prescribed && !setGroups(meta).length
+      ? prescriptionMeta(meta, prescribed, progression.plan.unit, !i18n.language.startsWith('en'))
+      : meta;
   // Séries avançadas: repetições e carga desta série (sem elas, as do item)
-  const planned = setPrescription(meta, item.reps);
+  const planned = setPrescription(personalMeta, item.reps);
   // Carga real desta série (AC4.7): ajustada no descanso ou deixada como a do plano; o plano do
   // item só muda pelo "Usar no plano"
   const [loadOverride, setLoadOverride] = useState<LoadOverride | null>(null);
@@ -567,11 +577,7 @@ function Running({
     (kind === 'cardio' || planned.reps != null || !!task.exercise_id || !!effortScale);
   const toast = useToast();
   const { warmup } = useWorkoutSetActions();
-  // Progressão (AC6.3): a carga do plano já vem com a prescrição (no treino pessoal, antes da
-  // primeira série do exercício); em pasta com mais gente, só sugere, com "Usar"
-  const progression = useProgression(task, { excludeToday: true });
   const why = useWhy();
-  const prescribed = progression.prescription;
   const prescribedMeta =
     prescribed &&
     (prescribed.kind === 'up' || prescribed.kind === 'deload' || prescribed.kind === 'hold')
@@ -905,9 +911,18 @@ function Running({
         {setLabel && !item.done ? (
           <Text className="font-mono text-xl font-semibold text-ink">{setLabel}</Text>
         ) : null}
-        {prescribed && !item.done && prescribed.kind !== 'off' && prescribed.kind !== 'first' ? (
+        {prescribed &&
+        !item.done &&
+        (progression.coach || (prescribed.kind !== 'off' && prescribed.kind !== 'first')) ? (
           <View className="flex-row flex-wrap items-center gap-2">
-            <Text className="text-sm text-ink-muted">{why(prescribed, progression.plan.unit)}</Text>
+            {prescribed.kind !== 'off' && prescribed.kind !== 'first' && (
+              <Text className="text-sm text-ink-muted">
+                {why(prescribed, progression.plan.unit)}
+              </Text>
+            )}
+            {progression.coach && (
+              <Text className="text-sm text-ink-muted">{t('progression.byCoach')}</Text>
+            )}
             {shared && canApply && prescribedMeta && (
               <Button
                 variant="ghost"

@@ -271,6 +271,8 @@ const page_shares = new Table(
     accepted_at: column.text,
     last_reminded_at: column.text,
     group_id: column.text,
+    // Plano do treinador para este aluno (AC13.2): JSON
+    coach_plan: column.text,
   },
   { indexes: { page: ['page_id'] } },
 );

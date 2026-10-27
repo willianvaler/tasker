@@ -18,6 +18,8 @@ export type ReceivedPage = Tables<'pages'> & {
   share_id: string;
   owner_id: string;
   owner_name: string | null;
+  /** O que o treinador definiu para mim (AC13.2), por tarefa */
+  coach_plan: Json;
 };
 
 export const receivedKey = ['received'] as const;
@@ -31,7 +33,8 @@ export function useReceivedPages() {
       if (!userId) return [];
       if (isLocal()) {
         const rows = await db.getAll<Record<string, unknown>>(
-          `select p.*, s.id as share_id, s.owner_id as owner_id, pe.display_name as owner_name
+          `select p.*, s.id as share_id, s.owner_id as owner_id, pe.display_name as owner_name,
+                  s.coach_plan as coach_plan
            from page_shares s join pages p on p.id = s.page_id
            left join people pe on pe.id = s.owner_id
            where s.recipient_id = ? and s.status = 'active' and s.mode = 'live'
@@ -39,18 +42,20 @@ export function useReceivedPages() {
           [userId],
         );
         return rows.map((row) => {
-          const { share_id, owner_id, owner_name, ...page } = row;
+          const { share_id, owner_id, owner_name, coach_plan, ...page } = row;
           return {
             ...toPage(page),
             share_id: share_id as string,
             owner_id: owner_id as string,
             owner_name: (owner_name as string | null) ?? null,
+            // No aparelho vem como texto JSON; o readCoachPlan aceita os dois
+            coach_plan: (coach_plan as Json) ?? {},
           };
         });
       }
       const { data, error } = await supabase
         .from('page_shares')
-        .select('id, owner_id, page:pages!page_shares_page_id_fkey(*)')
+        .select('id, owner_id, coach_plan, page:pages!page_shares_page_id_fkey(*)')
         .eq('recipient_id', userId)
         .eq('status', 'active')
         .eq('mode', 'live');
@@ -62,6 +67,7 @@ export function useReceivedPages() {
           share_id: s.id,
           owner_id: s.owner_id,
           owner_name: null,
+          coach_plan: s.coach_plan,
         }))
         .sort((a, b) => a.name.localeCompare(b.name));
     },
@@ -484,6 +490,25 @@ export function useStudentActions(pageId: string) {
         if (error) throw error;
       },
       onSettled: settle,
+    }),
+    /** Regra e carga inicial de um exercício para este aluno (AC13.2); vazio volta ao da página */
+    setPlan: useMutation({
+      mutationFn: async (v: {
+        shareId: string;
+        taskId: string;
+        progression: string | null;
+        weight: string | null;
+      }) => {
+        const { error } = await supabase.rpc('set_student_plan', {
+          p_share_id: v.shareId,
+          p_task_id: v.taskId,
+          // A RPC aceita nulo nos dois (os tipos gerados não sabem)
+          p_progression: v.progression as string,
+          p_weight: v.weight as string,
+        });
+        if (error) throw error;
+      },
+      onSettled: () => queryClient.invalidateQueries({ queryKey: sharesKey(pageId) }),
     }),
   };
 }

@@ -1844,7 +1844,8 @@
     "step": "Step",
     "stepHint": "Empty: the body part default ({{step}})",
     "pageRule": "Workout progression",
-    "pageRuleHint": "Applies to the exercises in this workout; each one can have its own in the panel."
+    "pageRuleHint": "Applies to the exercises in this workout; each one can have its own in the panel.",
+    "byCoach": "Set by your coach"
   },
   "body": {
     "title": "Weight and measurements",
@@ -2174,7 +2175,14 @@
     "sessions_one": "{{count}} session",
     "sessions_other": "{{count}} sessions",
     "lastDay": "last {{date}}",
-    "noSets": "No sets logged on this list yet."
+    "noSets": "No sets logged on this list yet.",
+    "plan": "This student's plan",
+    "planHint": "Rule and starting load just for {{name}}; empty follows the page. The starting load applies until the first workout (always, with the None rule); after that, the rule follows the log.",
+    "planRule": "Progression for {{title}}",
+    "planWeight": "Starting load",
+    "planWeightLabel": "Starting load for {{title}}",
+    "planWeightInvalid": "Write the load with the unit, like 40kg or 90lb",
+    "planSaved": "{{name}}'s plan saved"
   },
   "snooze": {
     "button": "Snooze {{title}} to tomorrow",

@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V11.md`), numa tabela só
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 26/10/2026. Produção na v2026.10.26.2 (https://questlist.wavdev.org; APK código 384, que já fala com questlist.wavdev.org). Em 26/10: Treinar com… em qualquer treino (AC15A, D277), painel do treinador no Alunos (AC13, D278), treino da Academia em grupos (AC15B, D279) e Desafios estilo GymRats (AC15C, D280). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
+Atualizado em 27/10/2026. Em 27/10: plano do aluno definido pelo treinador (AC13.2, D282). Produção na v2026.10.26.2 (https://questlist.wavdev.org; APK código 384, que já fala com questlist.wavdev.org). Em 26/10: Treinar com… em qualquer treino (AC15A, D277), painel do treinador no Alunos (AC13, D278), treino da Academia em grupos (AC15B, D279) e Desafios estilo GymRats (AC15C, D280). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
 
 ## Para fazer depois (pedido do dono, 20/10, noite)
 
@@ -35,7 +35,6 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | **V6** | AC7.4 | Pergunta do peso do corpo no início do treino: **desligada por padrão** (liga no Perfil); importar do Health Connect / Apple Saúde fica com o V7 | pendente | AC7.3, V7 |
 | V6 | AC12.2 | Importadores Strong, Hevy e FitNotes | pendente | arquivos de exemplo do dono |
 | V6 | AC15D | Atividades de apps de terceiros (Strava, Health Connect, Apple Saúde) entram como mais uma origem do AC15C | pendente | V7 |
-| V6 | AC13.2 | Treinador define a regra de progressão e a carga inicial de cada aluno ("definido pelo treinador"; o painel saiu em 26/10, D278) | pendente | — |
 | V6 | AC14 | Treinador por IA (avaliar custo e modelos) | pendente | LGPD (V5 §4) |
 | **V7** | §1–4 | Integrações com apps de treino e saúde: Strava, Health Connect (Samsung Health, Google Fit, Garmin), Apple Saúde; atividade de fora (qualquer uma, só leitura) vira registro de treino (V7-1 a V7-3) | pendente | conta de desenvolvedor do Strava, development build (dono) |
 | **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |

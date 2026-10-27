@@ -1,6 +1,13 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { defaultStep, judgeSession, prescribe, type Plan, type Session } from '../progression';
+import {
+  defaultStep,
+  judgeSession,
+  prescribe,
+  readCoachPlan,
+  type Plan,
+  type Session,
+} from '../progression';
 
 const session = (
   reps: number[],
@@ -124,5 +131,40 @@ describe('prescrição', () => {
   it('carga arredondada ao degrau', () => {
     const odd: Plan = { weight: 41, unit: 'kg', reps: 10, sets: 3 };
     expect(prescribe('linear', odd, [session([10, 10, 10], 41)], 2.5).weight).toBe(42.5);
+  });
+});
+
+describe('plano do treinador (AC13.2)', () => {
+  const id = 't1';
+  it('lê do objeto e do texto JSON do aparelho', () => {
+    const plan = { t1: { progression: 'linear', weight: '40kg' } };
+    expect(readCoachPlan(plan, id)).toEqual({ progression: 'linear', weight: '40kg' });
+    expect(readCoachPlan(JSON.stringify(plan), id)).toEqual({
+      progression: 'linear',
+      weight: '40kg',
+    });
+  });
+  it('só a carga, só a regra, ou nada', () => {
+    expect(readCoachPlan({ t1: { weight: '20kg' } }, id)).toEqual({
+      progression: null,
+      weight: '20kg',
+    });
+    expect(readCoachPlan({ t1: { progression: 'off' } }, id)).toEqual({
+      progression: 'off',
+      weight: null,
+    });
+    expect(readCoachPlan({ t1: { progression: 'turbo' } }, id)).toBeNull();
+    expect(readCoachPlan({}, id)).toBeNull();
+    expect(readCoachPlan('{quebrado', id)).toBeNull();
+    expect(readCoachPlan(null, id)).toBeNull();
+  });
+  it('a carga inicial vale no primeiro treino; depois a regra segue o diário', () => {
+    const start: Plan = { ...plan, weight: 30 };
+    expect(prescribe('linear', start, [], 2.5)).toMatchObject({ weight: 30, kind: 'first' });
+    expect(prescribe('off', start, [session([10, 10, 10])], 2.5)).toMatchObject({ weight: 30 });
+    expect(prescribe('linear', start, [session([10, 10, 10], 30)], 2.5)).toMatchObject({
+      weight: 32.5,
+      kind: 'up',
+    });
   });
 });

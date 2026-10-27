@@ -1175,14 +1175,14 @@ isOneToOne: false
                   ]
                 },"page_shares": {
                   Row: {
-                    "accepted_at": string | null,"copy_page_id": string | null,"created_at": string,"group_id": string | null,"id": string,"last_reminded_at": string | null,"link_id": string | null,"mode": string,"owner_id": string,"page_id": string,"recipient_email": string | null,"recipient_id": string | null,"status": string
+                    "accepted_at": string | null,"coach_plan": NonNullable<Json>,"copy_page_id": string | null,"created_at": string,"group_id": string | null,"id": string,"last_reminded_at": string | null,"link_id": string | null,"mode": string,"owner_id": string,"page_id": string,"recipient_email": string | null,"recipient_id": string | null,"status": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"group_id"?: string | null,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id": string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
+                    "accepted_at"?: string | null,"coach_plan"?: NonNullable<Json>,"copy_page_id"?: string | null,"created_at"?: string,"group_id"?: string | null,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id": string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
                   }
                   Update: {
-                    "accepted_at"?: string | null,"copy_page_id"?: string | null,"created_at"?: string,"group_id"?: string | null,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id"?: string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
+                    "accepted_at"?: string | null,"coach_plan"?: NonNullable<Json>,"copy_page_id"?: string | null,"created_at"?: string,"group_id"?: string | null,"id"?: string,"last_reminded_at"?: string | null,"link_id"?: string | null,"mode"?: string,"owner_id"?: string,"page_id"?: string,"recipient_email"?: string | null,"recipient_id"?: string | null,"status"?: string
                   }
                   Relationships: [
                     {
@@ -3413,6 +3413,9 @@ isOneToOne: false
                            },
 "set_project_team":
 { Args: { "p_folder_id": string,"p_team_id": string }; Returns: undefined
+                           },
+"set_student_plan":
+{ Args: { "p_progression": string,"p_share_id": string,"p_task_id": string,"p_weight": string }; Returns: Json
                            },
 "set_task_notes":
 { Args: { "p_base": string,"p_notes": string,"p_task_id": string }; Returns: undefined

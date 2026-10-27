@@ -184,6 +184,52 @@ test('Alunos: números, cargas, observação, lembrete e arquivar', async ({
   await ana.context().close();
 });
 
+test('plano do aluno: o treinador define a regra e a carga inicial (AC13.2)', async ({
+  browser,
+  page,
+}, testInfo) => {
+  test.setTimeout(180_000);
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Academia', name: 'Treino A', type: 'Cards' });
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill('Supino 2x10 40kg');
+  await input.press('Enter');
+  await expect(page.getByRole('checkbox', { name: 'Supino', exact: true })).toBeVisible();
+  const link = await makeLink(page, 'Ao vivo');
+  await page.getByRole('button', { name: 'Fechar' }).last().click();
+  const ana = await receive(browser, testInfo, link, 'Ana Aluna');
+  await expect(ana.getByRole('checkbox', { name: 'Supino', exact: true })).toBeVisible();
+  const pageId = new URL(ana.url()).pathname.split('/').pop();
+
+  // O treinador põe 30kg e a regra Nenhuma só para a Ana
+  await page.reload();
+  await page.getByRole('button', { name: 'Compartilhar' }).click();
+  await page.getByRole('menuitem', { name: 'Alunos' }).click();
+  await page.getByRole('button', { name: /^Ana Aluna:/ }).click({ timeout: 15_000 });
+  const weight = page.getByRole('textbox', { name: 'Carga inicial de Supino' });
+  await weight.fill('30kg');
+  await weight.blur();
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'Plano de Ana Aluna salvo' }),
+  ).toBeVisible();
+  const rules = page.getByRole('radiogroup', { name: 'Progressão de Supino' });
+  await rules.getByRole('radio', { name: 'Nenhuma' }).click();
+  await expect(rules.getByRole('radio', { name: 'Nenhuma' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
+
+  // A aluna treina com 30kg, "definido pelo treinador"; o plano do treinador continua 40kg
+  await ana.reload();
+  await waitForSync(ana);
+  await ana.goto(`/treino/${pageId}`);
+  await expect(ana.getByRole('heading', { name: 'Supino' })).toBeVisible({ timeout: 20_000 });
+  await expect(shown(ana, 'Definido pelo treinador')).toBeVisible({ timeout: 15_000 });
+  await expect(ana.getByRole('button', { name: 'Carga desta série: 30kg' })).toBeVisible();
+  await expect(page.getByPlaceholder('40kg')).toBeVisible();
+  await ana.context().close();
+});
+
 test('aceite da Fase L: treino em lote para 2 alunos, cada um no seu (um offline), treinador acompanha', async ({
   browser,
   page,
