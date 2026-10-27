@@ -10,6 +10,7 @@ import { IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { pageLabel, type FolderNode, type Page, type SubFolder } from '@/lib/queries/tree';
+import { contextMenu } from '@/lib/context-menu';
 
 /** Nome da pasta para texto (o ícone é desenhado à parte, pelo components/item-icon.tsx). */
 export function folderLabel(folder: { name: string }) {
@@ -57,7 +58,10 @@ export function FolderSection({
   const empty = folder.pages.length === 0 && folder.children.length === 0;
   return (
     <View>
-      <View className="min-h-12 flex-row items-center gap-2 border-b border-line">
+      <View
+        className="min-h-12 flex-row items-center gap-2 border-b border-line"
+        {...contextMenu(onMenu)}
+      >
         <Link href={{ pathname: '/folder/[id]', params: { id: folder.id } }} asChild>
           <Pressable
             accessibilityRole="link"
@@ -129,7 +133,7 @@ export function PageRow({
   const reset = resetCycleLabel(page.reset_cycle, t);
   const type = t(`pageDialog.${(page.view_type as 'list') ?? 'list'}`);
   return (
-    <View className="flex-row items-center border-b border-line">
+    <View className="flex-row items-center border-b border-line" {...contextMenu(onMenu)}>
       <Link href={{ pathname: '/page/[id]', params: { id: page.id } }} asChild>
         <Pressable
           accessibilityRole="link"

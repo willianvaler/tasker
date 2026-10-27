@@ -28,6 +28,8 @@ Se você respondeu que vai usar o app para treinar (ou ligou o **Treino** em Con
 
 Em **Configurações → Navegação** você muda a ordem dos blocos (Anotações, Pastas, Academia, Projetos, Recebidas) e esconde os que não usa. Vale em todos os seus aparelhos.
 
+No computador, o **clique direito** numa pasta (na barra lateral ou na aba Pastas), numa lista, num projeto, num marco ou num remédio abre o mesmo menu do botão **…** da linha.
+
 ## Anotações
 
 **Nova anotação** (barra lateral, menu **+** ou Mais → Anotações) abre um texto livre, só seu. A barra de cima formata: **negrito**, _itálico_, título, lista, lista numerada e lista de tarefas. Também dá para escrever direto: `**negrito**`, `_itálico_`, `## título`, `- item`, `- [ ] tarefa`. **Visualizar** mostra o texto formatado; **Editar** volta ao texto. Salva sozinho.

@@ -13,6 +13,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { useTree } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
+import { contextMenu } from '@/lib/context-menu';
 
 // Configurações de projetos (W2): um lugar para os projetos e os times. Cada projeto com o que se
 // configura nele (pessoas e convites, automações, renomear, salvar como modelo, apagar) e os
@@ -44,7 +45,11 @@ export default function ProjectsSettingsScreen() {
           />
           {tree.data && projects.length === 0 && <EmptyState title={t('projectsHub.empty')} />}
           {projects.map((project) => (
-            <View key={project.id} className="gap-1 border-b border-line py-2">
+            <View
+              key={project.id}
+              className="gap-1 border-b border-line py-2"
+              {...contextMenu(online ? () => actions.folderMenu(project) : undefined)}
+            >
               <Pressable
                 accessibilityRole="link"
                 accessibilityLabel={t('projectsHub.open', { name: project.name })}

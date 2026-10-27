@@ -388,6 +388,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 ## Correções do dono (27/10)
 
 - [x] **CD31** Treino: o campo de criar dizia **Nova missão** com o vocabulário de jogo ligado (e "Nova tarefa" sem ele); agora diz **Novo exercício…**, também na criação avançada. Ligar a um exercício da biblioteca só existia nos detalhes, depois de criar: a linha de criar do treino ganhou **Da biblioteca** (escolhe e o item já nasce ligado, com o nome do exercício) e a criação avançada do treino ganhou o campo **Exercício** (`components/gym/add-from-library.tsx`, `ExercisePicker` exportado de `exercise-link.tsx`); e2e em `biblioteca.spec.ts`
+- [x] **CD32** Clique direito (web) numa linha que tem **…** abre o mesmo menu, no lugar do menu do navegador: pastas e projetos da barra lateral, pastas e listas da aba Pastas, listas da tela da pasta, projetos em Projetos, marcos e remédios (`lib/context-menu.ts`); Ajuda nos 3 idiomas, e2e `menu-direito.spec.ts`
 - [x] **CD33** Tarefa sem responsável em projeto mostrava **Eu levo**, estranho fora de churrasco ou lista de compras: virou **Assumir** (en: Take it, es: Asumir) na linha, no aviso e na Ajuda dos 3 idiomas; e2e em `extras.spec.ts` (D283)
 
 ## ESCOPO v1 — backlog (§11)

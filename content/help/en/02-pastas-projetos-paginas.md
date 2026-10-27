@@ -28,6 +28,8 @@ If you said you will use the app to work out (or turned on **Workouts** in Setti
 
 In **Settings → Navigation** you change the order of the blocks (Notes, Folders, Gym, Projects, Received) and hide the ones you don't use. It applies on all your devices.
 
+On a computer, **right-clicking** a folder (in the sidebar or the Folders tab), a list, a project, a milestone or a medication opens the same menu as the row's **…** button.
+
 ## Notes
 
 **New note** (sidebar, the **+** menu or More → Notes) opens a free text, just for you. The bar on top formats it: **bold**, _italic_, heading, list, numbered list and checklist. You can also type it: `**bold**`, `_italic_`, `## heading`, `- item`, `- [ ] task`. **Preview** shows the formatted text; **Edit** goes back to the text. It saves on its own.

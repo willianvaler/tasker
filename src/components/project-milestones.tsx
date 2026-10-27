@@ -20,6 +20,7 @@ import { useFolderActor } from '@/lib/queries/projects';
 import { isLocal } from '@/lib/sync/local';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
+import { contextMenu } from '@/lib/context-menu';
 
 /** "sexta" → a data; vazio → sem data; texto que não é data → undefined (não mexe). */
 function parseDate(text: string, today: string): string | null | undefined {
@@ -84,6 +85,7 @@ export function ProjectMilestones({ rootId }: { rootId: string }) {
           <View
             key={milestone.id}
             className="min-h-11 flex-row items-center gap-3 border-b border-line md:min-h-10"
+            {...contextMenu(canEdit ? () => setMenu(milestone) : undefined)}
           >
             <Pressable
               accessibilityRole="checkbox"

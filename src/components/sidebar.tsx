@@ -54,6 +54,7 @@ import { splitRoots, useTree, type Page, type SubFolder } from '@/lib/queries/tr
 import { useIsOnline } from '@/providers/online';
 import { PendingShares } from '@/components/received';
 import { usePendingShares, useReceivedPages } from '@/lib/queries/shares';
+import { contextMenu } from '@/lib/context-menu';
 
 /** Largura a partir da qual as abas viram barra lateral. */
 export const WIDE = 768;
@@ -63,14 +64,7 @@ export function useIsWide() {
 }
 
 type NavKey =
-  | 'today'
-  | 'plan'
-  | 'inbox'
-  | 'habits'
-  | 'calendar'
-  | 'folders'
-  | 'wellness'
-  | 'people';
+  'today' | 'plan' | 'inbox' | 'habits' | 'calendar' | 'folders' | 'wellness' | 'people';
 
 // D258: a Hoje é a tela de abertura (o Início saiu); Planejar junta próximos dias, Entrada sem data,
 // Atribuídas a mim e a revisão; Pessoas junta amigos, times, clã e comunidade
@@ -630,6 +624,7 @@ function TreeRow({
     <View
       className={cn('min-h-8 flex-row items-center rounded hover:bg-wash', active && 'bg-wash')}
       style={{ paddingLeft: depth * 12 }}
+      {...contextMenu(onMenu)}
     >
       {onToggle ? (
         <Pressable

@@ -23,6 +23,7 @@ import { newMedicationId, useMedicationActions, useMedications } from '@/lib/que
 import { useToday } from '@/lib/queries/profile';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
+import { contextMenu } from '@/lib/context-menu';
 
 const TIMES = [1, 2, 3, 4, 6] as const;
 const EVERY = [
@@ -295,6 +296,7 @@ function MedicationRow({
     <View
       className="min-h-14 flex-row items-center gap-3 border-b border-line px-2 py-2"
       accessibilityLabel={`${med.name}: ${status}`}
+      {...contextMenu(onMenu)}
     >
       <Icon icon={Pill} tone="ink-muted" />
       <View className="flex-1">
