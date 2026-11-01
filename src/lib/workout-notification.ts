@@ -3,13 +3,35 @@ import { Platform } from 'react-native';
 
 import { tr } from '@/lib/i18n-ref';
 
+import { WorkoutLive } from '../../modules/workout-live';
+
 // Treino pela tela de bloqueio (X1, ESCOPO_V5 §1.1): enquanto o Modo Treino está aberto, uma
 // notificação fixa e visível na tela de bloqueio mostra o exercício e a série (ou até que horas
 // vai o descanso), com botões que funcionam sem destravar: Feita, Pular descanso e +30 s. O toque
 // num botão chega ao app em segundo plano (listener) e roda a mesma ação dos botões da tela.
-// Com o app encerrado de vez, os botões não fazem nada (fica para uma tarefa em segundo plano).
+//
+// No Android com o módulo nativo (D284, modules/workout-live), a notificação é montada lá: o
+// descanso é um cronômetro que o Android conta sozinho, a barra mostra as séries do treino, no
+// Android 16 ela vira atualização ao vivo (chip na barra de status) e um serviço em primeiro plano
+// mantém o app vivo com o celular travado. Sem o módulo (iPhone, Expo Go), fica a do D173.
 
 export type WorkoutAction = 'done' | 'skip_rest' | 'plus30';
+
+export type WorkoutLockContent = {
+  title: string;
+  /** O texto da notificação comum (D173), com a hora em que o descanso acaba */
+  body: string;
+  resting: boolean;
+  /** Daqui para baixo, só o módulo nativo usa */
+  liveBody: string;
+  /** Fim do descanso correndo (ms); pausado ou sem descanso, null */
+  restEndsAt: number | null;
+  /** O texto quando o descanso acabar sozinho */
+  afterBody: string;
+  chip: string;
+  segments: number[];
+  progress: number;
+};
 
 // Cada atualização ganha um id novo (e a anterior sai): o Android reaproveitava os botões da versão
 // anterior da notificação e o toque em "Pular descanso"/"+30 s" não chegava. Quem sai é toda
@@ -62,12 +84,28 @@ function setup() {
   return ready;
 }
 
-/** Mostra ou atualiza (mesmo id) a notificação do treino */
-export async function showWorkoutNotification(content: {
-  title: string;
-  body: string;
-  resting: boolean;
-}) {
+/** Mostra ou atualiza a notificação do treino */
+export async function showWorkoutNotification(content: WorkoutLockContent) {
+  const live = WorkoutLive;
+  if (live)
+    return enqueue(() =>
+      live.show({
+        title: content.title,
+        body: content.liveBody,
+        resting: content.resting,
+        restEndsAt: content.restEndsAt,
+        afterTitle: content.title,
+        afterBody: content.afterBody,
+        afterChip: null,
+        chip: content.chip,
+        segments: content.segments,
+        progress: content.progress,
+        channelName: tr('lock.channel'),
+        doneLabel: tr('lock.done'),
+        skipRestLabel: tr('lock.skipRest'),
+        plus30Label: tr('lock.plus30'),
+      }),
+    );
   return enqueue(async () => {
     if (!(await Notifications.getPermissionsAsync()).granted) return;
     await setup();
@@ -77,7 +115,7 @@ export async function showWorkoutNotification(content: {
       content: {
         title: content.title,
         body: content.body,
-        categoryIdentifier: content.resting ? CATEGORY_REST : CATEGORY_SET,
+        categoryIdentifier: content.restEndsAt != null ? CATEGORY_REST : CATEGORY_SET,
         sticky: true,
         autoDismiss: false,
         sound: false,
@@ -102,11 +140,20 @@ async function dismissWorkout(keep?: string) {
 
 /** Tira a notificação do treino (sair do Modo Treino ou abrir o app sem treino aberto) */
 export function clearWorkoutNotification() {
-  return enqueue(() => dismissWorkout());
+  return enqueue(async () => {
+    await WorkoutLive?.clear();
+    await dismissWorkout();
+  });
 }
 
 /** Toques nos botões da notificação do treino; devolve a função de parar de ouvir */
 export function onWorkoutAction(handler: (action: WorkoutAction) => void) {
+  if (WorkoutLive) {
+    const live = WorkoutLive.addListener('onAction', ({ action }) => {
+      if (ACTIONS.includes(action)) handler(action);
+    });
+    return () => live.remove();
+  }
   const sub = Notifications.addNotificationResponseReceivedListener((response) => {
     if (!response.notification.request.identifier.startsWith(ID_PREFIX)) return;
     const action = response.actionIdentifier as WorkoutAction;

@@ -2432,7 +2432,9 @@
     "skipRest": "Pular descanso",
     "plus30": "+30 s",
     "resting": "Descanso até {{until}} · depois: {{next}}",
-    "now": "{{counter}} · exercício {{exercise}} de {{total}}"
+    "now": "{{counter}} · exercício {{exercise}} de {{total}}",
+    "restingLive": "Descanso · depois: {{next}}",
+    "restPaused": "Descanso pausado · depois: {{next}}"
   },
   "session": {
     "ended": "Sua sessão terminou (a senha mudou ou a sessão foi encerrada em outro lugar). Entre de novo."

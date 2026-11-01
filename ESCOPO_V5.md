@@ -10,7 +10,7 @@ Origem: anotações do dono em 15/10/2026 (o modo jogo, seção 7, em 18/10/2026
 
 ## 1. Treino sem destravar o celular
 
-### 1.1 Tela de bloqueio (Android 14 para cima) — ✅ done (X1, D173; ficam para depois os botões com o app encerrado de vez e as atualizações ao vivo do Android 16)
+### 1.1 Tela de bloqueio (Android 14 para cima) — ✅ done (X1, D173; X2, D284: módulo nativo com cronômetro, barra das séries, atualização ao vivo do Android 16 e serviço em primeiro plano; falta conferir a promoção num celular com Android 16 QPR1)
 
 - Durante o Modo Treino e o descanso, uma **notificação contínua** na tela de bloqueio mostra o exercício, a série ("Supino · série 2 de 4") e o tempo de descanso correndo, com **ações** que funcionam sem destravar: **Feita**, **Pular descanso**, **+30 s**.
 - Requisito: **Android 14 (API 34) para cima**. Em versões mais novas, usar os recursos de atualização ao vivo do sistema quando existirem (Android 16: "Live Updates"/notificações de progresso), com a notificação comum como reserva.

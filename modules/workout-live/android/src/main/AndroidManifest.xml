@@ -1,0 +1,21 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- Serviço em primeiro plano só enquanto o Modo Treino está aberto (D284): mantém o app vivo com
+       o celular travado, para os botões da notificação funcionarem e as séries subirem na hora.
+       O tipo "health" é o dos apps de exercício; a condição dele, sem pedir permissão na tela, é
+       declarar HIGH_SAMPLING_RATE_SENSORS (permissão normal, concedida na instalação) -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
+  <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+  <!-- Android 16: atualizações ao vivo (notificação promovida, com o chip na barra de status) -->
+  <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+
+  <application>
+    <service
+      android:name=".WorkoutLiveService"
+      android:exported="false"
+      android:foregroundServiceType="health" />
+    <receiver
+      android:name=".WorkoutActionReceiver"
+      android:exported="false" />
+  </application>
+</manifest>

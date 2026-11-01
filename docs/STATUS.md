@@ -151,6 +151,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## ESCOPO_V5 (pedido do dono em 16/10: tela de bloqueio e usabilidade primeiro)
 
 - [x] **X1** Treino pela tela de bloqueio (Android 14+): notificação fixa com Feita, Pular descanso e +30 s (D173)
+- [x] **X2** Treino na tela de bloqueio com módulo nativo (`modules/workout-live`): cronômetro do descanso contado pelo Android, barra das séries por exercício, atualização ao vivo do Android 16 (chip na barra de status) e serviço em primeiro plano durante o treino (botões e séries na hora com o celular travado ou o app fechado pelos recentes); a promoção do Android 16 QPR1 falta conferir num celular (D284)
 - [x] **Y1** Revisão de usabilidade: percorrer as tarefas principais e anotar os atritos (`docs/USABILIDADE.md`)
 - [x] **Y2** Corrigir os atritos encontrados (D174)
 - [x] **Y3** Medir toques e teste formal com 3 a 5 pessoas: dispensado pelo dono em 19/10 (o teste segue com os testers de verdade, 2 hoje, e um encontro com times no fim de semana)

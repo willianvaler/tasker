@@ -154,7 +154,10 @@ export default function WorkoutScreen() {
     const count = partners.length;
     sessionActions.invite
       .mutateAsync({ id: sessionId, withUsers: partners })
-      .then(() => toast({ message: t('together.invited', { count }) }), () => {})
+      .then(
+        () => toast({ message: t('together.invited', { count }) }),
+        () => {},
+      )
       .finally(() => {
         setPartners([]);
         setInviting(false);
@@ -814,14 +817,37 @@ function Running({
           new Date(resting.ends_at),
         )
       : null;
-  const lockBody = restUntil
-    ? t('lock.resting', { until: restUntil, next: counter })
-    : t('lock.now', { counter, exercise: index + 1, total: items.length });
+  const nowBody = t('lock.now', { counter, exercise: index + 1, total: items.length });
+  const lockBody = restUntil ? t('lock.resting', { until: restUntil, next: counter }) : nowBody;
+  // D284 (módulo nativo do Android): o descanso é um cronômetro que o próprio Android conta, a
+  // barra mostra as séries (um trecho por exercício) e o chip do Android 16 mostra a série
+  const restActive = !!resting && (resting.state === 'running' || resting.state === 'paused');
+  const restEndsAt =
+    resting?.state === 'running' && resting.ends_at ? Date.parse(resting.ends_at) : null;
+  const liveBody = !restActive
+    ? nowBody
+    : t(restEndsAt != null ? 'lock.restingLive' : 'lock.restPaused', { next: counter });
+  const chip = item.repeats
+    ? `${Math.min(item.reps + 1, item.plan.total)}/${item.plan.total}`
+    : `${index + 1}/${items.length}`;
+  const segmentsKey = items.map((it) => it.plan.total).join(',');
+  const setsDone = items.reduce(
+    (n, it) => n + (it.done ? it.plan.total : Math.min(it.reps, it.plan.total)),
+    0,
+  );
   useEffect(() => {
-    showWorkoutNotification({ title: lockTitle, body: lockBody, resting: !!restUntil }).catch(
-      () => {},
-    );
-  }, [lockTitle, lockBody, restUntil]);
+    showWorkoutNotification({
+      title: lockTitle,
+      body: lockBody,
+      resting: restActive,
+      liveBody,
+      restEndsAt,
+      afterBody: nowBody,
+      chip,
+      segments: segmentsKey.split(',').map(Number),
+      progress: setsDone,
+    }).catch(() => {});
+  }, [lockTitle, lockBody, restActive, liveBody, restEndsAt, nowBody, chip, segmentsKey, setsDone]);
   // Os botões da notificação chamam a versão mais nova das ações
   const lockActions = useRef({ done, skipRest: () => {}, plus30: () => {} });
   useEffect(() => {

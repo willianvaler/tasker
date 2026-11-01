@@ -2432,7 +2432,9 @@
     "skipRest": "Skip rest",
     "plus30": "+30 s",
     "resting": "Rest until {{until}} · then: {{next}}",
-    "now": "{{counter}} · exercise {{exercise}} of {{total}}"
+    "now": "{{counter}} · exercise {{exercise}} of {{total}}",
+    "restingLive": "Resting · then: {{next}}",
+    "restPaused": "Rest paused · then: {{next}}"
   },
   "session": {
     "ended": "Your session ended (the password changed or the session was ended elsewhere). Please sign in again."

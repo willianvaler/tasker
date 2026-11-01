@@ -138,6 +138,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | U6 | Vibrar ao fim do timer | D157 |
 | V5 | U7 | APK para Android e botão de baixar no Perfil | D155 |
 | V5 | X1 | Treino pela tela de bloqueio (Android 14+): notificação fixa com Feita, Pular descanso e +30 s | D173 |
+| V5 | X2 | Treino na tela de bloqueio com módulo nativo (`modules/workout-live`): cronômetro do descanso contado pelo Android, barra das séries por exercício, atualização ao vivo do Android 16 (chip na barra de status) e serviço em primeiro plano durante o treino (botões e séries na hora com o celular travado ou o app fechado pelos recentes); a promoção do Android 16 QPR1 falta conferir num celular | D284 |
 | V5 | Y1 | Revisão de usabilidade: percorrer as tarefas principais e anotar os atritos (`docs/USABILIDADE.md`) | — |
 | V5 | Y2 | Corrigir os atritos encontrados | D174 |
 | V5 | Y3 | Medir toques e teste formal com 3 a 5 pessoas: dispensado pelo dono em 19/10 (o teste segue com os testers de verdade, 2 hoje, e um encontro com times no fim de semana) | — |

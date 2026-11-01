@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V11.md`), numa tabela só
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 28/10/2026. Em 28/10: produção na v2026.10.28 (https://questlist.wavdev.org; APK e AAB código 391), com as correções CD31 a CD33. Em 27/10: plano do aluno definido pelo treinador (AC13.2, D282). Em 26/10: Treinar com… em qualquer treino (AC15A, D277), painel do treinador no Alunos (AC13, D278), treino da Academia em grupos (AC15B, D279) e Desafios estilo GymRats (AC15C, D280). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
+Atualizado em 31/10/2026. Em 31/10: treino na tela de bloqueio com módulo nativo do Android (X2, D284). Em 28/10: produção na v2026.10.28 (https://questlist.wavdev.org; APK e AAB código 391), com as correções CD31 a CD33. Em 27/10: plano do aluno definido pelo treinador (AC13.2, D282). Em 26/10: Treinar com… em qualquer treino (AC15A, D277), painel do treinador no Alunos (AC13, D278), treino da Academia em grupos (AC15B, D279) e Desafios estilo GymRats (AC15C, D280). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
 
 ## Para fazer depois (pedido do dono, 20/10, noite)
 
@@ -27,7 +27,7 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V4 | T2 | Pagamento: primeiro pelas lojas (Google Play e App Store); depois, uma plataforma aberta ou sem taxa para cartão e Pix, com assinatura anual | depois (V4-6 decidido 20/10) | contas das lojas (dono) |
 | **Dono** | CD14 | Trocar o leitor da foto de uma lista (a nota já é lida pelo Tesseract, D254; lista escrita à mão o Tesseract não lê bem) | depois (pedido do dono, 20/10) | escolher o serviço |
 | **V5** | §1.2 | App para relógio Wear OS (companheiro do celular, em Kotlin) | pendente | estimar antes |
-| V5 | §1.1 | Tela de bloqueio: botões com o app encerrado e atualizações ao vivo do Android 16 | depois | — |
+| V5 | §1.1 | Tela de bloqueio: conferir num celular com Android 16 QPR1 a atualização ao vivo (chip e cartão fixo, D284); iPhone com Live Activity (`expo-widgets`) | parcial | aparelho do dono, build de iOS |
 | V5 | §4 | LGPD: e-mail do encarregado na política e revisão do texto por advogado (o resto foi feito, D213) | pendente | provedor de e-mail (V5-3), dono |
 | V5 | §5 | E-mails: provedor, SPF/DKIM/DMARC, SMTP; modelos em 3 idiomas; preferências e descadastro | em espera (V5-3: servidor próprio, Google ou outro, ainda sem decisão) | dono |
 | V5 | §6 | Restauração de conta: exclusão com carência de 30 dias (V5-4), lixeira para anotações e anexos; troca de e-mail fica com o e-mail | pendente | e-mail só para a troca |
