@@ -306,6 +306,26 @@ const notes = new Table(
   { indexes: { updated: ['updated_at'], folder: ['folder_id'] } },
 );
 
+// Links [[...]] (OB1, D286): só leitura, refeitos pelo servidor a cada gravação do texto; os
+// backlinks ("Citado em") vêm daqui também sem internet
+const links = new Table(
+  {
+    source_kind: column.text,
+    source_id: column.text,
+    user_id: column.text,
+    folder_id: column.text,
+    target_kind: column.text,
+    target_id: column.text,
+    target_title: column.text,
+    anchor: column.text,
+    embed: column.integer,
+    context: column.text,
+    position: column.integer,
+    created_at: column.text,
+  },
+  { indexes: { target: ['target_id'], source: ['source_kind', 'source_id'] } },
+);
+
 const my_day = new Table(
   {
     user_id: column.text,
@@ -579,6 +599,7 @@ export const AppSchema = new Schema({
   share_checks,
   my_day,
   notes,
+  links,
   page_fields,
   task_assignees,
   comments,

@@ -36,6 +36,14 @@ On a computer, **right-clicking** a folder (in the sidebar or the Folders tab), 
 
 Inside a **folder or project**, the **Notes** section keeps the folder’s texts (agreements, minutes, ideas): everyone in the folder reads them, and whoever can create tasks there writes. They do not show up in your personal notes.
 
+### Links between notes, tasks and lists
+
+Type `[[` (or tap the link button on the bar) and start typing: your notes (most recent first), tasks, lists and projects show up. Pick one and the link goes into the text. In the preview it shows only the name, and tapping it opens the item. Renaming the item doesn't break the link. You can also jump to a heading of a note with `[[Note#Heading]]`.
+
+The last option creates a link to something that **doesn't exist yet** (`[[New idea]]`). It shows faded, and tapping it creates the note with that name.
+
+Below the note, **Linked from** shows the notes and tasks that link to it, with the sentence around the link. **Outgoing links** lists what it links to. **Unlinked mentions** shows your notes that write its name without `[[ ]]`, and **Link** turns the mention into a link. A task's description also accepts `[[`, and the task panel and the top of a list show **Linked from**. It works offline.
+
 ## Shopping list from a menu
 
 On a menu list (of type Tasks or Routine), each dish is a task and the ingredients are its **subtasks** or the lines starting with `-` in its **notes** ("- 500 g ground beef", "- 2 eggs"). In the list menu, **Make a shopping list** puts everything in one list, adding up what repeats (500 g + 300 g of beef become 800 g; kg and liters count too), and asks where it goes: a list in the same folder, a new "Shopping" list or the Inbox. Before creating, the list shows up in batch creation so you can check it. Completed dishes are left out (if they are all completed, all of them count).

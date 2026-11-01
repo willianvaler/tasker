@@ -36,6 +36,14 @@ No computador, o **clique direito** numa pasta (na barra lateral ou na aba Pasta
 
 Dentro de uma **pasta ou projeto**, a seção **Anotações** guarda textos da pasta (combinados, atas, ideias): quem é da pasta lê, e quem pode criar tarefas ali escreve. Elas não aparecem nas suas anotações pessoais.
 
+### Links entre anotações, tarefas e listas
+
+Escreva `[[` (ou toque no botão de link da barra) e comece a digitar: aparecem as suas anotações (as mais recentes primeiro), tarefas, listas e projetos. Escolha um e o link entra no texto. Ao visualizar, ele aparece só com o nome, e tocar abre o item. Renomear o item não quebra o link. Também dá para ir a um título da anotação com `[[Anotação#Título]]`.
+
+A última opção cria um link para o que **ainda não existe** (`[[Nova ideia]]`). Ele aparece apagado, e tocar nele cria a anotação com esse nome.
+
+Embaixo da anotação, **Citado em** mostra as anotações e tarefas que têm link para ela, com a frase em volta. **Links que saem** lista o que ela cita. **Menções sem link** mostra as suas anotações que escrevem o nome dela sem `[[ ]]`, e **Ligar** transforma a menção em link. A descrição de uma tarefa também aceita `[[`, e o painel da tarefa e o alto de uma lista mostram o **Citado em**. Funciona sem internet.
+
 ## Lista de compras do cardápio
 
 Numa lista de cardápio (do tipo Tarefas ou Rotina), cada prato é uma tarefa e os ingredientes são as **subtarefas** dele ou as linhas com `-` nas **notas** ("- 500 g de carne moída", "- 2 ovos"). No menu da lista, **Gerar lista de compras** junta tudo numa lista só, somando o que se repete (500 g + 300 g de carne viram 800 g; kg e litros também contam), e pergunta onde pôr: numa lista da mesma pasta, numa lista nova "Compras" ou na Caixa de entrada. Antes de criar, a lista aparece na criação em lote para você conferir. Pratos já concluídos ficam de fora (se todos estiverem concluídos, entram todos).

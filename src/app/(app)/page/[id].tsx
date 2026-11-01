@@ -15,6 +15,7 @@ import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { PageDependencyEditor } from '@/components/page-dependency-editor';
 import { Related } from '@/components/related';
+import { BacklinkChips } from '@/components/note-links';
 import { PageDialog } from '@/components/page-dialog';
 import { Screen } from '@/components/screen';
 import { SendPageDialog } from '@/components/send-page';
@@ -243,6 +244,8 @@ export default function PageScreen() {
           />
         </View>
       )}
+      {/* OB2: as anotações e tarefas com um [[link]] para esta lista */}
+      {page && !receivedPage && <BacklinkChips kind="page" id={page.id} />}
       {/* W7: o Modo Treino serve para a página de treino e para qualquer uma com séries (CD15) */}
       {page &&
         (pageTasks.data?.length ?? 0) > 0 &&

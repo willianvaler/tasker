@@ -2424,7 +2424,22 @@
     "toolbar": "Formato",
     "preview": "Vista previa",
     "edit": "Editar",
-    "markdownHint": "**negrita**, _cursiva_, ## título, - lista, - [ ] tarea"
+    "markdownHint": "**negrita**, _cursiva_, ## título, - lista, - [ ] tarea, [[ enlace"
+  },
+  "wikilinks": {
+    "noAccess": "(sin acceso)",
+    "newLink": "Enlace a \"{{title}}\" (aún no existe)",
+    "suggestions": "Sugerencias de enlace",
+    "pick": "Enlazar con {{title}}",
+    "backlinks": "Citado en",
+    "noBacklinks": "Ninguna nota o tarea enlaza aquí todavía.",
+    "outgoing": "Enlaces salientes",
+    "notYet": "Aún no existe: tocar crea la nota",
+    "unlinked": "Menciones sin enlace",
+    "link": "Enlazar",
+    "linkIn": "Enlazar la mención en {{title}}",
+    "insert": "Enlace a nota, tarea o lista ([[)",
+    "inDescription": "Enlaces en la descripción"
   },
   "lock": {
     "channel": "Entrenamiento en la pantalla de bloqueo",

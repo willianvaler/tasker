@@ -2424,7 +2424,22 @@
     "toolbar": "Formatação",
     "preview": "Visualizar",
     "edit": "Editar",
-    "markdownHint": "**negrito**, _itálico_, ## título, - lista, - [ ] tarefa"
+    "markdownHint": "**negrito**, _itálico_, ## título, - lista, - [ ] tarefa, [[ link"
+  },
+  "wikilinks": {
+    "noAccess": "(sem acesso)",
+    "newLink": "Link para \"{{title}}\" (ainda não existe)",
+    "suggestions": "Sugestões de link",
+    "pick": "Ligar a {{title}}",
+    "backlinks": "Citado em",
+    "noBacklinks": "Nenhuma anotação ou tarefa tem link para cá ainda.",
+    "outgoing": "Links que saem",
+    "notYet": "Ainda não existe: tocar cria a anotação",
+    "unlinked": "Menções sem link",
+    "link": "Ligar",
+    "linkIn": "Ligar a menção em {{title}}",
+    "insert": "Link para anotação, tarefa ou lista ([[)",
+    "inDescription": "Links na descrição"
   },
   "lock": {
     "channel": "Treino na tela de bloqueio",

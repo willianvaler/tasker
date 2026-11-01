@@ -4,6 +4,7 @@ import {
   Eye,
   Heading2,
   Italic,
+  Link2,
   List,
   ListChecks,
   ListOrdered,
@@ -13,28 +14,45 @@ import {
 } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, TextInput, View } from 'react-native';
 
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
+import {
+  BacklinkChips,
+  Backlinks,
+  OutgoingLinks,
+  UnlinkedMentions,
+  useOpenLink,
+} from '@/components/note-links';
+import { useWikilinkAutocomplete } from '@/components/wikilink-autocomplete';
 import { Button, IconButton } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text, textClass } from '@/components/ui/text';
 import { applyFormat, type Format, type Selection } from '@/lib/markdown-edit';
+import { useLinkTitles } from '@/lib/queries/links';
 import { NOTE_MAX, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
 import { useColors } from '@/lib/tokens';
+import { headingKey, headings, parseLinks } from '@/lib/wikilinks';
 
 // Editor de anotação (W3, D187): título e texto em Markdown simples, com a barra de formatação e
 // a visualização formatada. Salva sozinho (ao parar de digitar e ao sair).
 export default function NoteScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  // `secao`: a âncora de um link [[Anotação#Seção]] (OB1): abre formatada e rola até o título
+  const { id, secao } = useLocalSearchParams<{ id: string; secao?: string }>();
   const { t } = useTranslation();
   // Relê sempre: logo depois de criar, a lista ainda é "nova" (staleTime) e não seria relida, e o
   // editor ficava em branco até sair e voltar
   const notes = useNotes({ fresh: true });
-  const note = notes.data?.find((n) => n.id === id);
+  const found = notes.data?.find((n) => n.id === id);
+  // A anotação some por um instante logo depois da primeira sincronização (a leitura passa para o
+  // banco do aparelho antes de ela chegar lá): o editor fechava e abria vazio, e o que tinha sido
+  // digitado se perdia. Fica a última versão vista
+  const [kept, setKept] = useState<Note | undefined>();
+  if (found && found !== kept) setKept(found);
+  const note = found ?? (kept?.id === id ? kept : undefined);
   if (notes.data && !note)
     return (
       <Screen>
@@ -47,10 +65,10 @@ export default function NoteScreen() {
   // abre com o que há, em vez de ficar em branco (no celular a tela parava aqui, 20/10)
   if (!note || (!notes.isFetchedAfterMount && notes.fetchStatus === 'fetching'))
     return <Screen>{null}</Screen>;
-  return <Editor key={note.id} note={note} />;
+  return <Editor key={note.id} note={note} section={secao} />;
 }
 
-function Editor({ note }: { note: Note }) {
+function Editor({ note, section }: { note: Note; section?: string }) {
   const { t } = useTranslation();
   const colors = useColors();
   const m = useNoteMutations();
@@ -65,6 +83,7 @@ function Editor({ note }: { note: Note }) {
   // Seleção imposta depois de formatar; some no próximo movimento do cursor
   const [forced, setForced] = useState<Selection | undefined>();
   const input = useRef<TextInput>(null);
+  const scroll = useRef<ScrollView>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<true>();
   const saved = useRef({ title: note.title, body: note.body });
   // O texto mais novo num ref: o "salvar ao sair" roda depois que a tela já saiu
@@ -86,6 +105,40 @@ function Editor({ note }: { note: Note }) {
     return () => clearTimeout(timer);
   }, [title, body, save]);
   useEffect(() => () => save(), [save]);
+
+  // Links [[...]] (OB1, D286): autocomplete no editor; formatada, abrem por dentro do app
+  const autocomplete = useWikilinkAutocomplete({
+    text: body,
+    caret: selection.end,
+    setText: (value, caret) => {
+      setBody(value);
+      setSelection({ start: caret, end: caret });
+      setForced({ start: caret, end: caret });
+    },
+    inputRef: input,
+    exclude: note.id,
+  });
+  const resolve = useLinkTitles(
+    parseLinks(body).flatMap((l) => (l.kind && l.id ? [{ kind: l.kind, id: l.id }] : [])),
+  );
+  const openLink = useOpenLink({ folderId: note.folder_id, body, setBody });
+  const sectionIndex = section
+    ? headings(body).findIndex((h) => headingKey(h) === headingKey(section))
+    : -1;
+  const scrolled = useRef(false);
+  function onHeadingLayout(index: number, y: number) {
+    if (index !== sectionIndex || scrolled.current) return;
+    scrolled.current = true;
+    scroll.current?.scrollTo({ y, animated: true });
+  }
+
+  function insertLink() {
+    const start = Math.min(selection.start, selection.end);
+    const next = body.slice(0, start) + '[[' + body.slice(Math.max(selection.start, selection.end));
+    setBody(next);
+    setSelection({ start: start + 2, end: start + 2 });
+    setForced({ start: start + 2, end: start + 2 });
+  }
 
   function format(kind: Format) {
     const next = applyFormat(body, selection, kind);
@@ -154,6 +207,14 @@ function Editor({ note }: { note: Note }) {
                 onPress={() => format(tool.kind)}
               />
             ))}
+          {editing && (
+            <IconButton
+              icon={Link2}
+              label={t('wikilinks.insert')}
+              tone="ink"
+              onPress={insertLink}
+            />
+          )}
           <Button
             variant="ghost"
             icon={editing ? Eye : Pencil}
@@ -165,12 +226,23 @@ function Editor({ note }: { note: Note }) {
             }}
           />
         </View>
+        {/* Escrevendo, o "Citado em" fica numa linha curta (a anotação nova de um link já mostra de onde veio) */}
+        {editing && !autocomplete.open && (
+          <View className="pt-2">
+            <BacklinkChips kind="note" id={note.id} />
+          </View>
+        )}
+        {editing && autocomplete.list}
         {editing ? (
           // O campo ocupa o resto da tela e rola por dentro
           <TextInput
             ref={input}
             value={body}
-            onChangeText={setBody}
+            onChangeText={(value) => {
+              setBody(value);
+              autocomplete.onChangeText();
+            }}
+            onKeyPress={(e) => autocomplete.onKeyPress(e)}
             onBlur={save}
             selection={forced}
             onSelectionChange={(e) => {
@@ -186,12 +258,21 @@ function Editor({ note }: { note: Note }) {
             className={textClass('min-h-64 flex-1 py-3 text-base leading-6 text-ink')}
           />
         ) : (
-          <ScreenScroll className="flex-1" contentContainerClassName="py-3 pb-clear">
+          <ScreenScroll ref={scroll} className="flex-1" contentContainerClassName="py-3 pb-clear">
             {body.trim() ? (
-              <NoteMarkdown value={body} />
+              <NoteMarkdown
+                value={body}
+                resolve={resolve}
+                onLink={openLink}
+                onHeadingLayout={sectionIndex >= 0 ? onHeadingLayout : undefined}
+              />
             ) : (
               <Text className="text-ink-muted">{t('notes.bodyPlaceholder')}</Text>
             )}
+            {/* OB2: quem cita esta, o que ela cita e onde o título aparece sem link */}
+            <Backlinks kind="note" id={note.id} />
+            <OutgoingLinks body={body} resolve={resolve} onOpen={openLink} />
+            <UnlinkedMentions note={note} title={title} />
           </ScreenScroll>
         )}
         <View className="flex-row justify-between py-2">

@@ -2424,7 +2424,22 @@
     "toolbar": "Formatting",
     "preview": "Preview",
     "edit": "Edit",
-    "markdownHint": "**bold**, _italic_, ## heading, - list, - [ ] task"
+    "markdownHint": "**bold**, _italic_, ## heading, - list, - [ ] task, [[ link"
+  },
+  "wikilinks": {
+    "noAccess": "(no access)",
+    "newLink": "Link to \"{{title}}\" (doesn't exist yet)",
+    "suggestions": "Link suggestions",
+    "pick": "Link to {{title}}",
+    "backlinks": "Linked from",
+    "noBacklinks": "No note or task links here yet.",
+    "outgoing": "Outgoing links",
+    "notYet": "Doesn't exist yet: tap to create the note",
+    "unlinked": "Unlinked mentions",
+    "link": "Link",
+    "linkIn": "Link the mention in {{title}}",
+    "insert": "Link to a note, task or list ([[)",
+    "inDescription": "Links in the description"
   },
   "lock": {
     "channel": "Workout on the lock screen",

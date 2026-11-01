@@ -54,15 +54,22 @@ export function useNoteMutations() {
 
   const create = useMutation({
     networkMode,
-    /** `folderId`: anotação dentro de uma pasta ou projeto; sem ela, só da pessoa */
-    mutationFn: async (folderId?: string | null): Promise<string> => {
+    /**
+     * `folderId`: anotação dentro de uma pasta ou projeto; sem ela, só da pessoa. Com `title`, já
+     * nasce com o título (o link [[...]] para o que ainda não existia, OB1)
+     */
+    mutationFn: async (
+      target?: string | null | { folderId?: string | null; title?: string },
+    ): Promise<string> => {
       const id = uuidv7();
-      const folder_id = folderId ?? null;
+      const opts = typeof target === 'object' && target ? target : { folderId: target };
+      const folder_id = opts.folderId ?? null;
+      const title = (opts.title ?? '').slice(0, 200);
       if (isLocal()) {
         await localInsert('notes', {
           id,
           user_id: await sessionUserId(),
-          title: '',
+          title,
           body: '',
           pinned: 0,
           folder_id,
@@ -71,7 +78,7 @@ export function useNoteMutations() {
         });
         return id;
       }
-      const { error } = await supabase.from('notes').insert({ id, title: '', body: '', folder_id });
+      const { error } = await supabase.from('notes').insert({ id, title, body: '', folder_id });
       if (error) throw error;
       return id;
     },

@@ -38,6 +38,8 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   share_checks: [keys.tasks],
   my_day: [['my-day']],
   notes: [['notes']],
+  // Links [[...]] (OB1): o "Citado em" acompanha o que o servidor refez
+  links: [['links']],
   page_fields: [['page-fields']],
   expenses: [['expenses']],
   // Diário de treino (AC4): histórico, recordes e progressão

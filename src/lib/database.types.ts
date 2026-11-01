@@ -913,6 +913,32 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"links": {
+                  Row: {
+                    "anchor": string | null,"context": string,"created_at": string,"embed": boolean,"folder_id": string | null,"id": string,"position": number,"source_id": string,"source_kind": string,"target_id": string | null,"target_kind": string | null,"target_title": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "anchor"?: string | null,"context"?: string,"created_at"?: string,"embed"?: boolean,"folder_id"?: string | null,"id"?: string,"position"?: number,"source_id": string,"source_kind": string,"target_id"?: string | null,"target_kind"?: string | null,"target_title"?: string,"user_id": string
+                  }
+                  Update: {
+                    "anchor"?: string | null,"context"?: string,"created_at"?: string,"embed"?: boolean,"folder_id"?: string | null,"id"?: string,"position"?: number,"source_id"?: string,"source_kind"?: string,"target_id"?: string | null,"target_kind"?: string | null,"target_title"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "links_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "links_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"loot_log": {
                   Row: {
                     "created_at": string,"day": string,"id": string,"key": string,"kind": string,"user_id": string
@@ -2495,6 +2521,9 @@ isOneToOne: false
 "_json_num":
 { Args: { "p_value": Json }; Returns: number
                            },
+"_link_context":
+{ Args: { "p_line": string }; Returns: string
+                           },
 "_log_activity":
 { Args: { "p_action": string,"p_folder_id": string,"p_payload": Json }; Returns: undefined
                            },
@@ -2558,6 +2587,9 @@ isOneToOne: false
                            },
 "_record_workout_day":
 { Args: { "p_minutes": number,"p_page": string,"p_source": string,"p_user": string }; Returns: undefined
+                           },
+"_refresh_links":
+{ Args: { "p_folder": string,"p_id": string,"p_kind": string,"p_text": string,"p_user": string }; Returns: undefined
                            },
 "_refresh_profile_stats":
 { Args: { "p_user": string }; Returns: undefined

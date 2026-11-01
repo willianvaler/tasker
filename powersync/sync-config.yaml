@@ -128,6 +128,17 @@ streams:
       - SELECT * FROM notes WHERE folder_id IN roots
       - SELECT notes.* FROM notes INNER JOIN folders ON notes.folder_id = folders.id WHERE folders.parent_id IN roots
 
+  # Links [[...]] (OB1): os das minhas anotações sem pasta e os das pastas e projetos de que faço
+  # parte (a mesma regra da origem, anotação ou tarefa)
+  links:
+    auto_subscribe: true
+    with:
+      roots: SELECT folder_id FROM folder_members WHERE user_id = auth.user_id()
+    queries:
+      - SELECT * FROM links WHERE user_id = auth.user_id() AND folder_id IS NULL
+      - SELECT * FROM links WHERE folder_id IN roots
+      - SELECT links.* FROM links INNER JOIN folders ON links.folder_id = folders.id WHERE folders.parent_id IN roots
+
   me:
     auto_subscribe: true
     query: SELECT * FROM profiles WHERE id = auth.user_id()

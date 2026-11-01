@@ -75,6 +75,10 @@ import { ProgressionEditor, SupersetEditor } from '@/components/gym/progression'
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
+import { Backlinks, OutgoingLinks, useOpenLink } from '@/components/note-links';
+import { useWikilinkAutocomplete } from '@/components/wikilink-autocomplete';
+import { useBacklinks, useLinkTitles } from '@/lib/queries/links';
+import { parseLinks } from '@/lib/wikilinks';
 import { rootFolder, useAssignees, useComments } from '@/lib/queries/projects';
 import { useAttachments } from '@/lib/queries/attachments';
 import { usePageFields } from '@/lib/queries/fields';
@@ -206,6 +210,29 @@ function TaskDetails({ task }: { task: Task }) {
   const [title, setTitle] = useState(task.title);
   const [notes, setNotes] = useState(task.notes ?? '');
   const [showNotes, setShowNotes] = useState(false);
+  // Links [[...]] na descrição (OB1, D286): o mesmo autocomplete das anotações
+  const notesInput = useRef<TextInput>(null);
+  const [notesCaret, setNotesCaret] = useState(0);
+  const notesLinks = useWikilinkAutocomplete({
+    text: notes,
+    caret: notesCaret,
+    setText: (value, caret) => {
+      setNotes(value);
+      setNotesCaret(caret);
+    },
+    inputRef: notesInput,
+  });
+  const resolveLink = useLinkTitles(
+    parseLinks(notes).flatMap((l) => (l.kind && l.id ? [{ kind: l.kind, id: l.id }] : [])),
+  );
+  const openLink = useOpenLink({
+    folderId: null,
+    body: notes,
+    setBody: (body) => {
+      setNotes(body);
+      save({ notes: body });
+    },
+  });
   const [labels, setLabels] = useState(task.labels.map((l) => `#${l}`).join(' '));
   const [dateText, setDateText] = useState('');
   const [timeText, setTimeText] = useState('');
@@ -541,8 +568,14 @@ function TaskDetails({ task }: { task: Task }) {
             count={notes.length > NOTES_MAX * 0.8 ? `${notes.length}/${NOTES_MAX}` : undefined}
           >
             <TextInput
+              ref={notesInput}
               value={notes}
-              onChangeText={setNotes}
+              onChangeText={(value) => {
+                setNotes(value);
+                notesLinks.onChangeText();
+              }}
+              onSelectionChange={(e) => setNotesCaret(e.nativeEvent.selection.end)}
+              onKeyPress={(e) => notesLinks.onKeyPress(e)}
               onBlur={() => notes !== (task.notes ?? '') && save({ notes: notes.trim() || null })}
               editable={writable}
               autoFocus={showNotes && !task.notes}
@@ -556,6 +589,8 @@ function TaskDetails({ task }: { task: Task }) {
                 'min-h-20 rounded border border-line bg-paper p-3 text-base text-ink focus:border-accent',
               )}
             />
+            {notesLinks.list}
+            <OutgoingLinks body={notes} resolve={resolveLink} onOpen={openLink} />
             <ConflictNotice
               taskId={task.id}
               writable={writable}
@@ -773,6 +808,8 @@ function TaskDetails({ task }: { task: Task }) {
           </Section>
         )}
 
+        <TaskBacklinks taskId={task.id} title={t('wikilinks.backlinks')} />
+
         {show('attachments') && gym('attachments') && (
           <Section title={t('attach.section')}>
             <Attachments task={task} writable={allowed.edit} />
@@ -980,6 +1017,17 @@ function Subtasks({ task }: { task: Task }) {
         accessibilityLabel={t('taskDetail.newSubtask')}
       />
       {create.error && <Text className="text-danger">{create.error.message}</Text>}
+    </Section>
+  );
+}
+
+/** "Citado em" (OB2): as anotações e tarefas com um [[link]] para esta; sem nenhuma, nada */
+function TaskBacklinks({ taskId, title }: { taskId: string; title: string }) {
+  const { list } = useBacklinks('task', taskId);
+  if (!list.length) return null;
+  return (
+    <Section title={title} count={String(list.length)}>
+      <Backlinks kind="task" id={taskId} bare />
     </Section>
   );
 }

@@ -1,19 +1,87 @@
-import { View } from 'react-native';
-import { useMarkdown } from 'react-native-marked';
+import { useMemo, type ReactNode } from 'react';
+import { View, type TextStyle } from 'react-native';
+import { Renderer, useMarkdown } from 'react-native-marked';
 import { useColorScheme } from 'nativewind';
+import { useTranslation } from 'react-i18next';
 
+import { Text } from '@/components/ui/text';
 import { FONT_FAMILY } from '@/lib/fonts';
 import { withTaskBoxes } from '@/lib/markdown-edit';
 import { useColors } from '@/lib/tokens';
+import { parseLinkHref, wikiToMarkdown, type LinkHref, type ResolveLink } from '@/lib/wikilinks';
 
-/** Anotação formatada (D187): Markdown com as cores e as fontes do app. */
-export function NoteMarkdown({ value }: { value: string }) {
+const HEADING = 'note-heading-';
+
+/**
+ * Os links [[...]] (OB1) abrem por dentro do app: o endereço `questlist-link:` não vai para o
+ * navegador. O link para o que ainda não existe fica apagado; o sem acesso, sem toque. Os títulos
+ * levam um testID com a ordem, para a anotação rolar até a âncora.
+ */
+class NoteRenderer extends Renderer {
+  constructor(
+    private readonly onLink: ((href: LinkHref) => void) | undefined,
+    private readonly muted: string,
+  ) {
+    super();
+  }
+
+  link(children: string | ReactNode[], href: string, styles?: TextStyle, title?: string) {
+    const target = parseLinkHref(href);
+    if (!target) return super.link(children, href, styles, title);
+    const faded = target.kind === 'new' || target.kind === 'none';
+    return (
+      <Text
+        key={this.getKey()}
+        accessibilityRole={target.kind === 'none' ? undefined : 'link'}
+        onPress={target.kind === 'none' ? undefined : () => this.onLink?.(target)}
+        style={[
+          styles,
+          faded && { color: this.muted, textDecorationStyle: 'dashed' },
+          target.kind === 'none' && { fontStyle: 'italic', textDecorationLine: 'none' },
+        ]}
+      >
+        {children}
+      </Text>
+    );
+  }
+
+  heading(text: string | ReactNode[], styles?: TextStyle) {
+    return (
+      <View key={this.getKey()} testID={`${HEADING}${this.getKey()}`}>
+        {super.heading(text, styles)}
+      </View>
+    );
+  }
+}
+
+/**
+ * Anotação formatada (D187): Markdown com as cores e as fontes do app. Com `resolve`, os [[...]]
+ * viram links com o título de agora; `onHeadingLayout` dá a posição de cada título (na ordem).
+ */
+export function NoteMarkdown({
+  value,
+  onLink,
+  resolve,
+  onHeadingLayout,
+}: {
+  value: string;
+  onLink?: (href: LinkHref) => void;
+  resolve?: ResolveLink;
+  onHeadingLayout?: (index: number, y: number) => void;
+}) {
+  const { t } = useTranslation();
   const colors = useColors();
   const { colorScheme } = useColorScheme();
   const text = { color: colors.ink, fontFamily: FONT_FAMILY.sans, fontSize: 16, lineHeight: 24 };
   const heading = { color: colors.ink, fontFamily: FONT_FAMILY.serif, marginTop: 8 };
-  const elements = useMarkdown(withTaskBoxes(value), {
+  const source = withTaskBoxes(
+    resolve ? wikiToMarkdown(value, resolve, t('wikilinks.noAccess')) : value,
+  );
+  const muted = colors['ink-muted'];
+  const renderer = useMemo(() => new NoteRenderer(onLink, muted), [onLink, muted]);
+  const elements = useMarkdown(source, {
     colorScheme,
+    renderer,
     theme: {
       colors: { text: colors.ink, link: colors.accent, code: colors.wash, border: colors.line },
     },
@@ -30,11 +98,26 @@ export function NoteMarkdown({ value }: { value: string }) {
       link: { color: colors.accent, textDecorationLine: 'underline' },
     },
   });
+  let headingRank = 0;
   return (
     <View className="gap-1">
-      {elements.map((element, i) => (
-        <View key={i}>{element}</View>
-      ))}
+      {elements.map((element, i) => {
+        const id = (element as { props?: { testID?: string } } | null)?.props?.testID;
+        // A ordem entre os títulos (a contagem do renderizador não recomeça se ele reler o texto)
+        const index = id?.startsWith(HEADING) ? headingRank++ : -1;
+        return (
+          <View
+            key={i}
+            onLayout={
+              index >= 0 && onHeadingLayout
+                ? (e) => onHeadingLayout(index, e.nativeEvent.layout.y)
+                : undefined
+            }
+          >
+            {element}
+          </View>
+        );
+      })}
     </View>
   );
 }
