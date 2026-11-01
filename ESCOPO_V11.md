@@ -86,7 +86,7 @@ O que falta é a parte de **ligar ideias**: link entre anotações (e entre anot
 
 ## 8. Versões, compartilhar, publicar e importar
 
-- **Histórico de versões da anotação:** uma versão a cada sessão de edição (no máximo uma a cada 10 minutos), guardada por 1 ano (o Obsidian Sync guarda 1 ano), com ver a diferença e restaurar. Tabela `note_versions`, só da dona, que entra na exportação e na exclusão de conta (LGPD). Passa pela lixeira (D84).
+- **Histórico de versões da anotação:** uma versão a cada sessão de edição (no máximo uma a cada 10 minutos), guardada por 1 ano (o Obsidian Sync guarda 1 ano) e **contando no espaço de anexos da pessoa** (V11-5, D285), com ver a diferença e restaurar. Tabela `note_versions`, só da dona, que entra na exportação e na exclusão de conta (LGPD). Passa pela lixeira (D84).
 - **Compartilhar anotação** com pessoas ou com um projeto (ler ou editar), pelo modelo de cargos de sempre; edição ao mesmo tempo por duas pessoas é a "notas colaborativas (CRDT)" do V3 §6 C e continua lá. **(padrão)** Até lá, a última gravação vence e a outra pessoa vê o aviso "mudou enquanto você editava".
 - **Publicar** uma anotação ou um conjunto (com os links entre elas) num endereço só de leitura (`/p/<token>`), fora do login, com senha opcional; desfazer a qualquer hora. Perfil e privacidade como no V10 §2.
 - **Web Clipper** (depois): pelo Compartilhar do celular (o Share Target do V3 §6 B) e por uma extensão de navegador, salvar uma página como anotação com o link de origem.
@@ -123,10 +123,12 @@ Cada tarefa: Ajuda nos 3 idiomas, i18n, E2E e o registro de sempre (STATUS, PEND
 
 ## 11. Decisões do dono
 
-| # | Pergunta | Padrão até a resposta |
+Respondidas pelo dono em 01/11/2026 (D285).
+
+| # | Pergunta | Resposta |
 |---|---|---|
-| V11-1 | Por onde começar: links e backlinks (OB1, OB2), consultas e Bases (OB7, OB8) ou Canvas (OB10)? | Links e backlinks: o resto depende deles |
-| V11-2 | As propriedades das anotações e os campos personalizados das listas ficam separados? | Separados (§3) |
-| V11-3 | Compartilhar anotação antes do CRDT, com "a última gravação vence"? | Sim, com o aviso (§8) |
-| V11-4 | Anotação publicada aberta para quem não tem conta, ou só para quem tem? | Aberta, só leitura, com senha opcional (como o Obsidian Publish) |
-| V11-5 | Guardar as versões por 1 ano conta no espaço de anexos da pessoa? | Não conta (é texto) |
+| V11-1 | Por onde começar: links e backlinks (OB1, OB2), consultas e Bases (OB7, OB8) ou Canvas (OB10)? | **Links e backlinks** (OB1, OB2): o resto depende deles |
+| V11-2 | As propriedades das anotações e os campos personalizados das listas ficam separados? | **Separados** (§3) |
+| V11-3 | Compartilhar anotação antes do CRDT, com "a última gravação vence"? | **Sim, com o aviso** (§8) |
+| V11-4 | Anotação publicada aberta para quem não tem conta, ou só para quem tem? | **Aberta**, só leitura, com senha opcional (como o Obsidian Publish) |
+| V11-5 | Guardar as versões por 1 ano conta no espaço de anexos da pessoa? | **Conta** (o padrão era não contar): o tamanho do texto das versões soma no limite de anexos (V4-4) |

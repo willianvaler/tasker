@@ -422,3 +422,8 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 | V7-2 | Escrever no Health Connect/Strava ou só ler | V7 §2 | Só ler; a atividade de fora vira um registro de treino, sem passar pelo Modo Treino (D220) |
 | V7-3 | Quais atividades contam como treino | V7 §2 | Todas (D220) |
 | V9-3 | Limite de leituras de foto por conta | GA8 | Sem limite enquanto for teste (`photo_read_limit()` nulo, D220) |
+| V11-1 | Por onde começar o V11 | OB1 | Links e backlinks (OB1, OB2) (D285) |
+| V11-2 | Propriedades das anotações × campos personalizados | OB4 | Separados (D285) |
+| V11-3 | Compartilhar anotação antes do CRDT | OB14 | Sim, a última gravação vence, com o aviso (D285) |
+| V11-4 | Anotação publicada sem conta | OB14 | Aberta, só leitura, senha opcional (D285) |
+| V11-5 | Versões contam no espaço de anexos | OB11 | Contam (D285) |

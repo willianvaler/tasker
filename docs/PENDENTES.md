@@ -4,7 +4,7 @@ O que falta de todos os escopos (`ESCOPO.md` a `ESCOPO_V11.md`), numa tabela só
 
 **Atualize no mesmo commit da tarefa** (como o `STATUS.md`): concluída sai daqui (e entra no `FEITOS.md` pelo `npm run feitos`); parcial muda a situação.
 
-Atualizado em 31/10/2026. Em 31/10: treino na tela de bloqueio com módulo nativo do Android (X2, D284). Em 28/10: produção na v2026.10.28 (https://questlist.wavdev.org; APK e AAB código 391), com as correções CD31 a CD33. Em 27/10: plano do aluno definido pelo treinador (AC13.2, D282). Em 26/10: Treinar com… em qualquer treino (AC15A, D277), painel do treinador no Alunos (AC13, D278), treino da Academia em grupos (AC15B, D279) e Desafios estilo GymRats (AC15C, D280). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
+Atualizado em 01/11/2026. Em 01/11: decisões do V11 respondidas (V11-1 a V11-5, D285; começa por OB1 e OB2). Em 31/10: treino na tela de bloqueio com módulo nativo do Android (X2, D284). Em 28/10: produção na v2026.10.28 (https://questlist.wavdev.org; APK e AAB código 391), com as correções CD31 a CD33. Em 27/10: plano do aluno definido pelo treinador (AC13.2, D282). Em 26/10: Treinar com… em qualquer treino (AC15A, D277), painel do treinador no Alunos (AC13, D278), treino da Academia em grupos (AC15B, D279) e Desafios estilo GymRats (AC15C, D280). Em 24/10: correções CD27 a CD29 (fundo da Hoje atrás do painel, painel dos bosses, fundo do modo escuro à escolha), ESCOPO_V11 (Obsidian) escrito, planos prontos (AC12.1), copiar e mover exercícios (AC12.3) e fotos dos exercícios (AC3.10). Em 25/10: Dieta e Vida saudável no Bem-estar (BE2, BE3, D275). Da reforma de usabilidade (22/10, `docs/PROPOSTA_UX.md`) fica para depois o teste de árvore com 5 a 8 pessoas e a medição de toques antes e depois (§8).
 
 ## Para fazer depois (pedido do dono, 20/10, noite)
 
@@ -40,13 +40,12 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | **V6** | TR5 | Memória e lentidão do APK: as imagens do jogo já têm miniatura (D229); falta medir num aparelho se ainda engasga (outro suspeito: cache do TanStack salvo inteiro e síncrono no SQLite) | parcial | aparelho do dono |
 | **V9** | GA8 | Chave do Gemini no servidor (`supabase/functions/.env`) e teste com listas de verdade (a nota não precisa mais, D254) | pendente | chave do dono |
 | V9 | GA9 | Editar célula a célula, ligar lançamento a tarefa, fila de fotos sem internet, apagar a foto quando a lixeira vence | backlog | — |
-| **V11** | OB1–OB15 | Funções do Obsidian nas anotações e tarefas: links `[[...]]` e backlinks, propriedades e etiquetas, nota do dia, consultas e Bases, grafo, canvas, callouts e incorporar, versões, importar/exportar cofre, publicar (`ESCOPO_V11.md` §10) | pendente | V11-1 (por onde começar) |
+| **V11** | OB1–OB15 | Funções do Obsidian nas anotações e tarefas: links `[[...]]` e backlinks, propriedades e etiquetas, nota do dia, consultas e Bases, grafo, canvas, callouts e incorporar, versões, importar/exportar cofre, publicar (`ESCOPO_V11.md` §10); começa por OB1 e OB2 (D285) | pendente | — |
 
 ## Decisões do dono em aberto
 
 | # | Pergunta | Bloqueia |
 |---|---|---|
 | V5-3 | Provedor de e-mail e domínio de envio (em espera: servidor próprio, Google ou outro) | V5 §5 |
-| V11-1 a V11-5 | Por onde começar o V11, propriedades × campos, compartilhar antes do CRDT, publicação aberta, versões no espaço (`ESCOPO_V11.md` §11) | V11 |
 
-As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`) e em 20/10 (D247).
+As outras foram respondidas em 19/10 (D220, tabela no `STATUS.md`) em 20/10 (D247) e em 01/11 (V11-1 a V11-5, D285).
