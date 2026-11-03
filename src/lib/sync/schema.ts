@@ -58,6 +58,8 @@ const pages = new Table(
     progression: column.text,
     // Dias da semana do treino (AC9.5), JSON [1,3,5]
     train_days: column.text,
+    // Base (OB8) e canvas (OB10): o filtro e as colunas, ou os nós e as setas (JSON)
+    config: column.text,
     created_at: column.text,
     updated_at: column.text,
     updated_by: column.text,

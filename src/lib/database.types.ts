@@ -1251,14 +1251,14 @@ isOneToOne: false
                   ]
                 },"pages": {
                   Row: {
-                    "budget_cents": number | null,"created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"progression": string | null,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"train_days": (number)[] | null,"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"],"_snapshot_page": Json | null
+                    "budget_cents": number | null,"config": Json | null,"created_at": string,"folder_id": string,"icon": string | null,"id": string,"is_habits": boolean,"is_inbox": boolean,"manual_cycle": number,"max_depth": number | null,"name": string,"position": number,"progression": string | null,"reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"train_days": (number)[] | null,"updated_at": string,"updated_by": string | null,"version": number,"view_type": Database["public"]['Enums']["page_view_type"],"_snapshot_page": Json | null
                   }
                   ComputedFields: "_snapshot_page"
                   Insert: {
-                    "budget_cents"?: number | null,"created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"train_days"?: (number)[] | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "budget_cents"?: number | null,"config"?: Json | null,"created_at"?: string,"folder_id": string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name": string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"train_days"?: (number)[] | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Update: {
-                    "budget_cents"?: number | null,"created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name"?: string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"train_days"?: (number)[] | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
+                    "budget_cents"?: number | null,"config"?: Json | null,"created_at"?: string,"folder_id"?: string,"icon"?: string | null,"id"?: string,"is_habits"?: boolean,"is_inbox"?: boolean,"manual_cycle"?: number,"max_depth"?: number | null,"name"?: string,"position"?: number,"progression"?: string | null,"reset_cycle"?: Database["public"]['Enums']["page_reset_cycle"],"train_days"?: (number)[] | null,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"view_type"?: Database["public"]['Enums']["page_view_type"]
                   }
                   Relationships: [
                     {
@@ -3689,7 +3689,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban"|"expenses","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
+            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban"|"expenses"|"base"|"canvas","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -3809,7 +3809,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban", "expenses"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
+            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban", "expenses", "base", "canvas"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
           }
         }
 } as const

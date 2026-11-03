@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { uuidv7 } from '@/lib/uuid';
 
-import type { Tables } from '../db';
+import type { Json, Tables } from '../db';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import {
@@ -31,6 +31,8 @@ export type PageSettings = {
   progression?: Page['progression'];
   /** Dias da semana do treino (AC9.5): 0 = domingo */
   train_days?: number[] | null;
+  /** Base (OB8) e canvas (OB10): a configuração da lista (lib/base-config.ts, lib/canvas.ts) */
+  config?: Json | null;
 };
 
 export type SubFolder = Folder & { pages: Page[] };

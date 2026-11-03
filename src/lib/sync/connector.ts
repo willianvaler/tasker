@@ -45,6 +45,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'budget_cents',
       'progression',
       'train_days',
+      'config',
     ],
     update: [
       'folder_id',
@@ -57,6 +58,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'budget_cents',
       'progression',
       'train_days',
+      'config',
     ],
   },
   tasks: {
@@ -233,6 +235,7 @@ const SERVER_SIDE = new Set([
 // No SQLite, jsonb e arrays são texto
 const JSON_COLUMNS = new Set([
   'train_days',
+  'config',
   'labels',
   'meta',
   'recurrence',

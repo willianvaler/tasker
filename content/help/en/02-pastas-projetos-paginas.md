@@ -1,6 +1,6 @@
 # Folders, projects and lists
 
-- A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board** or **Expenses**. Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows. To open the task, tap the pencil on the card.
+- A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board**, **Expenses** or **Base** (see Notes). Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows. To open the task, tap the pencil on the card.
 - A **folder** groups your lists. Example: the **Gym** folder with Workout A and Workout B.
 - A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks.
 
@@ -83,6 +83,10 @@ The last option creates a link to something that **doesn't exist yet** (`[[New i
 Below the note, **Linked from** shows the notes and tasks that link to it, with the sentence around the link. **Outgoing links** lists what it links to. **Unlinked mentions** shows your notes that write its name without `[[ ]]`, and **Link** turns the mention into a link. A task's description also accepts `[[`, and the task panel and the top of a list show **Linked from**. It works offline.
 
 **Embed:** a line with only `![[...]]` (a `!` before the link, or the `/embed` command) shows the item inside the note: another note (whole, or just a section with `![[Note#Heading]]`), a list with real checkboxes (completing there completes it in the list), a task, or an image from your task attachments by file name (`![[photo.jpg]]`). On a computer, resting the mouse on a link shows a preview with the first lines; on a phone, touch and hold.
+
+### Bases
+
+A **Base** list shows, on one screen, the tasks or notes that match a query (the same language as the ` ```questlist ` block above), as a **Table** or **Cards**. It starts with `tasks where due <= today+7 not done`; change the text and tap **Apply** (or `Ctrl+Enter`). **Columns** picks what shows (for notes, properties become columns too), **Group** groups by status, list, tag, priority or a property, and tapping a column name sorts it (ascending, descending and back to the query's order). In the table, tap a cell to edit: title, due date (`2026-12-01`), priority (`0` to `3` or `!!`) and tags on tasks; title and properties on notes (a checkbox flips with one tap). Tasks have the real checkbox, and the arrow at the end of the row opens the item. The setup is saved in the list and is the same for everyone in the project; read-only members can see it but not change it.
 
 ## Shopping list from a menu
 

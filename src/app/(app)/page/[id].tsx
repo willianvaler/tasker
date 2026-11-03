@@ -21,6 +21,7 @@ import { Screen } from '@/components/screen';
 import { SendPageDialog } from '@/components/send-page';
 import { ScreenHeader } from '@/components/screen-header';
 import { ExpensesView } from '@/components/expenses/expenses-view';
+import { BaseView } from '@/components/base-view';
 import { usePageMode } from '@/components/tasks/page-mode';
 import { PageView } from '@/components/tasks/page-view';
 import { Text } from '@/components/ui/text';
@@ -79,7 +80,9 @@ export default function PageScreen() {
   const page = tree.data?.pages.find((p) => p.id === id) ?? receivedPage;
   const missing = useConfirmedMissing(id, !!page);
   const pageTasks = usePageTasks(id);
-  const expensesPage = page?.view_type === 'expenses';
+  // Gastos (V9) e Base (OB8) não guardam tarefas: duplicar, enviar, campos e
+  // publicar não se aplicam
+  const expensesPage = page?.view_type === 'expenses' || page?.view_type === 'base';
   // Treino começado e não terminado: o botão diz "Continuar treino"
   const resumable = useSyncExternalStore(subscribeWorkoutRuns, () => workoutInProgress(id));
   // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
@@ -177,10 +180,7 @@ export default function PageScreen() {
       : undefined;
 
   // Cards e kanban aproveitam a tela toda; lista e hábitos ficam numa coluna de leitura
-  const size =
-    page?.view_type === 'cards' || page?.view_type === 'expenses' || mode === 'board'
-      ? 'wide'
-      : 'medium';
+  const size = page?.view_type === 'cards' || expensesPage || mode === 'board' ? 'wide' : 'medium';
   return (
     <Screen size={size}>
       <ScreenHeader
@@ -271,7 +271,13 @@ export default function PageScreen() {
           />
         </View>
       )}
-      {page?.view_type === 'expenses' ? <ExpensesView page={page} /> : <PageView page={page} />}
+      {page?.view_type === 'expenses' ? (
+        <ExpensesView page={page} />
+      ) : page?.view_type === 'base' ? (
+        <BaseView page={page} />
+      ) : (
+        <PageView page={page} />
+      )}
       {folderDialog}
 
       {page && dialog === 'menu' && (

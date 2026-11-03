@@ -50,6 +50,7 @@ export function toPage(row: Row): Tables<'pages'> {
       typeof row.train_days === 'string'
         ? (row.train_days.match(/\d/g) ?? []).map(Number)
         : ((row.train_days as number[] | null) ?? null),
+    config: json(row.config),
     created_at: iso(row.created_at)!,
     updated_at: iso(row.updated_at)!,
   };

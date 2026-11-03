@@ -1,5 +1,7 @@
 import {
   Columns3,
+  Database,
+  Frame,
   Folder,
   Inbox,
   LayoutGrid,
@@ -16,7 +18,16 @@ import { lucideOf } from '@/lib/icons';
 import type { ColorToken } from '@/lib/tokens';
 
 export type ItemKind =
-  'folder' | 'project' | 'inbox' | 'list' | 'cards' | 'habits' | 'kanban' | 'expenses';
+  | 'folder'
+  | 'project'
+  | 'inbox'
+  | 'list'
+  | 'cards'
+  | 'habits'
+  | 'kanban'
+  | 'expenses'
+  | 'base'
+  | 'canvas';
 
 /** Ícone padrão de cada tipo. */
 export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
@@ -28,6 +39,8 @@ export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
   habits: Repeat,
   kanban: Columns3,
   expenses: Wallet,
+  base: Database,
+  canvas: Frame,
 };
 
 /**

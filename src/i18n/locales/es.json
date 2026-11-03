@@ -451,7 +451,9 @@
     "more": "Más opciones (icono, reinicio, niveles)",
     "less": "Menos opciones",
     "expenses": "Gastos",
-    "expensesHint": "Hoja de gastos e ingresos, con presupuesto, foto del ticket y exportación en CSV y XLSX."
+    "expensesHint": "Hoja de gastos e ingresos, con presupuesto, foto del ticket y exportación en CSV y XLSX.",
+    "base": "Base",
+    "baseHint": "Tabla o tarjetas de tareas o notas filtradas por una consulta, con edición en la celda."
   },
   "profile": {
     "title": "Perfil",
@@ -4091,5 +4093,40 @@
       "view": "Mostrar como lista, tabla o conteo (no “{{word}}”).",
       "notesDone": "Las notas no tienen “completadas”: usa una propiedad (ej.: props.leido = sí)."
     }
+  },
+  "base": {
+    "query": "Consulta de la base",
+    "apply": "Aplicar",
+    "queryHint": "El mismo lenguaje del bloque questlist: tareas o notas, donde…, ordenar por… (Ctrl+Enter aplica)",
+    "table": "Tabla",
+    "cards": "Tarjetas",
+    "columns": "Columnas",
+    "group": "Agrupar",
+    "groupedBy": "Agrupado por {{name}}",
+    "noGroup": "Sin grupos",
+    "empty": "Sin {{name}}",
+    "open": "Abrir {{title}}",
+    "sortBy": "Ordenar por {{name}}",
+    "editHint": "Toca para editar",
+    "blank": "vacío",
+    "invalid": "Valor no válido en {{name}}",
+    "col": {
+      "title": "Título",
+      "list": "Lista",
+      "due": "Vence",
+      "priority": "Prioridad",
+      "tags": "Etiquetas",
+      "status": "Estado",
+      "created": "Creada",
+      "completed": "Completada el",
+      "updated": "Actualizada",
+      "folder": "Carpeta"
+    },
+    "status": {
+      "todo": "Pendiente",
+      "doing": "En curso",
+      "done": "Completada"
+    },
+    "defaultQuery": "tareas donde vence <= hoy+7 no completadas"
   }
 }

@@ -50,7 +50,7 @@ export function QueryBlock({ source }: { source: string }) {
   );
 }
 
-function useErrorText() {
+export function useErrorText() {
   const { t } = useTranslation();
   return (error: QueryError) => {
     const word = 'word' in error ? error.word : '';
@@ -104,7 +104,7 @@ function Results({ query }: { query: Query }) {
   );
 }
 
-function useQueryContext(): QueryContext {
+export function useQueryContext(): QueryContext {
   const today = useToday();
   const timeZone = useTimeZone();
   return { today, dayOf: (iso) => todayIn(timeZone, new Date(iso.replace(' ', 'T'))) };

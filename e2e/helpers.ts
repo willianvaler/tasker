@@ -105,7 +105,11 @@ export async function createPage(
     folder,
     name,
     type,
-  }: { folder: string; name: string; type: 'Lista' | 'Cards' | 'Hábitos' | 'Gastos' },
+  }: {
+    folder: string;
+    name: string;
+    type: 'Lista' | 'Cards' | 'Hábitos' | 'Gastos' | 'Base' | 'Canvas';
+  },
 ) {
   await openTab(page, 'Pastas');
   await page.getByRole('button', { name: 'Nova pasta' }).last().click();
@@ -116,7 +120,14 @@ export async function createPage(
   await page.getByRole('button', { name: 'Criar a primeira lista' }).click();
   await page.getByPlaceholder('Nome (ex.: Treino A)').fill(name);
   // UX13 (D267): os tipos viraram Tarefas · Rotina · Hábitos · Quadro · Gastos
-  const label = { Lista: 'Tarefas', Cards: 'Rotina', Hábitos: 'Hábitos', Gastos: 'Gastos' }[type];
+  const label = {
+    Lista: 'Tarefas',
+    Cards: 'Rotina',
+    Hábitos: 'Hábitos',
+    Gastos: 'Gastos',
+    Base: 'Base',
+    Canvas: 'Canvas',
+  }[type];
   await page.getByRole('radio', { name: new RegExp(label) }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('heading', { name: new RegExp(`^(\\S+ )?${name}$`) })).toBeVisible();

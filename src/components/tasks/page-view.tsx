@@ -180,6 +180,8 @@ export function PageView({ page }: { page: Page | undefined }) {
     habits: { title: t('page.emptyHabits') },
     kanban: { title: t('page.emptyKanban') },
     expenses: { title: t('page.emptyList') },
+    base: { title: t('page.emptyList') },
+    canvas: { title: t('page.emptyList') },
   }[viewType] ?? { title: t('page.emptyList') };
 
   return (

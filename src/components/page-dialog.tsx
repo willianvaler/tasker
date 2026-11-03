@@ -15,12 +15,18 @@ import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import type { Page, PageSettings } from '@/lib/queries/tree';
 
+/** Tipos que não guardam tarefas (Gastos, Base, Canvas): só ao criar, e não viram outro tipo */
+const SPECIAL = ['expenses', 'base', 'canvas'] as const;
+const isSpecial = (v: Page['view_type'] | undefined) =>
+  !!v && (SPECIAL as readonly string[]).includes(v);
+
 const VIEW_TYPES = [
   { value: 'list', label: 'pageDialog.list', hint: 'pageDialog.listHint' },
   { value: 'cards', label: 'pageDialog.cards', hint: 'pageDialog.cardsHint' },
   { value: 'habits', label: 'pageDialog.habits', hint: 'pageDialog.habitsHint' },
   { value: 'kanban', label: 'pageDialog.kanban', hint: 'pageDialog.kanbanHint' },
   { value: 'expenses', label: 'pageDialog.expenses', hint: 'pageDialog.expensesHint' },
+  { value: 'base', label: 'pageDialog.base', hint: 'pageDialog.baseHint' },
 ] as const satisfies readonly { value: Page['view_type']; label: string; hint: string }[];
 
 const RESET_CYCLES = [
@@ -71,10 +77,14 @@ export function PageDialog({
       // Hábitos reiniciam pela recorrência de cada item; o ciclo da página não se aplica
       // Hábitos têm o ciclo de cada item; kanban é fluxo, não rotina: nunca reiniciam
       reset_cycle:
-        viewType === 'habits' || viewType === 'kanban' || viewType === 'expenses'
+        viewType === 'habits' || viewType === 'kanban' || isSpecial(viewType)
           ? 'none'
           : effectiveReset,
       max_depth: maxDepth,
+      // Base (OB8) nasce com uma consulta de exemplo; canvas (OB10), vazio
+      ...(!initial?.name && viewType === 'base'
+        ? { config: { query: t('base.defaultQuery'), view: 'table' } }
+        : {}),
     });
   }
 
@@ -102,11 +112,11 @@ export function PageDialog({
             />
             <Label>{t('pageDialog.type')}</Label>
             <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
-              {/* Gastos (V9) guardam lançamentos, não tarefas: só ao criar, e não vira outro tipo */}
+              {/* Gastos (V9), Base e Canvas (V11) não guardam tarefas: só ao criar, sem trocar */}
               {VIEW_TYPES.filter((v) =>
-                initial?.view_type === 'expenses'
-                  ? v.value === 'expenses'
-                  : v.value !== 'expenses' || !initial?.name,
+                isSpecial(initial?.view_type)
+                  ? v.value === initial?.view_type
+                  : !isSpecial(v.value) || !initial?.name,
               ).map((v) => (
                 <Chip
                   key={v.value}
@@ -141,7 +151,7 @@ export function PageDialog({
               </>
             )}
 
-            {more && viewType !== 'habits' && viewType !== 'kanban' && viewType !== 'expenses' && (
+            {more && viewType !== 'habits' && viewType !== 'kanban' && !isSpecial(viewType) && (
               <>
                 <Label>{t('pageDialog.reset')}</Label>
                 <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">
@@ -167,7 +177,7 @@ export function PageDialog({
               </>
             )}
 
-            {more && viewType !== 'habits' && viewType !== 'expenses' && (
+            {more && viewType !== 'habits' && !isSpecial(viewType) && (
               <>
                 <Label>{t('tree.depthLimit')}</Label>
                 <DepthPicker value={maxDepth} inherited={inheritedDepth} onChange={setMaxDepth} />

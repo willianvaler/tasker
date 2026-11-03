@@ -1,6 +1,6 @@
 # Carpetas, proyectos y listas
 
-- Una **lista** guarda tus cosas: compras, entrenamiento, plan de viaje. El tipo puede ser **Tareas**, **Rutina** (checklist en tarjetas que se reinicia; buena para entrenar), **Hábitos**, **Tablero** o **Gastos**. Toda lista de tareas también se abre como **Tablero** (pestaña arriba). En el tablero, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta. Para abrir la tarea, toca el lápiz de la tarjeta.
+- Una **lista** guarda tus cosas: compras, entrenamiento, plan de viaje. El tipo puede ser **Tareas**, **Rutina** (checklist en tarjetas que se reinicia; buena para entrenar), **Hábitos**, **Tablero**, **Gastos** o **Base** (ver Notas). Toda lista de tareas también se abre como **Tablero** (pestaña arriba). En el tablero, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta. Para abrir la tarea, toca el lápiz de la tarjeta.
 - Una **carpeta** agrupa tus listas. Ejemplo: la carpeta **Gimnasio** con Entrenamiento A y B.
 - Un **proyecto** es una carpeta para hacer **con otras personas**. Ejemplo: el proyecto **Asado** con las listas Compras y Día, cada amigo con sus tareas.
 
@@ -83,6 +83,10 @@ La última opción crea un enlace a algo que **aún no existe** (`[[Nueva idea]]
 Debajo de la nota, **Citado en** muestra las notas y tareas que enlazan a ella, con la frase alrededor. **Enlaces salientes** lista lo que ella cita. **Menciones sin enlace** muestra tus notas que escriben su nombre sin `[[ ]]`, y **Enlazar** convierte la mención en enlace. La descripción de una tarea también acepta `[[`, y el panel de la tarea y la parte de arriba de una lista muestran **Citado en**. Funciona sin internet.
 
 **Incrustar:** una línea solo con `![[...]]` (un `!` antes del enlace, o el comando `/incrustar`) muestra el elemento dentro de la nota: otra nota (entera, o solo una sección con `![[Nota#Título]]`), una lista con las casillas de verdad (completar ahí la completa en la lista), una tarea, o una imagen de los adjuntos de tus tareas por el nombre del archivo (`![[foto.jpg]]`). En la computadora, dejar el ratón sobre un enlace muestra una vista previa con las primeras líneas; en el móvil, mantén pulsado.
+
+### Bases
+
+Una lista de tipo **Base** muestra, en una sola pantalla, las tareas o notas que cumplen una consulta (el mismo lenguaje del bloque ` ```questlist ` de arriba), como **Tabla** o **Tarjetas**. Empieza con `tareas donde vence <= hoy+7 no completadas`; cambia el texto y toca **Aplicar** (o `Ctrl+Enter`). **Columnas** elige lo que aparece (en las notas, las propiedades también son columnas), **Agrupar** junta por estado, lista, etiqueta, prioridad o una propiedad, y tocar el nombre de la columna ordena (ascendente, descendente y de vuelta al orden de la consulta). En la tabla, toca una celda para editar: título, vencimiento (`2026-12-01`), prioridad (`0` a `3` o `!!`) y etiquetas en las tareas; título y propiedades en las notas (la casilla cambia con un toque). Las tareas tienen la casilla de verdad, y la flecha al final de la fila abre el elemento. La configuración queda guardada en la lista y vale para todo el proyecto; quien solo lee la ve, pero no la cambia.
 
 ## Lista de compras del menú
 

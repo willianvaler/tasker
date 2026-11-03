@@ -451,7 +451,9 @@
     "more": "More options (icon, reset, levels)",
     "less": "Fewer options",
     "expenses": "Expenses",
-    "expensesHint": "Spreadsheet of expenses and income, with budget, receipt photos and CSV/XLSX export."
+    "expensesHint": "Spreadsheet of expenses and income, with budget, receipt photos and CSV/XLSX export.",
+    "base": "Base",
+    "baseHint": "Table or cards of tasks or notes filtered by a query, with in-cell editing."
   },
   "profile": {
     "title": "Profile",
@@ -4091,5 +4093,40 @@
       "view": "Show as list, table or count (not “{{word}}”).",
       "notesDone": "Notes have no “done”: use a property (e.g. props.read = yes)."
     }
+  },
+  "base": {
+    "query": "Base query",
+    "apply": "Apply",
+    "queryHint": "Same language as the questlist block: tasks or notes, where…, sort by… (Ctrl+Enter applies)",
+    "table": "Table",
+    "cards": "Cards",
+    "columns": "Columns",
+    "group": "Group",
+    "groupedBy": "Grouped by {{name}}",
+    "noGroup": "No groups",
+    "empty": "No {{name}}",
+    "open": "Open {{title}}",
+    "sortBy": "Sort by {{name}}",
+    "editHint": "Tap to edit",
+    "blank": "empty",
+    "invalid": "Invalid value in {{name}}",
+    "col": {
+      "title": "Title",
+      "list": "List",
+      "due": "Due",
+      "priority": "Priority",
+      "tags": "Tags",
+      "status": "Status",
+      "created": "Created",
+      "completed": "Completed on",
+      "updated": "Updated",
+      "folder": "Folder"
+    },
+    "status": {
+      "todo": "To do",
+      "doing": "In progress",
+      "done": "Done"
+    },
+    "defaultQuery": "tasks where due <= today+7 not done"
   }
 }

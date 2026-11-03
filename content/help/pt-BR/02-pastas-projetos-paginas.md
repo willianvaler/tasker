@@ -1,6 +1,6 @@
 # Pastas, projetos e listas
 
-- **Lista** é onde ficam as coisas: compras, treino, roteiro da viagem. O tipo pode ser **Tarefas**, **Rotina** (checklist em cards que reinicia; bom para treino), **Hábitos**, **Quadro** ou **Gastos**. Toda lista de tarefas também abre como **Quadro** (aba no topo). No quadro, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card. Para abrir a tarefa, toque no lápis do card.
+- **Lista** é onde ficam as coisas: compras, treino, roteiro da viagem. O tipo pode ser **Tarefas**, **Rotina** (checklist em cards que reinicia; bom para treino), **Hábitos**, **Quadro**, **Gastos** ou **Base** (veja em Anotações). Toda lista de tarefas também abre como **Quadro** (aba no topo). No quadro, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card. Para abrir a tarefa, toque no lápis do card.
 - **Pasta** junta listas suas. Exemplo: a pasta **Academia** com as listas Treino A e Treino B.
 - **Projeto** é uma pasta para fazer **com outras pessoas**. Exemplo: o projeto **Churrasco** com as listas Compras e Dia, e cada amigo com as tarefas dele.
 
@@ -83,6 +83,10 @@ A última opção cria um link para o que **ainda não existe** (`[[Nova ideia]]
 Embaixo da anotação, **Citado em** mostra as anotações e tarefas que têm link para ela, com a frase em volta. **Links que saem** lista o que ela cita. **Menções sem link** mostra as suas anotações que escrevem o nome dela sem `[[ ]]`, e **Ligar** transforma a menção em link. A descrição de uma tarefa também aceita `[[`, e o painel da tarefa e o alto de uma lista mostram o **Citado em**. Funciona sem internet.
 
 **Incorporar:** uma linha só com `![[...]]` (o `!` antes do link, ou o comando `/incorporar`) mostra o item dentro da anotação: outra anotação (inteira, ou só um trecho com `![[Anotação#Título]]`), uma lista com as caixinhas de verdade (concluir ali conclui na lista), uma tarefa, ou uma imagem dos anexos das suas tarefas pelo nome do arquivo (`![[foto.jpg]]`). No computador, parar o mouse sobre um link mostra uma prévia com as primeiras linhas; no celular, toque e segure.
+
+### Bases
+
+Uma lista do tipo **Base** mostra, numa tela só, as tarefas ou anotações que batem com uma consulta (a mesma linguagem do bloco ` ```questlist `, acima), como **Tabela** ou **Cartões**. Ela nasce com `tarefas onde vence <= hoje+7 não concluídas`; troque o texto e toque em **Aplicar** (ou `Ctrl+Enter`). **Colunas** escolhe o que aparece (nas anotações, as propriedades também viram colunas), **Agrupar** junta por status, lista, etiqueta, prioridade ou uma propriedade, e tocar no nome da coluna ordena (crescente, decrescente e de volta à ordem da consulta). Na tabela, toque numa célula para editar: título, vencimento (`2026-12-01`), prioridade (`0` a `3` ou `!!`) e etiquetas nas tarefas; título e propriedades nas anotações (a caixinha troca com um toque). As tarefas têm a caixinha de verdade, e a seta no fim da linha abre o item. A configuração fica guardada na lista e vale para todo mundo do projeto; quem só lê vê, mas não muda.
 
 ## Lista de compras do cardápio
 
