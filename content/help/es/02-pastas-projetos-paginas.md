@@ -36,6 +36,17 @@ En la computadora, el **clic derecho** en una carpeta (en la barra lateral o en 
 
 Dentro de una **carpeta o proyecto**, la sección **Notas** guarda los textos de la carpeta (acuerdos, actas, ideas): todos en la carpeta los leen, y quien puede crear tareas allí escribe. No aparecen en tus notas personales.
 
+### Comandos, destacados y más
+
+Escribe **/** al comienzo de una línea para abrir los **comandos**: título, subtítulo, listas, tarea, destacado (nota, consejo, advertencia), tabla, enlace, resaltado, nota al pie, bloque de código y divisor. Sigue escribiendo para filtrar (`/tab` encuentra Tabla) y confirma con Enter o tocando.
+
+- **Destacado** (callout): un cuadro de color. Escribe `> [!consejo] Título` y, en las líneas de abajo, `> el texto`. Tipos: nota, consejo, advertencia, peligro, pregunta, información, hecho y cita (los nombres en inglés de Obsidian también sirven). Con `-` después del tipo (`> [!advertencia]- Título`) empieza cerrado y se abre al tocar; con `+`, empieza abierto y se puede cerrar.
+- **Resaltado**: `==texto==` queda marcado con fondo.
+- **Nota al pie**: `[^1]` en el texto y, en cualquier línea, `[^1]: la explicación`. La llamada se vuelve un número pequeño y las notas aparecen al final.
+- **Tabla**: líneas con `|` entre las columnas y `| --- | --- |` debajo del encabezado.
+
+El **Índice** lista los títulos de la nota: en la computadora queda al lado del texto; en el celular, en el botón de índice de la barra. Toca un título para ir hasta él. Debajo del editor aparecen las **palabras** y los caracteres.
+
 ### Enlaces entre notas, tareas y listas
 
 Escribe `[[` (o toca el botón de enlace de la barra) y empieza a escribir: aparecen tus notas (las más recientes primero), tareas, listas y proyectos. Elige uno y el enlace entra en el texto. En la vista previa aparece solo con el nombre, y tocarlo abre el elemento. Cambiar el nombre del elemento no rompe el enlace. También puedes ir a un título de la nota con `[[Nota#Título]]`.

@@ -36,6 +36,17 @@ No computador, o **clique direito** numa pasta (na barra lateral ou na aba Pasta
 
 Dentro de uma **pasta ou projeto**, a seção **Anotações** guarda textos da pasta (combinados, atas, ideias): quem é da pasta lê, e quem pode criar tarefas ali escreve. Elas não aparecem nas suas anotações pessoais.
 
+### Comandos, callouts e mais
+
+Escreva **/** no começo de uma linha para abrir os **comandos**: título, subtítulo, listas, tarefa, callout (nota, dica, aviso), tabela, link, destaque, nota de rodapé, bloco de código e divisória. Continue digitando para filtrar (`/tab` acha a Tabela) e confirme com Enter ou tocando.
+
+- **Callout**: um quadro colorido. Escreva `> [!dica] Título` e, nas linhas de baixo, `> o texto`. Tipos: nota, dica, aviso, perigo, pergunta, informação, feito e citação (os nomes em inglês do Obsidian também valem). Com `-` depois do tipo (`> [!aviso]- Título`) ele começa fechado e abre ao tocar; com `+`, começa aberto e pode ser fechado.
+- **Destaque**: `==texto==` fica marcado com fundo.
+- **Nota de rodapé**: `[^1]` no texto e, em qualquer linha, `[^1]: a explicação`. A chamada vira um número pequeno e as notas aparecem no fim.
+- **Tabela**: linhas com `|` separando as colunas e `| --- | --- |` embaixo do cabeçalho.
+
+O **Sumário** lista os títulos da anotação: no computador fica ao lado do texto; no celular, no botão de sumário da barra. Tocar num título rola até ele. Embaixo do editor aparecem as **palavras** e os caracteres.
+
 ### Links entre anotações, tarefas e listas
 
 Escreva `[[` (ou toque no botão de link da barra) e comece a digitar: aparecem as suas anotações (as mais recentes primeiro), tarefas, listas e projetos. Escolha um e o link entra no texto. Ao visualizar, ele aparece só com o nome, e tocar abre o item. Renomear o item não quebra o link. Também dá para ir a um título da anotação com `[[Anotação#Título]]`.

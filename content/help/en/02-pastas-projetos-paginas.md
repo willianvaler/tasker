@@ -36,6 +36,17 @@ On a computer, **right-clicking** a folder (in the sidebar or the Folders tab), 
 
 Inside a **folder or project**, the **Notes** section keeps the folder’s texts (agreements, minutes, ideas): everyone in the folder reads them, and whoever can create tasks there writes. They do not show up in your personal notes.
 
+### Commands, callouts and more
+
+Type **/** at the start of a line to open the **commands**: heading, subheading, lists, task, callout (note, tip, warning), table, link, highlight, footnote, code block and divider. Keep typing to filter (`/tab` finds Table) and confirm with Enter or a tap.
+
+- **Callout**: a colored box. Write `> [!tip] Title` and, on the lines below, `> the text`. Types: note, tip, warning, danger, question, info, success and quote (Obsidian's names work too). With `-` after the type (`> [!warning]- Title`) it starts closed and opens on tap; with `+`, it starts open and can be closed.
+- **Highlight**: `==text==` gets a background.
+- **Footnote**: `[^1]` in the text and, on any line, `[^1]: the explanation`. The reference becomes a small number and the notes show at the end.
+- **Table**: lines with `|` between the columns and `| --- | --- |` under the header.
+
+The **Outline** lists the note's headings: on a computer it sits next to the text; on a phone, behind the outline button in the bar. Tap a heading to scroll to it. Below the editor you see the **word** and character count.
+
 ### Links between notes, tasks and lists
 
 Type `[[` (or tap the link button on the bar) and start typing: your notes (most recent first), tasks, lists and projects show up. Pick one and the link goes into the text. In the preview it shows only the name, and tapping it opens the item. Renaming the item doesn't break the link. You can also jump to a heading of a note with `[[Note#Heading]]`.

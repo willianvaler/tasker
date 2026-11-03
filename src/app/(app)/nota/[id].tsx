@@ -8,13 +8,22 @@ import {
   List,
   ListChecks,
   ListOrdered,
+  ListTree,
   Pencil,
   Trash2,
   type LucideIcon,
 } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, TextInput, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  TextInput,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -26,16 +35,19 @@ import {
   UnlinkedMentions,
   useOpenLink,
 } from '@/components/note-links';
+import { useSlashCommands } from '@/components/slash-commands';
 import { useWikilinkAutocomplete } from '@/components/wikilink-autocomplete';
 import { Button, IconButton } from '@/components/ui/button';
-import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
+import { ActionMenu, ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text, textClass } from '@/components/ui/text';
+import { cn } from '@/lib/cn';
 import { applyFormat, type Format, type Selection } from '@/lib/markdown-edit';
+import { noteOutline, outlineIndex, wordCount } from '@/lib/note-blocks';
 import { useLinkTitles } from '@/lib/queries/links';
 import { NOTE_MAX, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
 import { useColors } from '@/lib/tokens';
-import { headingKey, headings, parseLinks } from '@/lib/wikilinks';
+import { parseLinks } from '@/lib/wikilinks';
 
 // Editor de anotação (W3, D187): título e texto em Markdown simples, com a barra de formatação e
 // a visualização formatada. Salva sozinho (ao parar de digitar e ao sair).
@@ -85,6 +97,9 @@ function Editor({ note, section }: { note: Note; section?: string }) {
   const input = useRef<TextInput>(null);
   const scroll = useRef<ScrollView>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<true>();
+  const [outlineMenu, setOutlineMenu, closeOutlineMenu] = useDialog<true>();
+  // Sumário ao lado do texto no computador (OB3); no celular, num menu
+  const wideOutline = useWindowDimensions().width >= 1024;
   const saved = useRef({ title: note.title, body: note.body });
   // O texto mais novo num ref: o "salvar ao sair" roda depois que a tela já saiu
   const latest = useRef({ title: note.title, body: note.body });
@@ -118,18 +133,42 @@ function Editor({ note, section }: { note: Note; section?: string }) {
     inputRef: input,
     exclude: note.id,
   });
+  // Comandos de barra (OB3): "/" no começo da linha
+  const slash = useSlashCommands({
+    text: body,
+    caret: selection.end,
+    setText: (value, caret) => {
+      setBody(value);
+      setSelection({ start: caret, end: caret });
+      setForced({ start: caret, end: caret });
+    },
+    inputRef: input,
+  });
   const resolve = useLinkTitles(
     parseLinks(body).flatMap((l) => (l.kind && l.id ? [{ kind: l.kind, id: l.id }] : [])),
   );
   const openLink = useOpenLink({ folderId: note.folder_id, body, setBody });
-  const sectionIndex = section
-    ? headings(body).findIndex((h) => headingKey(h) === headingKey(section))
-    : -1;
-  const scrolled = useRef(false);
+  // Onde cada título ficou na visualização; a âncora do link (ou o toque no sumário) rola até ele
+  const outline = noteOutline(body);
+  const headingY = useRef<Record<number, number>>({});
+  const pending = useRef(section ? outlineIndex(body, section) : -1);
   function onHeadingLayout(index: number, y: number) {
-    if (index !== sectionIndex || scrolled.current) return;
-    scrolled.current = true;
+    headingY.current[index] = y;
+    if (index !== pending.current) return;
+    pending.current = -1;
     scroll.current?.scrollTo({ y, animated: true });
+  }
+  function goToHeading(index: number) {
+    const y = headingY.current[index];
+    if (!editing && y !== undefined) {
+      scroll.current?.scrollTo({ y, animated: true });
+      return;
+    }
+    pending.current = index;
+    if (editing) {
+      save();
+      setEditing(false);
+    }
   }
 
   function insertLink() {
@@ -215,11 +254,20 @@ function Editor({ note, section }: { note: Note; section?: string }) {
               onPress={insertLink}
             />
           )}
+          {!wideOutline && outline.length > 0 && (
+            <IconButton
+              icon={ListTree}
+              label={t('notes.outline')}
+              tone="ink"
+              className={editing ? undefined : 'ml-auto'}
+              onPress={() => setOutlineMenu(true)}
+            />
+          )}
           <Button
             variant="ghost"
             icon={editing ? Eye : Pencil}
             label={t(editing ? 'notes.preview' : 'notes.edit')}
-            className="ml-auto"
+            className={!wideOutline && outline.length > 0 && !editing ? undefined : 'ml-auto'}
             onPress={() => {
               save();
               setEditing(!editing);
@@ -227,61 +275,113 @@ function Editor({ note, section }: { note: Note; section?: string }) {
           />
         </View>
         {/* Escrevendo, o "Citado em" fica numa linha curta (a anotação nova de um link já mostra de onde veio) */}
-        {editing && !autocomplete.open && (
+        {editing && !autocomplete.open && !slash.open && (
           <View className="pt-2">
             <BacklinkChips kind="note" id={note.id} />
           </View>
         )}
         {editing && autocomplete.list}
-        {editing ? (
-          // O campo ocupa o resto da tela e rola por dentro
-          <TextInput
-            ref={input}
-            value={body}
-            onChangeText={(value) => {
-              setBody(value);
-              autocomplete.onChangeText();
-            }}
-            onKeyPress={(e) => autocomplete.onKeyPress(e)}
-            onBlur={save}
-            selection={forced}
-            onSelectionChange={(e) => {
-              setSelection(e.nativeEvent.selection);
-              if (forced) setForced(undefined);
-            }}
-            multiline
-            maxLength={NOTE_MAX}
-            placeholder={t('notes.bodyPlaceholder')}
-            placeholderTextColor={colors['ink-muted']}
-            accessibilityLabel={t('notes.bodyField')}
-            textAlignVertical="top"
-            className={textClass('min-h-64 flex-1 py-3 text-base leading-6 text-ink')}
-          />
-        ) : (
-          <ScreenScroll ref={scroll} className="flex-1" contentContainerClassName="py-3 pb-clear">
-            {body.trim() ? (
-              <NoteMarkdown
+        {editing && !autocomplete.open && slash.list}
+        <View className="flex-1 flex-row gap-6">
+          <View className="flex-1">
+            {editing ? (
+              // O campo ocupa o resto da tela e rola por dentro
+              <TextInput
+                ref={input}
                 value={body}
-                resolve={resolve}
-                onLink={openLink}
-                onHeadingLayout={sectionIndex >= 0 ? onHeadingLayout : undefined}
+                onChangeText={(value) => {
+                  setBody(value);
+                  autocomplete.onChangeText();
+                  slash.onChangeText();
+                }}
+                onKeyPress={(e) => autocomplete.onKeyPress(e) || slash.onKeyPress(e)}
+                onBlur={save}
+                selection={forced}
+                onSelectionChange={(e) => {
+                  setSelection(e.nativeEvent.selection);
+                  if (forced) setForced(undefined);
+                }}
+                multiline
+                maxLength={NOTE_MAX}
+                placeholder={t('notes.bodyPlaceholder')}
+                placeholderTextColor={colors['ink-muted']}
+                accessibilityLabel={t('notes.bodyField')}
+                textAlignVertical="top"
+                className={textClass('min-h-64 flex-1 py-3 text-base leading-6 text-ink')}
               />
             ) : (
-              <Text className="text-ink-muted">{t('notes.bodyPlaceholder')}</Text>
+              <ScreenScroll
+                ref={scroll}
+                className="flex-1"
+                contentContainerClassName="py-3 pb-clear"
+              >
+                {body.trim() ? (
+                  <NoteMarkdown
+                    value={body}
+                    resolve={resolve}
+                    onLink={openLink}
+                    onHeadingLayout={onHeadingLayout}
+                  />
+                ) : (
+                  <Text className="text-ink-muted">{t('notes.bodyPlaceholder')}</Text>
+                )}
+                {/* OB2: quem cita esta, o que ela cita e onde o título aparece sem link */}
+                <Backlinks kind="note" id={note.id} />
+                <OutgoingLinks body={body} resolve={resolve} onOpen={openLink} />
+                <UnlinkedMentions note={note} title={title} />
+              </ScreenScroll>
             )}
-            {/* OB2: quem cita esta, o que ela cita e onde o título aparece sem link */}
-            <Backlinks kind="note" id={note.id} />
-            <OutgoingLinks body={body} resolve={resolve} onOpen={openLink} />
-            <UnlinkedMentions note={note} title={title} />
-          </ScreenScroll>
-        )}
-        <View className="flex-row justify-between py-2">
-          <Text className="text-xs text-ink-muted">{editing ? t('notes.markdownHint') : ''}</Text>
+          </View>
+          {wideOutline && outline.length > 0 && (
+            <View
+              role="navigation"
+              aria-label={t('notes.outline')}
+              className="w-56 gap-1 border-l border-line py-3 pl-4"
+            >
+              <Text className="pb-1 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                {t('notes.outline')}
+              </Text>
+              {outline.map((h, i) => (
+                <Pressable
+                  key={i}
+                  accessibilityRole="link"
+                  onPress={() => goToHeading(i)}
+                  className="rounded px-1 py-1 hover:bg-wash"
+                  style={{ paddingLeft: 4 + (Math.min(h.level, 4) - 1) * 12 }}
+                >
+                  <Text
+                    numberOfLines={2}
+                    className={cn('text-sm', h.level === 1 ? 'text-ink' : 'text-ink-muted')}
+                  >
+                    {h.text}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          )}
+        </View>
+        <View className="flex-row justify-between gap-3 py-2">
+          <Text className="flex-1 text-xs text-ink-muted" numberOfLines={1}>
+            {editing ? t('notes.markdownHint') : ''}
+          </Text>
           <Text className="font-mono text-xs text-ink-muted">
-            {body.length}/{NOTE_MAX}
+            {t('notes.words', { count: wordCount(body) })} · {body.length}/{NOTE_MAX}
           </Text>
         </View>
       </KeyboardAvoidingView>
+      {outlineMenu && (
+        <ActionMenu
+          title={t('notes.outline')}
+          onClose={closeOutlineMenu}
+          actions={outline.map((h, i) => ({
+            label: `${'  '.repeat(Math.min(h.level, 4) - 1)}${h.text}`,
+            onPress: () => {
+              closeOutlineMenu();
+              goToHeading(i);
+            },
+          }))}
+        />
+      )}
       {confirm && (
         <ConfirmDialog
           title={t('notes.deleteTitle')}
