@@ -138,7 +138,10 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   },
   task_assignees: { insert: ['task_id', 'user_id', 'pending_name'], update: [] },
   my_day: { insert: ['task_id', 'day', 'position'], update: ['position'] },
-  notes: { insert: ['title', 'body', 'folder_id', 'props'], update: ['title', 'body', 'props'] },
+  notes: {
+    insert: ['title', 'body', 'folder_id', 'props', 'is_template'],
+    update: ['title', 'body', 'props', 'is_template'],
+  },
   page_fields: {
     insert: ['page_id', 'name', 'kind', 'options', 'position'],
     update: ['name', 'options', 'position'],

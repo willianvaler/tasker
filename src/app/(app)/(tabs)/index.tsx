@@ -1,7 +1,9 @@
+import { NotebookPen } from 'lucide-react-native';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionList, useWindowDimensions, View } from 'react-native';
 
+import { useOpenDailyNote } from '@/components/daily-note';
 import { GameHeader } from '@/components/game-bar';
 import { GymPrompt } from '@/components/gym-prompt';
 import { HeroPanel } from '@/components/hero-panel';
@@ -14,6 +16,7 @@ import { TodayWorkout } from '@/components/gym/week-plan';
 import { HabitRow, useHabitDates } from '@/components/tasks/habit-row';
 import { QuickAdd } from '@/components/tasks/quick-add';
 import { TaskRow } from '@/components/tasks/task-row';
+import { IconButton } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
@@ -39,6 +42,7 @@ export default function TodayScreen() {
   const { t } = useTranslation();
   const gutter = useScreenGutter('medium');
   const today = useToday();
+  const openDaily = useOpenDailyNote();
   const tree = useTree();
   const tasks = useTodayTasks(today);
   const { width } = useWindowDimensions();
@@ -115,12 +119,17 @@ export default function TodayScreen() {
             title={t('today.title')}
             wrap
             right={
-              // Em tela larga a busca e as notificações ficam na barra lateral
-              narrow && (
-                <>
-                  <NotificationsBell />
-                </>
-              )
+              <>
+                {/* Nota do dia (OB5, D290): abre ou cria a anotação de hoje */}
+                <IconButton
+                  icon={NotebookPen}
+                  label={t('dailyNote.open')}
+                  tone="ink"
+                  onPress={() => void openDaily()}
+                />
+                {/* Em tela larga a busca e as notificações ficam na barra lateral */}
+                {narrow && <NotificationsBell />}
+              </>
             }
           />
           {!wide && <GameHeader />}

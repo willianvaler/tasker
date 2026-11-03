@@ -185,6 +185,13 @@ export const SHORTCUTS = [
   { id: 'go.mine', combos: ['g m'], description: 'shortcuts.goMine', scope: 'global' },
   { id: 'go.calendar', combos: ['g c'], description: 'shortcuts.goCalendar', scope: 'global' },
   { id: 'go.flow', combos: ['g f'], description: 'shortcuts.goFlow', scope: 'global' },
+  // Nota do dia (OB5, D290); "g d" para o navegador que guarda o Alt+D (barra de endereço)
+  {
+    id: 'note.daily',
+    combos: ['alt+d', 'g d'],
+    description: 'shortcuts.noteDaily',
+    scope: 'global',
+  },
   {
     id: 'item.open',
     combos: ['shift+f2', 'enter'],

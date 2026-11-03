@@ -1033,14 +1033,14 @@ isOneToOne: false
                   ]
                 },"notes": {
                   Row: {
-                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"pinned": boolean,"props": NonNullable<Json>,"tags": (string)[],"title": string,"updated_at": string,"user_id": string
+                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"is_template": boolean,"pinned": boolean,"props": NonNullable<Json>,"tags": (string)[],"title": string,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"is_template"?: boolean,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Update: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"is_template"?: boolean,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {

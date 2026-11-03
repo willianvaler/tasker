@@ -53,6 +53,12 @@ Escrevendo, **Propriedade** (embaixo do título) acrescenta um campo à anotaç�
 
 Para etiquetar, escreva `#etiqueta` no texto ou ponha na propriedade tags. Use a barra para aninhar: `#treino/perna` fica dentro de `#treino`. Tocar numa etiqueta abre a tela **Etiquetas** (também em Mais e no Ctrl+K), que junta as das anotações e as das tarefas; a etiqueta mãe mostra também o que está nas filhas.
 
+### Nota do dia e modelos
+
+**Nota do dia** (o botão do caderno na Hoje, em Anotações, no Ctrl+K ou `Alt+D`; se o navegador usar o `Alt+D`, `G D`) abre a anotação de hoje, com o dia no título (`2026-11-03`), e cria se ainda não existir. Embaixo dela, ao visualizar, aparecem as tarefas **concluídas** e **criadas** naquele dia, como um diário automático. No **Calendário**, os dias com nota ganham um ponto, e a lista do dia tem o botão para abrir (ou escrever) a nota.
+
+Um **modelo** é uma anotação que serve de ponto de partida. Em Anotações → **Modelos**, **Novo modelo**; ou, numa anotação, **Mais opções** → **Transformar em modelo**. Os modelos não aparecem nas listas. No texto do modelo, `{{data}}`, `{{hora}}` e `{{titulo}}` viram o dia, a hora e o título quando ele é usado. **Do modelo** (em Anotações) cria uma anotação a partir de um deles, e **Usar na nota do dia** faz cada nota do dia nova começar com ele.
+
 ### Links entre anotações, tarefas e listas
 
 Escreva `[[` (ou toque no botão de link da barra) e comece a digitar: aparecem as suas anotações (as mais recentes primeiro), tarefas, listas e projetos. Escolha um e o link entra no texto. Ao visualizar, ele aparece só com o nome, e tocar abre o item. Renomear o item não quebra o link. Também dá para ir a um título da anotação com `[[Anotação#Título]]`.

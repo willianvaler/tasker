@@ -4,6 +4,7 @@ import { router, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useOpenDailyNote } from '@/components/daily-note';
 import { useMoveInTree } from '@/components/folder-actions';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
 import { ActionMenu, useDialog } from '@/components/ui/dialog';
@@ -49,6 +50,7 @@ export function ListKeys() {
   const update = useUpdateTask();
   const remove = useDeleteTask();
   const create = useCreateTasks();
+  const openDaily = useOpenDailyNote();
   const [dating, setDating, closeDating] = useDialog<Task>();
   const tree = useTree();
   const start = useStartTask();
@@ -328,6 +330,7 @@ export function ListKeys() {
   useShortcut('go.inbox', () => router.navigate('/inbox'));
   useShortcut('go.mine', () => router.navigate('/mine'));
   useShortcut('go.calendar', () => router.navigate('/calendario'));
+  useShortcut('note.daily', () => void openDaily());
 
   if (!dating) return null;
   const setDue = (due: string | null) => () =>

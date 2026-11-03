@@ -53,6 +53,12 @@ Al editar, **Propiedad** (debajo del título) agrega un campo a la nota: autor, 
 
 Para etiquetar, escribe `#etiqueta` en el texto o ponla en la propiedad tags. Usa la barra para anidar: `#entreno/pierna` queda dentro de `#entreno`. Tocar una etiqueta abre la pantalla **Etiquetas** (también en Más y en Ctrl+K), que junta las de las notas y las de las tareas; la etiqueta madre muestra también lo que está en las hijas.
 
+### Nota del día y plantillas
+
+**Nota del día** (el botón del cuaderno en Hoy, en Notas, en Ctrl+K o `Alt+D`; si el navegador usa `Alt+D`, `G D`) abre la nota de hoy, con el día en el título (`2026-11-03`), y la crea si todavía no existe. Debajo, al visualizarla, aparecen las tareas **completadas** y **creadas** ese día, como un diario automático. En el **Calendario**, los días con nota tienen un punto, y la lista del día tiene el botón para abrir (o escribir) la nota.
+
+Una **plantilla** es una nota que sirve de punto de partida. En Notas → **Plantillas**, **Nueva plantilla**; o, en una nota, **Más opciones** → **Convertir en plantilla**. Las plantillas no aparecen en las listas. En el texto de la plantilla, `{{fecha}}`, `{{hora}}` y `{{titulo}}` se cambian por el día, la hora y el título al usarla. **Desde plantilla** (en Notas) crea una nota a partir de una de ellas, y **Usar en la nota del día** hace que cada nota del día nueva empiece con ella.
+
 ### Enlaces entre notas, tareas y listas
 
 Escribe `[[` (o toca el botón de enlace de la barra) y empieza a escribir: aparecen tus notas (las más recientes primero), tareas, listas y proyectos. Elige uno y el enlace entra en el texto. En la vista previa aparece solo con el nombre, y tocarlo abre el elemento. Cambiar el nombre del elemento no rompe el enlace. También puedes ir a un título de la nota con `[[Nota#Título]]`.

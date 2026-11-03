@@ -12,6 +12,7 @@ import {
   Dumbbell,
   Folder,
   Hash,
+  NotebookPen,
   Globe,
   HeartPulse,
   House,
@@ -46,6 +47,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal, Pressable, ScrollView, TextInput, View } from 'react-native';
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 
+import { useOpenDailyNote } from '@/components/daily-note';
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { Icon } from '@/components/ui/icon';
@@ -113,6 +115,7 @@ function Palette({
   const [index, setIndex] = useState(0);
 
   const go = (href: Parameters<typeof router.navigate>[0]) => () => router.navigate(href);
+  const openDaily = useOpenDailyNote();
   const startTimer = useStartTimer();
   // Página aberta: "Enviar esta página" (L3)
   const pathname = usePathname();
@@ -311,6 +314,14 @@ function Palette({
       icon: icon(CalendarDays),
       group: 0,
       run: go('/calendario'),
+    },
+    {
+      id: 'daily-note',
+      label: t('dailyNote.open'),
+      hint: 'Alt+D',
+      icon: icon(NotebookPen),
+      group: 0,
+      run: () => void openDaily(),
     },
     {
       id: 'go-tags',

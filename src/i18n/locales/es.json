@@ -73,7 +73,8 @@
     "goCalendar": "Ir al Calendario",
     "newNote": "Nueva nota (en el menú Nuevo)",
     "newBatch": "Varias a la vez (en el menú Nuevo)",
-    "newTemplate": "Desde una plantilla (en el menú Nuevo)"
+    "newTemplate": "Desde una plantilla (en el menú Nuevo)",
+    "noteDaily": "Abrir la nota del día"
   },
   "task": {
     "complete": "Completar {{title}}",
@@ -4002,5 +4003,35 @@
       "group": "grupo",
       "challenge": "desafío"
     }
+  },
+  "dailyNote": {
+    "open": "Nota del día",
+    "journal": "Diario del día",
+    "done": "Completadas este día",
+    "created": "Creadas este día",
+    "noneDone": "Ninguna tarea completada este día.",
+    "noneCreated": "Ninguna tarea creada este día.",
+    "dayWithNote": "{{day}}, con nota del día",
+    "openDay": "Nota del día",
+    "writeDay": "Escribir la nota del día"
+  },
+  "templatesNotes": {
+    "title": "Plantillas",
+    "new": "Nueva plantilla",
+    "newTitle": "Plantilla nueva",
+    "empty": "Ninguna plantilla. Una plantilla es una nota que sirve de punto de partida, con las variables {{vars}} cambiadas al usarla.",
+    "fromTemplate": "Desde plantilla",
+    "nameHint": "Título de la nota nueva desde “{{name}}” (puede quedar en blanco).",
+    "create": "Crear",
+    "dailyBadge": "nota del día",
+    "more": "Más opciones de la nota",
+    "mark": "Convertir en plantilla",
+    "unmark": "Dejar de ser plantilla",
+    "setDaily": "Usar en la nota del día",
+    "unsetDaily": "Dejar de usar en la nota del día",
+    "banner": "Esta es una plantilla: no aparece en las listas y sirve de punto de partida para notas nuevas.",
+    "bannerDaily": "Esta es la plantilla de la nota del día: cada nota del día nueva empieza con este texto.",
+    "variables": "Variables: {{vars}}.",
+    "varNames": "fecha, hora, titulo"
   }
 }

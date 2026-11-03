@@ -53,6 +53,12 @@ While editing, **Property** (below the title) adds a field to the note: author, 
 
 To tag, write `#tag` in the text or put it in the tags property. Use a slash to nest: `#workout/legs` sits inside `#workout`. Tapping a tag opens the **Tags** screen (also in More and Ctrl+K), which gathers the tags of notes and tasks; a parent tag also shows what is in its children.
 
+### Daily note and templates
+
+**Daily note** (the notebook button on Today, in Notes, in Ctrl+K or `Alt+D`; if your browser takes `Alt+D`, `G D`) opens today's note, titled with the day (`2026-11-03`), and creates it if it does not exist yet. Below it, in preview, the tasks **completed** and **created** that day show up, like an automatic journal. In the **Calendar**, days with a note get a dot, and the day list has a button to open (or write) the note.
+
+A **template** is a note used as a starting point. In Notes → **Templates**, **New template**; or, in a note, **More options** → **Turn into a template**. Templates do not show in lists. In the template text, `{{date}}`, `{{time}}` and `{{title}}` become the day, the time and the title when it is used. **From template** (in Notes) creates a note from one of them, and **Use for the daily note** makes every new daily note start with it.
+
 ### Links between notes, tasks and lists
 
 Type `[[` (or tap the link button on the bar) and start typing: your notes (most recent first), tasks, lists and projects show up. Pick one and the link goes into the text. In the preview it shows only the name, and tapping it opens the item. Renaming the item doesn't break the link. You can also jump to a heading of a note with `[[Note#Heading]]`.

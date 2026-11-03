@@ -73,7 +73,8 @@
     "goCalendar": "Ir para o Calendário",
     "newNote": "Nova anotação (no menu Novo)",
     "newBatch": "Várias de uma vez (no menu Novo)",
-    "newTemplate": "A partir de um modelo (no menu Novo)"
+    "newTemplate": "A partir de um modelo (no menu Novo)",
+    "noteDaily": "Abrir a nota do dia"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -4002,5 +4003,35 @@
       "group": "grupo",
       "challenge": "desafio"
     }
+  },
+  "dailyNote": {
+    "open": "Nota do dia",
+    "journal": "Diário do dia",
+    "done": "Concluídas neste dia",
+    "created": "Criadas neste dia",
+    "noneDone": "Nenhuma tarefa concluída neste dia.",
+    "noneCreated": "Nenhuma tarefa criada neste dia.",
+    "dayWithNote": "{{day}}, com nota do dia",
+    "openDay": "Nota do dia",
+    "writeDay": "Escrever a nota do dia"
+  },
+  "templatesNotes": {
+    "title": "Modelos",
+    "new": "Novo modelo",
+    "newTitle": "Modelo novo",
+    "empty": "Nenhum modelo. Um modelo é uma anotação que serve de ponto de partida, com as variáveis {{vars}} trocadas ao usar.",
+    "fromTemplate": "Do modelo",
+    "nameHint": "Título da anotação nova a partir de “{{name}}” (pode deixar em branco).",
+    "create": "Criar",
+    "dailyBadge": "nota do dia",
+    "more": "Mais opções da anotação",
+    "mark": "Transformar em modelo",
+    "unmark": "Deixar de ser modelo",
+    "setDaily": "Usar na nota do dia",
+    "unsetDaily": "Não usar mais na nota do dia",
+    "banner": "Este é um modelo: não aparece nas listas e serve de ponto de partida para anotações novas.",
+    "bannerDaily": "Este é o modelo da nota do dia: cada nota do dia nova começa com este texto.",
+    "variables": "Variáveis: {{vars}}.",
+    "varNames": "data, hora, titulo"
   }
 }

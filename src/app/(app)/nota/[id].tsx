@@ -9,6 +9,7 @@ import {
   ListChecks,
   ListOrdered,
   ListTree,
+  MoreHorizontal,
   Pencil,
   Trash2,
   type LucideIcon,
@@ -25,6 +26,7 @@ import {
   View,
 } from 'react-native';
 
+import { DailyJournal } from '@/components/daily-note';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
@@ -46,6 +48,8 @@ import { cn } from '@/lib/cn';
 import { applyFormat, type Format, type Selection } from '@/lib/markdown-edit';
 import { noteOutline, outlineIndex, wordCount } from '@/lib/note-blocks';
 import { noteAliases, type NoteProps } from '@/lib/note-props';
+import { isDailyNote, templateVars } from '@/lib/note-templates';
+import { useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
 import { useLinkTitles } from '@/lib/queries/links';
 import { NOTE_MAX, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
 import { useColors } from '@/lib/tokens';
@@ -59,7 +63,7 @@ export default function NoteScreen() {
   const { t } = useTranslation();
   // Relê sempre: logo depois de criar, a lista ainda é "nova" (staleTime) e não seria relida, e o
   // editor ficava em branco até sair e voltar
-  const notes = useNotes({ fresh: true });
+  const notes = useNotes({ fresh: true, templates: 'include' });
   const found = notes.data?.find((n) => n.id === id);
   // A anotação some por um instante logo depois da primeira sincronização (a leitura passa para o
   // banco do aparelho antes de ela chegar lá): o editor fechava e abria vazio, e o que tinha sido
@@ -100,6 +104,12 @@ function Editor({ note, section }: { note: Note; section?: string }) {
   const scroll = useRef<ScrollView>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<true>();
   const [outlineMenu, setOutlineMenu, closeOutlineMenu] = useDialog<true>();
+  const [moreMenu, setMoreMenu, closeMoreMenu] = useDialog<true>();
+  // Modelos (OB5, D290): esta anotação é modelo? É a da nota do dia?
+  const dailyTemplate = useUiPrefs().notes?.dailyTemplate;
+  const updatePrefs = useUpdateUiPrefs();
+  const isTemplate = !!note.is_template;
+  const daily = isDailyNote({ ...note, title });
   // Sumário ao lado do texto no computador (OB3); no celular, num menu
   const wideOutline = useWindowDimensions().width >= 1024;
   // Propriedades (OB4): salvas junto com o texto
@@ -223,15 +233,35 @@ function Editor({ note, section }: { note: Note; section?: string }) {
           title={t('notes.title')}
           back
           right={
-            <Button
-              destructive
-              variant="ghost"
-              icon={Trash2}
-              label={t('notes.delete')}
-              onPress={() => setConfirm(true)}
-            />
+            <>
+              <IconButton
+                icon={MoreHorizontal}
+                label={t('templatesNotes.more')}
+                tone="ink"
+                onPress={() => setMoreMenu(true)}
+              />
+              <Button
+                destructive
+                variant="ghost"
+                icon={Trash2}
+                label={t('notes.delete')}
+                onPress={() => setConfirm(true)}
+              />
+            </>
           }
         />
+        {isTemplate && (
+          <View testID="template-banner" className="rounded-lg bg-wash px-3 py-2">
+            <Text className="text-sm text-ink">
+              {note.id === dailyTemplate
+                ? t('templatesNotes.bannerDaily')
+                : t('templatesNotes.banner')}
+            </Text>
+            <Text className="text-xs text-ink-muted">
+              {t('templatesNotes.variables', { vars: templateVars(t('templatesNotes.varNames')) })}
+            </Text>
+          </View>
+        )}
         <TextInput
           value={title}
           onChangeText={setTitle}
@@ -347,6 +377,7 @@ function Editor({ note, section }: { note: Note; section?: string }) {
                 <Backlinks kind="note" id={note.id} />
                 <OutgoingLinks body={body} resolve={resolve} onOpen={openLink} />
                 <UnlinkedMentions note={note} title={title} aliases={noteAliases(props)} />
+                {daily && <DailyJournal date={title.trim()} />}
               </ScreenScroll>
             )}
           </View>
@@ -398,6 +429,41 @@ function Editor({ note, section }: { note: Note; section?: string }) {
               goToHeading(i);
             },
           }))}
+        />
+      )}
+      {moreMenu && (
+        <ActionMenu
+          title={t('templatesNotes.more')}
+          onClose={closeMoreMenu}
+          actions={[
+            {
+              label: t(isTemplate ? 'templatesNotes.unmark' : 'templatesNotes.mark'),
+              onPress: () => {
+                closeMoreMenu();
+                save();
+                m.update.mutate({ id: note.id, is_template: !isTemplate });
+                if (isTemplate && note.id === dailyTemplate)
+                  updatePrefs.mutate({ notes: { dailyTemplate: null } });
+              },
+            },
+            ...(isTemplate
+              ? [
+                  {
+                    label: t(
+                      note.id === dailyTemplate
+                        ? 'templatesNotes.unsetDaily'
+                        : 'templatesNotes.setDaily',
+                    ),
+                    onPress: () => {
+                      closeMoreMenu();
+                      updatePrefs.mutate({
+                        notes: { dailyTemplate: note.id === dailyTemplate ? null : note.id },
+                      });
+                    },
+                  },
+                ]
+              : []),
+          ]}
         />
       )}
       {confirm && (

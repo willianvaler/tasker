@@ -6,7 +6,18 @@ import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { plainText } from '../markdown-edit';
 import { noteTags, type NoteProps } from '../note-props';
-import { isLocal, localInsert, localUpdate, sessionUserId } from '../sync/local';
+import { addDays } from '../parser/dates';
+import { zonedEpoch } from '../reminder-time';
+import {
+  isLocal,
+  localInsert,
+  localUpdate,
+  myFolderIds,
+  sessionUserId,
+  TASK_WITH_PAGE_SQL,
+  toTaskWithPage,
+} from '../sync/local';
+import type { TaskWithPage } from './tasks';
 
 // Anotações (W3): texto em Markdown simples (D187). Sem pasta, só da pessoa; numa pasta ou projeto
 // (pedido do dono, 20/10), de quem é dela. Com o banco no aparelho, leem e gravam nele e o sync
@@ -14,14 +25,18 @@ import { isLocal, localInsert, localUpdate, sessionUserId } from '../sync/local'
 
 export type Note = Pick<
   Tables<'notes'>,
-  'id' | 'title' | 'body' | 'created_at' | 'updated_at' | 'folder_id' | 'tags'
+  'id' | 'title' | 'body' | 'created_at' | 'updated_at' | 'folder_id' | 'tags' | 'is_template'
 > & {
   /** Propriedades (OB4, D289) */
   props: NoteProps;
 };
-const COLUMNS = 'id, title, body, created_at, updated_at, folder_id, props, tags';
+const COLUMNS = 'id, title, body, created_at, updated_at, folder_id, props, tags, is_template';
 
-type LocalNote = Omit<Note, 'props' | 'tags'> & { props: string | null; tags: string | null };
+type LocalNote = Omit<Note, 'props' | 'tags' | 'is_template'> & {
+  props: string | null;
+  tags: string | null;
+  is_template: number | null;
+};
 function parseJson<T>(value: string | null, fallback: T): T {
   try {
     return value ? (JSON.parse(value) as T) : fallback;
@@ -32,11 +47,21 @@ function parseJson<T>(value: string | null, fallback: T): T {
 export const NOTE_MAX = 20000;
 const KEY = ['notes'] as const;
 
-/** `fresh`: relê ao montar mesmo com o cache novo (o editor só abre depois de uma leitura nova) */
-export function useNotes({ fresh = false }: { fresh?: boolean } = {}) {
+/**
+ * `fresh`: relê ao montar mesmo com o cache novo (o editor só abre depois de uma leitura nova).
+ * `templates`: os modelos (OB5) ficam fora das listas; o editor pede todas, a lista de modelos só eles
+ */
+export function useNotes({
+  fresh = false,
+  templates = 'exclude',
+}: { fresh?: boolean; templates?: 'exclude' | 'include' | 'only' } = {}) {
   return useQuery({
     queryKey: KEY,
     ...(fresh ? { refetchOnMount: 'always' as const } : {}),
+    select: (list: Note[]) =>
+      templates === 'include'
+        ? list
+        : list.filter((n) => !!n.is_template === (templates === 'only')),
     networkMode: isLocal() ? 'always' : 'online',
     queryFn: async (): Promise<Note[]> => {
       if (isLocal()) {
@@ -47,6 +72,7 @@ export function useNotes({ fresh = false }: { fresh?: boolean } = {}) {
           ...n,
           props: parseJson<NoteProps>(n.props, {}),
           tags: parseJson<string[]>(n.tags, []),
+          is_template: !!n.is_template,
         }));
       }
       const { data, error } = await supabase
@@ -64,7 +90,22 @@ export function noteTitle(note: Pick<Note, 'title' | 'body'>, fallback: string) 
   return note.title.trim() || plainText(note.body).trim().split('\n')[0].slice(0, 80) || fallback;
 }
 
-type NotePatch = { id: string; title?: string; body?: string; props?: NoteProps };
+type NotePatch = {
+  id: string;
+  title?: string;
+  body?: string;
+  props?: NoteProps;
+  is_template?: boolean;
+};
+
+/** Anotação nova: na pasta, com título e texto (o link para o que não existia, o modelo, OB1/OB5) */
+export type NewNote = {
+  folderId?: string | null;
+  title?: string;
+  body?: string;
+  props?: NoteProps;
+  isTemplate?: boolean;
+};
 
 export function useNoteMutations() {
   const queryClient = useQueryClient();
@@ -78,29 +119,33 @@ export function useNoteMutations() {
      * `folderId`: anotação dentro de uma pasta ou projeto; sem ela, só da pessoa. Com `title`, já
      * nasce com o título (o link [[...]] para o que ainda não existia, OB1)
      */
-    mutationFn: async (
-      target?: string | null | { folderId?: string | null; title?: string },
-    ): Promise<string> => {
+    mutationFn: async (target?: string | null | NewNote): Promise<string> => {
       const id = uuidv7();
-      const opts = typeof target === 'object' && target ? target : { folderId: target };
+      const opts: NewNote = typeof target === 'object' && target ? target : { folderId: target };
       const folder_id = opts.folderId ?? null;
       const title = (opts.title ?? '').slice(0, 200);
+      const body = (opts.body ?? '').slice(0, NOTE_MAX);
+      const props = opts.props ?? {};
+      const is_template = !!opts.isTemplate;
       if (isLocal()) {
         await localInsert('notes', {
           id,
           user_id: await sessionUserId(),
           title,
-          body: '',
+          body,
           pinned: 0,
           folder_id,
-          props: '{}',
-          tags: '[]',
+          props: JSON.stringify(props),
+          tags: JSON.stringify(noteTags(body, props)),
+          is_template: is_template ? 1 : 0,
           created_at: now(),
           updated_at: now(),
         });
         return id;
       }
-      const { error } = await supabase.from('notes').insert({ id, title, body: '', folder_id });
+      const { error } = await supabase
+        .from('notes')
+        .insert({ id, title, body, folder_id, props, is_template });
       if (error) throw error;
       return id;
     },
@@ -111,9 +156,10 @@ export function useNoteMutations() {
     networkMode,
     mutationFn: async ({ id, ...patch }: NotePatch) => {
       if (isLocal()) {
-        const { props, ...rest } = patch;
+        const { props, is_template, ...rest } = patch;
         const row: Record<string, unknown> = { ...rest, updated_at: now() };
         if (props) row.props = JSON.stringify(props);
+        if (is_template !== undefined) row.is_template = is_template ? 1 : 0;
         // As etiquetas são do servidor; sem internet, o espelho calcula para a tela já mostrar
         if (props || patch.body !== undefined) {
           const current = await db.getOptional<{ body: string; props: string | null }>(
@@ -162,4 +208,56 @@ export function useNoteMutations() {
   });
 
   return { create, update, remove };
+}
+
+/**
+ * Diário automático da nota do dia (OB5): as tarefas concluídas e as criadas no dia `date` (no fuso
+ * do perfil), só das minhas pastas (as recebidas ficam de fora). O filtro seletivo é o intervalo de
+ * datas mais as pastas (D70).
+ */
+export function useDayTasks(date: string | null, timeZone: string) {
+  return useQuery({
+    queryKey: ['tasks', 'day-journal', date, timeZone],
+    enabled: !!date,
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<{ done: TaskWithPage[]; created: TaskWithPage[] }> => {
+      if (!date) return { done: [], created: [] };
+      const from = new Date(zonedEpoch(date, '00:00', timeZone)).toISOString();
+      const to = new Date(zonedEpoch(addDays(date, 1), '00:00', timeZone)).toISOString();
+      let rows: TaskWithPage[];
+      if (isLocal()) {
+        // O texto da data no aparelho pode vir com espaço ou "T": compara pelo dia, com folga, e
+        // acerta o fuso abaixo
+        const lo = addDays(date, -1);
+        const hi = addDays(date, 1);
+        const found = await db.getAll<Record<string, unknown>>(
+          `${TASK_WITH_PAGE_SQL}
+           where substr(t.completed_at, 1, 10) between ? and ? or substr(t.created_at, 1, 10) between ? and ?
+           order by t.completed_at, t.created_at limit 400`,
+          [lo, hi, lo, hi],
+        );
+        rows = found.map(toTaskWithPage);
+      } else {
+        const folders = await myFolderIds();
+        if (!folders.length) return { done: [], created: [] };
+        const { data, error } = await supabase
+          .from('tasks')
+          .select('*, page:pages(name, icon, view_type)')
+          .in('folder_id', folders)
+          .or(
+            `and(completed_at.gte.${from},completed_at.lt.${to}),and(created_at.gte.${from},created_at.lt.${to})`,
+          )
+          .limit(400);
+        if (error) throw error;
+        rows = data as TaskWithPage[];
+      }
+      const inDay = (at: string | null) => !!at && at >= from && at < to;
+      const norm = (at: string | null) => (at ? new Date(at).toISOString() : null);
+      const done = rows.filter((t) => t.status === 'done' && inDay(norm(t.completed_at)));
+      const created = rows.filter(
+        (t) => inDay(norm(t.created_at)) && !done.some((d) => d.id === t.id),
+      );
+      return { done, created };
+    },
+  });
 }

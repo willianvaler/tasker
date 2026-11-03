@@ -9,12 +9,14 @@ import {
   CircleCheck,
   Copy,
   Dumbbell,
+  NotebookPen,
   RefreshCw,
 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Pressable, useWindowDimensions, View } from 'react-native';
 
+import { useOpenDailyNote } from '@/components/daily-note';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
@@ -33,6 +35,8 @@ import {
   type CalendarPage,
 } from '@/lib/calendar';
 import { cn } from '@/lib/cn';
+import { dailyNoteDays } from '@/lib/note-templates';
+import { useNotes } from '@/lib/queries/notes';
 import {
   addDays,
   dateLocale,
@@ -86,6 +90,9 @@ export default function CalendarScreen() {
       habits: page.view_type === 'habits',
     };
   const days = calendarDays(tasks.data ?? [], pages, from, to);
+  // Nota do dia (OB5, D290): os dias com nota ganham um ponto e a nota abre na lista do dia
+  const notes = useNotes();
+  const noteDays = dailyNoteDays(notes.data ?? []);
 
   const move = (delta: number) =>
     setSelected(view === 'month' ? `${shiftMonth(month, delta)}-01` : addDays(selected, 7 * delta));
@@ -133,9 +140,16 @@ export default function CalendarScreen() {
               days={days}
               compact={compact}
               weekStart={weekStart}
+              noteDays={noteDays}
               onSelect={setSelected}
             />
-            <DayList date={selected} today={today} entries={days[selected] ?? []} pages={pages} />
+            <DayList
+              date={selected}
+              today={today}
+              entries={days[selected] ?? []}
+              pages={pages}
+              noteId={noteDays[selected]}
+            />
           </>
         ) : (
           weeks[0].map((date) => (
@@ -145,6 +159,7 @@ export default function CalendarScreen() {
               today={today}
               entries={days[date] ?? []}
               pages={pages}
+              noteId={noteDays[date]}
             />
           ))
         )}
@@ -163,6 +178,7 @@ function MonthGrid({
   days,
   compact,
   weekStart,
+  noteDays,
   onSelect,
 }: {
   weeks: string[][];
@@ -172,6 +188,7 @@ function MonthGrid({
   days: Record<string, CalendarEntry[]>;
   compact: boolean;
   weekStart: 0 | 1;
+  noteDays: Record<string, string>;
   onSelect: (date: string) => void;
 }) {
   const { t } = useTranslation();
@@ -193,18 +210,17 @@ function MonthGrid({
             const entries = days[date] ?? [];
             const outside = monthOf(date) !== month;
             const isSelected = date === selected;
+            const hasNote = !!noteDays[date];
+            const dayLabel = entries.length
+              ? t('calendar.dayWithItems', { date: formatShortDate(date), count: entries.length })
+              : formatShortDate(date);
             return (
               <Pressable
                 key={date}
                 accessibilityRole="button"
                 aria-selected={isSelected}
                 accessibilityLabel={
-                  entries.length
-                    ? t('calendar.dayWithItems', {
-                        date: formatShortDate(date),
-                        count: entries.length,
-                      })
-                    : formatShortDate(date)
+                  hasNote ? t('dailyNote.dayWithNote', { day: dayLabel }) : dayLabel
                 }
                 onPress={() => onSelect(date)}
                 className={cn(
@@ -229,6 +245,12 @@ function MonthGrid({
                     {Number(date.slice(8))}
                   </Text>
                 </View>
+                {hasNote && (
+                  <View
+                    testID={`note-dot-${date}`}
+                    className="absolute right-1 top-1 h-2 w-2 rounded-full bg-accent"
+                  />
+                )}
                 {compact ? (
                   // Celular: só pontinhos, a lista do dia fica embaixo
                   <View className="flex-row flex-wrap justify-center gap-1">
@@ -281,19 +303,32 @@ function DayList({
   today,
   entries,
   pages,
+  noteId,
 }: {
   date: string;
   today: string;
   entries: CalendarEntry[];
   pages: Record<string, CalendarPage>;
+  noteId?: string;
 }) {
   const { t } = useTranslation();
+  const openDaily = useOpenDailyNote();
   return (
     <View>
       <SectionLabel
         title={formatDueDate(date, today)}
         count={entries.length || undefined}
         className="pt-2"
+        right={
+          noteId || date <= today ? (
+            <Button
+              variant="ghost"
+              icon={NotebookPen}
+              label={t(noteId ? 'dailyNote.openDay' : 'dailyNote.writeDay')}
+              onPress={() => void openDaily(date)}
+            />
+          ) : undefined
+        }
       />
       {entries.length === 0 ? (
         <Text className="py-2 text-sm text-ink-muted">{t('calendar.empty')}</Text>

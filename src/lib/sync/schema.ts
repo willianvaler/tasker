@@ -304,6 +304,8 @@ const notes = new Table(
     // app ao gravar sem internet, com o espelho noteTags)
     props: column.text,
     tags: column.text,
+    // Modelo de anotação (OB5, D290): 0/1
+    is_template: column.integer,
     created_at: column.text,
     updated_at: column.text,
   },

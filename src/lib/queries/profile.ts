@@ -81,6 +81,8 @@ export type UiPrefs = {
     /** Cardápio da semana (BE2): a lista da pasta Dieta */
     diet?: { pageId?: string };
   };
+  /** Anotações (OB5): o modelo da nota do dia (id de uma anotação marcada como modelo) */
+  notes?: { dailyTemplate?: string | null };
   /** Registro do treino (AC4): unidade de carga e escala de esforço */
   gym?: {
     unit?: WeightUnit;

@@ -73,7 +73,8 @@
     "goCalendar": "Go to Calendar",
     "newNote": "New note (in the New menu)",
     "newBatch": "Several at once (in the New menu)",
-    "newTemplate": "From a template (in the New menu)"
+    "newTemplate": "From a template (in the New menu)",
+    "noteDaily": "Open the daily note"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -4002,5 +4003,35 @@
       "group": "group",
       "challenge": "challenge"
     }
+  },
+  "dailyNote": {
+    "open": "Daily note",
+    "journal": "Day journal",
+    "done": "Completed this day",
+    "created": "Created this day",
+    "noneDone": "No tasks completed this day.",
+    "noneCreated": "No tasks created this day.",
+    "dayWithNote": "{{day}}, with a daily note",
+    "openDay": "Daily note",
+    "writeDay": "Write the daily note"
+  },
+  "templatesNotes": {
+    "title": "Templates",
+    "new": "New template",
+    "newTitle": "New template",
+    "empty": "No templates. A template is a note used as a starting point, with the variables {{vars}} filled in when used.",
+    "fromTemplate": "From template",
+    "nameHint": "Title of the new note from “{{name}}” (can be left blank).",
+    "create": "Create",
+    "dailyBadge": "daily note",
+    "more": "More note options",
+    "mark": "Turn into a template",
+    "unmark": "Stop being a template",
+    "setDaily": "Use for the daily note",
+    "unsetDaily": "Stop using for the daily note",
+    "banner": "This is a template: it does not show in lists and is a starting point for new notes.",
+    "bannerDaily": "This is the daily note template: each new daily note starts with this text.",
+    "variables": "Variables: {{vars}}.",
+    "varNames": "date, time, title"
   }
 }
