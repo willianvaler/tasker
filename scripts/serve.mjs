@@ -143,7 +143,10 @@ function corsHeaders(req, headers) {
   );
 }
 
-/** /downloads/questlist.apk e /downloads/apk.json (ou 404, sem cair no index.html) */
+/**
+ * /downloads/questlist.apk, /downloads/questlist-wear.apk (relógio, D287) e /downloads/apk.json
+ * (ou 404, sem cair no index.html)
+ */
 function serveDownload(req, res) {
   const name = new URL(req.url, 'http://x').pathname.slice('/downloads/'.length);
   const file = join(DOWNLOADS, name);
@@ -158,7 +161,7 @@ function serveDownload(req, res) {
     'Content-Length': statSync(file).size,
     'Cache-Control': 'no-cache',
     'Access-Control-Allow-Origin': '*',
-    ...(apk && { 'Content-Disposition': 'attachment; filename="questlist.apk"' }),
+    ...(apk && { 'Content-Disposition': `attachment; filename="${name}"` }),
   });
   if (req.method === 'HEAD') return res.end();
   createReadStream(file).pipe(res);

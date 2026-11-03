@@ -8,7 +8,11 @@ Companheiro do Modo Treino (D287): o treino aberto no celular aparece no relógi
 - No celular, o APK do Questlist a partir do código que tem o `WearSync` (X3). O APK antigo não fala com o relógio.
 - Os dois apps assinados com a mesma chave (`~/.config/questlist/release.keystore`): o `npm run wear` usa a do `npm run apk`.
 
-## Compilar e instalar no relógio
+## Instalar pelo celular, sem computador (para quem usa)
+
+O guia curto está na Ajuda do app (artigo "Séries, repetições e descanso", em "Instalar o app no relógio"): ligar a Depuração por Wi-Fi no relógio, baixar `https://questlist.wavdev.org/downloads/questlist-wear.apk` no celular e mandar para o relógio com um instalador da Play Store (Wear Installer 2, Bugjaeger). Publicar o APK do relógio: `npm run wear` e copiar `downloads/questlist-wear.apk` para o `downloads/` do servidor, junto com o do celular.
+
+## Compilar e instalar no relógio (pelo PC)
 
 O relógio não instala APK pelo navegador: vai por adb pelo Wi-Fi, a partir deste PC.
 

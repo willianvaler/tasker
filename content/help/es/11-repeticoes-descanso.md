@@ -16,6 +16,15 @@ En listas de entrenamiento (de la carpeta Gimnasio o de un grupo de entrenamient
 
 **Sin desbloquear el móvil (Android):** con el Modo Entrenamiento abierto, la serie aparece en la pantalla de bloqueo con **Hecha**, **Saltar descanso** y **+30 s**. En el descanso, la notificación cuenta el tiempo que falta, y la barra muestra las series del entrenamiento, un tramo por ejercicio. En Android 16, también aparece como un chip con el tiempo en la barra de estado. Toca la flecha de la notificación para ver los botones. Lo que marques se sube al instante, incluso con el móvil bloqueado o la app cerrada desde recientes, mientras el entrenamiento esté abierto.
 
+**Instalar la app en el reloj:** todavía no está en la tienda y entra por el móvil, sin ordenador. Una sola vez:
+
+1. En el reloj, abre **Ajustes → Acerca del reloj → Software** y toca 7 veces **Versión de software**. Vuelve, entra en **Opciones de desarrollador** y activa **Depuración ADB** y **Depuración inalámbrica**. El reloj y el móvil deben estar en la misma Wi-Fi.
+2. En el móvil, descarga la app del reloj en [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk) e instala desde la Play Store un instalador de apps para reloj, como **Wear Installer 2** o **Bugjaeger**.
+3. En el reloj, en **Depuración inalámbrica → Vincular nuevo dispositivo**, aparecen una dirección y un código. Escribe los dos en el instalador, elige el archivo `questlist-wear.apk` e instálalo.
+4. Abre **Questlist** en el reloj y acepta las notificaciones. Después, desactiva la Depuración inalámbrica, que gasta batería.
+
+El móvil también necesita Questlist actualizado (con el botón de descarga en **Ajustes**).
+
 **En el reloj (Wear OS):** con la app de Questlist instalada en el reloj (Galaxy Watch4 o más nuevo), el Modo Entrenamiento abierto en el móvil también aparece en la muñeca: el ejercicio y la serie, un botón **Hecha** grande y, en el descanso, la cuenta atrás con **Saltar** y **+30 s**. El reloj vibra cuando termina el descanso. Quien registra es el móvil, así que debe estar cerca y con el entrenamiento abierto. Por ahora la app del reloj se instala a mano, sin la tienda.
 
 ## Registro del entrenamiento

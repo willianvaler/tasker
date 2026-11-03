@@ -16,6 +16,15 @@ Em listas de treino (da Academia ou de um grupo de treino) ou com tarefas que t�
 
 **Sem destravar o celular (Android):** com o Modo Treino aberto, a série aparece na tela de bloqueio, com **Feita**, **Pular descanso** e **+30 s**. No descanso, a notificação conta o tempo que falta, e a barra mostra as séries do treino, um trecho por exercício. No Android 16, ela também aparece como um chip com o tempo na barra de status. Toque na setinha da notificação para ver os botões. O que você marca sobe na hora, mesmo com o celular travado ou o app fechado pelos recentes, enquanto o treino estiver aberto.
 
+**Instalar o app no relógio:** ele ainda não está na loja e entra pelo celular, sem computador. Uma vez só:
+
+1. No relógio, abra **Configurações → Sobre o relógio → Software** e toque 7 vezes em **Versão do software**. Volte, entre em **Opções do desenvolvedor** e ligue **Depuração ADB** e **Depuração por Wi-Fi**. O relógio e o celular precisam estar no mesmo Wi-Fi.
+2. No celular, baixe o app do relógio em [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk) e instale, pela Play Store, um instalador de apps para relógio, como o **Wear Installer 2** ou o **Bugjaeger**.
+3. No relógio, em **Depuração por Wi-Fi → Parear novo dispositivo**, aparecem um endereço e um código. Digite os dois no instalador, escolha o arquivo `questlist-wear.apk` e mande instalar.
+4. Abra o **Questlist** no relógio e aceite as notificações. Depois, desligue a Depuração por Wi-Fi, que gasta bateria.
+
+O celular também precisa estar com o Questlist atualizado (pelo botão de baixar em **Configurações**).
+
 **No relógio (Wear OS):** com o app do Questlist instalado no relógio (Galaxy Watch4 ou mais novo), o Modo Treino aberto no celular aparece também no pulso: o exercício e a série, um **Feita** grande e, no descanso, a contagem com **Pular** e **+30 s**. O relógio vibra quando o descanso acaba. Quem marca é o celular, então ele precisa estar por perto, com o treino aberto. Por enquanto o app do relógio é instalado à mão, sem a loja.
 
 ## Diário de treino

@@ -16,6 +16,15 @@ On workout lists (in the Gym folder or a workout group) or lists with tasks that
 
 **Without unlocking the phone (Android):** with Workout Mode open, the set shows on the lock screen with **Done**, **Skip rest** and **+30 s**. During rest, the notification counts down the time left, and the bar shows the workout's sets, one segment per exercise. On Android 16, it also shows as a chip with the time in the status bar. Tap the notification's arrow to see the buttons. What you mark syncs right away, even with the phone locked or the app swiped away from recents, as long as the workout is open.
 
+**Installing the app on the watch:** it is not in the store yet and goes in through the phone, no computer needed. Only once:
+
+1. On the watch, open **Settings → About watch → Software** and tap **Software version** 7 times. Go back, open **Developer options** and turn on **ADB debugging** and **Wireless debugging**. The watch and the phone must be on the same Wi-Fi.
+2. On the phone, download the watch app from [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk) and install a watch app installer from the Play Store, such as **Wear Installer 2** or **Bugjaeger**.
+3. On the watch, under **Wireless debugging → Pair new device**, an address and a code show up. Type both into the installer, pick the `questlist-wear.apk` file and install it.
+4. Open **Questlist** on the watch and allow notifications. Then turn Wireless debugging off, since it drains the battery.
+
+The phone also needs the latest Questlist (from the download button in **Settings**).
+
 **On your watch (Wear OS):** with the Questlist app installed on the watch (Galaxy Watch4 or newer), Workout Mode open on your phone also shows on your wrist: the exercise and set, a big **Done** button and, during rest, the countdown with **Skip** and **+30 s**. The watch vibrates when the rest is over. The phone does the logging, so it needs to be nearby with the workout open. For now the watch app is installed by hand, not from the store.
 
 ## Workout log
