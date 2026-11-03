@@ -209,6 +209,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD31 | Treino: o campo de criar dizia **Nova missão** com o vocabulário de jogo ligado (e "Nova tarefa" sem ele); agora diz **Novo exercício…**, também na criação avançada | — |
 | V5 | CD32 | Clique direito (web) numa linha que tem **…** abre o mesmo menu, no lugar do menu do navegador: pastas e projetos da barra lateral, pastas e listas da aba Pastas, listas da tela da pasta, projetos em Projetos, marcos e remédios (`lib/context-menu.ts`); Ajuda nos 3 idiomas, e2e `menu-direito.spec.ts` | — |
 | V5 | CD33 | Tarefa sem responsável em projeto mostrava **Eu levo**, estranho fora de churrasco ou lista de compras: virou **Assumir** (en: Take it, es: Asumir) na linha, no aviso e na Ajuda dos 3 idiomas; e2e em `extras.spec.ts` | D283 |
+| V5 | CD34 | Pedido do dono (03/11): o APK do relógio não tinha onde baixar no app (só o endereço no artigo da Ajuda): **Configurações → Sobre o app** ganhou **Baixar o app do relógio** e **Como instalar no relógio** (some se o arquivo não estiver publicado), e a Ajuda dos 3 idiomas aponta para lá | — |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |

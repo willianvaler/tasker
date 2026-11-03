@@ -37,14 +37,21 @@ import { NotesList, useNewNote } from '@/components/notes-block';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { IconButton } from '@/components/ui/button';
 import { PendingXp } from '@/components/game-bar';
-import { SidebarResizer } from '@/components/sidebar-resizer';
+import { SidebarResizer, SidebarSplit } from '@/components/sidebar-resizer';
 import { SyncDot } from '@/components/sync-dot';
 import { Icon } from '@/components/ui/icon';
 import { rootFolder } from '@/lib/queries/projects';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
-import { getOpenFolders, getSidebarWidth, setOpenFolders, setSidebarWidth } from '@/lib/prefs';
+import {
+  getOpenFolders,
+  getSidebarNavHeight,
+  getSidebarWidth,
+  setOpenFolders,
+  setSidebarNavHeight,
+  setSidebarWidth,
+} from '@/lib/prefs';
 import { useMyFriends } from '@/lib/queries/friends';
 import { useGameState } from '@/lib/queries/game';
 import { availableBlocks } from '@/components/sidebar-settings';
@@ -102,6 +109,9 @@ export function Sidebar() {
   const [actions, dialog] = useFolderActions();
   const [open, setOpen] = useState(() => new Set(getOpenFolders()));
   const [width, setWidth] = useState(getSidebarWidth);
+  // Divisor de baixo: altura dos atalhos fixos (null: todos à vista) e a altura deles inteiros
+  const [navHeight, setNavHeight] = useState(getSidebarNavHeight);
+  const [navFull, setNavFull] = useState<number | null>(null);
   const openPalette = useCommandPalette();
 
   // Pasta da tela atual (a própria pasta, ou a pasta da página aberta)
@@ -380,6 +390,17 @@ export function Sidebar() {
           <Text className="flex-1 font-serif text-lg text-ink">Questlist</Text>
           <ThemeToggle />
         </View>
+      </View>
+      {/* Os atalhos fixos rolam por dentro quando o divisor de baixo os encolhe */}
+      <ScrollView
+        className="mt-6 grow-0 px-2"
+        style={
+          navHeight !== null && navFull !== null && navHeight < navFull
+            ? { height: navHeight }
+            : undefined
+        }
+        onContentSizeChange={(_, h) => setNavFull(h)}
+      >
         <View>
           <Pressable
             accessibilityRole="button"
@@ -413,9 +434,15 @@ export function Sidebar() {
             />
           ))}
         </View>
-      </View>
+      </ScrollView>
+      <SidebarSplit
+        height={navHeight}
+        max={navFull}
+        onChange={setNavHeight}
+        onCommit={setSidebarNavHeight}
+      />
 
-      <ScrollView className="mt-6 flex-1" contentContainerClassName="gap-6 px-2 pb-6">
+      <ScrollView className="flex-1" contentContainerClassName="gap-6 px-2 pb-6 pt-3">
         {resolveBlocks(sidebarPrefs, availableBlocks(gymOn && !gymInWellness)).map((block) => (
           <Fragment key={block}>{blocks[block]}</Fragment>
         ))}

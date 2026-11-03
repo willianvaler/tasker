@@ -19,7 +19,7 @@ En listas de entrenamiento (de la carpeta Gimnasio o de un grupo de entrenamient
 **Instalar la app en el reloj:** todavía no está en la tienda y entra por el móvil, sin ordenador. Una sola vez:
 
 1. En el reloj, abre **Ajustes → Acerca del reloj → Software** y toca 7 veces **Versión de software**. Vuelve, entra en **Opciones de desarrollador** y activa **Depuración ADB** y **Depuración inalámbrica**. El reloj y el móvil deben estar en la misma Wi-Fi.
-2. En el móvil, descarga la app del reloj en [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk) e instala desde la Play Store un instalador de apps para reloj, como **Wear Installer 2** o **Bugjaeger**.
+2. En el móvil, abre Questlist en **Ajustes → Sobre la app** y toca **Descargar la app del reloj** (o descárgala directo en [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk)) e instala desde la Play Store un instalador de apps para reloj, como **Wear Installer 2** o **Bugjaeger**.
 3. En el reloj, en **Depuración inalámbrica → Vincular nuevo dispositivo**, aparecen una dirección y un código. Escribe los dos en el instalador, elige el archivo `questlist-wear.apk` e instálalo.
 4. Abre **Questlist** en el reloj y acepta las notificaciones. Después, desactiva la Depuración inalámbrica, que gasta batería.
 

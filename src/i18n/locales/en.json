@@ -142,7 +142,8 @@
     "workout": "Workouts",
     "moreCard": "More: {{name}}",
     "moreCardLevel": "More: {{name}}, level {{level}}, {{into}} of {{next}} XP",
-    "wellness": "Wellness"
+    "wellness": "Wellness",
+    "resizeSidebarNav": "Sidebar shortcuts height (drag or use ↑ ↓; double-click shows all)"
   },
   "quickAdd": {
     "label": "New task",
@@ -2342,7 +2343,11 @@
     "hint": "On your Android phone, open the downloaded file and allow installing from this source when asked. To update, download again and install over it (your data stays). There is no iPhone version yet.",
     "update": "A new version of the app is available.",
     "upToDate": "You're on the latest version.",
-    "downloadUpdate": "Download the new version"
+    "downloadUpdate": "Download the new version",
+    "wearTitle": "Watch app (Wear OS)",
+    "wearHint": "For Workout mode on your wrist (Galaxy Watch4 or newer). Download it on the phone and send it to the watch with an installer such as Wear Installer 2.",
+    "wearDownload": "Download the watch app",
+    "wearHow": "How to install on the watch"
   },
   "alerts": {
     "title": "Timer alerts",

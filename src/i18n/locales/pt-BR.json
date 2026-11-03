@@ -142,7 +142,8 @@
     "workout": "Treino",
     "moreCard": "Mais: {{name}}",
     "moreCardLevel": "Mais: {{name}}, nível {{level}}, {{into}} de {{next}} XP",
-    "wellness": "Bem-estar"
+    "wellness": "Bem-estar",
+    "resizeSidebarNav": "Altura dos atalhos da barra lateral (arraste ou use ↑ ↓; duplo clique mostra todos)"
   },
   "quickAdd": {
     "label": "Nova tarefa",
@@ -2342,7 +2343,11 @@
     "hint": "No celular Android, abra o arquivo baixado e permita instalar desta fonte quando ele pedir. Para atualizar, baixe de novo e instale por cima (os dados ficam). Ainda não há versão para iPhone.",
     "update": "Há uma versão nova do app.",
     "upToDate": "Você está na versão mais recente.",
-    "downloadUpdate": "Baixar a versão nova"
+    "downloadUpdate": "Baixar a versão nova",
+    "wearTitle": "App do relógio (Wear OS)",
+    "wearHint": "Para o Modo Treino no pulso (Galaxy Watch4 ou mais novo). Baixe no celular e mande para o relógio com um instalador como o Wear Installer 2.",
+    "wearDownload": "Baixar o app do relógio",
+    "wearHow": "Como instalar no relógio"
   },
   "alerts": {
     "title": "Avisos do timer",

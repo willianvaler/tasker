@@ -28,6 +28,8 @@ If you said you will use the app to work out (or turned on **Workouts** in Setti
 
 In **Settings → Navigation** you change the order of the blocks (Notes, Folders, Gym, Projects, Received) and hide the ones you don't use. It applies on all your devices.
 
+On a computer, drag the sidebar's **right edge** to change its width, and the **line between the shortcuts** (Today, Plan…) **and the blocks** to give more room to folders and notes: the shortcuts shrink and scroll inside. Double-click the line to show them all again.
+
 On a computer, **right-clicking** a folder (in the sidebar or the Folders tab), a list, a project, a milestone or a medication opens the same menu as the row's **…** button.
 
 ## Notes

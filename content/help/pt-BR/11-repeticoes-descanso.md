@@ -19,7 +19,7 @@ Em listas de treino (da Academia ou de um grupo de treino) ou com tarefas que t�
 **Instalar o app no relógio:** ele ainda não está na loja e entra pelo celular, sem computador. Uma vez só:
 
 1. No relógio, abra **Configurações → Sobre o relógio → Software** e toque 7 vezes em **Versão do software**. Volte, entre em **Opções do desenvolvedor** e ligue **Depuração ADB** e **Depuração por Wi-Fi**. O relógio e o celular precisam estar no mesmo Wi-Fi.
-2. No celular, baixe o app do relógio em [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk) e instale, pela Play Store, um instalador de apps para relógio, como o **Wear Installer 2** ou o **Bugjaeger**.
+2. No celular, abra o Questlist em **Configurações → Sobre o app** e toque em **Baixar o app do relógio** (ou baixe direto em [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk)) e instale, pela Play Store, um instalador de apps para relógio, como o **Wear Installer 2** ou o **Bugjaeger**.
 3. No relógio, em **Depuração por Wi-Fi → Parear novo dispositivo**, aparecem um endereço e um código. Digite os dois no instalador, escolha o arquivo `questlist-wear.apk` e mande instalar.
 4. Abra o **Questlist** no relógio e aceite as notificações. Depois, desligue a Depuração por Wi-Fi, que gasta bateria.
 

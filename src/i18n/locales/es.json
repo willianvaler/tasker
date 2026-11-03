@@ -142,7 +142,8 @@
     "workout": "Entreno",
     "moreCard": "Más: {{name}}",
     "moreCardLevel": "Más: {{name}}, nivel {{level}}, {{into}} de {{next}} XP",
-    "wellness": "Bienestar"
+    "wellness": "Bienestar",
+    "resizeSidebarNav": "Altura de los accesos de la barra lateral (arrastra o usa ↑ ↓; doble clic muestra todos)"
   },
   "quickAdd": {
     "label": "Nueva tarea",
@@ -2342,7 +2343,11 @@
     "hint": "En tu Android, abre el archivo descargado y permite instalar desde esta fuente cuando lo pida. Para actualizar, descárgalo de nuevo e instálalo encima (tus datos se mantienen). Aún no hay versión para iPhone.",
     "update": "Hay una versión nueva de la app.",
     "upToDate": "Estás en la versión más reciente.",
-    "downloadUpdate": "Descargar la versión nueva"
+    "downloadUpdate": "Descargar la versión nueva",
+    "wearTitle": "App del reloj (Wear OS)",
+    "wearHint": "Para el Modo Entrenamiento en la muñeca (Galaxy Watch4 o más nuevo). Descárgala en el móvil y envíala al reloj con un instalador como Wear Installer 2.",
+    "wearDownload": "Descargar la app del reloj",
+    "wearHow": "Cómo instalarla en el reloj"
   },
   "alerts": {
     "title": "Avisos del temporizador",

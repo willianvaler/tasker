@@ -28,6 +28,8 @@ Se você respondeu que vai usar o app para treinar (ou ligou o **Treino** em Con
 
 Em **Configurações → Navegação** você muda a ordem dos blocos (Anotações, Pastas, Academia, Projetos, Recebidas) e esconde os que não usa. Vale em todos os seus aparelhos.
 
+No computador, arraste a **borda direita** da barra para mudar a largura, e a **linha entre os atalhos** (Hoje, Planejar…) **e os blocos** para dar mais lugar às pastas e anotações: os atalhos encolhem e rolam por dentro. Duplo clique na linha volta a mostrar todos.
+
 No computador, o **clique direito** numa pasta (na barra lateral ou na aba Pastas), numa lista, num projeto, num marco ou num remédio abre o mesmo menu do botão **…** da linha.
 
 ## Anotações

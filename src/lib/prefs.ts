@@ -147,6 +147,21 @@ export function setSidebarWidth(width: number) {
   localStore.setItem(SIDEBAR_WIDTH_KEY, String(Math.round(width)));
 }
 
+const SIDEBAR_NAV_KEY = 'questlist:sidebar-nav-height';
+/** Altura mínima dos atalhos fixos da barra lateral no divisor de baixo (cabem dois) */
+export const SIDEBAR_NAV_MIN = 72;
+
+/** Altura dos atalhos fixos (Hoje, Planejar...) escolhida no divisor; null = inteiros. */
+export function getSidebarNavHeight(): number | null {
+  const value = Number(localStore.getItem(SIDEBAR_NAV_KEY));
+  return value >= SIDEBAR_NAV_MIN ? value : null;
+}
+
+export function setSidebarNavHeight(height: number | null) {
+  if (height === null) localStore.removeItem(SIDEBAR_NAV_KEY);
+  else localStore.setItem(SIDEBAR_NAV_KEY, String(Math.round(height)));
+}
+
 export function clearPrefs() {
   localStore.removeItem(LAST_PAGE_KEY);
   localStore.removeItem(OPEN_FOLDERS_KEY);

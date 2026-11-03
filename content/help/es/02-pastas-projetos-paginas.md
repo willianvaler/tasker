@@ -28,6 +28,8 @@ Si respondiste que vas a usar la app para entrenar (o activaste **Entrenamiento*
 
 En **Ajustes → Navegación** cambias el orden de los bloques (Notas, Carpetas, Gimnasio, Proyectos, Recibidas) y ocultas los que no usas. Vale en todos tus dispositivos.
 
+En la computadora, arrastra el **borde derecho** de la barra para cambiar el ancho, y la **línea entre los accesos** (Hoy, Planificar…) **y los bloques** para dar más lugar a las carpetas y notas: los accesos se achican y se desplazan por dentro. Doble clic en la línea vuelve a mostrarlos todos.
+
 En la computadora, el **clic derecho** en una carpeta (en la barra lateral o en la pestaña Carpetas), una lista, un proyecto, un hito o un medicamento abre el mismo menú que el botón **…** de la fila.
 
 ## Notas

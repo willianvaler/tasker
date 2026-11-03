@@ -19,7 +19,7 @@ On workout lists (in the Gym folder or a workout group) or lists with tasks that
 **Installing the app on the watch:** it is not in the store yet and goes in through the phone, no computer needed. Only once:
 
 1. On the watch, open **Settings → About watch → Software** and tap **Software version** 7 times. Go back, open **Developer options** and turn on **ADB debugging** and **Wireless debugging**. The watch and the phone must be on the same Wi-Fi.
-2. On the phone, download the watch app from [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk) and install a watch app installer from the Play Store, such as **Wear Installer 2** or **Bugjaeger**.
+2. On the phone, open Questlist in **Settings → About the app** and tap **Download the watch app** (or download it straight from [questlist.wavdev.org/downloads/questlist-wear.apk](https://questlist.wavdev.org/downloads/questlist-wear.apk)) and install a watch app installer from the Play Store, such as **Wear Installer 2** or **Bugjaeger**.
 3. On the watch, under **Wireless debugging → Pair new device**, an address and a code show up. Type both into the installer, pick the `questlist-wear.apk` file and install it.
 4. Open **Questlist** on the watch and allow notifications. Then turn Wireless debugging off, since it drains the battery.
 
