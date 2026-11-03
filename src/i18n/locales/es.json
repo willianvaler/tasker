@@ -4236,5 +4236,33 @@
     "removed": "Fuera de favoritos.",
     "saveSearch": "Guardar la búsqueda “{{query}}” en favoritos",
     "openSearch": "Buscar {{query}}"
+  },
+  "vault": {
+    "title": "Obsidian",
+    "import": "Importar de Obsidian (.zip)",
+    "export": "Exportar a Obsidian (.zip)",
+    "notZip": "Elige el .zip de la bóveda (la carpeta de Obsidian comprimida).",
+    "tooBig": "El .zip pasa de 50 MB. Quita las imágenes y los adjuntos e inténtalo de nuevo.",
+    "empty": "No encontré ningún archivo .md en este .zip.",
+    "error": "No funcionó: {{message}}",
+    "confirmTitle_one": "¿Importar {{count}} nota?",
+    "confirmTitle_other": "¿Importar {{count}} notas?",
+    "confirmBody": "Cada .md se convierte en una nota tuya, con el frontmatter como propiedades y los [[enlaces]] unidos por el título.",
+    "unresolved_one": "{{count}} enlace apunta a algo que no existe y queda atenuado.",
+    "unresolved_other": "{{count}} enlaces apuntan a cosas que no existen y quedan atenuados.",
+    "skippedFiles_one": "{{count}} archivo que no es .md (imagen, PDF, .canvas) queda fuera.",
+    "skippedFiles_other": "{{count}} archivos que no son .md (imágenes, PDF, .canvas) quedan fuera.",
+    "truncated_one": "{{count}} nota pasa de 20 mil caracteres y se cortará.",
+    "truncated_other": "{{count}} notas pasan de 20 mil caracteres y se cortarán.",
+    "overLimit_one": "{{count}} nota pasa del límite de 2000 por importación y queda fuera.",
+    "overLimit_other": "{{count}} notas pasan del límite de 2000 por importación y quedan fuera.",
+    "droppedProps_one": "{{count}} propiedad es demasiado grande y queda fuera.",
+    "droppedProps_other": "{{count}} propiedades son demasiado grandes y quedan fuera.",
+    "confirm": "Importar",
+    "imported_one": "{{count}} nota importada.",
+    "imported_other": "{{count}} notas importadas.",
+    "exported_one": "{{count}} nota exportada.",
+    "exported_other": "{{count}} notas exportadas.",
+    "templatesDir": "Plantillas"
   }
 }

@@ -4236,5 +4236,33 @@
     "removed": "Removed from favorites.",
     "saveSearch": "Save the search “{{query}}” to favorites",
     "openSearch": "Search {{query}}"
+  },
+  "vault": {
+    "title": "Obsidian",
+    "import": "Import from Obsidian (.zip)",
+    "export": "Export to Obsidian (.zip)",
+    "notZip": "Choose the vault's .zip (the Obsidian folder, compressed).",
+    "tooBig": "The .zip is over 50 MB. Remove the images and attachments and try again.",
+    "empty": "I couldn't find any .md file in this .zip.",
+    "error": "That didn't work: {{message}}",
+    "confirmTitle_one": "Import {{count}} note?",
+    "confirmTitle_other": "Import {{count}} notes?",
+    "confirmBody": "Each .md becomes one of your notes, with the frontmatter as properties and the [[links]] connected by title.",
+    "unresolved_one": "{{count}} link points to something that doesn't exist and stays dimmed.",
+    "unresolved_other": "{{count}} links point to things that don't exist and stay dimmed.",
+    "skippedFiles_one": "{{count}} file that isn't .md (image, PDF, .canvas) is left out.",
+    "skippedFiles_other": "{{count}} files that aren't .md (images, PDFs, .canvas) are left out.",
+    "truncated_one": "{{count}} note is over 20,000 characters and will be cut.",
+    "truncated_other": "{{count}} notes are over 20,000 characters and will be cut.",
+    "overLimit_one": "{{count}} note is over the limit of 2,000 per import and is left out.",
+    "overLimit_other": "{{count}} notes are over the limit of 2,000 per import and are left out.",
+    "droppedProps_one": "{{count}} property is too large and is left out.",
+    "droppedProps_other": "{{count}} properties are too large and are left out.",
+    "confirm": "Import",
+    "imported_one": "{{count}} note imported.",
+    "imported_other": "{{count}} notes imported.",
+    "exported_one": "{{count}} note exported.",
+    "exported_other": "{{count}} notes exported.",
+    "templatesDir": "Templates"
   }
 }

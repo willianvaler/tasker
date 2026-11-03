@@ -207,7 +207,52 @@ export function useNoteMutations() {
     onSettled: settle,
   });
 
-  return { create, update, remove };
+  /**
+   * Várias anotações de uma vez (importar o cofre do Obsidian, OB13), com os ids já gerados (os
+   * links entre elas já apontam para eles). Pessoais, sem pasta
+   */
+  const createMany = useMutation({
+    networkMode,
+    mutationFn: async (list: { id: string; title: string; body: string; props: NoteProps }[]) => {
+      if (!list.length) return;
+      if (isLocal()) {
+        const user_id = await sessionUserId();
+        const at = now();
+        await db.writeTransaction(async (tx) => {
+          for (const n of list)
+            await tx.execute(
+              `insert into notes (id, user_id, title, body, pinned, folder_id, props, tags, is_template,
+                 created_at, updated_at) values (?, ?, ?, ?, 0, null, ?, ?, 0, ?, ?)`,
+              [
+                n.id,
+                user_id,
+                n.title.slice(0, 200),
+                n.body.slice(0, NOTE_MAX),
+                JSON.stringify(n.props),
+                JSON.stringify(noteTags(n.body, n.props)),
+                at,
+                at,
+              ],
+            );
+        });
+        return;
+      }
+      for (let i = 0; i < list.length; i += 100) {
+        const { error } = await supabase.from('notes').insert(
+          list.slice(i, i + 100).map((n) => ({
+            id: n.id,
+            title: n.title.slice(0, 200),
+            body: n.body.slice(0, NOTE_MAX),
+            props: n.props,
+          })),
+        );
+        if (error) throw error;
+      }
+    },
+    onSettled: settle,
+  });
+
+  return { create, update, remove, createMany };
 }
 
 /**

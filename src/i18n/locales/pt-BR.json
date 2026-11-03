@@ -4236,5 +4236,33 @@
     "removed": "Fora dos favoritos.",
     "saveSearch": "Salvar a busca “{{query}}” nos favoritos",
     "openSearch": "Buscar {{query}}"
+  },
+  "vault": {
+    "title": "Obsidian",
+    "import": "Importar do Obsidian (.zip)",
+    "export": "Exportar para o Obsidian (.zip)",
+    "notZip": "Escolha o .zip do cofre (a pasta do Obsidian compactada).",
+    "tooBig": "O .zip passa de 50 MB. Tire as imagens e os anexos e tente de novo.",
+    "empty": "Não achei nenhum arquivo .md neste .zip.",
+    "error": "Não deu certo: {{message}}",
+    "confirmTitle_one": "Importar {{count}} anotação?",
+    "confirmTitle_other": "Importar {{count}} anotações?",
+    "confirmBody": "Cada .md vira uma anotação sua, com o frontmatter como propriedades e os [[links]] ligados pelo título.",
+    "unresolved_one": "{{count}} link aponta para o que não existe e fica apagado.",
+    "unresolved_other": "{{count}} links apontam para o que não existe e ficam apagados.",
+    "skippedFiles_one": "{{count}} arquivo que não é .md (imagem, PDF, .canvas) fica de fora.",
+    "skippedFiles_other": "{{count}} arquivos que não são .md (imagens, PDFs, .canvas) ficam de fora.",
+    "truncated_one": "{{count}} anotação passa de 20 mil caracteres e será cortada.",
+    "truncated_other": "{{count}} anotações passam de 20 mil caracteres e serão cortadas.",
+    "overLimit_one": "{{count}} anotação passa do limite de 2000 por importação e fica de fora.",
+    "overLimit_other": "{{count}} anotações passam do limite de 2000 por importação e ficam de fora.",
+    "droppedProps_one": "{{count}} propriedade grande demais fica de fora.",
+    "droppedProps_other": "{{count}} propriedades grandes demais ficam de fora.",
+    "confirm": "Importar",
+    "imported_one": "{{count}} anotação importada.",
+    "imported_other": "{{count}} anotações importadas.",
+    "exported_one": "{{count}} anotação exportada.",
+    "exported_other": "{{count}} anotações exportadas.",
+    "templatesDir": "Modelos"
   }
 }

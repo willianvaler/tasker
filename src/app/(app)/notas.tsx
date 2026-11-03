@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
+import { VaultActions } from '@/components/vault-actions';
 import { Text } from '@/components/ui/text';
 import { plainText } from '@/lib/markdown-edit';
 import { templateVars, timeIn } from '@/lib/note-templates';
@@ -129,6 +130,11 @@ export default function NotesScreen() {
               onPress={() => open(note.id)}
             />
           ))}
+        </View>
+        {/* OB13: cofre do Obsidian */}
+        <View>
+          <SectionLabel title={t('vault.title')} />
+          <VaultActions />
         </View>
       </ScreenScroll>
       {picking && (
