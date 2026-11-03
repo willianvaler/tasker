@@ -16,6 +16,8 @@ Em listas de treino (da Academia ou de um grupo de treino) ou com tarefas que t�
 
 **Sem destravar o celular (Android):** com o Modo Treino aberto, a série aparece na tela de bloqueio, com **Feita**, **Pular descanso** e **+30 s**. No descanso, a notificação conta o tempo que falta, e a barra mostra as séries do treino, um trecho por exercício. No Android 16, ela também aparece como um chip com o tempo na barra de status. Toque na setinha da notificação para ver os botões. O que você marca sobe na hora, mesmo com o celular travado ou o app fechado pelos recentes, enquanto o treino estiver aberto.
 
+**No relógio (Wear OS):** com o app do Questlist instalado no relógio (Galaxy Watch4 ou mais novo), o Modo Treino aberto no celular aparece também no pulso: o exercício e a série, um **Feita** grande e, no descanso, a contagem com **Pular** e **+30 s**. O relógio vibra quando o descanso acaba. Quem marca é o celular, então ele precisa estar por perto, com o treino aberto. Por enquanto o app do relógio é instalado à mão, sem a loja.
+
 ## Diário de treino
 
 Cada série feita no Modo Treino fica guardada como aconteceu: a carga, as repetições que você fez de verdade (o Modo Treino já vem com o previsto; −1 e +1 mudam só esta série) e a data. Exercício de cardio pede distância e tempo; o que é por tempo, como a prancha, guarda os segundos. **Carga real:** no descanso (ou antes da série), `−10 −5 −2,5 −1` e `+1 +2,5 +5 +10` ajustam a carga desta série sem mudar o plano; ela continua nas séries seguintes do mesmo exercício. Sem mexer, vale a do plano. Tocar na carga volta à do plano, e **Usar no plano** grava a nova no exercício. **Aquecimento** registra uma série à parte, que não conta para o total do exercício.

@@ -16,6 +16,8 @@ On workout lists (in the Gym folder or a workout group) or lists with tasks that
 
 **Without unlocking the phone (Android):** with Workout Mode open, the set shows on the lock screen with **Done**, **Skip rest** and **+30 s**. During rest, the notification counts down the time left, and the bar shows the workout's sets, one segment per exercise. On Android 16, it also shows as a chip with the time in the status bar. Tap the notification's arrow to see the buttons. What you mark syncs right away, even with the phone locked or the app swiped away from recents, as long as the workout is open.
 
+**On your watch (Wear OS):** with the Questlist app installed on the watch (Galaxy Watch4 or newer), Workout Mode open on your phone also shows on your wrist: the exercise and set, a big **Done** button and, during rest, the countdown with **Skip** and **+30 s**. The watch vibrates when the rest is over. The phone does the logging, so it needs to be nearby with the workout open. For now the watch app is installed by hand, not from the store.
+
 ## Workout log
 
 Every set done in Workout mode is saved as it happened: the weight, the reps you actually did (Workout mode starts with the plan; −1 and +1 change only this set) and the date. Cardio exercises ask for distance and time; timed ones, like the plank, keep the seconds. **Actual load:** during the rest (or before the set), `−10 −5 −2.5 −1` and `+1 +2.5 +5 +10` adjust the load of this set without changing the plan; it carries over to the next sets of the same exercise. Untouched, the plan's load counts. Tapping the load goes back to the plan, and **Use in the plan** saves the new one in the exercise. **Warm-up** logs a separate set that does not count toward the exercise total.

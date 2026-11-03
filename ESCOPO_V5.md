@@ -18,7 +18,7 @@ Origem: anotações do dono em 15/10/2026 (o modo jogo, seção 7, em 18/10/2026
 - iPhone: Live Activities ficam para quando houver build de iOS (precisa da conta do dono).
 - Critério de aceite: com o celular bloqueado no bolso, terminar uma série e começar o descanso só pela notificação, e o app mostrar o mesmo estado ao destravar.
 
-### 1.2 App para relógio (Wear OS) — pendente
+### 1.2 App para relógio (Wear OS) — companheiro feito em 02/11 (X3, D287, `wear/`); falta conferir no relógio do dono
 
 - Um app para **relógio Wear OS** que segue o treino do celular: exercício e série atuais, **Feita** grande, contagem do descanso com vibração no fim, pular e +30 s.
 - Primeira versão como **companheiro** do celular (Data Layer API); depois, se valer a pena, independente (fala direto com o servidor).

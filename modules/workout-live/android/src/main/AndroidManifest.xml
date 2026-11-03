@@ -17,5 +17,14 @@
     <receiver
       android:name=".WorkoutActionReceiver"
       android:exported="false" />
+    <!-- Toques no relógio (D287, wear/): Feita, Pular descanso e +30 s chegam por mensagem -->
+    <service
+      android:name=".WearActionService"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+        <data android:scheme="wear" android:host="*" android:pathPrefix="/questlist/action" />
+      </intent-filter>
+    </service>
   </application>
 </manifest>

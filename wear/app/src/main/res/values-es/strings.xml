@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="waiting_title">Sin entrenamiento abierto</string>
+  <string name="waiting_body">Abre el Modo Entrenamiento en el móvil y aparece aquí.</string>
+  <string name="rest">Descanso</string>
+  <string name="skip">Saltar</string>
+  <string name="paused">En pausa</string>
+  <string name="until">hasta %1$s</string>
+  <string name="unreachable">Móvil fuera de alcance</string>
+  <string name="channel">Entrenamiento</string>
+  <string name="progress">%1$d de %2$d series</string>
+</resources>

@@ -103,6 +103,7 @@
     "endereco": "bash scripts/endereco.sh",
     "help:build": "node scripts/help-build.mjs",
     "apk": "bash scripts/build-apk.sh",
+    "wear": "bash scripts/build-wear.sh",
     "lab": "bash scripts/lab.sh",
     "promover": "bash scripts/promover.sh",
     "feitos": "node scripts/feitos.mjs"

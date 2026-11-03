@@ -46,7 +46,8 @@ data class LiveState(
 // A notificação do treino (D284): uma só, sempre com o mesmo id, montada aqui e mostrada pelo
 // serviço em primeiro plano (WorkoutLiveService). No descanso o Android conta o tempo sozinho
 // (cronômetro regressivo, também no chip da barra de status do Android 16); a barra mostra as
-// séries do treino, um trecho por exercício. Os botões chegam ao JS pelo WorkoutActionReceiver.
+// séries do treino, um trecho por exercício. Os botões chegam ao JS pelo WorkoutActionReceiver;
+// os do relógio (D287), pelo WearActionService, e cada mudança vai para ele pelo WearSync.
 object WorkoutNotification {
   private const val TAG = "WorkoutLive"
   const val ID = 7301
@@ -69,6 +70,8 @@ object WorkoutNotification {
 
   fun show(context: Context, state: LiveState) {
     val app = context.applicationContext
+    // O relógio segue o treino mesmo com as notificações do celular desligadas
+    WearSync.push(app, state)
     if (!canNotify(app)) return
     ensureChannel(app, state.channelName)
     current = state
@@ -91,6 +94,7 @@ object WorkoutNotification {
     current = null
     restEnd?.let(main::removeCallbacks)
     restEnd = null
+    WearSync.push(app, null)
     app.stopService(Intent(app, WorkoutLiveService::class.java))
     NotificationManagerCompat.from(app).cancel(ID)
   }
@@ -112,6 +116,7 @@ object WorkoutNotification {
   private fun update(context: Context, state: LiveState) {
     current = state
     scheduleRestEnd(context, state)
+    WearSync.push(context, state)
     post(context)
   }
 

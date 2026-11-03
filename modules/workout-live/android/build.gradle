@@ -13,3 +13,10 @@ android {
     versionName "1.0.0"
   }
 }
+
+dependencies {
+  // Relógio Wear OS (D287): o estado do treino vai pela Data Layer e os toques voltam por mensagem
+  implementation 'com.google.android.gms:play-services-wearable:19.0.0'
+  // A do play-services puxa o androidx.core 1.0, e a compilação do módulo seguia a versão velha
+  implementation 'androidx.core:core:1.17.0'
+}

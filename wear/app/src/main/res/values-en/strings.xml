@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="waiting_title">No workout open</string>
+  <string name="waiting_body">Open Workout mode on your phone and it shows up here.</string>
+  <string name="rest">Rest</string>
+  <string name="skip">Skip</string>
+  <string name="paused">Paused</string>
+  <string name="until">until %1$s</string>
+  <string name="unreachable">Phone out of reach</string>
+  <string name="channel">Workout</string>
+  <string name="progress">%1$d of %2$d sets</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Questlist</string>
+  <string name="waiting_title">Sem treino aberto</string>
+  <string name="waiting_body">Abra o Modo Treino no celular e ele aparece aqui.</string>
+  <string name="rest">Descanso</string>
+  <string name="skip">Pular</string>
+  <string name="paused">Pausado</string>
+  <string name="until">até %1$s</string>
+  <string name="unreachable">Celular fora de alcance</string>
+  <string name="channel">Treino</string>
+  <string name="progress">%1$d de %2$d séries</string>
+</resources>
