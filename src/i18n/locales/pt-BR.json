@@ -2473,7 +2473,10 @@
     "divider": "Divisória",
     "dividerKeys": "divisoria,linha,divider,hr,separador",
     "embed": "Incorporar",
-    "embedKeys": "incorporar,embed,incrustar,imagem,image,imagen"
+    "embedKeys": "incorporar,embed,incrustar,imagem,image,imagen",
+    "query": "Consulta",
+    "queryKeys": "consulta,query,questlist,busca,filtro,dataview",
+    "queryExample": "tarefas onde etiqueta = casa e vence <= hoje+7 ordenar por vencimento"
   },
   "noteProps": {
     "title": "Propriedades",
@@ -4053,5 +4056,35 @@
     "openTasks_other": "{{count}} tarefas abertas",
     "folder": "Pasta",
     "openButton": "Abrir"
+  },
+  "query": {
+    "title": "Consulta",
+    "notSelective": "Consulta sem filtro: diga a lista, a pasta, a etiqueta ou uma data (ex.: “onde etiqueta = casa”). Sem isso ela não roda, para não ler tudo.",
+    "unknown": "Não achei: {{names}}.",
+    "loading": "Consultando…",
+    "none": "Nada encontrado.",
+    "countTasks_one": "{{count}} tarefa",
+    "countTasks_other": "{{count}} tarefas",
+    "countNotes_one": "{{count}} anotação",
+    "countNotes_other": "{{count}} anotações",
+    "showing": "Mostrando {{shown}} de {{total}} (use “limite”).",
+    "col": {
+      "title": "Título",
+      "list": "Lista",
+      "due": "Vence",
+      "priority": "Prioridade",
+      "tags": "Etiquetas"
+    },
+    "errors": {
+      "empty": "Consulta vazia: comece com “tarefas” ou “anotações”.",
+      "source": "Comece com “tarefas” ou “anotações” (não “{{word}}”).",
+      "field": "Campo desconhecido: “{{word}}”. Use etiqueta, vence, prioridade, título, status, criada, atualizada ou props.nome.",
+      "operator": "Falta o sinal depois do campo (=, !=, <, <=, >, >= ou contém), perto de “{{word}}”.",
+      "value": "Falta o valor perto de “{{word}}”.",
+      "unexpected": "Não entendi “{{word}}”.",
+      "limit": "O limite precisa ser um número (não “{{word}}”).",
+      "view": "Mostrar como lista, tabela ou contagem (não “{{word}}”).",
+      "notesDone": "Anotações não têm “concluídas”: use uma propriedade (ex.: props.lido = sim)."
+    }
   }
 }

@@ -59,6 +59,19 @@ To tag, write `#tag` in the text or put it in the tags property. Use a slash to 
 
 A **template** is a note used as a starting point. In Notes → **Templates**, **New template**; or, in a note, **More options** → **Turn into a template**. Templates do not show in lists. In the template text, `{{date}}`, `{{time}}` and `{{title}}` become the day, the time and the title when it is used. **From template** (in Notes) creates a note from one of them, and **Use for the daily note** makes every new daily note start with it.
 
+### Queries
+
+A ` ```questlist ` fence (or the `/query` command) shows, inside the note, the tasks or notes that match a question written in words:
+
+```
+tasks where tag = home and due <= today+7 sort by due
+tasks in list "Groceries" not done
+notes where tag = reading and props.rating >= 4 as table
+tasks in folder "Work" where priority >= high as count
+```
+
+Start with **tasks** or **notes**. Then, in any order: **in list "…"** or **in folder "…"**; **where** field sign value, joined with **and** (fields: tag, due, priority, title, status, created, updated and `props.name` for properties; signs: `=`, `!=`, `<`, `<=`, `>`, `>=` and **contains**; dates: `today`, `today+7`, `yesterday`, `tomorrow` or `2026-12-01`); **done** or **not done**; **sort by** field (with **desc** to reverse); **limit** number; and **as list**, **as table** or **as count**. The words also work in Portuguese and Spanish. In a list, tasks have real checkboxes. The query runs on the device, offline too, and needs a filter (list, folder, tag or date) so it does not read everything: without one, it warns and does not run.
+
 ### Links between notes, tasks and lists
 
 Type `[[` (or tap the link button on the bar) and start typing: your notes (most recent first), tasks, lists and projects show up. Pick one and the link goes into the text. In the preview it shows only the name, and tapping it opens the item. Renaming the item doesn't break the link. You can also jump to a heading of a note with `[[Note#Heading]]`.

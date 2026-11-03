@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 import { LinkPreview, type Peek, type PeekTarget } from '@/components/link-preview';
 import { NoteEmbed } from '@/components/note-embed';
+import { QueryBlock } from '@/components/note-query';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { FONT_FAMILY } from '@/lib/fonts';
@@ -329,7 +330,9 @@ export function NoteMarkdown({
     resolve ? wikiToMarkdown(embedded.text, resolve, t('wikilinks.noAccess')) : embedded.text,
   );
   const segments = splitCallouts(withTaskBoxes(prepared.text)).flatMap(
-    (segment): (NoteSegment | { kind: 'embed'; index: number })[] =>
+    (
+      segment,
+    ): (NoteSegment | { kind: 'embed'; index: number } | { kind: 'query'; index: number })[] =>
       segment.kind === 'markdown' ? splitEmbedMarks(segment.text) : [segment],
   );
 
@@ -355,6 +358,10 @@ export function NoteMarkdown({
   return (
     <View className="gap-1">
       {segments.map((segment, i) => {
+        if (segment.kind === 'query') {
+          const source = embedded.queries[segment.index];
+          return source !== undefined ? <QueryBlock key={i} source={source} /> : null;
+        }
         if (segment.kind === 'embed') {
           const link = embedded.embeds[segment.index];
           return link ? (

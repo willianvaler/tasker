@@ -2473,7 +2473,10 @@
     "divider": "Divider",
     "dividerKeys": "divisoria,divider,hr,line,separador",
     "embed": "Embed",
-    "embedKeys": "embed,incorporar,incrustar,image,imagem,imagen"
+    "embedKeys": "embed,incorporar,incrustar,image,imagem,imagen",
+    "query": "Query",
+    "queryKeys": "query,consulta,questlist,search,filter,dataview",
+    "queryExample": "tasks where tag = home and due <= today+7 sort by due"
   },
   "noteProps": {
     "title": "Properties",
@@ -4053,5 +4056,35 @@
     "openTasks_other": "{{count}} open tasks",
     "folder": "Folder",
     "openButton": "Open"
+  },
+  "query": {
+    "title": "Query",
+    "notSelective": "Query without a filter: name the list, folder, tag or a date (e.g. “where tag = home”). Without it, it does not run, so it does not read everything.",
+    "unknown": "Not found: {{names}}.",
+    "loading": "Querying…",
+    "none": "Nothing found.",
+    "countTasks_one": "{{count}} task",
+    "countTasks_other": "{{count}} tasks",
+    "countNotes_one": "{{count}} note",
+    "countNotes_other": "{{count}} notes",
+    "showing": "Showing {{shown}} of {{total}} (use “limit”).",
+    "col": {
+      "title": "Title",
+      "list": "List",
+      "due": "Due",
+      "priority": "Priority",
+      "tags": "Tags"
+    },
+    "errors": {
+      "empty": "Empty query: start with “tasks” or “notes”.",
+      "source": "Start with “tasks” or “notes” (not “{{word}}”).",
+      "field": "Unknown field: “{{word}}”. Use tag, due, priority, title, status, created, updated or props.name.",
+      "operator": "Missing the sign after the field (=, !=, <, <=, >, >= or contains), near “{{word}}”.",
+      "value": "Missing the value near “{{word}}”.",
+      "unexpected": "I did not understand “{{word}}”.",
+      "limit": "The limit must be a number (not “{{word}}”).",
+      "view": "Show as list, table or count (not “{{word}}”).",
+      "notesDone": "Notes have no “done”: use a property (e.g. props.read = yes)."
+    }
   }
 }

@@ -41,6 +41,33 @@ describe('incorporar (OB6)', () => {
     expect(splitEmbedMarks('nada')).toEqual([{ kind: 'markdown', text: 'nada' }]);
   });
 
+  it('a cerca ```questlist vira consulta (OB7); as outras cercas ficam', () => {
+    const text = [
+      'Casa',
+      '```questlist',
+      'tarefas onde etiqueta = casa',
+      '  e vence <= hoje',
+      '```',
+      '```js',
+      '![[nao]]',
+      '```',
+      '```query',
+      'anotações onde etiqueta = x',
+    ].join('\n');
+    const out = extractEmbeds(text);
+    expect(out.queries).toEqual([
+      'tarefas onde etiqueta = casa\n  e vence <= hoje',
+      'anotações onde etiqueta = x',
+    ]);
+    expect(out.embeds).toEqual([]);
+    expect(splitEmbedMarks(out.text)).toEqual([
+      { kind: 'markdown', text: 'Casa' },
+      { kind: 'query', index: 0 },
+      { kind: 'markdown', text: '```js\n![[nao]]\n```' },
+      { kind: 'query', index: 1 },
+    ]);
+  });
+
   it('o que cada um incorpora', () => {
     const [note, page, image, missing] = parseLinks(
       `![[A|n:${ID}]] ![[L|p:${ID}]] ![[Foto da obra.JPG]] ![[Ideia]]`,

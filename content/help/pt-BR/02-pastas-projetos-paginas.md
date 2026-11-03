@@ -59,6 +59,19 @@ Para etiquetar, escreva `#etiqueta` no texto ou ponha na propriedade tags. Use a
 
 Um **modelo** é uma anotação que serve de ponto de partida. Em Anotações → **Modelos**, **Novo modelo**; ou, numa anotação, **Mais opções** → **Transformar em modelo**. Os modelos não aparecem nas listas. No texto do modelo, `{{data}}`, `{{hora}}` e `{{titulo}}` viram o dia, a hora e o título quando ele é usado. **Do modelo** (em Anotações) cria uma anotação a partir de um deles, e **Usar na nota do dia** faz cada nota do dia nova começar com ele.
 
+### Consultas
+
+Uma cerca ` ```questlist ` (ou o comando `/consulta`) mostra, dentro da anotação, tarefas ou anotações que batem com uma pergunta escrita em palavras:
+
+```
+tarefas onde etiqueta = casa e vence <= hoje+7 ordenar por vencimento
+tarefas da lista "Mercado" não concluídas
+anotações onde etiqueta = leitura e props.nota >= 4 como tabela
+tarefas da pasta "Trabalho" onde prioridade >= alta como contagem
+```
+
+Comece com **tarefas** ou **anotações**. Depois, em qualquer ordem: **da lista "…"** ou **da pasta "…"**; **onde** campo sinal valor, juntando com **e** (campos: etiqueta, vence, prioridade, título, status, criada, atualizada e `props.nome` para as propriedades; sinais: `=`, `!=`, `<`, `<=`, `>`, `>=` e **contém**; datas: `hoje`, `hoje+7`, `ontem`, `amanhã` ou `2026-12-01`); **concluídas** ou **não concluídas**; **ordenar por** campo (com **desc** para inverter); **limite** número; e **como lista**, **como tabela** ou **como contagem**. As palavras também valem em inglês e espanhol. Na lista, as tarefas têm a caixinha de verdade. A consulta roda no aparelho, também sem internet, e precisa de um filtro (lista, pasta, etiqueta ou data) para não ler tudo: sem ele, ela avisa e não roda.
+
 ### Links entre anotações, tarefas e listas
 
 Escreva `[[` (ou toque no botão de link da barra) e comece a digitar: aparecem as suas anotações (as mais recentes primeiro), tarefas, listas e projetos. Escolha um e o link entra no texto. Ao visualizar, ele aparece só com o nome, e tocar abre o item. Renomear o item não quebra o link. Também dá para ir a um título da anotação com `[[Anotação#Título]]`.

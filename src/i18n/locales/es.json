@@ -2473,7 +2473,10 @@
     "divider": "Divisor",
     "dividerKeys": "divisoria,divider,hr,separador,linea",
     "embed": "Incrustar",
-    "embedKeys": "incrustar,embed,incorporar,imagen,image,imagem"
+    "embedKeys": "incrustar,embed,incorporar,imagen,image,imagem",
+    "query": "Consulta",
+    "queryKeys": "consulta,query,questlist,búsqueda,filtro,dataview",
+    "queryExample": "tareas donde etiqueta = casa y vencimiento <= hoy+7 ordenar por vencimiento"
   },
   "noteProps": {
     "title": "Propiedades",
@@ -4053,5 +4056,35 @@
     "openTasks_other": "{{count}} tareas abiertas",
     "folder": "Carpeta",
     "openButton": "Abrir"
+  },
+  "query": {
+    "title": "Consulta",
+    "notSelective": "Consulta sin filtro: indica la lista, la carpeta, la etiqueta o una fecha (ej.: “donde etiqueta = casa”). Sin eso no se ejecuta, para no leerlo todo.",
+    "unknown": "No encontré: {{names}}.",
+    "loading": "Consultando…",
+    "none": "No se encontró nada.",
+    "countTasks_one": "{{count}} tarea",
+    "countTasks_other": "{{count}} tareas",
+    "countNotes_one": "{{count}} nota",
+    "countNotes_other": "{{count}} notas",
+    "showing": "Mostrando {{shown}} de {{total}} (usa “límite”).",
+    "col": {
+      "title": "Título",
+      "list": "Lista",
+      "due": "Vence",
+      "priority": "Prioridad",
+      "tags": "Etiquetas"
+    },
+    "errors": {
+      "empty": "Consulta vacía: empieza con “tareas” o “notas”.",
+      "source": "Empieza con “tareas” o “notas” (no “{{word}}”).",
+      "field": "Campo desconocido: “{{word}}”. Usa etiqueta, vencimiento, prioridad, título, estado, creada, actualizada o props.nombre.",
+      "operator": "Falta el signo después del campo (=, !=, <, <=, >, >= o contiene), cerca de “{{word}}”.",
+      "value": "Falta el valor cerca de “{{word}}”.",
+      "unexpected": "No entendí “{{word}}”.",
+      "limit": "El límite tiene que ser un número (no “{{word}}”).",
+      "view": "Mostrar como lista, tabla o conteo (no “{{word}}”).",
+      "notesDone": "Las notas no tienen “completadas”: usa una propiedad (ej.: props.leido = sí)."
+    }
   }
 }

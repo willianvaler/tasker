@@ -59,6 +59,19 @@ Para etiquetar, escribe `#etiqueta` en el texto o ponla en la propiedad tags. Us
 
 Una **plantilla** es una nota que sirve de punto de partida. En Notas → **Plantillas**, **Nueva plantilla**; o, en una nota, **Más opciones** → **Convertir en plantilla**. Las plantillas no aparecen en las listas. En el texto de la plantilla, `{{fecha}}`, `{{hora}}` y `{{titulo}}` se cambian por el día, la hora y el título al usarla. **Desde plantilla** (en Notas) crea una nota a partir de una de ellas, y **Usar en la nota del día** hace que cada nota del día nueva empiece con ella.
 
+### Consultas
+
+Una cerca ` ```questlist ` (o el comando `/consulta`) muestra, dentro de la nota, las tareas o notas que cumplen una pregunta escrita en palabras:
+
+```
+tareas donde etiqueta = casa y vencimiento <= hoy+7 ordenar por vencimiento
+tareas de la lista "Mercado" no completadas
+notas donde etiqueta = lectura y props.nota >= 4 como tabla
+tareas de la carpeta "Trabajo" donde prioridad >= alta como conteo
+```
+
+Empieza con **tareas** o **notas**. Después, en cualquier orden: **de la lista "…"** o **de la carpeta "…"**; **donde** campo signo valor, unidos con **y** (campos: etiqueta, vencimiento, prioridad, título, estado, creada, actualizada y `props.nombre` para las propiedades; signos: `=`, `!=`, `<`, `<=`, `>`, `>=` y **contiene**; fechas: `hoy`, `hoy+7`, `ayer`, `mañana` o `2026-12-01`); **completadas** o **no completadas**; **ordenar por** campo (con **desc** para invertir); **límite** número; y **como lista**, **como tabla** o **como conteo**. Las palabras también valen en portugués e inglés. En la lista, las tareas tienen la casilla de verdad. La consulta se ejecuta en el dispositivo, también sin internet, y necesita un filtro (lista, carpeta, etiqueta o fecha) para no leerlo todo: sin él, avisa y no se ejecuta.
+
 ### Enlaces entre notas, tareas y listas
 
 Escribe `[[` (o toca el botón de enlace de la barra) y empieza a escribir: aparecen tus notas (las más recientes primero), tareas, listas y proyectos. Elige uno y el enlace entra en el texto. En la vista previa aparece solo con el nombre, y tocarlo abre el elemento. Cambiar el nombre del elemento no rompe el enlace. También puedes ir a un título de la nota con `[[Nota#Título]]`.

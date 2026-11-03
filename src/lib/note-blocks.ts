@@ -287,6 +287,7 @@ export type SlashCommand =
   | 'table'
   | 'link'
   | 'embed'
+  | 'query'
   | 'highlight'
   | 'footnote'
   | 'code'
@@ -304,6 +305,7 @@ export const SLASH_COMMANDS: SlashCommand[] = [
   'table',
   'link',
   'embed',
+  'query',
   'highlight',
   'footnote',
   'code',
@@ -343,7 +345,7 @@ export function applySlash(
   start: number,
   caret: number,
   command: SlashCommand,
-  words: { column: string } = { column: 'Coluna' },
+  words: { column: string; query?: string } = { column: 'Coluna' },
 ): { text: string; caret: number } {
   const before = text.slice(0, start);
   const after = text.slice(caret);
@@ -375,6 +377,11 @@ export function applySlash(
     }
     case 'link':
       return put('[[', 2);
+    case 'query': {
+      // Consulta (OB7): a cerca ```questlist com um exemplo no idioma da pessoa, já selecionável
+      const example = words.query ?? 'tarefas onde etiqueta = casa';
+      return put('```questlist\n' + example + '\n```', 14 + example.length);
+    }
     case 'embed':
       // Incorporar (OB6): o "[[" abre o autocomplete; ![[foto.png]] puxa uma imagem dos anexos
       return put('![[', 3);

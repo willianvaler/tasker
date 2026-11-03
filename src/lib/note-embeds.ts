@@ -6,7 +6,10 @@ import { parseLinks, headingKey, type WikiLink } from '@/lib/wikilinks';
 
 /** Marca que fica no lugar do ![[...]] até a hora de desenhar (não é Markdown que se escreva) */
 const MARK = '%%questlist-embed:';
-const MARK_LINE = /^%%questlist-embed:(\d+)%%$/;
+const QUERY_MARK = '%%questlist-query:';
+const MARK_LINE = /^%%questlist-(embed|query):(\d+)%%$/;
+/** A cerca de código da consulta (OB7): ```questlist (também ```query e ```consulta) */
+const QUERY_FENCE = /^\s*```\s*(questlist|query|consulta)\s*$/i;
 
 /** Arquivo de imagem pelo nome (o ![[foto.png]] do Obsidian) */
 export const IMAGE_FILE = /\.(png|jpe?g|gif|webp|avif|heic|bmp|svg)$/i;
@@ -18,31 +21,60 @@ export const MAX_EMBED_DEPTH = 2;
  * Troca as linhas que são só um ![[...]] (fora das cercas de código) por uma marca numerada e
  * devolve os links na ordem. O resto do texto passa como está.
  */
-export function extractEmbeds(text: string): { text: string; embeds: WikiLink[] } {
+export function extractEmbeds(text: string): {
+  text: string;
+  embeds: WikiLink[];
+  queries: string[];
+} {
   const embeds: WikiLink[] = [];
-  if (!text.includes('![[')) return { text, embeds };
+  const queries: string[] = [];
+  if (!text.includes('![[') && !text.includes('```')) return { text, embeds, queries };
   let fence = false;
-  const lines = text.split('\n').map((line) => {
+  // A consulta aberta: as linhas dela até fechar a cerca
+  let query: string[] | null = null;
+  const lines = text.split('\n').flatMap((line): string[] => {
+    if (query) {
+      if (/^\s*```\s*$/.test(line)) {
+        queries.push(query.join('\n').trim());
+        query = null;
+        return [`${QUERY_MARK}${queries.length - 1}%%`];
+      }
+      query.push(line);
+      return [];
+    }
+    if (!fence && QUERY_FENCE.test(line)) {
+      query = [];
+      return [];
+    }
     if (/^\s*```/.test(line)) {
       fence = !fence;
-      return line;
+      return [line];
     }
-    if (fence || !line.trimStart().startsWith('![[')) return line;
+    if (fence || !line.trimStart().startsWith('![[')) return [line];
     const trimmed = line.trim();
     const links = parseLinks(trimmed);
-    if (links.length !== 1 || !links[0].embed || links[0].start !== 0) return line;
-    if (links[0].end !== trimmed.length) return line;
+    if (links.length !== 1 || !links[0].embed || links[0].start !== 0) return [line];
+    if (links[0].end !== trimmed.length) return [line];
     embeds.push(links[0]);
-    return `${MARK}${embeds.length - 1}%%`;
+    return [`${MARK}${embeds.length - 1}%%`];
   });
-  return { text: lines.join('\n'), embeds };
+  // Cerca da consulta sem fechar: vale até o fim (como o Markdown faz com o código)
+  const open = query as string[] | null;
+  if (open) {
+    queries.push(open.join('\n').trim());
+    lines.push(`${QUERY_MARK}${queries.length - 1}%%`);
+  }
+  return { text: lines.join('\n'), embeds, queries };
 }
 
-export type EmbedPart = { kind: 'markdown'; text: string } | { kind: 'embed'; index: number };
+export type EmbedPart =
+  | { kind: 'markdown'; text: string }
+  | { kind: 'embed'; index: number }
+  | { kind: 'query'; index: number };
 
 /** Separa um trecho de Markdown nas marcas do `extractEmbeds` */
 export function splitEmbedMarks(text: string): EmbedPart[] {
-  if (!text.includes(MARK)) return [{ kind: 'markdown', text }];
+  if (!text.includes('%%questlist-')) return [{ kind: 'markdown', text }];
   const out: EmbedPart[] = [];
   let buffer: string[] = [];
   const flush = () => {
@@ -56,7 +88,7 @@ export function splitEmbedMarks(text: string): EmbedPart[] {
       continue;
     }
     flush();
-    out.push({ kind: 'embed', index: Number(m[1]) });
+    out.push({ kind: m[1] === 'query' ? 'query' : 'embed', index: Number(m[2]) });
   }
   flush();
   return out;
