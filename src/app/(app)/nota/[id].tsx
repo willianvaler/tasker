@@ -27,6 +27,7 @@ import {
 } from 'react-native';
 
 import { DailyJournal } from '@/components/daily-note';
+import { LocalGraph } from '@/components/graph/local-graph';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
@@ -377,6 +378,8 @@ function Editor({ note, section }: { note: Note; section?: string }) {
                 <Backlinks kind="note" id={note.id} />
                 <OutgoingLinks body={body} resolve={resolve} onOpen={openLink} />
                 <UnlinkedMentions note={note} title={title} aliases={noteAliases(props)} />
+                {/* OB9: o grafo local, com os vizinhos até 2 passos */}
+                <LocalGraph kind="note" id={note.id} />
                 {daily && <DailyJournal date={title.trim()} />}
               </ScreenScroll>
             )}

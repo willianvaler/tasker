@@ -3599,7 +3599,8 @@
       "offHint": "Turn it on in Settings → Features to get a character, bosses and a shop.",
       "places": "Places"
     },
-    "tagsHint": "From notes and tasks, nested"
+    "tagsHint": "From notes and tasks, nested",
+    "graphHint": "Notes, tasks and lists connected by links"
   },
   "settings": {
     "title": "Settings",
@@ -4128,5 +4129,35 @@
       "done": "Done"
     },
     "defaultQuery": "tasks where due <= today+7 not done"
+  },
+  "graph": {
+    "title": "Graph",
+    "local": "Local graph",
+    "openFull": "Open in graph",
+    "orphans": "Orphans",
+    "search": "Search the graph",
+    "tag": "Tag",
+    "results": "Results",
+    "folder": "Folder or project",
+    "allFolders": "All",
+    "focusOn": "Linked to: {{name}}",
+    "steps_one": "{{count}} step",
+    "steps_other": "{{count}} steps",
+    "clearFocus": "Show all",
+    "empty": "Nothing to show",
+    "emptyHint": "Type [[ in a note to connect ideas, or change the filters.",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "kind": {
+      "note": "Notes",
+      "task": "Tasks",
+      "page": "Lists",
+      "folder": "Folders",
+      "ghost": "Doesn't exist yet"
+    },
+    "nodes_one": "{{count}} node",
+    "nodes_other": "{{count}} nodes",
+    "links_one": "{{count}} link",
+    "links_other": "{{count}} links"
   }
 }

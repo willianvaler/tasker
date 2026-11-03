@@ -21,6 +21,7 @@ import {
   UserCheck,
   Users,
   Zap,
+  Waypoints,
 } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { useWindowDimensions, View } from 'react-native';
@@ -127,6 +128,12 @@ export default function MoreScreen() {
             label={t('notes.title')}
             hint={t('hub.notesHint')}
             href="/notas"
+          />
+          <HubRow
+            icon={Waypoints}
+            label={t('graph.title')}
+            hint={t('hub.graphHint')}
+            href="/grafo"
           />
           <HubRow icon={Hash} label={t('tags.title')} hint={t('hub.tagsHint')} href="/etiquetas" />
           <HubRow

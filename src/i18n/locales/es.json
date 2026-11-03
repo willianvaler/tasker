@@ -3599,7 +3599,8 @@
       "offHint": "Actívalo en Ajustes → Funciones para tener personaje, jefes y tienda.",
       "places": "Lugares"
     },
-    "tagsHint": "De las notas y las tareas, anidadas"
+    "tagsHint": "De las notas y las tareas, anidadas",
+    "graphHint": "Notas, tareas y listas unidas por los enlaces"
   },
   "settings": {
     "title": "Ajustes",
@@ -4128,5 +4129,35 @@
       "done": "Completada"
     },
     "defaultQuery": "tareas donde vence <= hoy+7 no completadas"
+  },
+  "graph": {
+    "title": "Grafo",
+    "local": "Grafo local",
+    "openFull": "Abrir en el grafo",
+    "orphans": "Sueltas",
+    "search": "Buscar en el grafo",
+    "tag": "Etiqueta",
+    "results": "Resultados",
+    "folder": "Carpeta o proyecto",
+    "allFolders": "Todas",
+    "focusOn": "Unido a: {{name}}",
+    "steps_one": "{{count}} paso",
+    "steps_other": "{{count}} pasos",
+    "clearFocus": "Ver todo",
+    "empty": "Nada que mostrar",
+    "emptyHint": "Escribe [[ en una nota para unir ideas, o cambia los filtros.",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "kind": {
+      "note": "Notas",
+      "task": "Tareas",
+      "page": "Listas",
+      "folder": "Carpetas",
+      "ghost": "Aún no existe"
+    },
+    "nodes_one": "{{count}} punto",
+    "nodes_other": "{{count}} puntos",
+    "links_one": "{{count}} enlace",
+    "links_other": "{{count}} enlaces"
   }
 }

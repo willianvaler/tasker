@@ -3599,7 +3599,8 @@
       "offHint": "Ligue em Configurações → Recursos para ter personagem, bosses e loja.",
       "places": "Lugares"
     },
-    "tagsHint": "Das anotações e das tarefas, aninhadas"
+    "tagsHint": "Das anotações e das tarefas, aninhadas",
+    "graphHint": "Anotações, tarefas e listas ligadas pelos links"
   },
   "settings": {
     "title": "Configurações",
@@ -4128,5 +4129,35 @@
       "done": "Concluída"
     },
     "defaultQuery": "tarefas onde vence <= hoje+7 não concluídas"
+  },
+  "graph": {
+    "title": "Grafo",
+    "local": "Grafo local",
+    "openFull": "Abrir no grafo",
+    "orphans": "Soltas",
+    "search": "Procurar no grafo",
+    "tag": "Etiqueta",
+    "results": "Resultados",
+    "folder": "Pasta ou projeto",
+    "allFolders": "Todas",
+    "focusOn": "Ligado a: {{name}}",
+    "steps_one": "{{count}} passo",
+    "steps_other": "{{count}} passos",
+    "clearFocus": "Ver tudo",
+    "empty": "Nada para mostrar",
+    "emptyHint": "Escreva [[ numa anotação para ligar ideias, ou mude os filtros.",
+    "zoomIn": "Aproximar",
+    "zoomOut": "Afastar",
+    "kind": {
+      "note": "Anotações",
+      "task": "Tarefas",
+      "page": "Listas",
+      "folder": "Pastas",
+      "ghost": "Ainda não existe"
+    },
+    "nodes_one": "{{count}} ponto",
+    "nodes_other": "{{count}} pontos",
+    "links_one": "{{count}} ligação",
+    "links_other": "{{count}} ligações"
   }
 }

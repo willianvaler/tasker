@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { LayoutTemplate, NotebookPen, Plus } from 'lucide-react-native';
+import { LayoutTemplate, NotebookPen, Plus, Waypoints } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
@@ -66,6 +66,12 @@ export default function NotesScreen() {
             icon={NotebookPen}
             label={t('dailyNote.open')}
             onPress={() => void openDaily()}
+          />
+          <Button
+            variant="ghost"
+            icon={Waypoints}
+            label={t('graph.title')}
+            onPress={() => router.push('/grafo')}
           />
           {templateList.length > 0 && (
             <Button

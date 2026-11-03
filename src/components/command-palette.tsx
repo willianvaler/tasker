@@ -40,6 +40,7 @@ import {
   Watch,
   Zap,
   type LucideIcon,
+  Waypoints,
 } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { createContext, useContext, useState, type ReactNode } from 'react';
@@ -322,6 +323,13 @@ function Palette({
       icon: icon(NotebookPen),
       group: 0,
       run: () => void openDaily(),
+    },
+    {
+      id: 'go-graph',
+      label: t('graph.title'),
+      icon: icon(Waypoints),
+      group: 0,
+      run: go('/grafo'),
     },
     {
       id: 'go-tags',
