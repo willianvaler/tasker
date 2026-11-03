@@ -6,6 +6,7 @@ import {
   ClipboardCheck,
   Dumbbell,
   Globe,
+  Hash,
   HeartPulse,
   Inbox,
   LayoutGrid,
@@ -127,6 +128,7 @@ export default function MoreScreen() {
             hint={t('hub.notesHint')}
             href="/notas"
           />
+          <HubRow icon={Hash} label={t('tags.title')} hint={t('hub.tagsHint')} href="/etiquetas" />
           <HubRow
             icon={LayoutTemplate}
             label={t('folder.useTemplate')}

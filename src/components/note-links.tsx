@@ -196,21 +196,33 @@ export function OutgoingLinks({
  * "Menções sem link": as minhas anotações (as sem pasta, que só eu escrevo) com o título desta
  * escrito sem [[ ]]. Ligar troca a primeira menção pelo link.
  */
-export function UnlinkedMentions({ note, title }: { note: Pick<Note, 'id'>; title: string }) {
+export function UnlinkedMentions({
+  note,
+  title,
+  aliases = [],
+}: {
+  note: Pick<Note, 'id'>;
+  title: string;
+  /** Outros nomes da anotação (OB4): também contam como menção */
+  aliases?: string[];
+}) {
   const { t } = useTranslation();
   const notes = useNotes();
   const m = useNoteMutations();
   const toast = useToast();
-  if (title.trim().length < 3) return null;
-  const hits = (notes.data ?? []).filter(
-    (n) => n.id !== note.id && n.folder_id == null && findMention(n.body, title) >= 0,
-  );
+  const names = [title, ...aliases].map((n) => n.trim()).filter((n) => n.length >= 3);
+  if (!names.length) return null;
+  const hits = (notes.data ?? []).flatMap((n) => {
+    if (n.id === note.id || n.folder_id != null) return [];
+    const name = names.find((x) => findMention(n.body, x) >= 0);
+    return name ? [{ note: n, name }] : [];
+  });
   if (!hits.length) return null;
   return (
     <View accessibilityRole="list" aria-label={t('wikilinks.unlinked')}>
       <SectionLabel title={t('wikilinks.unlinked')} count={hits.length} />
-      {hits.map((n) => {
-        const at = findMention(n.body, title);
+      {hits.map(({ note: n, name }) => {
+        const at = findMention(n.body, name);
         const line = n.body.slice(n.body.lastIndexOf('\n', at) + 1).split('\n')[0];
         return (
           <LinkRow
@@ -229,7 +241,7 @@ export function UnlinkedMentions({ note, title }: { note: Pick<Note, 'id'>; titl
                 })}
                 onPress={() =>
                   m.update.mutate(
-                    { id: n.id, body: linkMention(n.body, title, 'note', note.id) },
+                    { id: n.id, body: linkMention(n.body, name, 'note', note.id) },
                     { onError: (err: Error) => toast({ message: err.message }) },
                   )
                 }

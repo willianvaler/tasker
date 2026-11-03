@@ -2,6 +2,7 @@
 // sumário, contagem de palavras e comandos de barra. Funções puras, com testes.
 
 import { plainText } from '@/lib/markdown-edit';
+import { cleanTag, TAG_IN_TEXT } from '@/lib/note-props';
 import { headingKey } from '@/lib/wikilinks';
 
 // ─── Callouts ──────────────────────────────────────────────────────────────────────────────────
@@ -133,6 +134,7 @@ export function splitCallouts(text: string): NoteSegment[] {
 // Sem hífen: o leitor de Markdown só aceita esquema só com letras (senão põe a base na frente)
 export const MARK_SCHEME = 'questlistmark:';
 export const FOOTNOTE_SCHEME = 'questlistfn:';
+export const TAG_SCHEME = 'questlisttag:';
 
 const SUPERSCRIPT = '⁰¹²³⁴⁵⁶⁷⁸⁹';
 export const superscript = (n: number) =>
@@ -167,7 +169,7 @@ const FOOTNOTE_DEF = /^\[\^([^\]\s]+)\]:[ \t]*(.*)$/;
 /**
  * Prepara o Markdown para o leitor, que não conhece `==destaque==` nem notas de rodapé: o destaque
  * vira um link `questlistmark:` e a chamada `[^1]` um link `questlistfn:` com o número em
- * sobrescrito (o desenho fica no NoteMarkdown). As definições `[^1]: texto` saem do lugar e voltam
+ * sobrescrito (o desenho fica no NoteMarkdown); o `#etiqueta` vira um link `questlisttag:`. As definições `[^1]: texto` saem do lugar e voltam
  * na ordem da primeira chamada; definição sem chamada vai para o fim.
  */
 export function prepareMarkdown(text: string): { text: string; footnotes: Footnote[] } {
@@ -191,6 +193,11 @@ export function prepareMarkdown(text: string): { text: string; footnotes: Footno
         if (!numbers.has(id)) numbers.set(id, numbers.size + 1);
         const n = numbers.get(id)!;
         return `[${superscript(n)}](${FOOTNOTE_SCHEME}${n})`;
+      })
+      // #etiqueta (OB4): tocar abre a tela de etiquetas
+      .replace(TAG_IN_TEXT, (whole, lead: string, raw: string) => {
+        const tag = cleanTag(raw);
+        return tag ? `${lead}[#${raw}](${TAG_SCHEME}${encodeURIComponent(tag)})` : whole;
       }),
   );
   for (const id of defs.keys()) if (!numbers.has(id)) numbers.set(id, numbers.size + 1);

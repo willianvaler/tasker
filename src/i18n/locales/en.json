@@ -2472,6 +2472,45 @@
     "divider": "Divider",
     "dividerKeys": "divisoria,divider,hr,line,separador"
   },
+  "noteProps": {
+    "title": "Properties",
+    "edit": "Property {{name}}: change type or remove",
+    "tags": "tags",
+    "aliases": "aliases",
+    "add": "Property",
+    "addHint": "A short name (e.g. author, rating, read). \"tags\" holds tags and \"aliases\", other names for the note.",
+    "namePlaceholder": "Property name",
+    "changeTo": "Change to {{type}}",
+    "typeGroup": "Type",
+    "remove": "Remove property",
+    "removeItem": "Remove {{item}}",
+    "addItem": "Add…",
+    "addItemTo": "Add to {{name}}",
+    "type": {
+      "text": "text",
+      "number": "number",
+      "date": "date",
+      "checkbox": "checkbox",
+      "list": "list",
+      "link": "link"
+    },
+    "placeholder": {
+      "text": "Empty",
+      "number": "0",
+      "date": "YYYY-MM-DD",
+      "link": "[[Note]]"
+    }
+  },
+  "tags": {
+    "title": "Tags",
+    "empty": "No tags yet.",
+    "emptyHint": "Write #tag in a note (or #home when creating a task). To nest, use a slash: #workout/legs.",
+    "collapse": "Collapse {{tag}}",
+    "expand": "Expand {{tag}}",
+    "tasks": "Open tasks",
+    "noNotes": "No notes with this tag.",
+    "noTasks": "No open tasks with this tag."
+  },
   "wikilinks": {
     "noAccess": "(no access)",
     "newLink": "Link to \"{{title}}\" (doesn't exist yet)",
@@ -3546,7 +3585,8 @@
       "off": "The game is off",
       "offHint": "Turn it on in Settings → Features to get a character, bosses and a shop.",
       "places": "Places"
-    }
+    },
+    "tagsHint": "From notes and tasks, nested"
   },
   "settings": {
     "title": "Settings",

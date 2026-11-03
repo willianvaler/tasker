@@ -2472,6 +2472,45 @@
     "divider": "Divisor",
     "dividerKeys": "divisoria,divider,hr,separador,linea"
   },
+  "noteProps": {
+    "title": "Propiedades",
+    "edit": "Propiedad {{name}}: cambiar el tipo o quitar",
+    "tags": "etiquetas",
+    "aliases": "alias",
+    "add": "Propiedad",
+    "addHint": "Un nombre corto (ej.: autor, nota, leído). \"tags\" guarda etiquetas y \"aliases\", otros nombres de la nota.",
+    "namePlaceholder": "Nombre de la propiedad",
+    "changeTo": "Cambiar a {{type}}",
+    "typeGroup": "Tipo",
+    "remove": "Quitar propiedad",
+    "removeItem": "Quitar {{item}}",
+    "addItem": "Agregar…",
+    "addItemTo": "Agregar en {{name}}",
+    "type": {
+      "text": "texto",
+      "number": "número",
+      "date": "fecha",
+      "checkbox": "casilla",
+      "list": "lista",
+      "link": "enlace"
+    },
+    "placeholder": {
+      "text": "Vacío",
+      "number": "0",
+      "date": "AAAA-MM-DD",
+      "link": "[[Nota]]"
+    }
+  },
+  "tags": {
+    "title": "Etiquetas",
+    "empty": "Todavía no hay etiquetas.",
+    "emptyHint": "Escribe #etiqueta en una nota (o #casa al crear una tarea). Para anidar, usa la barra: #entreno/pierna.",
+    "collapse": "Contraer {{tag}}",
+    "expand": "Abrir {{tag}}",
+    "tasks": "Tareas abiertas",
+    "noNotes": "Ninguna nota con esta etiqueta.",
+    "noTasks": "Ninguna tarea abierta con esta etiqueta."
+  },
   "wikilinks": {
     "noAccess": "(sin acceso)",
     "newLink": "Enlace a \"{{title}}\" (aún no existe)",
@@ -3546,7 +3585,8 @@
       "off": "El juego está apagado",
       "offHint": "Actívalo en Ajustes → Funciones para tener personaje, jefes y tienda.",
       "places": "Lugares"
-    }
+    },
+    "tagsHint": "De las notas y las tareas, anidadas"
   },
   "settings": {
     "title": "Ajustes",

@@ -47,6 +47,12 @@ Escribe **/** al comienzo de una línea para abrir los **comandos**: título, su
 
 El **Índice** lista los títulos de la nota: en la computadora queda al lado del texto; en el celular, en el botón de índice de la barra. Toca un título para ir hasta él. Debajo del editor aparecen las **palabras** y los caracteres.
 
+### Propiedades y etiquetas
+
+Al editar, **Propiedad** (debajo del título) agrega un campo a la nota: autor, nota, leído, plazo… Cada uno tiene un tipo: texto, número, fecha, casilla, lista o enlace (`[[Nota]]`). Toca el nombre para cambiar el tipo o quitarlo. Dos tienen un sentido propio: **tags** (etiquetas) y **aliases** (otros nombres de la nota, que el `[[` y las menciones sin enlace también reconocen).
+
+Para etiquetar, escribe `#etiqueta` en el texto o ponla en la propiedad tags. Usa la barra para anidar: `#entreno/pierna` queda dentro de `#entreno`. Tocar una etiqueta abre la pantalla **Etiquetas** (también en Más y en Ctrl+K), que junta las de las notas y las de las tareas; la etiqueta madre muestra también lo que está en las hijas.
+
 ### Enlaces entre notas, tareas y listas
 
 Escribe `[[` (o toca el botón de enlace de la barra) y empieza a escribir: aparecen tus notas (las más recientes primero), tareas, listas y proyectos. Elige uno y el enlace entra en el texto. En la vista previa aparece solo con el nombre, y tocarlo abre el elemento. Cambiar el nombre del elemento no rompe el enlace. También puedes ir a un título de la nota con `[[Nota#Título]]`.

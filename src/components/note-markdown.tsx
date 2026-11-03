@@ -11,6 +11,7 @@ import {
   Quote,
   type LucideIcon,
 } from 'lucide-react-native';
+import { router } from 'expo-router';
 import { useMemo, useRef, useState, type ReactNode } from 'react';
 import { Pressable, View, type TextStyle } from 'react-native';
 import { Renderer, useMarkdown } from 'react-native-marked';
@@ -25,6 +26,7 @@ import {
   FOOTNOTE_SCHEME,
   MARK_SCHEME,
   noteOutline,
+  TAG_SCHEME,
   prepareMarkdown,
   splitCallouts,
   type CalloutType,
@@ -67,6 +69,19 @@ class NoteRenderer extends Renderer {
           {children}
         </Text>
       );
+    if (href.startsWith(TAG_SCHEME)) {
+      const tag = decodeURIComponent(href.slice(TAG_SCHEME.length));
+      return (
+        <Text
+          key={this.getKey()}
+          accessibilityRole="link"
+          onPress={() => router.push({ pathname: '/etiquetas', params: { tag } })}
+          style={[styles, { textDecorationLine: 'none' }]}
+        >
+          {children}
+        </Text>
+      );
+    }
     if (href.startsWith(FOOTNOTE_SCHEME))
       return (
         <Text

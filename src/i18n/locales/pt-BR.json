@@ -2472,6 +2472,45 @@
     "divider": "Divisória",
     "dividerKeys": "divisoria,linha,divider,hr,separador"
   },
+  "noteProps": {
+    "title": "Propriedades",
+    "edit": "Propriedade {{name}}: mudar o tipo ou remover",
+    "tags": "etiquetas",
+    "aliases": "apelidos",
+    "add": "Propriedade",
+    "addHint": "Um nome curto (ex.: autor, nota, lido). \"tags\" guarda etiquetas e \"aliases\", outros nomes da anotação.",
+    "namePlaceholder": "Nome da propriedade",
+    "changeTo": "Mudar para {{type}}",
+    "typeGroup": "Tipo",
+    "remove": "Remover propriedade",
+    "removeItem": "Tirar {{item}}",
+    "addItem": "Adicionar…",
+    "addItemTo": "Adicionar em {{name}}",
+    "type": {
+      "text": "texto",
+      "number": "número",
+      "date": "data",
+      "checkbox": "caixinha",
+      "list": "lista",
+      "link": "link"
+    },
+    "placeholder": {
+      "text": "Vazio",
+      "number": "0",
+      "date": "AAAA-MM-DD",
+      "link": "[[Anotação]]"
+    }
+  },
+  "tags": {
+    "title": "Etiquetas",
+    "empty": "Nenhuma etiqueta ainda.",
+    "emptyHint": "Escreva #etiqueta numa anotação (ou #casa ao criar uma tarefa). Para aninhar, use a barra: #treino/perna.",
+    "collapse": "Recolher {{tag}}",
+    "expand": "Abrir {{tag}}",
+    "tasks": "Tarefas abertas",
+    "noNotes": "Nenhuma anotação com esta etiqueta.",
+    "noTasks": "Nenhuma tarefa aberta com esta etiqueta."
+  },
   "wikilinks": {
     "noAccess": "(sem acesso)",
     "newLink": "Link para \"{{title}}\" (ainda não existe)",
@@ -3546,7 +3585,8 @@
       "off": "O jogo está desligado",
       "offHint": "Ligue em Configurações → Recursos para ter personagem, bosses e loja.",
       "places": "Lugares"
-    }
+    },
+    "tagsHint": "Das anotações e das tarefas, aninhadas"
   },
   "settings": {
     "title": "Configurações",

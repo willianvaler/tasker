@@ -47,6 +47,12 @@ Escreva **/** no começo de uma linha para abrir os **comandos**: título, subt�
 
 O **Sumário** lista os títulos da anotação: no computador fica ao lado do texto; no celular, no botão de sumário da barra. Tocar num título rola até ele. Embaixo do editor aparecem as **palavras** e os caracteres.
 
+### Propriedades e etiquetas
+
+Escrevendo, **Propriedade** (embaixo do título) acrescenta um campo à anotação: autor, nota, lido, prazo… Cada um tem um tipo: texto, número, data, caixinha, lista ou link (`[[Anotação]]`). Toque no nome para mudar o tipo ou remover. Duas têm sentido próprio: **tags** (etiquetas) e **aliases** (outros nomes da anotação, que o `[[` e as menções sem link também reconhecem).
+
+Para etiquetar, escreva `#etiqueta` no texto ou ponha na propriedade tags. Use a barra para aninhar: `#treino/perna` fica dentro de `#treino`. Tocar numa etiqueta abre a tela **Etiquetas** (também em Mais e no Ctrl+K), que junta as das anotações e as das tarefas; a etiqueta mãe mostra também o que está nas filhas.
+
 ### Links entre anotações, tarefas e listas
 
 Escreva `[[` (ou toque no botão de link da barra) e comece a digitar: aparecem as suas anotações (as mais recentes primeiro), tarefas, listas e projetos. Escolha um e o link entra no texto. Ao visualizar, ele aparece só com o nome, e tocar abre o item. Renomear o item não quebra o link. Também dá para ir a um título da anotação com `[[Anotação#Título]]`.

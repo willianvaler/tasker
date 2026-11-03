@@ -1033,14 +1033,14 @@ isOneToOne: false
                   ]
                 },"notes": {
                   Row: {
-                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"pinned": boolean,"title": string,"updated_at": string,"user_id": string
+                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"pinned": boolean,"props": NonNullable<Json>,"tags": (string)[],"title": string,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Update: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -2443,6 +2443,9 @@ isOneToOne: false
 "_clan_log":
 { Args: { "p_action": string,"p_clan_id": string,"p_payload": Json,"p_user": string }; Returns: undefined
                            },
+"_clean_tag":
+{ Args: { "p_tag": string }; Returns: string
+                           },
 "_copy_page_for_me":
 { Args: { "p_folder_name": string,"p_page_id": string }; Returns: string
                            },
@@ -3275,6 +3278,9 @@ isOneToOne: false
                            },
 "normalize_labels":
 { Args: { "p_labels": (string)[] }; Returns: (string)[]
+                           },
+"note_tags":
+{ Args: { "p_body": string,"p_props": Json }; Returns: (string)[]
                            },
 "open_armoire":
 { Args: Record<PropertyKey, never>; Returns: Json

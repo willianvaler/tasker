@@ -47,6 +47,12 @@ Type **/** at the start of a line to open the **commands**: heading, subheading,
 
 The **Outline** lists the note's headings: on a computer it sits next to the text; on a phone, behind the outline button in the bar. Tap a heading to scroll to it. Below the editor you see the **word** and character count.
 
+### Properties and tags
+
+While editing, **Property** (below the title) adds a field to the note: author, rating, read, deadline… Each has a type: text, number, date, checkbox, list or link (`[[Note]]`). Tap the name to change the type or remove it. Two have a special meaning: **tags** and **aliases** (other names for the note, which `[[` and unlinked mentions also recognize).
+
+To tag, write `#tag` in the text or put it in the tags property. Use a slash to nest: `#workout/legs` sits inside `#workout`. Tapping a tag opens the **Tags** screen (also in More and Ctrl+K), which gathers the tags of notes and tasks; a parent tag also shows what is in its children.
+
 ### Links between notes, tasks and lists
 
 Type `[[` (or tap the link button on the bar) and start typing: your notes (most recent first), tasks, lists and projects show up. Pick one and the link goes into the text. In the preview it shows only the name, and tapping it opens the item. Renaming the item doesn't break the link. You can also jump to a heading of a note with `[[Note#Heading]]`.

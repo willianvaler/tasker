@@ -11,6 +11,7 @@ import {
   ClipboardList,
   Dumbbell,
   Folder,
+  Hash,
   Globe,
   HeartPulse,
   House,
@@ -310,6 +311,13 @@ function Palette({
       icon: icon(CalendarDays),
       group: 0,
       run: go('/calendario'),
+    },
+    {
+      id: 'go-tags',
+      label: t('tags.title'),
+      icon: icon(Hash),
+      group: 0,
+      run: go('/etiquetas'),
     },
     {
       id: 'go-mine',

@@ -300,6 +300,10 @@ const notes = new Table(
     pinned: column.integer,
     // Anotação dentro de pasta ou projeto (20/10); vazio = só minha
     folder_id: column.text,
+    // Propriedades (OB4, D289): objeto JSON; etiquetas: lista JSON calculada pelo servidor (e pelo
+    // app ao gravar sem internet, com o espelho noteTags)
+    props: column.text,
+    tags: column.text,
     created_at: column.text,
     updated_at: column.text,
   },

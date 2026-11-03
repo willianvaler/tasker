@@ -77,6 +77,12 @@ describe('prepareMarkdown', () => {
     ]);
   });
 
+  it('#etiqueta vira link; título, número e código não', () => {
+    expect(prepareMarkdown('## Casa\n#Treino/Perna e #2026 `#x` a#b').text).toBe(
+      '## Casa\n[#Treino/Perna](questlisttag:treino%2Fperna) e #2026 `#x` a#b',
+    );
+  });
+
   it('chamada sem definição fica como está', () => {
     expect(prepareMarkdown('x[^9]').text).toBe('x[^9]');
     expect(superscript(12)).toBe('¹²');

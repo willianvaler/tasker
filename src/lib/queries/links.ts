@@ -4,6 +4,7 @@ import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { isLocal } from '../sync/local';
 import type { LinkKind } from '../wikilinks';
+import { noteAliases } from '../note-props';
 import { noteTitle, useNotes } from './notes';
 import { useTree } from './tree';
 
@@ -199,10 +200,17 @@ export function useLinkCandidates(text: string | null, exclude?: string) {
   });
   if (text == null) return [];
   const key = term.toLocaleLowerCase();
+  // O título ou um dos apelidos (OB4); achada pelo apelido, ele aparece ao lado
   const noteHits: LinkCandidate[] = (notes.data ?? [])
     .filter((n) => n.id !== exclude)
-    .map((n) => ({ kind: 'note' as const, id: n.id, title: noteTitle(n, ''), context: null }))
-    .filter((n) => n.title && (!key || n.title.toLocaleLowerCase().includes(key)))
+    .flatMap((n): LinkCandidate[] => {
+      const title = noteTitle(n, '');
+      if (!title) return [];
+      if (!key || title.toLocaleLowerCase().includes(key))
+        return [{ kind: 'note' as const, id: n.id, title, context: null }];
+      const alias = noteAliases(n.props).find((a) => a.toLocaleLowerCase().includes(key));
+      return alias ? [{ kind: 'note' as const, id: n.id, title, context: alias }] : [];
+    })
     .slice(0, NOTE_LIMIT);
   return [...noteHits, ...(term.length >= 2 ? (others.data ?? []) : [])].slice(0, 14);
 }

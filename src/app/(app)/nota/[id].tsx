@@ -28,6 +28,7 @@ import {
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
+import { NoteProperties } from '@/components/note-properties';
 import {
   BacklinkChips,
   Backlinks,
@@ -44,6 +45,7 @@ import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { applyFormat, type Format, type Selection } from '@/lib/markdown-edit';
 import { noteOutline, outlineIndex, wordCount } from '@/lib/note-blocks';
+import { noteAliases, type NoteProps } from '@/lib/note-props';
 import { useLinkTitles } from '@/lib/queries/links';
 import { NOTE_MAX, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
 import { useColors } from '@/lib/tokens';
@@ -100,16 +102,23 @@ function Editor({ note, section }: { note: Note; section?: string }) {
   const [outlineMenu, setOutlineMenu, closeOutlineMenu] = useDialog<true>();
   // Sumário ao lado do texto no computador (OB3); no celular, num menu
   const wideOutline = useWindowDimensions().width >= 1024;
-  const saved = useRef({ title: note.title, body: note.body });
+  // Propriedades (OB4): salvas junto com o texto
+  const [props, setProps] = useState<NoteProps>(note.props ?? {});
+  const saved = useRef({ title: note.title, body: note.body, props: note.props ?? {} });
   // O texto mais novo num ref: o "salvar ao sair" roda depois que a tela já saiu
-  const latest = useRef({ title: note.title, body: note.body });
+  const latest = useRef({ title: note.title, body: note.body, props: note.props ?? {} });
   useEffect(() => {
-    latest.current = { title, body };
-  }, [title, body]);
+    latest.current = { title, body, props };
+  }, [title, body, props]);
   const { mutate } = m.update;
   const save = useCallback(() => {
     const now = latest.current;
-    if (now.title === saved.current.title && now.body === saved.current.body) return;
+    if (
+      now.title === saved.current.title &&
+      now.body === saved.current.body &&
+      JSON.stringify(now.props) === JSON.stringify(saved.current.props)
+    )
+      return;
     saved.current = now;
     mutate({ id: note.id, ...now });
   }, [mutate, note.id]);
@@ -118,7 +127,7 @@ function Editor({ note, section }: { note: Note; section?: string }) {
   useEffect(() => {
     const timer = setTimeout(save, 800);
     return () => clearTimeout(timer);
-  }, [title, body, save]);
+  }, [title, body, props, save]);
   useEffect(() => () => save(), [save]);
 
   // Links [[...]] (OB1, D286): autocomplete no editor; formatada, abrem por dentro do app
@@ -145,7 +154,9 @@ function Editor({ note, section }: { note: Note; section?: string }) {
     inputRef: input,
   });
   const resolve = useLinkTitles(
-    parseLinks(body).flatMap((l) => (l.kind && l.id ? [{ kind: l.kind, id: l.id }] : [])),
+    parseLinks(`${body}\n${Object.values(props).join('\n')}`).flatMap((l) =>
+      l.kind && l.id ? [{ kind: l.kind, id: l.id }] : [],
+    ),
   );
   const openLink = useOpenLink({ folderId: note.folder_id, body, setBody });
   // Onde cada título ficou na visualização; a âncora do link (ou o toque no sumário) rola até ele
@@ -275,6 +286,13 @@ function Editor({ note, section }: { note: Note; section?: string }) {
           />
         </View>
         {/* Escrevendo, o "Citado em" fica numa linha curta (a anotação nova de um link já mostra de onde veio) */}
+        <NoteProperties
+          props={props}
+          onChange={setProps}
+          editable={editing}
+          resolve={resolve}
+          onLink={openLink}
+        />
         {editing && !autocomplete.open && !slash.open && (
           <View className="pt-2">
             <BacklinkChips kind="note" id={note.id} />
@@ -328,7 +346,7 @@ function Editor({ note, section }: { note: Note; section?: string }) {
                 {/* OB2: quem cita esta, o que ela cita e onde o título aparece sem link */}
                 <Backlinks kind="note" id={note.id} />
                 <OutgoingLinks body={body} resolve={resolve} onOpen={openLink} />
-                <UnlinkedMentions note={note} title={title} />
+                <UnlinkedMentions note={note} title={title} aliases={noteAliases(props)} />
               </ScreenScroll>
             )}
           </View>
@@ -390,7 +408,7 @@ function Editor({ note, section }: { note: Note; section?: string }) {
           onClose={closeConfirm}
           onConfirm={() => {
             closeConfirm();
-            saved.current = { title, body };
+            saved.current = { title, body, props };
             m.remove.mutate(note.id);
             router.back();
           }}
