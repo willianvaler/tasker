@@ -1031,6 +1031,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"note_versions": {
+                  Row: {
+                    "body": string,"created_at": string,"id": string,"note_id": string,"props": NonNullable<Json>,"size": number,"title": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "body"?: string,"created_at"?: string,"id"?: string,"note_id": string,"props"?: NonNullable<Json>,"size": number,"title"?: string,"user_id": string
+                  }
+                  Update: {
+                    "body"?: string,"created_at"?: string,"id"?: string,"note_id"?: string,"props"?: NonNullable<Json>,"size"?: number,"title"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "note_versions_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "notes"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "note_versions_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"notes": {
                   Row: {
                     "body": string,"created_at": string,"folder_id": string | null,"id": string,"is_template": boolean,"pinned": boolean,"props": NonNullable<Json>,"tags": (string)[],"title": string,"updated_at": string,"user_id": string
@@ -2612,6 +2638,9 @@ isOneToOne: false
 "_run_automations":
 { Args: { "p_task_id": string,"p_trigger": string }; Returns: undefined
                            },
+"_save_note_version":
+{ Args: { "p_body": string,"p_note": string,"p_props": Json,"p_title": string,"p_user": string }; Returns: boolean
+                           },
 "_seed_session_progress":
 { Args: { "p_session_id": string }; Returns: undefined
                            },
@@ -2632,6 +2661,9 @@ isOneToOne: false
                            },
 "_snapshot_task":
 { Args: { "p_level"?: number,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
+                           },
+"_storage_used":
+{ Args: { "p_skip_attachment"?: string,"p_user": string }; Returns: number
                            },
 "_suggest_username":
 { Args: { "p_name": string,"p_self"?: string }; Returns: string
@@ -3282,6 +3314,9 @@ isOneToOne: false
 "note_tags":
 { Args: { "p_body": string,"p_props": Json }; Returns: (string)[]
                            },
+"note_versions_usage":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "open_armoire":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
@@ -3339,6 +3374,9 @@ isOneToOne: false
 "project_flow_stats":
 { Args: { "p_root": string }; Returns: Json
                            },
+"purge_note_versions":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "purge_trash":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
@@ -3391,6 +3429,9 @@ isOneToOne: false
                            },
 "restore_deleted":
 { Args: { "p_id": string }; Returns: number
+                           },
+"restore_note_version":
+{ Args: { "p_version": string }; Returns: Json
                            },
 "revive":
 { Args: { "p_buy": boolean }; Returns: Json

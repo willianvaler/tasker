@@ -27,6 +27,7 @@ import {
 } from 'react-native';
 
 import { DailyJournal } from '@/components/daily-note';
+import { NoteHistory } from '@/components/note-history';
 import { LocalGraph } from '@/components/graph/local-graph';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -106,6 +107,7 @@ function Editor({ note, section }: { note: Note; section?: string }) {
   const [confirm, setConfirm, closeConfirm] = useDialog<true>();
   const [outlineMenu, setOutlineMenu, closeOutlineMenu] = useDialog<true>();
   const [moreMenu, setMoreMenu, closeMoreMenu] = useDialog<true>();
+  const [history, setHistory, closeHistory] = useDialog<true>();
   // Modelos (OB5, D290): esta anotação é modelo? É a da nota do dia?
   const dailyTemplate = useUiPrefs().notes?.dailyTemplate;
   const updatePrefs = useUpdateUiPrefs();
@@ -440,6 +442,14 @@ function Editor({ note, section }: { note: Note; section?: string }) {
           onClose={closeMoreMenu}
           actions={[
             {
+              label: t('noteHistory.open'),
+              onPress: () => {
+                closeMoreMenu();
+                save();
+                setHistory(true);
+              },
+            },
+            {
               label: t(isTemplate ? 'templatesNotes.unmark' : 'templatesNotes.mark'),
               onPress: () => {
                 closeMoreMenu();
@@ -467,6 +477,22 @@ function Editor({ note, section }: { note: Note; section?: string }) {
                 ]
               : []),
           ]}
+        />
+      )}
+      {history && (
+        <NoteHistory
+          noteId={note.id}
+          current={{ title, body }}
+          canEdit
+          onClose={closeHistory}
+          onRestored={(restored) => {
+            // O servidor já tem o texto restaurado: o editor só troca o que mostra
+            saved.current = restored;
+            latest.current = restored;
+            setTitle(restored.title);
+            setBody(restored.body);
+            setProps(restored.props);
+          }}
         />
       )}
       {confirm && (

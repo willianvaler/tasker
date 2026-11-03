@@ -1425,7 +1425,8 @@
     "kindAssignee": "Responsável",
     "kindComment": "Comentário",
     "link": "Lixeira",
-    "kindExpense": "Gasto"
+    "kindExpense": "Gasto",
+    "kindNote": "Anotação"
   },
   "team": {
     "title": "Times",
@@ -4192,5 +4193,31 @@
     "imported_one": "{{count}} cartão importado",
     "imported_other": "{{count}} cartões importados",
     "importError": "Esse arquivo não é um .canvas válido."
+  },
+  "noteHistory": {
+    "open": "Histórico de versões",
+    "title": "Histórico de versões",
+    "list": "Versões guardadas",
+    "offline": "Ver e restaurar versões precisa de internet.",
+    "empty": "Ainda não há versões. Uma versão é guardada a cada sessão de edição, no máximo uma a cada 10 minutos.",
+    "hint": "As versões ficam 1 ano e contam no seu espaço de anexos. Restaurar guarda o texto de agora como versão.",
+    "legend": "Voltando a esta versão: − {{removed}} linhas que só ela tem voltam, + {{added}} linhas de agora saem.",
+    "same": "Igual ao texto de agora.",
+    "titleWas": "Título nesta versão: {{title}}",
+    "unchanged_one": "… {{count}} linha igual",
+    "unchanged_other": "… {{count}} linhas iguais",
+    "onlyVersion": "Só nesta versão",
+    "onlyNow": "Só no texto de agora",
+    "restore": "Restaurar esta versão",
+    "delete": "Apagar esta versão",
+    "confirmRestore": "Voltar a anotação para a versão de {{date}}? O texto de agora fica guardado no histórico.",
+    "confirmDelete": "Apagar a versão de {{date}}? Isso libera espaço e não tem volta.",
+    "restored": "Anotação de volta à versão de {{date}}.",
+    "error": "Não deu certo: {{message}}",
+    "usage": "Versões das anotações: {{used}} (já contadas no total).",
+    "deleteAll": "Apagar todas as versões",
+    "deleteAllTitle": "Apagar todas as versões das anotações?",
+    "deleteAllMessage": "As anotações continuam como estão; só o histórico some. Não tem volta.",
+    "deletedAll": "Versões apagadas."
   }
 }

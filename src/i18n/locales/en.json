@@ -1425,7 +1425,8 @@
     "kindAssignee": "Assignee",
     "kindComment": "Comment",
     "link": "Trash",
-    "kindExpense": "Expense"
+    "kindExpense": "Expense",
+    "kindNote": "Note"
   },
   "team": {
     "title": "Teams",
@@ -4192,5 +4193,31 @@
     "imported_one": "{{count}} card imported",
     "imported_other": "{{count}} cards imported",
     "importError": "This file isn't a valid .canvas."
+  },
+  "noteHistory": {
+    "open": "Version history",
+    "title": "Version history",
+    "list": "Saved versions",
+    "offline": "Viewing and restoring versions needs an internet connection.",
+    "empty": "No versions yet. A version is saved for each editing session, at most one every 10 minutes.",
+    "hint": "Versions are kept for 1 year and count toward your attachment space. Restoring saves the current text as a version.",
+    "legend": "Going back to this version: − {{removed}} lines only it has come back, + {{added}} current lines go away.",
+    "same": "Same as the current text.",
+    "titleWas": "Title in this version: {{title}}",
+    "unchanged_one": "… {{count}} unchanged line",
+    "unchanged_other": "… {{count}} unchanged lines",
+    "onlyVersion": "Only in this version",
+    "onlyNow": "Only in the current text",
+    "restore": "Restore this version",
+    "delete": "Delete this version",
+    "confirmRestore": "Restore the note to the version from {{date}}? The current text is kept in the history.",
+    "confirmDelete": "Delete the version from {{date}}? This frees space and can't be undone.",
+    "restored": "Note restored to the version from {{date}}.",
+    "error": "That didn't work: {{message}}",
+    "usage": "Note versions: {{used}} (already included in the total).",
+    "deleteAll": "Delete all versions",
+    "deleteAllTitle": "Delete all note versions?",
+    "deleteAllMessage": "Your notes stay as they are; only the history goes away. This can't be undone.",
+    "deletedAll": "Versions deleted."
   }
 }

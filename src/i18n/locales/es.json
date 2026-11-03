@@ -1425,7 +1425,8 @@
     "kindAssignee": "Responsable",
     "kindComment": "Comentario",
     "link": "Papelera",
-    "kindExpense": "Gasto"
+    "kindExpense": "Gasto",
+    "kindNote": "Nota"
   },
   "team": {
     "title": "Equipos",
@@ -4192,5 +4193,31 @@
     "imported_one": "{{count}} tarjeta importada",
     "imported_other": "{{count}} tarjetas importadas",
     "importError": "Este archivo no es un .canvas válido."
+  },
+  "noteHistory": {
+    "open": "Historial de versiones",
+    "title": "Historial de versiones",
+    "list": "Versiones guardadas",
+    "offline": "Ver y restaurar versiones necesita internet.",
+    "empty": "Aún no hay versiones. Se guarda una versión por cada sesión de edición, como máximo una cada 10 minutos.",
+    "hint": "Las versiones se guardan 1 año y cuentan en tu espacio de adjuntos. Restaurar guarda el texto actual como versión.",
+    "legend": "Volviendo a esta versión: − {{removed}} líneas que solo ella tiene vuelven, + {{added}} líneas actuales salen.",
+    "same": "Igual al texto actual.",
+    "titleWas": "Título en esta versión: {{title}}",
+    "unchanged_one": "… {{count}} línea igual",
+    "unchanged_other": "… {{count}} líneas iguales",
+    "onlyVersion": "Solo en esta versión",
+    "onlyNow": "Solo en el texto actual",
+    "restore": "Restaurar esta versión",
+    "delete": "Borrar esta versión",
+    "confirmRestore": "¿Volver la nota a la versión del {{date}}? El texto actual queda guardado en el historial.",
+    "confirmDelete": "¿Borrar la versión del {{date}}? Libera espacio y no se puede deshacer.",
+    "restored": "Nota de vuelta a la versión del {{date}}.",
+    "error": "No funcionó: {{message}}",
+    "usage": "Versiones de las notas: {{used}} (ya contadas en el total).",
+    "deleteAll": "Borrar todas las versiones",
+    "deleteAllTitle": "¿Borrar todas las versiones de las notas?",
+    "deleteAllMessage": "Tus notas quedan como están; solo se va el historial. No se puede deshacer.",
+    "deletedAll": "Versiones borradas."
   }
 }

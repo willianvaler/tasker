@@ -19,6 +19,7 @@ const KINDS = {
   task_assignees: 'trash.kindAssignee',
   comments: 'trash.kindComment',
   expenses: 'trash.kindExpense',
+  notes: 'trash.kindNote',
 } as const;
 
 // Fica no servidor (não no banco do aparelho): o que foi apagado já saiu do sync
@@ -48,6 +49,7 @@ export default function TrashScreen() {
       queryClient.invalidateQueries({ queryKey: ['trash'] });
       queryClient.invalidateQueries({ queryKey: keys.tree });
       queryClient.invalidateQueries({ queryKey: keys.tasks });
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
   });
 

@@ -6,13 +6,14 @@ import { Pressable, View } from 'react-native';
 
 import { DataRequests } from '@/components/data-requests';
 import { Button } from '@/components/ui/button';
-import { PromptDialog, useDialog } from '@/components/ui/dialog';
+import { ConfirmDialog, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { saveTextFile } from '@/lib/download';
 import { tasksToCsv } from '@/lib/export';
 import { clearPrefs } from '@/lib/prefs';
 import { formatBytes, MAX_ACCOUNT_BYTES } from '@/lib/attachments';
 import { useAttachmentUsage } from '@/lib/queries/attachments';
+import { useDeleteAllNoteVersions, useNoteVersionsUsage } from '@/lib/queries/note-versions';
 import { deleteMyAccount, exportMyData } from '@/lib/queries/clan';
 import { signOut as endSession } from '@/lib/session';
 import { useIsOnline } from '@/providers/online';
@@ -27,6 +28,10 @@ export function PrivacySection() {
   const usage = useAttachmentUsage();
   const [busy, setBusy] = useState<'json' | 'csv' | 'delete' | null>(null);
   const [confirm, setConfirm, close] = useDialog<true>();
+  // Versões das anotações contam no espaço (OB11, V11-5): mostra a parte delas e deixa apagar
+  const versionsUsage = useNoteVersionsUsage();
+  const deleteVersions = useDeleteAllNoteVersions();
+  const [confirmVersions, setConfirmVersions, closeVersions] = useDialog<true>();
 
   async function download(format: 'json' | 'csv') {
     setBusy(format);
@@ -75,6 +80,36 @@ export function PrivacySection() {
             total: formatBytes(MAX_ACCOUNT_BYTES, i18n.language),
           })}
         </Text>
+      )}
+      {!!versionsUsage.data && (
+        <View className="flex-row flex-wrap items-center gap-2">
+          <Text className="text-sm text-ink-muted">
+            {t('noteHistory.usage', { used: formatBytes(versionsUsage.data, i18n.language) })}
+          </Text>
+          <Button
+            variant="ghost"
+            destructive
+            label={t('noteHistory.deleteAll')}
+            disabled={!online || deleteVersions.isPending}
+            onPress={() => setConfirmVersions(true)}
+          />
+        </View>
+      )}
+      {confirmVersions && (
+        <ConfirmDialog
+          title={t('noteHistory.deleteAllTitle')}
+          message={t('noteHistory.deleteAllMessage')}
+          confirmLabel={t('noteHistory.deleteAll')}
+          destructive
+          onClose={closeVersions}
+          onConfirm={() => {
+            closeVersions();
+            deleteVersions.mutate(undefined, {
+              onSuccess: () => toast({ message: t('noteHistory.deletedAll') }),
+              onError: (err) => toast({ message: t('noteHistory.error', { message: err.message }) }),
+            });
+          }}
+        />
       )}
       <Text className="text-sm text-ink-muted">{t('privacy.exportHint')}</Text>
       <View className="flex-row flex-wrap gap-2">

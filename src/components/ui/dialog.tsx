@@ -16,7 +16,8 @@ function Backdrop({
   children,
 }: {
   onClose: () => void;
-  wide?: boolean;
+  /** `xl`: conteúdo largo (o histórico de versões, com a diferença ao lado da lista) */
+  wide?: boolean | 'xl';
   children: ReactNode;
 }) {
   const { t } = useTranslation();
@@ -34,7 +35,7 @@ function Backdrop({
         <View
           className={cn(
             'max-h-[90%] w-full gap-4 rounded-lg border border-line bg-surface p-4',
-            wide ? 'max-w-lg' : 'max-w-sm',
+            wide === 'xl' ? 'max-w-4xl' : wide ? 'max-w-lg' : 'max-w-sm',
           )}
         >
           {children}

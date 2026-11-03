@@ -2,7 +2,7 @@
 // texto de forma que importe para quem usa? Suba LEGAL_VERSION aqui **e** public.legal_version()
 // numa migração nova (o teste legal.test.ts compara); quem já usa aceita de novo ao abrir o app.
 
-export const LEGAL_VERSION = '2026-10-26';
+export const LEGAL_VERSION = '2026-11-03';
 
 /** Idade mínima para criar conta (LGPD art. 14: abaixo disso, só com os responsáveis). */
 export const MIN_AGE = 13;
@@ -76,7 +76,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Por quanto tempo',
-        body: 'Enquanto a conta existir. Itens apagados ficam 30 dias na lixeira e depois somem. Ao excluir a conta, os dados pessoais saem do banco na hora e das cópias de segurança (diárias, guardadas por 14 dias) em até 30 dias. Os registros técnicos do servidor (erros e acessos recusados, sem o conteúdo das suas tarefas) são apagados pela rotação do próprio sistema. O registro do aceite dos termos fica enquanto a conta existir.',
+        body: 'Enquanto a conta existir. Itens apagados ficam 30 dias na lixeira e depois somem. As versões antigas das anotações (o histórico, para voltar a uma versão anterior) ficam 1 ano e contam no seu espaço de anexos. Ao excluir a conta, os dados pessoais saem do banco na hora e das cópias de segurança (diárias, guardadas por 14 dias) em até 30 dias. Os registros técnicos do servidor (erros e acessos recusados, sem o conteúdo das suas tarefas) são apagados pela rotação do próprio sistema. O registro do aceite dos termos fica enquanto a conta existir.',
       },
       {
         title: 'Seus direitos',
@@ -163,7 +163,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'How long',
-        body: "For as long as the account exists. Deleted items stay 30 days in the trash and then disappear. When you delete the account, personal data leaves the database immediately and the backups (daily, kept for 14 days) within 30 days. The server's technical logs (errors and refused requests, without the content of your tasks) are removed by the system's own rotation. The record of your acceptance of the terms is kept while the account exists.",
+        body: "For as long as the account exists. Deleted items stay 30 days in the trash and then disappear. Older versions of your notes (the history, to go back to an earlier version) are kept for 1 year and count toward your attachment space. When you delete the account, personal data leaves the database immediately and the backups (daily, kept for 14 days) within 30 days. The server's technical logs (errors and refused requests, without the content of your tasks) are removed by the system's own rotation. The record of your acceptance of the terms is kept while the account exists.",
       },
       {
         title: 'Your rights',
@@ -250,7 +250,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Por cuánto tiempo',
-        body: 'Mientras exista la cuenta. Lo eliminado queda 30 días en la papelera y luego desaparece. Al eliminar la cuenta, los datos personales salen de la base de datos al momento y de las copias de seguridad (diarias, guardadas 14 días) en hasta 30 días. Los registros técnicos del servidor (errores y accesos rechazados, sin el contenido de tus tareas) se borran con la rotación del propio sistema. El registro de la aceptación de los términos se guarda mientras exista la cuenta.',
+        body: 'Mientras exista la cuenta. Lo eliminado queda 30 días en la papelera y luego desaparece. Las versiones antiguas de las notas (el historial, para volver a una versión anterior) se guardan 1 año y cuentan en tu espacio de adjuntos. Al eliminar la cuenta, los datos personales salen de la base de datos al momento y de las copias de seguridad (diarias, guardadas 14 días) en hasta 30 días. Los registros técnicos del servidor (errores y accesos rechazados, sin el contenido de tus tareas) se borran con la rotación del propio sistema. El registro de la aceptación de los términos se guarda mientras exista la cuenta.',
       },
       {
         title: 'Tus derechos',
