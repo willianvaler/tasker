@@ -453,7 +453,9 @@
     "expenses": "Gastos",
     "expensesHint": "Planilha de gastos e entradas, com orçamento, foto da nota e exportação em CSV e XLSX.",
     "base": "Base",
-    "baseHint": "Tabela ou cartões de tarefas ou anotações filtradas por uma consulta, com edição na célula."
+    "baseHint": "Tabela ou cartões de tarefas ou anotações filtradas por uma consulta, com edição na célula.",
+    "canvas": "Canvas",
+    "canvasHint": "Quadro branco infinito com cartões de anotações, tarefas e listas, setas e grupos."
   },
   "profile": {
     "title": "Perfil",
@@ -4159,5 +4161,36 @@
     "nodes_other": "{{count}} pontos",
     "links_one": "{{count}} ligação",
     "links_other": "{{count}} ligações"
+  },
+  "canvas": {
+    "title": "Canvas",
+    "addText": "Texto",
+    "addCard": "Cartão",
+    "addUrl": "Endereço",
+    "addGroup": "Grupo",
+    "import": "Importar .canvas",
+    "export": "Exportar .canvas",
+    "selection": "Selecionados",
+    "color": "Cor",
+    "colorN": "Cor {{n}}",
+    "noColor": "Sem cor",
+    "remove": "Tirar do canvas",
+    "card": "Cartão",
+    "group": "Grupo",
+    "groupName": "Nome do grupo",
+    "renameGroup": "Nome do grupo",
+    "edgeLabel": "Rótulo da seta",
+    "search": "Procurar anotação, tarefa, lista ou pasta",
+    "searchHint": "Digite para procurar.",
+    "missing": "Sem acesso ou apagado",
+    "openUrl": "Abrir o endereço",
+    "empty": "Canvas vazio.",
+    "emptyHint": "Comece com Texto ou Cartão. Puxe uma seta da bolinha na borda de um cartão até outro.",
+    "phoneHint": "No celular, o canvas aparece em lista. Para arrumar o quadro, abra no computador.",
+    "edgesCount_one": "{{count}} seta entre os cartões",
+    "edgesCount_other": "{{count}} setas entre os cartões",
+    "imported_one": "{{count}} cartão importado",
+    "imported_other": "{{count}} cartões importados",
+    "importError": "Esse arquivo não é um .canvas válido."
   }
 }

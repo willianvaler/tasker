@@ -1,6 +1,6 @@
 # Pastas, projetos e listas
 
-- **Lista** é onde ficam as coisas: compras, treino, roteiro da viagem. O tipo pode ser **Tarefas**, **Rotina** (checklist em cards que reinicia; bom para treino), **Hábitos**, **Quadro**, **Gastos** ou **Base** (veja em Anotações). Toda lista de tarefas também abre como **Quadro** (aba no topo). No quadro, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card. Para abrir a tarefa, toque no lápis do card.
+- **Lista** é onde ficam as coisas: compras, treino, roteiro da viagem. O tipo pode ser **Tarefas**, **Rotina** (checklist em cards que reinicia; bom para treino), **Hábitos**, **Quadro**, **Gastos**, **Base** ou **Canvas** (veja em Anotações). Toda lista de tarefas também abre como **Quadro** (aba no topo). No quadro, arraste o card para outra coluna (no celular, segure o card antes de arrastar) ou use as setas do card. Para abrir a tarefa, toque no lápis do card.
 - **Pasta** junta listas suas. Exemplo: a pasta **Academia** com as listas Treino A e Treino B.
 - **Projeto** é uma pasta para fazer **com outras pessoas**. Exemplo: o projeto **Churrasco** com as listas Compras e Dia, e cada amigo com as tarefas dele.
 
@@ -91,6 +91,10 @@ Uma lista do tipo **Base** mostra, numa tela só, as tarefas ou anotações que 
 ### Grafo
 
 **Grafo** (em Anotações, no Mais ou no Ctrl+K) desenha as anotações, tarefas, listas e pastas como pontos e os links `[[...]]` como linhas; quanto mais citado, maior o ponto, e o link para o que ainda não existe aparece vazado. Filtre pelo tipo, pela etiqueta, pela pasta ou projeto, e esconda as **Soltas** (sem nenhum link). **Procurar no grafo** põe o foco num item e mostra só o que está ligado a ele, a 1, 2 ou 3 passos. No computador, a roda do mouse aproxima, arrastar move a tela e os pontos, e clicar abre o item (o vazado cria a anotação); no celular, role e use os botões de aproximar. Embaixo de cada anotação, ao visualizar, o **Grafo local** mostra os vizinhos até 2 passos, com **Abrir no grafo**.
+
+### Canvas
+
+Uma lista do tipo **Canvas** é um quadro branco infinito. No computador: **Texto** cria um cartão de texto (dois cliques edita), **Cartão** põe uma anotação, tarefa, lista ou pasta de verdade (a tarefa no canvas é a mesma tarefa, e a caixinha conclui), **Endereço** mostra um link ou uma imagem da internet e **Grupo** cria uma área com nome para juntar cartões. Arraste para mover, puxe a borda do cartão selecionado para mudar o tamanho e puxe uma seta da bolinha na borda de um cartão até outro; dois cliques na seta dão um rótulo. Com algo selecionado, escolha a **Cor** ou **Tirar do canvas** (ou `Delete`). **Exportar .canvas** e **Importar .canvas** usam o formato aberto JSON Canvas, o mesmo do Obsidian. No celular o canvas aparece em lista, por grupo, com as tarefas marcáveis. Mexer no canvas pede poder configurar a lista.
 
 ## Lista de compras do cardápio
 

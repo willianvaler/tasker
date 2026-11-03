@@ -453,7 +453,9 @@
     "expenses": "Expenses",
     "expensesHint": "Spreadsheet of expenses and income, with budget, receipt photos and CSV/XLSX export.",
     "base": "Base",
-    "baseHint": "Table or cards of tasks or notes filtered by a query, with in-cell editing."
+    "baseHint": "Table or cards of tasks or notes filtered by a query, with in-cell editing.",
+    "canvas": "Canvas",
+    "canvasHint": "Infinite whiteboard with cards for notes, tasks and lists, arrows and groups."
   },
   "profile": {
     "title": "Profile",
@@ -4159,5 +4161,36 @@
     "nodes_other": "{{count}} nodes",
     "links_one": "{{count}} link",
     "links_other": "{{count}} links"
+  },
+  "canvas": {
+    "title": "Canvas",
+    "addText": "Text",
+    "addCard": "Card",
+    "addUrl": "Link",
+    "addGroup": "Group",
+    "import": "Import .canvas",
+    "export": "Export .canvas",
+    "selection": "Selected",
+    "color": "Color",
+    "colorN": "Color {{n}}",
+    "noColor": "No color",
+    "remove": "Remove from canvas",
+    "card": "Card",
+    "group": "Group",
+    "groupName": "Group name",
+    "renameGroup": "Group name",
+    "edgeLabel": "Arrow label",
+    "search": "Search note, task, list or folder",
+    "searchHint": "Type to search.",
+    "missing": "No access or deleted",
+    "openUrl": "Open link",
+    "empty": "Empty canvas.",
+    "emptyHint": "Start with Text or Card. Drag an arrow from the dot on a card edge to another card.",
+    "phoneHint": "On the phone the canvas shows as a list. To arrange the board, open it on a computer.",
+    "edgesCount_one": "{{count}} arrow between cards",
+    "edgesCount_other": "{{count}} arrows between cards",
+    "imported_one": "{{count}} card imported",
+    "imported_other": "{{count}} cards imported",
+    "importError": "This file isn't a valid .canvas."
   }
 }

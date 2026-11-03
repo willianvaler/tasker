@@ -1,6 +1,6 @@
 # Folders, projects and lists
 
-- A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board**, **Expenses** or **Base** (see Notes). Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows. To open the task, tap the pencil on the card.
+- A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board**, **Expenses**, **Base** or **Canvas** (see Notes). Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows. To open the task, tap the pencil on the card.
 - A **folder** groups your lists. Example: the **Gym** folder with Workout A and Workout B.
 - A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks.
 
@@ -91,6 +91,10 @@ A **Base** list shows, on one screen, the tasks or notes that match a query (the
 ### Graph
 
 **Graph** (in Notes, More or Ctrl+K) draws notes, tasks, lists and folders as nodes and the `[[...]]` links as lines; the more a node is linked, the bigger it is, and a link to something that doesn't exist yet shows hollow. Filter by type, tag, folder or project, and hide **Orphans** (no links at all). **Search the graph** focuses on an item and shows only what is linked to it, 1, 2 or 3 steps away. On a computer, the mouse wheel zooms, dragging moves the view and the nodes, and clicking opens the item (a hollow one creates the note); on the phone, scroll and use the zoom buttons. Below each note, in preview, the **Local graph** shows its neighbors up to 2 steps away, with **Open in graph**.
+
+### Canvas
+
+A **Canvas** list is an infinite whiteboard. On a computer: **Text** adds a text card (double-click to edit), **Card** adds a real note, task, list or folder (the task on the canvas is the same task, and its checkbox completes it), **Link** shows a web link or image, and **Group** adds a named area to gather cards. Drag to move, pull the edge of a selected card to resize, and drag an arrow from the dot on a card's edge to another card; double-click an arrow to label it. With something selected, pick a **Color** or **Remove from canvas** (or `Delete`). **Export .canvas** and **Import .canvas** use the open JSON Canvas format, the same as Obsidian. On the phone the canvas shows as a list, by group, with tasks you can check. Changing the canvas requires permission to configure the list.
 
 ## Shopping list from a menu
 

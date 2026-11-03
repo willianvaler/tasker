@@ -22,6 +22,7 @@ import { SendPageDialog } from '@/components/send-page';
 import { ScreenHeader } from '@/components/screen-header';
 import { ExpensesView } from '@/components/expenses/expenses-view';
 import { BaseView } from '@/components/base-view';
+import { CanvasView } from '@/components/canvas/canvas-view';
 import { usePageMode } from '@/components/tasks/page-mode';
 import { PageView } from '@/components/tasks/page-view';
 import { Text } from '@/components/ui/text';
@@ -80,9 +81,10 @@ export default function PageScreen() {
   const page = tree.data?.pages.find((p) => p.id === id) ?? receivedPage;
   const missing = useConfirmedMissing(id, !!page);
   const pageTasks = usePageTasks(id);
-  // Gastos (V9) e Base (OB8) não guardam tarefas: duplicar, enviar, campos e
+  // Gastos (V9), Base (OB8) e Canvas (OB10) não guardam tarefas: duplicar, enviar, campos e
   // publicar não se aplicam
-  const expensesPage = page?.view_type === 'expenses' || page?.view_type === 'base';
+  const expensesPage =
+    page?.view_type === 'expenses' || page?.view_type === 'base' || page?.view_type === 'canvas';
   // Treino começado e não terminado: o botão diz "Continuar treino"
   const resumable = useSyncExternalStore(subscribeWorkoutRuns, () => workoutInProgress(id));
   // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
@@ -275,6 +277,8 @@ export default function PageScreen() {
         <ExpensesView page={page} />
       ) : page?.view_type === 'base' ? (
         <BaseView page={page} />
+      ) : page?.view_type === 'canvas' ? (
+        <CanvasView page={page} />
       ) : (
         <PageView page={page} />
       )}

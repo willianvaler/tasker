@@ -453,7 +453,9 @@
     "expenses": "Gastos",
     "expensesHint": "Hoja de gastos e ingresos, con presupuesto, foto del ticket y exportación en CSV y XLSX.",
     "base": "Base",
-    "baseHint": "Tabla o tarjetas de tareas o notas filtradas por una consulta, con edición en la celda."
+    "baseHint": "Tabla o tarjetas de tareas o notas filtradas por una consulta, con edición en la celda.",
+    "canvas": "Canvas",
+    "canvasHint": "Pizarra infinita con tarjetas de notas, tareas y listas, flechas y grupos."
   },
   "profile": {
     "title": "Perfil",
@@ -4159,5 +4161,36 @@
     "nodes_other": "{{count}} puntos",
     "links_one": "{{count}} enlace",
     "links_other": "{{count}} enlaces"
+  },
+  "canvas": {
+    "title": "Canvas",
+    "addText": "Texto",
+    "addCard": "Tarjeta",
+    "addUrl": "Enlace",
+    "addGroup": "Grupo",
+    "import": "Importar .canvas",
+    "export": "Exportar .canvas",
+    "selection": "Seleccionados",
+    "color": "Color",
+    "colorN": "Color {{n}}",
+    "noColor": "Sin color",
+    "remove": "Quitar del canvas",
+    "card": "Tarjeta",
+    "group": "Grupo",
+    "groupName": "Nombre del grupo",
+    "renameGroup": "Nombre del grupo",
+    "edgeLabel": "Etiqueta de la flecha",
+    "search": "Buscar nota, tarea, lista o carpeta",
+    "searchHint": "Escribe para buscar.",
+    "missing": "Sin acceso o eliminado",
+    "openUrl": "Abrir el enlace",
+    "empty": "Canvas vacío.",
+    "emptyHint": "Empieza con Texto o Tarjeta. Arrastra una flecha desde el punto del borde de una tarjeta hasta otra.",
+    "phoneHint": "En el móvil, el canvas se ve como lista. Para ordenar la pizarra, ábrelo en el ordenador.",
+    "edgesCount_one": "{{count}} flecha entre las tarjetas",
+    "edgesCount_other": "{{count}} flechas entre las tarjetas",
+    "imported_one": "{{count}} tarjeta importada",
+    "imported_other": "{{count}} tarjetas importadas",
+    "importError": "Este archivo no es un .canvas válido."
   }
 }

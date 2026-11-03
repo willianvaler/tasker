@@ -27,6 +27,7 @@ const VIEW_TYPES = [
   { value: 'kanban', label: 'pageDialog.kanban', hint: 'pageDialog.kanbanHint' },
   { value: 'expenses', label: 'pageDialog.expenses', hint: 'pageDialog.expensesHint' },
   { value: 'base', label: 'pageDialog.base', hint: 'pageDialog.baseHint' },
+  { value: 'canvas', label: 'pageDialog.canvas', hint: 'pageDialog.canvasHint' },
 ] as const satisfies readonly { value: Page['view_type']; label: string; hint: string }[];
 
 const RESET_CYCLES = [
@@ -84,7 +85,9 @@ export function PageDialog({
       // Base (OB8) nasce com uma consulta de exemplo; canvas (OB10), vazio
       ...(!initial?.name && viewType === 'base'
         ? { config: { query: t('base.defaultQuery'), view: 'table' } }
-        : {}),
+        : !initial?.name && viewType === 'canvas'
+          ? { config: { nodes: [], edges: [] } }
+          : {}),
     });
   }
 

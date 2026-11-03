@@ -1,6 +1,6 @@
 # Carpetas, proyectos y listas
 
-- Una **lista** guarda tus cosas: compras, entrenamiento, plan de viaje. El tipo puede ser **Tareas**, **Rutina** (checklist en tarjetas que se reinicia; buena para entrenar), **Hábitos**, **Tablero**, **Gastos** o **Base** (ver Notas). Toda lista de tareas también se abre como **Tablero** (pestaña arriba). En el tablero, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta. Para abrir la tarea, toca el lápiz de la tarjeta.
+- Una **lista** guarda tus cosas: compras, entrenamiento, plan de viaje. El tipo puede ser **Tareas**, **Rutina** (checklist en tarjetas que se reinicia; buena para entrenar), **Hábitos**, **Tablero**, **Gastos**, **Base** o **Canvas** (ver Notas). Toda lista de tareas también se abre como **Tablero** (pestaña arriba). En el tablero, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta. Para abrir la tarea, toca el lápiz de la tarjeta.
 - Una **carpeta** agrupa tus listas. Ejemplo: la carpeta **Gimnasio** con Entrenamiento A y B.
 - Un **proyecto** es una carpeta para hacer **con otras personas**. Ejemplo: el proyecto **Asado** con las listas Compras y Día, cada amigo con sus tareas.
 
@@ -91,6 +91,10 @@ Una lista de tipo **Base** muestra, en una sola pantalla, las tareas o notas que
 ### Grafo
 
 **Grafo** (en Notas, en Más o en Ctrl+K) dibuja las notas, tareas, listas y carpetas como puntos y los enlaces `[[...]]` como líneas; cuanto más citado, más grande el punto, y el enlace a lo que todavía no existe aparece hueco. Filtra por tipo, etiqueta, carpeta o proyecto, y oculta las **Sueltas** (sin ningún enlace). **Buscar en el grafo** pone el foco en un elemento y muestra solo lo unido a él, a 1, 2 o 3 pasos. En el ordenador, la rueda del ratón acerca, arrastrar mueve la vista y los puntos, y hacer clic abre el elemento (el hueco crea la nota); en el móvil, desplázate y usa los botones de acercar. Debajo de cada nota, al visualizar, el **Grafo local** muestra los vecinos hasta 2 pasos, con **Abrir en el grafo**.
+
+### Canvas
+
+Una lista de tipo **Canvas** es una pizarra infinita. En el ordenador: **Texto** crea una tarjeta de texto (doble clic para editar), **Tarjeta** pone una nota, tarea, lista o carpeta de verdad (la tarea en el canvas es la misma tarea, y su casilla la completa), **Enlace** muestra un enlace o una imagen de internet y **Grupo** crea un área con nombre para juntar tarjetas. Arrastra para mover, tira del borde de la tarjeta seleccionada para cambiar el tamaño y arrastra una flecha desde el punto del borde de una tarjeta hasta otra; doble clic en la flecha le pone una etiqueta. Con algo seleccionado, elige el **Color** o **Quitar del canvas** (o `Supr`). **Exportar .canvas** e **Importar .canvas** usan el formato abierto JSON Canvas, el mismo de Obsidian. En el móvil el canvas aparece como lista, por grupo, con las tareas marcables. Cambiar el canvas requiere poder configurar la lista.
 
 ## Lista de compras del menú
 
