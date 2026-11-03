@@ -41,6 +41,9 @@ import {
   Zap,
   type LucideIcon,
   Waypoints,
+  FileText,
+  Shuffle,
+  Star,
 } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { createContext, useContext, useState, type ReactNode } from 'react';
@@ -49,12 +52,15 @@ import { Modal, Pressable, ScrollView, TextInput, View } from 'react-native';
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 
 import { useOpenDailyNote } from '@/components/daily-note';
+import { useFavorites } from '@/components/favorites';
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
+import { noteTitle, useNotes } from '@/lib/queries/notes';
 import type { Task } from '@/lib/queries/tasks';
+import { hasOperators, matchSearch, parseSearch, pickRandom, searchRank } from '@/lib/search';
 import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useTree } from '@/lib/queries/tree';
 import { DURATION, useColors } from '@/lib/tokens';
@@ -72,7 +78,9 @@ type Command = {
   group: 0 | 1 | 2;
 };
 
-const PaletteContext = createContext<() => void>(() => {});
+/** Abre a paleta; com `query`, já com a busca escrita (a busca favorita, OB12) */
+type OpenPalette = (query?: unknown) => void;
+const PaletteContext = createContext<OpenPalette>(() => {});
 
 export function useCommandPalette() {
   return useContext(PaletteContext);
@@ -85,14 +93,17 @@ const fold = (text: string) =>
     .toLowerCase();
 
 export function CommandPaletteProvider({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(false);
+  // null: fechada; texto: aberta com essa busca (o botão passa o evento do toque, que não é texto)
+  const [open, setOpen] = useState<string | null>(null);
   // Os diálogos (nova pasta, novo projeto) ficam aqui: a paleta fecha antes de abri-los
   const [actions, dialog] = useFolderActions();
-  useShortcut('palette.open', () => setOpen(true));
+  useShortcut('palette.open', () => setOpen(''));
   return (
-    <PaletteContext.Provider value={() => setOpen(true)}>
+    <PaletteContext.Provider value={(query) => setOpen(typeof query === 'string' ? query : '')}>
       {children}
-      {open && <Palette actions={actions} onClose={() => setOpen(false)} />}
+      {open !== null && (
+        <Palette actions={actions} initialQuery={open} onClose={() => setOpen(null)} />
+      )}
       {dialog}
     </PaletteContext.Provider>
   );
@@ -100,9 +111,11 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
 
 function Palette({
   actions,
+  initialQuery,
   onClose,
 }: {
   actions: ReturnType<typeof useFolderActions>[0];
+  initialQuery: string;
   onClose: () => void;
 }) {
   const { t } = useTranslation();
@@ -112,7 +125,7 @@ function Palette({
   const queryClient = useQueryClient();
   const { colorScheme } = useColorScheme();
   const { setPreference } = useThemePreference();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(initialQuery);
   const [index, setIndex] = useState(0);
 
   const go = (href: Parameters<typeof router.navigate>[0]) => () => router.navigate(href);
@@ -123,6 +136,8 @@ function Palette({
   const openPage = /^\/page\/([^/?]+)/.exec(pathname ?? '')?.[1];
   const pomodoro = usePomodoro();
   const icon = (glyph: LucideIcon) => <Icon icon={glyph} tone="ink-muted" />;
+  const notes = useNotes();
+  const favorites = useFavorites();
 
   const commands: Command[] = [
     {
@@ -325,6 +340,16 @@ function Palette({
       run: () => void openDaily(),
     },
     {
+      id: 'random-note',
+      label: t('notes.random'),
+      icon: icon(Shuffle),
+      group: 0,
+      run: () => {
+        const pick = pickRandom(notes.data ?? []);
+        if (pick) router.push({ pathname: '/nota/[id]', params: { id: pick.id } });
+      },
+    },
+    {
       id: 'go-graph',
       label: t('graph.title'),
       icon: icon(Waypoints),
@@ -433,13 +458,32 @@ function Palette({
     ]),
   ];
 
-  // Tarefas: só as que já estão no cache
+  // Busca com operadores (OB12, D297): tag:, em:, tipo:, "frase", -palavra. Com operador, a
+  // paleta procura só nos itens (listas, pastas, anotações e tarefas), sem os comandos
   const q = fold(query.trim());
+  const parsed = parseSearch(query);
+  const filtered = hasOperators(parsed);
+  const searching = filtered || q.length >= 2;
+  const folderNames = new Map<string, string[]>();
+  for (const root of tree.data?.folders ?? []) {
+    folderNames.set(root.id, [root.name]);
+    for (const child of root.children) folderNames.set(child.id, [root.name, child.name]);
+  }
+  // Tarefas: só as que já estão no cache
   const tasks = new Map<string, Task>();
-  if (q.length >= 2)
+  if (searching)
     for (const [, data] of queryClient.getQueriesData<Task[]>({ queryKey: ['tasks'] }))
       for (const task of Array.isArray(data) ? data : [])
-        if (fold(task.title).includes(q)) tasks.set(task.id, task);
+        if (
+          matchSearch(parsed, {
+            kind: 'task',
+            title: task.title,
+            text: task.notes,
+            tags: task.labels,
+            folders: folderNames.get(task.folder_id ?? ''),
+          })
+        )
+          tasks.set(task.id, task);
   const taskCommands: Command[] = [...tasks.values()].slice(0, 8).map((task) => ({
     id: `task-${task.id}`,
     label: task.title,
@@ -447,19 +491,75 @@ function Palette({
     group: 2,
     run: () => router.push({ pathname: '/task/[id]', params: { id: task.id } }),
   }));
+  // Anotações (do aparelho ou do cache), as do título primeiro
+  const noteCommands: Command[] = !searching
+    ? []
+    : (notes.data ?? [])
+        .map((n) => {
+          const item = {
+            kind: 'note' as const,
+            title: noteTitle(n, t('notes.untitled')),
+            text: n.body,
+            tags: n.tags,
+            folders: folderNames.get(n.folder_id ?? ''),
+          };
+          return { n, item, ok: matchSearch(parsed, item), rank: searchRank(parsed, item) };
+        })
+        .filter((x) => x.ok)
+        .sort((a, b) => a.rank - b.rank)
+        .slice(0, 10)
+        .map(({ n, item }) => ({
+          id: `note-${n.id}`,
+          label: item.title,
+          hint: item.folders?.join(' / ') ?? t('notes.title'),
+          icon: <Icon icon={FileText} tone="ink-muted" />,
+          group: 2 as const,
+          run: () => router.push({ pathname: '/nota/[id]', params: { id: n.id } }),
+        }));
+  // Com operador: listas e pastas pelo mesmo filtro
+  const placeCommands: Command[] = !filtered
+    ? []
+    : commands.filter((c) => {
+        if (c.group !== 1) return false;
+        const pageId = c.id.startsWith('page-') ? c.id.slice(5) : null;
+        const page = pageId ? tree.data?.pages.find((p) => p.id === pageId) : undefined;
+        const folderId = c.id.startsWith('folder-') ? c.id.slice(7) : null;
+        return matchSearch(parsed, {
+          kind: page ? 'page' : 'folder',
+          title: c.label,
+          folders: page
+            ? folderNames.get(page.folder_id)
+            : (folderNames.get(folderId ?? '') ?? []).slice(0, -1),
+        });
+      });
+  const saveSearch: Command[] =
+    query.trim() && !favorites.has({ kind: 'search', query: query.trim() })
+      ? [
+          {
+            id: 'save-search',
+            label: t('favorites.saveSearch', { query: query.trim() }),
+            icon: icon(Star),
+            group: 0,
+            run: () => favorites.toggle({ kind: 'search', query: query.trim() }),
+          },
+        ]
+      : [];
 
   const results = (
-    q
-      ? commands
-          .map((c) => ({ c, at: fold(c.label).indexOf(q) }))
-          .filter(({ at, c }) => at >= 0 || (c.hint && fold(c.hint).includes(q)))
-          // Começar com o texto vale mais do que conter
-          .sort((a, b) => a.c.group - b.c.group || Number(a.at !== 0) - Number(b.at !== 0))
-          .map(({ c }) => c)
-      : commands.filter((c) => c.group === 0)
+    filtered
+      ? placeCommands
+      : q
+        ? commands
+            .map((c) => ({ c, at: fold(c.label).indexOf(q) }))
+            .filter(({ at, c }) => at >= 0 || (c.hint && fold(c.hint).includes(q)))
+            // Começar com o texto vale mais do que conter
+            .sort((a, b) => a.c.group - b.c.group || Number(a.at !== 0) - Number(b.at !== 0))
+            .map(({ c }) => c)
+        : commands.filter((c) => c.group === 0)
   )
-    .concat(taskCommands)
-    .slice(0, 30);
+    .concat(noteCommands, taskCommands)
+    .slice(0, 30)
+    .concat(saveSearch);
   const selected = Math.min(index, Math.max(0, results.length - 1));
 
   function run(command: Command | undefined) {

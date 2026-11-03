@@ -1004,7 +1004,7 @@
     "pageName": "Compras"
   },
   "split": {
-    "title": "Dividir la cuenta",
+    "title": "Al lado",
     "intro": "Cuánto pagó y debe cada uno en los gastos divididos (de todos los meses).",
     "toReceive": "tiene a favor {{value}}",
     "owes": "debe {{value}}",
@@ -1021,7 +1021,13 @@
     "among": "Dividido entre",
     "amongHint_one": "Todo para {{count}} persona.",
     "amongHint_other": "Partes iguales entre {{count}} personas.",
-    "notSplit": "No entra en la cuenta dividida."
+    "notSplit": "No entra en la cuenta dividida.",
+    "open": "Abrir al lado",
+    "pick": "Abrir al lado",
+    "search": "Buscar nota o lista",
+    "searchHint": "Escribe para buscar una nota o una lista.",
+    "close": "Cerrar el lado",
+    "missing": "No encontré esta lista."
   },
   "friends": {
     "profile": "Perfil",
@@ -2439,7 +2445,8 @@
     "outline": "Índice",
     "words_one": "{{count}} palabra",
     "words_other": "{{count}} palabras",
-    "footnotes": "Notas al pie"
+    "footnotes": "Notas al pie",
+    "random": "Nota al azar"
   },
   "callouts": {
     "note": "Nota",
@@ -4219,5 +4226,15 @@
     "deleteAllTitle": "¿Borrar todas las versiones de las notas?",
     "deleteAllMessage": "Tus notas quedan como están; solo se va el historial. No se puede deshacer.",
     "deletedAll": "Versiones borradas."
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "add": "Añadir a favoritos",
+    "remove": "Quitar de favoritos",
+    "removeNamed": "Quitar {{name}} de favoritos",
+    "added": "En favoritos.",
+    "removed": "Fuera de favoritos.",
+    "saveSearch": "Guardar la búsqueda “{{query}}” en favoritos",
+    "openSearch": "Buscar {{query}}"
   }
 }

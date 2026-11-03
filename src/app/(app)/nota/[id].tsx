@@ -27,9 +27,18 @@ import {
 } from 'react-native';
 
 import { DailyJournal } from '@/components/daily-note';
+import { useFavorites } from '@/components/favorites';
 import { NoteHistory } from '@/components/note-history';
 import { LocalGraph } from '@/components/graph/local-graph';
 import { Screen, ScreenScroll } from '@/components/screen';
+import {
+  CloseSide,
+  PagePane,
+  parseSide,
+  sideParam,
+  SidePicker,
+  useCanSplit,
+} from '@/components/split-pane';
 import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
 import { NoteProperties } from '@/components/note-properties';
@@ -60,8 +69,43 @@ import { parseLinks } from '@/lib/wikilinks';
 // Editor de anotação (W3, D187): título e texto em Markdown simples, com a barra de formatação e
 // a visualização formatada. Salva sozinho (ao parar de digitar e ao sair).
 export default function NoteScreen() {
-  // `secao`: a âncora de um link [[Anotação#Seção]] (OB1): abre formatada e rola até o título
-  const { id, secao } = useLocalSearchParams<{ id: string; secao?: string }>();
+  // `secao`: a âncora de um link [[Anotação#Seção]] (OB1): abre formatada e rola até o título.
+  // `lado`: a anotação ou lista aberta ao lado, no computador (OB12)
+  const { id, secao, lado } = useLocalSearchParams<{ id: string; secao?: string; lado?: string }>();
+  const canSplit = useCanSplit();
+  const side = canSplit ? parseSide(lado) : null;
+  const closeSide = () => router.setParams({ lado: undefined });
+  const main = <NoteMain id={id} section={secao} canSplit={canSplit} split={!!side && side.id !== id} />;
+  if (!side || side.id === id) return main;
+  return (
+    <View className="flex-1 flex-row bg-paper">
+      <View className="flex-1">{main}</View>
+      <View testID="side-pane" className="flex-1 border-l border-line">
+        {side.kind === 'note' ? (
+          <NoteMain key={side.id} id={side.id} pane={closeSide} />
+        ) : (
+          <PagePane key={side.id} id={side.id} onClose={closeSide} />
+        )}
+      </View>
+    </View>
+  );
+}
+
+function NoteMain({
+  id,
+  section,
+  canSplit = false,
+  split = false,
+  pane,
+}: {
+  id: string;
+  section?: string;
+  canSplit?: boolean;
+  /** Há outra coisa aberta ao lado: o sumário vai para o menu */
+  split?: boolean;
+  /** Ao lado de outra (OB12): sem "Voltar", com o fechar do lado */
+  pane?: () => void;
+}) {
   const { t } = useTranslation();
   // Relê sempre: logo depois de criar, a lista ainda é "nova" (staleTime) e não seria relida, e o
   // editor ficava em branco até sair e voltar
@@ -76,7 +120,11 @@ export default function NoteScreen() {
   if (notes.data && !note)
     return (
       <Screen>
-        <ScreenHeader title={t('notes.title')} back />
+        <ScreenHeader
+          title={t('notes.title')}
+          back={!pane}
+          right={pane ? <CloseSide onClose={pane} /> : undefined}
+        />
         <EmptyState title={t('notes.missing')} />
       </Screen>
     );
@@ -85,10 +133,31 @@ export default function NoteScreen() {
   // abre com o que há, em vez de ficar em branco (no celular a tela parava aqui, 20/10)
   if (!note || (!notes.isFetchedAfterMount && notes.fetchStatus === 'fetching'))
     return <Screen>{null}</Screen>;
-  return <Editor key={note.id} note={note} section={secao} />;
+  return (
+    <Editor
+      key={note.id}
+      note={note}
+      section={section}
+      canSplit={canSplit}
+      compact={split || !!pane}
+      pane={pane}
+    />
+  );
 }
 
-function Editor({ note, section }: { note: Note; section?: string }) {
+function Editor({
+  note,
+  section,
+  canSplit,
+  compact,
+  pane,
+}: {
+  note: Note;
+  section?: string;
+  canSplit: boolean;
+  compact: boolean;
+  pane?: () => void;
+}) {
   const { t } = useTranslation();
   const colors = useColors();
   const m = useNoteMutations();
@@ -108,13 +177,17 @@ function Editor({ note, section }: { note: Note; section?: string }) {
   const [outlineMenu, setOutlineMenu, closeOutlineMenu] = useDialog<true>();
   const [moreMenu, setMoreMenu, closeMoreMenu] = useDialog<true>();
   const [history, setHistory, closeHistory] = useDialog<true>();
+  // OB12: favorito e tela dividida
+  const favorites = useFavorites();
+  const favorite = favorites.has({ kind: 'note', id: note.id });
+  const [picking, setPicking, closePicking] = useDialog<true>();
   // Modelos (OB5, D290): esta anotação é modelo? É a da nota do dia?
   const dailyTemplate = useUiPrefs().notes?.dailyTemplate;
   const updatePrefs = useUpdateUiPrefs();
   const isTemplate = !!note.is_template;
   const daily = isDailyNote({ ...note, title });
   // Sumário ao lado do texto no computador (OB3); no celular, num menu
-  const wideOutline = useWindowDimensions().width >= 1024;
+  const wideOutline = useWindowDimensions().width >= 1024 && !compact;
   // Propriedades (OB4): salvas junto com o texto
   const [props, setProps] = useState<NoteProps>(note.props ?? {});
   const saved = useRef({ title: note.title, body: note.body, props: note.props ?? {} });
@@ -234,9 +307,10 @@ function Editor({ note, section }: { note: Note; section?: string }) {
       >
         <ScreenHeader
           title={t('notes.title')}
-          back
+          back={!pane}
           right={
             <>
+              {pane && <CloseSide onClose={pane} />}
               <IconButton
                 icon={MoreHorizontal}
                 label={t('templatesNotes.more')}
@@ -442,6 +516,24 @@ function Editor({ note, section }: { note: Note; section?: string }) {
           onClose={closeMoreMenu}
           actions={[
             {
+              label: t(favorite ? 'favorites.remove' : 'favorites.add'),
+              onPress: () => {
+                closeMoreMenu();
+                favorites.toggle({ kind: 'note', id: note.id });
+              },
+            },
+            ...(canSplit && !pane
+              ? [
+                  {
+                    label: t('split.open'),
+                    onPress: () => {
+                      closeMoreMenu();
+                      setPicking(true);
+                    },
+                  },
+                ]
+              : []),
+            {
               label: t('noteHistory.open'),
               onPress: () => {
                 closeMoreMenu();
@@ -479,6 +571,17 @@ function Editor({ note, section }: { note: Note; section?: string }) {
           ]}
         />
       )}
+      {picking && (
+        <SidePicker
+          exclude={note.id}
+          onClose={closePicking}
+          onPick={(side) => {
+            closePicking();
+            save();
+            router.setParams({ lado: sideParam(side) });
+          }}
+        />
+      )}
       {history && (
         <NoteHistory
           noteId={note.id}
@@ -505,7 +608,8 @@ function Editor({ note, section }: { note: Note; section?: string }) {
             closeConfirm();
             saved.current = { title, body, props };
             m.remove.mutate(note.id);
-            router.back();
+            if (pane) pane();
+            else router.back();
           }}
         />
       )}

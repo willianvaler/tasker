@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { FieldsDialog } from '@/components/fields';
 import { PublishDialog, suggestedKind } from '@/components/publish-dialog';
 import { ShoppingDestination } from '@/components/shopping-destination';
+import { useFavorites } from '@/components/favorites';
 import { useFolderActions } from '@/components/folder-actions';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { PageDependencyEditor } from '@/components/page-dependency-editor';
@@ -74,6 +75,8 @@ export default function PageScreen() {
   const toast = useToast();
   const [dialog, setDialog, closeDialog] = useDialog<DialogState>();
   const [folderActions, folderDialog] = useFolderActions();
+  // OB12: lista nos favoritos (no alto da barra lateral)
+  const favorites = useFavorites();
   const { t, i18n } = useTranslation();
   // Página recebida (L): não está na árvore; vem do envio
   const received = useReceivedPages();
@@ -294,6 +297,16 @@ export default function PageScreen() {
               group: t('page.groupArrange'),
               label: t('page.settings'),
               onPress: () => setDialog('settings'),
+            },
+            {
+              group: t('page.groupArrange'),
+              label: t(
+                favorites.has({ kind: 'page', id: page.id }) ? 'favorites.remove' : 'favorites.add',
+              ),
+              onPress: () => {
+                closeDialog();
+                favorites.toggle({ kind: 'page', id: page.id });
+              },
             },
             // Página de gastos (V9) não tem tarefas: duplicar, enviar e campos não se aplicam
             ...(expensesPage

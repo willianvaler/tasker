@@ -1004,7 +1004,7 @@
     "pageName": "Shopping"
   },
   "split": {
-    "title": "Split the bill",
+    "title": "Side pane",
     "intro": "How much each person paid and owes in the split expenses (all months).",
     "toReceive": "gets back {{value}}",
     "owes": "owes {{value}}",
@@ -1021,7 +1021,13 @@
     "among": "Split among",
     "amongHint_one": "All on {{count}} person.",
     "amongHint_other": "Equal shares among {{count}} people.",
-    "notSplit": "Not part of the split."
+    "notSplit": "Not part of the split.",
+    "open": "Open side by side",
+    "pick": "Open side by side",
+    "search": "Find a note or list",
+    "searchHint": "Type to find a note or a list.",
+    "close": "Close the side pane",
+    "missing": "Couldn't find this list."
   },
   "friends": {
     "profile": "Profile",
@@ -2439,7 +2445,8 @@
     "outline": "Outline",
     "words_one": "{{count}} word",
     "words_other": "{{count}} words",
-    "footnotes": "Footnotes"
+    "footnotes": "Footnotes",
+    "random": "Random note"
   },
   "callouts": {
     "note": "Note",
@@ -4219,5 +4226,15 @@
     "deleteAllTitle": "Delete all note versions?",
     "deleteAllMessage": "Your notes stay as they are; only the history goes away. This can't be undone.",
     "deletedAll": "Versions deleted."
+  },
+  "favorites": {
+    "title": "Favorites",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites",
+    "removeNamed": "Remove {{name}} from favorites",
+    "added": "Added to favorites.",
+    "removed": "Removed from favorites.",
+    "saveSearch": "Save the search “{{query}}” to favorites",
+    "openSearch": "Search {{query}}"
   }
 }

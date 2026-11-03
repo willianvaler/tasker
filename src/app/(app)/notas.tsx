@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
-import { LayoutTemplate, NotebookPen, Plus, Waypoints } from 'lucide-react-native';
+import { LayoutTemplate, NotebookPen, Plus, Shuffle, Waypoints } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { fromTemplate, useOpenDailyNote } from '@/components/daily-note';
+import { FavoritesList } from '@/components/favorites';
 import { useNewNote } from '@/components/notes-block';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -16,6 +17,7 @@ import { plainText } from '@/lib/markdown-edit';
 import { templateVars, timeIn } from '@/lib/note-templates';
 import { noteTitle, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
 import { useTimeZone, useToday, useUiPrefs } from '@/lib/queries/profile';
+import { pickRandom } from '@/lib/search';
 import { useToast } from '@/providers/toast';
 
 // Todas as anotações (W3), da mais recente para a mais antiga. Em cima, a nota do dia e "do
@@ -73,6 +75,16 @@ export default function NotesScreen() {
             label={t('graph.title')}
             onPress={() => router.push('/grafo')}
           />
+          <Button
+            variant="ghost"
+            icon={Shuffle}
+            label={t('notes.random')}
+            disabled={!notes.data?.length}
+            onPress={() => {
+              const pick = pickRandom(notes.data ?? []);
+              if (pick) open(pick.id);
+            }}
+          />
           {templateList.length > 0 && (
             <Button
               variant="ghost"
@@ -82,6 +94,8 @@ export default function NotesScreen() {
             />
           )}
         </View>
+        {/* OB12: favoritos (os mesmos do alto da barra lateral) */}
+        <FavoritesList header={<SectionLabel title={t('favorites.title')} />} />
         {notes.data && list.length === 0 && <EmptyState title={t('notes.empty')} />}
         <View>
           {list.map((note) => (

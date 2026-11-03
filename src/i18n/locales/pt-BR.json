@@ -1004,7 +1004,7 @@
     "pageName": "Compras"
   },
   "split": {
-    "title": "Racha de contas",
+    "title": "Ao lado",
     "intro": "Quanto cada um pagou e deve nos gastos divididos (de todos os meses).",
     "toReceive": "tem a receber {{value}}",
     "owes": "deve {{value}}",
@@ -1021,7 +1021,13 @@
     "among": "Dividido entre",
     "amongHint_one": "Fica todo com {{count}} pessoa.",
     "amongHint_other": "Partes iguais entre {{count}} pessoas.",
-    "notSplit": "Não entra no racha."
+    "notSplit": "Não entra no racha.",
+    "open": "Abrir ao lado",
+    "pick": "Abrir ao lado",
+    "search": "Procurar anotação ou lista",
+    "searchHint": "Digite para procurar uma anotação ou uma lista.",
+    "close": "Fechar o lado",
+    "missing": "Não achei esta lista."
   },
   "friends": {
     "profile": "Perfil",
@@ -2439,7 +2445,8 @@
     "outline": "Sumário",
     "words_one": "{{count}} palavra",
     "words_other": "{{count}} palavras",
-    "footnotes": "Notas de rodapé"
+    "footnotes": "Notas de rodapé",
+    "random": "Anotação aleatória"
   },
   "callouts": {
     "note": "Nota",
@@ -4219,5 +4226,15 @@
     "deleteAllTitle": "Apagar todas as versões das anotações?",
     "deleteAllMessage": "As anotações continuam como estão; só o histórico some. Não tem volta.",
     "deletedAll": "Versões apagadas."
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "add": "Adicionar aos favoritos",
+    "remove": "Tirar dos favoritos",
+    "removeNamed": "Tirar {{name}} dos favoritos",
+    "added": "Nos favoritos.",
+    "removed": "Fora dos favoritos.",
+    "saveSearch": "Salvar a busca “{{query}}” nos favoritos",
+    "openSearch": "Buscar {{query}}"
   }
 }

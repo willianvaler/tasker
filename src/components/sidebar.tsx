@@ -28,6 +28,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { BrandMark } from '@/components/brand-mark';
 import { useCommandPalette } from '@/components/command-palette';
+import { FavoritesList } from '@/components/favorites';
 import { useFolderActions } from '@/components/folder-actions';
 import { MenuButton } from '@/components/folder-cards';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
@@ -443,6 +444,8 @@ export function Sidebar() {
       />
 
       <ScrollView className="flex-1" contentContainerClassName="gap-6 px-2 pb-6 pt-3">
+        {/* OB12: favoritos no alto, antes dos blocos (só aparecem quando há algum) */}
+        <FavoritesList header={<SectionHeader label={t('favorites.title')} />} />
         {resolveBlocks(sidebarPrefs, availableBlocks(gymOn && !gymInWellness)).map((block) => (
           <Fragment key={block}>{blocks[block]}</Fragment>
         ))}
