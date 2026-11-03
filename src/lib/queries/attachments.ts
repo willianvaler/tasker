@@ -17,7 +17,7 @@ import { useSession } from '@/providers/session';
 import type { Tables } from '../db';
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
-import { isLocal, localInsert } from '../sync/local';
+import { isLocal, localInsert, myFolderIds } from '../sync/local';
 import { keys } from './keys';
 import type { Tree } from './tree';
 
@@ -450,4 +450,37 @@ export function useAttachmentMutations(task: {
   });
 
   return { add, remove };
+}
+
+/**
+ * Anexo de imagem pelo nome (o ![[foto.png]] da anotação, OB6): o mais recente com esse nome entre
+ * os das minhas pastas. Sem achar, null.
+ */
+export function useAttachmentByName(name: string | null) {
+  return useQuery({
+    queryKey: ['attachment-by-name', name ?? ''],
+    enabled: !!name,
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<Attachment | null> => {
+      if (isLocal()) {
+        const row = await db.getOptional<Attachment>(
+          `select a.* from task_attachments a join folders own_folder on own_folder.id = a.folder_id
+            where lower(a.name) = lower(?) order by a.created_at desc limit 1`,
+          [name],
+        );
+        return row ? { ...row, created_at: row.created_at.replace(' ', 'T') } : null;
+      }
+      const folders = await myFolderIds();
+      if (!folders.length) return null;
+      const { data, error } = await supabase
+        .from('task_attachments')
+        .select('*')
+        .in('folder_id', folders)
+        .ilike('name', (name ?? '').replace(/[%_\\]/g, '\\$&'))
+        .order('created_at', { ascending: false })
+        .limit(1);
+      if (error) throw error;
+      return data[0] ?? null;
+    },
+  });
 }

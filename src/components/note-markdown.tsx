@@ -12,16 +12,19 @@ import {
   type LucideIcon,
 } from 'lucide-react-native';
 import { router } from 'expo-router';
-import { useMemo, useRef, useState, type ReactNode } from 'react';
-import { Pressable, View, type TextStyle } from 'react-native';
+import { useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { Platform, Pressable, View, type TextStyle } from 'react-native';
 import { Renderer, useMarkdown } from 'react-native-marked';
 import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
 
+import { LinkPreview, type Peek, type PeekTarget } from '@/components/link-preview';
+import { NoteEmbed } from '@/components/note-embed';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { FONT_FAMILY } from '@/lib/fonts';
 import { withTaskBoxes } from '@/lib/markdown-edit';
+import { extractEmbeds, splitEmbedMarks } from '@/lib/note-embeds';
 import {
   FOOTNOTE_SCHEME,
   MARK_SCHEME,
@@ -30,6 +33,7 @@ import {
   prepareMarkdown,
   splitCallouts,
   type CalloutType,
+  type NoteSegment,
 } from '@/lib/note-blocks';
 import { useColors, type ColorToken, type Palette } from '@/lib/tokens';
 import { parseLinkHref, wikiToMarkdown, type LinkHref, type ResolveLink } from '@/lib/wikilinks';
@@ -46,6 +50,8 @@ class NoteRenderer extends Renderer {
   constructor(
     private readonly onLink: ((href: LinkHref) => void) | undefined,
     private readonly colors: Palette,
+    /** Prévia (OB6): ao passar o mouse (com a posição) e no toque longo (sem); null esconde */
+    private readonly onPeek?: (target: PeekTarget | null, at?: { x: number; y: number }) => void,
   ) {
     super();
   }
@@ -94,11 +100,27 @@ class NoteRenderer extends Renderer {
     const target = parseLinkHref(href);
     if (!target) return super.link(children, href, styles, title);
     const faded = target.kind === 'new' || target.kind === 'none';
+    const peekable = target.kind !== 'new' && target.kind !== 'none' ? target : null;
+    const peek = this.onPeek;
     return (
       <Text
         key={this.getKey()}
         accessibilityRole={target.kind === 'none' ? undefined : 'link'}
         onPress={target.kind === 'none' ? undefined : () => this.onLink?.(target)}
+        onLongPress={peekable && peek ? () => peek(peekable) : undefined}
+        // Só na web: o react-native-web repassa os eventos do mouse para o elemento
+        {...(Platform.OS === 'web' && peekable && peek
+          ? ({
+              onMouseEnter: (e: { nativeEvent: MouseEvent }) =>
+                peek(peekable, { x: e.nativeEvent.clientX, y: e.nativeEvent.clientY }),
+              onMouseLeave: () => peek(null),
+              // Toque longo no navegador do celular (o Text da web não tem onLongPress)
+              onContextMenu: (e: { preventDefault: () => void }) => {
+                e.preventDefault();
+                peek(peekable);
+              },
+            } as object)
+          : {})}
         style={[
           styles,
           faded && { color: this.colors['ink-muted'], textDecorationStyle: 'dashed' },
@@ -241,6 +263,46 @@ function Callout({
 }
 
 /**
+ * A prévia mora fora do estado da anotação: mostrar e esconder não redesenha o texto (redesenhar
+ * troca os elementos do link embaixo do ponteiro, e o toque caía num elemento que já tinha saído).
+ * Esconde um pouco depois de o ponteiro sair (dá tempo de voltar).
+ */
+function makePeeker() {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let current: Peek | null = null;
+  const listeners = new Set<() => void>();
+  const set = (next: Peek | null) => {
+    current = next;
+    listeners.forEach((l) => l());
+  };
+  return {
+    peek: (target: PeekTarget | null, at?: { x: number; y: number }) => {
+      clearTimeout(timer);
+      if (!target) timer = setTimeout(() => set(null), 120);
+      else set({ target, at: at ?? null });
+    },
+    close: () => {
+      clearTimeout(timer);
+      set(null);
+    },
+    get: () => current,
+    subscribe: (listener: () => void) => {
+      listeners.add(listener);
+      return () => {
+        listeners.delete(listener);
+        clearTimeout(timer);
+      };
+    },
+  };
+}
+type Peeker = ReturnType<typeof makePeeker>;
+
+function PeekLayer({ peeker, onOpen }: { peeker: Peeker; onOpen: (href: LinkHref) => void }) {
+  const peek = useSyncExternalStore(peeker.subscribe, peeker.get, peeker.get);
+  return peek ? <LinkPreview peek={peek} onClose={peeker.close} onOpen={onOpen} /> : null;
+}
+
+/**
  * Anotação formatada (D187): Markdown com as cores e as fontes do app, mais callouts, destaque,
  * notas de rodapé e tabelas (OB3). Com `resolve`, os [[...]] viram links com o título de agora;
  * `onHeadingLayout` dá a posição de cada título (na ordem do `noteOutline`, fora dos callouts).
@@ -250,19 +312,33 @@ export function NoteMarkdown({
   onLink,
   resolve,
   onHeadingLayout,
+  depth = 0,
 }: {
   value: string;
   onLink?: (href: LinkHref) => void;
   resolve?: ResolveLink;
   onHeadingLayout?: (index: number, y: number) => void;
+  /** Dentro de quantos ![[...]] esta anotação está (OB6): a prévia fica só na de fora */
+  depth?: number;
 }) {
   const { t } = useTranslation();
   const colors = useColors();
+  // ![[...]] sozinho na linha vira bloco (OB6); o resto segue para o Markdown
+  const embedded = extractEmbeds(value);
   const prepared = prepareMarkdown(
-    resolve ? wikiToMarkdown(value, resolve, t('wikilinks.noAccess')) : value,
+    resolve ? wikiToMarkdown(embedded.text, resolve, t('wikilinks.noAccess')) : embedded.text,
   );
-  const segments = splitCallouts(withTaskBoxes(prepared.text));
-  const renderer = useMemo(() => new NoteRenderer(onLink, colors), [onLink, colors]);
+  const segments = splitCallouts(withTaskBoxes(prepared.text)).flatMap(
+    (segment): (NoteSegment | { kind: 'embed'; index: number })[] =>
+      segment.kind === 'markdown' ? splitEmbedMarks(segment.text) : [segment],
+  );
+
+  // Prévia ao passar o mouse e no toque longo (OB6): some um pouco depois de sair do link
+  const [peeker] = useState(makePeeker);
+  const renderer = useMemo(
+    () => new NoteRenderer(onLink, colors, depth > 0 ? undefined : peeker.peek),
+    [onLink, colors, depth, peeker],
+  );
 
   // A posição de um título é a do trecho dentro da anotação mais a dele dentro do trecho
   const segmentY = useRef<Record<number, number>>({});
@@ -279,6 +355,12 @@ export function NoteMarkdown({
   return (
     <View className="gap-1">
       {segments.map((segment, i) => {
+        if (segment.kind === 'embed') {
+          const link = embedded.embeds[segment.index];
+          return link ? (
+            <NoteEmbed key={i} link={link} depth={depth} onLink={onLink} resolve={resolve} />
+          ) : null;
+        }
         if (segment.kind === 'callout')
           return (
             <Callout
@@ -332,6 +414,7 @@ export function NoteMarkdown({
           />
         </View>
       )}
+      {depth === 0 && onLink && <PeekLayer peeker={peeker} onOpen={onLink} />}
     </View>
   );
 }

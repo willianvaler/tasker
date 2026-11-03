@@ -67,6 +67,8 @@ La última opción crea un enlace a algo que **aún no existe** (`[[Nueva idea]]
 
 Debajo de la nota, **Citado en** muestra las notas y tareas que enlazan a ella, con la frase alrededor. **Enlaces salientes** lista lo que ella cita. **Menciones sin enlace** muestra tus notas que escriben su nombre sin `[[ ]]`, y **Enlazar** convierte la mención en enlace. La descripción de una tarea también acepta `[[`, y el panel de la tarea y la parte de arriba de una lista muestran **Citado en**. Funciona sin internet.
 
+**Incrustar:** una línea solo con `![[...]]` (un `!` antes del enlace, o el comando `/incrustar`) muestra el elemento dentro de la nota: otra nota (entera, o solo una sección con `![[Nota#Título]]`), una lista con las casillas de verdad (completar ahí la completa en la lista), una tarea, o una imagen de los adjuntos de tus tareas por el nombre del archivo (`![[foto.jpg]]`). En la computadora, dejar el ratón sobre un enlace muestra una vista previa con las primeras líneas; en el móvil, mantén pulsado.
+
 ## Lista de compras del menú
 
 En una lista de menú (de tipo Tareas o Rutina), cada plato es una tarea y los ingredientes son sus **subtareas** o las líneas con `-` en sus **notas** ("- 500 g de carne picada", "- 2 huevos"). En el menú de la lista, **Generar lista de compras** junta todo en una sola lista, sumando lo que se repite (500 g + 300 g de carne son 800 g; kg y litros también cuentan), y pregunta dónde ponerla: en una lista de la misma carpeta, en una lista nueva "Compras" o en la Bandeja de entrada. Antes de crear, la lista aparece en la creación en lote para que la revises. Los platos ya completados quedan fuera (si todos están completados, entran todos).

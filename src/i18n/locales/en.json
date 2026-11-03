@@ -2471,7 +2471,9 @@
     "code": "Code block",
     "codeKeys": "codigo,code",
     "divider": "Divider",
-    "dividerKeys": "divisoria,divider,hr,line,separador"
+    "dividerKeys": "divisoria,divider,hr,line,separador",
+    "embed": "Embed",
+    "embedKeys": "embed,incorporar,incrustar,image,imagem,imagen"
   },
   "noteProps": {
     "title": "Properties",
@@ -4033,5 +4035,23 @@
     "bannerDaily": "This is the daily note template: each new daily note starts with this text.",
     "variables": "Variables: {{vars}}.",
     "varNames": "date, time, title"
+  },
+  "embeds": {
+    "open": "Open {{title}}",
+    "tooDeep": "Note embedded inside another: open it to see.",
+    "empty": "(empty)",
+    "emptyList": "No tasks in this list.",
+    "more_one": "{{count}} more task in the list.",
+    "more_other": "{{count}} more tasks in the list.",
+    "noImage": "Image “{{name}}” not found in attachments.",
+    "create": "Create “{{title}}”"
+  },
+  "linkPreview": {
+    "done": "Completed",
+    "open": "Open",
+    "openTasks_one": "{{count}} open task",
+    "openTasks_other": "{{count}} open tasks",
+    "folder": "Folder",
+    "openButton": "Open"
   }
 }

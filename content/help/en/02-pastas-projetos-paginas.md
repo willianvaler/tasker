@@ -67,6 +67,8 @@ The last option creates a link to something that **doesn't exist yet** (`[[New i
 
 Below the note, **Linked from** shows the notes and tasks that link to it, with the sentence around the link. **Outgoing links** lists what it links to. **Unlinked mentions** shows your notes that write its name without `[[ ]]`, and **Link** turns the mention into a link. A task's description also accepts `[[`, and the task panel and the top of a list show **Linked from**. It works offline.
 
+**Embed:** a line with only `![[...]]` (a `!` before the link, or the `/embed` command) shows the item inside the note: another note (whole, or just a section with `![[Note#Heading]]`), a list with real checkboxes (completing there completes it in the list), a task, or an image from your task attachments by file name (`![[photo.jpg]]`). On a computer, resting the mouse on a link shows a preview with the first lines; on a phone, touch and hold.
+
 ## Shopping list from a menu
 
 On a menu list (of type Tasks or Routine), each dish is a task and the ingredients are its **subtasks** or the lines starting with `-` in its **notes** ("- 500 g ground beef", "- 2 eggs"). In the list menu, **Make a shopping list** puts everything in one list, adding up what repeats (500 g + 300 g of beef become 800 g; kg and liters count too), and asks where it goes: a list in the same folder, a new "Shopping" list or the Inbox. Before creating, the list shows up in batch creation so you can check it. Completed dishes are left out (if they are all completed, all of them count).

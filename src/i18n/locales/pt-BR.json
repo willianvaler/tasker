@@ -2471,7 +2471,9 @@
     "code": "Bloco de código",
     "codeKeys": "codigo,code,código",
     "divider": "Divisória",
-    "dividerKeys": "divisoria,linha,divider,hr,separador"
+    "dividerKeys": "divisoria,linha,divider,hr,separador",
+    "embed": "Incorporar",
+    "embedKeys": "incorporar,embed,incrustar,imagem,image,imagen"
   },
   "noteProps": {
     "title": "Propriedades",
@@ -4033,5 +4035,23 @@
     "bannerDaily": "Este é o modelo da nota do dia: cada nota do dia nova começa com este texto.",
     "variables": "Variáveis: {{vars}}.",
     "varNames": "data, hora, titulo"
+  },
+  "embeds": {
+    "open": "Abrir {{title}}",
+    "tooDeep": "Anotação incorporada dentro de outra: abra para ver.",
+    "empty": "(vazia)",
+    "emptyList": "Nenhuma tarefa nesta lista.",
+    "more_one": "Mais {{count}} tarefa na lista.",
+    "more_other": "Mais {{count}} tarefas na lista.",
+    "noImage": "Imagem “{{name}}” não encontrada nos anexos.",
+    "create": "Criar “{{title}}”"
+  },
+  "linkPreview": {
+    "done": "Concluída",
+    "open": "Aberta",
+    "openTasks_one": "{{count}} tarefa aberta",
+    "openTasks_other": "{{count}} tarefas abertas",
+    "folder": "Pasta",
+    "openButton": "Abrir"
   }
 }

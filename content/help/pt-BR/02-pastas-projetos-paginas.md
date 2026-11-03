@@ -67,6 +67,8 @@ A última opção cria um link para o que **ainda não existe** (`[[Nova ideia]]
 
 Embaixo da anotação, **Citado em** mostra as anotações e tarefas que têm link para ela, com a frase em volta. **Links que saem** lista o que ela cita. **Menções sem link** mostra as suas anotações que escrevem o nome dela sem `[[ ]]`, e **Ligar** transforma a menção em link. A descrição de uma tarefa também aceita `[[`, e o painel da tarefa e o alto de uma lista mostram o **Citado em**. Funciona sem internet.
 
+**Incorporar:** uma linha só com `![[...]]` (o `!` antes do link, ou o comando `/incorporar`) mostra o item dentro da anotação: outra anotação (inteira, ou só um trecho com `![[Anotação#Título]]`), uma lista com as caixinhas de verdade (concluir ali conclui na lista), uma tarefa, ou uma imagem dos anexos das suas tarefas pelo nome do arquivo (`![[foto.jpg]]`). No computador, parar o mouse sobre um link mostra uma prévia com as primeiras linhas; no celular, toque e segure.
+
 ## Lista de compras do cardápio
 
 Numa lista de cardápio (do tipo Tarefas ou Rotina), cada prato é uma tarefa e os ingredientes são as **subtarefas** dele ou as linhas com `-` nas **notas** ("- 500 g de carne moída", "- 2 ovos"). No menu da lista, **Gerar lista de compras** junta tudo numa lista só, somando o que se repete (500 g + 300 g de carne viram 800 g; kg e litros também contam), e pergunta onde pôr: numa lista da mesma pasta, numa lista nova "Compras" ou na Caixa de entrada. Antes de criar, a lista aparece na criação em lote para você conferir. Pratos já concluídos ficam de fora (se todos estiverem concluídos, entram todos).

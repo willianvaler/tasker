@@ -286,6 +286,7 @@ export type SlashCommand =
   | 'warning'
   | 'table'
   | 'link'
+  | 'embed'
   | 'highlight'
   | 'footnote'
   | 'code'
@@ -302,6 +303,7 @@ export const SLASH_COMMANDS: SlashCommand[] = [
   'warning',
   'table',
   'link',
+  'embed',
   'highlight',
   'footnote',
   'code',
@@ -373,6 +375,9 @@ export function applySlash(
     }
     case 'link':
       return put('[[', 2);
+    case 'embed':
+      // Incorporar (OB6): o "[[" abre o autocomplete; ![[foto.png]] puxa uma imagem dos anexos
+      return put('![[', 3);
     case 'highlight':
       return put('====', 2);
     case 'code':

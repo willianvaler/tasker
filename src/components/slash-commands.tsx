@@ -1,6 +1,7 @@
 import {
   CircleAlert,
   Code,
+  FileInput,
   Heading2,
   Heading3,
   Highlighter,
@@ -49,6 +50,7 @@ const ICON: Record<SlashCommand, LucideIcon> = {
   warning: CircleAlert,
   table: Table,
   link: Link2,
+  embed: FileInput,
   highlight: Highlighter,
   footnote: Superscript,
   code: Code,

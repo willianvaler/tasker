@@ -118,6 +118,9 @@ describe('wikiToMarkdown', () => {
     });
     expect(parseLinkHref('questlist-link:none:')).toEqual({ kind: 'none' });
     expect(parseLinkHref('https://x.com')).toBeNull();
+    // Como o react-native-marked entrega (o esquema com "-" vira caminho relativo)
+    expect(parseLinkHref(`/questlist-link:t:${A}`)).toEqual({ kind: 'task', id: A, anchor: null });
+    expect(parseLinkHref('/outra/questlist-link:t:x')).toBeNull();
   });
 });
 

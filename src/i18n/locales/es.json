@@ -2471,7 +2471,9 @@
     "code": "Bloque de código",
     "codeKeys": "codigo,code",
     "divider": "Divisor",
-    "dividerKeys": "divisoria,divider,hr,separador,linea"
+    "dividerKeys": "divisoria,divider,hr,separador,linea",
+    "embed": "Incrustar",
+    "embedKeys": "incrustar,embed,incorporar,imagen,image,imagem"
   },
   "noteProps": {
     "title": "Propiedades",
@@ -4033,5 +4035,23 @@
     "bannerDaily": "Esta es la plantilla de la nota del día: cada nota del día nueva empieza con este texto.",
     "variables": "Variables: {{vars}}.",
     "varNames": "fecha, hora, titulo"
+  },
+  "embeds": {
+    "open": "Abrir {{title}}",
+    "tooDeep": "Nota incrustada dentro de otra: ábrela para verla.",
+    "empty": "(vacía)",
+    "emptyList": "Ninguna tarea en esta lista.",
+    "more_one": "{{count}} tarea más en la lista.",
+    "more_other": "{{count}} tareas más en la lista.",
+    "noImage": "Imagen “{{name}}” no encontrada en los adjuntos.",
+    "create": "Crear “{{title}}”"
+  },
+  "linkPreview": {
+    "done": "Completada",
+    "open": "Abierta",
+    "openTasks_one": "{{count}} tarea abierta",
+    "openTasks_other": "{{count}} tareas abiertas",
+    "folder": "Carpeta",
+    "openButton": "Abrir"
   }
 }

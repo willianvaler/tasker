@@ -143,7 +143,9 @@ function replaceLinks(text: string, resolve: ResolveLink, noAccess: string) {
   );
 }
 
-export function parseLinkHref(href: string): LinkHref | null {
+export function parseLinkHref(raw: string): LinkHref | null {
+  // O react-native-marked só reconhece esquema de letras (sem o "-"): chega como caminho relativo
+  const href = raw.startsWith(`/${SCHEME}`) ? raw.slice(1) : raw;
   if (!href.startsWith(SCHEME)) return null;
   const rest = href.slice(SCHEME.length);
   const hash = rest.indexOf('#');
