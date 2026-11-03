@@ -41,6 +41,8 @@ dependencies {
   implementation("androidx.wear.compose:compose-material:1.4.1")
   implementation("androidx.wear.compose:compose-foundation:1.4.1")
   implementation("androidx.wear:wear:1.3.0")
+  // O wear puxa um fragment antigo, que quebra o registerForActivityResult (lint do release)
+  implementation("androidx.fragment:fragment:1.8.5")
   implementation("androidx.wear:wear-ongoing:1.0.0")
   implementation("com.google.android.gms:play-services-wearable:19.0.0")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
