@@ -840,7 +840,11 @@
     "create": "Criar",
     "name": "Nome",
     "emoji": "Emoji",
-    "error": "Não deu certo: {{message}}"
+    "error": "Não deu certo: {{message}}",
+    "kits": "Kits por assunto",
+    "kitsHint": "Mais completos: etapas em ordem (uma espera a outra), rotina e a página de gastos com orçamento.",
+    "kitLabel": "Kit {{name}}",
+    "ready": "Modelos rápidos"
   },
   "capture": {
     "title": "Captura rápida",

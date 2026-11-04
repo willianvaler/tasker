@@ -840,7 +840,11 @@
     "create": "Crear",
     "name": "Nombre",
     "emoji": "Emoji",
-    "error": "Algo salió mal: {{message}}"
+    "error": "Algo salió mal: {{message}}",
+    "kits": "Kits por tema",
+    "kitsHint": "Más completos: etapas en orden (una espera a la otra), rutina y la página de gastos con presupuesto.",
+    "kitLabel": "Kit {{name}}",
+    "ready": "Plantillas rápidas"
   },
   "capture": {
     "title": "Captura rápida",

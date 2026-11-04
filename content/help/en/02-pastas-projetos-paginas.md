@@ -20,6 +20,10 @@ In the list menu, **Move to…** takes the list (with its tasks) to another fold
 
 To change the order without dragging, use **Move up** and **Move down** in the folder or list menu (on the keyboard, **Alt+↑** and **Alt+↓** with it open).
 
+## Templates and kits
+
+In **Folders** → **Use template**, the **Kits by topic** create a more complete project: **Weekly workout**, **Weekly menu**, **Renovation**, **Trip with itinerary**, **Studies** and **Event**. The steps come in order (in Renovation, each one waits for the previous one, as in "Dependencies"), and the ones with costs bring an **Expenses** list with a budget for you to adjust. The text comes in the app's language. Below are the **Quick templates** (still in Portuguese: Churrasco, Viagem, Mudança, Festa) and the ones you saved.
+
 ## Gym
 
 If you said you will use the app to work out (or turned on **Workouts** in Settings → Features), the sidebar gets the **Gym** block, with your workouts. **+ New workout** creates the workout list right there, already as cards and resetting every week. Turning the mode off deletes nothing: the Gym folder goes back to Folders.

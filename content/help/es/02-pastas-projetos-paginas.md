@@ -20,6 +20,10 @@ En el menú de la lista, **Mover a…** lleva la lista (con sus tareas) a otra c
 
 Para cambiar el orden sin arrastrar, usa **Mover arriba** y **Mover abajo** en el menú de la carpeta o de la lista (en el teclado, **Alt+↑** y **Alt+↓** con ella abierta).
 
+## Plantillas y kits
+
+En **Carpetas** → **Usar plantilla**, los **Kits por tema** crean un proyecto más completo: **Entreno de la semana**, **Menú semanal**, **Reforma**, **Viaje con itinerario**, **Estudios** y **Evento**. Las etapas vienen en orden (en la Reforma, cada una espera a la anterior, como en "Dependencias"), y los que tienen gastos traen la lista **Gastos** con un presupuesto para ajustar. El texto viene en el idioma de la app. Debajo están las **Plantillas rápidas** (por ahora en portugués: Churrasco, Viagem, Mudança, Festa) y las que guardaste.
+
 ## Gimnasio
 
 Si respondiste que vas a usar la app para entrenar (o activaste **Entrenamiento** en Ajustes → Funciones), la barra lateral gana el bloque **Gimnasio**, con tus entrenamientos. **+ Nuevo entrenamiento** crea la lista de entrenamiento ahí mismo, ya en tarjetas y reiniciándose cada semana. Desactivar el modo no borra nada: la carpeta Gimnasio vuelve a Carpetas.

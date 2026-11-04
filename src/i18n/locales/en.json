@@ -840,7 +840,11 @@
     "create": "Create",
     "name": "Name",
     "emoji": "Emoji",
-    "error": "Something went wrong: {{message}}"
+    "error": "Something went wrong: {{message}}",
+    "kits": "Kits by topic",
+    "kitsHint": "More complete: steps in order (one waits for the other), routine and an expenses page with a budget.",
+    "kitLabel": "Kit {{name}}",
+    "ready": "Quick templates"
   },
   "capture": {
     "title": "Quick capture",

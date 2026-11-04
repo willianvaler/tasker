@@ -6,7 +6,7 @@ Itens **B** (próxima versão) e **C** (backlog) do brainstorm do `ESCOPO_V3.md`
 
 - **Custos e orçamento:** valor estimado vs. real por tarefa, somado por página/projeto. (Gastos no projeto: ESCOPO_V9; racha de contas: feito, PB5.)
 - ~~Lista de compras gerada~~ feito (PB4, D224).
-- **Kits por domínio:** Treino, Cardápio semanal, Reforma (etapas dependentes + orçamento), Viagem, Estudos, Evento.
+- ~~Kits por domínio~~ feito (PB6, D301).
 - **Registro de medidas** (peso, cargas, medidas) com gráfico de evolução.
 - ~~Revisão semanal guiada~~ feito (PB3, D223).
 - ~~Matriz de Eisenhower~~ feito (PB1, D221; o Kanban existe desde a Fase 6).

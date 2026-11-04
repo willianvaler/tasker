@@ -20,6 +20,10 @@ No menu da lista, **Mover para…** leva a lista (com as tarefas) para outra pas
 
 Para mudar a ordem sem arrastar, use **Mover para cima** e **Mover para baixo** no menu da pasta ou da lista (no teclado, **Alt+↑** e **Alt+↓** com ela aberta).
 
+## Modelos e kits
+
+Em **Pastas** → **Usar modelo**, os **Kits por assunto** criam um projeto mais completo: **Treino da semana**, **Cardápio semanal**, **Reforma**, **Viagem com roteiro**, **Estudos** e **Evento**. As etapas já vêm em ordem (na Reforma, cada uma espera a anterior, como em "Dependências"), e os que têm gastos trazem a lista **Gastos** com um orçamento para você ajustar. O texto vem no idioma do app. Embaixo ficam os **Modelos rápidos** (Churrasco, Viagem, Mudança, Festa) e os que você salvou.
+
 ## Academia
 
 Se você respondeu que vai usar o app para treinar (ou ligou o **Treino** em Configurações → Recursos), a barra lateral ganha o bloco **Academia**, com os seus treinos. **+ Novo treino** cria a lista de treino direto ali, já em cards e reiniciando toda semana. Desligar o modo não apaga nada: a pasta Academia volta para Pastas.

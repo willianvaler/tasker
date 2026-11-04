@@ -14,7 +14,9 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { useToday } from '@/lib/queries/profile';
 import { useTemplateMutations, useUserTemplates, type TemplateData } from '@/lib/queries/projects';
+import { KITS, kitData, kitLanguage } from '@/lib/kits';
 import { BUILT_IN_TEMPLATES, templateData } from '@/lib/templates';
+import { uuidv7 } from '@/lib/uuid';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
@@ -22,7 +24,8 @@ type Chosen = { name: string; icon: string; data: TemplateData; shared: boolean 
 
 // Criar projeto a partir de modelo: os prontos (no app) e os salvos pelo usuário.
 export default function TemplatesScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const kits = KITS[kitLanguage(i18n.language)];
   const today = useToday();
   const online = useIsOnline();
   const toast = useToast();
@@ -46,6 +49,32 @@ export default function TemplatesScreen() {
           label={t('templates.community')}
           onPress={() => router.push('/comunidade')}
         />
+        {/* Kits por assunto (PB6, D301): etapas em ordem e orçamento, no idioma da interface */}
+        <SectionLabel title={t('templates.kits')} count={kits.length} className="pt-0" />
+        <Text className="pb-2 text-sm text-ink-muted">{t('templates.kitsHint')}</Text>
+        <View className="border-t border-line">
+          {kits.map((kit) => (
+            <TemplateRow
+              key={kit.key}
+              icon={kit.icon}
+              name={kit.name}
+              labelKey="templates.kitLabel"
+              detail={kit.description}
+              pages={kit.pages.map((p) => p.name)}
+              disabled={!online}
+              onPress={() =>
+                setChosen({
+                  name: kit.name,
+                  icon: kit.icon,
+                  data: kitData(kit, today, uuidv7),
+                  shared: true,
+                })
+              }
+            />
+          ))}
+        </View>
+
+        <SectionLabel title={t('templates.ready')} count={BUILT_IN_TEMPLATES.length} />
         <View className="border-t border-line">
           {BUILT_IN_TEMPLATES.map((tpl) => (
             <TemplateRow
@@ -132,6 +161,7 @@ export default function TemplatesScreen() {
 function TemplateRow({
   icon,
   name,
+  labelKey = 'templates.label',
   detail,
   pages,
   disabled,
@@ -141,6 +171,7 @@ function TemplateRow({
 }: {
   icon?: string | null;
   name: string;
+  labelKey?: 'templates.label' | 'templates.kitLabel';
   detail?: string;
   pages: string[];
   disabled?: boolean;
@@ -153,7 +184,7 @@ function TemplateRow({
     <View className="flex-row items-center border-b border-line">
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={t('templates.label', { name })}
+        accessibilityLabel={t(labelKey, { name })}
         disabled={disabled}
         className="flex-1 flex-row items-start gap-3 px-2 py-4 hover:bg-wash active:bg-wash"
         onPress={onPress}
