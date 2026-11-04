@@ -1008,7 +1008,7 @@
     "pageName": "Compras"
   },
   "split": {
-    "title": "Ao lado",
+    "title": "Racha de contas",
     "intro": "Quanto cada um pagou e deve nos gastos divididos (de todos os meses).",
     "toReceive": "tem a receber {{value}}",
     "owes": "deve {{value}}",
@@ -1025,7 +1025,10 @@
     "among": "Dividido entre",
     "amongHint_one": "Fica todo com {{count}} pessoa.",
     "amongHint_other": "Partes iguais entre {{count}} pessoas.",
-    "notSplit": "Não entra no racha.",
+    "notSplit": "Não entra no racha."
+  },
+  "sidePane": {
+    "title": "Ao lado",
     "open": "Abrir ao lado",
     "pick": "Abrir ao lado",
     "search": "Procurar anotação ou lista",

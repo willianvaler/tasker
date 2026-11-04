@@ -53,7 +53,7 @@ test('modo jogo: virada do dia, recompensa, mascote e morte', async ({ page }, t
     timeZone: 'America/Sao_Paulo',
   });
   const [inbox] = await adminRest(
-    `pages?is_inbox=eq.true&select=id,folders!inner(owner_id)&folders.owner_id=eq.${me}`,
+    `pages?is_inbox=eq.true&select=id,folders!pages_folder_id_fkey!inner(owner_id)&folders.owner_id=eq.${me}`,
   );
   await adminRest('tasks', {
     method: 'POST',

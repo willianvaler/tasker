@@ -52,18 +52,18 @@ export function SidePicker({
   return (
     <DialogFrame onClose={onClose} wide>
       <Text accessibilityRole="header" className="text-lg font-semibold text-ink">
-        {t('split.pick')}
+        {t('sidePane.pick')}
       </Text>
       <Input
         autoFocus
-        accessibilityLabel={t('split.search')}
-        placeholder={t('split.search')}
+        accessibilityLabel={t('sidePane.search')}
+        placeholder={t('sidePane.search')}
         value={text}
         onChangeText={setText}
       />
       <ScrollView style={{ maxHeight: 360 }} keyboardShouldPersistTaps="handled">
         {list.length === 0 && (
-          <Text className="py-2 text-sm text-ink-muted">{t('split.searchHint')}</Text>
+          <Text className="py-2 text-sm text-ink-muted">{t('sidePane.searchHint')}</Text>
         )}
         {list.map((c) => (
           <Pressable
@@ -94,7 +94,7 @@ export function SidePicker({
 /** Botão de fechar o lado */
 export function CloseSide({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
-  return <IconButton icon={X} label={t('split.close')} tone="ink" onPress={onClose} />;
+  return <IconButton icon={X} label={t('sidePane.close')} tone="ink" onPress={onClose} />;
 }
 
 /** A lista ao lado, na visão dela (lista, quadro, hábitos, base, canvas, gastos) */
@@ -105,11 +105,11 @@ export function PagePane({ id, onClose }: { id: string; onClose: () => void }) {
   return (
     <Screen size="medium">
       <ScreenHeader
-        title={page ? pageLabel(page) : t('split.title')}
+        title={page ? pageLabel(page) : t('sidePane.title')}
         right={<CloseSide onClose={onClose} />}
       />
       {tree.data && !page ? (
-        <EmptyState title={t('split.missing')} />
+        <EmptyState title={t('sidePane.missing')} />
       ) : !page ? null : page.view_type === 'expenses' ? (
         <ExpensesView page={page} />
       ) : page.view_type === 'base' ? (

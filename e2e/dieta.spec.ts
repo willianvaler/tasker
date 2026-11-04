@@ -56,7 +56,7 @@ test('dieta: montar o cardápio, prato de hoje e lista de compras', async ({ pag
   ).toBeVisible();
 
   const [dish] = await adminRest(
-    `tasks?select=meta,due_date,pages!inner(name,reset_cycle,folders!inner(owner_id))&pages.folders.owner_id=eq.${me}&title=eq.Frango grelhado`,
+    `tasks?select=meta,due_date,pages!inner(name,reset_cycle,folders!pages_folder_id_fkey!inner(owner_id))&pages.folders.owner_id=eq.${me}&title=eq.Frango grelhado`,
   );
   expect(dish).toMatchObject({
     meta: { meal: 'lunch', days: [index] },
@@ -93,7 +93,7 @@ test('vida saudável: adicionar um hábito pronto', async ({ page }, testInfo) =
     page.getByRole('button', { name: 'Beber um copo de água já está nos hábitos' }),
   ).toBeVisible();
   const [habit] = await adminRest(
-    `tasks?select=habit_kind,habit_target,pages!inner(is_habits,folders!inner(owner_id))&pages.folders.owner_id=eq.${me}&title=eq.Beber um copo de água`,
+    `tasks?select=habit_kind,habit_target,pages!inner(is_habits,folders!pages_folder_id_fkey!inner(owner_id))&pages.folders.owner_id=eq.${me}&title=eq.Beber um copo de água`,
   );
   expect(habit).toMatchObject({
     habit_kind: 'counter',

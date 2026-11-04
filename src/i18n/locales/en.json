@@ -1008,7 +1008,7 @@
     "pageName": "Shopping"
   },
   "split": {
-    "title": "Side pane",
+    "title": "Split the bill",
     "intro": "How much each person paid and owes in the split expenses (all months).",
     "toReceive": "gets back {{value}}",
     "owes": "owes {{value}}",
@@ -1025,7 +1025,10 @@
     "among": "Split among",
     "amongHint_one": "All on {{count}} person.",
     "amongHint_other": "Equal shares among {{count}} people.",
-    "notSplit": "Not part of the split.",
+    "notSplit": "Not part of the split."
+  },
+  "sidePane": {
+    "title": "Side pane",
     "open": "Open side by side",
     "pick": "Open side by side",
     "search": "Find a note or list",

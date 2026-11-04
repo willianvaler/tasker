@@ -643,7 +643,7 @@ function Editor({
             ...(canSplit && !pane
               ? [
                   {
-                    label: t('split.open'),
+                    label: t('sidePane.open'),
                     onPress: () => {
                       closeMoreMenu();
                       setPicking(true);
