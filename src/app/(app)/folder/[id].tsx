@@ -19,6 +19,7 @@ import { NotesList, useNewNote } from '@/components/notes-block';
 import { ProjectOverview } from '@/components/project-overview';
 import { FlowView } from '@/components/project/flow-view';
 import { PeopleView } from '@/components/project/people-view';
+import { GanttView } from '@/components/project/gantt-view';
 import { TimelineView } from '@/components/project/timeline-view';
 import { Tabs } from '@/components/ui/tabs';
 import { Related } from '@/components/related';
@@ -36,7 +37,7 @@ import { actorCan } from '@/lib/permissions';
 import { useFolderActor } from '@/lib/queries/projects';
 import { useCanWrite } from '@/providers/write';
 
-type ProjectView = 'list' | 'flow' | 'people' | 'timeline';
+type ProjectView = 'list' | 'flow' | 'gantt' | 'people' | 'timeline';
 
 // Pasta ou projeto: páginas em linhas, subpastas como seções e, no projeto, o progresso e a atividade.
 export default function FolderScreen() {
@@ -65,12 +66,14 @@ export default function FolderScreen() {
   const children = folder && 'children' in folder ? folder.children : [];
   const empty = !!folder && folder.pages.length === 0 && children.length === 0;
   const project = !!folder && 'children' in folder && folder.kind === 'project';
-  // Abas do projeto (V3 §2.6, D114): Lista · Fluxo · Pessoas · Linha do tempo. Pasta pessoal
-  // (fora a Academia) fica com Lista · Fluxo, para ver as dependências (CD16)
+  // Abas do projeto (V3 §2.6, D114): Lista · Fluxo · Gantt (PC3) · Pessoas · Linha do tempo. Pasta pessoal
+  // (fora a Academia) fica com Lista · Fluxo · Gantt, para ver as dependências (CD16)
   const tabbed = !!folder && 'children' in folder && !folder.parent_id && !folder.is_gym;
   const views: { value: ProjectView; label: string }[] = [
     { value: 'list', label: t('projectTabs.list') },
     { value: 'flow', label: t('projectTabs.flow') },
+    // Gantt editável (PC3, D308): também na pasta pessoal, como o Fluxo
+    { value: 'gantt', label: t('projectTabs.gantt') },
     ...(project ? [{ value: 'people' as const, label: t('projectTabs.people') }] : []),
     ...(project && actorCan(actor, 'workflow.view_audit')
       ? [{ value: 'timeline' as const, label: t('projectTabs.timeline') }]
@@ -192,6 +195,10 @@ export default function FolderScreen() {
       {folder && 'children' in folder && view === 'flow' ? (
         <ScreenScroll contentContainerClassName="flex-grow pb-clear">
           <FlowView root={folder} />
+        </ScreenScroll>
+      ) : folder && 'children' in folder && view === 'gantt' ? (
+        <ScreenScroll contentContainerClassName="pb-clear">
+          <GanttView root={folder} />
         </ScreenScroll>
       ) : folder && 'children' in folder && view === 'people' ? (
         <ScreenScroll contentContainerClassName="pb-clear">

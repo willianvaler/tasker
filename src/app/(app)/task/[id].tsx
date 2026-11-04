@@ -236,6 +236,7 @@ function TaskDetails({ task }: { task: Task }) {
   const [labels, setLabels] = useState(task.labels.map((l) => `#${l}`).join(' '));
   const [dateText, setDateText] = useState('');
   const [timeText, setTimeText] = useState('');
+  const [startText, setStartText] = useState('');
   const [moving, setMoving] = useState(false);
 
   const save = (patch: TaskPatch) => update.mutate({ id: task.id, patch });
@@ -319,6 +320,16 @@ function TaskDetails({ task }: { task: Task }) {
       });
       setDateText('');
     }
+  }
+
+  // Início (Gantt, PC3): até o vencimento; "nenhum" tira
+  function saveStartText() {
+    const text = startText.trim();
+    if (!text || !task?.due_date) return;
+    const parsed = parseQuickInput(`x ${text}`, { today });
+    if (parsed.dueDate)
+      save({ start_date: parsed.dueDate > task.due_date ? task.due_date : parsed.dueDate });
+    setStartText('');
   }
 
   function saveTimeText() {
@@ -475,6 +486,28 @@ function TaskDetails({ task }: { task: Task }) {
               placeholder={t('taskDetail.otherDatePlaceholder')}
               accessibilityLabel={t('taskDetail.otherDate')}
             />
+            {task.due_date && (
+              <View className="flex-row flex-wrap items-center gap-2 pt-2">
+                <Text className="text-sm text-ink-muted">{t('gantt.start')}</Text>
+                <Input
+                  value={startText}
+                  onChangeText={setStartText}
+                  onSubmitEditing={saveStartText}
+                  onBlur={saveStartText}
+                  editable={writable}
+                  placeholder={
+                    task.start_date
+                      ? formatDueDate(task.start_date, today)
+                      : t('gantt.startPlaceholder')
+                  }
+                  accessibilityLabel={t('gantt.start')}
+                  className="w-40"
+                />
+                {task.start_date && (
+                  <Chip label={t('gantt.noStart')} onPress={() => save({ start_date: null })} />
+                )}
+              </View>
+            )}
             {task.due_date && (
               <View className="gap-2 pt-2">
                 <View className="flex-row items-center gap-2">

@@ -1663,7 +1663,8 @@
     "list": "List",
     "flow": "Flow",
     "people": "People",
-    "timeline": "Timeline"
+    "timeline": "Timeline",
+    "gantt": "Gantt"
   },
   "peopleView": {
     "empty": "No one in the project yet",
@@ -4415,5 +4416,31 @@
     "imported_one": "{{count}} task imported.",
     "imported_other": "{{count}} tasks imported.",
     "partial": "{{done}} of {{total}} projects came in. Error: {{message}}"
+  },
+  "gantt": {
+    "start": "Starts on",
+    "startPlaceholder": "e.g. 11/10, monday",
+    "noStart": "No start",
+    "empty": "Nothing with a date here",
+    "emptyHint": "Give tasks a due date (and, if you like, a start) to see them in the Gantt.",
+    "zoomDay": "Days",
+    "zoomWeek": "Weeks",
+    "hint": "Drag a bar to change its dates; the edges change the start or the end. Tap for more options.",
+    "readOnly": "View only: you don't edit this project's tasks.",
+    "task": "Task",
+    "today": "Today",
+    "undated_one": "{{count}} without a date",
+    "undated_other": "{{count}} without a date",
+    "undatedHint": "Tap a task to make it due today and show up in the Gantt.",
+    "open": "Open the task",
+    "earlier": "One day earlier",
+    "later": "One day later",
+    "longer": "End one day later",
+    "shorter": "End one day earlier",
+    "startEarlier": "Start one day earlier",
+    "barLabel": "{{title}}, from {{start}} to {{end}}",
+    "early": "Starts before a prerequisite ends",
+    "dragStart": "Drag the start of {{title}}",
+    "dragEnd": "Drag the end of {{title}}"
   }
 }

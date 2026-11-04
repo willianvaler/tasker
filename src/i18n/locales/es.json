@@ -1663,7 +1663,8 @@
     "list": "Lista",
     "flow": "Flujo",
     "people": "Personas",
-    "timeline": "Línea de tiempo"
+    "timeline": "Línea de tiempo",
+    "gantt": "Gantt"
   },
   "peopleView": {
     "empty": "Todavía no hay nadie en el proyecto",
@@ -4415,5 +4416,31 @@
     "imported_one": "{{count}} tarea importada.",
     "imported_other": "{{count}} tareas importadas.",
     "partial": "Entraron {{done}} de {{total}} proyectos. Error: {{message}}"
+  },
+  "gantt": {
+    "start": "Empieza el",
+    "startPlaceholder": "ej.: 10/11, lunes",
+    "noStart": "Sin inicio",
+    "empty": "Nada con fecha por aquí",
+    "emptyHint": "Ponle vencimiento a las tareas (y, si quieres, un inicio) para verlas en el Gantt.",
+    "zoomDay": "Días",
+    "zoomWeek": "Semanas",
+    "hint": "Arrastra la barra para cambiar las fechas; los bordes cambian el inicio o el fin. Toca para más opciones.",
+    "readOnly": "Solo para ver: no editas las tareas de este proyecto.",
+    "task": "Tarea",
+    "today": "Hoy",
+    "undated_one": "{{count}} sin fecha",
+    "undated_other": "{{count}} sin fecha",
+    "undatedHint": "Toca una tarea para que venza hoy y aparezca en el Gantt.",
+    "open": "Abrir la tarea",
+    "earlier": "Un día antes",
+    "later": "Un día después",
+    "longer": "Terminar un día después",
+    "shorter": "Terminar un día antes",
+    "startEarlier": "Empezar un día antes",
+    "barLabel": "{{title}}, del {{start}} al {{end}}",
+    "early": "Empieza antes de que termine un prerrequisito",
+    "dragStart": "Arrastrar el inicio de {{title}}",
+    "dragEnd": "Arrastrar el fin de {{title}}"
   }
 }

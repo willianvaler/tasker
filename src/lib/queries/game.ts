@@ -84,22 +84,44 @@ const gameStateSchema = z.object({
   max_hp: z.number().default(50),
   mp: z.number().default(30),
   max_mp: z.number().default(30),
-  dead: z.boolean().nullable().transform((v) => !!v).default(false),
-  resting: z.boolean().nullable().transform((v) => !!v).default(false),
+  dead: z
+    .boolean()
+    .nullable()
+    .transform((v) => !!v)
+    .default(false),
+  resting: z
+    .boolean()
+    .nullable()
+    .transform((v) => !!v)
+    .default(false),
   stealth: z.number().default(0),
-  shield: z.boolean().nullable().transform((v) => !!v).default(false),
+  shield: z
+    .boolean()
+    .nullable()
+    .transform((v) => !!v)
+    .default(false),
   buff: z.number().default(0),
   avatar: z
     .object({ portrait: z.string().optional(), background: z.string().optional() })
     .catch({})
     .default({}),
   costume: z.record(z.string(), z.string()).catch({}).default({}),
-  use_costume: z.boolean().nullable().transform((v) => !!v).default(false),
+  use_costume: z
+    .boolean()
+    .nullable()
+    .transform((v) => !!v)
+    .default(false),
   active_pet: z.string().nullable().default(null),
   active_mount: z.string().nullable().default(null),
-  vocab: z.boolean().nullable().transform((v) => v !== false).default(true),
+  vocab: z
+    .boolean()
+    .nullable()
+    .transform((v) => v !== false)
+    .default(true),
   quests: z
-    .array(bossSchema.extend({ quest_key: z.string(), quest_clan: z.boolean().nullable().optional() }))
+    .array(
+      bossSchema.extend({ quest_key: z.string(), quest_clan: z.boolean().nullable().optional() }),
+    )
     .catch([])
     .default([]),
 });
@@ -122,7 +144,10 @@ export const completionSummarySchema = z.object({
   gold: z.number().optional(),
   drops: z.array(z.object({ key: z.string(), name: z.string(), icon: z.string() })).optional(),
   /** HB8: ovo, poção, comida ou pergaminho que caiu nesta ação */
-  loot: z.array(z.object({ kind: z.string(), key: z.string() })).nullable().optional(),
+  loot: z
+    .array(z.object({ kind: z.string(), key: z.string() }))
+    .nullable()
+    .optional(),
   /** Estimativa local enquanto a ação está na fila do sync (o servidor ainda não respondeu) */
   pending: z.boolean().optional(),
   /** O3: o diário e o semanal depois do golpe, quem caiu agora e o teto do dia atingido */

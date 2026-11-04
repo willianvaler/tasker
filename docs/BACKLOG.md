@@ -21,7 +21,7 @@ Itens **B** (próxima versão) e **C** (backlog) do brainstorm do `ESCOPO_V3.md`
 - Lembretes por local.
 - ~~Captura por foto (OCR)~~ feito (foto da lista, D219).
 - ~~Dependências entre projetos (permissões cruzadas)~~ feito para tarefas (PC2, D307); lista que espera lista de outro projeto fica no backlog.
-- Gantt editável.
+- ~~Gantt editável~~ feito (PC3, D308).
 - Edição colaborativa de notas (CRDT).
 - ~~Importar de Habitica/Todoist~~ feito (PC1, D306); CSV genérico fica no backlog.
 - Webhooks/API pública.

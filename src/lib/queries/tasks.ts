@@ -408,6 +408,7 @@ function optimisticTask(
     count_up: 0,
     count_down: 0,
     count_key: null,
+    start_date: null,
     due_time: item.dueDate && item.dueTime ? `${item.dueTime}:00` : null,
     remind_before: item.dueDate && item.dueTime ? (item.remindBefore ?? 0) : null,
     reminded_at: null,
@@ -583,6 +584,7 @@ export type TaskPatch = Partial<
     | 'notes'
     | 'priority'
     | 'due_date'
+    | 'start_date'
     | 'due_time'
     | 'remind_before'
     | 'labels'

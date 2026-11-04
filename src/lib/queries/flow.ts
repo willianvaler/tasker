@@ -12,11 +12,14 @@ import type { FolderNode } from './tree';
 export type ProjectTask = FlowTask & {
   folder_id: string;
   due_date: string | null;
+  /** Início (Gantt, PC3); sem ele, a barra é o dia do vencimento */
+  start_date: string | null;
+  position: number;
   created_at: string;
 };
 
 const COLUMNS =
-  'id, title, page_id, folder_id, parent_task_id, status, completed_at, started_at, deps_mode, estimate_minutes, due_date, created_at';
+  'id, title, page_id, folder_id, parent_task_id, status, completed_at, started_at, deps_mode, estimate_minutes, due_date, start_date, position, created_at';
 
 /**
  * Todas as tarefas do projeto, subtarefas incluídas, com o que o Fluxo e a visão Pessoas usam.
