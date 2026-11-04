@@ -4346,5 +4346,25 @@
     "perLine_one": "{{count}} task, one per line",
     "perLine_other": "{{count}} tasks, one per line",
     "perLineHint": "In the Inbox, checking first in Add several."
+  },
+  "pageExport": {
+    "menu": "Export…",
+    "title": "Export the list",
+    "csv": "Spreadsheet (CSV)",
+    "markdown": "Markdown (Obsidian, other apps)",
+    "pdf": "PDF",
+    "print": "Print",
+    "printWeb": "Print or save as PDF",
+    "failed": "Couldn't export: {{message}}",
+    "code": "No.",
+    "task": "Task",
+    "done": "Done",
+    "due": "Due",
+    "priority": "Priority",
+    "labels": "Labels",
+    "notes": "Description",
+    "yes": "yes",
+    "generated": "Exported on {{date}}",
+    "progress": "{{done}} of {{count}} done"
   }
 }

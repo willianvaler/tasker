@@ -14,7 +14,7 @@ Itens **B** (próxima versão) e **C** (backlog) do brainstorm do `ESCOPO_V3.md`
 - ~~Reações~~ em tarefas concluídas e comentários: feito (PB2, D222).
 - ~~Recompensas personalizadas~~ feito no modo jogo (HB7, D201).
 - ~~Captura por voz e Share Target~~ feito (PB7, D302; PB8, D303).
-- **Feed de calendário (.ics)** e exportação CSV/Markdown/PDF; imprimir listas.
+- ~~Feed de calendário (.ics)~~ feito (C1, D185); ~~exportação CSV/Markdown/PDF e imprimir listas~~ feito (PB9, D304).
 
 ## C — backlog
 

@@ -20,6 +20,10 @@ No menu da lista, **Mover para…** leva a lista (com as tarefas) para outra pas
 
 Para mudar a ordem sem arrastar, use **Mover para cima** e **Mover para baixo** no menu da pasta ou da lista (no teclado, **Alt+↑** e **Alt+↓** com ela aberta).
 
+## Exportar e imprimir
+
+No menu da lista, **Exportar…**: **Planilha (CSV)** abre no Excel ou no Planilhas, com as subtarefas numeradas (1, 1.1…), feita, vencimento, prioridade, etiquetas e descrição; **Markdown** é uma lista de caixinhas que o Obsidian e outros apps abrem (e que volta para o app colando em **Adicionar várias**, sem a descrição); **Imprimir** monta uma página limpa, em preto e branco, com as caixinhas para marcar à mão. No computador, **Imprimir ou salvar em PDF** abre a impressão do navegador, onde o destino **Salvar como PDF** gera o arquivo; no app do Android, **PDF** vai direto para o Compartilhar. Tudo é feito no aparelho, também sem internet.
+
 ## Modelos e kits
 
 Em **Pastas** → **Usar modelo**, os **Kits por assunto** criam um projeto mais completo: **Treino da semana**, **Cardápio semanal**, **Reforma**, **Viagem com roteiro**, **Estudos** e **Evento**. As etapas já vêm em ordem (na Reforma, cada uma espera a anterior, como em "Dependências"), e os que têm gastos trazem a lista **Gastos** com um orçamento para você ajustar. O texto vem no idioma do app. Embaixo ficam os **Modelos rápidos** (Churrasco, Viagem, Mudança, Festa) e os que você salvou.

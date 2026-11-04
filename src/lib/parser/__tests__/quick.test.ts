@@ -241,3 +241,16 @@ describe('visibilidade (D232)', () => {
     expect(parse('Somar +1').title).toBe('Somar +1');
   });
 });
+
+describe('vencimento do Obsidian (PB9)', () => {
+  it('"📅 AAAA-MM-DD" vira a data e sai do título', () => {
+    const r = parseQuickInput('Carne !! 📅 2026-11-07', { today: '2026-11-04' });
+    expect(r).toMatchObject({ title: 'Carne', priority: 2, dueDate: '2026-11-07' });
+  });
+  it('sem o 📅, ou com data que não existe, fica no título', () => {
+    expect(parseQuickInput('Relatório 2026-11-07', { today: '2026-11-04' }).title).toBe(
+      'Relatório 2026-11-07',
+    );
+    expect(parseQuickInput('X 📅 2026-02-30', { today: '2026-11-04' }).dueDate).toBeNull();
+  });
+});

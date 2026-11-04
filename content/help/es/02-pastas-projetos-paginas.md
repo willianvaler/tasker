@@ -20,6 +20,10 @@ En el menú de la lista, **Mover a…** lleva la lista (con sus tareas) a otra c
 
 Para cambiar el orden sin arrastrar, usa **Mover arriba** y **Mover abajo** en el menú de la carpeta o de la lista (en el teclado, **Alt+↑** y **Alt+↓** con ella abierta).
 
+## Exportar e imprimir
+
+En el menú de la lista, **Exportar…**: **Hoja de cálculo (CSV)** se abre en Excel o Hojas de cálculo, con las subtareas numeradas (1, 1.1…), hecha, vencimiento, prioridad, etiquetas y descripción; **Markdown** es una lista de casillas que Obsidian y otras apps abren (y que vuelve a la app pegándola en **Agregar varias**, sin la descripción); **Imprimir** arma una página limpia, en blanco y negro, con casillas para marcar a mano. En el ordenador, **Imprimir o guardar en PDF** abre la impresión del navegador, donde el destino **Guardar como PDF** crea el archivo; en la app de Android, **PDF** va directo a Compartir. Todo se hace en el dispositivo, también sin internet.
+
 ## Plantillas y kits
 
 En **Carpetas** → **Usar plantilla**, los **Kits por tema** crean un proyecto más completo: **Entreno de la semana**, **Menú semanal**, **Reforma**, **Viaje con itinerario**, **Estudios** y **Evento**. Las etapas vienen en orden (en la Reforma, cada una espera a la anterior, como en "Dependencias"), y los que tienen gastos traen la lista **Gastos** con un presupuesto para ajustar. El texto viene en el idioma de la app. Debajo están las **Plantillas rápidas** (por ahora en portugués: Churrasco, Viagem, Mudança, Festa) y las que guardaste.

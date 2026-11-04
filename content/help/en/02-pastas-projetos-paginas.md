@@ -20,6 +20,10 @@ In the list menu, **Move to…** takes the list (with its tasks) to another fold
 
 To change the order without dragging, use **Move up** and **Move down** in the folder or list menu (on the keyboard, **Alt+↑** and **Alt+↓** with it open).
 
+## Export and print
+
+In the list menu, **Export…**: **Spreadsheet (CSV)** opens in Excel or Sheets, with subtasks numbered (1, 1.1…), done, due date, priority, labels and description; **Markdown** is a checkbox list that Obsidian and other apps open (and that comes back into the app by pasting it into **Add several**, without the description); **Print** builds a clean black-and-white page with boxes to tick by hand. On a computer, **Print or save as PDF** opens the browser's print dialog, where the **Save as PDF** destination creates the file; in the Android app, **PDF** goes straight to Share. Everything happens on the device, offline too.
+
 ## Templates and kits
 
 In **Folders** → **Use template**, the **Kits by topic** create a more complete project: **Weekly workout**, **Weekly menu**, **Renovation**, **Trip with itinerary**, **Studies** and **Event**. The steps come in order (in Renovation, each one waits for the previous one, as in "Dependencies"), and the ones with costs bring an **Expenses** list with a budget for you to adjust. The text comes in the app's language. Below are the **Quick templates** (still in Portuguese: Churrasco, Viagem, Mudança, Festa) and the ones you saved.

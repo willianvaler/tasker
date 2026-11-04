@@ -6,7 +6,7 @@ import { addDays, dateLocale, makeDate, nextDayMonth, nextWeekday, type IsoDate 
 //   #etiqueta              etiqueta
 //   @nome                  responsável (só quando `mentions` está ligado, em páginas de projeto)
 //   ^trecho, ^2            pré-requisito: tarefa pelo título, ou o item 2 do lote (só com `prereqs`)
-//   hoje, amanhã, depois de amanhã, sexta, sexta-feira, 15/10, 15/10/2026   vencimento
+//   hoje, amanhã, depois de amanhã, sexta, sexta-feira, 15/10, 15/10/2026, 📅 2026-10-15   vencimento
 //     (também em inglês e espanhol: today, tomorrow, friday, hoy, mañana, viernes; a ordem de
 //     15/10 segue o idioma do app: 10/15 em inglês)
 //   /diaria /semanal /mensal /seg,qua,sex   recorrência (/daily /weekly /monthly /mon,wed;
@@ -198,6 +198,12 @@ function parseDateAt(
   const next = fold(tokens[i + 1] ?? '');
   const after = fold(tokens[i + 2] ?? '');
   if (word === 'hoje' || word === 'today' || word === 'hoy') return { date: today, length: 1 };
+  // "📅 2026-11-05": o vencimento do plugin Tasks do Obsidian (e do Markdown exportado, PB9)
+  if (tokens[i] === '📅') {
+    const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(tokens[i + 1] ?? '');
+    const date = iso && makeDate(Number(iso[1]), Number(iso[2]), Number(iso[3]));
+    if (date) return { date, length: 2 };
+  }
   if (
     (word === 'depois' && next === 'de' && after === 'amanha') ||
     (word === 'day' && next === 'after' && after === 'tomorrow')

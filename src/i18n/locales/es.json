@@ -4346,5 +4346,25 @@
     "perLine_one": "{{count}} tarea, una por línea",
     "perLine_other": "{{count}} tareas, una por línea",
     "perLineHint": "En la Bandeja de entrada, revisando antes en Agregar varias."
+  },
+  "pageExport": {
+    "menu": "Exportar…",
+    "title": "Exportar la lista",
+    "csv": "Hoja de cálculo (CSV)",
+    "markdown": "Markdown (Obsidian, otras apps)",
+    "pdf": "PDF",
+    "print": "Imprimir",
+    "printWeb": "Imprimir o guardar en PDF",
+    "failed": "No se pudo exportar: {{message}}",
+    "code": "N.º",
+    "task": "Tarea",
+    "done": "Hecha",
+    "due": "Vence",
+    "priority": "Prioridad",
+    "labels": "Etiquetas",
+    "notes": "Descripción",
+    "yes": "sí",
+    "generated": "Exportada el {{date}}",
+    "progress": "{{done}} de {{count}} hechas"
   }
 }

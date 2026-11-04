@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import { FieldsDialog } from '@/components/fields';
 import { PublishDialog, suggestedKind } from '@/components/publish-dialog';
+import { PageExportMenu } from '@/components/page-export';
 import { ShoppingDestination } from '@/components/shopping-destination';
 import { useFavorites } from '@/components/favorites';
 import { useFolderActions } from '@/components/folder-actions';
@@ -65,7 +66,8 @@ type DialogState =
   | 'shopping'
   | 'publish'
   | 'carry'
-  | 'groups';
+  | 'groups'
+  | 'export';
 
 export default function PageScreen() {
   const { id, send } = useLocalSearchParams<{ id: string; send?: string }>();
@@ -389,6 +391,16 @@ export default function PageScreen() {
                 ]
               : []),
             // Outros
+            // PB9: CSV, Markdown, PDF e imprimir (gastos, base e canvas têm a exportação deles)
+            ...(!expensesPage && pageTasks.data?.length
+              ? [
+                  {
+                    group: t('page.groupOther'),
+                    label: t('pageExport.menu'),
+                    onPress: () => setDialog('export'),
+                  },
+                ]
+              : []),
             ...(pageTasks.data?.some((task) => task.parent_task_id)
               ? [
                   {
@@ -440,6 +452,9 @@ export default function PageScreen() {
         <ShoppingDestination page={page} text={shopping} onClose={closeDialog} />
       )}
       {page && dialog === 'fields' && <FieldsDialog pageId={page.id} onClose={closeDialog} />}
+      {page && dialog === 'export' && (
+        <PageExportMenu name={pageLabel(page)} tasks={pageTasks.data ?? []} onClose={closeDialog} />
+      )}
       {page && dialog === 'settings' && (
         <PageDialog
           title={t('page.settings')}
