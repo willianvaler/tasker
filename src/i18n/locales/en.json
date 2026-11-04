@@ -2372,7 +2372,11 @@
     "testTitle": "Alert test",
     "testBody": "This is how the end of rest and focus is announced.",
     "deniedWeb": "Blocked in this browser. Tap the lock next to the address → Notifications → Allow.",
-    "deniedApp": "Blocked. Open Settings → Apps → Questlist → Notifications and turn them on."
+    "deniedApp": "Blocked. Open Settings → Apps → Questlist → Notifications and turn them on.",
+    "exactOff": "Exact alarms are off: with the screen off, the alert may be a few minutes late.",
+    "exactAllow": "Allow exact alarms",
+    "batteryOn": "Battery optimization may freeze the app with the screen off (common on Android Go phones). Choose Questlist → Don't optimize.",
+    "batteryOpen": "Unrestricted battery"
   },
   "modes": {
     "title": "Mode",

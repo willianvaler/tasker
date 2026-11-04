@@ -18,6 +18,6 @@
 
 **Troco o idioma onde?** Configurações → Aparência → Idioma.
 
-**O aviso do timer não vibra / não aparece.** Configurações → Avisos → **Avisos do timer**: veja se a notificação está permitida e use **Testar aviso**. iPhone pelo navegador e computador não vibram.
+**O aviso do timer não vibra / não aparece.** Configurações → Avisos → **Avisos do timer**: veja se a notificação está permitida e use **Testar aviso**. iPhone pelo navegador e computador não vibram. No Android, se o aviso atrasa com a tela desligada, toque em **Permitir alarmes exatos** e **Bateria sem restrição** (aparecem ali só quando faltam; nos celulares Android Go, a bateria otimizada congela o app).
 
 **Tem app para o celular?** Para Android, sim: Configurações → **Sobre o app** → Baixar o app (APK). Abra o arquivo e permita instalar desta fonte. Para atualizar, baixe de novo e instale por cima. Para iPhone, ainda não.

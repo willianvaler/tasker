@@ -8,6 +8,11 @@
   <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
   <!-- Android 16: atualizações ao vivo (notificação promovida, com o chip na barra de status) -->
   <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+  <!-- CPU acordada no descanso e logo depois de um toque (Android Go dorme mesmo com o serviço) -->
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <!-- Aviso do timer na hora com a tela desligada (o expo-notifications usa se for concedido;
+       no Android 14+ a pessoa liga em "Alarmes e lembretes") -->
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
   <application>
     <service

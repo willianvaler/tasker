@@ -18,6 +18,6 @@
 
 **¿Dónde cambio el idioma?** Ajustes → Apariencia → Idioma.
 
-**El aviso del temporizador no vibra / no aparece.** Ajustes → Avisos → **Avisos del temporizador**: mira si las notificaciones están permitidas y usa **Probar aviso**. El iPhone en el navegador y los ordenadores no vibran.
+**El aviso del temporizador no vibra / no aparece.** Ajustes → Avisos → **Avisos del temporizador**: mira si las notificaciones están permitidas y usa **Probar aviso**. El iPhone en el navegador y los ordenadores no vibran. En Android, si el aviso llega tarde con la pantalla apagada, toca **Permitir alarmas exactas** y **Batería sin restricción** (aparecen ahí solo cuando faltan; en los móviles Android Go, la batería optimizada congela la app).
 
 **¿Hay app para el móvil?** Para Android, sí: Ajustes → **Sobre la app** → Descargar la app (APK). Abre el archivo y permite instalar desde esta fuente. Para actualizar, descárgala de nuevo e instálala encima. Para iPhone, aún no.

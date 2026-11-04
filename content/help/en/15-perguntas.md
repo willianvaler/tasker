@@ -18,6 +18,6 @@
 
 **Where do I change the language?** Settings → Appearance → Language.
 
-**The timer alert doesn't vibrate / doesn't show.** Settings → Alerts → **Timer alerts**: check that notifications are allowed and use **Test alert**. iPhone in the browser and computers don't vibrate.
+**The timer alert doesn't vibrate / doesn't show.** Settings → Alerts → **Timer alerts**: check that notifications are allowed and use **Test alert**. iPhone in the browser and computers don't vibrate. On Android, if the alert is late with the screen off, tap **Allow exact alarms** and **Unrestricted battery** (they show up there only when missing; on Android Go phones, battery optimization freezes the app).
 
 **Is there a phone app?** For Android, yes: Settings → **About the app** → Download the app (APK). Open the file and allow installing from this source. To update, download again and install over it. Not for iPhone yet.

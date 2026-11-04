@@ -1,9 +1,11 @@
 package expo.modules.workoutlive
 
+import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
@@ -93,6 +95,41 @@ class WorkoutLiveModule : Module() {
         Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}"))
       }
       context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
+
+    /** Alarme exato (Android 12+): sem ele o aviso do timer atrasa com a tela desligada */
+    Function("canExactAlarms") {
+      Build.VERSION.SDK_INT < 31 ||
+        context.getSystemService(AlarmManager::class.java)?.canScheduleExactAlarms() == true
+    }
+
+    /** Abre "Alarmes e lembretes" do app */
+    Function("openExactAlarmSettings") {
+      val intent = if (Build.VERSION.SDK_INT >= 31) {
+        Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:${context.packageName}"))
+      } else {
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}"))
+      }
+      context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
+
+    /** O app está fora da otimização de bateria (o Android Go congela os otimizados) */
+    Function("ignoresBatteryOptimizations") {
+      context.getSystemService(PowerManager::class.java)
+        ?.isIgnoringBatteryOptimizations(context.packageName) == true
+    }
+
+    /** Abre a lista de otimização de bateria (sem pedir a permissão restrita da Play) */
+    Function("openBatterySettings") {
+      val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+      try {
+        context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+      } catch (e: Exception) {
+        context.startActivity(
+          Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}"))
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+        )
+      }
     }
   }
 }

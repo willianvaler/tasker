@@ -2372,7 +2372,11 @@
     "testTitle": "Teste do aviso",
     "testBody": "Assim avisa o fim do descanso e do foco.",
     "deniedWeb": "Bloqueado neste navegador. Toque no cadeado ao lado do endereço → Notificações → Permitir.",
-    "deniedApp": "Bloqueado. Abra Configurações → Apps → Questlist → Notificações e ligue."
+    "deniedApp": "Bloqueado. Abra Configurações → Apps → Questlist → Notificações e ligue.",
+    "exactOff": "Alarmes exatos desligados: com a tela desligada, o aviso pode atrasar alguns minutos.",
+    "exactAllow": "Permitir alarmes exatos",
+    "batteryOn": "A otimização de bateria pode congelar o app com a tela desligada (comum nos celulares Android Go). Escolha Questlist → Não otimizar.",
+    "batteryOpen": "Bateria sem restrição"
   },
   "modes": {
     "title": "Modo",

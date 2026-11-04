@@ -1,14 +1,26 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Bell, BellRing } from 'lucide-react-native';
+import { AlarmClock, BatteryCharging, Bell, BellRing } from 'lucide-react-native';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, View } from 'react-native';
+import { AppState, Platform, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { alertPermission, canVibrate, ensureAlertPermission, testAlert } from '@/lib/timer-alerts';
 
+import { WorkoutLive } from '../../modules/workout-live';
+
 // Perfil → Avisos (U5, D156): o estado da permissão de notificação deste aparelho/navegador,
-// pedir sem precisar iniciar um timer e testar som, vibração e notificação de uma vez.
+// pedir sem precisar iniciar um timer e testar som, vibração e notificação de uma vez. No Android
+// com o módulo nativo, também alarme exato e otimização de bateria: sem eles, com a tela desligada
+// o aviso atrasa e o Android Go congela o app (Moto E14).
+
+type DeviceExtras = { exact: boolean; battery: boolean };
+
+function deviceExtras(): DeviceExtras | null {
+  if (Platform.OS !== 'android' || !WorkoutLive) return null;
+  return { exact: WorkoutLive.canExactAlarms(), battery: WorkoutLive.ignoresBatteryOptimizations() };
+}
 
 export function TimerAlertSetting() {
   const { t } = useTranslation();
@@ -19,8 +31,25 @@ export function TimerAlertSetting() {
     networkMode: 'always',
     staleTime: 0,
   });
+  const extras = useQuery({
+    queryKey: ['alert-device-extras'],
+    queryFn: deviceExtras,
+    networkMode: 'always',
+    staleTime: 0,
+  });
   const state = permission.data;
   const refresh = () => queryClient.invalidateQueries({ queryKey: ['alert-permission'] });
+
+  // A pessoa liga nos ajustes do sistema e volta: confere de novo
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (next) => {
+      if (next !== 'active') return;
+      queryClient.invalidateQueries({ queryKey: ['alert-permission'] });
+      queryClient.invalidateQueries({ queryKey: ['alert-device-extras'] });
+    });
+    return () => sub.remove();
+  }, [queryClient]);
+  const device = extras.data;
 
   return (
     <View className="gap-2">
@@ -33,6 +62,12 @@ export function TimerAlertSetting() {
             : t(`alerts.${state}`)}
           {Platform.OS === 'web' && !canVibrate() ? ` ${t('alerts.noVibration')}` : ''}
         </Text>
+      )}
+      {device && !device.exact && (
+        <Text className="text-sm text-warn">{t('alerts.exactOff')}</Text>
+      )}
+      {device && !device.battery && (
+        <Text className="text-sm text-ink-muted">{t('alerts.batteryOn')}</Text>
       )}
       <View className="flex-row flex-wrap gap-2">
         {state === 'default' && (
@@ -50,6 +85,22 @@ export function TimerAlertSetting() {
             testAlert({ title: t('alerts.testTitle'), body: t('alerts.testBody') }).finally(refresh)
           }
         />
+        {device && !device.exact && (
+          <Button
+            variant="ghost"
+            icon={AlarmClock}
+            label={t('alerts.exactAllow')}
+            onPress={() => WorkoutLive?.openExactAlarmSettings()}
+          />
+        )}
+        {device && !device.battery && (
+          <Button
+            variant="ghost"
+            icon={BatteryCharging}
+            label={t('alerts.batteryOpen')}
+            onPress={() => WorkoutLive?.openBatterySettings()}
+          />
+        )}
       </View>
     </View>
   );

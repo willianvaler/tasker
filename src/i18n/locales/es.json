@@ -2372,7 +2372,11 @@
     "testTitle": "Prueba del aviso",
     "testBody": "Así se avisa el fin del descanso y del foco.",
     "deniedWeb": "Bloqueado en este navegador. Toca el candado junto a la dirección → Notificaciones → Permitir.",
-    "deniedApp": "Bloqueado. Abre Ajustes → Apps → Questlist → Notificaciones y actívalas."
+    "deniedApp": "Bloqueado. Abre Ajustes → Apps → Questlist → Notificaciones y actívalas.",
+    "exactOff": "Alarmas exactas desactivadas: con la pantalla apagada, el aviso puede llegar unos minutos tarde.",
+    "exactAllow": "Permitir alarmas exactas",
+    "batteryOn": "La optimización de batería puede congelar la app con la pantalla apagada (común en los móviles Android Go). Elige Questlist → No optimizar.",
+    "batteryOpen": "Batería sin restricción"
   },
   "modes": {
     "title": "Modo",

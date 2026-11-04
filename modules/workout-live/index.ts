@@ -34,6 +34,10 @@ declare class WorkoutLiveModule extends NativeModule<{
   clear(): Promise<void>;
   canPromote(): boolean;
   openPromotionSettings(): void;
+  canExactAlarms(): boolean;
+  openExactAlarmSettings(): void;
+  ignoresBatteryOptimizations(): boolean;
+  openBatterySettings(): void;
 }
 
 export const WorkoutLive = requireOptionalNativeModule<WorkoutLiveModule>('WorkoutLive');

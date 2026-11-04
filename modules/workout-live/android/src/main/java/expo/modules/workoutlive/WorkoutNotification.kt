@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -67,6 +68,14 @@ object WorkoutNotification {
 
   private val main = Handler(Looper.getMainLooper())
   private var restEnd: Runnable? = null
+  // Android Go (Moto E14) dorme a CPU com a tela desligada mesmo com o serviço em primeiro plano:
+  // o postDelayed do fim do descanso (conta só com a CPU acordada) atrasava e o JS parava no meio
+  // do envio da série. Fica acordado só no descanso e alguns segundos depois de cada toque.
+  private var wakeLock: PowerManager.WakeLock? = null
+  private var awakeUntil = 0L
+  private const val AFTER_TAP_MS = 20_000L
+  private const val AFTER_REST_MS = 10_000L
+  private const val MAX_AWAKE_MS = 15 * 60_000L
 
   fun show(context: Context, state: LiveState) {
     val app = context.applicationContext
@@ -94,6 +103,7 @@ object WorkoutNotification {
     current = null
     restEnd?.let(main::removeCallbacks)
     restEnd = null
+    releaseAwake()
     WearSync.push(app, null)
     app.stopService(Intent(app, WorkoutLiveService::class.java))
     NotificationManagerCompat.from(app).cancel(ID)
@@ -102,6 +112,7 @@ object WorkoutNotification {
   /** Toque num botão: avisa o JS, que roda a mesma ação da tela; o descanso muda já na notificação */
   fun dispatch(context: Context, action: String) {
     val handler = listener ?: return
+    keepAwake(context, System.currentTimeMillis() + AFTER_TAP_MS)
     val state = current
     if (state != null && state.resting) {
       when (action) {
@@ -144,6 +155,30 @@ object WorkoutNotification {
     }
     restEnd = task
     main.postDelayed(task, (end - System.currentTimeMillis()).coerceAtLeast(0))
+    keepAwake(context, end + AFTER_REST_MS)
+  }
+
+  /** CPU acordada até `until` (só aumenta; tem prazo, então nunca fica presa) */
+  private fun keepAwake(context: Context, until: Long) {
+    val now = System.currentTimeMillis()
+    if (until <= awakeUntil && wakeLock?.isHeld == true) return
+    val lock = wakeLock ?: context.getSystemService(PowerManager::class.java)
+      ?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "questlist:workout")
+      ?.apply { setReferenceCounted(false) }
+      ?.also { wakeLock = it }
+      ?: return
+    val ms = (until - now).coerceIn(1_000L, MAX_AWAKE_MS)
+    try {
+      lock.acquire(ms)
+      awakeUntil = now + ms
+    } catch (e: Exception) {
+      Log.w(TAG, "wakelock falhou", e)
+    }
+  }
+
+  private fun releaseAwake() {
+    awakeUntil = 0L
+    wakeLock?.let { if (it.isHeld) it.release() }
   }
 
   private fun ensureChannel(context: Context, name: String) {
