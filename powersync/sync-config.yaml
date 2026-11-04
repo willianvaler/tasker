@@ -128,6 +128,23 @@ streams:
       - SELECT * FROM notes WHERE folder_id IN roots
       - SELECT notes.* FROM notes INNER JOIN folders ON notes.folder_id = folders.id WHERE folders.parent_id IN roots
 
+  # Anotações compartilhadas (OB14): as que recebi (com os links e o nome de quem escreveu) e com
+  # quem compartilhei as minhas (com o nome de quem recebeu)
+  note_shares:
+    auto_subscribe: true
+    with:
+      shared: SELECT note_id FROM note_shares WHERE user_id = auth.user_id()
+      owners: SELECT owner_id FROM note_shares WHERE user_id = auth.user_id()
+      readers: SELECT user_id FROM note_shares WHERE owner_id = auth.user_id()
+    queries:
+      - SELECT * FROM notes WHERE id IN shared
+      - SELECT * FROM links WHERE source_id IN shared
+      # note_shares não tem coluna id: o id local é "anotação:pessoa"
+      - SELECT note_id || ':' || user_id AS id, note_id, user_id, owner_id, role, created_at FROM note_shares WHERE user_id = auth.user_id()
+      - SELECT note_id || ':' || user_id AS id, note_id, user_id, owner_id, role, created_at FROM note_shares WHERE owner_id = auth.user_id()
+      - SELECT people.id, people.display_name, people.avatar_url FROM profiles AS people WHERE people.id IN owners
+      - SELECT people.id, people.display_name, people.avatar_url FROM profiles AS people WHERE people.id IN readers
+
   # Links [[...]] (OB1): os das minhas anotações sem pasta e os das pastas e projetos de que faço
   # parte (a mesma regra da origem, anotação ou tarefa)
   links:

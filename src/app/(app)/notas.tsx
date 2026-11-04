@@ -16,9 +16,17 @@ import { VaultActions } from '@/components/vault-actions';
 import { Text } from '@/components/ui/text';
 import { plainText } from '@/lib/markdown-edit';
 import { templateVars, timeIn } from '@/lib/note-templates';
-import { noteTitle, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
+import { useNoteShares } from '@/lib/queries/note-shares';
+import {
+  isSharedWithMe,
+  noteTitle,
+  useNoteMutations,
+  useNotes,
+  type Note,
+} from '@/lib/queries/notes';
 import { useTimeZone, useToday, useUiPrefs } from '@/lib/queries/profile';
 import { pickRandom } from '@/lib/search';
+import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 
 // Todas as anotações (W3), da mais recente para a mais antiga. Em cima, a nota do dia e "do
@@ -36,8 +44,13 @@ export default function NotesScreen() {
   const dailyTemplate = useUiPrefs().notes?.dailyTemplate;
   const [picking, setPicking, closePicking] = useDialog<true>();
   const [naming, setNaming, closeNaming] = useDialog<Note>();
-  // As pessoais (as de pasta ficam na pasta)
-  const list = (notes.data ?? []).filter((n) => !n.folder_id);
+  // As pessoais (as de pasta ficam na pasta); as de outra pessoa compartilhadas comigo à parte (OB14)
+  const me = useSession().session?.user.id;
+  const shares = useNoteShares();
+  const list = (notes.data ?? []).filter((n) => !n.folder_id && !isSharedWithMe(n, me));
+  const sharedList = (notes.data ?? []).filter((n) => isSharedWithMe(n, me));
+  const ownerOf = (n: Note) =>
+    shares.data?.find((s) => s.note_id === n.id && s.user_id === me)?.name ?? '';
   const templateList = templates.data ?? [];
 
   const open = (id: string) => router.push({ pathname: '/nota/[id]', params: { id } });
@@ -103,6 +116,20 @@ export default function NotesScreen() {
             <NoteItem key={note.id} note={note} onPress={() => open(note.id)} />
           ))}
         </View>
+
+        {sharedList.length > 0 && (
+          <View accessibilityRole="list" aria-label={t('noteShare.sharedSection')}>
+            <SectionLabel title={t('noteShare.sharedSection')} count={sharedList.length} />
+            {sharedList.map((note) => (
+              <NoteItem
+                key={note.id}
+                note={note}
+                badge={ownerOf(note) ? t('noteShare.from', { name: ownerOf(note) }) : undefined}
+                onPress={() => open(note.id)}
+              />
+            ))}
+          </View>
+        )}
 
         <View accessibilityRole="list" aria-label={t('templatesNotes.title')}>
           <SectionLabel

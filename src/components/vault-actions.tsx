@@ -8,7 +8,8 @@ import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { saveFile } from '@/lib/download';
-import { noteTitle, useNoteMutations, useNotes } from '@/lib/queries/notes';
+import { isSharedWithMe, noteTitle, useNoteMutations, useNotes } from '@/lib/queries/notes';
+import { useSession } from '@/providers/session';
 import { useToday } from '@/lib/queries/profile';
 import { pageLabel, useTree } from '@/lib/queries/tree';
 import { readPickedBytes } from '@/lib/read-bytes';
@@ -26,6 +27,7 @@ export function VaultActions() {
   const { t } = useTranslation();
   const toast = useToast();
   const notes = useNotes({ templates: 'include' });
+  const me = useSession().session?.user.id;
   const tree = useTree();
   const today = useToday();
   const m = useNoteMutations();
@@ -108,9 +110,11 @@ export function VaultActions() {
           props: n.props ?? {},
           dir: n.is_template
             ? [t('vault.templatesDir')]
-            : n.folder_id
-              ? (dirOf.get(n.folder_id) ?? [])
-              : [],
+            : isSharedWithMe(n, me)
+              ? [t('vault.sharedDir')]
+              : n.folder_id
+                ? (dirOf.get(n.folder_id) ?? [])
+                : [],
         })),
         {
           untitled: t('notes.untitled'),

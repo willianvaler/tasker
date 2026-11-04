@@ -9,7 +9,7 @@ import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { useBacklinks, type Backlink } from '@/lib/queries/links';
-import { useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
+import { isSharedWithMe, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
 import {
   findMention,
   linkMention,
@@ -19,6 +19,7 @@ import {
   type LinkKind,
   type ResolveLink,
 } from '@/lib/wikilinks';
+import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 
 // Painéis dos links [[...]] (OB1, OB2, D286): "Citado em" (quem aponta para cá, com a frase),
@@ -210,10 +211,11 @@ export function UnlinkedMentions({
   const notes = useNotes();
   const m = useNoteMutations();
   const toast = useToast();
+  const me = useSession().session?.user.id;
   const names = [title, ...aliases].map((n) => n.trim()).filter((n) => n.length >= 3);
   if (!names.length) return null;
   const hits = (notes.data ?? []).flatMap((n) => {
-    if (n.id === note.id || n.folder_id != null) return [];
+    if (n.id === note.id || n.folder_id != null || isSharedWithMe(n, me)) return [];
     const name = names.find((x) => findMention(n.body, x) >= 0);
     return name ? [{ note: n, name }] : [];
   });

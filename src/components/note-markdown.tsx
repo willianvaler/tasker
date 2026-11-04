@@ -53,6 +53,8 @@ class NoteRenderer extends Renderer {
     private readonly colors: Palette,
     /** Prévia (OB6): ao passar o mouse (com a posição) e no toque longo (sem); null esconde */
     private readonly onPeek?: (target: PeekTarget | null, at?: { x: number; y: number }) => void,
+    /** Página pública (OB14): a etiqueta não abre a tela de Etiquetas (que pede login) */
+    private readonly plain = false,
   ) {
     super();
   }
@@ -81,8 +83,10 @@ class NoteRenderer extends Renderer {
       return (
         <Text
           key={this.getKey()}
-          accessibilityRole="link"
-          onPress={() => router.push({ pathname: '/etiquetas', params: { tag } })}
+          accessibilityRole={this.plain ? undefined : 'link'}
+          onPress={
+            this.plain ? undefined : () => router.push({ pathname: '/etiquetas', params: { tag } })
+          }
           style={[styles, { textDecorationLine: 'none' }]}
         >
           {children}
@@ -314,6 +318,7 @@ export function NoteMarkdown({
   resolve,
   onHeadingLayout,
   depth = 0,
+  plain = false,
 }: {
   value: string;
   onLink?: (href: LinkHref) => void;
@@ -321,6 +326,8 @@ export function NoteMarkdown({
   onHeadingLayout?: (index: number, y: number) => void;
   /** Dentro de quantos ![[...]] esta anotação está (OB6): a prévia fica só na de fora */
   depth?: number;
+  /** Página pública (OB14): sem prévia, sem incorporar, sem consulta e sem abrir etiquetas */
+  plain?: boolean;
 }) {
   const { t } = useTranslation();
   const colors = useColors();
@@ -339,8 +346,8 @@ export function NoteMarkdown({
   // Prévia ao passar o mouse e no toque longo (OB6): some um pouco depois de sair do link
   const [peeker] = useState(makePeeker);
   const renderer = useMemo(
-    () => new NoteRenderer(onLink, colors, depth > 0 ? undefined : peeker.peek),
-    [onLink, colors, depth, peeker],
+    () => new NoteRenderer(onLink, colors, depth > 0 || plain ? undefined : peeker.peek, plain),
+    [onLink, colors, depth, peeker, plain],
   );
 
   // A posição de um título é a do trecho dentro da anotação mais a dele dentro do trecho
@@ -358,6 +365,7 @@ export function NoteMarkdown({
   return (
     <View className="gap-1">
       {segments.map((segment, i) => {
+        if (plain && (segment.kind === 'query' || segment.kind === 'embed')) return null;
         if (segment.kind === 'query') {
           const source = embedded.queries[segment.index];
           return source !== undefined ? <QueryBlock key={i} source={source} /> : null;
@@ -421,7 +429,7 @@ export function NoteMarkdown({
           />
         </View>
       )}
-      {depth === 0 && onLink && <PeekLayer peeker={peeker} onOpen={onLink} />}
+      {depth === 0 && onLink && !plain && <PeekLayer peeker={peeker} onOpen={onLink} />}
     </View>
   );
 }

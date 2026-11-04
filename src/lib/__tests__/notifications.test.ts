@@ -161,6 +161,17 @@ describe('idioma das notificações (F3)', () => {
       'Ana te asignó "Carne" en Churrasco',
     ]);
   });
+  test('anotação compartilhada abre a anotação e diz se é para editar (OB14)', () => {
+    const payload = { by: 'Ana', title: 'Ideias', note_id: 'n1', role: 'edit' };
+    expect(describeNotification({ kind: 'note_shared', payload })).toEqual({
+      text: 'Ana compartilhou a anotação "Ideias" para você editar',
+      url: '/nota/n1',
+    });
+    expect(
+      describeNotification({ kind: 'note_shared', payload: { ...payload, role: 'read' } }, 'en')
+        .text,
+    ).toBe('Ana shared the note "Ideias" with you');
+  });
   test('todo tipo tem texto nos três idiomas', () => {
     const kinds = [
       'assigned',
@@ -182,6 +193,7 @@ describe('idioma das notificações (F3)', () => {
       'friend_accepted',
       'added_to_group',
       'workout_reminder',
+      'note_shared',
     ];
     const payload = {
       by: 'Ana',

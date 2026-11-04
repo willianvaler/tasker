@@ -45,6 +45,10 @@ const TEXT: Record<
     friend_request: (_, by) => `${by} pediu amizade`,
     friend_accepted: (_, by) => `${by} e você agora são amigos`,
     added_to_group: (p, by) => `${by} adicionou você a ${p.group_name}`,
+    note_shared: (p, by) =>
+      p.role === 'edit'
+        ? `${by} compartilhou a anotação "${p.title}" para você editar`
+        : `${by} compartilhou a anotação "${p.title}" com você`,
     other: () => 'Novidade',
   },
   en: {
@@ -77,6 +81,10 @@ const TEXT: Record<
     friend_request: (_, by) => `${by} sent you a friend request`,
     friend_accepted: (_, by) => `You and ${by} are now friends`,
     added_to_group: (p, by) => `${by} added you to ${p.group_name}`,
+    note_shared: (p, by) =>
+      p.role === 'edit'
+        ? `${by} shared the note "${p.title}" for you to edit`
+        : `${by} shared the note "${p.title}" with you`,
     other: () => 'News',
   },
   es: {
@@ -110,6 +118,10 @@ const TEXT: Record<
     friend_request: (_, by) => `${by} te envió una solicitud de amistad`,
     friend_accepted: (_, by) => `${by} y tú ahora son amigos`,
     added_to_group: (p, by) => `${by} te agregó a ${p.group_name}`,
+    note_shared: (p, by) =>
+      p.role === 'edit'
+        ? `${by} compartió la nota "${p.title}" para que la edites`
+        : `${by} compartió la nota "${p.title}" contigo`,
     other: () => 'Novedad',
   },
 };
@@ -198,6 +210,8 @@ export function describeNotification(
     case 'friend_request':
     case 'friend_accepted':
       return { text: say(notification.kind), url: '/amigos' };
+    case 'note_shared':
+      return { text: say('note_shared'), url: `/nota/${p.note_id}` };
     case 'added_to_group':
       return {
         text: say('added_to_group'),

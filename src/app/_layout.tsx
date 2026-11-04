@@ -105,6 +105,8 @@ function RootNavigator() {
       <Stack.Screen name="amigo/[token]" />
       <Stack.Screen name="enviada/[token]" />
       <Stack.Screen name="desafio-entrar/[code]" />
+      {/* Anotação publicada (OB14): pública, só leitura */}
+      <Stack.Screen name="p/[token]" />
       {/* Política de privacidade: pública (as lojas pedem o endereço) */}
       <Stack.Screen name="privacidade" />
       <Stack.Screen name="termos" />

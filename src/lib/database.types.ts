@@ -1031,6 +1031,84 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"note_publication_failures": {
+                  Row: {
+                    "at": string,"note_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "at"?: string,"note_id": string
+                  }
+                  Update: {
+                    "at"?: string,"note_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "note_publication_failures_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "note_publications"
+      referencedColumns: ["note_id"]
+    }
+                  ]
+                },"note_publications": {
+                  Row: {
+                    "created_at": string,"has_password": boolean | null,"include_linked": boolean,"note_id": string,"owner_id": string,"password_hash": string | null,"token": string,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"has_password"?: never,"include_linked"?: boolean,"note_id": string,"owner_id": string,"password_hash"?: string | null,"token"?: string,"updated_at"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"has_password"?: never,"include_linked"?: boolean,"note_id"?: string,"owner_id"?: string,"password_hash"?: string | null,"token"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "note_publications_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: true
+      referencedRelation: "notes"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "note_publications_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"note_shares": {
+                  Row: {
+                    "created_at": string,"note_id": string,"owner_id": string,"role": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"note_id": string,"owner_id": string,"role"?: string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"note_id"?: string,"owner_id"?: string,"role"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "note_shares_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "notes"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "note_shares_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "note_shares_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"note_versions": {
                   Row: {
                     "body": string,"created_at": string,"id": string,"note_id": string,"props": NonNullable<Json>,"size": number,"title": string,"user_id": string
@@ -2585,6 +2663,9 @@ isOneToOne: false
 "_my_email":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
+"_note_shared":
+{ Args: { "p_edit": boolean,"p_note": string }; Returns: boolean
+                           },
 "_notify":
 { Args: { "p_kind": string,"p_payload": Json,"p_user": string }; Returns: undefined
                            },
@@ -3374,6 +3455,15 @@ isOneToOne: false
 "project_flow_stats":
 { Args: { "p_root": string }; Returns: Json
                            },
+"publish_note":
+{ Args: { "p_include_linked"?: boolean,"p_note": string,"p_password"?: string }; Returns: string
+                           },
+"published_note":
+{ Args: { "p_note"?: string,"p_password"?: string,"p_token": string }; Returns: Json
+                           },
+"purge_note_publication_failures":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "purge_note_versions":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
@@ -3510,6 +3600,9 @@ isOneToOne: false
                            },
 "set_workout_state":
 { Args: { "p_session_id": string,"p_state": Json }; Returns: undefined
+                           },
+"share_note":
+{ Args: { "p_note": string,"p_role"?: string,"p_user": string }; Returns: string
                            },
 "share_page_by_email":
 { Args: { "p_emails": (string)[],"p_mode"?: string,"p_page_id": string }; Returns: number
@@ -3674,6 +3767,12 @@ isOneToOne: false
                            },
 "unlink_page_group":
 { Args: { "p_folder_id": string,"p_page_id": string }; Returns: undefined
+                           },
+"unpublish_note":
+{ Args: { "p_note": string }; Returns: undefined
+                           },
+"unshare_note":
+{ Args: { "p_note": string,"p_user": string }; Returns: undefined
                            },
 "update_timer":
 { Args: { "p_action": string,"p_at"?: string,"p_id": string,"p_seconds"?: number }; Returns: {

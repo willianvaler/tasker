@@ -558,6 +558,19 @@ const team_roles = new Table({ team_id: column.text, name: column.text, grants: 
 
 const people = new Table({ display_name: column.text, avatar_url: column.text });
 
+// Anotação compartilhada (OB14, D300): quem recebe, a dona e o papel (read/edit). Sem id próprio no
+// banco (a chave é anotação + pessoa): o id local é "anotação:pessoa", como o do folder_members
+const note_shares = new Table(
+  {
+    note_id: column.text,
+    user_id: column.text,
+    owner_id: column.text,
+    role: column.text,
+    created_at: column.text,
+  },
+  { indexes: { note: ['note_id'] } },
+);
+
 // O meu perfil inteiro (fuso, idioma, gamificação)
 const profiles = new Table({
   display_name: column.text,
@@ -623,6 +636,7 @@ export const AppSchema = new Schema({
   page_dependencies,
   team_roles,
   people,
+  note_shares,
   profiles,
   commands,
 });

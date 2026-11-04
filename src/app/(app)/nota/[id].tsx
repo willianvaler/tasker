@@ -41,6 +41,7 @@ import {
 } from '@/components/split-pane';
 import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
+import { NoteShareDialog } from '@/components/note-share';
 import { NoteProperties } from '@/components/note-properties';
 import {
   BacklinkChips,
@@ -62,9 +63,29 @@ import { noteAliases, type NoteProps } from '@/lib/note-props';
 import { isDailyNote, templateVars } from '@/lib/note-templates';
 import { useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
 import { useLinkTitles } from '@/lib/queries/links';
-import { NOTE_MAX, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
+import { useNoteShareActions, useNoteShares } from '@/lib/queries/note-shares';
+import {
+  isSharedWithMe,
+  NOTE_MAX,
+  useNoteMutations,
+  useNotes,
+  type Note,
+} from '@/lib/queries/notes';
 import { useColors } from '@/lib/tokens';
 import { parseLinks } from '@/lib/wikilinks';
+import { useSession } from '@/providers/session';
+import { useToast } from '@/providers/toast';
+
+type Content = { title: string; body: string; props: NoteProps };
+
+/** Chave do conteúdo, com as propriedades em ordem (o jsonb do banco devolve noutra ordem) */
+function contentKey(c: { title: string; body: string; props?: NoteProps | null }) {
+  const props = c.props ?? {};
+  const sorted = Object.keys(props)
+    .sort()
+    .map((k) => [k, props[k]]);
+  return JSON.stringify([c.title, c.body, sorted]);
+}
 
 // Editor de anotação (W3, D187): título e texto em Markdown simples, com a barra de formatação e
 // a visualização formatada. Salva sozinho (ao parar de digitar e ao sair).
@@ -75,7 +96,9 @@ export default function NoteScreen() {
   const canSplit = useCanSplit();
   const side = canSplit ? parseSide(lado) : null;
   const closeSide = () => router.setParams({ lado: undefined });
-  const main = <NoteMain id={id} section={secao} canSplit={canSplit} split={!!side && side.id !== id} />;
+  const main = (
+    <NoteMain id={id} section={secao} canSplit={canSplit} split={!!side && side.id !== id} />
+  );
   if (!side || side.id === id) return main;
   return (
     <View className="flex-1 flex-row bg-paper">
@@ -161,10 +184,27 @@ function Editor({
   const { t } = useTranslation();
   const colors = useColors();
   const m = useNoteMutations();
+  const toast = useToast();
+  // OB14 (D300): anotação pessoal de outra pessoa, compartilhada comigo; só ler até saber o papel
+  const me = useSession().session?.user.id;
+  const shares = useNoteShares();
+  const sharedWithMe = isSharedWithMe(note, me);
+  const myShare = sharedWithMe
+    ? shares.data?.find((s) => s.note_id === note.id && s.user_id === me)
+    : undefined;
+  const readOnly = sharedWithMe && myShare?.role !== 'edit';
+  // Só a dona de uma anotação pessoal (que não é modelo) compartilha e publica
+  const canShare = !note.folder_id && !sharedWithMe && !note.is_template;
+  const sharedCount = canShare
+    ? (shares.data ?? []).filter((s) => s.note_id === note.id).length
+    : 0;
+  const { unshare } = useNoteShareActions();
+  const [sharing, setSharing, closeSharing] = useDialog<true>();
   const [title, setTitle] = useState(note.title);
   const [body, setBody] = useState(note.body);
   // Com texto, abre formatada; vazia, já no editor
-  const [editing, setEditing] = useState(!note.body.trim());
+  const [editingState, setEditing] = useState(!note.body.trim() && !isSharedWithMe(note, me));
+  const editing = editingState && !readOnly;
   const [selection, setSelection] = useState<Selection>({
     start: note.body.length,
     end: note.body.length,
@@ -205,9 +245,40 @@ function Editor({
       JSON.stringify(now.props) === JSON.stringify(saved.current.props)
     )
       return;
+    if (readOnly) return;
     saved.current = now;
+    remember(now);
     mutate({ id: note.id, ...now });
-  }, [mutate, note.id]);
+  }, [mutate, note.id, readOnly]);
+
+  // "Mudou enquanto você editava" (V11-3): a última gravação vence. O que chega do servidor e não
+  // é algo que esta tela gravou é de outra pessoa (ou de outro aparelho): sem nada por gravar, a
+  // tela troca o texto; com algo por gravar, pergunta
+  const ours = useRef(new Set([contentKey(note)]));
+  function remember(c: Content) {
+    ours.current.add(contentKey(c));
+    if (ours.current.size > 30) ours.current.delete(ours.current.values().next().value as string);
+  }
+  const [conflict, setConflict] = useState<Content | null>(null);
+  const remoteKey = contentKey(note);
+  useEffect(() => {
+    if (ours.current.has(remoteKey)) return;
+    ours.current.add(remoteKey);
+    const remote = { title: note.title, body: note.body, props: note.props ?? {} };
+    if (contentKey(latest.current) === contentKey(saved.current)) {
+      adopt(remote);
+      return;
+    }
+    setConflict(remote);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [remoteKey]);
+  function adopt(c: Content) {
+    saved.current = c;
+    latest.current = c;
+    setTitle(c.title);
+    setBody(c.body);
+    setProps(c.props);
+  }
 
   // Salva 800 ms depois de parar de digitar, e ao sair da tela
   useEffect(() => {
@@ -317,13 +388,15 @@ function Editor({
                 tone="ink"
                 onPress={() => setMoreMenu(true)}
               />
-              <Button
-                destructive
-                variant="ghost"
-                icon={Trash2}
-                label={t('notes.delete')}
-                onPress={() => setConfirm(true)}
-              />
+              {!sharedWithMe && (
+                <Button
+                  destructive
+                  variant="ghost"
+                  icon={Trash2}
+                  label={t('notes.delete')}
+                  onPress={() => setConfirm(true)}
+                />
+              )}
             </>
           }
         />
@@ -339,8 +412,51 @@ function Editor({
             </Text>
           </View>
         )}
+        {sharedWithMe && (
+          <View testID="shared-banner" className="rounded-lg bg-wash px-3 py-2">
+            <Text className="text-sm text-ink">
+              {t(readOnly ? 'noteShare.bannerRead' : 'noteShare.bannerEdit', {
+                name: myShare?.name || t('noteShare.someone'),
+              })}
+            </Text>
+          </View>
+        )}
+        {sharedCount > 0 && (
+          <Text className="text-xs text-ink-muted">
+            {t('noteShare.sharedWith', { count: sharedCount })}
+          </Text>
+        )}
+        {conflict && (
+          <View
+            testID="conflict-banner"
+            accessibilityRole="alert"
+            className="gap-2 rounded-lg border border-warn px-3 py-2"
+          >
+            <Text className="text-sm text-ink">{t('noteShare.conflict')}</Text>
+            <View className="flex-row flex-wrap gap-2">
+              <Button
+                variant="ghost"
+                label={t('noteShare.conflictTheirs')}
+                onPress={() => {
+                  adopt(conflict);
+                  setConflict(null);
+                }}
+              />
+              <Button
+                variant="ghost"
+                label={t('noteShare.conflictMine')}
+                onPress={() => {
+                  saved.current = conflict;
+                  setConflict(null);
+                  save();
+                }}
+              />
+            </View>
+          </View>
+        )}
         <TextInput
           value={title}
+          editable={!readOnly}
           onChangeText={setTitle}
           onBlur={save}
           maxLength={200}
@@ -381,16 +497,18 @@ function Editor({
               onPress={() => setOutlineMenu(true)}
             />
           )}
-          <Button
-            variant="ghost"
-            icon={editing ? Eye : Pencil}
-            label={t(editing ? 'notes.preview' : 'notes.edit')}
-            className={!wideOutline && outline.length > 0 && !editing ? undefined : 'ml-auto'}
-            onPress={() => {
-              save();
-              setEditing(!editing);
-            }}
-          />
+          {!readOnly && (
+            <Button
+              variant="ghost"
+              icon={editing ? Eye : Pencil}
+              label={t(editing ? 'notes.preview' : 'notes.edit')}
+              className={!wideOutline && outline.length > 0 && !editing ? undefined : 'ml-auto'}
+              onPress={() => {
+                save();
+                setEditing(!editing);
+              }}
+            />
+          )}
         </View>
         {/* Escrevendo, o "Citado em" fica numa linha curta (a anotação nova de um link já mostra de onde veio) */}
         <NoteProperties
@@ -533,24 +651,54 @@ function Editor({
                   },
                 ]
               : []),
-            {
-              label: t('noteHistory.open'),
-              onPress: () => {
-                closeMoreMenu();
-                save();
-                setHistory(true);
-              },
-            },
-            {
-              label: t(isTemplate ? 'templatesNotes.unmark' : 'templatesNotes.mark'),
-              onPress: () => {
-                closeMoreMenu();
-                save();
-                m.update.mutate({ id: note.id, is_template: !isTemplate });
-                if (isTemplate && note.id === dailyTemplate)
-                  updatePrefs.mutate({ notes: { dailyTemplate: null } });
-              },
-            },
+            ...(canShare
+              ? [
+                  {
+                    label: t('noteShare.open'),
+                    onPress: () => {
+                      closeMoreMenu();
+                      save();
+                      setSharing(true);
+                    },
+                  },
+                ]
+              : []),
+            ...(sharedWithMe
+              ? [
+                  {
+                    label: t('noteShare.leave'),
+                    destructive: true,
+                    onPress: () => {
+                      closeMoreMenu();
+                      save();
+                      if (!me) return;
+                      unshare
+                        .mutateAsync({ noteId: note.id, userId: me })
+                        .then(() => (pane ? pane() : router.back()))
+                        .catch((err: Error) => toast({ message: err.message }));
+                    },
+                  },
+                ]
+              : [
+                  {
+                    label: t('noteHistory.open'),
+                    onPress: () => {
+                      closeMoreMenu();
+                      save();
+                      setHistory(true);
+                    },
+                  },
+                  {
+                    label: t(isTemplate ? 'templatesNotes.unmark' : 'templatesNotes.mark'),
+                    onPress: () => {
+                      closeMoreMenu();
+                      save();
+                      m.update.mutate({ id: note.id, is_template: !isTemplate });
+                      if (isTemplate && note.id === dailyTemplate)
+                        updatePrefs.mutate({ notes: { dailyTemplate: null } });
+                    },
+                  },
+                ]),
             ...(isTemplate
               ? [
                   {
@@ -582,6 +730,7 @@ function Editor({
           }}
         />
       )}
+      {sharing && <NoteShareDialog noteId={note.id} onClose={closeSharing} />}
       {history && (
         <NoteHistory
           noteId={note.id}
@@ -592,6 +741,7 @@ function Editor({
             // O servidor já tem o texto restaurado: o editor só troca o que mostra
             saved.current = restored;
             latest.current = restored;
+            remember(restored);
             setTitle(restored.title);
             setBody(restored.body);
             setProps(restored.props);

@@ -25,12 +25,21 @@ import type { TaskWithPage } from './tasks';
 
 export type Note = Pick<
   Tables<'notes'>,
-  'id' | 'title' | 'body' | 'created_at' | 'updated_at' | 'folder_id' | 'tags' | 'is_template'
+  | 'id'
+  | 'user_id'
+  | 'title'
+  | 'body'
+  | 'created_at'
+  | 'updated_at'
+  | 'folder_id'
+  | 'tags'
+  | 'is_template'
 > & {
   /** Propriedades (OB4, D289) */
   props: NoteProps;
 };
-const COLUMNS = 'id, title, body, created_at, updated_at, folder_id, props, tags, is_template';
+const COLUMNS =
+  'id, user_id, title, body, created_at, updated_at, folder_id, props, tags, is_template';
 
 type LocalNote = Omit<Note, 'props' | 'tags' | 'is_template'> & {
   props: string | null;
@@ -83,6 +92,17 @@ export function useNotes({
       return data.map((n) => ({ ...n, props: (n.props ?? {}) as NoteProps }));
     },
   });
+}
+
+/**
+ * Anotação pessoal de outra pessoa, compartilhada comigo (OB14). As de pasta seguem a pasta; sem
+ * saber quem sou (antes da sessão), vale como minha
+ */
+export function isSharedWithMe(
+  note: Pick<Note, 'user_id' | 'folder_id'>,
+  me: string | null | undefined,
+) {
+  return !note.folder_id && !!me && note.user_id !== me;
 }
 
 /** Título para listas: o título, ou a primeira linha do texto */

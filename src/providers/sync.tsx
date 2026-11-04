@@ -38,6 +38,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   share_checks: [keys.tasks],
   my_day: [['my-day']],
   notes: [['notes']],
+  note_shares: [['notes'], ['note-shares']],
   // Links [[...]] (OB1): o "Citado em" acompanha o que o servidor refez
   links: [['links']],
   page_fields: [['page-fields']],

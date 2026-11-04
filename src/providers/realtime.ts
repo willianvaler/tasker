@@ -26,6 +26,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   expenses: [['expenses']],
   // Anotações de pasta ou projeto (20/10): a de outra pessoa aparece sem recarregar
   notes: [['notes']],
+  // Anotação compartilhada (OB14): recebida, tirada ou papel mudado
+  note_shares: [['notes'], ['note-shares']],
   // Links [[...]] (OB1): o "Citado em" acompanha o que outra pessoa escreve no projeto
   links: [['links']],
   milestones: [['milestones']],
