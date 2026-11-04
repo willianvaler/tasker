@@ -20,6 +20,10 @@ Example: `Pay the power bill friday !! #home` becomes "Pay the power bill", due 
 
 Paste a list (one per line), tap **Many** or use **+ → Several at once**. Indented lines become subtasks. You see a preview before creating.
 
+## From another app
+
+On a link, a message or a note in another app, tap **Share** and pick **Questlist**. **Received from another app** opens: **Create a task** (the title comes filled in and the text and link go to the description; you pick the list) or, when there are several lines, **one task per line** in the Inbox, checking first. On Android, it works with the app installed from the APK (from this version on); on a computer or a phone without the APK, install the app from the browser (Chrome or Edge: **Install app** in the menu) and it shows up in Share. On iPhone, not yet.
+
 ## Checking off
 
 Tap the box. Mistake? The notice has **Undo**.

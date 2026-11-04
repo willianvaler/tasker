@@ -4335,5 +4335,16 @@
     "denied": "No microphone permission. Allow it in the device or browser settings.",
     "network": "Speech recognition needs an internet connection.",
     "failed": "Couldn't hear you. Try again."
+  },
+  "shared": {
+    "title": "Received from another app",
+    "empty": "Nothing arrived to save.",
+    "more_one": "and {{count}} more line",
+    "more_other": "and {{count}} more lines",
+    "oneTask": "Create a task",
+    "oneTaskHint": "With the text and the link in the description; you pick the list before creating.",
+    "perLine_one": "{{count}} task, one per line",
+    "perLine_other": "{{count}} tasks, one per line",
+    "perLineHint": "In the Inbox, checking first in Add several."
   }
 }

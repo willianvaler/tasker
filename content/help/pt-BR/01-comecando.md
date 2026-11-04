@@ -20,6 +20,10 @@ Exemplo: `Pagar a luz sexta !! #casa` vira "Pagar a luz", vence sexta, prioridad
 
 Cole uma lista (uma por linha), toque em **Várias** ou use **+ → Várias de uma vez**. Linhas com recuo viram subtarefas. Antes de criar, você vê como vai ficar.
 
+## De outro app
+
+Num link, numa mensagem ou numa nota de outro app, toque em **Compartilhar** e escolha o **Questlist**. Abre **Recebido de outro app**: **Criar uma tarefa** (o título vem preenchido e o texto e o link vão para a descrição; você escolhe a lista) ou, se vierem várias linhas, **uma tarefa por linha** na Caixa de entrada, conferindo antes. No Android, vale com o app instalado pelo APK (a partir desta versão); no computador e no celular sem o APK, instale o app pelo navegador (Chrome ou Edge: **Instalar app** no menu) e ele aparece no Compartilhar. No iPhone, ainda não.
+
 ## Marcar
 
 Toque na caixinha. Errou? O aviso tem **Desfazer**.

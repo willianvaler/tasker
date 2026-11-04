@@ -17,6 +17,7 @@ import { SyncDot } from '@/components/sync-dot';
 import { SyncRejections } from '@/components/sync-rejections';
 import { useLocaleSync } from '@/i18n/use-locale';
 import { usePushTapHandler } from '@/lib/push';
+import { useShareIntent } from '@/lib/share-intent';
 import { isTabPath } from '@/lib/tab-slots';
 import { useSidebarHidden } from '@/lib/ui-state';
 import { clearWorkoutNotification } from '@/lib/workout-notification';
@@ -30,6 +31,7 @@ void clearWorkoutNotification();
 export default function AppLayout() {
   useRealtimeSync();
   usePushTapHandler();
+  useShareIntent();
   useLocaleSync();
   const onboarding = useOnboarding();
   const wide = useIsWide();
@@ -101,6 +103,7 @@ export default function AppLayout() {
                 options={{ presentation: 'transparentModal', animation: 'fade' }}
               />
               <Stack.Screen name="batch" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="compartilhar" options={{ presentation: 'modal' }} />
               <Stack.Screen name="treino/[id]" options={{ presentation: 'fullScreenModal' }} />
             </Stack>
             {!wide && !onboarding && <SyncDot floating />}

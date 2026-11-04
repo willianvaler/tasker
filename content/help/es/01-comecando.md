@@ -20,6 +20,10 @@ Ejemplo: `Pagar la luz viernes !! #casa` queda "Pagar la luz", vence el viernes,
 
 Pega una lista (una por línea), toca **Varias** o usa **+ → Varias a la vez**. Las líneas con sangría son subtareas. Antes de crear ves cómo quedará.
 
+## Desde otra app
+
+En un enlace, un mensaje o una nota de otra app, toca **Compartir** y elige **Questlist**. Se abre **Recibido de otra app**: **Crear una tarea** (el título viene rellenado y el texto y el enlace van a la descripción; eliges la lista) o, si vienen varias líneas, **una tarea por línea** en la Bandeja de entrada, revisando antes. En Android, funciona con la app instalada por el APK (desde esta versión); en el ordenador y en el móvil sin el APK, instala la app desde el navegador (Chrome o Edge: **Instalar app** en el menú) y aparece en Compartir. En iPhone, todavía no.
+
 ## Marcar
 
 Toca la casilla. ¿Te equivocaste? El aviso tiene **Deshacer**.

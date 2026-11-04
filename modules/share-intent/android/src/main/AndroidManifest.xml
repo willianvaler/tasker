@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- O Questlist aparece no "Compartilhar" de outros apps para texto e links (PB8, D303). O filtro
+       entra na atividade principal do app pelo merge do manifest (mesmo nome, só acrescenta) -->
+  <application>
+    <activity android:name="com.willianvaler.questlist.MainActivity" android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.SEND" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="text/plain" />
+      </intent-filter>
+    </activity>
+  </application>
+</manifest>

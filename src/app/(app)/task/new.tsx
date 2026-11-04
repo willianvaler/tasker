@@ -39,7 +39,13 @@ const PRIORITIES = [
 export default function NewTaskScreen() {
   const { t, i18n } = useTranslation();
   const colors = useColors();
-  const params = useLocalSearchParams<{ page?: string; folder?: string }>();
+  // `title` e `notes`: já preenchidos (o que chegou pelo Compartilhar de outro app, PB8)
+  const params = useLocalSearchParams<{
+    page?: string;
+    folder?: string;
+    title?: string;
+    notes?: string;
+  }>();
   const tree = useTree();
   const today = useToday();
   const create = useCreateTasks();
@@ -68,8 +74,8 @@ export default function NewTaskScreen() {
   const [picking, setPicking] = useState(false);
   const exercise = workout ? catalog.data?.find((e) => e.id === exerciseId) : undefined;
 
-  const [title, setTitle] = useState('');
-  const [notes, setNotes] = useState('');
+  const [title, setTitle] = useState(params.title ?? '');
+  const [notes, setNotes] = useState(params.notes ?? '');
   const [due, setDue] = useState<string | null>(null);
   const [dateText, setDateText] = useState('');
   const [priority, setPriority] = useState<Priority>(0);

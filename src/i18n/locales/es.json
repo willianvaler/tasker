@@ -4335,5 +4335,16 @@
     "denied": "Sin permiso para el micrófono. Actívalo en los ajustes del dispositivo o del navegador.",
     "network": "El reconocimiento de voz necesita internet.",
     "failed": "No se pudo escuchar. Inténtalo de nuevo."
+  },
+  "shared": {
+    "title": "Recibido de otra app",
+    "empty": "No llegó nada para guardar.",
+    "more_one": "y {{count}} línea más",
+    "more_other": "y {{count}} líneas más",
+    "oneTask": "Crear una tarea",
+    "oneTaskHint": "Con el texto y el enlace en la descripción; eliges la lista antes de crear.",
+    "perLine_one": "{{count}} tarea, una por línea",
+    "perLine_other": "{{count}} tareas, una por línea",
+    "perLineHint": "En la Bandeja de entrada, revisando antes en Agregar varias."
   }
 }
