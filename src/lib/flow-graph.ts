@@ -57,6 +57,7 @@ export function buildFlow({
   hideDone = true,
   now = new Date(),
   blockedPages,
+  outside,
 }: {
   tasks: ReadonlyMap<string, FlowTask>;
   deps: readonly FlowDep[];
@@ -66,6 +67,8 @@ export function buildFlow({
   now?: Date;
   /** Listas que esperam outra lista (lib/page-deps.ts) */
   blockedPages?: ReadonlySet<string>;
+  /** Pré-requisitos de outros projetos (PC2): contam no estado, mas não viram caixa no grafo */
+  outside?: ReadonlyMap<string, StateTask>;
 }): FlowGraph {
   // Só as ligações entre tarefas que existem; as tarefas ligadas entram no grafo
   const links = deps.filter((d) => tasks.has(d.task_id) && tasks.has(d.depends_on_task_id));
@@ -77,7 +80,10 @@ export function buildFlow({
     succs.set(d.depends_on_task_id, [...(succs.get(d.depends_on_task_id) ?? []), d]);
   }
 
-  const state = new Map([...ids].map((id) => [id, taskState(id, tasks, deps, now, blockedPages)]));
+  const lookup: ReadonlyMap<string, StateTask> = outside?.size
+    ? new Map([...outside, ...tasks])
+    : tasks;
+  const state = new Map([...ids].map((id) => [id, taskState(id, lookup, deps, now, blockedPages)]));
 
   // Etapa: caminho mais longo desde as tarefas sem pré-requisito (o banco não deixa ciclo; a
   // guarda só evita laço se um dado antigo tiver um)

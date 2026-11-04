@@ -38,12 +38,13 @@ export function FlowIndicators({ root }: { root: FolderNode }) {
   });
 
   if (data.loading) return null;
-  const holding = bottlenecks(data.tasks, data.deps);
+  const holding = bottlenecks(data.tasks, data.deps, { outside: data.outside });
   const critical = buildFlow({
     tasks: data.tasks,
     deps: data.deps,
     people: data.people,
     blockedPages: data.blockedPages,
+    outside: data.outside,
   }).critical;
   const late = overdueByPerson(data.tasks, data.people, today);
   const times = (['waiting', 'to_start', 'doing'] as const).filter(

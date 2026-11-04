@@ -10,6 +10,10 @@ When creating a task, `^` followed by part of a name links the new task to an ex
 
 **Depends on** is always visible in the task panel, in the **Links** section (near the top in a project, after the subtasks in a personal folder), next to **Related**: "depends on" waits for the other one to finish; "related" is just a shortcut between the two. The folder's **Flow** tab shows who waits for whom.
 
+## A task from another project
+
+In **Depends on**, the search also shows tasks from your **other projects and folders**, with the project's name next to them. Example: in Renovation, "Lay the floor" waits for "Buy tiles" in the Market project. To link them you need to be able to edit in both (someone who only reads the other project can't link). People who are only in Renovation see the title and whether the purchase is done, never the rest of Market; on the Market side, "Buy tiles" shows the waiting task under **Unlocks**. The **^** in quick typing still works only within the same project.
+
 ## Strict or flexible
 
 In the project, **strict** mode doesn't let you start what's blocked. **Flexible** lets you force it, and records who did.

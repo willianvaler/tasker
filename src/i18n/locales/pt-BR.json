@@ -1604,7 +1604,9 @@
     "noLag": "Sem espera",
     "unlink": "Tirar a ligação",
     "modeAll": "Precisa de todas",
-    "modeAny": "Basta uma"
+    "modeAny": "Basta uma",
+    "outsideTitle": "{{title}} ({{project}})",
+    "otherProject": "outro projeto"
   },
   "events": {
     "someone": "Alguém",

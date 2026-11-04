@@ -10,6 +10,10 @@ Ao criar a tarefa, `^` seguido de um pedaço do nome liga a nova tarefa à que j
 
 O **Depende de** fica sempre à vista no painel da tarefa, na seção **Ligações** (no alto em projeto, depois das subtarefas numa pasta pessoal), junto com os **Relacionados**: "depende de" espera a outra terminar; "relacionado" é só um atalho entre as duas. A aba **Fluxo** da pasta mostra quem espera quem.
 
+## Tarefa de outro projeto
+
+No **Depende de**, a busca também mostra as tarefas dos seus **outros projetos e pastas**, com o nome do projeto ao lado. Exemplo: na Reforma, "Assentar o piso" espera "Comprar piso" do projeto Mercado. Para ligar, você precisa poder editar nos dois (quem só lê o outro projeto não liga). Quem é só da Reforma vê o título e se a compra já foi feita, nunca o resto do Mercado; do lado do Mercado, "Comprar piso" mostra em **Libera** a tarefa que espera por ela. O **^** da escrita rápida continua só no mesmo projeto.
+
 ## Estrito ou flexível
 
 No projeto, o modo **estrito** não deixa começar o que está bloqueado. O **flexível** deixa forçar, e registra quem forçou.

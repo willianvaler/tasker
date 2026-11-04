@@ -28,6 +28,17 @@ const dep = (taskId: string, on: string): FlowDep => ({
 });
 
 describe('bottlenecks', () => {
+  it('pré-requisito de outro projeto segura, mas não é gargalo daqui (PC2)', () => {
+    const result = bottlenecks(
+      map(task('piso'), task('rejunte')),
+      [dep('rejunte', 'piso'), dep('piso', 'compra')],
+      {
+        now: NOW,
+        outside: new Map([['compra', task('compra')]]),
+      },
+    );
+    expect(result.map((b) => [b.id, b.holds])).toEqual([['piso', 1]]);
+  });
   it('conta quem espera em cadeia; a raiz vem primeiro', () => {
     // carvão → fogo → carne; carvão → espetos; gelo → bebida
     const result = bottlenecks(

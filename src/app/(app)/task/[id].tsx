@@ -426,6 +426,7 @@ function TaskDetails({ task }: { task: Task }) {
               dependsOn={flow.dependsOn}
               unlocks={flow.unlocks}
               titleOf={flow.titleOf}
+              canOpen={flow.canOpen}
               inputRef={depsRef}
             />
             <Related type="task" id={task.id} editable={writable} />
@@ -802,6 +803,7 @@ function TaskDetails({ task }: { task: Task }) {
               dependsOn={flow.dependsOn}
               unlocks={flow.unlocks}
               titleOf={flow.titleOf}
+              canOpen={flow.canOpen}
               inputRef={depsRef}
             />
             <Related type="task" id={task.id} editable={writable} />

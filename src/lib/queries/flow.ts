@@ -64,6 +64,10 @@ export function useProjectFlow(root: FolderNode | undefined) {
     loading: tasks.isPending || dependencies.isPending,
     tasks: byId,
     deps: dependencies.data?.deps ?? [],
+    /** Pré-requisitos de outros projetos (PC2), para o estado das tarefas daqui */
+    outside: new Map(
+      (dependencies.data?.prereqs ?? []).filter((p) => p.outside).map((p) => [p.id, p]),
+    ),
     people,
     members: members.data ?? [],
     blockedPages: pageDeps.blocked,

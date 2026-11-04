@@ -3056,6 +3056,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"cross_project_links":
+{ Args: { "p_root": string }; Returns: Json
+                           },
 "cycle_key_for":
 { Args: { "p_at": string,"p_kind": string,"p_manual": number,"p_timezone": string }; Returns: string
                            },

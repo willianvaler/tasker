@@ -160,3 +160,32 @@ describe('layoutFlow', () => {
     }
   });
 });
+
+describe('pré-requisito de outro projeto (PC2)', () => {
+  const tasks = map(task('piso'), task('rejunte'));
+  const deps = [dep('rejunte', 'piso'), dep('piso', 'compra')];
+  it('segura a tarefa daqui sem virar caixa no grafo', () => {
+    const g = buildFlow({
+      tasks,
+      deps,
+      people: new Map(),
+      now: NOW,
+      outside: new Map([['compra', task('compra')]]),
+    });
+    expect(g.nodes.map((n) => n.id).sort()).toEqual(['piso', 'rejunte']);
+    expect(g.nodes.find((n) => n.id === 'piso')).toMatchObject({
+      state: 'blocked',
+      waitingOn: ['compra'],
+    });
+  });
+  it('feito lá, libera aqui', () => {
+    const g = buildFlow({
+      tasks,
+      deps,
+      people: new Map(),
+      now: NOW,
+      outside: new Map([['compra', task('compra', done)]]),
+    });
+    expect(g.nodes.find((n) => n.id === 'piso')?.state).toBe('ready');
+  });
+});

@@ -1,4 +1,4 @@
--- V3 §2.1 (H1): dependências, mesmo projeto e ciclo com o caminho na mensagem.
+-- V3 §2.1 (H1): dependências e ciclo com o caminho na mensagem.
 begin;
 create extension if not exists pgtap with schema extensions;
 select plan(9);
@@ -40,10 +40,11 @@ select throws_ok(
   $$ insert into public.task_dependencies (task_id, depends_on_task_id) values
      ('c0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001') $$,
   '22023', 'Isso criaria um ciclo: Comprar carvão → Comprar carvão', 'sem depender de si mesma');
-select throws_ok(
+-- Outro projeto (PC2, D307): vale para quem edita nos dois (regras em dependencias_projetos.test.sql)
+select lives_ok(
   $$ insert into public.task_dependencies (task_id, depends_on_task_id) values
      ('c0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000009') $$,
-  '22023', 'Dependências só entre tarefas do mesmo projeto', 'só no mesmo projeto');
+  'dona dos dois projetos liga uma tarefa a outra de fora');
 select throws_ok(
   $$ insert into public.task_dependencies (task_id, depends_on_task_id) values
      ('c0000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000001') $$,
@@ -51,7 +52,7 @@ select throws_ok(
 
 -- Leitor vê, mas não liga
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';
-select is((select count(*)::int from public.task_dependencies), 2, 'Leitor vê as dependências');
+select is((select count(*)::int from public.task_dependencies), 3, 'Leitor vê as dependências');
 select throws_ok(
   $$ insert into public.task_dependencies (task_id, depends_on_task_id) values
      ('c0000000-0000-0000-0000-000000000003', 'c0000000-0000-0000-0000-000000000001') $$,
@@ -59,7 +60,7 @@ select throws_ok(
 
 set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}';
 delete from public.tasks where id = 'c0000000-0000-0000-0000-000000000002';
-select is((select count(*)::int from public.task_dependencies), 0, 'apagar a tarefa leva as ligações');
+select is((select count(*)::int from public.task_dependencies), 1, 'apagar a tarefa leva as ligações dela');
 
 select * from finish();
 rollback;

@@ -3,7 +3,7 @@
 // (project_flow_stats).
 
 import type { FlowDep, FlowPerson, FlowTask } from './flow-graph';
-import { taskState } from './task-state';
+import { taskState, type StateTask } from './task-state';
 
 export type Bottleneck = { id: string; title: string; holds: number };
 
@@ -14,12 +14,21 @@ export type Bottleneck = { id: string; title: string; holds: number };
 export function bottlenecks(
   tasks: ReadonlyMap<string, FlowTask>,
   deps: readonly FlowDep[],
-  { now = new Date(), limit = 3 }: { now?: Date; limit?: number } = {},
+  {
+    now = new Date(),
+    limit = 3,
+    outside,
+  }: { now?: Date; limit?: number; outside?: ReadonlyMap<string, StateTask> } = {},
 ): Bottleneck[] {
   const involved = new Set(deps.map((d) => d.task_id));
   const waiting = new Map<string, string[]>();
+  // Pré-requisito de outro projeto (PC2) segura, mas não entra na conta dos gargalos daqui
+  const lookup: ReadonlyMap<string, StateTask> = outside?.size
+    ? new Map([...outside, ...tasks])
+    : tasks;
   for (const id of involved) {
-    const s = taskState(id, tasks, deps, now);
+    if (!tasks.has(id)) continue;
+    const s = taskState(id, lookup, deps, now);
     if (s.state === 'blocked') waiting.set(id, s.waitingOn);
   }
   const holds = new Map<string, Set<string>>();

@@ -13,6 +13,7 @@ import { nameKey } from '@/lib/members';
 import { actorCan } from '@/lib/permissions';
 import {
   useDependencyMutations,
+  useOutsideTaskOptions,
   useProjectTaskOptions,
   type Dependency,
   type TaskOption,
@@ -30,12 +31,16 @@ export function DependencyEditor({
   dependsOn,
   unlocks,
   titleOf,
+  canOpen = () => true,
   inputRef,
 }: {
   task: Task;
   dependsOn: Dependency[];
-  unlocks: Dependency[];
+  /** De quem depende desta; as de outro projeto (PC2) vêm com `outside` */
+  unlocks: { id: string; task_id: string; outside?: true }[];
   titleOf: (id: string) => string | undefined;
+  /** Tarefa de outro projeto em que a pessoa não está não abre */
+  canOpen?: (id: string) => boolean;
   inputRef?: RefObject<TextInput | null>;
 }) {
   const { t } = useTranslation();
@@ -45,6 +50,8 @@ export function DependencyEditor({
   const canLink = actorCan(actor, 'dependency.manage');
   const [query, setQuery] = useState('');
   const options = useProjectTaskOptions(root?.id, canLink && query.length > 0);
+  // Outros projetos (PC2, D307): depois das daqui, com o nome do projeto
+  const outside = useOutsideTaskOptions(canLink ? root?.id : undefined, query);
   const m = useDependencyMutations(root?.id);
   const update = useUpdateTask();
   const toast = useToast();
@@ -58,6 +65,12 @@ export function DependencyEditor({
         .filter((o) => o.id !== task.id && !linked.has(o.id) && nameKey(o.title).includes(key))
         .slice(0, 6)
     : [];
+  const outsideMatches = key
+    ? (outside.data ?? [])
+        .filter((o) => !linked.has(o.id) && nameKey(o.title).includes(key))
+        .slice(0, Math.max(0, 8 - matches.length))
+    : [];
+  const choices: (TaskOption & { project?: string })[] = [...matches, ...outsideMatches];
   const title = (id: string) => titleOf(id) ?? options.data?.find((o) => o.id === id)?.title ?? '…';
 
   function link(option: TaskOption) {
@@ -117,20 +130,29 @@ export function DependencyEditor({
             onChangeText={setQuery}
             placeholder={t('flow.searchPlaceholder')}
             accessibilityLabel={t('flow.dependsOn')}
-            onSubmitEditing={() => matches[0] && link(matches[0])}
+            onSubmitEditing={() => choices[0] && link(choices[0])}
           />
         )}
-        {matches.length > 0 && (
+        {choices.length > 0 && (
           <View accessibilityRole="list" className="border-b border-line">
-            {matches.map((option) => (
+            {choices.map((option) => (
               <Pressable
                 key={option.id}
                 accessibilityRole="button"
-                accessibilityLabel={t('flow.linkTo', { title: option.title })}
+                accessibilityLabel={t('flow.linkTo', {
+                  title: option.project
+                    ? t('flow.outsideTitle', { title: option.title, project: option.project })
+                    : option.title,
+                })}
                 onPress={() => link(option)}
                 className="min-h-10 flex-row items-center gap-2 px-2 hover:bg-wash"
               >
                 <Text className="flex-1 text-sm text-ink">{option.title}</Text>
+                {option.project && (
+                  <Text className="text-xs text-ink-muted" numberOfLines={1}>
+                    {option.project}
+                  </Text>
+                )}
                 {option.status === 'done' && (
                   <Text className="font-mono text-xs text-ink-muted">{t('flow.isDone')}</Text>
                 )}
@@ -149,6 +171,7 @@ export function DependencyEditor({
             <Pressable
               key={d.id}
               accessibilityRole="link"
+              disabled={!canOpen(d.task_id)}
               onPress={() => router.push({ pathname: '/task/[id]', params: { id: d.task_id } })}
               className="min-h-9 flex-row items-center gap-2 rounded px-1 hover:bg-wash"
             >

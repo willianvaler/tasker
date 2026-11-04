@@ -1604,7 +1604,9 @@
     "noLag": "No wait",
     "unlink": "Remove the link",
     "modeAll": "Needs all",
-    "modeAny": "Any one is enough"
+    "modeAny": "Any one is enough",
+    "outsideTitle": "{{title}} ({{project}})",
+    "otherProject": "another project"
   },
   "events": {
     "someone": "Someone",
