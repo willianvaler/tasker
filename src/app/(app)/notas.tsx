@@ -13,6 +13,7 @@ import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionLabel } from '@/components/ui/section-label';
 import { VaultActions } from '@/components/vault-actions';
+import { ClipperDownload } from '@/components/clipper-download';
 import { Text } from '@/components/ui/text';
 import { plainText } from '@/lib/markdown-edit';
 import { templateVars, timeIn } from '@/lib/note-templates';
@@ -163,6 +164,8 @@ export default function NotesScreen() {
           <SectionLabel title={t('vault.title')} />
           <VaultActions />
         </View>
+        {/* OB15: Web Clipper (extensão do navegador) */}
+        <ClipperDownload />
       </ScreenScroll>
       {picking && (
         <ActionMenu

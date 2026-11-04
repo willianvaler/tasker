@@ -1,0 +1,29 @@
+{
+  "name": {
+    "message": "Questlist Web Clipper"
+  },
+  "description": {
+    "message": "Saves the open page, or the selected text, as a note in Questlist."
+  },
+  "action": {
+    "message": "Save to Questlist"
+  },
+  "menu": {
+    "message": "Save to Questlist"
+  },
+  "optionsLabel": {
+    "message": "Questlist address"
+  },
+  "optionsHint": {
+    "message": "Change it only if you use another address (alpha or your own server)."
+  },
+  "optionsSave": {
+    "message": "Save"
+  },
+  "optionsSaved": {
+    "message": " Saved."
+  },
+  "optionsInvalid": {
+    "message": " Invalid address."
+  }
+}

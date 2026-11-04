@@ -4345,7 +4345,9 @@
     "oneTaskHint": "Con el texto y el enlace en la descripción; eliges la lista antes de crear.",
     "perLine_one": "{{count}} tarea, una por línea",
     "perLine_other": "{{count}} tareas, una por línea",
-    "perLineHint": "En la Bandeja de entrada, revisando antes en Agregar varias."
+    "perLineHint": "En la Bandeja de entrada, revisando antes en Agregar varias.",
+    "asNote": "Guardar como nota",
+    "asNoteHint": "Con el enlace de origen en las propiedades, como un recorte de la web."
   },
   "pageExport": {
     "menu": "Exportar…",
@@ -4366,5 +4368,20 @@
     "yes": "sí",
     "generated": "Exportada el {{date}}",
     "progress": "{{done}} de {{count}} hechas"
+  },
+  "clipper": {
+    "title": "Recorte de la web",
+    "empty": "Nada para guardar.",
+    "emptyHint": "Usa la extensión Questlist Web Clipper en el navegador: abre esta pantalla con la página.",
+    "selection": "texto seleccionado",
+    "page": "página entera",
+    "save": "Guardar como nota",
+    "saved": "Nota guardada",
+    "failed": "No se pudo guardar: {{message}}",
+    "tag": "recortes",
+    "extension": "Web Clipper",
+    "extensionHint": "Extensión para Chrome, Edge y Firefox: un clic guarda la página abierta, o el texto seleccionado, como nota, con el enlace de origen.",
+    "download": "Descargar la extensión (.zip)",
+    "how": "Cómo instalar"
   }
 }

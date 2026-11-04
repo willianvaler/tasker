@@ -4345,7 +4345,9 @@
     "oneTaskHint": "With the text and the link in the description; you pick the list before creating.",
     "perLine_one": "{{count}} task, one per line",
     "perLine_other": "{{count}} tasks, one per line",
-    "perLineHint": "In the Inbox, checking first in Add several."
+    "perLineHint": "In the Inbox, checking first in Add several.",
+    "asNote": "Save as note",
+    "asNoteHint": "With the source link in the properties, like a web clip."
   },
   "pageExport": {
     "menu": "Export…",
@@ -4366,5 +4368,20 @@
     "yes": "yes",
     "generated": "Exported on {{date}}",
     "progress": "{{done}} of {{count}} done"
+  },
+  "clipper": {
+    "title": "Web clip",
+    "empty": "Nothing to save.",
+    "emptyHint": "Use the Questlist Web Clipper extension in your browser: it opens this screen with the page.",
+    "selection": "selected text",
+    "page": "whole page",
+    "save": "Save as note",
+    "saved": "Note saved",
+    "failed": "Couldn't save: {{message}}",
+    "tag": "clippings",
+    "extension": "Web Clipper",
+    "extensionHint": "Extension for Chrome, Edge and Firefox: one click saves the open page, or the selected text, as a note, with the source link.",
+    "download": "Download the extension (.zip)",
+    "how": "How to install"
   }
 }

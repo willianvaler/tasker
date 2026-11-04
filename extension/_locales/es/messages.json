@@ -1,0 +1,29 @@
+{
+  "name": {
+    "message": "Questlist Web Clipper"
+  },
+  "description": {
+    "message": "Guarda la página abierta, o el texto seleccionado, como nota en Questlist."
+  },
+  "action": {
+    "message": "Guardar en Questlist"
+  },
+  "menu": {
+    "message": "Guardar en Questlist"
+  },
+  "optionsLabel": {
+    "message": "Dirección de Questlist"
+  },
+  "optionsHint": {
+    "message": "Cámbiala solo si usas otra dirección (el alpha o tu servidor)."
+  },
+  "optionsSave": {
+    "message": "Guardar"
+  },
+  "optionsSaved": {
+    "message": " Guardado."
+  },
+  "optionsInvalid": {
+    "message": " Dirección no válida."
+  }
+}

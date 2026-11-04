@@ -17,8 +17,12 @@ import { SessionProvider, useSession } from '@/providers/session';
 import { SyncProvider } from '@/providers/sync';
 import { ThemeProvider } from '@/providers/theme';
 import { ToastProvider } from '@/providers/toast';
+import { stashClipFromUrl } from '@/lib/clip-stash';
 
 SplashScreen.preventAutoHideAsync();
+
+// Web Clipper (OB15): o recorte do endereço fica guardado antes de o login redirecionar
+stashClipFromUrl();
 
 // Navegação (abas, cabeçalhos) com as cores do tema
 const navColors = (c: Palette) => ({

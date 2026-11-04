@@ -4345,7 +4345,9 @@
     "oneTaskHint": "Com o texto e o link na descrição; você escolhe a lista antes de criar.",
     "perLine_one": "{{count}} tarefa, uma por linha",
     "perLine_other": "{{count}} tarefas, uma por linha",
-    "perLineHint": "Na Caixa de entrada, conferindo antes em Adicionar várias."
+    "perLineHint": "Na Caixa de entrada, conferindo antes em Adicionar várias.",
+    "asNote": "Salvar como anotação",
+    "asNoteHint": "Com o link de origem nas propriedades, como um recorte da web."
   },
   "pageExport": {
     "menu": "Exportar…",
@@ -4366,5 +4368,20 @@
     "yes": "sim",
     "generated": "Exportada em {{date}}",
     "progress": "{{done}} de {{count}} feitas"
+  },
+  "clipper": {
+    "title": "Recorte da web",
+    "empty": "Nada para salvar.",
+    "emptyHint": "Use a extensão Questlist Web Clipper no navegador: ela abre esta tela com a página.",
+    "selection": "trecho selecionado",
+    "page": "página inteira",
+    "save": "Salvar como anotação",
+    "saved": "Anotação salva",
+    "failed": "Não deu para salvar: {{message}}",
+    "tag": "recortes",
+    "extension": "Web Clipper",
+    "extensionHint": "Extensão para Chrome, Edge e Firefox: um clique salva a página aberta, ou o trecho selecionado, como anotação, com o link de origem.",
+    "download": "Baixar a extensão (.zip)",
+    "how": "Como instalar"
   }
 }

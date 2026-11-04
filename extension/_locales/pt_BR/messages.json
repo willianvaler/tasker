@@ -1,0 +1,29 @@
+{
+  "name": {
+    "message": "Questlist Web Clipper"
+  },
+  "description": {
+    "message": "Salva a página aberta, ou o trecho selecionado, como anotação no Questlist."
+  },
+  "action": {
+    "message": "Salvar no Questlist"
+  },
+  "menu": {
+    "message": "Salvar no Questlist"
+  },
+  "optionsLabel": {
+    "message": "Endereço do Questlist"
+  },
+  "optionsHint": {
+    "message": "Mude só se você usa outro endereço (o alpha ou o seu servidor)."
+  },
+  "optionsSave": {
+    "message": "Salvar"
+  },
+  "optionsSaved": {
+    "message": " Salvo."
+  },
+  "optionsInvalid": {
+    "message": " Endereço inválido."
+  }
+}

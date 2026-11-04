@@ -100,6 +100,7 @@
     "e2e": "node scripts/e2e.mjs",
     "capturas": "node scripts/e2e.mjs -c playwright.capturas.config.ts",
     "deploy": "bash scripts/deploy.sh",
+    "extensao": "node scripts/extensao.mjs",
     "sync:start": "bash scripts/powersync.sh",
     "sync:assets": "powersync-web copy-assets -o public",
     "postinstall": "npm run sync:assets",

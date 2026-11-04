@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font: 14px system-ui, sans-serif; margin: 16px; min-width: 320px; }
+      label { display: block; margin-bottom: 6px; }
+      input { width: 100%; box-sizing: border-box; padding: 6px; font: inherit; }
+      p { color: #555; }
+      button { margin-top: 10px; padding: 6px 12px; font: inherit; }
+    </style>
+  </head>
+  <body>
+    <label for="base" data-msg="optionsLabel"></label>
+    <input id="base" type="url" placeholder="https://questlist.wavdev.org" />
+    <p data-msg="optionsHint"></p>
+    <button id="save" data-msg="optionsSave"></button>
+    <span id="status" role="status"></span>
+    <script src="options.js"></script>
+  </body>
+</html>
