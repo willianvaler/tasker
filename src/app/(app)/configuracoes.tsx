@@ -12,6 +12,7 @@ import {
   ThemeChooser,
 } from '@/components/preference-choosers';
 import { AppDownload, useApkInfo } from '@/components/app-download';
+import { ImportApps } from '@/components/import-apps';
 import { PrivacySection } from '@/components/privacy-section';
 import { TimerAlertSetting } from '@/components/timer-alert-setting';
 import { PushSetting } from '@/components/push-setting';
@@ -174,6 +175,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
             onPress={() => router.push('/sync')}
           />
         </View>
+        <ImportApps />
         <PrivacySection />
       </Group>
 

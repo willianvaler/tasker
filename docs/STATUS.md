@@ -323,6 +323,10 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 - [x] **PB8** Share Target: o Questlist aparece no **Compartilhar** de outros apps (Android pelo módulo nativo `modules/share-intent`, no APK novo; web instalada pelo `share_target` do `manifest.json`) e abre **Recebido de outro app** (`/compartilhar`): **Criar uma tarefa** (título preenchido, texto e link na descrição, na criação com detalhes) ou **uma tarefa por linha** na Caixa de entrada pelo lote. `lib/shared-content.ts` com teste; E2E `compartilhar.spec.ts`, Ajuda nos 3 idiomas (D303)
 - [x] **PB9** **Exportar…** no menu da lista: **Planilha (CSV)** (subtarefas numeradas, feita, vencimento, prioridade, etiquetas, descrição), **Markdown** (caixinhas com recuo, sintaxe rápida e "📅 AAAA-MM-DD", que o parser passou a ler) e **Imprimir**/**PDF** (página limpa em preto e branco; web pela impressão do navegador, Android pelo `expo-print` no APK novo). Funções puras em `lib/page-export.ts` com teste; E2E `exportar-lista.spec.ts`, Ajuda nos 3 idiomas (D304)
 
+## ESCOPO_V3 — itens C (pedido do dono em 04/11)
+
+- [x] **PC1** Importar do **Habitica** (JSON de exportar dados) e do **Todoist** (CSV de um projeto ou o .zip do backup) em **Configurações → Dados**: o arquivo é lido no aparelho (`lib/import-apps.ts`, puro e com teste), a pessoa confere quantas tarefas entram e o que fica de fora, e cada origem vira um projeto pessoal pelo `create_from_template` (hábitos bom/ruim com o lado, diárias com os dias da semana, checklist e recuo como subtarefas, seções como listas, @etiqueta, prioridade, datas e repetições em pt/en/es). Lote aceita `habit_sides` (migração `20261195000000_importar_apps.sql`, pgTAP `importar_apps.test.sql`). E2E `importar-apps.spec.ts`, Ajuda nos 3 idiomas (D306)
+
 ## ESCOPO_V10 — amigos, visibilidade, comunidade e Bem-estar (pedido do dono em 20/10)
 
 - [x] **AM1** Nick, amizades, link de amizade, RPCs, avisos, RLS, pgTAP, LGPD (política e termos novos) (D230)

@@ -28,6 +28,10 @@ In the list menu, **Export…**: **Spreadsheet (CSV)** opens in Excel or Sheets,
 
 In **Folders** → **Use template**, the **Kits by topic** create a more complete project: **Weekly workout**, **Weekly menu**, **Renovation**, **Trip with itinerary**, **Studies** and **Event**. The steps come in order (in Renovation, each one waits for the previous one, as in "Dependencies"), and the ones with costs bring an **Expenses** list with a budget for you to adjust. The text comes in the app's language. Below are the **Quick templates** (still in Portuguese: Churrasco, Viagem, Mudança, Festa) and the ones you saved.
 
+## Bring things from Habitica or Todoist
+
+In **Settings → Data**, **Import from Habitica or Todoist**. In Habitica, download the JSON from Settings → Export data; in Todoist, a project's CSV (project menu → Export as CSV) or the backup .zip (Settings → Backups). The app shows how many tasks will come in before creating anything. **Habitica** becomes a personal project with three lists: **Habits** (with each one's + and −), **Dailies** (on the days you chose there) and **To-dos** (the checklist becomes subtasks); rewards and what was already completed are left out. **Todoist**: each project becomes a folder, each section a list, indentation becomes a subtask, @label becomes #label, priority p1 becomes !!! and comments go into the description. Dates like "every monday" become a repeat; one the app can't read stays written in the description.
+
 ## Gym
 
 If you said you will use the app to work out (or turned on **Workouts** in Settings → Features), the sidebar gets the **Gym** block, with your workouts. **+ New workout** creates the workout list right there, already as cards and resetting every week. Turning the mode off deletes nothing: the Gym folder goes back to Folders.

@@ -28,6 +28,10 @@ No menu da lista, **Exportar…**: **Planilha (CSV)** abre no Excel ou no Planil
 
 Em **Pastas** → **Usar modelo**, os **Kits por assunto** criam um projeto mais completo: **Treino da semana**, **Cardápio semanal**, **Reforma**, **Viagem com roteiro**, **Estudos** e **Evento**. As etapas já vêm em ordem (na Reforma, cada uma espera a anterior, como em "Dependências"), e os que têm gastos trazem a lista **Gastos** com um orçamento para você ajustar. O texto vem no idioma do app. Embaixo ficam os **Modelos rápidos** (Churrasco, Viagem, Mudança, Festa) e os que você salvou.
 
+## Trazer do Habitica ou do Todoist
+
+Em **Configurações → Dados**, **Importar do Habitica ou do Todoist**. No Habitica, baixe o JSON em Configurações → Exportar dados; no Todoist, o CSV de um projeto (menu do projeto → Exportar como CSV) ou o .zip do backup (Configurações → Backups). O app mostra quantas tarefas vão entrar antes de criar. **Habitica** vira um projeto pessoal com três listas: **Hábitos** (com o + e o − de cada um), **Diárias** (nos dias que você marcou lá) e **Afazeres** (a checklist vira subtarefas); as recompensas e o que já estava concluído ficam de fora. **Todoist**: cada projeto vira uma pasta, cada seção uma lista, o recuo vira subtarefa, @etiqueta vira #etiqueta, a prioridade p1 vira !!! e o comentário vai para a descrição. Datas como "toda segunda" viram repetição; a que o app não entende fica escrita na descrição.
+
 ## Academia
 
 Se você respondeu que vai usar o app para treinar (ou ligou o **Treino** em Configurações → Recursos), a barra lateral ganha o bloco **Academia**, com os seus treinos. **+ Novo treino** cria a lista de treino direto ali, já em cards e reiniciando toda semana. Desligar o modo não apaga nada: a pasta Academia volta para Pastas.

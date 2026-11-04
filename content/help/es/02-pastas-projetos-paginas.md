@@ -28,6 +28,10 @@ En el menú de la lista, **Exportar…**: **Hoja de cálculo (CSV)** se abre en 
 
 En **Carpetas** → **Usar plantilla**, los **Kits por tema** crean un proyecto más completo: **Entreno de la semana**, **Menú semanal**, **Reforma**, **Viaje con itinerario**, **Estudios** y **Evento**. Las etapas vienen en orden (en la Reforma, cada una espera a la anterior, como en "Dependencias"), y los que tienen gastos traen la lista **Gastos** con un presupuesto para ajustar. El texto viene en el idioma de la app. Debajo están las **Plantillas rápidas** (por ahora en portugués: Churrasco, Viagem, Mudança, Festa) y las que guardaste.
 
+## Traer de Habitica o Todoist
+
+En **Ajustes → Datos**, **Importar de Habitica o Todoist**. En Habitica, descarga el JSON en Ajustes → Exportar datos; en Todoist, el CSV de un proyecto (menú del proyecto → Exportar como CSV) o el .zip de la copia de seguridad (Ajustes → Copias de seguridad). La app muestra cuántas tareas van a entrar antes de crear. **Habitica** se vuelve un proyecto personal con tres listas: **Hábitos** (con el + y el − de cada uno), **Diarias** (en los días que marcaste allí) y **Pendientes** (la lista de control se vuelve subtareas); las recompensas y lo ya completado quedan fuera. **Todoist**: cada proyecto se vuelve una carpeta, cada sección una lista, la sangría se vuelve subtarea, @etiqueta se vuelve #etiqueta, la prioridad p1 se vuelve !!! y los comentarios van a la descripción. Fechas como "cada lunes" se vuelven repetición; la que la app no entiende queda escrita en la descripción.
+
 ## Gimnasio
 
 Si respondiste que vas a usar la app para entrenar (o activaste **Entrenamiento** en Ajustes → Funciones), la barra lateral gana el bloque **Gimnasio**, con tus entrenamientos. **+ Nuevo entrenamiento** crea la lista de entrenamiento ahí mismo, ya en tarjetas y reiniciándose cada semana. Desactivar el modo no borra nada: la carpeta Gimnasio vuelve a Carpetas.
