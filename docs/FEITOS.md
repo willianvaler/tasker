@@ -115,6 +115,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V3 | PB4 | Lista de compras gerada do cardápio: ingredientes das subtarefas e das notas, iguais somados, destino escolhido, conferência na criação em lote; E2E `e2e/compras.spec.ts` e Ajuda nos 3 idiomas | D224 |
 | V3 | PB5 | Racha de contas nos gastos do projeto: `split_among` (todos por padrão), acerto (`settle`) fora dos totais, quem deve a quem e "Registrar acerto", pgTAP; E2E `e2e/racha.spec.ts` e Ajuda nos 3 idiomas | D225 |
 | V3 | PB6 | Kits por assunto em **Usar modelo** (Treino da semana, Cardápio semanal, Reforma, Viagem com roteiro, Estudos, Evento), nos 3 idiomas: etapas em ordem com dependências (`^N` no texto do kit, `lib/kits.ts` com teste), rotina em hábitos e a lista de Gastos com orçamento; `create_from_template` aceita `deps` e `budget_cents` (migração `20261194000000_kits_por_assunto.sql`, pgTAP `kits.test.sql`) | D301 |
+| V3 | PB7 | Captura por voz: **Falar a lista** na captura rápida e em **Adicionar várias** (cada pausa é uma tarefa, "próximo item" separa; na captura, ao parar, vai para o lote conferir) | D302 |
 | **V4** | N1 | Storage + `task_attachments` + RLS | D150 |
 | V4 | N2 | Anexar no painel, compressão WebP e miniatura no aparelho | D151 |
 | V4 | N3 | Anexo offline (fila) | D152 |

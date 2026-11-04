@@ -4,6 +4,10 @@
 
 **Con detalles:** el botón junto al campo, el menú **Nuevo** o `Alt+Shift+N`. Abre un panel con lista, descripción, vencimiento, prioridad, repetición, series y etiquetas. `Ctrl+Enter` crea.
 
+## Dictar la lista
+
+En la captura rápida y en **Agregar varias**, toca **Dictar la lista** y habla. Cada pausa es una tarea; para separar sin parar, di **"siguiente tarea"** (o "nueva tarea"). Las fechas y la prioridad valen como si las escribieras ("comprar pan mañana"). En la captura, al tocar **Dejar de escuchar**, las tareas van a **Agregar varias** para revisarlas antes de crear. Funciona en Chrome, Edge y Safari (Firefox no lo tiene) y en la app de Android; el reconocimiento es el del dispositivo o del navegador y puede necesitar internet.
+
 ## Editar después
 
 Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 10.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la lista y comentarios. Cada campo se guarda al salir de él.

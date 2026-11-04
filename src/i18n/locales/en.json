@@ -4327,5 +4327,13 @@
     "set": "At this address",
     "made": "Made with Questlist",
     "error": "Couldn't open: {{message}}"
+  },
+  "voice": {
+    "start": "Speak the list",
+    "stop": "Stop listening",
+    "listening": "Listening… one task per pause, or say \"next item\"",
+    "denied": "No microphone permission. Allow it in the device or browser settings.",
+    "network": "Speech recognition needs an internet connection.",
+    "failed": "Couldn't hear you. Try again."
   }
 }

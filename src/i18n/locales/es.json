@@ -4327,5 +4327,13 @@
     "set": "En esta dirección",
     "made": "Hecho con Questlist",
     "error": "No se pudo abrir: {{message}}"
+  },
+  "voice": {
+    "start": "Dictar la lista",
+    "stop": "Dejar de escuchar",
+    "listening": "Escuchando… una tarea por pausa, o di \"siguiente tarea\"",
+    "denied": "Sin permiso para el micrófono. Actívalo en los ajustes del dispositivo o del navegador.",
+    "network": "El reconocimiento de voz necesita internet.",
+    "failed": "No se pudo escuchar. Inténtalo de nuevo."
   }
 }

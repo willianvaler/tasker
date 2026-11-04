@@ -4,6 +4,10 @@
 
 **Detailed:** the button next to the field, the **New** menu or `Alt+Shift+N`. It opens a panel with list, description, due date, priority, repeat, sets and labels. `Ctrl+Enter` creates.
 
+## Speaking the list
+
+In quick capture and in **Add several**, tap **Speak the list** and dictate. Each pause becomes a task; to split without stopping, say **"next item"** (or "new task"). Dates and priority work as if you typed them ("buy bread tomorrow"). In quick capture, when you tap **Stop listening**, the tasks go to **Add several** so you can check them before creating. It works in Chrome, Edge and Safari (Firefox doesn't have it) and in the Android app; recognition is done by the device or browser and may need internet.
+
 ## Editing later
 
 Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 10,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, list fields and comments. Each field saves when you leave it.

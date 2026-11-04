@@ -8,6 +8,7 @@ import { Pressable, TextInput, View } from 'react-native';
 
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ListPhotoButton } from '@/components/list-photo-button';
+import { VoiceButton } from '@/components/voice-button';
 import { ScreenHeader } from '@/components/screen-header';
 import { MentionChips } from '@/components/tasks/assignee-chips';
 import { TaskMeta } from '@/components/tasks/task-meta';
@@ -144,6 +145,14 @@ export default function BatchScreen() {
     setChoices({});
   }
 
+  /** Linhas lidas da foto ou ditadas entram no fim do texto (várias seguidas não se perdem) */
+  function appendLines(lines: string[]) {
+    setText((current) => [current.trimEnd(), ...lines].filter(Boolean).join('\n'));
+    setRemoved(new Set());
+    setEdits({});
+    setChoices({});
+  }
+
   function confirm() {
     if (!page || total === 0) return;
     const links = flat(items).flatMap(({ item }) =>
@@ -203,11 +212,12 @@ export default function BatchScreen() {
         )}
       />
       {autocomplete.list}
-      {/* V9 §3: foto de uma lista de papel; as linhas lidas entram no fim do texto */}
+      {/* V9 §3: foto de uma lista de papel; PB7: ditar a lista. As linhas entram no fim do texto */}
       {writable && (
-        <ListPhotoButton
-          onLines={(lines) => changeText([text.trimEnd(), ...lines].filter(Boolean).join('\n'))}
-        />
+        <View className="flex-row flex-wrap items-start gap-2">
+          <ListPhotoButton onLines={appendLines} />
+          <VoiceButton onLines={appendLines} />
+        </View>
       )}
 
       <Text

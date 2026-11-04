@@ -6,7 +6,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { QuickAdd } from '@/components/tasks/quick-add';
+import { VoiceButton } from '@/components/voice-button';
 import { Text } from '@/components/ui/text';
+import { setBatchDraft } from '@/lib/batch-draft';
 import { captureTargetId, folderScope } from '@/lib/capture-target';
 import { cn } from '@/lib/cn';
 import { getLastPageId } from '@/lib/prefs';
@@ -82,6 +84,14 @@ export default function CaptureScreen() {
           onCreated={() =>
             target && toast({ message: t('capture.created', { page: pageLabel(target) }) })
           }
+        />
+        {/* PB7: ditar a lista; ao parar, as linhas vão para a criação em lote, para conferir */}
+        <VoiceButton
+          onDone={(lines) => {
+            if (!target) return;
+            setBatchDraft(target.id, lines.join('\n'));
+            router.replace('/batch');
+          }}
         />
         {/* Grupos com quebra de linha (sem rolagem lateral), rolando na vertical se forem muitos */}
         <ScrollView

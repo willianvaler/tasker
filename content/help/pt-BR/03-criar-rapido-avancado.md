@@ -4,6 +4,10 @@
 
 **Com detalhes:** o botão ao lado do campo, o menu **Novo** ou `Alt+Shift+N`. Abre um painel com lista, descrição, vencimento, prioridade, repetição, séries e etiquetas. `Ctrl+Enter` cria.
 
+## Falar a lista
+
+Na captura rápida e em **Adicionar várias**, toque em **Falar a lista** e dite. Cada pausa vira uma tarefa; para separar sem parar de falar, diga **"próximo item"** (ou "nova tarefa"). Datas e prioridade valem como se você digitasse ("comprar pão amanhã"). Na captura, ao tocar em **Parar de ouvir**, as tarefas vão para **Adicionar várias** para você conferir antes de criar. Funciona no Chrome, no Edge e no Safari (o Firefox não tem) e no app do Android; o reconhecimento é o do aparelho ou do navegador e pode precisar de internet.
+
 ## Editar depois
 
 Toque na seta da tarefa (ou `Enter` com ela selecionada) para abrir o **painel**: descrição (até 10.000 caracteres; vazia, aparece "+ Adicionar descrição"), data, prioridade, peso, tempo, subtarefas, quem faz, dependências, campos da lista e comentários. Cada campo salva sozinho ao sair dele.

@@ -62,19 +62,27 @@
         {
           "photosPermission": "O app usa suas fotos para anexar às tarefas.",
           "cameraPermission": "O app usa a câmera para anexar fotos às tarefas.",
-          "microphonePermission": false
+          "microphonePermission": "O app usa o microfone só quando você toca em Falar a lista, para ditar tarefas."
         }
       ],
       [
         "expo-audio",
         {
-          "microphonePermission": false,
+          "microphonePermission": "O app usa o microfone só quando você toca em Falar a lista, para ditar tarefas.",
           "recordAudioAndroid": false,
           "enableBackgroundPlayback": false,
           "enableBackgroundRecording": false
         }
       ],
-      "./plugins/with-trusted-roots"
+      "./plugins/with-trusted-roots",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "O app usa o microfone só quando você toca em Falar a lista, para ditar tarefas.",
+          "speechRecognitionPermission": "O app transforma o que você fala em tarefas.",
+          "androidSpeechServicePackages": ["com.google.android.googlequicksearchbox"]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

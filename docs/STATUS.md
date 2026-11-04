@@ -319,7 +319,7 @@ Base: Fases 0 a 7 do `ESCOPO.md` concluídas (ver `DECISIONS.md`, D1 a D70).
 ## ESCOPO_V3 — o resto dos itens B (pedido do dono em 04/11)
 
 - [x] **PB6** Kits por assunto em **Usar modelo** (Treino da semana, Cardápio semanal, Reforma, Viagem com roteiro, Estudos, Evento), nos 3 idiomas: etapas em ordem com dependências (`^N` no texto do kit, `lib/kits.ts` com teste), rotina em hábitos e a lista de Gastos com orçamento; `create_from_template` aceita `deps` e `budget_cents` (migração `20261194000000_kits_por_assunto.sql`, pgTAP `kits.test.sql`). E2E `kits.spec.ts`, Ajuda nos 3 idiomas (D301)
-- [ ] **PB7** Captura por voz: falar uma lista e virar tarefas
+- [x] **PB7** Captura por voz: **Falar a lista** na captura rápida e em **Adicionar várias** (cada pausa é uma tarefa, "próximo item" separa; na captura, ao parar, vai para o lote conferir). Reconhecimento do aparelho ou do navegador pelo `expo-speech-recognition` (web: Chrome, Edge, Safari; Android no APK novo; sem o módulo, o botão some); `lib/spoken-list.ts` com teste; política de privacidade cita o reconhecimento de fala. E2E `voz.spec.ts` com reconhecedor de mentira, Ajuda nos 3 idiomas (D302)
 - [ ] **PB8** Share Target: compartilhar texto de outros apps para a Caixa de entrada (web instalada e Android)
 - [ ] **PB9** Exportar a lista em CSV, Markdown e PDF, e imprimir
 
