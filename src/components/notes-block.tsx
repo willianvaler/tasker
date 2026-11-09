@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import { Plus, StickyNote } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -7,6 +7,7 @@ import { IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/cn';
 import { noteTitle, useNoteMutations, useNotes } from '@/lib/queries/notes';
 import { useToast } from '@/providers/toast';
 
@@ -57,6 +58,7 @@ export function NotesList({
   const { t } = useTranslation();
   const notes = useNotes();
   const newNote = useNewNote(folderId);
+  const pathname = usePathname();
   const list = (notes.data ?? []).filter((n) => (n.folder_id ?? null) === (folderId ?? null));
   return (
     <View>
@@ -70,19 +72,29 @@ export function NotesList({
           <Text className="text-sm text-ink-muted">{t('notes.first')}</Text>
         </Pressable>
       )}
-      {list.slice(0, limit).map((note) => (
-        <Pressable
-          key={note.id}
-          accessibilityRole="link"
-          onPress={() => router.push({ pathname: '/nota/[id]', params: { id: note.id } })}
-          className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
-        >
-          <Icon icon={StickyNote} tone="ink-muted" />
-          <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
-            {noteTitle(note, t('notes.untitled'))}
-          </Text>
-        </Pressable>
-      ))}
+      {list.slice(0, limit).map((note) => {
+        const active = pathname === `/nota/${note.id}`;
+        return (
+          <Pressable
+            key={note.id}
+            accessibilityRole="link"
+            aria-current={active ? 'page' : undefined}
+            onPress={() => router.push({ pathname: '/nota/[id]', params: { id: note.id } })}
+            className={cn(
+              'min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash',
+              active && 'bg-wash',
+            )}
+          >
+            <Icon icon={StickyNote} tone="ink-muted" />
+            <Text
+              className={cn('flex-1 text-sm text-ink', active && 'font-semibold')}
+              numberOfLines={1}
+            >
+              {noteTitle(note, t('notes.untitled'))}
+            </Text>
+          </Pressable>
+        );
+      })}
       {list.length > limit && !folderId && (
         <Pressable
           accessibilityRole="link"
