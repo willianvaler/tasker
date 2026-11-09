@@ -14,12 +14,18 @@ const TOKEN_KEY = 'questlist:push-token';
 // SDK 53) e do projectId do EAS em app.json (extra.eas.projectId).
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
+  handleNotification: async (notification) => {
+    // Aviso de timer/descanso (J3, D125): com o app aberto (Modo Treino de tela ligada) o alerta
+    // agendado precisa tocar som e aparecer, senão o fim do descanso não avisa nada. O push comum
+    // continua silencioso em primeiro plano (a mini-barra/tela já mostram a novidade).
+    const timerAlert = notification.request.content.data?.timerAlert === true;
+    return {
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: timerAlert,
+      shouldSetBadge: false,
+    };
+  },
 });
 
 export const pushSupported = true;

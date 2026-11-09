@@ -110,7 +110,7 @@ export async function testAlert(text: { title: string; body: string }) {
   if (!(await Notifications.getPermissionsAsync()).granted) return;
   await Notifications.scheduleNotificationAsync({
     identifier: 'questlist-test',
-    content: { ...text, sound: true },
+    content: { ...text, sound: true, data: { timerAlert: true } },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
       seconds: 2,
