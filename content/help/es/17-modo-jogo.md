@@ -8,7 +8,7 @@ La pantalla **Juego** (puedes ponerla en la barra inferior en Ajustes → Navega
 
 ## Vida y diarias
 
-Las diarias son las tareas que se repiten y los hábitos de marcar en tus carpetas (las de proyecto no cuentan). La primera vez que abres la app en el día, pregunta **"¿Qué hiciste ayer?"**: marca lo que hiciste y solo olvidaste registrar. Cada diaria que quedó atrás quita vida (más las de prioridad alta; la Constitución lo reduce). Subir de nivel llena la vida; la **poción** (25 de oro) devuelve 15.
+Las diarias son las tareas que se repiten y los hábitos de marcar en tus carpetas (las de proyecto no cuentan). La primera vez que abres la app en el día, pregunta **"¿Qué hiciste ayer?"**: marca lo que hiciste y solo olvidaste registrar: queda registrado como hecho ayer (cuenta en la racha, sin XP). Cada diaria que quedó atrás quita vida (más las de prioridad alta; la Constitución lo reduce). Subir de nivel llena la vida; la **poción** (25 de oro) devuelve 15.
 
 **Taberna:** ¿de viaje o enfermo? Descansa en la taberna y las diarias no quitan vida.
 

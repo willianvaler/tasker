@@ -3257,7 +3257,7 @@
     "restarted": "A new journey begins at level 1.",
     "noGold": "You have {{gold}} gold: not enough to buy a life.",
     "dayStartTitle": "What did you do yesterday?",
-    "dayStartHint": "These dailies were left unchecked. Check the ones you did and just forgot to record: they won't cost health. The others will.",
+    "dayStartHint": "These dailies were left unchecked. Check the ones you did and just forgot to record: they are logged as done yesterday (they count toward the streak) and won't cost health. The others will.",
     "dayStartResting": "You are resting at the tavern: nothing costs health today.",
     "dayStartGo": "Start the day",
     "dayStartDamage_one": "One daily was missed: −{{damage}} health.",

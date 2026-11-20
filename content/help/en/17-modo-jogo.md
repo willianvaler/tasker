@@ -8,7 +8,7 @@ The **Game** screen (you can put it on the bottom bar in Settings → Navigation
 
 ## Health and dailies
 
-Dailies are recurring tasks and check habits in your own folders (project ones don't count). The first time you open the app each day, it asks **"What did you do yesterday?"**: check what you did and just forgot to record. Every daily left behind costs health (more for high priority; Constitution reduces it). Leveling up refills health; a **potion** (25 gold) gives back 15.
+Dailies are recurring tasks and check habits in your own folders (project ones don't count). The first time you open the app each day, it asks **"What did you do yesterday?"**: check what you did and just forgot to record: it is logged as done yesterday (counts toward the streak, no XP). Every daily left behind costs health (more for high priority; Constitution reduces it). Leveling up refills health; a **potion** (25 gold) gives back 15.
 
 **Tavern:** traveling or sick? Rest at the tavern and dailies won't cost health.
 

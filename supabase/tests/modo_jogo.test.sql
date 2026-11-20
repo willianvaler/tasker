@@ -1,7 +1,7 @@
 -- Modo jogo Completo (ESCOPO_V8, HB5 a HB10; D199 a D205). Rode com: npx supabase test db
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(35);
+select plan(40);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
@@ -38,6 +38,38 @@ select is(((select r from r1) ->> 'damage')::integer, 4, 'diária perdida de pri
 select is((select hp from public.profiles where id = auth.uid()), 46, 'vida 50 → 46');
 select is(((select r from r1) ->> 'applied')::boolean, true, 'a virada aplicou');
 select is((public.day_start() ->> 'applied')::boolean, false, 'a mesma virada não cobra duas vezes');
+-- "Fiz ontem" registra a conclusão de ontem e a data avança só até hoje
+select is((select count(*)::integer from public.task_completions c
+           where c.task_id = 'd0000000-0000-0000-0000-000000000002'
+             and (c.completed_at at time zone 'America/Sao_Paulo')::date = (select today - 1 from ctx)),
+          1, '"fiz ontem" grava a conclusão com a data de ontem');
+select is((select due_date from public.tasks where id = 'd0000000-0000-0000-0000-000000000002'),
+          (select today from ctx), 'a recorrente passa a vencer hoje (não pula o dia)');
+select is((select count(*)::integer from public.task_completions
+           where task_id = 'd0000000-0000-0000-0000-000000000001'), 0, 'a não marcada fica sem conclusão');
+
+-- Hábito de marcar: a conclusão de ontem entra na sequência
+reset role;
+insert into public.tasks (id, page_id, title, habit_kind, created_by, created_at)
+select 'd0000000-0000-0000-0000-000000000003', p.id, 'Meditar', 'check',
+       '11111111-1111-1111-1111-111111111111', now() - interval '3 days'
+from public.pages p join public.folders f on f.id = p.folder_id
+where f.owner_id = '11111111-1111-1111-1111-111111111111' and p.is_habits;
+update public.profiles set hp_day = (select today - 1 from ctx) where id = '11111111-1111-1111-1111-111111111111';
+set local role authenticated;
+select public.day_start(array['d0000000-0000-0000-0000-000000000003'::uuid]);
+select is((select count(*)::integer from public.task_completions c
+           where c.task_id = 'd0000000-0000-0000-0000-000000000003'
+             and (c.completed_at at time zone 'America/Sao_Paulo')::date = (select today - 1 from ctx)),
+          1, 'hábito marcado como feito ontem ganha a conclusão de ontem');
+select is((select status::text from public.tasks where id = 'd0000000-0000-0000-0000-000000000003'),
+          'todo', 'e o de hoje continua por fazer');
+
+-- Volta ao cenário das duas diárias atrasadas para os casos seguintes
+reset role;
+delete from public.tasks where id = 'd0000000-0000-0000-0000-000000000003';
+update public.tasks set due_date = (select today - 1 from ctx) where id = 'd0000000-0000-0000-0000-000000000002';
+set local role authenticated;
 
 -- Furtividade evita uma diária; escudo corta pela metade; taverna zera
 reset role;

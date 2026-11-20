@@ -3257,7 +3257,7 @@
     "restarted": "Uma nova jornada começa no nível 1.",
     "noGold": "Você tem {{gold}} de ouro: não dá para comprar a vida.",
     "dayStartTitle": "O que você fez ontem?",
-    "dayStartHint": "Estas diárias ficaram sem marcar. Marque as que você fez e só esqueceu de registrar: elas não tiram vida. As outras tiram.",
+    "dayStartHint": "Estas diárias ficaram sem marcar. Marque as que você fez e só esqueceu de registrar: ficam como feitas ontem (contam na sequência) e não tiram vida. As outras tiram.",
     "dayStartResting": "Você está descansando na taverna: nada tira vida hoje.",
     "dayStartGo": "Começar o dia",
     "dayStartDamage_one": "Uma diária ficou para trás: −{{damage}} de vida.",
