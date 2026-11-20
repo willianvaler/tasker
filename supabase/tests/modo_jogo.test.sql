@@ -1,7 +1,7 @@
 -- Modo jogo Completo (ESCOPO_V8, HB5 a HB10; D199 a D205). Rode com: npx supabase test db
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(40);
+select plan(43);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'ana@teste.local'),
@@ -57,16 +57,23 @@ from public.pages p join public.folders f on f.id = p.folder_id
 where f.owner_id = '11111111-1111-1111-1111-111111111111' and p.is_habits;
 update public.profiles set hp_day = (select today - 1 from ctx) where id = '11111111-1111-1111-1111-111111111111';
 set local role authenticated;
-select public.day_start(array['d0000000-0000-0000-0000-000000000003'::uuid]);
+create temp table r2 as select public.day_start(array['d0000000-0000-0000-0000-000000000003'::uuid]) as r;
 select is((select count(*)::integer from public.task_completions c
            where c.task_id = 'd0000000-0000-0000-0000-000000000003'
              and (c.completed_at at time zone 'America/Sao_Paulo')::date = (select today - 1 from ctx)),
           1, 'hábito marcado como feito ontem ganha a conclusão de ontem');
 select is((select status::text from public.tasks where id = 'd0000000-0000-0000-0000-000000000003'),
           'todo', 'e o de hoje continua por fazer');
+select ok(((select r from r2) ->> 'xp')::integer > 0, '"fiz ontem" dá XP (a pessoa fez, só esqueceu de marcar)');
+select is((select cycle_key from public.xp_events where task_id = 'd0000000-0000-0000-0000-000000000003'),
+          to_char((select today - 1 from ctx), 'YYYY-MM-DD'), 'o XP é o de ontem: o de hoje continua livre');
+select is((select cycle_key from public.xp_events where task_id = 'd0000000-0000-0000-0000-000000000002'),
+          'r:' || (select today - 1 from ctx), 'na recorrente, a chave do XP é a de ontem (não colide com a de hoje)');
 
 -- Volta ao cenário das duas diárias atrasadas para os casos seguintes
 reset role;
+delete from public.xp_events where task_id in ('d0000000-0000-0000-0000-000000000002',
+                                             'd0000000-0000-0000-0000-000000000003');
 delete from public.tasks where id = 'd0000000-0000-0000-0000-000000000003';
 update public.tasks set due_date = (select today - 1 from ctx) where id = 'd0000000-0000-0000-0000-000000000002';
 set local role authenticated;

@@ -387,6 +387,7 @@ function DayStartDialog() {
             ? t('game.dayStartDamage', { count: r.missed ?? 0, damage: r.damage })
             : t('game.dayStartClean'),
           r.perfect ? t('game.perfect', { buff: r.buff ?? 0 }) : null,
+          (r.xp ?? 0) > 0 ? t('game.dayStartXp', { xp: r.xp }) : null,
           (r.mp_gain ?? 0) > 0 ? t('game.mpGain', { mp: r.mp_gain }) : null,
         ];
         toast({ message: parts.filter(Boolean).join(' · ') });

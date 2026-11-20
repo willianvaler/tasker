@@ -8,7 +8,7 @@ A tela **Jogo** (dá para pôr na barra de baixo em Configurações → Navegaç
 
 ## Vida e diárias
 
-Diárias são as tarefas que se repetem e os hábitos de marcar, nas suas pastas (as de projeto não contam). Na primeira vez que você abre o app no dia, ele pergunta **"O que você fez ontem?"**: marque o que fez e só esqueceu de registrar: fica registrado como feito ontem (conta na sequência, sem XP). Cada diária que ficou para trás tira vida (mais as de prioridade alta; a Constituição reduz). Subir de nível enche a vida; a **poção** (25 de ouro) devolve 15.
+Diárias são as tarefas que se repetem e os hábitos de marcar, nas suas pastas (as de projeto não contam). Na primeira vez que você abre o app no dia, ele pergunta **"O que você fez ontem?"**: marque o que fez e só esqueceu de registrar: fica registrado como feito ontem (conta na sequência e dá XP, como se tivesse marcado na hora). Cada diária que ficou para trás tira vida (mais as de prioridade alta; a Constituição reduz). Subir de nível enche a vida; a **poção** (25 de ouro) devolve 15.
 
 **Taverna:** viajando ou doente? Descanse na taverna e as diárias não tiram vida.
 

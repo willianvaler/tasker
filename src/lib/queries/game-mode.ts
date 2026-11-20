@@ -62,6 +62,9 @@ const dayStartResultSchema = z.object({
   perfect: z.boolean().optional(),
   buff: z.number().optional(),
   resting: z.boolean().optional(),
+  /** XP e ouro do que a pessoa marcou como feito ontem */
+  xp: z.number().optional(),
+  gold: z.number().optional(),
 });
 export type DayStartResult = z.infer<typeof dayStartResultSchema>;
 
@@ -73,6 +76,8 @@ export function useDayStart() {
       dayStartResultSchema.parse(await rpc('day_start', { p_did: did })),
     onSettled: () => {
       queryClient.setQueryData(dayStartKey, { pending: false, items: [] });
+      // Conclusões de ontem (sequência) e a data nova da recorrente
+      queryClient.invalidateQueries({ queryKey: keys.tasks });
       refresh();
     },
   });
