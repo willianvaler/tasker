@@ -8,7 +8,7 @@ import { flushUploads } from '@/lib/queries/attachments';
 import { keys, taskMutationKey } from '@/lib/queries/keys';
 import { connector, POWERSYNC_URL, setOnCommandApplied } from '@/lib/sync/connector';
 import { db } from '@/lib/sync/db';
-import { isLocal } from '@/lib/sync/local';
+import { isLocal, setCommandWaitPolicy } from '@/lib/sync/local';
 import { pendingXp } from '@/lib/sync/pending-xp';
 import { supabase } from '@/lib/supabase';
 import { getSyncUser, setSyncReady, setSyncUser } from '@/lib/prefs';
@@ -51,6 +51,15 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   sensitive_consents: [['body'], ['medications']],
   medications: [['medications']],
 };
+
+// Com mutação de tarefa em andamento, estas só releem quando a fila esvaziar: o progresso das
+// séries e o diário mudam a cada toque e reler no meio mostrava um número atrasado
+const DEFER_WHILE_MUTATING = [keys.tasks, keys.progress, keys.workoutSets].map((k) =>
+  JSON.stringify(k),
+);
+
+// Toque com outros atrás dele na fila não espera a resposta do servidor (ver runCommand)
+setCommandWaitPolicy(() => queryClient.isMutating({ mutationKey: taskMutationKey }) <= 1);
 
 // Consultas com ramo local: as do AFFECTS
 const LOCAL_KEYS = new Set(
@@ -178,7 +187,7 @@ export function SyncProvider({ children }: { children: ReactNode }) {
           // tela a linha que acabou de ser marcada antes da resposta
           if (queryClient.isMutating({ mutationKey: taskMutationKey }) > 0) {
             tasksStale = true;
-            done.add(JSON.stringify(keys.tasks));
+            for (const id of DEFER_WHILE_MUTATING) done.add(id);
           }
           const changed: (readonly unknown[])[] = [];
           for (const table of event.changedTables) {
@@ -205,7 +214,7 @@ export function SyncProvider({ children }: { children: ReactNode }) {
     const stopMutations = queryClient.getMutationCache().subscribe(() => {
       if (!tasksStale || queryClient.isMutating({ mutationKey: taskMutationKey }) > 0) return;
       tasksStale = false;
-      queryClient.invalidateQueries({ queryKey: keys.tasks });
+      for (const id of DEFER_WHILE_MUTATING) queryClient.invalidateQueries({ queryKey: JSON.parse(id) });
     });
     return () => {
       clearTimeout(settleTimer);

@@ -170,9 +170,12 @@ export async function logRepFn({ task, delta, id, values }: LogRepVars): Promise
 }
 
 function settle(queryClient: QueryClient) {
+  queryClient.invalidateQueries({ queryKey: keys.game });
+  // Séries seguidas: relê só quando a última terminar (reler no meio mostrava o número de antes
+  // das que ainda estão na fila)
+  if (queryClient.isMutating({ mutationKey: taskMutationKey }) > 1) return;
   invalidateWhenIdle(queryClient);
   queryClient.invalidateQueries({ queryKey: keys.progress });
-  queryClient.invalidateQueries({ queryKey: keys.game });
   queryClient.invalidateQueries({ queryKey: keys.workoutSets });
 }
 

@@ -112,6 +112,12 @@ export function refreshCyclesInBackground(pageId?: string) {
   supabase.rpc('refresh_cycles', pageId ? { p_page_id: pageId } : {}).then(undefined, () => {});
 }
 
+let waitForResult = () => true;
+/** Diz se vale esperar a resposta do comando (o provedor do sync responde: sem fila atrás). */
+export function setCommandWaitPolicy(fn: () => boolean) {
+  waitForResult = fn;
+}
+
 /**
  * Grava um comando (ação que vira RPC no servidor) e, se há conexão, espera a resposta por pouco
  * tempo para mostrar o resultado (XP, dano). Sem conexão, segue sem resposta: o comando fica na
@@ -135,7 +141,10 @@ export async function runCommand(
   });
   // O PowerSync leva alguns segundos para notar a queda; o navegador avisa na hora
   const online = db.currentStatus.connected && onlineManager.isOnline();
-  const result = online ? await commandResult(id, 3000) : null;
+  // Com outros toques na fila atrás deste (ex.: + do contador várias vezes seguidas), não espera:
+  // cada espera segurava a gravação do próximo no aparelho por até 3 s, e a tela relia o banco
+  // atrasado no meio (o contador "voltava"). O resultado oficial chega pelo sync
+  const result = online && waitForResult() ? await commandResult(id, 3000) : null;
   if (result == null) pendingXp.add(id, estimate);
   return result;
 }
