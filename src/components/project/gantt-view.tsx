@@ -46,7 +46,8 @@ const ZOOM = { day: 32, week: 12 } as const;
 
 type Drag = { id: string; mode: DragMode; delta: number };
 
-export function GanttView({ root }: { root: FolderNode }) {
+/** `only`: só estas tarefas (a visão Gantt de uma lista, VS1); sem ele, o projeto inteiro. */
+export function GanttView({ root, only }: { root: FolderNode; only?: readonly string[] }) {
   const { t } = useTranslation();
   const today = useToday();
   const colors = useColors();
@@ -81,7 +82,11 @@ export function GanttView({ root }: { root: FolderNode }) {
     depends_on_task_id: d.depends_on_task_id,
   }));
   const dayW = ZOOM[zoom];
-  const plan = ganttPlan(tasks.data ?? [], links, {
+  const onlySet = only ? new Set(only) : null;
+  const shownTasks = onlySet
+    ? (tasks.data ?? []).filter((task) => onlySet.has(task.id))
+    : (tasks.data ?? []);
+  const plan = ganttPlan(shownTasks, links, {
     today,
     pageOrder,
     minDays: Math.ceil(chartWidth / dayW),
@@ -117,7 +122,13 @@ export function GanttView({ root }: { root: FolderNode }) {
   const arrows = ganttArrows(plan.rows, links);
   const days = Array.from({ length: plan.days }, (_, i) => addDays(plan.from, i));
   const compared = baselines.data?.find((b) => b.id === compareId) ?? null;
-  const diff = compared ? compareBaseline(tasks.data ?? [], compared.items) : null;
+  // Numa lista, a foto conta só as tarefas dela (as das outras listas não "saíram")
+  const diff = compared
+    ? compareBaseline(
+        shownTasks,
+        onlySet ? compared.items.filter((i) => onlySet.has(i.t)) : compared.items,
+      )
+    : null;
 
   return (
     <View className="gap-4">

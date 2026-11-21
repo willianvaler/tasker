@@ -4801,5 +4801,72 @@
       "cost": "Custo",
       "currency": "Moeda"
     }
+  },
+  "views": {
+    "cards": "Cards",
+    "new": "Nova visão",
+    "edit": "Mudar a visão",
+    "editNamed": "Mudar a visão {{name}}",
+    "name": "Nome da visão",
+    "namePlaceholder": "Ex.: Quadro por fase, Atrasadas",
+    "kindTitle": "Ver como",
+    "kind": {
+      "list": "Lista",
+      "board": "Quadro",
+      "table": "Tabela",
+      "calendar": "Calendário",
+      "gantt": "Gantt"
+    },
+    "scopeTitle": "Para quem",
+    "scope": {
+      "personal": "Só eu",
+      "project": "Todo o projeto"
+    },
+    "groupTitle": "Agrupar por",
+    "group": {
+      "none": "Nada",
+      "status": "Estado",
+      "priority": "Prioridade",
+      "assignee": "Responsável",
+      "label": "Etiqueta"
+    },
+    "statusTitle": "Tarefas",
+    "status": {
+      "all": "Todas",
+      "open": "Abertas",
+      "done": "Concluídas"
+    },
+    "dueTitle": "Prazo",
+    "due": {
+      "any": "Qualquer",
+      "overdue": "Atrasadas",
+      "week": "Próximos 7 dias",
+      "undated": "Sem data"
+    },
+    "labelTitle": "Etiqueta",
+    "anyLabel": "Qualquer",
+    "mine": "Só as atribuídas a mim",
+    "sortTitle": "Ordem",
+    "sort": {
+      "position": "Da lista",
+      "due": "Prazo",
+      "priority": "Prioridade",
+      "title": "Título",
+      "created": "Criação"
+    },
+    "desc": "Inverter",
+    "columnsTitle": "Colunas",
+    "col": {
+      "start": "Início",
+      "assignees": "Responsáveis"
+    },
+    "delete": "Apagar a visão",
+    "none": "Nenhuma tarefa nesta visão.",
+    "dayEmpty": "Nada vence neste dia.",
+    "undated": "Sem data",
+    "noPriority": "Sem prioridade",
+    "nobody": "Sem responsável",
+    "noLabel": "Sem etiqueta",
+    "noValue": "Sem {{name}}"
   }
 }

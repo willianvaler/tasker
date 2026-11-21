@@ -4801,5 +4801,72 @@
       "cost": "Costo",
       "currency": "Moneda"
     }
+  },
+  "views": {
+    "cards": "Tarjetas",
+    "new": "Nueva vista",
+    "edit": "Cambiar la vista",
+    "editNamed": "Cambiar la vista {{name}}",
+    "name": "Nombre de la vista",
+    "namePlaceholder": "Ej.: Tablero por fase, Atrasadas",
+    "kindTitle": "Ver como",
+    "kind": {
+      "list": "Lista",
+      "board": "Tablero",
+      "table": "Tabla",
+      "calendar": "Calendario",
+      "gantt": "Gantt"
+    },
+    "scopeTitle": "Para quién",
+    "scope": {
+      "personal": "Solo yo",
+      "project": "Todo el proyecto"
+    },
+    "groupTitle": "Agrupar por",
+    "group": {
+      "none": "Nada",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "assignee": "Responsable",
+      "label": "Etiqueta"
+    },
+    "statusTitle": "Tareas",
+    "status": {
+      "all": "Todas",
+      "open": "Abiertas",
+      "done": "Completadas"
+    },
+    "dueTitle": "Plazo",
+    "due": {
+      "any": "Cualquiera",
+      "overdue": "Atrasadas",
+      "week": "Próximos 7 días",
+      "undated": "Sin fecha"
+    },
+    "labelTitle": "Etiqueta",
+    "anyLabel": "Cualquiera",
+    "mine": "Solo las asignadas a mí",
+    "sortTitle": "Orden",
+    "sort": {
+      "position": "De la lista",
+      "due": "Plazo",
+      "priority": "Prioridad",
+      "title": "Título",
+      "created": "Creación"
+    },
+    "desc": "Invertir",
+    "columnsTitle": "Columnas",
+    "col": {
+      "start": "Inicio",
+      "assignees": "Responsables"
+    },
+    "delete": "Borrar la vista",
+    "none": "Ninguna tarea en esta vista.",
+    "dayEmpty": "Nada vence este día.",
+    "undated": "Sin fecha",
+    "noPriority": "Sin prioridad",
+    "nobody": "Sin responsable",
+    "noLabel": "Sin etiqueta",
+    "noValue": "Sin {{name}}"
   }
 }

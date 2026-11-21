@@ -30,25 +30,31 @@ const COLUMNS = [
   { status: 'doing', title: 'kanban.doing' },
   { status: 'done', title: 'kanban.done' },
 ] as const satisfies readonly { status: TaskStatus; title: string }[];
-type Column = (typeof COLUMNS)[number];
+/** Coluna do quadro: a chave (estado, prioridade, valor do campo...) e o título já traduzido */
+type Column = { key: string; title: string };
+export type BoardColumn = Column & { tasks: Task[] };
 
 /**
  * Kanban: A fazer / Fazendo / Feito. Mover é arrastando o card para outra coluna ou pelos
  * botões (setas), que funcionam com toque, teclado e leitor de tela; levar para Feito conclui
- * a tarefa (XP, bosses).
+ * a tarefa (XP, bosses). Uma visão salva (VS1) passa as próprias colunas (por prioridade,
+ * responsável, etiqueta ou campo) e o que fazer ao mover (`onMove`).
  */
 export function KanbanBoard({
   tasks,
   folderId,
   subtaskCount,
+  columns: custom,
+  onMove,
 }: {
   tasks: Task[];
   folderId: string;
   subtaskCount: Map<string, { done: number; total: number }>;
+  columns?: BoardColumn[];
+  onMove?: (task: Task, from: string, to: string) => void;
 }) {
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
-  const wide = width >= 900;
   const today = useToday();
   // A mutação fica no quadro (que continua montado): o card muda de coluna e é desmontado, e o
   // onSuccess de um mutate cujo componente saiu da tela não é chamado
@@ -56,12 +62,24 @@ export function KanbanBoard({
   const toast = useToast();
   const game = useGameState();
 
-  function move(task: Task, target: Column) {
+  const columns: BoardColumn[] =
+    custom ??
+    COLUMNS.map((c) => ({
+      key: c.status,
+      title: t(c.title),
+      tasks: tasks.filter((t) => t.status === c.status),
+    }));
+  // Muitas colunas não cabem lado a lado: o quadro rola de lado
+  const wide = width >= 900 && columns.length <= 4;
+
+  function move(task: Task, from: Column, target: Column) {
+    if (onMove) return onMove(task, from.key, target.key);
+    const status = target.key as TaskStatus;
     // mutateAsync: o card muda de coluna (desmonta) antes da resposta
-    setStatus.mutateAsync({ id: task.id, status: target.status }).then(
+    setStatus.mutateAsync({ id: task.id, status }).then(
       (summary) => {
         const reward =
-          target.status === 'done' && summary && game.data?.enabled !== false
+          status === 'done' && summary && game.data?.enabled !== false
             ? rewardMessage(summary)
             : null;
         if (reward) toast({ message: t('kanban.doneToast', { title: task.title, reward }) });
@@ -70,18 +88,13 @@ export function KanbanBoard({
     );
   }
 
-  const columns = COLUMNS.map((c) => ({
-    ...c,
-    tasks: tasks.filter((t) => t.status === c.status),
-  }));
-
   // Arrastar (pedido do dono, 20/10): soltar o card sobre outra coluna move a tarefa. A coluna é
   // achada pela posição na janela no momento de soltar (o quadro pode estar rolado de lado)
   const columnRefs = useRef<(View | null)[]>([]);
-  const [hover, setHover] = useState<TaskStatus | null>(null);
+  const [hover, setHover] = useState<string | null>(null);
   const columnAt = (x: number) =>
     Promise.all(
-      COLUMNS.map(
+      columns.map(
         (c, i) =>
           new Promise<Column | null>((resolve) => {
             const ref = columnRefs.current[i];
@@ -90,28 +103,28 @@ export function KanbanBoard({
           }),
       ),
     ).then((found) => found.find(Boolean) ?? null);
-  const dragTo = (task: Task, x: number) =>
+  const dragTo = (task: Task, from: Column, x: number) =>
     columnAt(x).then((target) => {
       setHover(null);
-      if (target && target.status !== task.status) move(task, target);
+      if (target && target.key !== from.key) move(task, from, target);
     });
-  const dragOver = (x: number) => columnAt(x).then((c) => setHover(c?.status ?? null));
+  const dragOver = (x: number) => columnAt(x).then((c) => setHover(c?.key ?? null));
 
   const body = columns.map((column, index) => (
     <View
-      key={column.status}
+      key={column.key || '-'}
       ref={(el) => {
         columnRefs.current[index] = el;
       }}
-      accessibilityLabel={t('kanban.column', { title: t(column.title) })}
+      accessibilityLabel={t('kanban.column', { title: column.title })}
       className={cn(
         'gap-2 rounded-lg',
         wide ? 'flex-1' : '',
-        hover === column.status && 'bg-accent-soft',
+        hover === column.key && 'bg-accent-soft',
       )}
       style={wide ? undefined : { width: Math.min(320, width * 0.8) }}
     >
-      <SectionLabel title={t(column.title)} count={column.tasks.length} className="pt-0" />
+      <SectionLabel title={column.title} count={column.tasks.length} className="pt-0" />
       {column.tasks.map((task) => (
         <KanbanCard
           key={task.id}
@@ -119,11 +132,11 @@ export function KanbanBoard({
           today={today}
           folderId={folderId}
           subtasks={subtaskCount.get(task.id)}
-          prev={COLUMNS[index - 1]}
-          next={COLUMNS[index + 1]}
-          onMove={(target) => move(task, target)}
+          prev={columns[index - 1]}
+          next={columns[index + 1]}
+          onMove={(target) => move(task, column, target)}
           onDragOver={dragOver}
-          onDrop={(x) => dragTo(task, x)}
+          onDrop={(x) => dragTo(task, column, x)}
         />
       ))}
       {column.tasks.length === 0 && (
@@ -269,8 +282,8 @@ function KanbanCardBody({
           {prev ? (
             <MoveButton
               icon={ChevronLeft}
-              label={t(prev.title)}
-              a11y={t('kanban.move', { title: task.title, column: t(prev.title) })}
+              label={prev.title}
+              a11y={t('kanban.move', { title: task.title, column: prev.title })}
               onPress={() => move(prev)}
             />
           ) : (
@@ -280,8 +293,8 @@ function KanbanCardBody({
             <MoveButton
               icon={ChevronRight}
               trailing
-              label={t(next.title)}
-              a11y={t('kanban.move', { title: task.title, column: t(next.title) })}
+              label={next.title}
+              a11y={t('kanban.move', { title: task.title, column: next.title })}
               onPress={() => move(next)}
             />
           )}

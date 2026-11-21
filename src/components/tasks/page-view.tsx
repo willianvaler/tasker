@@ -7,7 +7,9 @@ import {
   ListPlus,
   ListTree,
   Lock,
+  Plus,
   RotateCcw,
+  SlidersHorizontal,
 } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +17,12 @@ import { Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
 import { resetCycleLabel } from '@/components/page-dialog';
-import { Button } from '@/components/ui/button';
+import { useListViews } from '@/components/list-views/use-views';
+import { SavedViewBody } from '@/components/list-views/view-body';
+import { ViewDialog } from '@/components/list-views/view-dialog';
+import { Button, IconButton } from '@/components/ui/button';
+import type { ScopedView } from '@/lib/list-views';
+import { usePageFields } from '@/lib/queries/fields';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -31,7 +38,7 @@ import { useToast } from '@/providers/toast';
 import { EisenhowerMatrix } from './eisenhower-matrix';
 import { HabitRow, useHabitDates } from './habit-row';
 import { KanbanBoard } from './kanban-board';
-import { isTaskPage, usePageMode } from './page-mode';
+import { hasViews, isTaskPage, usePageMode } from './page-mode';
 import { QuickAdd } from './quick-add';
 import { branchRows, childrenMap, leafProgress, parentIds, wbsCodes } from '@/lib/task-tree';
 import { treeState, useExpanded, useShowCodes } from '@/lib/tree-state';
@@ -62,8 +69,16 @@ export function PageView({ page }: { page: Page | undefined }) {
   const screenGutter = useScreenGutter();
   const viewType = page?.view_type ?? 'list';
   // Lista, quadro ou matriz (D221, D262), lembrado por página no aparelho
-  const [mode, changeMode] = usePageMode(page);
+  const [savedMode, changeMode] = usePageMode(page);
   const taskPage = isTaskPage(page);
+  // Visões salvas (VS1): a aba ativa pode ser uma delas; apagada (ou de outra pessoa), volta à lista
+  const listViews = useListViews(page);
+  const activeView = savedMode.startsWith('view:')
+    ? listViews.views.find((v) => `view:${v.id}` === savedMode)
+    : undefined;
+  const mode = savedMode.startsWith('view:') && !activeView ? 'list' : savedMode;
+  const [viewDialog, setViewDialog] = useState<ScopedView | 'new' | null>(null);
+  const fields = usePageFields(hasViews(page) ? page?.id : undefined);
 
   const expanded = useExpanded();
   const { open, done, all, subtaskCount, kids } = useMemo(() => {
@@ -206,19 +221,58 @@ export function PageView({ page }: { page: Page | undefined }) {
           </Text>
         </View>
       )}
-      {taskPage && page && (
-        <Tabs
-          label={t('matrix.views')}
-          value={mode}
-          onChange={changeMode}
-          tabs={[
-            { value: 'list', label: t('matrix.list') },
-            { value: 'board', label: t('matrix.board') },
-            { value: 'matrix', label: t('matrix.title') },
-          ]}
+      {hasViews(page) && page && (
+        <View className="flex-row items-end gap-2">
+          <View className="min-w-0 flex-1">
+            <Tabs
+              label={t('matrix.views')}
+              value={mode}
+              onChange={changeMode}
+              tabs={[
+                ...(taskPage
+                  ? [
+                      { value: 'list' as const, label: t('matrix.list') },
+                      { value: 'board' as const, label: t('matrix.board') },
+                      { value: 'matrix' as const, label: t('matrix.title') },
+                    ]
+                  : [{ value: 'list' as const, label: t('views.cards') }]),
+                ...listViews.views.map((v) => ({ value: `view:${v.id}` as const, label: v.name })),
+              ]}
+            />
+          </View>
+          {activeView && listViews.canEdit(activeView) && (
+            <IconButton
+              icon={SlidersHorizontal}
+              label={t('views.editNamed', { name: activeView.name })}
+              onPress={() => setViewDialog(activeView)}
+            />
+          )}
+          <IconButton icon={Plus} label={t('views.new')} onPress={() => setViewDialog('new')} />
+        </View>
+      )}
+      {viewDialog && page && (
+        <ViewDialog
+          view={viewDialog === 'new' ? undefined : viewDialog}
+          fields={fields.data ?? []}
+          labels={[...new Set((tasks.data ?? []).flatMap((task) => task.labels ?? []))].sort()}
+          shared={listViews.shared}
+          manage={listViews.manage}
+          onSave={(view, scope) => {
+            listViews.save(view, scope, viewDialog === 'new' ? undefined : viewDialog);
+            changeMode(`view:${view.id}`);
+          }}
+          onDelete={
+            viewDialog === 'new'
+              ? undefined
+              : () => {
+                  listViews.remove(viewDialog);
+                  changeMode('list');
+                }
+          }
+          onClose={() => setViewDialog(null)}
         />
       )}
-      {page && (viewType === 'list' || viewType === 'cards') && all.length > 0 && (
+      {page && !activeView && (viewType === 'list' || viewType === 'cards') && all.length > 0 && (
         <PageProgress page={page} done={all.length - open.length} total={all.length} />
       )}
       <View className="flex-row items-center gap-2">
@@ -273,7 +327,15 @@ export function PageView({ page }: { page: Page | undefined }) {
         contentContainerStyle={{ paddingHorizontal: screenGutter.px }}
         keyboardShouldPersistTaps="handled"
       >
-        {taskPage && mode === 'board' && page ? (
+        {activeView && page ? (
+          <SavedViewBody
+            view={activeView}
+            page={page}
+            tasks={tasks.data ?? []}
+            today={today}
+            subtaskCount={subtaskCount}
+          />
+        ) : taskPage && mode === 'board' && page ? (
           <KanbanBoard tasks={all} folderId={page.folder_id} subtaskCount={subtaskCount} />
         ) : viewType === 'cards' && page ? (
           <CardsBody tasks={all} subtaskCount={subtaskCount} scrollRef={scrollRef} />
@@ -315,7 +377,7 @@ export function PageView({ page }: { page: Page | undefined }) {
             <DoneSection tasks={done} today={today} subtaskCount={subtaskCount} />
           </>
         )}
-        {!tasks.isPending && all.length === 0 && (
+        {!tasks.isPending && all.length === 0 && !activeView && (
           <EmptyState title={empty.title} hint={empty.hint} />
         )}
         <View className="h-28" />

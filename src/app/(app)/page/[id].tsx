@@ -188,7 +188,11 @@ export default function PageScreen() {
       : undefined;
 
   // Cards e kanban aproveitam a tela toda; lista e hábitos ficam numa coluna de leitura
-  const size = page?.view_type === 'cards' || expensesPage || mode === 'board' ? 'wide' : 'medium';
+  // Visão salva (VS1): quadro, tabela, calendário e Gantt pedem a largura; a lista não perde nada
+  const size =
+    page?.view_type === 'cards' || expensesPage || mode === 'board' || mode.startsWith('view:')
+      ? 'wide'
+      : 'medium';
   return (
     <Screen size={size}>
       <ScreenHeader

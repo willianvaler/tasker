@@ -18,6 +18,7 @@ import { Text } from '@/components/ui/text';
 import {
   baseColumns,
   cellInput,
+  type CellParse,
   DEFAULT_QUERY,
   EDITABLE,
   groupRows,
@@ -43,7 +44,7 @@ import { fetchPlan, runNotes, runTasks, unknownNames, type QueryContext } from '
 import { useQueryTasks } from '@/lib/queries/note-query';
 import { noteTitle, useNoteMutations, useNotes, type Note } from '@/lib/queries/notes';
 import { useFolderActor } from '@/lib/queries/projects';
-import { useUpdateTask, type TaskPatch, type TaskWithPage } from '@/lib/queries/tasks';
+import { useUpdateTask, type Task, type TaskPatch, type TaskWithPage } from '@/lib/queries/tasks';
 import { findFolder, pageLabel, useTree, useTreeMutations, type Page } from '@/lib/queries/tree';
 import { useToast } from '@/providers/toast';
 import { useCanWrite, useTaskCan } from '@/providers/write';
@@ -300,10 +301,10 @@ function BaseResults({
 }
 
 type Named = { id: string; name: string };
-type Row = {
+export type Row = {
   id: string;
   kind: 'task' | 'note';
-  task?: TaskWithPage;
+  task?: Task;
   note?: Note;
   /** Valor bruto de cada coluna (ordenar, agrupar, editar) */
   value: (column: string) => unknown;
@@ -588,7 +589,19 @@ function openRow(row: Row) {
   else router.push({ pathname: '/nota/[id]', params: { id: row.id } });
 }
 
-function BaseTable({
+/**
+ * O que muda quando a tabela não é de uma base: a visão Tabela de uma lista (VS1) tem colunas de
+ * campo personalizado, com nome e leitura próprios.
+ */
+export type TableOptions = {
+  label?: (column: string) => string;
+  editable?: (column: string) => boolean;
+  parse?: (column: string, text: string, current: unknown) => CellParse;
+  input?: (column: string, value: unknown) => string;
+};
+
+/** A tabela das Bases (OB8), usada também pela visão Tabela da lista (VS1). */
+export function BaseTable({
   source,
   columns,
   groups,
@@ -597,6 +610,7 @@ function BaseTable({
   sort,
   onHeader,
   onSave,
+  options,
 }: {
   source: Source;
   columns: string[];
@@ -606,16 +620,33 @@ function BaseTable({
   sort: BaseConfig['sort'];
   onHeader: (column: string) => void;
   onSave: (row: Row, column: string, value: unknown) => void;
+  options?: TableOptions;
 }) {
   const { t } = useTranslation();
-  const label = useColumnLabel();
+  const baseLabel = useColumnLabel();
+  const label = options?.label ?? baseLabel;
   const lead = source === 'tasks' ? 44 : 0;
   const total = lead + columns.reduce((sum, c) => sum + width(c), 0) + 44;
   const line = (row: Row) =>
     row.task ? (
-      <TaskLine key={row.id} row={row} task={row.task} columns={columns} onSave={onSave} />
+      <TaskLine
+        key={row.id}
+        row={row}
+        task={row.task}
+        columns={columns}
+        onSave={onSave}
+        options={options}
+      />
     ) : (
-      <Line key={row.id} row={row} source={source} columns={columns} canEdit onSave={onSave} />
+      <Line
+        key={row.id}
+        row={row}
+        source={source}
+        columns={columns}
+        canEdit
+        onSave={onSave}
+        options={options}
+      />
     );
   return (
     <ScrollView horizontal contentContainerStyle={{ minWidth: '100%' }}>
@@ -673,11 +704,13 @@ function TaskLine({
   task,
   columns,
   onSave,
+  options,
 }: {
   row: Row;
-  task: TaskWithPage;
+  task: Task;
   columns: string[];
   onSave: (row: Row, column: string, value: unknown) => void;
+  options?: TableOptions;
 }) {
   const can = useTaskCan(task);
   return (
@@ -688,6 +721,7 @@ function TaskLine({
       canEdit={can.edit}
       lead={<TaskCheck task={task} canComplete={can.complete} />}
       onSave={onSave}
+      options={options}
     />
   );
 }
@@ -699,6 +733,7 @@ function Line({
   canEdit,
   lead,
   onSave,
+  options,
 }: {
   row: Row;
   source: Source;
@@ -706,13 +741,22 @@ function Line({
   canEdit: boolean;
   lead?: ReactNode;
   onSave: (row: Row, column: string, value: unknown) => void;
+  options?: TableOptions;
 }) {
   const { t } = useTranslation();
   return (
     <View role="row" className="flex-row items-center border-b border-line hover:bg-wash">
       {lead}
       {columns.map((c) => (
-        <Cell key={c} row={row} column={c} source={source} canEdit={canEdit} onSave={onSave} />
+        <Cell
+          key={c}
+          row={row}
+          column={c}
+          source={source}
+          canEdit={canEdit}
+          onSave={onSave}
+          options={options}
+        />
       ))}
       <Pressable
         accessibilityRole="link"
@@ -726,7 +770,7 @@ function Line({
   );
 }
 
-function TaskCheck({ task, canComplete }: { task: TaskWithPage; canComplete: boolean }) {
+function TaskCheck({ task, canComplete }: { task: Task; canComplete: boolean }) {
   const { t } = useTranslation();
   const toggle = useToggleWithUndo();
   const done = task.status === 'done';
@@ -742,7 +786,7 @@ function TaskCheck({ task, canComplete }: { task: TaskWithPage; canComplete: boo
   );
 }
 
-function CardCheck({ task }: { task: TaskWithPage }) {
+function CardCheck({ task }: { task: Task }) {
   const can = useTaskCan(task);
   return <TaskCheck task={task} canComplete={can.complete} />;
 }
@@ -754,18 +798,24 @@ function Cell({
   source,
   canEdit,
   onSave,
+  options,
 }: {
   row: Row;
   column: string;
   source: Source;
   canEdit: boolean;
   onSave: (row: Row, column: string, value: unknown) => void;
+  options?: TableOptions;
 }) {
   const { t } = useTranslation();
-  const label = useColumnLabel();
+  const baseLabel = useColumnLabel();
+  const label = options?.label ?? baseLabel;
   const toast = useToast();
   const editable =
-    canEdit && (EDITABLE[source].includes(column) || (source === 'notes' && isPropColumn(column)));
+    canEdit &&
+    (options?.editable
+      ? options.editable(column)
+      : EDITABLE[source].includes(column) || (source === 'notes' && isPropColumn(column)));
   const [editing, setEditing] = useState<string | null>(null);
   const style = { width: width(column), flexGrow: column === 'title' ? 1 : 0 };
   const text = row.show(column);
@@ -783,7 +833,7 @@ function Cell({
     );
   if (editing !== null) {
     const commit = () => {
-      const result = parseCell(column, editing, raw);
+      const result = (options?.parse ?? parseCell)(column, editing, raw);
       setEditing(null);
       if (!result.ok) {
         toast({ message: t('base.invalid', { name: label(column) }) });
@@ -834,7 +884,7 @@ function Cell({
       role="cell"
       accessibilityHint={t('base.editHint')}
       accessibilityLabel={`${label(column)}: ${text || t('base.blank')}`}
-      onPress={() => setEditing(cellInput(column, raw))}
+      onPress={() => setEditing((options?.input ?? cellInput)(column, raw))}
       style={style}
       className="min-h-9 justify-center px-3 py-2 hover:bg-wash"
     >

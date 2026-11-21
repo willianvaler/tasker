@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { Tables } from '../db';
+import type { Json, Tables } from '../db';
 import type { EffortSetting } from '../gym/effort';
 import { DEFAULT_BAR, DEFAULT_PLATES } from '../gym/plates';
 import type { WeightUnit } from '../gym/types';
@@ -85,6 +85,8 @@ export type UiPrefs = {
   notes?: { dailyTemplate?: string | null };
   /** Favoritos (OB12): anotações, listas e buscas, no alto da barra lateral (`lib/favorites.ts`) */
   favorites?: Record<string, string>[];
+  /** Visões pessoais de cada lista (VS1, `lib/list-views.ts`): { <id da lista>: ListView[] } */
+  list_views?: Record<string, Json>;
   /** Registro do treino (AC4): unidade de carga e escala de esforço */
   gym?: {
     unit?: WeightUnit;

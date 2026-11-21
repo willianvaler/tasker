@@ -118,8 +118,8 @@ export function FieldsDialog({ pageId, onClose }: { pageId: string; onClose: () 
   );
 }
 
-/** Pessoas do projeto da página (campos "pessoa"). */
-function usePeople(folderId: string) {
+/** Pessoas do projeto da página (campos "pessoa"): id → nome (fora de projeto, ninguém). */
+export function usePeople(folderId: string | undefined) {
   const tree = useTree();
   const root = rootFolder(tree.data, folderId);
   const members = useMembers(root?.is_shared ? root.id : undefined);

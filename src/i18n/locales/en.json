@@ -4801,5 +4801,72 @@
       "cost": "Cost",
       "currency": "Currency"
     }
+  },
+  "views": {
+    "cards": "Cards",
+    "new": "New view",
+    "edit": "Edit view",
+    "editNamed": "Edit the view {{name}}",
+    "name": "View name",
+    "namePlaceholder": "E.g.: Board by phase, Overdue",
+    "kindTitle": "Show as",
+    "kind": {
+      "list": "List",
+      "board": "Board",
+      "table": "Table",
+      "calendar": "Calendar",
+      "gantt": "Gantt"
+    },
+    "scopeTitle": "Who sees it",
+    "scope": {
+      "personal": "Only me",
+      "project": "The whole project"
+    },
+    "groupTitle": "Group by",
+    "group": {
+      "none": "Nothing",
+      "status": "Status",
+      "priority": "Priority",
+      "assignee": "Assignee",
+      "label": "Tag"
+    },
+    "statusTitle": "Tasks",
+    "status": {
+      "all": "All",
+      "open": "Open",
+      "done": "Completed"
+    },
+    "dueTitle": "Due",
+    "due": {
+      "any": "Any",
+      "overdue": "Overdue",
+      "week": "Next 7 days",
+      "undated": "No date"
+    },
+    "labelTitle": "Tag",
+    "anyLabel": "Any",
+    "mine": "Only the ones assigned to me",
+    "sortTitle": "Order",
+    "sort": {
+      "position": "List order",
+      "due": "Due date",
+      "priority": "Priority",
+      "title": "Title",
+      "created": "Created"
+    },
+    "desc": "Reverse",
+    "columnsTitle": "Columns",
+    "col": {
+      "start": "Start",
+      "assignees": "Assignees"
+    },
+    "delete": "Delete view",
+    "none": "No tasks in this view.",
+    "dayEmpty": "Nothing is due on this day.",
+    "undated": "No date",
+    "noPriority": "No priority",
+    "nobody": "No assignee",
+    "noLabel": "No tag",
+    "noValue": "No {{name}}"
   }
 }

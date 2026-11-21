@@ -221,15 +221,16 @@ export function setPanelMode(value: PanelMode) {
 }
 
 /**
- * Visão de uma página de tarefas (D221, D262): lista, quadro (kanban) ou matriz de Eisenhower. É do
- * aparelho; sem escolha, vale a visão padrão da página (o tipo salvo: `kanban` abre no quadro).
+ * Visão de uma página de tarefas (D221, D262): lista, quadro (kanban), matriz de Eisenhower ou uma
+ * visão salva (`view:<id>`, VS1). É do aparelho; sem escolha, vale a visão padrão da página (o tipo salvo: `kanban` abre no quadro).
  */
-export type ListMode = 'list' | 'board' | 'matrix';
+export type ListMode = 'list' | 'board' | 'matrix' | `view:${string}`;
 const listModeKey = (pageId: string) => `questlist:list-mode:${pageId}`;
 const listModeListeners = new Set<() => void>();
 
 export function getListMode(pageId: string, fallback: ListMode = 'list'): ListMode {
   const saved = localStore.getItem(listModeKey(pageId));
+  if (saved?.startsWith('view:') && saved.length > 5) return saved as ListMode;
   return saved === 'matrix' || saved === 'board' || saved === 'list' ? saved : fallback;
 }
 
