@@ -27,6 +27,37 @@ describe('textos das notificações (tela 🔔 e push)', () => {
       }),
     ).toEqual({ text: '⏰ 20/10 15:00 · Ligar para o banco', taskId: 't9' });
   });
+  test('reserva pela agenda (AG2): hora no fuso da dona, pendente pede aprovar', () => {
+    const payload = {
+      guest: 'Bia',
+      type_name: 'Conversa',
+      starts_at: '2026-11-23T12:00:00Z',
+      timezone: 'America/Sao_Paulo',
+      task_id: 't7',
+      status: 'confirmed',
+    };
+    expect(describeNotification({ kind: 'booking', payload })).toEqual({
+      text: 'Bia reservou Conversa em 23/11 09:00',
+      taskId: 't7',
+      url: undefined,
+    });
+    expect(
+      describeNotification(
+        { kind: 'booking', payload: { ...payload, status: 'pending', task_id: null } },
+        'en',
+      ),
+    ).toEqual({
+      text: 'Bia requested Conversa on 11/23 09:00: approve?',
+      taskId: undefined,
+      url: '/compromissos',
+    });
+    expect(describeNotification({ kind: 'booking_cancelled', payload }, 'es').text).toBe(
+      'Bia canceló Conversa del 23/11 09:00',
+    );
+    expect(describeNotification({ kind: 'booking_rescheduled', payload }).text).toBe(
+      'Bia remarcou Conversa para 23/11 09:00',
+    );
+  });
   test('menção', () => {
     expect(
       describeNotification({

@@ -65,3 +65,82 @@ test('disponibilidade: semana, dias úteis, exceção e recarregar', async ({ pa
   await removed;
   await expect(shown(page, 'Nenhuma exceção marcada.')).toBeVisible();
 });
+
+// AG2 (D311): tipo de compromisso, reserva sem conta, remarcar pelo link e cancelar pela dona.
+test('reservas: tipo, página pública, remarcar e cancelar', async ({ page, browser }, testInfo) => {
+  test.setTimeout(120_000);
+  await signUp(page, testInfo);
+  await openSettings(page);
+  await page.getByRole('button', { name: 'Disponibilidade' }).click();
+  for (const day of ['seg', 'sáb', 'dom'])
+    await page.getByRole('textbox', { name: `Horários de ${day}` }).fill('0-24');
+  await page.getByRole('button', { name: 'Copiar segunda para os dias úteis' }).click();
+  const saved = page.waitForResponse((r) => isRpc(r, 'set_availability'));
+  await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+  await saved;
+
+  await page.goto('/compromissos');
+  await expect(page.getByRole('heading', { name: 'Compromissos' })).toBeVisible();
+  await page.getByRole('button', { name: 'Novo tipo' }).click();
+  await page.getByRole('textbox', { name: 'Nome', exact: true }).fill('Conversa E2E');
+  await expect(page.getByRole('textbox', { name: 'Final do link' })).toHaveValue('conversa-e2e');
+  await page.getByRole('radio', { name: '45 min' }).click();
+  await page.getByRole('textbox', { name: 'Antecedência (h)' }).fill('0');
+  const created = page.waitForResponse(
+    (r) => r.url().includes('booking_types') && r.request().method() === 'POST' && r.ok(),
+  );
+  await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+  await created;
+  await expect(shown(page, 'Conversa E2E')).toBeVisible();
+  const link = (await shown(page, /\/agenda\/[\w.-]+$/)
+    .first()
+    .textContent())!.trim();
+  const path = new URL(link).pathname;
+
+  // Quem reserva não tem conta
+  const guest = await (await browser.newContext()).newPage();
+  await guest.goto(path);
+  await expect(guest.getByRole('heading', { name: /Agenda de/ })).toBeVisible();
+  await guest.getByRole('link', { name: /Conversa E2E · 45 min/ }).click();
+  await expect(guest.getByRole('heading', { name: 'Conversa E2E' })).toBeVisible();
+  await guest
+    .getByRole('radio', { name: /^\d\d:\d\d$/ })
+    .first()
+    .click();
+  await guest.getByRole('textbox', { name: 'Seu nome' }).fill('Bia Visitante');
+  await guest.getByRole('textbox', { name: 'Seu e-mail' }).fill('bia@exemplo.com');
+  await guest.getByRole('textbox', { name: 'Sobre o que é (opcional)' }).fill('Projeto novo');
+  const booked = guest.waitForResponse((r) => r.url().includes('/rpc/book_slot') && r.ok());
+  await guest.getByRole('button', { name: 'Confirmar reserva' }).click();
+  await booked;
+  await expect(guest.getByRole('heading', { name: 'Reserva confirmada' })).toBeVisible();
+  await expect(guest.getByRole('button', { name: 'Adicionar à agenda (.ics)' })).toBeVisible();
+  const manage = (await guest.getByText(/\/reserva\/[0-9a-f]+$/).textContent())!.trim();
+
+  // Remarcar pelo link: outro horário
+  await guest.goto(new URL(manage).pathname);
+  await guest.getByRole('button', { name: 'Remarcar' }).click();
+  await expect(guest.getByText('Remarcar com', { exact: false })).toBeVisible();
+  await guest
+    .getByRole('radio', { name: /^\d\d:\d\d$/ })
+    .nth(1)
+    .click();
+  const moved = guest.waitForResponse((r) => r.url().includes('/rpc/reschedule_booking') && r.ok());
+  await guest.getByRole('button', { name: 'Remarcar para este horário' }).click();
+  await moved;
+  await expect(guest.getByRole('heading', { name: 'Reserva confirmada' })).toBeVisible();
+
+  // A dona vê a reserva (vira tarefa) e cancela
+  await page.reload();
+  await expect(shown(page, /Conversa E2E · Bia Visitante/)).toBeVisible();
+  await expect(shown(page, /confirmada · bia@exemplo.com/)).toBeVisible();
+  await page.getByRole('button', { name: 'Cancelar', exact: true }).click();
+  const cancelled = page.waitForResponse((r) => isRpc(r, 'respond_booking'));
+  await page.getByRole('button', { name: 'Cancelar reserva' }).click();
+  await cancelled;
+  await expect(shown(page, 'Reserva cancelada')).toBeVisible();
+
+  await guest.goto(new URL(manage).pathname);
+  await expect(guest.getByRole('heading', { name: 'Reserva cancelada' })).toBeVisible();
+  await expect(guest.getByText('Quem você reservou cancelou o compromisso.')).toBeVisible();
+});

@@ -2,7 +2,7 @@
 // texto de forma que importe para quem usa? Suba LEGAL_VERSION aqui **e** public.legal_version()
 // numa migração nova (o teste legal.test.ts compara); quem já usa aceita de novo ao abrir o app.
 
-export const LEGAL_VERSION = '2026-11-04';
+export const LEGAL_VERSION = '2026-11-21';
 
 /** Idade mínima para criar conta (LGPD art. 14: abaixo disso, só com os responsáveis). */
 export const MIN_AGE = 13;
@@ -52,7 +52,7 @@ const ptBR: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidade',
-    updated: 'Versão de 4 de novembro de 2026 (anotações compartilhadas e publicadas)',
+    updated: 'Versão de 21 de novembro de 2026 (agenda e reservas)',
     sections: [
       {
         title: 'Quem cuida dos dados',
@@ -60,7 +60,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'O que guardamos',
-        body: 'Nome, nick, e-mail, fuso horário e idioma; a sua lista de amigos e os pedidos de amizade; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o diário de treino (cada série com carga, repetições, tempo, distância e esforço); se você ligar, o peso e as medidas do corpo, com as metas, e os remédios que você registra, com dose, frequência e estoque (dados de saúde, sensíveis); o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações.',
+        body: 'Nome, nick, e-mail, fuso horário e idioma; a sua lista de amigos e os pedidos de amizade; as pastas, páginas, tarefas, notas, comentários e anexos que você cria; os gastos que você lança e as fotos de notas fiscais que anexa; o histórico de conclusões, tempo e XP; o diário de treino (cada série com carga, repetições, tempo, distância e esforço); se você ligar, o peso e as medidas do corpo, com as metas, e os remédios que você registra, com dose, frequência e estoque (dados de saúde, sensíveis); o personagem (classe, atributos, ouro, itens e mascotes); a data e a versão destes termos que você aceitou; e, se você ligar os avisos no celular, um identificador do aparelho para as notificações. Se você abrir uma agenda de reservas, guardamos os seus horários e tipos de compromisso e, de quem reserva com você (mesmo sem conta), o nome, o e-mail e, se você pedir, o telefone e o que a pessoa escrever.',
       },
       {
         title: 'Para que usamos e com que base',
@@ -68,7 +68,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Quem vê o quê',
-        body: 'Suas pastas pessoais são só suas. Em um projeto compartilhado, os membros veem as tarefas, os comentários e a atividade daquele projeto. Numa página que alguém enviou para você, quem enviou vê o que você marca nela e as séries que faz nos exercícios dela (carga, repetições, tempo, distância e recordes), nunca o resto do seu diário de treino. Quem você chama para treinar junto vê o treino só enquanto está na sessão. Num clã, os membros veem seu nome, nível, classe, aparência do personagem, conquistas e dano no boss, nunca as suas tarefas. Quem tem conta pode achar você pelo nick (vê o nome e o nick); pelo e-mail, só se já souber o endereço, e o app não confirma se a conta existe. Seus amigos veem seu nome e seu nick, e as tarefas que você marcar como de amigos; as que marcar como públicas, qualquer pessoa com conta vê no seu perfil. O que você publica na Comunidade (uma cópia da estrutura, sem pessoas, datas, comentários, anexos nem gastos) fica visível para qualquer pessoa com conta, com o seu nick, até você despublicar. Uma anotação que você compartilha com amigos eles leem (e, se você deixar, editam) até você tirar; uma anotação que você publica na internet (com as anotações citadas, se escolher) qualquer pessoa com o endereço lê, sem conta, com o seu nome, até você despublicar. A senha da publicação fica guardada só como código embaralhado.',
+        body: 'Suas pastas pessoais são só suas. Em um projeto compartilhado, os membros veem as tarefas, os comentários e a atividade daquele projeto. Numa página que alguém enviou para você, quem enviou vê o que você marca nela e as séries que faz nos exercícios dela (carga, repetições, tempo, distância e recordes), nunca o resto do seu diário de treino. Quem você chama para treinar junto vê o treino só enquanto está na sessão. Num clã, os membros veem seu nome, nível, classe, aparência do personagem, conquistas e dano no boss, nunca as suas tarefas. Quem tem conta pode achar você pelo nick (vê o nome e o nick); pelo e-mail, só se já souber o endereço, e o app não confirma se a conta existe. Seus amigos veem seu nome e seu nick, e as tarefas que você marcar como de amigos; as que marcar como públicas, qualquer pessoa com conta vê no seu perfil. O que você publica na Comunidade (uma cópia da estrutura, sem pessoas, datas, comentários, anexos nem gastos) fica visível para qualquer pessoa com conta, com o seu nick, até você despublicar. Uma anotação que você compartilha com amigos eles leem (e, se você deixar, editam) até você tirar; uma anotação que você publica na internet (com as anotações citadas, se escolher) qualquer pessoa com o endereço lê, sem conta, com o seu nome, até você despublicar. A senha da publicação fica guardada só como código embaralhado. Quem abre o link da sua agenda vê o seu nome, os tipos de compromisso abertos e só os horários livres, nunca o que ocupa a sua agenda. Quem reserva com você manda o nome, o e-mail e o que escrever só para você; com o link da reserva, essa pessoa vê, remarca ou cancela a própria reserva.',
       },
       {
         title: 'Terceiros e transferência internacional',
@@ -76,7 +76,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Por quanto tempo',
-        body: 'Enquanto a conta existir. Itens apagados ficam 30 dias na lixeira e depois somem. As versões antigas das anotações (o histórico, para voltar a uma versão anterior) ficam 1 ano e contam no seu espaço de anexos. Ao excluir a conta, os dados pessoais saem do banco na hora e das cópias de segurança (diárias, guardadas por 14 dias) em até 30 dias. Os registros técnicos do servidor (erros e acessos recusados, sem o conteúdo das suas tarefas) são apagados pela rotação do próprio sistema. O registro do aceite dos termos fica enquanto a conta existir.',
+        body: 'Enquanto a conta existir. Itens apagados ficam 30 dias na lixeira e depois somem. As versões antigas das anotações (o histórico, para voltar a uma versão anterior) ficam 1 ano e contam no seu espaço de anexos. Ao excluir a conta, os dados pessoais saem do banco na hora e das cópias de segurança (diárias, guardadas por 14 dias) em até 30 dias. Os registros técnicos do servidor (erros e acessos recusados, sem o conteúdo das suas tarefas) são apagados pela rotação do próprio sistema. O registro do aceite dos termos fica enquanto a conta existir. Os dados de quem reservou com você (nome, e-mail, telefone e o que escreveu) são apagados 1 ano depois do compromisso; a tarefa criada na sua lista fica até você apagar.',
       },
       {
         title: 'Seus direitos',
@@ -139,7 +139,7 @@ const en: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Privacy policy',
-    updated: 'Version of November 4, 2026 (shared and published notes)',
+    updated: 'Version of November 21, 2026 (schedule and bookings)',
     sections: [
       {
         title: 'Who looks after the data',
@@ -147,7 +147,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'What we store',
-        body: 'Name, nick, email, time zone and language; your friends list and friend requests; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the workout log (each set with weight, reps, time, distance and effort); if you turn it on, your body weight and measurements, with goals, and the medicines you log, with dose, frequency and stock (health data, sensitive); the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them.',
+        body: 'Name, nick, email, time zone and language; your friends list and friend requests; the folders, pages, tasks, notes, comments and attachments you create; the expenses you add and the receipt photos you attach; the history of completions, time and XP; the workout log (each set with weight, reps, time, distance and effort); if you turn it on, your body weight and measurements, with goals, and the medicines you log, with dose, frequency and stock (health data, sensitive); the character (class, attributes, gold, items and pets); the date and version of these terms you accepted; and, if you turn on phone notifications, a device identifier to send them. If you open a booking schedule, we store your hours and appointment types and, from people who book with you (even without an account), their name, email and, if you ask, their phone and what they write.',
       },
       {
         title: 'What we use it for, and on what basis',
@@ -155,7 +155,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Who sees what',
-        body: "Your personal folders are only yours. In a shared project, members see that project's tasks, comments and activity. On a page someone sent you, the sender sees what you check on it and the sets you do in its exercises (weight, reps, time, distance and records), never the rest of your workout log. People you invite to work out together see the workout only while they are in the session. In a clan, members see your name, level, class, character look, achievements and boss damage, never your tasks. Anyone with an account can find you by your nick (they see your name and nick); by email only if they already know the address, and the app does not confirm whether the account exists. Your friends see your name and nick, and the tasks you mark for friends; tasks you mark public can be seen on your profile by anyone with an account. What you publish to the Community (a copy of the structure, without people, dates, comments, attachments or expenses) is visible to anyone with an account, with your nick, until you unpublish it. A note you share with friends can be read (and, if you allow, edited) by them until you remove them; a note you publish on the web (with the linked notes, if you choose) can be read by anyone with the address, without an account, with your name, until you unpublish it. The publication password is stored only as a scrambled code.",
+        body: "Your personal folders are only yours. In a shared project, members see that project's tasks, comments and activity. On a page someone sent you, the sender sees what you check on it and the sets you do in its exercises (weight, reps, time, distance and records), never the rest of your workout log. People you invite to work out together see the workout only while they are in the session. In a clan, members see your name, level, class, character look, achievements and boss damage, never your tasks. Anyone with an account can find you by your nick (they see your name and nick); by email only if they already know the address, and the app does not confirm whether the account exists. Your friends see your name and nick, and the tasks you mark for friends; tasks you mark public can be seen on your profile by anyone with an account. What you publish to the Community (a copy of the structure, without people, dates, comments, attachments or expenses) is visible to anyone with an account, with your nick, until you unpublish it. A note you share with friends can be read (and, if you allow, edited) by them until you remove them; a note you publish on the web (with the linked notes, if you choose) can be read by anyone with the address, without an account, with your name, until you unpublish it. The publication password is stored only as a scrambled code. Whoever opens your schedule link sees your name, the open appointment types and only the free times, never what fills your schedule. People who book with you send their name, email and what they write only to you; with the booking link, that person can see, reschedule or cancel their own booking.",
       },
       {
         title: 'Third parties and international transfer',
@@ -163,7 +163,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'How long',
-        body: "For as long as the account exists. Deleted items stay 30 days in the trash and then disappear. Older versions of your notes (the history, to go back to an earlier version) are kept for 1 year and count toward your attachment space. When you delete the account, personal data leaves the database immediately and the backups (daily, kept for 14 days) within 30 days. The server's technical logs (errors and refused requests, without the content of your tasks) are removed by the system's own rotation. The record of your acceptance of the terms is kept while the account exists.",
+        body: "For as long as the account exists. Deleted items stay 30 days in the trash and then disappear. Older versions of your notes (the history, to go back to an earlier version) are kept for 1 year and count toward your attachment space. When you delete the account, personal data leaves the database immediately and the backups (daily, kept for 14 days) within 30 days. The server's technical logs (errors and refused requests, without the content of your tasks) are removed by the system's own rotation. The record of your acceptance of the terms is kept while the account exists. The data of people who booked with you (name, email, phone and what they wrote) is deleted 1 year after the appointment; the task created in your list stays until you delete it.",
       },
       {
         title: 'Your rights',
@@ -226,7 +226,7 @@ const es: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Política de privacidad',
-    updated: 'Versión del 4 de noviembre de 2026 (notas compartidas y publicadas)',
+    updated: 'Versión del 21 de noviembre de 2026 (agenda y reservas)',
     sections: [
       {
         title: 'Quién cuida los datos',
@@ -234,7 +234,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Qué guardamos',
-        body: 'Nombre, nick, correo, zona horaria e idioma; tu lista de amigos y las solicitudes de amistad; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el registro de entrenamiento (cada serie con carga, repeticiones, tiempo, distancia y esfuerzo); si lo activas, el peso y las medidas del cuerpo, con las metas, y los medicamentos que registras, con dosis, frecuencia y stock (datos de salud, sensibles); el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos.',
+        body: 'Nombre, nick, correo, zona horaria e idioma; tu lista de amigos y las solicitudes de amistad; las carpetas, páginas, tareas, notas, comentarios y adjuntos que creas; los gastos que registras y las fotos de tickets que adjuntas; el historial de tareas completadas, tiempo y XP; el registro de entrenamiento (cada serie con carga, repeticiones, tiempo, distancia y esfuerzo); si lo activas, el peso y las medidas del cuerpo, con las metas, y los medicamentos que registras, con dosis, frecuencia y stock (datos de salud, sensibles); el personaje (clase, atributos, oro, objetos y mascotas); la fecha y la versión de estos términos que aceptaste; y, si activas los avisos en el móvil, un identificador del dispositivo para enviarlos. Si abres una agenda de reservas, guardamos tus horarios y tipos de cita y, de quien reserva contigo (aunque no tenga cuenta), el nombre, el correo y, si lo pides, el teléfono y lo que escriba.',
       },
       {
         title: 'Para qué los usamos y con qué base',
@@ -242,7 +242,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Quién ve qué',
-        body: 'Tus carpetas personales son solo tuyas. En un proyecto compartido, los miembros ven las tareas, los comentarios y la actividad de ese proyecto. En una página que alguien te envió, quien la envió ve lo que marcas en ella y las series que haces en sus ejercicios (peso, repeticiones, tiempo, distancia y récords), nunca el resto de tu diario de entrenamiento. Quienes invitas a entrenar juntos ven el entrenamiento solo mientras están en la sesión. En un clan, los miembros ven tu nombre, nivel, clase, aspecto del personaje, logros y daño al boss, nunca tus tareas. Quien tiene cuenta puede encontrarte por tu nick (ve tu nombre y tu nick); por el correo, solo si ya conoce la dirección, y la app no confirma si la cuenta existe. Tus amigos ven tu nombre y tu nick, y las tareas que marques para amigos; las que marques como públicas, cualquier persona con cuenta las ve en tu perfil. Lo que publicas en la Comunidad (una copia de la estructura, sin personas, fechas, comentarios, adjuntos ni gastos) queda visible para cualquier persona con cuenta, con tu nick, hasta que lo despubliques. Una nota que compartes con amigos la leen (y, si lo permites, la editan) hasta que los quites; una nota que publicas en internet (con las notas citadas, si eliges) la lee cualquier persona con la dirección, sin cuenta, con tu nombre, hasta que la despubliques. La contraseña de la publicación se guarda solo como código cifrado.',
+        body: 'Tus carpetas personales son solo tuyas. En un proyecto compartido, los miembros ven las tareas, los comentarios y la actividad de ese proyecto. En una página que alguien te envió, quien la envió ve lo que marcas en ella y las series que haces en sus ejercicios (peso, repeticiones, tiempo, distancia y récords), nunca el resto de tu diario de entrenamiento. Quienes invitas a entrenar juntos ven el entrenamiento solo mientras están en la sesión. En un clan, los miembros ven tu nombre, nivel, clase, aspecto del personaje, logros y daño al boss, nunca tus tareas. Quien tiene cuenta puede encontrarte por tu nick (ve tu nombre y tu nick); por el correo, solo si ya conoce la dirección, y la app no confirma si la cuenta existe. Tus amigos ven tu nombre y tu nick, y las tareas que marques para amigos; las que marques como públicas, cualquier persona con cuenta las ve en tu perfil. Lo que publicas en la Comunidad (una copia de la estructura, sin personas, fechas, comentarios, adjuntos ni gastos) queda visible para cualquier persona con cuenta, con tu nick, hasta que lo despubliques. Una nota que compartes con amigos la leen (y, si lo permites, la editan) hasta que los quites; una nota que publicas en internet (con las notas citadas, si eliges) la lee cualquier persona con la dirección, sin cuenta, con tu nombre, hasta que la despubliques. La contraseña de la publicación se guarda solo como código cifrado. Quien abre el enlace de tu agenda ve tu nombre, los tipos de cita abiertos y solo los horarios libres, nunca lo que ocupa tu agenda. Quien reserva contigo envía el nombre, el correo y lo que escriba solo a ti; con el enlace de la reserva, esa persona ve, cambia o cancela su propia reserva.',
       },
       {
         title: 'Terceros y transferencia internacional',
@@ -250,7 +250,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Por cuánto tiempo',
-        body: 'Mientras exista la cuenta. Lo eliminado queda 30 días en la papelera y luego desaparece. Las versiones antiguas de las notas (el historial, para volver a una versión anterior) se guardan 1 año y cuentan en tu espacio de adjuntos. Al eliminar la cuenta, los datos personales salen de la base de datos al momento y de las copias de seguridad (diarias, guardadas 14 días) en hasta 30 días. Los registros técnicos del servidor (errores y accesos rechazados, sin el contenido de tus tareas) se borran con la rotación del propio sistema. El registro de la aceptación de los términos se guarda mientras exista la cuenta.',
+        body: 'Mientras exista la cuenta. Lo eliminado queda 30 días en la papelera y luego desaparece. Las versiones antiguas de las notas (el historial, para volver a una versión anterior) se guardan 1 año y cuentan en tu espacio de adjuntos. Al eliminar la cuenta, los datos personales salen de la base de datos al momento y de las copias de seguridad (diarias, guardadas 14 días) en hasta 30 días. Los registros técnicos del servidor (errores y accesos rechazados, sin el contenido de tus tareas) se borran con la rotación del propio sistema. El registro de la aceptación de los términos se guarda mientras exista la cuenta. Los datos de quien reservó contigo (nombre, correo, teléfono y lo que escribió) se borran 1 año después de la cita; la tarea creada en tu lista queda hasta que la borres.',
       },
       {
         title: 'Tus derechos',

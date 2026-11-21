@@ -7,6 +7,7 @@ import http from 'node:http';
 import net from 'node:net';
 import { extname, join, normalize } from 'node:path';
 
+import { BOOKING_WRITES, createLimiter } from './rate-limit.mjs';
 import { checkSupabase, PUBLISHABLE } from './supabase-gate.mjs';
 
 // Portas do ambiente (D178): a produção usa os padrões; alpha e lab trocam pelo .ambiente.local
@@ -97,7 +98,9 @@ const CSP = [
   'report-uri /csp-report',
 ].join('; ');
 const CSP_HEADER =
-  process.env.CSP_ENFORCE === '1' ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+  process.env.CSP_ENFORCE === '1'
+    ? 'Content-Security-Policy'
+    : 'Content-Security-Policy-Report-Only';
 
 // Relatórios de violação: uma linha no log por relatório, no máximo 60 por minuto
 let reports = { minute: 0, count: 0 };
@@ -244,6 +247,8 @@ async function guarded(target, req) {
   return denied;
 }
 
+const bookingLimiter = createLimiter({ max: 10, windowMs: 10 * 60_000 });
+
 const server = http.createServer((req, res) => {
   // O Google Agenda assina por webcal:// e busca por http://: o feed responde sem redirecionar
   if (viaHttp(req) && req.headers.host && !req.url.startsWith('/calendario/')) {
@@ -256,6 +261,14 @@ const server = http.createServer((req, res) => {
     return res.end('Origem não permitida');
   }
   if (req.url === '/csp-report' && req.method === 'POST') return cspReport(req, res);
+  // Agenda (AG2): reservar, remarcar e cancelar sem conta, até 10 a cada 10 min por IP
+  if (req.method === 'POST' && BOOKING_WRITES.test(req.url)) {
+    const who = req.headers['cf-connecting-ip'] ?? req.socket.remoteAddress ?? '?';
+    if (!bookingLimiter.hit(String(who))) {
+      res.writeHead(429, { 'Content-Type': 'text/plain; charset=utf-8', 'Retry-After': '600' });
+      return res.end('Pedidos demais: tente de novo em alguns minutos');
+    }
+  }
   if (target)
     guarded(target, req).then((denied) => {
       if (!denied) return proxy(target, req, res);

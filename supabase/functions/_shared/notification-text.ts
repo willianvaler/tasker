@@ -49,6 +49,12 @@ const TEXT: Record<
       p.role === 'edit'
         ? `${by} compartilhou a anotação "${p.title}" para você editar`
         : `${by} compartilhou a anotação "${p.title}" com você`,
+    booking: (p) =>
+      p.status === 'pending'
+        ? `${p.guest} pediu ${p.type_name} em ${p.when}: aprovar?`
+        : `${p.guest} reservou ${p.type_name} em ${p.when}`,
+    booking_cancelled: (p) => `${p.guest} cancelou ${p.type_name} de ${p.when}`,
+    booking_rescheduled: (p) => `${p.guest} remarcou ${p.type_name} para ${p.when}`,
     other: () => 'Novidade',
   },
   en: {
@@ -85,6 +91,12 @@ const TEXT: Record<
       p.role === 'edit'
         ? `${by} shared the note "${p.title}" for you to edit`
         : `${by} shared the note "${p.title}" with you`,
+    booking: (p) =>
+      p.status === 'pending'
+        ? `${p.guest} requested ${p.type_name} on ${p.when}: approve?`
+        : `${p.guest} booked ${p.type_name} on ${p.when}`,
+    booking_cancelled: (p) => `${p.guest} canceled ${p.type_name} on ${p.when}`,
+    booking_rescheduled: (p) => `${p.guest} moved ${p.type_name} to ${p.when}`,
     other: () => 'News',
   },
   es: {
@@ -122,6 +134,12 @@ const TEXT: Record<
       p.role === 'edit'
         ? `${by} compartió la nota "${p.title}" para que la edites`
         : `${by} compartió la nota "${p.title}" contigo`,
+    booking: (p) =>
+      p.status === 'pending'
+        ? `${p.guest} pidió ${p.type_name} el ${p.when}: ¿aprobar?`
+        : `${p.guest} reservó ${p.type_name} el ${p.when}`,
+    booking_cancelled: (p) => `${p.guest} canceló ${p.type_name} del ${p.when}`,
+    booking_rescheduled: (p) => `${p.guest} cambió ${p.type_name} al ${p.when}`,
     other: () => 'Novedad',
   },
 };
@@ -222,6 +240,34 @@ export function describeNotification(
     case 'workout_reminder':
       // Dia de treino sem série (AC9.5): abre o treino do dia
       return { text: say('workout_reminder'), url: p.page_id ? `/page/${p.page_id}` : undefined };
+    case 'booking':
+    case 'booking_cancelled':
+    case 'booking_rescheduled': {
+      // Reserva pela página pública (AG2): "24/11 09:00" no fuso da dona da agenda
+      const at = p.starts_at ? new Date(String(p.starts_at)) : null;
+      let when = '';
+      if (at && !Number.isNaN(at.getTime())) {
+        const parts = new Intl.DateTimeFormat('en-GB', {
+          timeZone: p.timezone ? String(p.timezone) : undefined,
+          day: '2-digit',
+          month: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hourCycle: 'h23',
+        }).formatToParts(at);
+        const get = (type: string) => parts.find((x) => x.type === type)?.value ?? '';
+        const date =
+          notificationLocale(locale) === 'en'
+            ? `${get('month')}/${get('day')}`
+            : `${get('day')}/${get('month')}`;
+        when = `${date} ${get('hour')}:${get('minute')}`;
+      }
+      return {
+        text: tx[notification.kind]({ ...p, when }, by, folder),
+        taskId: p.task_id ? String(p.task_id) : undefined,
+        url: p.task_id ? undefined : '/compromissos',
+      };
+    }
     case 'task_reminder': {
       // Lembrete de tarefa com horário (D206): "⏰ 20/10 15:00 · Ligar para o banco" (10/20 em inglês)
       const [, m, d] = String(p.due_date ?? '').split('-');

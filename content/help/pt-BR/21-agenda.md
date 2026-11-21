@@ -1,6 +1,6 @@
 # Agenda e disponibilidade
 
-A **disponibilidade** diz em que horários você aceita compromissos. Fica em **Configurações → Agenda → Disponibilidade** e vale no fuso do seu perfil. Por enquanto os horários ficam só guardados: a página de reservas (para alguém marcar um horário com você) e o **Achar horário** em grupo vão usá-los, e quem vir de fora enxerga só **livre** ou **ocupado**, nunca o que você tem marcado.
+A **disponibilidade** diz em que horários você aceita compromissos. Fica em **Configurações → Agenda → Disponibilidade** e vale no fuso do seu perfil. A página de reservas (para alguém marcar um horário com você) e o **Achar horário** em grupo usam esses horários, e quem vê de fora enxerga só **livre** ou **ocupado**, nunca o que você tem marcado.
 
 ## A semana
 
@@ -11,6 +11,16 @@ Cada dia tem um campo. Escreva um ou mais trechos separados por vírgula: `9-12,
 ## Exceções
 
 Para folga, viagem ou um compromisso de fora do app, adicione uma **exceção**: a data de começo (`24/12`, `amanhã`, `sexta`), a de fim se for mais de um dia, e um **horário** se for só um trecho (`14-16`; vazio bloqueia o dia inteiro). O motivo é opcional e só você vê. O **×** tira a exceção. As que já passaram somem da lista.
+
+## Página de reservas
+
+Em **Configurações → Agenda → Compromissos** você cria os **tipos de compromisso** (ex.: "Conversa de 30 min"): duração, intervalo antes e depois, antecedência mínima, até quantos dias à frente, limite por dia, se pede telefone e "sobre o que é", e se a reserva **pede a sua aprovação**. Cada tipo tem um link (`/agenda/<seu nick>/<tipo>`), e o link da agenda (`/agenda/<seu nick>`) mostra todos os tipos abertos.
+
+Quem abre o link **não precisa de conta**: escolhe o dia e o horário (no fuso dela), escreve o nome e o e-mail e confirma. Os horários livres são os da sua semana menos as exceções, as reservas já feitas e as **tarefas com horário** (a duração é a estimativa da tarefa, ou 30 min). Se duas pessoas tentarem o mesmo horário, a segunda recebe o aviso de que ele acabou de ser ocupado.
+
+A reserva vira uma **tarefa** na lista **Reservas**, da pasta **Agenda** (criada na primeira reserva), com o horário, a duração e as respostas na descrição, e você recebe um aviso. Com aprovação, a reserva fica pendente (o horário já fica guardado) até você **Aprovar** ou **Recusar** em Compromissos; **Cancelar** tira a tarefa (ela vai para a lixeira).
+
+Quem reservou recebe na tela o botão **Adicionar à agenda (.ics)** e um link para **remarcar** ou **cancelar**. Ainda não mandamos e-mail: a pessoa precisa guardar o link. Os dados de quem reservou somem 1 ano depois do compromisso.
 
 ## Sem internet
 

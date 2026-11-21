@@ -111,6 +111,10 @@ function RootNavigator() {
       <Stack.Screen name="desafio-entrar/[code]" />
       {/* Anotação publicada (OB14): pública, só leitura */}
       <Stack.Screen name="p/[token]" />
+      {/* Agenda pública (AG2): tipos, reservar e o link de quem reservou */}
+      <Stack.Screen name="agenda/[handle]/index" />
+      <Stack.Screen name="agenda/[handle]/[type]" />
+      <Stack.Screen name="reserva/[token]" />
       {/* Política de privacidade: pública (as lojas pedem o endereço) */}
       <Stack.Screen name="privacidade" />
       <Stack.Screen name="termos" />
