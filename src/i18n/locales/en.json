@@ -4604,5 +4604,26 @@
       "decline": "Booking declined",
       "cancel": "Booking canceled"
     }
+  },
+  "findTime": {
+    "open": "Find a time",
+    "title": "Find a time",
+    "hint": "The times when everyone you pick is free, by each person's week and what they already have scheduled. Nobody sees what fills the others' schedules.",
+    "people": "With",
+    "you": "you",
+    "duration": "Duration",
+    "days": "When",
+    "nextDays": "Next {{n}} days",
+    "search": "Look for times",
+    "error": "Couldn't search: {{message}}",
+    "noAgenda": "No schedule set up (they don't limit): {{names}}.",
+    "none": "No time free for everyone on these days. Try fewer people, a shorter duration or more days.",
+    "taskTitle": "Appointment name",
+    "defaultTitle": "Meeting",
+    "list": "Which list",
+    "projectNote": "Becomes a task in the list, with the people as assignees and a reminder 15 min before.",
+    "inboxNote": "Becomes a task in your Inbox, with a reminder 15 min before.",
+    "create": "Create appointment",
+    "created": "Appointment created"
   }
 }

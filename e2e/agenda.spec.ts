@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test';
+import { devices, expect, test } from '@playwright/test';
 
-import { isRpc, openSettings, shown, signUp } from './helpers';
+import { isRpc, openSettings, openTab, shown, signUp } from './helpers';
 
 // AG1 (D310): disponibilidade da agenda em Configurações → Agenda. A semana por texto ("9-12,
 // 14-18"), copiar para os dias úteis, salvar, os próximos 7 dias e uma exceção de um trecho.
@@ -143,4 +143,60 @@ test('reservas: tipo, página pública, remarcar e cancelar', async ({ page, bro
   await guest.goto(new URL(manage).pathname);
   await expect(guest.getByRole('heading', { name: 'Reserva cancelada' })).toBeVisible();
   await expect(guest.getByText('Quem você reservou cancelou o compromisso.')).toBeVisible();
+});
+
+// AG3 (D312): achar horário com outra pessoa do projeto e criar o compromisso com os dois
+test('achar horário no projeto e criar o compromisso', async ({ page, browser }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Duas pessoas: desktop basta');
+  test.setTimeout(120_000);
+  await signUp(page, testInfo);
+  await openTab(page, 'Pastas');
+  await page.getByRole('button', { name: 'Usar modelo' }).click();
+  await page.getByRole('button', { name: 'Modelo Churrasco' }).click();
+  await page.getByRole('button', { name: 'Criar', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Churrasco' })).toBeVisible({ timeout: 15_000 });
+  await page.getByRole('button', { name: 'Pessoas' }).click();
+  await page.getByRole('button', { name: 'Gerar link de convite' }).click();
+  const link = (await page.getByLabel('Link de convite').textContent()) ?? '';
+  await page.getByRole('button', { name: 'Voltar' }).click();
+
+  const greg = await (await browser.newContext({ ...devices['Desktop Chrome'] })).newPage();
+  await greg.goto(link);
+  await greg.getByPlaceholder('Seu nome').fill('Greg Souza');
+  await greg
+    .getByPlaceholder('E-mail')
+    .fill(`e2e-agenda-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`);
+  await greg.getByPlaceholder('Senha').fill('senha-forte-123');
+  await greg.getByRole('checkbox', { name: /aceito os Termos/ }).click();
+  await greg.getByRole('button', { name: 'Criar conta' }).click();
+  await greg.getByRole('button', { name: 'Participar' }).click();
+  await expect(greg.getByRole('heading', { name: 'Churrasco' })).toBeVisible();
+
+  await page.reload();
+  await page.getByRole('button', { name: 'Achar horário' }).click();
+  await expect(page.getByRole('checkbox', { name: 'Greg Souza' })).toBeChecked();
+  const searched = page.waitForResponse((r) => isRpc(r, 'group_free_slots'));
+  await page.getByRole('button', { name: 'Procurar horários' }).click();
+  await searched;
+  // Ninguém configurou a semana: os dois aparecem como "sem agenda" e não limitam
+  await expect(
+    page.getByText(/Sem agenda configurada \(não limitam\): .*Greg Souza/),
+  ).toBeVisible();
+  await page
+    .getByRole('radio', { name: /^\d\d:\d\d$/ })
+    .first()
+    .click();
+  const title = `Reunião E2E ${Date.now()}`;
+  await page.getByRole('textbox', { name: 'Nome do compromisso' }).fill(title);
+  await page.getByRole('button', { name: 'Criar compromisso' }).click();
+  await expect(shown(page, 'Compromisso criado')).toBeVisible();
+
+  // A tarefa entra na lista com horário e os dois como responsáveis
+  await page.getByRole('link', { name: 'Compras' }).last().click();
+  await expect(page.getByRole('checkbox', { name: `Concluir ${title}` })).toBeVisible();
+  await greg.reload();
+  await greg.getByRole('link', { name: 'Compras' }).last().click();
+  await expect(greg.getByRole('checkbox', { name: `Concluir ${title}` })).toBeVisible({
+    timeout: 15_000,
+  });
 });

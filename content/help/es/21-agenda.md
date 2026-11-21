@@ -22,6 +22,12 @@ La reserva se vuelve una **tarea** en la lista **Reservas**, de la carpeta **Age
 
 Quien reservó recibe en la pantalla el botón **Añadir al calendario (.ics)** y un enlace para **cambiar** o **cancelar**. Todavía no enviamos correo: la persona tiene que guardar el enlace. Los datos de quien reservó se borran 1 año después de la cita.
 
+## Buscar horario en grupo
+
+En un **proyecto**, un **equipo** o el **clan**, el botón **Buscar horario** elige a las personas (todas ya marcadas), la duración (30 min, 1 h, 1 h 30) y los próximos 7 o 14 días, y muestra los horarios en que **todas están libres**: dentro de la semana de cada una y fuera de lo que cada una ya tiene (tareas con hora, reservas y excepciones). Nadie ve lo que ocupa la agenda de los demás, solo que el horario no sirve. Quien no configuró la disponibilidad aparece como **sin agenda** y no limita; si nadie la configuró, la búsqueda va de las 9 a las 18.
+
+Elegido el horario, **Crear cita** crea la tarea con ese horario y aviso 15 min antes: en el proyecto, en una de sus listas, con las personas como responsables; en el equipo y el clan, en tu Bandeja de entrada.
+
 ## Sin conexión
 
 Configurar la disponibilidad necesita conexión. Entra en la **exportación de tus datos** y se borra junto con la cuenta.

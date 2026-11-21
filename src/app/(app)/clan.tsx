@@ -13,6 +13,7 @@ import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { PersonRow } from '@/components/ui/person';
+import { FindTimeButton } from '@/components/agenda/find-time';
 import { SectionLabel } from '@/components/ui/section-label';
 import { FriendPicker } from '@/components/friend-picker';
 import { Text } from '@/components/ui/text';
@@ -123,6 +124,8 @@ export default function ClanScreen() {
             />
           ))}
         </View>
+
+        <FindTimeButton people={data.members} />
 
         <FriendPicker
           target={{ clan: true }}

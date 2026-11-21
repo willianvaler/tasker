@@ -2896,6 +2896,9 @@ isOneToOne: false
 "_settle_project_boss":
 { Args: { "p_boss_id": string }; Returns: boolean
                            },
+"_shares_group":
+{ Args: { "p_a": string,"p_b": string }; Returns: boolean
+                           },
 "_snapshot_page":
 { Args: { "p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']> }; Returns: Json
                            },
@@ -2937,6 +2940,9 @@ isOneToOne: false
                            },
 "_unrecord_set":
 { Args: { "p_cycle": string,"p_session": string,"p_task_id": string }; Returns: undefined
+                           },
+"_within_availability":
+{ Args: { "p_end": string,"p_start": string,"p_user": string }; Returns: boolean
                            },
 "accept_invite":
 { Args: { "p_token": string }; Returns: Json
@@ -3417,6 +3423,9 @@ isOneToOne: false
                            },
 "grants_can":
 { Args: { "p_grants": (string)[],"p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string }; Returns: boolean
+                           },
+"group_free_slots":
+{ Args: { "p_days"?: number,"p_duration": number,"p_users": (string)[] }; Returns: Json
                            },
 "group_linked_pages":
 { Args: { "p_folder_id": string }; Returns: {

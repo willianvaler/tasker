@@ -34,7 +34,8 @@ import { Text } from '@/components/ui/text';
 import { findFolder, useConfirmedMissing, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { actorCan } from '@/lib/permissions';
-import { useFolderActor } from '@/lib/queries/projects';
+import { useFolderActor, useMembers } from '@/lib/queries/projects';
+import { FindTimeButton } from '@/components/agenda/find-time';
 import { useCanWrite } from '@/providers/write';
 
 type ProjectView = 'list' | 'flow' | 'gantt' | 'people' | 'timeline';
@@ -66,6 +67,8 @@ export default function FolderScreen() {
   const children = folder && 'children' in folder ? folder.children : [];
   const empty = !!folder && folder.pages.length === 0 && children.length === 0;
   const project = !!folder && 'children' in folder && folder.kind === 'project';
+  // Achar horário (AG3): as pessoas do projeto
+  const members = useMembers(project ? folder?.id : undefined);
   // Abas do projeto (V3 §2.6, D114): Lista · Fluxo · Gantt (PC3) · Pessoas · Linha do tempo. Pasta pessoal
   // (fora a Academia) fica com Lista · Fluxo · Gantt, para ver as dependências (CD16)
   const tabbed = !!folder && 'children' in folder && !folder.parent_id && !folder.is_gym;
@@ -221,6 +224,16 @@ export default function FolderScreen() {
                 />
               </View>
               <ProjectOverview root={folder} />
+              {(members.data?.length ?? 0) > 1 && actorCan(actor, 'task.create') && (
+                <View className="mt-4">
+                  <FindTimeButton
+                    people={members.data ?? []}
+                    pages={folder.pages
+                      .filter((pg) => pg.view_type === 'list' || pg.view_type === 'cards')
+                      .map((pg) => ({ id: pg.id, name: pg.name }))}
+                  />
+                </View>
+              )}
             </View>
           )}
           <View className="border-t border-line">

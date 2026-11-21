@@ -22,6 +22,12 @@ A booking becomes a **task** in the **Bookings** list of the **Schedule** folder
 
 The guest gets an **Add to calendar (.ics)** button and a link to **reschedule** or **cancel**. We don't send email yet, so they need to keep the link. Guest data is deleted 1 year after the appointment.
 
+## Find a time as a group
+
+In a **project**, a **team** or the **clan**, the **Find a time** button picks the people (all checked already), the duration (30 min, 1 h, 1 h 30) and the next 7 or 14 days, and shows the times when **everyone is free**: within each person's week and outside what each already has (tasks with a time, bookings and exceptions). Nobody sees what fills the others' schedules, only that a time doesn't work. People without availability show as **no schedule** and don't limit; if nobody set it up, the search goes from 9 am to 6 pm.
+
+Once you pick a time, **Create appointment** creates the task with that time and a reminder 15 min before: in the project, in one of its lists, with the people as assignees; in a team or the clan, in your Inbox.
+
 ## Offline
 
 Setting up your availability needs a connection. It is included in **your data export** and is deleted with your account.

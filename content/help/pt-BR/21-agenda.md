@@ -22,6 +22,12 @@ A reserva vira uma **tarefa** na lista **Reservas**, da pasta **Agenda** (criada
 
 Quem reservou recebe na tela o botão **Adicionar à agenda (.ics)** e um link para **remarcar** ou **cancelar**. Ainda não mandamos e-mail: a pessoa precisa guardar o link. Os dados de quem reservou somem 1 ano depois do compromisso.
 
+## Achar horário em grupo
+
+Num **projeto**, num **time** ou no **clã**, o botão **Achar horário** escolhe as pessoas (todas já vêm marcadas), a duração (30 min, 1 h, 1 h 30) e os próximos 7 ou 14 dias, e mostra os horários em que **todas estão livres**: dentro da semana de cada uma e fora do que cada uma já tem (tarefas com horário, reservas e exceções). Ninguém vê o que ocupa a agenda dos outros, só que o horário não serve. Quem não configurou a disponibilidade aparece como **sem agenda** e não limita; se ninguém configurou, a busca vai das 9h às 18h.
+
+Escolhido o horário, **Criar compromisso** cria a tarefa com o horário e lembrete 15 min antes: no projeto, numa das listas, com as pessoas como responsáveis; no time e no clã, na sua Caixa de entrada.
+
 ## Sem internet
 
 Configurar a disponibilidade precisa de conexão. Ela entra na **exportação dos seus dados** e sai junto com a conta.

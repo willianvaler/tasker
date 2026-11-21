@@ -25,6 +25,7 @@ import { ActionMenu, ConfirmDialog, PromptDialog, useDialog } from '@/components
 import { EmptyState } from '@/components/ui/empty-state';
 import { Input } from '@/components/ui/input';
 import { PersonRow } from '@/components/ui/person';
+import { FindTimeButton } from '@/components/agenda/find-time';
 import { SectionLabel } from '@/components/ui/section-label';
 import { FriendPicker } from '@/components/friend-picker';
 import { Text } from '@/components/ui/text';
@@ -205,6 +206,8 @@ export default function TeamScreen() {
             );
           })}
         </View>
+
+        <FindTimeButton people={data.members} />
 
         {isAdmin && (
           <FriendPicker

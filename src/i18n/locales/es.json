@@ -4604,5 +4604,26 @@
       "decline": "Reserva rechazada",
       "cancel": "Reserva cancelada"
     }
+  },
+  "findTime": {
+    "open": "Buscar horario",
+    "title": "Buscar horario",
+    "hint": "Los horarios en que todas las personas elegidas están libres, según la semana de cada una y lo que ya tienen agendado. Nadie ve lo que ocupa la agenda de los demás.",
+    "people": "Con quién",
+    "you": "tú",
+    "duration": "Duración",
+    "days": "Cuándo",
+    "nextDays": "Próximos {{n}} días",
+    "search": "Buscar horarios",
+    "error": "No se pudo buscar: {{message}}",
+    "noAgenda": "Sin agenda configurada (no limitan): {{names}}.",
+    "none": "Ningún horario libre para todos en esos días. Prueba con menos personas, una duración menor o más días.",
+    "taskTitle": "Nombre de la cita",
+    "defaultTitle": "Reunión",
+    "list": "En qué lista",
+    "projectNote": "Se vuelve una tarea en la lista, con las personas como responsables y aviso 15 min antes.",
+    "inboxNote": "Se vuelve una tarea en tu Bandeja de entrada, con aviso 15 min antes.",
+    "create": "Crear cita",
+    "created": "Cita creada"
   }
 }

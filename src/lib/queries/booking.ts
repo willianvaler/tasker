@@ -223,3 +223,20 @@ export const cancelBooking = (token: string) =>
 
 export const rescheduleBooking = (token: string, starts: string) =>
   rpc<BookResult>('reschedule_booking', { p_token: token, p_starts: starts });
+
+// ------------------------------------------------------------------
+// Achar horário em grupo (AG3, D312)
+// ------------------------------------------------------------------
+
+export type GroupSlots = { timezone: string; slots: string[]; no_agenda: string[] };
+
+/** Começos livres para todos (só instantes; quem não configurou a semana vem em `no_agenda`). */
+export async function fetchGroupSlots(users: string[], duration: number, days: number) {
+  const { data, error } = await supabase.rpc('group_free_slots', {
+    p_users: users,
+    p_duration: duration,
+    p_days: days,
+  });
+  if (error) throw error;
+  return data as unknown as GroupSlots;
+}
