@@ -55,6 +55,8 @@ export type ParsedTask = {
   recurrence: Recurrence | null;
   /** "+publica", "+amigos", "+privada" (V10 §2, D232); sem marcador, privada */
   visibility?: TaskVisibility;
+  /** "~v1.0": o marco do projeto, pelo nome (GP3; resolvido no app) */
+  milestone?: string;
 };
 
 export type TaskVisibility = 'private' | 'friends' | 'public';
@@ -78,6 +80,8 @@ export type QuickParseOptions = {
   mentions?: boolean;
   /** Reconhecer ^pré-requisito (páginas de projeto). Desligado, fica no título. */
   prereqs?: boolean;
+  /** Reconhecer ~marco (páginas de projeto com marcos). Desligado, fica no título. */
+  milestones?: boolean;
   /** Reconhecer a carga ("20kg" / "12,5 kg"). Usado nas páginas de cards. */
   meta?: boolean;
   /** Ordem de "10/15": dia/mês ou mês/dia. Padrão: a do idioma do app (mês/dia em inglês). */
@@ -167,6 +171,8 @@ const DATE_PREPOSITIONS = new Set([
 ]);
 
 const PRIORITY_RE = /^!{1,3}$/;
+/** "~v1.0", "~Lançamento": marco do projeto (GP3) */
+const MILESTONE_RE = /^~([\p{L}\p{N}._-]+)$/u;
 const LABEL_RE = /^#([\p{L}\p{N}_-]+)$/u;
 const MENTION_RE = /^@([\p{L}\p{N}._-]+)$/u;
 const PREREQ_RE = /^\^([\p{L}\p{N}._-]+)$/u;
@@ -269,6 +275,11 @@ export function parseQuickInput(text: string, options: QuickParseOptions): Parse
     const mention = options.mentions ? MENTION_RE.exec(token) : null;
     if (mention) {
       if (!result.mentions.includes(mention[1])) result.mentions.push(mention[1]);
+      continue;
+    }
+    const milestone = options.milestones ? MILESTONE_RE.exec(token) : null;
+    if (milestone) {
+      result.milestone = milestone[1];
       continue;
     }
     const prereq = options.prereqs ? PREREQ_RE.exec(token) : null;

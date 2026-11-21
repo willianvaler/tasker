@@ -254,3 +254,17 @@ describe('vencimento do Obsidian (PB9)', () => {
     expect(parseQuickInput('X 📅 2026-02-30', { today: '2026-11-04' }).dueDate).toBeNull();
   });
 });
+
+describe('~marco (GP3)', () => {
+  it('com a opção, o ~nome vira o marco e sai do título', () => {
+    const r = parseQuickInput('Login ~v1.0 amanhã', { today: '2026-11-21', milestones: true });
+    expect(r.title).toBe('Login');
+    expect(r.milestone).toBe('v1.0');
+    expect(r.dueDate).toBe('2026-11-22');
+  });
+  it('sem a opção (lista fora de projeto), fica no título', () => {
+    const r = parseQuickInput('Login ~v1.0', { today: '2026-11-21' });
+    expect(r.title).toBe('Login ~v1.0');
+    expect(r.milestone).toBeUndefined();
+  });
+});

@@ -76,6 +76,7 @@ export default function BatchScreen() {
       today,
       meta: isCards,
       mentions: mentions.enabled,
+      milestones: mentions.milestones,
       prereqs: prereqsOn,
     };
     const decorate = (item: BatchItem, key: string): KeyedItem => ({
@@ -92,7 +93,17 @@ export default function BatchScreen() {
     return parseBatchInput(text, { ...parseOptions, maxDepth })
       .map((item, i) => decorate(item, `${i}`))
       .filter((item) => !removed.has(item.key));
-  }, [text, edits, removed, today, isCards, mentions.enabled, prereqsOn, maxDepth]);
+  }, [
+    text,
+    edits,
+    removed,
+    today,
+    isCards,
+    mentions.enabled,
+    mentions.milestones,
+    prereqsOn,
+    maxDepth,
+  ]);
   const flattened = countFlattened(items);
 
   // ^pré-requisitos: cada item já tem id na prévia ("^2" aponta para o item 2 do lote); a
@@ -124,6 +135,7 @@ export default function BatchScreen() {
   const withAssignees = (item: KeyedItem): NewBatchItem => ({
     ...item,
     assignees: assigneesOf(item.key, item.mentions),
+    milestoneId: mentions.milestoneId(item.milestone),
     children: item.children.map(withAssignees),
   });
 
@@ -262,6 +274,7 @@ export default function BatchScreen() {
 type KeyedItem = BatchItem & { key: string; id: string; children: KeyedItem[] };
 type NewBatchItem = KeyedItem & {
   assignees: ReturnType<ReturnType<typeof useMentions>['toAssignees']>;
+  milestoneId: string | null;
   children: NewBatchItem[];
 };
 

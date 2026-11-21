@@ -4450,7 +4450,8 @@
     "barLabel": "{{title}}, del {{start}} al {{end}}",
     "early": "Empieza antes de que termine un prerrequisito",
     "dragStart": "Arrastrar el inicio de {{title}}",
-    "dragEnd": "Arrastrar el fin de {{title}}"
+    "dragEnd": "Arrastrar el fin de {{title}}",
+    "milestone": "Hito {{name}}, {{date}}"
   },
   "availability": {
     "title": "Disponibilidad",
@@ -4732,5 +4733,33 @@
     "indicator_one": "Respecto a \"{{name}}\": {{count}} tarea se atrasó (+{{days}} d)",
     "indicator_other": "Respecto a \"{{name}}\": {{count}} tareas se atrasaron (+{{days}} d en total)",
     "indicatorOk": "Al día con \"{{name}}\""
+  },
+  "roadmap": {
+    "title": "Roadmap",
+    "open": "Roadmap",
+    "milestone": "Hito",
+    "unknownMilestone": "Hito \"~{{name}}\" no encontrado: la tarea se creó sin hito.",
+    "empty": "Ningún hito en este proyecto. Créalos en la vista general del proyecto.",
+    "noDate": "Sin fecha",
+    "progress": "{{done}} de {{total}} hechas",
+    "late_one": "{{count}} atrasada",
+    "late_other": "{{count}} atrasadas",
+    "blocked_one": "{{count}} bloqueada",
+    "blocked_other": "{{count}} bloqueadas",
+    "overdue": "La fecha pasó y todavía hay tareas abiertas",
+    "done": "Terminado",
+    "noTasks": "Ninguna tarea vinculada. Vincúlalas en el panel de la tarea o escribe \"~nombre del hito\" al crear.",
+    "unlinked_one": "{{count}} tarea abierta sin hito",
+    "unlinked_other": "{{count}} tareas abiertas sin hito",
+    "releaseNotes": "Notas de la versión",
+    "notesTitle": "Notas de la versión: {{name}}",
+    "notesIntro": "{{name}} ({{date}})",
+    "notesDone": "Hecho",
+    "notesOpen": "Quedó para después",
+    "notesCreated": "Notas de la versión creadas",
+    "taskLate": "atrasada",
+    "taskBlocked": "bloqueada",
+    "markDone": "Terminar el hito",
+    "reopen": "Reabrir el hito"
   }
 }

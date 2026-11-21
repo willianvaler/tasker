@@ -1923,14 +1923,14 @@ isOneToOne: false
                   ]
                 },"tasks": {
                   Row: {
-                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"exercise_id": string | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"progression": string | null,"progression_step": number | null,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"start_date": string | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"superset": string | null,"title": string,"updated_at": string,"updated_by": string | null,"version": number,"visibility": string,"weight": number | null
+                    "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"exercise_id": string | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"milestone_id": string | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"progression": string | null,"progression_step": number | null,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"start_date": string | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"superset": string | null,"title": string,"updated_at": string,"updated_by": string | null,"version": number,"visibility": string,"weight": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"exercise_id"?: string | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"progression"?: string | null,"progression_step"?: number | null,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"start_date"?: string | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"superset"?: string | null,"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"exercise_id"?: string | null,"folder_id": string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"milestone_id"?: string | null,"notes"?: string | null,"page_id": string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"progression"?: string | null,"progression_step"?: number | null,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"start_date"?: string | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"superset"?: string | null,"title": string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
                   }
                   Update: {
-                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"exercise_id"?: string | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"progression"?: string | null,"progression_step"?: number | null,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"start_date"?: string | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"superset"?: string | null,"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
+                    "actual_minutes"?: number,"approver_id"?: string | null,"approver_role"?: string | null,"completed_at"?: string | null,"completed_by"?: string | null,"count_down"?: number,"count_key"?: string | null,"count_up"?: number,"created_at"?: string,"created_by"?: string,"custom"?: NonNullable<Json>,"deps_mode"?: string,"depth"?: number,"done_cycle_key"?: string | null,"due_date"?: string | null,"due_time"?: string | null,"estimate_minutes"?: number | null,"exercise_id"?: string | null,"folder_id"?: string,"habit_kind"?: string,"habit_sides"?: string,"habit_target"?: number | null,"habit_value"?: number,"habit_value_day"?: string | null,"id"?: string,"labels"?: (string)[],"meta"?: Json | null,"milestone_id"?: string | null,"notes"?: string | null,"page_id"?: string,"parent_task_id"?: string | null,"position"?: number,"priority"?: number,"progression"?: string | null,"progression_step"?: number | null,"recurrence"?: Json | null,"remind_before"?: number | null,"reminded_at"?: string | null,"repeat_plan"?: Json | null,"start_date"?: string | null,"started_at"?: string | null,"status"?: Database["public"]['Enums']["task_status"],"superset"?: string | null,"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"version"?: number,"visibility"?: string,"weight"?: number | null
                   }
                   Relationships: [
                     {
@@ -1956,6 +1956,12 @@ isOneToOne: false
       columns: ["folder_id"]
 isOneToOne: false
       referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "tasks_milestone_id_fkey"
+      columns: ["milestone_id"]
+isOneToOne: false
+      referencedRelation: "milestones"
       referencedColumns: ["id"]
     },{
       foreignKeyName: "tasks_page_id_fkey"
@@ -3215,6 +3221,7 @@ isOneToOne: false
 "id": string,
 "labels": (string)[],
 "meta": Json | null,
+"milestone_id": string | null,
 "notes": string | null,
 "page_id": string,
 "parent_task_id": string | null,
@@ -3892,6 +3899,7 @@ isOneToOne: false
 "id": string,
 "labels": (string)[],
 "meta": Json | null,
+"milestone_id": string | null,
 "notes": string | null,
 "page_id": string,
 "parent_task_id": string | null,

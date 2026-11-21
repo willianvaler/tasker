@@ -9,3 +9,11 @@ A project has five tabs:
 - **Timeline** — who did what and when, with filters and CSV export.
 
 Each task also has its own **History**, in the panel.
+
+## Milestones and roadmap
+
+Project **milestones** (in the overview, "New milestone") get a **Roadmap**: milestones by date, each with its linked tasks, a progress bar, how many are overdue and how many blocked. A milestone whose date has passed with open tasks gets a red border; below, you see how many open tasks have no milestone.
+
+To link a task to a milestone, pick it in the **task panel** (Milestone section) or write `~name` when creating, like `Buy the flooring ~Delivery` (works in quick add and Add several; the name is compared without accents, spaces or punctuation). An unknown milestone doesn't link and shows a notice.
+
+In the **Gantt**, each milestone is a diamond on its date at the top of the grid; tapping opens a menu to move the date day by day or open the Roadmap. When you **complete the milestone** in the Roadmap, **Release notes** creates a note in the project with what was done and what was left for later, ready to copy or publish.

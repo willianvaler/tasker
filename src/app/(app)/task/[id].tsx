@@ -13,6 +13,7 @@ import {
   RecurrenceEditor,
 } from '@/components/tasks/task-extras';
 import { TaskFields } from '@/components/fields';
+import { MilestonePicker } from '@/components/milestone-picker';
 import { useMyDayToggle } from '@/components/my-day';
 import { ReceivedNote } from '@/components/received';
 import { RepeatCounter, RepeatPlanEditor } from '@/components/tasks/repeat';
@@ -507,6 +508,14 @@ function TaskDetails({ task }: { task: Task }) {
                   <Chip label={t('gantt.noStart')} onPress={() => save({ start_date: null })} />
                 )}
               </View>
+            )}
+            {projectRoot && (
+              <MilestonePicker
+                rootId={rootFolder(tree.data, task.folder_id)?.id}
+                value={task.milestone_id}
+                editable={writable}
+                onChange={(milestone_id) => save({ milestone_id })}
+              />
             )}
             {task.due_date && (
               <View className="gap-2 pt-2">

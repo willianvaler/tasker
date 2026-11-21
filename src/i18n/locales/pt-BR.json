@@ -4450,7 +4450,8 @@
     "barLabel": "{{title}}, de {{start}} a {{end}}",
     "early": "Começa antes de um pré-requisito terminar",
     "dragStart": "Arrastar o começo de {{title}}",
-    "dragEnd": "Arrastar o fim de {{title}}"
+    "dragEnd": "Arrastar o fim de {{title}}",
+    "milestone": "Marco {{name}}, {{date}}"
   },
   "availability": {
     "title": "Disponibilidade",
@@ -4732,5 +4733,33 @@
     "indicator_one": "Em relação a \"{{name}}\": {{count}} tarefa atrasou (+{{days}} d)",
     "indicator_other": "Em relação a \"{{name}}\": {{count}} tarefas atrasaram (+{{days}} d no total)",
     "indicatorOk": "Em dia com \"{{name}}\""
+  },
+  "roadmap": {
+    "title": "Roadmap",
+    "open": "Roadmap",
+    "milestone": "Marco",
+    "unknownMilestone": "Marco \"~{{name}}\" não encontrado: a tarefa foi criada sem marco.",
+    "empty": "Nenhum marco neste projeto. Crie os marcos na visão geral do projeto.",
+    "noDate": "Sem data",
+    "progress": "{{done}} de {{total}} feitas",
+    "late_one": "{{count}} atrasada",
+    "late_other": "{{count}} atrasadas",
+    "blocked_one": "{{count}} bloqueada",
+    "blocked_other": "{{count}} bloqueadas",
+    "overdue": "A data passou e ainda há tarefas abertas",
+    "done": "Concluído",
+    "noTasks": "Nenhuma tarefa ligada. Ligue pelo painel da tarefa ou escreva \"~nome do marco\" ao criar.",
+    "unlinked_one": "{{count}} tarefa aberta sem marco",
+    "unlinked_other": "{{count}} tarefas abertas sem marco",
+    "releaseNotes": "Notas da versão",
+    "notesTitle": "Notas da versão: {{name}}",
+    "notesIntro": "{{name}} ({{date}})",
+    "notesDone": "Feito",
+    "notesOpen": "Ficou para depois",
+    "notesCreated": "Notas da versão criadas",
+    "taskLate": "atrasada",
+    "taskBlocked": "bloqueada",
+    "markDone": "Concluir o marco",
+    "reopen": "Reabrir o marco"
   }
 }

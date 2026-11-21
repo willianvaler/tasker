@@ -91,6 +91,8 @@ const tasks = new Table(
     updated_at: column.text,
     due_date: column.text,
     start_date: column.text,
+    // Marco do projeto (GP3)
+    milestone_id: column.text,
     due_time: column.text,
     remind_before: column.integer,
     reminded_at: column.text,

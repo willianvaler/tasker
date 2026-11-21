@@ -1,4 +1,5 @@
-import { resolveMention, toAssignees, type MentionResolution } from '../members';
+import { nameKey, resolveMention, toAssignees, type MentionResolution } from '../members';
+import { useMilestones } from './milestones';
 import { isProjectPage, memberNames, rootFolder, useMembers } from './projects';
 import { useTree } from './tree';
 
@@ -13,6 +14,8 @@ export function useMentions(pageId: string | undefined) {
   const root = rootFolder(tree.data, page?.folder_id);
   const members = useMembers(enabled ? root?.id : undefined);
   const names = memberNames(members.data);
+  // Marcos do projeto (GP3): "~v1.0" na escrita rápida
+  const milestones = useMilestones(enabled ? root?.id : undefined);
 
   return {
     enabled,
@@ -21,5 +24,13 @@ export function useMentions(pageId: string | undefined) {
     resolve: (mentions: string[]): MentionResolution[] =>
       enabled ? mentions.map((m) => resolveMention(m, names)) : [],
     toAssignees,
+    /** Há marcos no projeto: a escrita rápida entende "~marco" */
+    milestones: (milestones.data?.length ?? 0) > 0,
+    /** Id do marco pelo nome (sem acento, espaço nem pontuação); ambíguo ou desconhecido: null */
+    milestoneId: (name: string | undefined) => {
+      if (!name) return null;
+      const found = (milestones.data ?? []).filter((m) => nameKey(m.name) === nameKey(name));
+      return found.length === 1 ? found[0].id : null;
+    },
   };
 }

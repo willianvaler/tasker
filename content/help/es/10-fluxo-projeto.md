@@ -9,3 +9,11 @@ El proyecto tiene cinco pestañas:
 - **Línea de tiempo** — quién hizo qué y cuándo, con filtros y exportación CSV.
 
 Cada tarea también tiene su **Historial**, en el panel.
+
+## Hitos y roadmap
+
+Los **hitos** del proyecto (en la vista general, "Nuevo hito") tienen un **Roadmap**: los hitos por fecha, cada uno con sus tareas vinculadas, la barra de progreso, cuántas están atrasadas y cuántas bloqueadas. Un hito con la fecha ya pasada y tareas abiertas queda con el borde rojo; abajo aparece cuántas tareas abiertas no tienen hito.
+
+Para vincular una tarea a un hito, elígelo en el **panel de la tarea** (sección Hito) o escribe `~nombre` al crear, como `Comprar el piso ~Entrega` (vale en la escritura rápida y en Añadir varias; el nombre se compara sin tildes, espacios ni puntuación). Un hito desconocido no se vincula y avisa.
+
+En el **Gantt**, cada hito es un rombo en su fecha, arriba de la cuadrícula; al tocarlo se abre el menú para mover la fecha día a día o abrir el Roadmap. Al **terminar el hito** en el Roadmap, **Notas de la versión** crea una nota en el proyecto con lo que se hizo y lo que quedó para después, lista para copiar o publicar.

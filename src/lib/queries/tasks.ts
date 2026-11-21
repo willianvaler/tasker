@@ -309,6 +309,8 @@ type NewTask = Omit<ParsedTask, 'dueTime'> & {
   exerciseId?: string | null;
   /** Regra de progressão do exercício (AC12.1, AC12.3); sem isto, a da lista */
   progression?: Task['progression'];
+  /** Marco do projeto (GP3, "~Marco") */
+  milestoneId?: string | null;
   assignees?: NewAssignee[];
   children?: NewSubtask[];
 };
@@ -318,6 +320,7 @@ type NewSubtask = Omit<ParsedTask, 'dueTime'> & {
   /** Id do aparelho (o lote gera antes, para ligar pré-requisitos "^2" entre itens) */
   id?: string;
   done?: boolean;
+  milestoneId?: string | null;
   assignees?: NewAssignee[];
   children?: NewSubtask[];
 };
@@ -341,6 +344,7 @@ type RpcItem = {
   visibility?: Task['visibility'];
   exercise_id?: string | null;
   progression?: string;
+  milestone_id?: string | null;
 };
 
 function toRpcItem(item: NewTask & { id: string }): RpcItem {
@@ -366,6 +370,7 @@ function toRpcItem(item: NewTask & { id: string }): RpcItem {
     ...(item.visibility ? { visibility: item.visibility } : {}),
     ...('exerciseId' in item && item.exerciseId ? { exercise_id: item.exerciseId } : {}),
     ...('progression' in item && item.progression ? { progression: item.progression } : {}),
+    ...('milestoneId' in item && item.milestoneId ? { milestone_id: item.milestoneId } : {}),
     ...(item.habitKind
       ? { habit_kind: item.habitKind, habit_target: item.habitTarget ?? null }
       : {}),
@@ -418,6 +423,7 @@ function optimisticTask(
     visibility: item.visibility ?? 'private',
     exercise_id: item.exerciseId ?? null,
     progression: item.progression ?? null,
+    milestone_id: item.milestoneId ?? null,
     progression_step: null,
     superset: null,
     created_by: '',
@@ -605,6 +611,7 @@ export type TaskPatch = Partial<
     | 'deps_mode'
     | 'visibility'
     | 'exercise_id'
+    | 'milestone_id'
     | 'progression'
     | 'progression_step'
     | 'superset'
@@ -1082,6 +1089,7 @@ type LocalTaskInsert = {
   visibility?: string;
   exercise_id?: string | null;
   progression?: string | null;
+  milestone_id?: string | null;
 };
 
 type Tx = { execute: (sql: string, params?: unknown[]) => Promise<unknown> };
@@ -1092,8 +1100,8 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
     `insert into tasks (id, page_id, folder_id, parent_task_id, depth, title, status, priority, due_date,
        labels, recurrence, meta, repeat_plan, position, habit_kind, habit_target, count_up, count_down,
        created_by, created_at, updated_at, version, due_time, remind_before, visibility, exercise_id,
-       progression)
-     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?, ?, ?, ?)`,
+       progression, milestone_id)
+     values (?, ?, ?, ?, ?, ?, 'todo', ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?)`,
     [
       task.id,
       task.page_id,
@@ -1119,6 +1127,7 @@ async function insertLocalTask(tx: Tx, task: LocalTaskInsert, userId: string | n
       task.visibility ?? 'private',
       task.exercise_id ?? null,
       task.progression ?? null,
+      task.milestone_id ?? null,
     ],
   );
 }
@@ -1176,6 +1185,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
           visibility: item.visibility ?? 'private',
           exercise_id: item.exerciseId ?? null,
           progression: item.progression ?? null,
+          milestone_id: item.milestoneId ?? null,
         },
         userId,
       );
@@ -1198,6 +1208,7 @@ async function createLocalTasks(pageId: string, items: CreateTasksVars['items'])
               due_date: child.dueDate,
               labels: child.labels,
               repeat_plan: child.repeatPlan,
+              milestone_id: child.milestoneId ?? null,
             },
             userId,
           );

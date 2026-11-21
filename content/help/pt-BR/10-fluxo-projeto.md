@@ -9,3 +9,11 @@ O projeto tem cinco abas:
 - **Linha do tempo** — quem fez o quê e quando, com filtros e exportação em CSV.
 
 Cada tarefa tem também o **Histórico** dela, no painel.
+
+## Marcos e roadmap
+
+Os **marcos** do projeto (na visão geral, "Novo marco") ganham o **Roadmap**: os marcos em ordem de data, cada um com as tarefas ligadas, a barra de progresso, quantas estão atrasadas e quantas bloqueadas. Marco com a data já passada e tarefa aberta fica com a borda vermelha; embaixo aparece quantas tarefas abertas não têm marco.
+
+Para ligar uma tarefa a um marco, escolha o marco no **painel da tarefa** (seção Marco) ou escreva `~nome` ao criar, como `Comprar o piso ~Entrega` (vale na escrita rápida e em Adicionar várias; o nome é comparado sem acento, espaço nem pontuação). Marco desconhecido não liga e avisa.
+
+No **Gantt**, cada marco é um losango na data dele, no alto da grade; tocar abre o menu para mudar a data dia a dia ou abrir o Roadmap. Ao **concluir o marco** no Roadmap, **Notas da versão** cria uma anotação no projeto com o que foi feito e o que ficou para depois, pronta para copiar ou publicar.

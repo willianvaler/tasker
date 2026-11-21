@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, View } from 'react-native';
@@ -23,6 +24,7 @@ import { addDays, formatMonthYear, formatShortDate, weekdayOf } from '@/lib/pars
 import { actorCan } from '@/lib/permissions';
 import { compareBaseline, delayLabel } from '@/lib/baseline';
 import { useBaselineActions, useBaselines } from '@/lib/queries/baselines';
+import { useMilestoneMutations, useMilestones, type Milestone } from '@/lib/queries/milestones';
 import { useProjectDependencies } from '@/lib/queries/dependencies';
 import { useProjectAllTasks } from '@/lib/queries/flow';
 import { useToday } from '@/lib/queries/profile';
@@ -65,6 +67,10 @@ export function GanttView({ root }: { root: FolderNode }) {
   const baselineActions = useBaselineActions(root.id);
   const canBaseline = useCanWrite(root.id) && actorCan(actor, 'page.manage');
   const [compareId, setCompareId] = useState<string | null>(null);
+  // Marcos (GP3): losango na data; o menu muda a data dia a dia
+  const milestones = useMilestones(root.id);
+  const milestoneActions = useMilestoneMutations(root.id);
+  const [milestoneMenu, setMilestoneMenu, closeMilestoneMenu] = useDialog<Milestone>();
   const [naming, setNaming] = useState(false);
   const [removing, setRemoving] = useState(false);
 
@@ -254,6 +260,36 @@ export function GanttView({ root }: { root: FolderNode }) {
                 style={{ position: 'absolute', top: HEAD - 1, left: 0, right: 0 }}
                 className="border-b border-line"
               />
+              {/* Marcos (GP3): losango no cabeçalho, na data do marco */}
+              {(milestones.data ?? []).map((ms) => {
+                if (!ms.due_date) return null;
+                const x = diffDays(plan.from, ms.due_date) * dayW + dayW / 2;
+                if (x < 0 || x > width) return null;
+                return (
+                  <Pressable
+                    key={`ms-${ms.id}`}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('gantt.milestone', {
+                      name: ms.name,
+                      date: formatShortDate(ms.due_date),
+                    })}
+                    onPress={() => setMilestoneMenu(ms)}
+                    style={{
+                      position: 'absolute',
+                      left: x - 8,
+                      top: HEAD - 18,
+                      width: 16,
+                      height: 16,
+                    }}
+                    className="items-center justify-center"
+                  >
+                    <View
+                      style={{ width: 10, height: 10, transform: [{ rotate: '45deg' }] }}
+                      className={ms.done_at ? 'bg-ink-muted' : 'bg-accent'}
+                    />
+                  </Pressable>
+                );
+              })}
               {/* Hoje */}
               {todayX >= 0 && todayX <= width && (
                 <View
@@ -414,6 +450,39 @@ export function GanttView({ root }: { root: FolderNode }) {
             setCompareId(null);
             baselineActions.remove.mutate(compared.id);
           }}
+        />
+      )}
+
+      {milestoneMenu && milestoneMenu.due_date && (
+        <ActionMenu
+          title={milestoneMenu.name}
+          onClose={closeMilestoneMenu}
+          actions={[
+            {
+              label: t('roadmap.open'),
+              onPress: () => router.push(`/roadmap/${root.id}`),
+            },
+            ...(canBaseline
+              ? [
+                  {
+                    label: t('gantt.earlier'),
+                    onPress: () =>
+                      milestoneActions.update.mutate({
+                        id: milestoneMenu.id,
+                        due_date: addDays(milestoneMenu.due_date ?? today, -1),
+                      }),
+                  },
+                  {
+                    label: t('gantt.later'),
+                    onPress: () =>
+                      milestoneActions.update.mutate({
+                        id: milestoneMenu.id,
+                        due_date: addDays(milestoneMenu.due_date ?? today, 1),
+                      }),
+                  },
+                ]
+              : []),
+          ]}
         />
       )}
 

@@ -1,9 +1,10 @@
-import { MoreHorizontal } from 'lucide-react-native';
+import { router } from 'expo-router';
+import { Map, MoreHorizontal } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
-import { IconButton } from '@/components/ui/button';
+import { Button, IconButton } from '@/components/ui/button';
 import { StampBox } from '@/components/ui/checkbox';
 import { ActionMenu, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -74,7 +75,21 @@ export function ProjectMilestones({ rootId }: { rootId: string }) {
 
   return (
     <View>
-      <SectionLabel title={t('project.milestones')} count={list.length} className="pt-0" />
+      <SectionLabel
+        title={t('project.milestones')}
+        count={list.length}
+        className="pt-0"
+        right={
+          list.length > 0 ? (
+            <Button
+              variant="ghost"
+              icon={Map}
+              label={t('roadmap.open')}
+              onPress={() => router.push(`/roadmap/${rootId}`)}
+            />
+          ) : undefined
+        }
+      />
       {list.length === 0 && (
         <Text className="py-2 text-sm text-ink-muted">{t('project.milestonesEmpty')}</Text>
       )}

@@ -4450,7 +4450,8 @@
     "barLabel": "{{title}}, from {{start}} to {{end}}",
     "early": "Starts before a prerequisite ends",
     "dragStart": "Drag the start of {{title}}",
-    "dragEnd": "Drag the end of {{title}}"
+    "dragEnd": "Drag the end of {{title}}",
+    "milestone": "Milestone {{name}}, {{date}}"
   },
   "availability": {
     "title": "Availability",
@@ -4732,5 +4733,33 @@
     "indicator_one": "Against \"{{name}}\": {{count}} task slipped (+{{days}} d)",
     "indicator_other": "Against \"{{name}}\": {{count}} tasks slipped (+{{days}} d in total)",
     "indicatorOk": "On track with \"{{name}}\""
+  },
+  "roadmap": {
+    "title": "Roadmap",
+    "open": "Roadmap",
+    "milestone": "Milestone",
+    "unknownMilestone": "Milestone \"~{{name}}\" not found: the task was created without a milestone.",
+    "empty": "No milestones in this project. Create them in the project overview.",
+    "noDate": "No date",
+    "progress": "{{done}} of {{total}} done",
+    "late_one": "{{count}} overdue",
+    "late_other": "{{count}} overdue",
+    "blocked_one": "{{count}} blocked",
+    "blocked_other": "{{count}} blocked",
+    "overdue": "The date passed and there are still open tasks",
+    "done": "Done",
+    "noTasks": "No linked tasks. Link them in the task panel or write \"~milestone name\" when creating.",
+    "unlinked_one": "{{count}} open task without a milestone",
+    "unlinked_other": "{{count}} open tasks without a milestone",
+    "releaseNotes": "Release notes",
+    "notesTitle": "Release notes: {{name}}",
+    "notesIntro": "{{name}} ({{date}})",
+    "notesDone": "Done",
+    "notesOpen": "Left for later",
+    "notesCreated": "Release notes created",
+    "taskLate": "overdue",
+    "taskBlocked": "blocked",
+    "markDone": "Complete the milestone",
+    "reopen": "Reopen the milestone"
   }
 }

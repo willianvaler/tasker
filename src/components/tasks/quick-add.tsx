@@ -103,8 +103,10 @@ export function QuickAdd({
       meta: parseMeta,
       mentions: mentions.enabled,
       prereqs: prereqsOn,
+      milestones: mentions.milestones,
     });
     const resolved = mentions.resolve(parsed.mentions);
+    const milestoneId = mentions.milestoneId(parsed.milestone);
     const id = uuidv7();
     const prereqs = parsed.prereqs.map((term) => resolvePrereq(term, taskOptions.data ?? []));
     create
@@ -115,6 +117,7 @@ export function QuickAdd({
             ...parsed,
             dueDate: parsed.dueDate ?? defaultDueDate ?? null,
             assignees: mentions.toAssignees(resolved),
+            milestoneId,
             id,
             ...(habit ? { habitKind: habit.kind, habitTarget: habit.target ?? null } : {}),
           },
@@ -128,6 +131,9 @@ export function QuickAdd({
         },
         () => undefined,
       );
+    // ~marco que não existe (ou ambíguo): a tarefa é criada sem marco e avisa
+    if (parsed.milestone && !milestoneId)
+      toast({ message: t('roadmap.unknownMilestone', { name: parsed.milestone }) });
     // ^ que não achou uma tarefa só: avisa (a tarefa é criada sem a ligação)
     const unresolved = prereqs.filter((p) => p.kind !== 'task').map((p) => `^${p.term}`);
     if (unresolved.length)

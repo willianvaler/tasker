@@ -15,12 +15,14 @@ export type ProjectTask = FlowTask & {
   due_date: string | null;
   /** Início (Gantt, PC3); sem ele, a barra é o dia do vencimento */
   start_date: string | null;
+  /** Marco do projeto (GP3) */
+  milestone_id: string | null;
   position: number;
   created_at: string;
 };
 
 const COLUMNS =
-  'id, title, page_id, folder_id, parent_task_id, status, completed_at, started_at, deps_mode, estimate_minutes, due_date, start_date, position, created_at';
+  'id, title, page_id, folder_id, parent_task_id, status, completed_at, started_at, deps_mode, estimate_minutes, due_date, start_date, milestone_id, position, created_at';
 
 /**
  * Todas as tarefas do projeto, subtarefas incluídas, com o que o Fluxo e a visão Pessoas usam.
