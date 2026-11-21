@@ -6,6 +6,7 @@ import {
   Plus,
   Trophy,
   Users,
+  Wallet,
 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -224,6 +225,14 @@ export default function FolderScreen() {
                 />
               </View>
               <ProjectOverview root={folder} />
+              <View className="mt-4 flex-row flex-wrap gap-2">
+                <Button
+                  variant="ghost"
+                  icon={Wallet}
+                  label={t('budget.open')}
+                  onPress={() => router.push(`/orcamento/${folder.id}`)}
+                />
+              </View>
               {(members.data?.length ?? 0) > 1 && actorCan(actor, 'task.create') && (
                 <View className="mt-4">
                   <FindTimeButton

@@ -27,3 +27,9 @@ Al crear varias tareas (**Varias** en una lista), **Foto de una lista** lee una 
 ## Dividir la cuenta
 
 En un proyecto con más de una persona, cada gasto nace **dividido entre todos** los miembros, en partes iguales. En el registro, **Dividido entre** quita o agrega personas (sin nadie marcado, el gasto no entra en la cuenta dividida); para que cuente, marca también **Quién pagó**. La sección **Dividir la cuenta** muestra cuánto tiene a favor o debe cada uno, sumando todos los meses, y la forma más corta de saldar ("Bia paga 150,00 € a Ana"). **Registrar pago** registra ese pago: aparece en la lista con ⇄, no cuenta como gasto ni como ingreso y salda la deuda. Pago equivocado: bórralo y regístralo de nuevo.
+
+## Presupuesto del proyecto
+
+En un proyecto, **Presupuesto del proyecto** (en la vista general) suma el **trabajo** y los **gastos**, previsto y realizado. El trabajo previsto es la estimación de las tareas × el valor de la hora de quien las tiene (o el predeterminado del proyecto); el realizado es el tiempo registrado (pomodoro, cronómetro, registro manual) × el valor de quien lo registró. Los gastos previstos son el presupuesto de las listas de gastos; los realizados, las salidas. La barra se pone roja cuando pasa lo previsto. Abajo, por lista y por persona, y **Descargar CSV**.
+
+Quien gestiona define el **valor de la hora**: uno predeterminado del proyecto y, si quiere, uno por persona (vacío usa el predeterminado). El valor de cada uno solo lo ven quien gestiona y la propia persona; los demás miembros ven los totales. Los gastos en otra moneda quedan fuera de la suma, contados aparte.

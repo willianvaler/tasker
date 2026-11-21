@@ -27,3 +27,9 @@ Na criação de várias tarefas (**Várias** numa lista), **Foto de uma lista** 
 ## Racha de contas
 
 Num projeto com mais de uma pessoa, cada saída lançada já nasce **dividida entre todos** os membros, em partes iguais. No lançamento, **Dividido entre** tira ou põe gente (sem ninguém marcado, o gasto não entra no racha); para valer, marque também **Quem pagou**. A seção **Racha de contas** mostra quanto cada um tem a receber ou deve, somando todos os meses, e o jeito mais curto de acertar ("Bia paga R$ 150,00 a Ana"). **Registrar acerto** lança esse pagamento: ele aparece na lista com ⇄, não conta como gasto nem como entrada e zera a dívida. Acerto errado: apague e registre de novo.
+
+## Orçamento do projeto
+
+Num projeto, **Orçamento do projeto** (na visão geral) soma o **trabalho** e os **gastos**, previsto e realizado. O trabalho previsto é a estimativa das tarefas × o valor da hora de quem cuida delas (ou o padrão do projeto); o realizado é o tempo registrado (pomodoro, cronômetro, lançamento) × o valor de quem registrou. Os gastos previstos são o orçamento das listas de gastos; os realizados, as saídas. A barra fica vermelha quando passa do previsto. Embaixo, por lista e por pessoa, e **Baixar CSV**.
+
+Quem gerencia define o **valor da hora**: um padrão do projeto e, se quiser, um para cada pessoa (vazio usa o padrão). O valor de cada um só é visto por quem gerencia e pela própria pessoa; os outros membros veem os totais. Gastos em outra moeda ficam fora da soma, contados à parte.

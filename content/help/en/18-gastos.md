@@ -27,3 +27,9 @@ When creating several tasks (**Several** on a list), **Photo of a list** reads a
 ## Split the bill
 
 In a project with more than one person, every expense starts **split among all** members in equal shares. In the entry, **Split among** adds or removes people (with nobody selected, the expense stays out of the split); for it to count, also set **Paid by**. The **Split the bill** section shows how much each person gets back or owes, across all months, and the shortest way to settle up ("Bia pays $150.00 to Ana"). **Record settlement** adds that payment: it shows in the list with ⇄, does not count as an expense or income, and clears the debt. Wrong settlement: delete it and record it again.
+
+## Project budget
+
+In a project, **Project budget** (in the overview) adds up **work** and **expenses**, planned and actual. Planned work is the tasks' estimates × the hourly rate of whoever owns them (or the project default); actual work is logged time (pomodoro, stopwatch, manual entry) × the rate of whoever logged it. Planned expenses are the expense lists' budgets; actual ones, the money out. The bar turns red when it goes over the plan. Below, by list and by person, and **Download CSV**.
+
+Managers set the **hourly rate**: a project default and, optionally, one per person (empty uses the default). Each person's rate is seen only by managers and by the person; other members see the totals. Expenses in another currency are left out of the sum and counted separately.

@@ -1571,6 +1571,32 @@ isOneToOne: true
                   Relationships: [
                     
                   ]
+                },"project_rates": {
+                  Row: {
+                    "cents_per_hour": number,"currency": string,"folder_id": string,"id": string,"updated_at": string,"updated_by": string | null,"user_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "cents_per_hour": number,"currency"?: string,"folder_id": string,"id"?: string,"updated_at"?: string,"updated_by"?: string | null,"user_id"?: string | null
+                  }
+                  Update: {
+                    "cents_per_hour"?: number,"currency"?: string,"folder_id"?: string,"id"?: string,"updated_at"?: string,"updated_by"?: string | null,"user_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "project_rates_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "project_rates_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"push_tokens": {
                   Row: {
                     "created_at": string,"id": string,"last_seen_at": string,"locale": string | null,"platform": string,"token": string,"user_id": string
@@ -3671,6 +3697,9 @@ isOneToOne: false
                            },
 "profile_tasks":
 { Args: { "p_username": string }; Returns: Json
+                           },
+"project_budget":
+{ Args: { "p_root": string }; Returns: Json
                            },
 "project_flow_stats":
 { Args: { "p_root": string }; Returns: Json
