@@ -2116,7 +2116,8 @@
     "stats": "Your numbers",
     "today": "Today: {{pomodoros}} pomodoros · {{time}}",
     "topTasks": "Where the time went (7 days)",
-    "project": "Time logged"
+    "project": "Time logged",
+    "subtasks": "In subtasks: {{done}}"
   },
   "send": {
     "title": "Send \"{{page}}\"",
@@ -2262,7 +2263,21 @@
     "kindSelect": "Select",
     "kindDate": "Date",
     "kindPerson": "Person",
-    "kindMoney": "Currency"
+    "kindMoney": "Currency",
+    "kindFormula": "Calculated",
+    "formula": "Formula",
+    "formulaHint": "Use {Field name}, numbers, + − × ÷, comparisons and if(), days_until(), today(), round(), min(), max(), and(), or(), not(), empty(). E.g.: {Price} * {Quantity}",
+    "formulaEmpty": "Write the formula.",
+    "formulaTooLong": "Formula too long (up to 500 characters).",
+    "formulaFunction": "Unknown function \"{{name}}\".",
+    "formulaArity": "Wrong number of values in \"{{name}}\".",
+    "formulaField": "There is no field \"{{name}}\" in this list.",
+    "formulaCycle": "\"{{name}}\" depends on itself.",
+    "formulaSyntax": "The formula has a typo.",
+    "editFormula": "Change the formula of {{name}}",
+    "yes": "yes",
+    "no": "no",
+    "subtaskTotal": "Subtasks: {{value}}"
   },
   "auto": {
     "title": "Automations",
@@ -4858,7 +4873,9 @@
     "columnsTitle": "Columns",
     "col": {
       "start": "Start",
-      "assignees": "Assignees"
+      "assignees": "Assignees",
+      "estimate": "Estimate",
+      "time": "Time spent"
     },
     "delete": "Delete view",
     "none": "No tasks in this view.",
@@ -4868,5 +4885,16 @@
     "nobody": "No assignee",
     "noLabel": "No tag",
     "noValue": "No {{name}}"
+  },
+  "totals": {
+    "sum": "Sum",
+    "avg": "Average",
+    "min": "Min",
+    "max": "Max",
+    "count": "Filled",
+    "values": "By value",
+    "none": "Total",
+    "cell": "Total of {{name}}: {{value}}",
+    "hint": "Tap to change the total"
   }
 }

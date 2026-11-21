@@ -38,8 +38,7 @@ export function useFavorites() {
       update.mutate(
         { favorites: toggleFavorite(list, f) },
         {
-          onSuccess: () =>
-            toast({ message: t(was ? 'favorites.removed' : 'favorites.added') }),
+          onSuccess: () => toast({ message: t(was ? 'favorites.removed' : 'favorites.added') }),
           onError: (err) => toast({ message: err.message }),
         },
       );
@@ -66,60 +65,60 @@ export function FavoritesList({ className, header }: { className?: string; heade
     <View className={className}>
       {header}
       <View accessibilityRole="list" aria-label={t('favorites.title')}>
-      {live.map((f) => {
-        const note = f.kind === 'note' ? noteById.get(f.id) : undefined;
-        const page = f.kind === 'page' ? pageById.get(f.id) : undefined;
-        const label =
-          f.kind === 'search'
-            ? f.query
-            : note
-              ? noteTitle(note, t('notes.untitled'))
-              : page
-                ? pageLabel(page)
-                : '';
-        const href = note ? `/nota/${note.id}` : page ? `/page/${page.id}` : null;
-        return (
-          <View
-            key={favoriteKey(f)}
-            className={cn(
-              'min-h-8 flex-row items-center rounded hover:bg-wash',
-              href && pathname === href && 'bg-wash',
-            )}
-          >
-            <Pressable
-              accessibilityRole={f.kind === 'search' ? 'button' : 'link'}
-              accessibilityLabel={
-                f.kind === 'search' ? t('favorites.openSearch', { query: f.query }) : label
-              }
-              className="min-h-8 flex-1 flex-row items-center gap-2 px-2"
-              onPress={() => {
-                if (f.kind === 'search') openPalette(f.query);
-                else if (note) router.push({ pathname: '/nota/[id]', params: { id: note.id } });
-                else if (page) router.push({ pathname: '/page/[id]', params: { id: page.id } });
-              }}
-            >
-              {f.kind === 'search' ? (
-                <Icon icon={Search} tone="ink-muted" />
-              ) : note ? (
-                <Icon icon={FileText} tone="ink-muted" />
-              ) : (
-                <ItemIcon icon={page?.icon} kind={page?.view_type as ItemKind} />
+        {live.map((f) => {
+          const note = f.kind === 'note' ? noteById.get(f.id) : undefined;
+          const page = f.kind === 'page' ? pageById.get(f.id) : undefined;
+          const label =
+            f.kind === 'search'
+              ? f.query
+              : note
+                ? noteTitle(note, t('notes.untitled'))
+                : page
+                  ? pageLabel(page)
+                  : '';
+          const href = note ? `/nota/${note.id}` : page ? `/page/${page.id}` : null;
+          return (
+            <View
+              key={favoriteKey(f)}
+              className={cn(
+                'min-h-8 flex-row items-center rounded hover:bg-wash',
+                href && pathname === href && 'bg-wash',
               )}
-              <Text numberOfLines={1} className="flex-1 text-sm text-ink">
-                {label}
-              </Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t('favorites.removeNamed', { name: label })}
-              className="h-8 w-8 items-center justify-center rounded opacity-60 hover:opacity-100"
-              onPress={() => favorites.toggle(f)}
             >
-              <Icon icon={X} size={16} tone="ink-muted" />
-            </Pressable>
-          </View>
-        );
-      })}
+              <Pressable
+                accessibilityRole={f.kind === 'search' ? 'button' : 'link'}
+                accessibilityLabel={
+                  f.kind === 'search' ? t('favorites.openSearch', { query: f.query }) : label
+                }
+                className="min-h-8 flex-1 flex-row items-center gap-2 px-2"
+                onPress={() => {
+                  if (f.kind === 'search') openPalette(f.query);
+                  else if (note) router.push({ pathname: '/nota/[id]', params: { id: note.id } });
+                  else if (page) router.push({ pathname: '/page/[id]', params: { id: page.id } });
+                }}
+              >
+                {f.kind === 'search' ? (
+                  <Icon icon={Search} tone="ink-muted" />
+                ) : note ? (
+                  <Icon icon={FileText} tone="ink-muted" />
+                ) : (
+                  <ItemIcon icon={page?.icon} kind={page?.view_type as ItemKind} />
+                )}
+                <Text numberOfLines={1} className="flex-1 text-sm text-ink">
+                  {label}
+                </Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t('favorites.removeNamed', { name: label })}
+                className="h-8 w-8 items-center justify-center rounded opacity-60 hover:opacity-100"
+                onPress={() => favorites.toggle(f)}
+              >
+                <Icon icon={X} size={16} tone="ink-muted" />
+              </Pressable>
+            </View>
+          );
+        })}
       </View>
     </View>
   );

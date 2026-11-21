@@ -37,6 +37,14 @@ import {
   type BaseConfig,
 } from '@/lib/base-config';
 import { cn } from '@/lib/cn';
+import {
+  computeTotal,
+  defaultTotal,
+  isNumberColumn,
+  nextTotal,
+  type TotalKind,
+  type Totals,
+} from '@/lib/totals';
 import { actorCan } from '@/lib/permissions';
 import { formatDueDate } from '@/lib/parser/dates';
 import { isSelective, parseQuery, type Query, type Source } from '@/lib/query/parse';
@@ -530,6 +538,11 @@ function BaseBody({
       )
     : [{ key: '', rows: sorted }];
   const label = useColumnLabel();
+  const status: Record<string, string> = {
+    todo: t('base.status.todo'),
+    doing: t('base.status.doing'),
+    done: t('base.status.done'),
+  };
   return (
     <View className="gap-2">
       <Text testID="base-count" className="text-xs text-ink-muted">
@@ -549,6 +562,11 @@ function BaseBody({
           sort={config.sort}
           onHeader={(c) => onSort({ ...config, sort: nextSort(config.sort, c) })}
           onSave={onSave}
+          options={{
+            totals: config.totals,
+            onTotal: (c, total) => onSort({ ...config, totals: { ...config.totals, [c]: total } }),
+            formatValue: (c, v) => (c === 'tags' ? `#${v}` : c === 'status' ? (status[v] ?? v) : v),
+          }}
         />
       ) : (
         groups.map((g) => (
@@ -594,6 +612,14 @@ function openRow(row: Row) {
  * campo personalizado, com nome e leitura próprios.
  */
 export type TableOptions = {
+  /** Totais escolhidos por coluna (VS2); sem eles, o padrão (soma no número) */
+  totals?: Totals;
+  /** Trocou o total de uma coluna (quem pode, grava); sem isso, a troca é só desta tela */
+  onTotal?: (column: string, total: TotalKind) => void;
+  /** Número do total em texto (moeda, por exemplo) */
+  formatTotal?: (column: string, value: number) => string;
+  /** Um valor contado ("Obra", o nome do estado) em texto */
+  formatValue?: (column: string, value: string) => string;
   label?: (column: string) => string;
   editable?: (column: string) => boolean;
   parse?: (column: string, text: string, current: unknown) => CellParse;
@@ -694,8 +720,85 @@ export function BaseTable({
               </View>
             ))
           : rows.map(line)}
+        <TotalsRow columns={columns} rows={rows} lead={lead} label={label} options={options} />
       </View>
     </ScrollView>
+  );
+}
+
+/** Rodapé com o total de cada coluna (VS2): tocar troca soma, média, mínimo, máximo, contagem. */
+function TotalsRow({
+  columns,
+  rows,
+  lead,
+  label,
+  options,
+}: {
+  columns: string[];
+  rows: Row[];
+  lead: number;
+  label: (column: string) => string;
+  options?: TableOptions;
+}) {
+  const { t, i18n } = useTranslation();
+  const [local, setLocal] = useState<Totals>({});
+  const number = (column: string, n: number) =>
+    options?.formatTotal?.(column, n) ??
+    new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 2 }).format(n);
+  const name: Record<string, string> = {
+    sum: t('totals.sum'),
+    avg: t('totals.avg'),
+    min: t('totals.min'),
+    max: t('totals.max'),
+    count: t('totals.count'),
+    values: t('totals.values'),
+    none: t('totals.none'),
+  };
+  if (!rows.length) return null;
+  return (
+    <View role="row" className="flex-row items-start border-t border-line bg-wash">
+      {lead > 0 && <View style={{ width: lead }} />}
+      {columns.map((c) => {
+        const values = rows.map((r) => r.value(c));
+        const numeric = isNumberColumn(values);
+        const chosen = local[c] ?? options?.totals?.[c] ?? defaultTotal(values);
+        const result = computeTotal(values, chosen);
+        const text =
+          result.kind === 'none'
+            ? ''
+            : result.kind === 'values'
+              ? result.counts
+                  .slice(0, 4)
+                  .map((v) => `${options?.formatValue?.(c, v.value) ?? v.value} ${v.count}`)
+                  .join(' · ')
+              : result.value === null
+                ? '—'
+                : `${name[result.total]} ${result.total === 'count' ? result.value : number(c, result.value)}`;
+        return (
+          <Pressable
+            key={c}
+            role="cell"
+            accessibilityLabel={t('totals.cell', { name: label(c), value: text || name.none })}
+            accessibilityHint={t('totals.hint')}
+            onPress={() => {
+              const next = nextTotal(chosen, numeric);
+              setLocal((m) => ({ ...m, [c]: next }));
+              options?.onTotal?.(c, next);
+            }}
+            style={{ width: width(c), flexGrow: c === 'title' ? 1 : 0 }}
+            className="min-h-9 justify-center px-3 py-2 hover:bg-line"
+          >
+            <Text
+              numberOfLines={2}
+              className={cn('font-mono text-xs', text ? 'text-ink' : 'text-ink-muted')}
+            >
+              {text || name.none}
+            </Text>
+          </Pressable>
+        );
+      })}
+      <View style={{ width: 44 }} />
+    </View>
   );
 }
 

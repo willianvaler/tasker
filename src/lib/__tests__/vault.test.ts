@@ -1,13 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { noteTags } from '../note-props';
-import {
-  exportVault,
-  importVault,
-  parseFrontmatter,
-  safeFileName,
-  toFrontmatter,
-} from '../vault';
+import { exportVault, importVault, parseFrontmatter, safeFileName, toFrontmatter } from '../vault';
 import { parseLinks } from '../wikilinks';
 
 const ids = () => {
@@ -55,7 +49,14 @@ describe('frontmatter', () => {
   });
 
   it('ida e volta', () => {
-    const props = { tags: ['a', 'b/c'], nota: 3, ok: false, frase: 'tem: dois pontos', n: '42', v: null };
+    const props = {
+      tags: ['a', 'b/c'],
+      nota: 3,
+      ok: false,
+      frase: 'tem: dois pontos',
+      n: '42',
+      v: null,
+    };
     expect(parseFrontmatter(toFrontmatter(props) + 'corpo')).toEqual({ props, body: 'corpo' });
     expect(toFrontmatter({})).toBe('');
   });
@@ -63,7 +64,10 @@ describe('frontmatter', () => {
 
 describe('importVault', () => {
   const files = [
-    { path: 'Cofre/Receitas/Pão.md', text: '---\ntags: [cozinha]\n---\nVer [[Farinha]] e [[Inexistente]]. #casa' },
+    {
+      path: 'Cofre/Receitas/Pão.md',
+      text: '---\ntags: [cozinha]\n---\nVer [[Farinha]] e [[Inexistente]]. #casa',
+    },
     { path: 'Cofre/Farinha.md', text: 'Usada no [[Pão|pão caseiro]] e em ![[Pão#Massa]].' },
     { path: 'Cofre/Imagens/foto.png', text: '' },
     { path: 'Cofre/.obsidian/app.md', text: 'config' },
@@ -123,12 +127,22 @@ describe('exportVault', () => {
           props: { tags: ['cozinha'] },
           dir: [],
         },
-        { id: b, title: 'Farinha', body: `Volta: [[Pão nome velho|n:${a}]]`, props: {}, dir: ['Casa'] },
+        {
+          id: b,
+          title: 'Farinha',
+          body: `Volta: [[Pão nome velho|n:${a}]]`,
+          props: {},
+          dir: ['Casa'],
+        },
         { id: c, title: 'Farinha', body: '', props: {}, dir: ['Casa'] },
       ],
       { untitled: 'Sem título', resolve: (kind) => (kind === 'task' ? 'Comprar farinha' : null) },
     );
-    expect(files.map((f) => f.path)).toEqual(['Pão receita.md', 'Casa/Farinha.md', 'Casa/Farinha (2).md']);
+    expect(files.map((f) => f.path)).toEqual([
+      'Pão receita.md',
+      'Casa/Farinha.md',
+      'Casa/Farinha (2).md',
+    ]);
     expect(files[0].text).toBe(
       '---\ntags:\n  - cozinha\n---\nVer [[Farinha]], ![[Farinha#Tipos]] e Comprar farinha',
     );

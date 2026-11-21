@@ -74,7 +74,9 @@ export function GameCelebrations() {
           aria-live="polite"
           className="items-center gap-1 rounded-lg border border-accent bg-surface px-6 py-4"
         >
-          <Text style={{ fontSize: 32, lineHeight: 40 }}>{shown.kind === 'level' ? '⭐' : '🏆'}</Text>
+          <Text style={{ fontSize: 32, lineHeight: 40 }}>
+            {shown.kind === 'level' ? '⭐' : '🏆'}
+          </Text>
           <Text className="font-serif text-xl text-ink">{shown.text}</Text>
         </View>
       </Animated.View>

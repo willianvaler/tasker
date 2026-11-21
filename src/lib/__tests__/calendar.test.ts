@@ -115,7 +115,14 @@ describe('calendarDays', () => {
     expect(Object.keys(days)).toEqual(['2026-11-03']);
     expect(days['2026-11-03']).toEqual([
       { kind: 'workout', id: 'treino:2026-11-03', title: 'Treino A', count: 2, pageId: 'treino' },
-      { kind: 'task', id: 'Pagar luz', title: 'Pagar luz', done: false, pageId: 'lista', time: null },
+      {
+        kind: 'task',
+        id: 'Pagar luz',
+        title: 'Pagar luz',
+        done: false,
+        pageId: 'lista',
+        time: null,
+      },
     ]);
   });
 

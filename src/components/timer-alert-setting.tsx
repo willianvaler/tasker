@@ -19,7 +19,10 @@ type DeviceExtras = { exact: boolean; battery: boolean };
 
 function deviceExtras(): DeviceExtras | null {
   if (Platform.OS !== 'android' || !WorkoutLive) return null;
-  return { exact: WorkoutLive.canExactAlarms(), battery: WorkoutLive.ignoresBatteryOptimizations() };
+  return {
+    exact: WorkoutLive.canExactAlarms(),
+    battery: WorkoutLive.ignoresBatteryOptimizations(),
+  };
 }
 
 export function TimerAlertSetting() {
@@ -63,9 +66,7 @@ export function TimerAlertSetting() {
           {Platform.OS === 'web' && !canVibrate() ? ` ${t('alerts.noVibration')}` : ''}
         </Text>
       )}
-      {device && !device.exact && (
-        <Text className="text-sm text-warn">{t('alerts.exactOff')}</Text>
-      )}
+      {device && !device.exact && <Text className="text-sm text-warn">{t('alerts.exactOff')}</Text>}
       {device && !device.battery && (
         <Text className="text-sm text-ink-muted">{t('alerts.batteryOn')}</Text>
       )}

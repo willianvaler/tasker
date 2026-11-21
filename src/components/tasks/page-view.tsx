@@ -334,6 +334,11 @@ export function PageView({ page }: { page: Page | undefined }) {
             tasks={tasks.data ?? []}
             today={today}
             subtaskCount={subtaskCount}
+            onChange={
+              listViews.canEdit(activeView)
+                ? (view) => listViews.save(view, activeView.scope, activeView)
+                : undefined
+            }
           />
         ) : taskPage && mode === 'board' && page ? (
           <KanbanBoard tasks={all} folderId={page.folder_id} subtaskCount={subtaskCount} />

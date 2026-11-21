@@ -45,7 +45,7 @@ export function EisenhowerMatrix({
         <View
           key={q}
           accessibilityLabel={t('matrix.quadrant', { title: t(`matrix.${q}`) })}
-          className={cn('gap-1 rounded-lg border border-line p-3', wide && 'basis-[47%] grow')}
+          className={cn('gap-1 rounded-lg border border-line p-3', wide && 'grow basis-[47%]')}
         >
           <SectionLabel title={t(`matrix.${q}`)} count={split[q].length} className="pt-0" />
           <Text className="text-xs text-ink-muted">{t(`matrix.${q}Hint`)}</Text>

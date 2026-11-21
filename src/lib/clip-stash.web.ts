@@ -32,4 +32,3 @@ export function takeStashedClip() {
     return null;
   }
 }
-

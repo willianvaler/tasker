@@ -78,11 +78,14 @@ describe('carga real da série (AC4.7)', () => {
   it('sem ajuste, a do plano', () => expect(actualLoad(null, 'a', '40kg')).toBe('40kg'));
   it('ajustada vale nas séries seguintes do mesmo exercício', () =>
     expect(actualLoad(override, 'a', '40kg')).toBe('42,5kg'));
-  it('outro exercício volta ao plano', () => expect(actualLoad(override, 'b', '40kg')).toBe('40kg'));
+  it('outro exercício volta ao plano', () =>
+    expect(actualLoad(override, 'b', '40kg')).toBe('40kg'));
   it('grupo seguinte com outra carga volta ao plano', () =>
     expect(actualLoad(override, 'a', '45kg')).toBe('45kg'));
   it('sem carga no plano, a ajustada', () =>
-    expect(actualLoad({ taskId: 'a', planned: null, weight: '10kg' }, 'a', undefined)).toBe('10kg'));
+    expect(actualLoad({ taskId: 'a', planned: null, weight: '10kg' }, 'a', undefined)).toBe(
+      '10kg',
+    ));
   it('usar no plano, sem séries avançadas', () =>
     expect(setSetWeight({ weight: '40kg', reps: 10 }, 2, '42,5kg')).toEqual({
       weight: '42,5kg',

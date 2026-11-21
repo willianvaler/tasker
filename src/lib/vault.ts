@@ -24,7 +24,10 @@ function scalar(raw: string): PropValue {
   if (v === '' || v === '~' || v === 'null') return null;
   if (/^(true|false)$/i.test(v)) return v.toLowerCase() === 'true';
   if (/^-?\d+(\.\d+)?$/.test(v) && v.length < 16) return Number(v);
-  if ((v.startsWith('"') && v.endsWith('"') && v.length >= 2) || (v.startsWith("'") && v.endsWith("'") && v.length >= 2)) {
+  if (
+    (v.startsWith('"') && v.endsWith('"') && v.length >= 2) ||
+    (v.startsWith("'") && v.endsWith("'") && v.length >= 2)
+  ) {
     const inner = v.slice(1, -1);
     if (v.startsWith('"')) {
       try {
@@ -83,7 +86,8 @@ export function parseFrontmatter(text: string): { props: NoteProps; body: string
 }
 
 const NEEDS_QUOTES = /^[\s\-?:,[\]{}#&*!|>'"%@`]|[:#]\s|\s$|^(true|false|null|~|-?\d+(\.\d+)?)$/i;
-const yamlString = (s: string) => (s === '' || NEEDS_QUOTES.test(s) || s.includes('\n') ? JSON.stringify(s) : s);
+const yamlString = (s: string) =>
+  s === '' || NEEDS_QUOTES.test(s) || s.includes('\n') ? JSON.stringify(s) : s;
 
 /** As propriedades como frontmatter YAML (vazio sem propriedades) */
 export function toFrontmatter(props: NoteProps | null | undefined): string {
@@ -96,7 +100,8 @@ export function toFrontmatter(props: NoteProps | null | undefined): string {
       lines.push(value.length ? `${key}:` : `${key}: []`);
       for (const item of value) lines.push(`  - ${yamlString(String(item))}`);
     } else if (value === null) lines.push(`${key}:`);
-    else if (typeof value === 'boolean' || typeof value === 'number') lines.push(`${key}: ${value}`);
+    else if (typeof value === 'boolean' || typeof value === 'number')
+      lines.push(`${key}: ${value}`);
     else lines.push(`${key}: ${yamlString(value)}`);
   }
   lines.push('---', '');

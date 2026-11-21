@@ -45,9 +45,9 @@ describe('estados derivados', () => {
     const r = state('carne', [t('carne'), t('fogo', done(10))], [dep('carne', 'fogo', 30)]);
     expect(r.state).toBe('blocked');
     expect(r.readyAt).toBe('2026-10-14T12:20:00.000Z');
-    expect(state('carne', [t('carne'), t('fogo', done(31))], [dep('carne', 'fogo', 30)]).state).toBe(
-      'ready',
-    );
+    expect(
+      state('carne', [t('carne'), t('fogo', done(31))], [dep('carne', 'fogo', 30)]).state,
+    ).toBe('ready');
   });
 
   test('modo todas × qualquer uma', () => {

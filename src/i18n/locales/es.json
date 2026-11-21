@@ -2116,7 +2116,8 @@
     "stats": "Tus números",
     "today": "Hoy: {{pomodoros}} pomodoros · {{time}}",
     "topTasks": "Dónde se fue el tiempo (7 días)",
-    "project": "Tiempo registrado"
+    "project": "Tiempo registrado",
+    "subtasks": "En las subtareas: {{done}}"
   },
   "send": {
     "title": "Enviar \"{{page}}\"",
@@ -2262,7 +2263,21 @@
     "kindSelect": "Selección",
     "kindDate": "Fecha",
     "kindPerson": "Persona",
-    "kindMoney": "Moneda"
+    "kindMoney": "Moneda",
+    "kindFormula": "Calculado",
+    "formula": "Fórmula",
+    "formulaHint": "Usa {Nombre del campo}, números, + − × ÷, comparaciones y si(), dias_hasta(), hoy(), redondear(), min(), max(), y(), o(), no(), vacio(). Ej.: {Precio} * {Cantidad}",
+    "formulaEmpty": "Escribe la fórmula.",
+    "formulaTooLong": "Fórmula demasiado larga (hasta 500 letras).",
+    "formulaFunction": "No conozco la función \"{{name}}\".",
+    "formulaArity": "Número de valores incorrecto en \"{{name}}\".",
+    "formulaField": "No hay campo \"{{name}}\" en esta lista.",
+    "formulaCycle": "\"{{name}}\" depende de sí misma.",
+    "formulaSyntax": "La fórmula tiene un error de escritura.",
+    "editFormula": "Cambiar la fórmula de {{name}}",
+    "yes": "sí",
+    "no": "no",
+    "subtaskTotal": "Subtareas: {{value}}"
   },
   "auto": {
     "title": "Automatizaciones",
@@ -4858,7 +4873,9 @@
     "columnsTitle": "Columnas",
     "col": {
       "start": "Inicio",
-      "assignees": "Responsables"
+      "assignees": "Responsables",
+      "estimate": "Estimación",
+      "time": "Tiempo hecho"
     },
     "delete": "Borrar la vista",
     "none": "Ninguna tarea en esta vista.",
@@ -4868,5 +4885,16 @@
     "nobody": "Sin responsable",
     "noLabel": "Sin etiqueta",
     "noValue": "Sin {{name}}"
+  },
+  "totals": {
+    "sum": "Suma",
+    "avg": "Promedio",
+    "min": "Mín.",
+    "max": "Máx.",
+    "count": "Rellenas",
+    "values": "Por valor",
+    "none": "Total",
+    "cell": "Total de {{name}}: {{value}}",
+    "hint": "Toca para cambiar el total"
   }
 }

@@ -27,14 +27,31 @@ const KINDS: Record<string, SearchKind> = {};
 for (const w of ['nota', 'notas', 'note', 'notes', 'anotacao', 'anotacoes']) KINDS[w] = 'note';
 for (const w of ['tarefa', 'tarefas', 'task', 'tasks', 'tarea', 'tareas']) KINDS[w] = 'task';
 for (const w of ['lista', 'listas', 'list', 'lists', 'pagina', 'page']) KINDS[w] = 'page';
-for (const w of ['pasta', 'pastas', 'folder', 'folders', 'carpeta', 'carpetas', 'projeto', 'project', 'proyecto'])
+for (const w of [
+  'pasta',
+  'pastas',
+  'folder',
+  'folders',
+  'carpeta',
+  'carpetas',
+  'projeto',
+  'project',
+  'proyecto',
+])
   KINDS[w] = 'folder';
 
 // -? (operador:)? ("frase" | palavra)
 const TOKEN = /(-?)(?:([\p{L}]+):)?(?:"([^"]*)"?|(\S+))/gu;
 
 export function parseSearch(text: string): ParsedSearch {
-  const out: ParsedSearch = { words: [], phrases: [], exclude: [], tags: [], folders: [], kinds: [] };
+  const out: ParsedSearch = {
+    words: [],
+    phrases: [],
+    exclude: [],
+    tags: [],
+    folders: [],
+    kinds: [],
+  };
   for (const m of text.matchAll(TOKEN)) {
     const negative = m[1] === '-';
     const op = m[2] ? OPERATORS[fold(m[2])] : undefined;
@@ -114,7 +131,10 @@ export function searchRank(q: ParsedSearch, item: SearchItem): number {
 }
 
 /** Um item ao acaso (a anotação aleatória); `random` é trocável nos testes */
-export function pickRandom<T>(list: readonly T[], random: () => number = Math.random): T | undefined {
+export function pickRandom<T>(
+  list: readonly T[],
+  random: () => number = Math.random,
+): T | undefined {
   if (!list.length) return undefined;
   return list[Math.min(list.length - 1, Math.floor(random() * list.length))];
 }

@@ -2116,7 +2116,8 @@
     "stats": "Seus números",
     "today": "Hoje: {{pomodoros}} pomodoros · {{time}}",
     "topTasks": "Onde foi o tempo (7 dias)",
-    "project": "Tempo registrado"
+    "project": "Tempo registrado",
+    "subtasks": "Nas subtarefas: {{done}}"
   },
   "send": {
     "title": "Enviar \"{{page}}\"",
@@ -2262,7 +2263,21 @@
     "kindSelect": "Seleção",
     "kindDate": "Data",
     "kindPerson": "Pessoa",
-    "kindMoney": "Moeda"
+    "kindMoney": "Moeda",
+    "kindFormula": "Calculado",
+    "formula": "Fórmula",
+    "formulaHint": "Use {Nome do campo}, números, + − × ÷, comparações e se(), dias_ate(), hoje(), arredondar(), min(), max(), e(), ou(), não(), vazio(). Ex.: {Valor} * {Quantidade}",
+    "formulaEmpty": "Escreva a fórmula.",
+    "formulaTooLong": "Fórmula longa demais (até 500 letras).",
+    "formulaFunction": "Não conheço a função \"{{name}}\".",
+    "formulaArity": "Número de valores errado em \"{{name}}\".",
+    "formulaField": "Não há campo \"{{name}}\" nesta lista.",
+    "formulaCycle": "\"{{name}}\" depende dela mesma.",
+    "formulaSyntax": "Fórmula com erro de escrita.",
+    "editFormula": "Mudar a fórmula de {{name}}",
+    "yes": "sim",
+    "no": "não",
+    "subtaskTotal": "Subtarefas: {{value}}"
   },
   "auto": {
     "title": "Automações",
@@ -4858,7 +4873,9 @@
     "columnsTitle": "Colunas",
     "col": {
       "start": "Início",
-      "assignees": "Responsáveis"
+      "assignees": "Responsáveis",
+      "estimate": "Estimativa",
+      "time": "Tempo feito"
     },
     "delete": "Apagar a visão",
     "none": "Nenhuma tarefa nesta visão.",
@@ -4868,5 +4885,16 @@
     "nobody": "Sem responsável",
     "noLabel": "Sem etiqueta",
     "noValue": "Sem {{name}}"
+  },
+  "totals": {
+    "sum": "Soma",
+    "avg": "Média",
+    "min": "Mín.",
+    "max": "Máx.",
+    "count": "Preenchidas",
+    "values": "Por valor",
+    "none": "Total",
+    "cell": "Total de {{name}}: {{value}}",
+    "hint": "Toque para trocar o total"
   }
 }

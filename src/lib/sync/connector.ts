@@ -149,8 +149,8 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['title', 'body', 'props', 'is_template'],
   },
   page_fields: {
-    insert: ['page_id', 'name', 'kind', 'options', 'position'],
-    update: ['name', 'options', 'position'],
+    insert: ['page_id', 'name', 'kind', 'options', 'formula', 'position'],
+    update: ['name', 'options', 'formula', 'position'],
   },
   conflict_copies: { insert: [], update: [] },
   user_exercises: {

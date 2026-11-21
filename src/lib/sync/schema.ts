@@ -356,6 +356,8 @@ const page_fields = new Table(
     name: column.text,
     kind: column.text,
     options: column.text,
+    /** Campo calculado (VS2): o texto da fórmula */
+    formula: column.text,
     position: column.real,
     created_at: column.text,
   },

@@ -30,7 +30,8 @@ export function Button({
 }: ButtonProps) {
   const colors = useColors();
   const primary = variant === 'primary';
-  const fg = primary && disabled ? 'ink-muted' : primary ? 'on-accent' : destructive ? 'danger' : 'ink';
+  const fg =
+    primary && disabled ? 'ink-muted' : primary ? 'on-accent' : destructive ? 'danger' : 'ink';
   return (
     <Pressable
       accessibilityRole="button"

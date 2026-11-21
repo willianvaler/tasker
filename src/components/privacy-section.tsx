@@ -106,7 +106,8 @@ export function PrivacySection() {
             closeVersions();
             deleteVersions.mutate(undefined, {
               onSuccess: () => toast({ message: t('noteHistory.deletedAll') }),
-              onError: (err) => toast({ message: t('noteHistory.error', { message: err.message }) }),
+              onError: (err) =>
+                toast({ message: t('noteHistory.error', { message: err.message }) }),
             });
           }}
         />

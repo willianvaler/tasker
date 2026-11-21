@@ -1365,14 +1365,14 @@ isOneToOne: false
                   ]
                 },"page_fields": {
                   Row: {
-                    "created_at": string,"folder_id": string | null,"id": string,"kind": string,"name": string,"options": NonNullable<Json>,"page_id": string,"position": number
+                    "created_at": string,"folder_id": string | null,"formula": string | null,"id": string,"kind": string,"name": string,"options": NonNullable<Json>,"page_id": string,"position": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind": string,"name": string,"options"?: NonNullable<Json>,"page_id": string,"position"?: number
+                    "created_at"?: string,"folder_id"?: string | null,"formula"?: string | null,"id"?: string,"kind": string,"name": string,"options"?: NonNullable<Json>,"page_id": string,"position"?: number
                   }
                   Update: {
-                    "created_at"?: string,"folder_id"?: string | null,"id"?: string,"kind"?: string,"name"?: string,"options"?: NonNullable<Json>,"page_id"?: string,"position"?: number
+                    "created_at"?: string,"folder_id"?: string | null,"formula"?: string | null,"id"?: string,"kind"?: string,"name"?: string,"options"?: NonNullable<Json>,"page_id"?: string,"position"?: number
                   }
                   Relationships: [
                     {

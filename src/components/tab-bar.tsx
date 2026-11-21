@@ -24,12 +24,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { useGameLevel } from '@/lib/queries/game';
-import {
-  useGymInWellness,
-  useProfile,
-  useUiPrefs,
-  useUpdateUiPrefs,
-} from '@/lib/queries/profile';
+import { useGymInWellness, useProfile, useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
 import { availableSlots, barRoutes, resolveSlots, type TabSlot } from '@/lib/tab-slots';
 import { useIsOnline } from '@/providers/online';
 

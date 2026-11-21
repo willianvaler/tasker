@@ -30,7 +30,10 @@ export function manaSkillBlock(
 /** Chave da arte do retrato: classe + variação escolhida (a primeira, se não escolheu). */
 export function portraitKey(cls: string | null, variant: string | undefined) {
   if (!cls) return null;
-  const v = variant && (game.portraits as readonly string[]).includes(variant) ? variant : game.portraits[0];
+  const v =
+    variant && (game.portraits as readonly string[]).includes(variant)
+      ? variant
+      : game.portraits[0];
   return `${cls}-${v}`;
 }
 

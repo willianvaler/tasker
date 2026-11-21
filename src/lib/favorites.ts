@@ -3,9 +3,7 @@
 // todo mundo numa anotação de projeto. Vêm do banco, então podem chegar com lixo. Funções puras.
 
 export type Favorite =
-  | { kind: 'note'; id: string }
-  | { kind: 'page'; id: string }
-  | { kind: 'search'; query: string };
+  { kind: 'note'; id: string } | { kind: 'page'; id: string } | { kind: 'search'; query: string };
 
 export const MAX_FAVORITES = 50;
 

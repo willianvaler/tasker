@@ -1,6 +1,16 @@
 import { useColorScheme } from 'nativewind';
 import { useId } from 'react';
-import Svg, { Circle, ClipPath, Defs, G, Mask, Path, Polygon, Polyline, Rect } from 'react-native-svg';
+import Svg, {
+  Circle,
+  ClipPath,
+  Defs,
+  G,
+  Mask,
+  Path,
+  Polygon,
+  Polyline,
+  Rect,
+} from 'react-native-svg';
 
 import { BRAND } from '@/lib/tokens';
 
@@ -28,7 +38,15 @@ export function BrandMark({ size = 28 }: { size?: number }) {
             strokeWidth={44}
             strokeLinejoin="miter"
           />
-          <Rect transform={TAIL} x={723.5} y={600.5} width={131} height={321} rx={22} fill="black" />
+          <Rect
+            transform={TAIL}
+            x={723.5}
+            y={600.5}
+            width={131}
+            height={321}
+            rx={22}
+            fill="black"
+          />
         </Mask>
       </Defs>
       <G mask={`url(#m${id})`}>
@@ -39,7 +57,15 @@ export function BrandMark({ size = 28 }: { size?: number }) {
           fill={color}
         />
       </G>
-      <Rect transform={TAIL} x={736.5} y={613.5} width={105} height={295} rx={12} fill={BRAND.orange} />
+      <Rect
+        transform={TAIL}
+        x={736.5}
+        y={613.5}
+        width={105}
+        height={295}
+        rx={12}
+        fill={BRAND.orange}
+      />
       <Rect x={519} y={250} width={16} height={200} rx={4} fill={BRAND.orange} />
       <Path
         d="M527 250 L676 312 Q690 318 676 325 L527 392 Z"

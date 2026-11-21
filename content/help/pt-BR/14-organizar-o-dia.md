@@ -3,7 +3,7 @@
 - **Meu dia** — escolha o que vai fazer hoje (`M` ou no painel), coloque em ordem e diga quanto tempo tem: o app mostra se cabe.
 - **Fazer agora** — a sugestão do que fazer em seguida: o que já começou, o seu dia, o atrasado.
 - **Adiar** — o despertador na linha (ou `Z`) leva para amanhã.
-- **Campos** — no menu da lista, crie campos como Valor, Fase ou Comprador.
+- **Campos** — no menu da lista, crie campos como Valor, Fase ou Comprador. O tipo **Calculado** faz conta com os outros: `{Valor} * {Quantidade}`, `dias_ate({vencimento})`, `se({Fase} = "Compra", 1, 0)`. Valem números, `+ - * /`, comparações (`=`, `!=`, `<`, `>`, `<=`, `>=`), texto entre aspas e as funções `se`, `dias_ate`, `hoje`, `arredondar`, `min`, `max`, `abs`, `e`, `ou`, `não` e `vazio` (também em inglês e espanhol). Além dos campos da lista, a fórmula lê `{título}`, `{vencimento}`, `{início}`, `{prioridade}`, `{estimativa}`, `{tempo}` e `{concluída}`. O valor é calculado na hora, não se digita. Numa tarefa com subtarefas, os campos de número mostram **o total das filhas**, e o tempo, o que foi registrado nelas.
 - **Aprovação** — uma tarefa que só uma pessoa (ou quem gerencia) pode concluir: o dono aprova o orçamento antes da compra.
 
 ## Automações
@@ -24,6 +24,8 @@ O **+** ao lado das abas cria uma **visão** da mesma lista, sem copiar nada: um
 - **Gantt:** as barras do início ao vencimento, só desta lista.
 
 Num projeto, a visão pode ser **Só eu** (só você vê) ou **Todo o projeto** (todos veem; criar e mudar pede poder configurar listas). O botão de ajustes ao lado das abas muda ou apaga a visão aberta.
+
+No **rodapé da tabela** (nas visões e nas Bases) fica o total de cada coluna: nas de número e de dinheiro, a soma; toque para trocar por média, mínimo, máximo, quantas estão preenchidas ou nada. Nas de valor (estado, etiqueta, seleção), o toque mostra quantas tarefas há de cada um. Na tabela, a mãe sem valor mostra a soma das subtarefas com **Σ** na frente.
 
 ## Revisão semanal
 

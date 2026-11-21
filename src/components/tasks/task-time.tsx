@@ -11,9 +11,10 @@ import { formatDueDate, todayIn } from '@/lib/parser/dates';
 import { estimatedPomodoros } from '@/lib/pomodoro';
 import { useTaskTime, useTimeEntryActions, type TimeEntry } from '@/lib/queries/pomodoro';
 import { useTimeZone, useToday } from '@/lib/queries/profile';
-import type { Task } from '@/lib/queries/tasks';
-import { formatDuration } from '@/lib/task-tree';
+import { usePageTasks, type Task } from '@/lib/queries/tasks';
+import { childrenMap, formatDuration } from '@/lib/task-tree';
 import { parseTimeInput } from '@/lib/time';
+import { sumDescendants } from '@/lib/totals';
 import { formatClock } from '@/lib/timers';
 import { uuidv7 } from '@/lib/uuid';
 import { useSession } from '@/providers/session';
@@ -35,6 +36,9 @@ export function TaskTime({ task, disabled }: { task: Task; disabled?: boolean })
   const actions = useTimeEntryActions();
   const userId = useSession().session?.user.id;
   const [text, setText] = useState('');
+  const pageTasks = usePageTasks(task.page_id);
+  const kids = childrenMap(pageTasks.data ?? []);
+  const byId = new Map((pageTasks.data ?? []).map((x) => [x.id, x]));
 
   const list = entries.data ?? [];
   const pomodoros = list.filter((e) => e.source === 'pomodoro').length;
@@ -55,8 +59,18 @@ export function TaskTime({ task, disabled }: { task: Task; disabled?: boolean })
     setText('');
   }
 
+  // Tempo das subtarefas (VS2): a mãe mostra o que foi registrado nas filhas, além do dela
+  const subtaskMinutes = kids.has(task.id)
+    ? sumDescendants(task.id, kids, (id) => byId.get(id)?.actual_minutes ?? 0)
+    : 0;
+
   return (
     <View className="gap-3">
+      {subtaskMinutes > 0 && (
+        <Text className="font-mono text-xs text-ink-muted">
+          {t('time.subtasks', { done: formatDuration(subtaskMinutes) })}
+        </Text>
+      )}
       <Text className="text-sm text-ink">
         {task.estimate_minutes
           ? t('time.doneOf', {

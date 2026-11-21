@@ -2,12 +2,22 @@ import { formatShortDate, type IsoDate } from './parser/dates';
 
 // Campos personalizados (M5, D142): ler o que se digita e mostrar o valor guardado. Puro.
 
-export const FIELD_KINDS = ['text', 'number', 'select', 'date', 'person', 'money'] as const;
+export const FIELD_KINDS = [
+  'text',
+  'number',
+  'select',
+  'date',
+  'person',
+  'money',
+  'formula',
+] as const;
 export type FieldKind = (typeof FIELD_KINDS)[number];
 export type FieldValue = string | number | null;
 
 /** O que se digitou → valor guardado (null = vazio; undefined = não entendi). */
 export function parseFieldInput(kind: FieldKind, text: string): FieldValue | undefined {
+  // O calculado não se digita (VS2): o valor vem da fórmula
+  if (kind === 'formula') return undefined;
   const s = text.trim();
   if (!s) return null;
   if (kind === 'number' || kind === 'money') {

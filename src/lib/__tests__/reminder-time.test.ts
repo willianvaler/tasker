@@ -22,7 +22,11 @@ describe('horário do lembrete (D206)', () => {
       'America/Sao_Paulo',
     );
     expect(new Date(at ?? 0).toISOString()).toBe('2026-10-20T17:30:00.000Z');
-    expect(reminderAt({ due_date: '2026-10-20', due_time: null, remind_before: 0 }, 'UTC')).toBeNull();
-    expect(reminderAt({ due_date: '2026-10-20', due_time: '10:00', remind_before: null }, 'UTC')).toBeNull();
+    expect(
+      reminderAt({ due_date: '2026-10-20', due_time: null, remind_before: 0 }, 'UTC'),
+    ).toBeNull();
+    expect(
+      reminderAt({ due_date: '2026-10-20', due_time: '10:00', remind_before: null }, 'UTC'),
+    ).toBeNull();
   });
 });

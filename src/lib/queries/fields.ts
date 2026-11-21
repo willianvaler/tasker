@@ -17,6 +17,8 @@ const fieldsKey = (pageId: string) => ['page-fields', pageId] as const;
 
 const parse = (row: Record<string, unknown>): PageField => ({
   ...(row as PageField),
+  // Cache antigo (antes do VS2) não tem a coluna
+  formula: typeof row.formula === 'string' ? row.formula : null,
   options:
     typeof row.options === 'string'
       ? JSON.parse(row.options)
@@ -62,10 +64,12 @@ export function useFieldMutations(pageId: string) {
       name,
       kind,
       options,
+      formula,
     }: {
       name: string;
       kind: FieldKind;
       options: string[];
+      formula?: string | null;
     }) => {
       const row = {
         id: uuidv7(),
@@ -73,6 +77,7 @@ export function useFieldMutations(pageId: string) {
         name,
         kind,
         options: options as NonNullable<Json>,
+        formula: kind === 'formula' ? (formula ?? '') : null,
         position: list().length,
       };
       if (isLocal()) {
@@ -99,13 +104,16 @@ export function useFieldMutations(pageId: string) {
       id,
       name,
       options,
+      formula,
     }: {
       id: string;
       name?: string;
       options?: string[];
+      formula?: string;
     }) => {
       const patch = {
         ...(name !== undefined ? { name } : {}),
+        ...(formula !== undefined ? { formula } : {}),
         ...(options !== undefined ? { options: options as NonNullable<Json> } : {}),
       };
       if (isLocal()) {

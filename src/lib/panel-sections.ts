@@ -73,7 +73,5 @@ export function addableSections(
   used: ReadonlySet<AdvancedSection>,
   added: ReadonlySet<AdvancedSection>,
 ) {
-  return ADVANCED_SECTIONS.filter(
-    (s) => available.has(s) && !showSection(showAll, used, added, s),
-  );
+  return ADVANCED_SECTIONS.filter((s) => available.has(s) && !showSection(showAll, used, added, s));
 }

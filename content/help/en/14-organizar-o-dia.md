@@ -3,7 +3,7 @@
 - **My day** — pick what you'll do today (`M` or in the panel), put it in order and say how much time you have: the app shows whether it fits.
 - **Do now** — the suggestion of what to do next: what's already started, your day, what's overdue.
 - **Snooze** — the alarm clock on the row (or `Z`) moves it to tomorrow.
-- **Fields** — in the list menu, create fields like Cost, Stage or Buyer.
+- **Fields** — in the list menu, create fields like Cost, Stage or Buyer. The **Calculated** type does math with the others: `{Price} * {Quantity}`, `days_until({due})`, `if({Stage} = "Purchase", 1, 0)`. You can use numbers, `+ - * /`, comparisons (`=`, `!=`, `<`, `>`, `<=`, `>=`), text in quotes and the functions `if`, `days_until`, `today`, `round`, `min`, `max`, `abs`, `and`, `or`, `not` and `empty` (also in Portuguese and Spanish). Besides the list fields, a formula reads `{title}`, `{due}`, `{start}`, `{priority}`, `{estimate}`, `{time}` and `{done}`. The value is calculated on the spot; you don't type it. On a task with subtasks, number fields show **the total of the children**, and time shows what was logged on them.
 - **Approval** — a task only one person (or a manager) can complete: the owner approves the budget before buying.
 
 ## Automations
@@ -24,6 +24,8 @@ The **+** next to the tabs creates a **view** of the same list, without copying 
 - **Gantt:** bars from start to due date, only for this list.
 
 In a project, a view can be **Only me** (only you see it) or **The whole project** (everyone sees it; creating and changing it requires permission to configure lists). The settings button next to the tabs edits or deletes the open view.
+
+The **table footer** (in views and in Bases) shows each column's total: for numbers and money, the sum; tap to switch to average, minimum, maximum, how many are filled or nothing. For value columns (status, tag, select), a tap shows how many tasks have each value. In the table, a parent with no value of its own shows its subtasks' sum with a **Σ** in front.
 
 ## Weekly review
 

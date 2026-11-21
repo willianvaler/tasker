@@ -91,6 +91,8 @@ export function lootText(l: { kind: string; key: string }) {
     case 'food':
       return tr('pets.lootFood', { name: tr(`pets.foods.${l.key}` as 'pets.foods.carne') });
     default:
-      return tr('pets.lootScroll', { name: tr(`quests.${l.key}.name` as 'quests.rei-esqueleto.name') });
+      return tr('pets.lootScroll', {
+        name: tr(`quests.${l.key}.name` as 'quests.rei-esqueleto.name'),
+      });
   }
 }

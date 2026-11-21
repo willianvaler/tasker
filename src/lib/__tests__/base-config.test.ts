@@ -21,6 +21,7 @@ describe('bases: configuração (OB8)', () => {
       columns: [],
       group: null,
       sort: null,
+      totals: {},
     });
     expect(
       readBaseConfig({
@@ -29,6 +30,7 @@ describe('bases: configuração (OB8)', () => {
         columns: ['due', 'due', 3, ''],
         group: 'status',
         sort: { column: 'due', desc: true },
+        totals: { priority: 'max', title: 'media' },
       }),
     ).toEqual({
       query: 'tarefas onde etiqueta = casa',
@@ -36,6 +38,7 @@ describe('bases: configuração (OB8)', () => {
       columns: ['due'],
       group: 'status',
       sort: { column: 'due', desc: true },
+      totals: { priority: 'max' },
     });
     expect(readBaseConfig({ view: 'kanban', sort: { column: '' } })).toMatchObject({
       view: 'table',

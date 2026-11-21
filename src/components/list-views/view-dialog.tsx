@@ -48,6 +48,8 @@ export const COLUMN_LABEL = {
   tags: 'base.col.tags',
   status: 'base.col.status',
   assignees: 'views.col.assignees',
+  estimate: 'views.col.estimate',
+  time: 'views.col.time',
 } as const satisfies Record<(typeof VIEW_COLUMNS)[number], string>;
 
 /**

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { BaseTable, type Row } from '@/components/base-view';
-import { usePeople } from '@/components/fields';
+import { useFieldText, usePeople } from '@/components/fields';
 import { GanttView } from '@/components/project/gantt-view';
 import { KanbanBoard } from '@/components/tasks/kanban-board';
 import { TaskRow } from '@/components/tasks/task-row';
@@ -14,7 +14,6 @@ import { cellInput, nextSort, parseCell, sortRows, type BaseSort } from '@/lib/b
 import { formatFieldValue, parseFieldInput } from '@/lib/fields';
 import {
   applyView,
-  fieldValue,
   fixedKeys,
   groupField,
   groupTasks,
@@ -23,6 +22,8 @@ import {
   type ViewContext,
 } from '@/lib/list-views';
 import { formatDueDate } from '@/lib/parser/dates';
+import { childrenMap, formatDuration } from '@/lib/task-tree';
+import { rollup, sumDescendants } from '@/lib/totals';
 import { fold } from '@/lib/query/parse';
 import { usePageFields, type PageField } from '@/lib/queries/fields';
 import { rootFolder, useAssigneeMutations, useAssignees } from '@/lib/queries/projects';
@@ -83,12 +84,15 @@ export function SavedViewBody({
   tasks,
   today,
   subtaskCount,
+  onChange,
 }: {
   view: ListView;
   page: Page;
   tasks: Task[];
   today: string;
   subtaskCount: Counts;
+  /** Quem pode mudar a visão grava o que mudou nela (o total do rodapé, VS2) */
+  onChange?: (view: ListView) => void;
 }) {
   const { t } = useTranslation();
   const tree = useTree();
@@ -103,7 +107,18 @@ export function SavedViewBody({
     return <CalendarView tasks={shown} today={today} subtaskCount={subtaskCount} />;
   if (view.kind === 'board')
     return <ViewBoard view={view} page={page} tasks={shown} vc={vc} subtaskCount={subtaskCount} />;
-  if (view.kind === 'table') return <ViewTable view={view} tasks={shown} vc={vc} today={today} />;
+  if (view.kind === 'table')
+    return (
+      <ViewTable
+        view={view}
+        page={page}
+        tasks={shown}
+        all={tasks}
+        vc={vc}
+        today={today}
+        onChange={onChange}
+      />
+    );
 
   if (!shown.length) return <EmptyState title={t('views.none')} />;
   const groups =
@@ -186,19 +201,29 @@ const FIXED_EDITABLE = ['title', 'due', 'start', 'priority', 'tags'];
 /** Tabela: a das Bases (OB8), com as tarefas desta lista e os campos dela; edita na célula. */
 function ViewTable({
   view,
+  page,
   tasks,
+  all,
   vc,
   today,
+  onChange,
 }: {
   view: ListView;
+  page: Page;
   tasks: Task[];
+  /** Todas as tarefas da lista: o total das subtarefas na mãe (VS2) */
+  all: Task[];
   vc: ViewCtx;
   today: string;
+  onChange?: (view: ListView) => void;
 }) {
   const { t } = useTranslation();
   const toast = useToast();
   const update = useUpdateTask();
+  const fieldText = useFieldText(page.id, page.folder_id);
   const [sort, setSort] = useState<BaseSort | null>(null);
+  const kids = childrenMap(all);
+  const byId = new Map(all.map((task) => [task.id, task]));
   const fieldOf = (column: string): PageField | undefined =>
     column.startsWith('field:') ? vc.fields.find((f) => f.id === column.slice(6)) : undefined;
   // Coluna de um campo que foi apagado some
@@ -206,9 +231,40 @@ function ViewTable({
     (c) => !c.startsWith('field:') || fieldOf(c),
   );
 
-  const value = (task: Task, column: string): unknown => {
+  // Valor da própria tarefa; nos números, a mãe sem valor mostra o total das filhas (rollup)
+  const own = (task: Task, column: string): unknown => {
     const field = fieldOf(column);
-    if (field) return fieldValue(task, field.id);
+    if (field) return fieldText.value(field, task);
+    if (column === 'estimate') return task.estimate_minutes;
+    if (column === 'time') return task.actual_minutes || null;
+    return base(task, column);
+  };
+  const numeric = (column: string) => {
+    const field = fieldOf(column);
+    return field
+      ? field.kind === 'number' || field.kind === 'money' || field.kind === 'formula'
+      : column === 'estimate';
+  };
+  const rolled = (task: Task, column: string): number | null => {
+    if (!kids.has(task.id)) return null;
+    if (column === 'time')
+      return sumDescendants(task.id, kids, (id) => byId.get(id)?.actual_minutes ?? 0) || null;
+    if (!numeric(column)) return null;
+    return rollup(task.id, kids, (id) => {
+      const child = byId.get(id);
+      const v = child ? own(child, column) : null;
+      return typeof v === 'number' && Number.isFinite(v) ? v : null;
+    });
+  };
+  const value = (task: Task, column: string): unknown => {
+    const v = own(task, column);
+    if (column === 'time') {
+      const sub = rolled(task, column);
+      return sub === null ? v : ((v as number | null) ?? 0) + sub;
+    }
+    return v === null || v === undefined || v === '' ? (rolled(task, column) ?? v) : v;
+  };
+  const base = (task: Task, column: string): unknown => {
     switch (column) {
       case 'title':
         return task.title;
@@ -231,8 +287,12 @@ function ViewTable({
   const show = (task: Task, column: string): string => {
     const v = value(task, column);
     const field = fieldOf(column);
-    if (field) return formatFieldValue(field.kind, v, vc.locale, vc.people);
+    // Σ marca o total que veio das subtarefas
+    const sigma =
+      numeric(column) && v !== null && v !== undefined && v !== own(task, column) ? 'Σ ' : '';
+    if (field) return sigma + fieldText.text(field, task, v);
     if (v === null || v === undefined || v === '') return '';
+    if (column === 'estimate' || column === 'time') return sigma + formatDuration(Number(v));
     if (column === 'due' || column === 'start') return formatDueDate(String(v), today);
     if (column === 'priority') return v ? '!'.repeat(Number(v)) : '';
     if (column === 'tags') return (v as string[]).map((l) => `#${l}`).join(' ');
@@ -335,9 +395,27 @@ function ViewTable({
         onSave={save}
         options={{
           label,
-          editable: (c) => FIXED_EDITABLE.includes(c) || !!fieldOf(c),
+          editable: (c) =>
+            FIXED_EDITABLE.includes(c) || (!!fieldOf(c) && fieldOf(c)?.kind !== 'formula'),
           parse,
           input,
+          totals: view.totals,
+          onTotal: onChange
+            ? (c, total) => onChange({ ...view, totals: { ...view.totals, [c]: total } })
+            : undefined,
+          formatTotal: (c, n) => {
+            const field = fieldOf(c);
+            if (field?.kind === 'money') return formatFieldValue('money', n, vc.locale);
+            if (c === 'estimate' || c === 'time') return formatDuration(n);
+            return new Intl.NumberFormat(vc.locale, { maximumFractionDigits: 2 }).format(n);
+          },
+          formatValue: (c, v) => {
+            const field = fieldOf(c);
+            if (field?.kind === 'person') return vc.people.get(v) ?? v;
+            if (c === 'status') return vc.status[v] ?? v;
+            if (c === 'tags') return `#${v}`;
+            return v;
+          },
         }}
       />
     </View>

@@ -93,7 +93,10 @@ export function useSlashCommands({
 
   function choose(command: SlashCommand) {
     if (!query) return;
-    const next = applySlash(text, query.start, caret, command, { column: t('slash.column'), query: t('slash.queryExample') });
+    const next = applySlash(text, query.start, caret, command, {
+      column: t('slash.column'),
+      query: t('slash.queryExample'),
+    });
     setText(next.text, next.caret);
     setPicked(0);
     requestAnimationFrame(() => {

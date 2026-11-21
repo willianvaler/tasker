@@ -1,4 +1,5 @@
 import { addDays, type IsoDate } from './parser/dates';
+import { readTotals, type Totals } from './totals';
 
 // Visões salvas da mesma lista (VS1, ESCOPO_V12 §7, D317). A mesma lista (as mesmas tarefas) vista
 // como Lista, Quadro, Tabela, Calendário ou Gantt, cada visão com filtro, ordem, agrupamento e
@@ -29,6 +30,8 @@ export const VIEW_COLUMNS = [
   'tags',
   'status',
   'assignees',
+  'estimate',
+  'time',
 ] as const;
 
 export type ListView = {
@@ -40,6 +43,8 @@ export type ListView = {
   desc: boolean;
   filter: ViewFilter;
   columns: string[];
+  /** Total do rodapé por coluna (VS2) */
+  totals: Totals;
 };
 export type ScopedView = ListView & { scope: ViewScope };
 
@@ -60,6 +65,7 @@ export function newView(id: string, name: string, kind: ViewKind): ListView {
     desc: false,
     filter: { ...DEFAULT_FILTER },
     columns: kind === 'table' ? [...DEFAULT_COLUMNS] : [],
+    totals: {},
   };
 }
 
@@ -102,6 +108,7 @@ function readView(raw: unknown): ListView | null {
     columns: Array.isArray(o.columns)
       ? o.columns.filter(isColumn).filter((c, i, all) => all.indexOf(c) === i)
       : [],
+    totals: readTotals(o.totals),
   };
 }
 

@@ -17,7 +17,12 @@ const note = {
   tags: ['cozinha/paes', 'casa'],
   folders: ['Casa', 'Cozinha'],
 };
-const task = { kind: 'task' as const, title: 'Comprar farinha', tags: ['mercado'], folders: ['Casa'] };
+const task = {
+  kind: 'task' as const,
+  title: 'Comprar farinha',
+  tags: ['mercado'],
+  folders: ['Casa'],
+};
 
 describe('parseSearch', () => {
   it('separa palavras, frase, exclusão e operadores (sem acento)', () => {

@@ -18,8 +18,7 @@ describe('força do hábito (HB2)', () => {
   });
 
   test('o − desfaz o + (e vice-versa)', () => {
-    for (const v of [-30, -5, 0, 3.5, 12])
-      expect(habitStep(habitStep(v, 1), -1)).toBeCloseTo(v, 3);
+    for (const v of [-30, -5, 0, 3.5, 12]) expect(habitStep(habitStep(v, 1), -1)).toBeCloseTo(v, 3);
   });
 
   test.each([

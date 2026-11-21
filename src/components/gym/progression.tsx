@@ -81,7 +81,18 @@ export function useProgression(task: Task, { excludeToday = false } = {}) {
   const prescription = history.isPending ? null : prescribe(rule, plan, sessions, step);
   // Lido de novo nesta abertura (o cache do disco pode trazer a regra ou o diário de antes)
   const fresh = history.isFetchedAfterMount && !history.isFetching;
-  return { rule, own, pageRule, plan, step, autoStep, prescription, fresh, coach, received: !!received };
+  return {
+    rule,
+    own,
+    pageRule,
+    plan,
+    step,
+    autoStep,
+    prescription,
+    fresh,
+    coach,
+    received: !!received,
+  };
 }
 
 /**

@@ -3,7 +3,7 @@
 - **Mi día** — elige lo que harás hoy (`M` o en el panel), ordénalo y di cuánto tiempo tienes: la app muestra si cabe.
 - **Hacer ahora** — la sugerencia de qué hacer después: lo que ya empezó, tu día, lo atrasado.
 - **Posponer** — el despertador de la fila (o `Z`) la lleva a mañana.
-- **Campos** — en el menú de la lista, crea campos como Valor, Fase o Comprador.
+- **Campos** — en el menú de la lista, crea campos como Valor, Fase o Comprador. El tipo **Calculado** hace cuentas con los demás: `{Precio} * {Cantidad}`, `dias_hasta({vencimiento})`, `si({Fase} = "Compra", 1, 0)`. Valen números, `+ - * /`, comparaciones (`=`, `!=`, `<`, `>`, `<=`, `>=`), texto entre comillas y las funciones `si`, `dias_hasta`, `hoy`, `redondear`, `min`, `max`, `abs`, `y`, `o`, `no` y `vacio` (también en portugués e inglés). Además de los campos de la lista, la fórmula lee `{titulo}`, `{vencimiento}`, `{inicio}`, `{prioridad}`, `{estimacion}`, `{tiempo}` y `{completada}`. El valor se calcula al momento; no se escribe. En una tarea con subtareas, los campos de número muestran **el total de las hijas**, y el tiempo, lo registrado en ellas.
 - **Aprobación** — una tarea que solo una persona (o quien gestiona) puede completar: el dueño aprueba el presupuesto antes de comprar.
 
 ## Automatizaciones
@@ -24,6 +24,8 @@ El **+** junto a las pestañas crea una **vista** de la misma lista, sin copiar 
 - **Gantt:** las barras del inicio al vencimiento, solo de esta lista.
 
 En un proyecto, la vista puede ser **Solo yo** (solo tú la ves) o **Todo el proyecto** (todos la ven; crearla y cambiarla pide poder configurar listas). El botón de ajustes junto a las pestañas cambia o borra la vista abierta.
+
+En el **pie de la tabla** (en las vistas y en las Bases) está el total de cada columna: en las de número y dinero, la suma; toca para cambiar a promedio, mínimo, máximo, cuántas están rellenas o nada. En las de valor (estado, etiqueta, selección), el toque muestra cuántas tareas hay de cada uno. En la tabla, la madre sin valor muestra la suma de las subtareas con **Σ** delante.
 
 ## Revisión semanal
 

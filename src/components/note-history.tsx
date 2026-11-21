@@ -109,9 +109,14 @@ export function NoteHistory({
               {confirm ? (
                 <View className="gap-2 rounded-lg bg-wash p-3">
                   <Text className="text-sm text-ink">
-                    {t(confirm === 'restore' ? 'noteHistory.confirmRestore' : 'noteHistory.confirmDelete', {
-                      date: date(selected),
-                    })}
+                    {t(
+                      confirm === 'restore'
+                        ? 'noteHistory.confirmRestore'
+                        : 'noteHistory.confirmDelete',
+                      {
+                        date: date(selected),
+                      },
+                    )}
                   </Text>
                   <View className="flex-row flex-wrap justify-end gap-2">
                     <Button
@@ -121,7 +126,9 @@ export function NoteHistory({
                     />
                     <Button
                       destructive={confirm === 'delete'}
-                      label={t(confirm === 'restore' ? 'noteHistory.restore' : 'noteHistory.delete')}
+                      label={t(
+                        confirm === 'restore' ? 'noteHistory.restore' : 'noteHistory.delete',
+                      )}
                       disabled={m.restore.isPending}
                       onPress={() => {
                         setConfirm(null);
@@ -144,7 +151,10 @@ export function NoteHistory({
                     onPress={() => setConfirm('delete')}
                   />
                   {canEdit && (
-                    <Button label={t('noteHistory.restore')} onPress={() => setConfirm('restore')} />
+                    <Button
+                      label={t('noteHistory.restore')}
+                      onPress={() => setConfirm('restore')}
+                    />
                   )}
                 </View>
               )}
@@ -200,7 +210,11 @@ function VersionDiff({ version, current }: { version: NoteVersion; current: Curr
                 aria-hidden
                 className={cn(
                   'w-3 font-mono text-xs leading-5',
-                  c.type === 'del' ? 'text-danger' : c.type === 'add' ? 'text-ok' : 'text-ink-muted',
+                  c.type === 'del'
+                    ? 'text-danger'
+                    : c.type === 'add'
+                      ? 'text-ok'
+                      : 'text-ink-muted',
                 )}
               >
                 {c.type === 'del' ? '−' : c.type === 'add' ? '+' : ' '}

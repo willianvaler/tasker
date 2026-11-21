@@ -3,6 +3,7 @@
 // ordem e edição na célula. A configuração mora em `pages.config` (JSON). Funções puras, com testes.
 
 import { fold, type Source } from './query/parse';
+import { readTotals, type Totals } from './totals';
 
 export type BaseView = 'table' | 'cards';
 export type BaseSort = { column: string; desc: boolean };
@@ -16,6 +17,8 @@ export type BaseConfig = {
   group: string | null;
   /** Ordem escolhida no cabeçalho (vence a do `ordenar por` da consulta) */
   sort: BaseSort | null;
+  /** Total do rodapé por coluna (VS2) */
+  totals: Totals;
 };
 
 export const TASK_COLUMNS = [
@@ -66,6 +69,7 @@ export function readBaseConfig(raw: unknown): BaseConfig {
       sort && typeof sort.column === 'string' && sort.column
         ? { column: sort.column, desc: sort.desc === true }
         : null,
+    totals: readTotals(o.totals),
   };
 }
 
