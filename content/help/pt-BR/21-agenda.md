@@ -28,6 +28,12 @@ Num **projeto**, num **time** ou no **clã**, o botão **Achar horário** escolh
 
 Escolhido o horário, **Criar compromisso** cria a tarefa com o horário e lembrete 15 min antes: no projeto, numa das listas, com as pessoas como responsáveis; no time e no clã, na sua Caixa de entrada.
 
+## Enquete de horário
+
+Para marcar com quem não está no app: **Configurações → Agenda → Enquetes de horário → Nova enquete**. Dê um título, a duração, um recado se quiser (lugar, link da chamada) e de 2 a 5 horários: toque nos seus horários livres dos próximos dias ou escreva um (`25/11 14:00`, `25/11 às 9`). Mande o **link da enquete**. Quem abre não precisa de conta: põe o nome (o e-mail é opcional), marca os horários que servem, no fuso de quem abre, e pode mudar a resposta enquanto a enquete estiver aberta. A página mostra os nomes de quem já respondeu em cada horário, nunca o e-mail; os e-mails só você vê.
+
+Você recebe um aviso a cada pessoa nova. Na enquete, cada horário mostra quantos podem (o mais votado em destaque); **Fechar neste horário** cria a tarefa com horário na lista da agenda (a mesma das reservas), com quem marcou nas notas, e o link passa a mostrar o horário escolhido com **Adicionar à agenda (.ics)**. Enquanto ainda não houver e-mail no app, avise as pessoas pelo mesmo caminho em que mandou o link. A enquete some 1 ano depois de fechada.
+
 ## Sem internet
 
 Configurar a disponibilidade precisa de conexão. Ela entra na **exportação dos seus dados** e sai junto com a conta.

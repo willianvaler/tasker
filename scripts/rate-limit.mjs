@@ -1,5 +1,5 @@
 // Limite de pedidos por chave (IP) numa janela de tempo, em memória (D311). Serve às rotas
-// anônimas que gravam: reservar, remarcar e cancelar pela página pública da agenda (AG2). Reiniciar
+// anônimas que gravam: reservar, remarcar e cancelar pela página pública da agenda (AG2) e votar na enquete de horário (AG4). Reiniciar
 // o serviço zera a conta, o que basta contra o abuso comum; o banco ainda limita por e-mail e por dia.
 
 /** `hit(chave)` devolve true enquanto a chave estiver dentro do limite. */
@@ -25,4 +25,4 @@ export function createLimiter({ max, windowMs, now = () => Date.now() }) {
 
 /** RPCs anônimas da agenda que gravam (as de leitura passam sem conta). */
 export const BOOKING_WRITES =
-  /^\/supabase\/rest\/v1\/rpc\/(book_slot|reschedule_booking|cancel_booking)(?:\?|$)/;
+  /^\/supabase\/rest\/v1\/rpc\/(book_slot|reschedule_booking|cancel_booking|time_poll_vote)(?:\?|$)/;

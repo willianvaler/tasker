@@ -115,6 +115,8 @@ function RootNavigator() {
       <Stack.Screen name="agenda/[handle]/index" />
       <Stack.Screen name="agenda/[handle]/[type]" />
       <Stack.Screen name="reserva/[token]" />
+      {/* Enquete de horário (AG4): votar sem conta */}
+      <Stack.Screen name="horario/[token]" />
       {/* Política de privacidade: pública (as lojas pedem o endereço) */}
       <Stack.Screen name="privacidade" />
       <Stack.Screen name="termos" />

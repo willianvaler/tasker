@@ -58,6 +58,16 @@ describe('textos das notificações (tela 🔔 e push)', () => {
       'Bia remarcou Conversa para 23/11 09:00',
     );
   });
+  test('enquete de horário (AG4): quem respondeu e abre a enquete', () => {
+    const payload = { guest: 'Caio', title: 'Café', poll_id: 'p1' };
+    expect(describeNotification({ kind: 'poll_vote', payload })).toEqual({
+      text: 'Caio respondeu a enquete "Café"',
+      url: '/enquetes/p1',
+    });
+    expect(describeNotification({ kind: 'poll_vote', payload }, 'en').text).toBe(
+      'Caio answered the poll "Café"',
+    );
+  });
   test('menção', () => {
     expect(
       describeNotification({

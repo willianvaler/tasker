@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import {
   CalendarCheck,
+  Vote,
   CalendarClock,
   LogOut,
   RefreshCw,
@@ -171,6 +172,13 @@ function ProfileForm({ profile }: { profile: Profile }) {
           className="self-start"
           label={t('bookingTypes.title')}
           onPress={() => router.push('/compromissos')}
+        />
+        <Button
+          variant="ghost"
+          icon={Vote}
+          className="self-start"
+          label={t('poll.title')}
+          onPress={() => router.push('/enquetes')}
         />
       </Group>
 

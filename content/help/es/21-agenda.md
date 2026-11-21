@@ -28,6 +28,12 @@ En un **proyecto**, un **equipo** o el **clan**, el botón **Buscar horario** el
 
 Elegido el horario, **Crear cita** crea la tarea con ese horario y aviso 15 min antes: en el proyecto, en una de sus listas, con las personas como responsables; en el equipo y el clan, en tu Bandeja de entrada.
 
+## Encuesta de horario
+
+Para quedar con quien no está en la app: **Configuración → Agenda → Encuestas de horario → Nueva encuesta**. Ponle un título, la duración, un mensaje si quieres (lugar, enlace de la llamada) y de 2 a 5 horarios: toca tus horarios libres de los próximos días o escribe uno (`25/11 14:00`). Manda el **enlace de la encuesta**. Quien lo abre no necesita cuenta: pone el nombre (el correo es opcional), marca los horarios que le sirven, en su propia zona horaria, y puede cambiar la respuesta mientras la encuesta esté abierta. La página muestra los nombres de quien ya respondió en cada horario, nunca el correo; los correos solo los ves tú.
+
+Recibes un aviso por cada persona nueva. En la encuesta, cada horario muestra cuántos pueden (el más votado, destacado); **Cerrar en este horario** crea la tarea con hora en la lista de la agenda (la misma de las reservas), con quien lo marcó en las notas, y el enlace pasa a mostrar el horario elegido con **Añadir al calendario (.ics)**. Mientras la app no envíe correos, avisa a las personas por el mismo camino por el que mandaste el enlace. La encuesta se borra 1 año después de cerrada.
+
 ## Sin conexión
 
 Configurar la disponibilidad necesita conexión. Entra en la **exportación de tus datos** y se borra junto con la cuenta.

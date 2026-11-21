@@ -28,6 +28,12 @@ In a **project**, a **team** or the **clan**, the **Find a time** button picks t
 
 Once you pick a time, **Create appointment** creates the task with that time and a reminder 15 min before: in the project, in one of its lists, with the people as assignees; in a team or the clan, in your Inbox.
 
+## Time poll
+
+To meet with people who aren't on the app: **Settings → Schedule → Time polls → New poll**. Give it a title, the duration, a note if you want (place, call link) and 2 to 5 times: tap your free times for the coming days or type one (`25/11 14:00`, day/month). Send the **poll link**. People who open it don't need an account: they enter their name (email is optional), check the times that work, in their own time zone, and can change their answer while the poll is open. The page shows the names of who already answered each time, never the email; only you see the emails.
+
+You get a notification for each new person. In the poll, each time shows how many can make it (the most voted is highlighted); **Close on this time** creates the task with a time in your schedule list (the same as bookings), with who checked it in the notes, and the link then shows the chosen time with **Add to calendar (.ics)**. Until the app sends email, let people know the same way you sent the link. The poll is deleted 1 year after it closes.
+
 ## Offline
 
 Setting up your availability needs a connection. It is included in **your data export** and is deleted with your account.

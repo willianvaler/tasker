@@ -55,6 +55,7 @@ const TEXT: Record<
         : `${p.guest} reservou ${p.type_name} em ${p.when}`,
     booking_cancelled: (p) => `${p.guest} cancelou ${p.type_name} de ${p.when}`,
     booking_rescheduled: (p) => `${p.guest} remarcou ${p.type_name} para ${p.when}`,
+    poll_vote: (p) => `${p.guest} respondeu a enquete "${p.title}"`,
     other: () => 'Novidade',
   },
   en: {
@@ -97,6 +98,7 @@ const TEXT: Record<
         : `${p.guest} booked ${p.type_name} on ${p.when}`,
     booking_cancelled: (p) => `${p.guest} canceled ${p.type_name} on ${p.when}`,
     booking_rescheduled: (p) => `${p.guest} moved ${p.type_name} to ${p.when}`,
+    poll_vote: (p) => `${p.guest} answered the poll "${p.title}"`,
     other: () => 'News',
   },
   es: {
@@ -140,6 +142,7 @@ const TEXT: Record<
         : `${p.guest} reservó ${p.type_name} el ${p.when}`,
     booking_cancelled: (p) => `${p.guest} canceló ${p.type_name} del ${p.when}`,
     booking_rescheduled: (p) => `${p.guest} cambió ${p.type_name} al ${p.when}`,
+    poll_vote: (p) => `${p.guest} respondió la encuesta "${p.title}"`,
     other: () => 'Novedad',
   },
 };
@@ -268,6 +271,9 @@ export function describeNotification(
         url: p.task_id ? undefined : '/compromissos',
       };
     }
+    case 'poll_vote':
+      // Enquete de horário (AG4): abre a enquete na tela da dona
+      return { text: say('poll_vote'), url: `/enquetes/${p.poll_id}` };
     case 'task_reminder': {
       // Lembrete de tarefa com horário (D206): "⏰ 20/10 15:00 · Ligar para o banco" (10/20 em inglês)
       const [, m, d] = String(p.due_date ?? '').split('-');

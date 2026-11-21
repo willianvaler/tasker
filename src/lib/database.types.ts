@@ -2197,6 +2197,78 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"time_poll_slots": {
+                  Row: {
+                    "id": string,"poll_id": string,"starts_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "id"?: string,"poll_id": string,"starts_at": string
+                  }
+                  Update: {
+                    "id"?: string,"poll_id"?: string,"starts_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "time_poll_slots_poll_id_fkey"
+      columns: ["poll_id"]
+isOneToOne: false
+      referencedRelation: "time_polls"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"time_poll_votes": {
+                  Row: {
+                    "created_at": string,"email": string | null,"id": string,"name": string,"poll_id": string,"slots": (string)[],"updated_at": string,"voter": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"email"?: string | null,"id"?: string,"name": string,"poll_id": string,"slots"?: (string)[],"updated_at"?: string,"voter": string
+                  }
+                  Update: {
+                    "created_at"?: string,"email"?: string | null,"id"?: string,"name"?: string,"poll_id"?: string,"slots"?: (string)[],"updated_at"?: string,"voter"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "time_poll_votes_poll_id_fkey"
+      columns: ["poll_id"]
+isOneToOne: false
+      referencedRelation: "time_polls"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"time_polls": {
+                  Row: {
+                    "chosen_slot": string | null,"closed_at": string | null,"created_at": string,"duration_min": number,"id": string,"note": string | null,"owner_id": string,"status": string,"task_id": string | null,"title": string,"token": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "chosen_slot"?: string | null,"closed_at"?: string | null,"created_at"?: string,"duration_min"?: number,"id"?: string,"note"?: string | null,"owner_id": string,"status"?: string,"task_id"?: string | null,"title": string,"token"?: string
+                  }
+                  Update: {
+                    "chosen_slot"?: string | null,"closed_at"?: string | null,"created_at"?: string,"duration_min"?: number,"id"?: string,"note"?: string | null,"owner_id"?: string,"status"?: string,"task_id"?: string | null,"title"?: string,"token"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "time_polls_chosen_slot_fkey"
+      columns: ["chosen_slot"]
+isOneToOne: false
+      referencedRelation: "time_poll_slots"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "time_polls_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "time_polls_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"timers": {
                   Row: {
                     "config": NonNullable<Json>,"device_id": string | null,"duration_seconds": number | null,"ended_at": string | null,"ends_at": string | null,"id": string,"kind": string,"paused_seconds": number | null,"started_at": string,"state": string,"task_id": string | null,"updated_at": string,"user_id": string
@@ -3135,6 +3207,9 @@ isOneToOne: false
 "clan_invite_preview":
 { Args: { "p_token": string }; Returns: Json
                            },
+"close_time_poll":
+{ Args: { "p_id": string,"p_slot": string }; Returns: string
+                           },
 "community_feed":
 { Args: { "p_kind"?: string,"p_limit"?: number,"p_locale"?: string,"p_mine"?: boolean,"p_offset"?: number,"p_order"?: string,"p_query"?: string }; Returns: {
               "author_name": string,"author_username": string,"created_at": string,"description": string,"icon": string,"id": string,"items": number,"kind": string,"liked": boolean,"likes": number,"locale": string,"mine": boolean,"pages": number,"title": string,"uses": number
@@ -3808,6 +3883,9 @@ isOneToOne: false
 "save_folder_as_template":
 { Args: { "p_folder_id": string,"p_name": string }; Returns: string
                            },
+"save_time_poll":
+{ Args: { "p_duration": number,"p_id": string,"p_note": string,"p_slots": (string)[],"p_title": string }; Returns: string
+                           },
 "send_task_reminders":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
@@ -4013,6 +4091,12 @@ isOneToOne: false
                            },
 "team_role_rank":
 { Args: { "p_role": Database["public"]['Enums']["team_role"] }; Returns: number
+                           },
+"time_poll_public":
+{ Args: { "p_token": string,"p_voter"?: string }; Returns: Json
+                           },
+"time_poll_vote":
+{ Args: { "p_email": string,"p_name": string,"p_slots": (string)[],"p_token": string,"p_voter": string }; Returns: Json
                            },
 "trash_list":
 { Args: Record<PropertyKey, never>; Returns: {
