@@ -182,6 +182,7 @@ export function PageView({ page }: { page: Page | undefined }) {
     expenses: { title: t('page.emptyList') },
     base: { title: t('page.emptyList') },
     canvas: { title: t('page.emptyList') },
+    meeting: { title: t('page.emptyList') },
   }[viewType] ?? { title: t('page.emptyList') };
 
   return (

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { uuidv7 } from '@/lib/uuid';
 
@@ -150,6 +150,46 @@ export function useWorkoutPageIds() {
       return [...new Set(data.map((r) => r.page_id))];
     },
   });
+}
+
+/**
+ * Põe na árvore em cache uma lista que acabou de ser criada, para abrir na hora (sem esperar a
+ * árvore recarregar, que sem conexão não recarrega).
+ */
+export function addPageToTree(
+  queryClient: QueryClient,
+  page: Pick<Page, 'id' | 'folder_id' | 'name' | 'view_type'> & Partial<Page>,
+) {
+  queryClient.setQueryData<Tree>(keys.tree, (data) => {
+    if (!data || data.pages.some((p) => p.id === page.id)) return data;
+    const now = new Date().toISOString();
+    const row = {
+      icon: null,
+      reset_cycle: 'none',
+      is_inbox: false,
+      is_habits: false,
+      position: Date.now(),
+      created_at: now,
+      updated_at: now,
+      updated_by: null,
+      version: 1,
+      manual_cycle: 0,
+      max_depth: null,
+      budget_cents: null,
+      progression: null,
+      train_days: null,
+      config: {},
+      ...page,
+    } as Page;
+    return { ...data, pages: [...data.pages, row] };
+  });
+}
+
+/** Ids das listas de reunião (GP1): os itens da pauta ficam fora das contas do projeto. */
+export function useMeetingPageIds() {
+  const tree = useTree();
+  const ids = (tree.data?.pages ?? []).filter((p) => p.view_type === 'meeting').map((p) => p.id);
+  return new Set(ids);
 }
 
 export function useTreeMutations() {
@@ -315,11 +355,11 @@ export function useTreeMutations() {
 
   const updatePage = useMutation({
     mutationFn: async ({ id, ...patch }: { id: string } & PageSettings) => {
-      if (isLocal()) return localUpdate('pages', id, { ...patch, icon: patch.icon || null });
-      const { error } = await supabase
-        .from('pages')
-        .update({ ...patch, icon: patch.icon || null })
-        .eq('id', id);
+      // Só mexe no ícone quando ele vem: gravar só a configuração (Base, Canvas, reunião) ou a
+      // progressão do treino apagava o ícone da lista
+      const row = 'icon' in patch ? { ...patch, icon: patch.icon || null } : patch;
+      if (isLocal()) return localUpdate('pages', id, row);
+      const { error } = await supabase.from('pages').update(row).eq('id', id);
       if (error) throw error;
     },
     onSettled: () => {

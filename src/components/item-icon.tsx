@@ -6,6 +6,7 @@ import {
   Inbox,
   LayoutGrid,
   List,
+  Presentation,
   Repeat,
   Users,
   Wallet,
@@ -27,7 +28,8 @@ export type ItemKind =
   | 'kanban'
   | 'expenses'
   | 'base'
-  | 'canvas';
+  | 'canvas'
+  | 'meeting';
 
 /** Ícone padrão de cada tipo. */
 export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
@@ -41,6 +43,7 @@ export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
   expenses: Wallet,
   base: Database,
   canvas: Frame,
+  meeting: Presentation,
 };
 
 /**

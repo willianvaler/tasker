@@ -187,6 +187,8 @@ test('achar horário no projeto e criar o compromisso', async ({ page, browser }
     .first()
     .click();
   const title = `Reunião E2E ${Date.now()}`;
+  // No projeto o padrão é criar reunião (GP1); aqui, a tarefa com responsáveis
+  await page.getByRole('radio', { name: 'Tarefa' }).click();
   await page.getByRole('textbox', { name: 'Nome do compromisso' }).fill(title);
   await page.getByRole('button', { name: 'Criar compromisso' }).click();
   await expect(shown(page, 'Compromisso criado')).toBeVisible();

@@ -31,6 +31,8 @@ export const PERMISSIONS = [
   'settings.max_depth',
   // V9: lançar e editar gastos (ver é project.view)
   'expense.write',
+  // V12 (GP1): criar reunião, editar a pauta, conduzir e encerrar
+  'meeting.manage',
 ] as const;
 export type Permission = (typeof PERMISSIONS)[number];
 

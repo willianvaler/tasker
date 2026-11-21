@@ -1,4 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
 import { CalendarSearch } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,11 +12,12 @@ import { DialogFrame } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { formatDuration, groupSlots, localParts } from '@/lib/booking';
+import { readMeeting, writeMeeting } from '@/lib/meeting';
 import { parseQuickInput } from '@/lib/parser/quick';
 import { fetchGroupSlots, type GroupSlots } from '@/lib/queries/booking';
 import { useTimeZone, useToday } from '@/lib/queries/profile';
 import { useCreateTasks, useUpdateTask } from '@/lib/queries/tasks';
-import { useTree } from '@/lib/queries/tree';
+import { addPageToTree, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { uuidv7 } from '@/lib/uuid';
 import { useIsOnline } from '@/providers/online';
 import { useSession } from '@/providers/session';
@@ -35,8 +37,11 @@ export type FindTimePerson = { userId: string; displayName: string };
 export function FindTimeButton({
   people,
   pages,
+  folderId,
 }: {
   people: FindTimePerson[];
+  /** Projeto onde a reunião (GP1) pode ser criada */
+  folderId?: string;
   /** Listas do projeto onde o compromisso pode entrar (sem elas, vai para a Caixa de entrada) */
   pages?: { id: string; name: string }[];
 }) {
@@ -53,7 +58,14 @@ export function FindTimeButton({
         disabled={!online || people.length < 2}
         onPress={() => setOpen(true)}
       />
-      {open && <FindTimeDialog people={people} pages={pages} onClose={() => setOpen(false)} />}
+      {open && (
+        <FindTimeDialog
+          people={people}
+          pages={pages}
+          folderId={folderId}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }
@@ -61,10 +73,12 @@ export function FindTimeButton({
 function FindTimeDialog({
   people,
   pages,
+  folderId,
   onClose,
 }: {
   people: FindTimePerson[];
   pages?: { id: string; name: string }[];
+  folderId?: string;
   onClose: () => void;
 }) {
   const { t } = useTranslation();
@@ -85,6 +99,10 @@ function FindTimeDialog({
   const [slot, setSlot] = useState<string | null>(null);
   const [title, setTitle] = useState(t('findTime.defaultTitle'));
   const [pageId, setPageId] = useState(pages?.[0]?.id ?? null);
+  // No projeto, o compromisso pode nascer como reunião (GP1), com pauta e ata
+  const [asMeeting, setAsMeeting] = useState(!!folderId);
+  const { createPage } = useTreeMutations();
+  const queryClient = useQueryClient();
 
   const search = useMutation({
     mutationFn: () => fetchGroupSlots(chosen, duration, days),
@@ -104,8 +122,33 @@ function FindTimeDialog({
   const target = pages?.length ? pageId : (tree.data?.inbox?.id ?? null);
 
   async function schedule() {
-    if (!slot || !target || !title.trim()) return;
+    if (!slot || !title.trim()) return;
     const { date, time } = localParts(slot, timeZone);
+    if (asMeeting && folderId) {
+      const id = await createPage.mutateAsync({
+        folderId,
+        name: title.trim().slice(0, 100),
+        view_type: 'meeting',
+        config: writeMeeting(null, {
+          ...readMeeting(null),
+          date,
+          time,
+          duration,
+          participants: [...new Set([...(me ? [me] : []), ...chosen])],
+        }),
+      });
+      addPageToTree(queryClient, {
+        id,
+        folder_id: folderId,
+        name: title.trim().slice(0, 100),
+        view_type: 'meeting',
+      });
+      toast({ message: t('findTime.meetingCreated') });
+      onClose();
+      router.push(`/page/${id}`);
+      return;
+    }
+    if (!target) return;
     const id = uuidv7();
     const parsed = parseQuickInput(title.trim(), { today });
     await create.mutateAsync({
@@ -236,7 +279,23 @@ function FindTimeDialog({
                 accessibilityLabel={t('findTime.taskTitle')}
                 placeholder={t('findTime.taskTitle')}
               />
-              {pages && pages.length > 1 && (
+              {folderId && (
+                <View role="radiogroup" aria-label={t('findTime.as')} className="flex-row gap-2">
+                  <Chip
+                    role="radio"
+                    label={t('findTime.asMeeting')}
+                    selected={asMeeting}
+                    onPress={() => setAsMeeting(true)}
+                  />
+                  <Chip
+                    role="radio"
+                    label={t('findTime.asTask')}
+                    selected={!asMeeting}
+                    onPress={() => setAsMeeting(false)}
+                  />
+                </View>
+              )}
+              {!asMeeting && pages && pages.length > 1 && (
                 <View className="gap-1">
                   <Text className="text-sm font-semibold text-ink">{t('findTime.list')}</Text>
                   <View
@@ -257,12 +316,16 @@ function FindTimeDialog({
                 </View>
               )}
               <Text className="text-sm text-ink-muted">
-                {pages?.length ? t('findTime.projectNote') : t('findTime.inboxNote')}
+                {asMeeting
+                  ? t('findTime.meetingNote')
+                  : pages?.length
+                    ? t('findTime.projectNote')
+                    : t('findTime.inboxNote')}
               </Text>
               <Button
                 className="self-start"
                 label={t('findTime.create')}
-                disabled={!title.trim() || !target}
+                disabled={!title.trim() || (!asMeeting && !target)}
                 loading={create.isPending}
                 onPress={() =>
                   void schedule().catch((e: Error) =>

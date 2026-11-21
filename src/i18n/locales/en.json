@@ -455,7 +455,9 @@
     "base": "Base",
     "baseHint": "Table or cards of tasks or notes filtered by a query, with in-cell editing.",
     "canvas": "Canvas",
-    "canvasHint": "Infinite whiteboard with cards for notes, tasks and lists, arrows and groups."
+    "canvasHint": "Infinite whiteboard with cards for notes, tasks and lists, arrows and groups.",
+    "meeting": "Meeting",
+    "meetingHint": "Agenda with time per item, facilitation, minutes and action items that become tasks."
   },
   "profile": {
     "title": "Profile",
@@ -1570,7 +1572,8 @@
     "page_view_progress": "See progress",
     "timer_use": "Use timers",
     "settings_max_depth": "Change the depth limit",
-    "expense_write": "Add and edit expenses"
+    "expense_write": "Add and edit expenses",
+    "meeting_manage": "Create and run meetings"
   },
   "tree": {
     "expand": "Open subtasks of {{title}}",
@@ -4624,6 +4627,86 @@
     "projectNote": "Becomes a task in the list, with the people as assignees and a reminder 15 min before.",
     "inboxNote": "Becomes a task in your Inbox, with a reminder 15 min before.",
     "create": "Create appointment",
-    "created": "Appointment created"
+    "created": "Appointment created",
+    "as": "Create as",
+    "asMeeting": "Meeting",
+    "asTask": "Task",
+    "meetingNote": "Becomes a meeting in the project with these people as participants; you build the agenda there.",
+    "meetingCreated": "Meeting created"
+  },
+  "meeting": {
+    "minutes": {
+      "present": "Present",
+      "absent": "Absent",
+      "agenda": "Agenda",
+      "skipped": "not discussed",
+      "notes": "Notes",
+      "actions": "Action items"
+    },
+    "agenda": "Agenda",
+    "planned": "{{minutes}} of {{total}} min planned",
+    "emptyAgenda": "No agenda items yet.",
+    "itemPlaceholder": "New agenda item (or the name of a project task)",
+    "itemTitle": "Agenda item",
+    "itemMinutes": "Item minutes",
+    "linkTask": "Link to a project task:",
+    "presenter": "Presenter:",
+    "addItem": "Add to agenda",
+    "openItem": "Open {{title}}",
+    "refState": "Task: {{title}} ({{state}})",
+    "taskState": {
+      "open": "open",
+      "started": "in progress",
+      "done": "done"
+    },
+    "status": {
+      "planned": "Planned",
+      "running": "In progress",
+      "done": "Ended"
+    },
+    "noDate": "No date",
+    "date": "Meeting date",
+    "datePlaceholder": "Date: tomorrow, 11/24…",
+    "time": "Time",
+    "timePlaceholder": "Time",
+    "duration": "Duration in minutes",
+    "place": "Place or call link",
+    "placePlaceholder": "Place or call link",
+    "participants": "Participants",
+    "guests": "Outside guests",
+    "guestsPlaceholder": "Guests outside the app (names, comma separated)",
+    "repeat": "Repeat",
+    "repeats": {
+      "none": "Doesn't repeat",
+      "weekly": "Every week",
+      "biweekly": "Every 2 weeks"
+    },
+    "saveDetails": "Save date and place",
+    "whenInvalid": "Didn't get the date or time.",
+    "durationInvalid": "Duration from 5 to 600 minutes.",
+    "begin": "Start meeting",
+    "next": "Next item",
+    "lastDone": "Finish the last item",
+    "end": "End meeting",
+    "endTitle": "End the meeting?",
+    "endMessage": "The agenda and notes become the minutes (a note), and each \"[ ] …\" line becomes a task. After that the meeting is read-only.",
+    "generalNotes": "General notes",
+    "itemNotes": "Notes on {{title}}",
+    "itemNotesPlaceholder": "Notes. One action per line: [ ] send the proposal @Ana by Friday",
+    "present": "Present",
+    "actionsHint": "Each line starting with \"[ ]\" becomes a task when you end, with @name and dates like quick add.",
+    "ended_one": "Meeting ended: minutes ready and {{count}} action item became a task",
+    "ended_other": "Meeting ended: minutes ready and {{count}} action items became tasks",
+    "error": "That didn't work: {{message}}",
+    "fromMeeting": "Action item from {{link}}",
+    "minutesTitle": "Minutes: {{name}} ({{date}})",
+    "after": "After the meeting",
+    "openMinutes": "Open the minutes",
+    "noActions": "No action items came out of this meeting.",
+    "actionElsewhere": "Action item (in another list)",
+    "nextMeeting": "Schedule the next one",
+    "openNext": "Open the next meeting",
+    "prevActions": "Action items from the last meeting",
+    "missingTask": "Deleted task"
   }
 }

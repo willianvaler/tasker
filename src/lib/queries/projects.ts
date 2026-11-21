@@ -20,7 +20,7 @@ import { useSession } from '@/providers/session';
 import { keys } from './keys';
 import type { TaskWithPage } from './tasks';
 import { useReceivedPages } from './shares';
-import { useTree, type Folder, type Tree } from './tree';
+import { useMeetingPageIds, useTree, type Folder, type Tree } from './tree';
 
 export type Role = 'owner' | 'manager' | 'editor' | 'contributor' | 'viewer';
 /** Cargos que se dão a alguém (Dono vem de criar o projeto ou do time). */
@@ -679,9 +679,13 @@ export function useTemplateMutations() {
 /** Tarefas principais do projeto (pasta raiz e subpastas), para o progresso. */
 export function useFolderTasks(root: { id: string; children: { id: string }[] } | undefined) {
   const ids = root ? [root.id, ...root.children.map((c) => c.id)] : [];
+  // Itens de pauta (GP1) não contam no progresso do projeto
+  const meetings = useMeetingPageIds();
   return useQuery({
     queryKey: keys.folderTasks(root?.id ?? ''),
     enabled: !!root,
+    select: (rows: Tables<'tasks'>[]) =>
+      meetings.size ? rows.filter((t) => !meetings.has(t.page_id)) : rows,
     queryFn: async () => {
       if (isLocal())
         return (

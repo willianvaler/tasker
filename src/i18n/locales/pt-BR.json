@@ -455,7 +455,9 @@
     "base": "Base",
     "baseHint": "Tabela ou cartões de tarefas ou anotações filtradas por uma consulta, com edição na célula.",
     "canvas": "Canvas",
-    "canvasHint": "Quadro branco infinito com cartões de anotações, tarefas e listas, setas e grupos."
+    "canvasHint": "Quadro branco infinito com cartões de anotações, tarefas e listas, setas e grupos.",
+    "meeting": "Reunião",
+    "meetingHint": "Pauta com tempo por item, condução, ata e ações que viram tarefas."
   },
   "profile": {
     "title": "Perfil",
@@ -1570,7 +1572,8 @@
     "page_view_progress": "Ver o progresso",
     "timer_use": "Usar timers",
     "settings_max_depth": "Mudar o limite de níveis",
-    "expense_write": "Lançar e editar gastos"
+    "expense_write": "Lançar e editar gastos",
+    "meeting_manage": "Criar e conduzir reuniões"
   },
   "tree": {
     "expand": "Abrir subtarefas de {{title}}",
@@ -4624,6 +4627,86 @@
     "projectNote": "Vira uma tarefa na lista, com as pessoas como responsáveis e lembrete 15 min antes.",
     "inboxNote": "Vira uma tarefa na sua Caixa de entrada, com lembrete 15 min antes.",
     "create": "Criar compromisso",
-    "created": "Compromisso criado"
+    "created": "Compromisso criado",
+    "as": "Criar como",
+    "asMeeting": "Reunião",
+    "asTask": "Tarefa",
+    "meetingNote": "Vira uma reunião no projeto, com essas pessoas como participantes; a pauta você monta lá.",
+    "meetingCreated": "Reunião criada"
+  },
+  "meeting": {
+    "minutes": {
+      "present": "Presentes",
+      "absent": "Ausentes",
+      "agenda": "Pauta",
+      "skipped": "não discutido",
+      "notes": "Anotações",
+      "actions": "Ações"
+    },
+    "agenda": "Pauta",
+    "planned": "{{minutes}} de {{total}} min previstos",
+    "emptyAgenda": "Nenhum item na pauta ainda.",
+    "itemPlaceholder": "Novo item da pauta (ou o nome de uma tarefa do projeto)",
+    "itemTitle": "Item da pauta",
+    "itemMinutes": "Minutos do item",
+    "linkTask": "Ligar a uma tarefa do projeto:",
+    "presenter": "Quem apresenta:",
+    "addItem": "Adicionar à pauta",
+    "openItem": "Abrir {{title}}",
+    "refState": "Tarefa: {{title}} ({{state}})",
+    "taskState": {
+      "open": "aberta",
+      "started": "em andamento",
+      "done": "feita"
+    },
+    "status": {
+      "planned": "Planejada",
+      "running": "Em andamento",
+      "done": "Encerrada"
+    },
+    "noDate": "Sem data",
+    "date": "Data da reunião",
+    "datePlaceholder": "Data: amanhã, 24/11…",
+    "time": "Hora",
+    "timePlaceholder": "Hora",
+    "duration": "Duração em minutos",
+    "place": "Lugar ou link da chamada",
+    "placePlaceholder": "Lugar ou link da chamada",
+    "participants": "Participantes",
+    "guests": "Convidados de fora",
+    "guestsPlaceholder": "Convidados de fora do app (nomes, separados por vírgula)",
+    "repeat": "Repetir",
+    "repeats": {
+      "none": "Não repete",
+      "weekly": "Toda semana",
+      "biweekly": "A cada 2 semanas"
+    },
+    "saveDetails": "Salvar data e lugar",
+    "whenInvalid": "Não entendi a data ou a hora.",
+    "durationInvalid": "Duração de 5 a 600 minutos.",
+    "begin": "Começar reunião",
+    "next": "Próximo item",
+    "lastDone": "Concluir o último item",
+    "end": "Encerrar reunião",
+    "endTitle": "Encerrar a reunião?",
+    "endMessage": "A pauta e as anotações viram a ata (uma anotação), e cada linha \"[ ] …\" vira uma tarefa. Depois disso a reunião fica só para leitura.",
+    "generalNotes": "Anotações gerais",
+    "itemNotes": "Anotações de {{title}}",
+    "itemNotesPlaceholder": "Anotações. Uma ação por linha: [ ] mandar a proposta @Ana até sexta",
+    "present": "Presentes",
+    "actionsHint": "Cada linha que começa com \"[ ]\" vira uma tarefa ao encerrar, com @nome e data como na escrita rápida.",
+    "ended_one": "Reunião encerrada: ata pronta e {{count}} ação virou tarefa",
+    "ended_other": "Reunião encerrada: ata pronta e {{count}} ações viraram tarefas",
+    "error": "Não deu certo: {{message}}",
+    "fromMeeting": "Ação da reunião {{link}}",
+    "minutesTitle": "Ata: {{name}} ({{date}})",
+    "after": "Depois da reunião",
+    "openMinutes": "Abrir a ata",
+    "noActions": "Nenhuma ação saiu desta reunião.",
+    "actionElsewhere": "Ação (em outra lista)",
+    "nextMeeting": "Marcar a próxima",
+    "openNext": "Abrir a próxima reunião",
+    "prevActions": "Ações da última reunião",
+    "missingTask": "Tarefa apagada"
   }
 }

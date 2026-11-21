@@ -108,7 +108,7 @@ export async function createPage(
   }: {
     folder: string;
     name: string;
-    type: 'Lista' | 'Cards' | 'Hábitos' | 'Gastos' | 'Base' | 'Canvas';
+    type: 'Lista' | 'Cards' | 'Hábitos' | 'Gastos' | 'Base' | 'Canvas' | 'Reunião';
   },
 ) {
   await openTab(page, 'Pastas');
@@ -127,6 +127,7 @@ export async function createPage(
     Gastos: 'Gastos',
     Base: 'Base',
     Canvas: 'Canvas',
+    Reunião: 'Reunião',
   }[type];
   await page.getByRole('radio', { name: new RegExp(label) }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();

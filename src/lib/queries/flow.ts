@@ -8,6 +8,7 @@ import { useProjectDependencies } from './dependencies';
 import { usePageDeps } from './page-deps';
 import { useAssignees, useMembers } from './projects';
 import type { FolderNode } from './tree';
+import { useMeetingPageIds } from './tree';
 
 export type ProjectTask = FlowTask & {
   folder_id: string;
@@ -27,8 +28,12 @@ const COLUMNS =
  */
 export function useProjectAllTasks(root: Pick<FolderNode, 'id' | 'children'> | undefined) {
   const ids = root ? [root.id, ...root.children.map((c) => c.id)] : [];
+  // Itens de pauta (GP1) não são tarefas do projeto: ficam fora do Fluxo, do Gantt e de Pessoas
+  const meetings = useMeetingPageIds();
   return useQuery({
     queryKey: ['tasks', 'project-all', root?.id ?? ''],
+    select: (rows: ProjectTask[]) =>
+      meetings.size ? rows.filter((t) => !meetings.has(t.page_id)) : rows,
     enabled: !!root,
     networkMode: isLocal() ? 'always' : 'online',
     queryFn: async (): Promise<ProjectTask[]> => {

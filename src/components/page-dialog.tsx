@@ -12,11 +12,12 @@ import type { ItemKind } from '@/components/item-icon';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
+import { useSession } from '@/providers/session';
 import { Text } from '@/components/ui/text';
 import type { Page, PageSettings } from '@/lib/queries/tree';
 
 /** Tipos que não guardam tarefas (Gastos, Base, Canvas): só ao criar, e não viram outro tipo */
-const SPECIAL = ['expenses', 'base', 'canvas'] as const;
+const SPECIAL = ['expenses', 'base', 'canvas', 'meeting'] as const;
 const isSpecial = (v: Page['view_type'] | undefined) =>
   !!v && (SPECIAL as readonly string[]).includes(v);
 
@@ -28,6 +29,7 @@ const VIEW_TYPES = [
   { value: 'expenses', label: 'pageDialog.expenses', hint: 'pageDialog.expensesHint' },
   { value: 'base', label: 'pageDialog.base', hint: 'pageDialog.baseHint' },
   { value: 'canvas', label: 'pageDialog.canvas', hint: 'pageDialog.canvasHint' },
+  { value: 'meeting', label: 'pageDialog.meeting', hint: 'pageDialog.meetingHint' },
 ] as const satisfies readonly { value: Page['view_type']; label: string; hint: string }[];
 
 const RESET_CYCLES = [
@@ -56,6 +58,7 @@ export function PageDialog({
   onClose: () => void;
 }) {
   const { t } = useTranslation();
+  const { session } = useSession();
   const [name, setName] = useState(initial?.name ?? '');
   const [icon, setIcon] = useState(initial?.icon ?? '');
   const [viewType, setViewType] = useState<Page['view_type']>(initial?.view_type ?? 'list');
@@ -87,7 +90,10 @@ export function PageDialog({
         ? { config: { query: t('base.defaultQuery'), view: 'table' } }
         : !initial?.name && viewType === 'canvas'
           ? { config: { nodes: [], edges: [] } }
-          : {}),
+          : !initial?.name && viewType === 'meeting'
+            ? // Reunião (GP1): quem cria já participa
+              { config: { meeting: { participants: session?.user.id ? [session.user.id] : [] } } }
+            : {}),
     });
   }
 

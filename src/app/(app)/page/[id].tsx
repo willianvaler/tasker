@@ -25,6 +25,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { ExpensesView } from '@/components/expenses/expenses-view';
 import { BaseView } from '@/components/base-view';
 import { CanvasView } from '@/components/canvas/canvas-view';
+import { MeetingView } from '@/components/meeting/meeting-view';
 import { usePageMode } from '@/components/tasks/page-mode';
 import { PageView } from '@/components/tasks/page-view';
 import { Text } from '@/components/ui/text';
@@ -284,6 +285,8 @@ export default function PageScreen() {
         <BaseView page={page} />
       ) : page?.view_type === 'canvas' ? (
         <CanvasView page={page} />
+      ) : page?.view_type === 'meeting' ? (
+        <MeetingView page={page} />
       ) : (
         <PageView page={page} />
       )}

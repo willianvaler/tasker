@@ -228,6 +228,7 @@ export default function FolderScreen() {
                 <View className="mt-4">
                   <FindTimeButton
                     people={members.data ?? []}
+                    folderId={actorCan(actor, 'meeting.manage') ? folder.id : undefined}
                     pages={folder.pages
                       .filter((pg) => pg.view_type === 'list' || pg.view_type === 'cards')
                       .map((pg) => ({ id: pg.id, name: pg.name }))}

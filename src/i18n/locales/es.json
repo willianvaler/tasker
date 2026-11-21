@@ -455,7 +455,9 @@
     "base": "Base",
     "baseHint": "Tabla o tarjetas de tareas o notas filtradas por una consulta, con edición en la celda.",
     "canvas": "Canvas",
-    "canvasHint": "Pizarra infinita con tarjetas de notas, tareas y listas, flechas y grupos."
+    "canvasHint": "Pizarra infinita con tarjetas de notas, tareas y listas, flechas y grupos.",
+    "meeting": "Reunión",
+    "meetingHint": "Orden del día con tiempo por punto, conducción, acta y acciones que se vuelven tareas."
   },
   "profile": {
     "title": "Perfil",
@@ -1570,7 +1572,8 @@
     "page_view_progress": "Ver el progreso",
     "timer_use": "Usar temporizadores",
     "settings_max_depth": "Cambiar el límite de niveles",
-    "expense_write": "Registrar y editar gastos"
+    "expense_write": "Registrar y editar gastos",
+    "meeting_manage": "Crear y conducir reuniones"
   },
   "tree": {
     "expand": "Abrir subtareas de {{title}}",
@@ -4624,6 +4627,86 @@
     "projectNote": "Se vuelve una tarea en la lista, con las personas como responsables y aviso 15 min antes.",
     "inboxNote": "Se vuelve una tarea en tu Bandeja de entrada, con aviso 15 min antes.",
     "create": "Crear cita",
-    "created": "Cita creada"
+    "created": "Cita creada",
+    "as": "Crear como",
+    "asMeeting": "Reunión",
+    "asTask": "Tarea",
+    "meetingNote": "Se vuelve una reunión en el proyecto, con estas personas como participantes; el orden del día lo armas allí.",
+    "meetingCreated": "Reunión creada"
+  },
+  "meeting": {
+    "minutes": {
+      "present": "Presentes",
+      "absent": "Ausentes",
+      "agenda": "Orden del día",
+      "skipped": "no se trató",
+      "notes": "Notas",
+      "actions": "Acciones"
+    },
+    "agenda": "Orden del día",
+    "planned": "{{minutes}} de {{total}} min previstos",
+    "emptyAgenda": "Ningún punto en el orden del día todavía.",
+    "itemPlaceholder": "Nuevo punto (o el nombre de una tarea del proyecto)",
+    "itemTitle": "Punto del orden del día",
+    "itemMinutes": "Minutos del punto",
+    "linkTask": "Vincular a una tarea del proyecto:",
+    "presenter": "Quién presenta:",
+    "addItem": "Añadir al orden del día",
+    "openItem": "Abrir {{title}}",
+    "refState": "Tarea: {{title}} ({{state}})",
+    "taskState": {
+      "open": "abierta",
+      "started": "en curso",
+      "done": "hecha"
+    },
+    "status": {
+      "planned": "Planificada",
+      "running": "En curso",
+      "done": "Terminada"
+    },
+    "noDate": "Sin fecha",
+    "date": "Fecha de la reunión",
+    "datePlaceholder": "Fecha: mañana, 24/11…",
+    "time": "Hora",
+    "timePlaceholder": "Hora",
+    "duration": "Duración en minutos",
+    "place": "Lugar o enlace de la llamada",
+    "placePlaceholder": "Lugar o enlace de la llamada",
+    "participants": "Participantes",
+    "guests": "Invitados de fuera",
+    "guestsPlaceholder": "Invitados fuera de la app (nombres, separados por coma)",
+    "repeat": "Repetir",
+    "repeats": {
+      "none": "No se repite",
+      "weekly": "Cada semana",
+      "biweekly": "Cada 2 semanas"
+    },
+    "saveDetails": "Guardar fecha y lugar",
+    "whenInvalid": "No entendí la fecha o la hora.",
+    "durationInvalid": "Duración de 5 a 600 minutos.",
+    "begin": "Empezar reunión",
+    "next": "Siguiente punto",
+    "lastDone": "Terminar el último punto",
+    "end": "Terminar reunión",
+    "endTitle": "¿Terminar la reunión?",
+    "endMessage": "El orden del día y las notas se vuelven el acta (una nota), y cada línea \"[ ] …\" se vuelve una tarea. Después la reunión queda solo para lectura.",
+    "generalNotes": "Notas generales",
+    "itemNotes": "Notas de {{title}}",
+    "itemNotesPlaceholder": "Notas. Una acción por línea: [ ] enviar la propuesta @Ana hasta el viernes",
+    "present": "Presentes",
+    "actionsHint": "Cada línea que empieza con \"[ ]\" se vuelve una tarea al terminar, con @nombre y fecha como en la escritura rápida.",
+    "ended_one": "Reunión terminada: acta lista y {{count}} acción se volvió tarea",
+    "ended_other": "Reunión terminada: acta lista y {{count}} acciones se volvieron tareas",
+    "error": "No salió bien: {{message}}",
+    "fromMeeting": "Acción de la reunión {{link}}",
+    "minutesTitle": "Acta: {{name}} ({{date}})",
+    "after": "Después de la reunión",
+    "openMinutes": "Abrir el acta",
+    "noActions": "Ninguna acción salió de esta reunión.",
+    "actionElsewhere": "Acción (en otra lista)",
+    "nextMeeting": "Agendar la próxima",
+    "openNext": "Abrir la próxima reunión",
+    "prevActions": "Acciones de la última reunión",
+    "missingTask": "Tarea borrada"
   }
 }

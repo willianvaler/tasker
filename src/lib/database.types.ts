@@ -4026,7 +4026,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban"|"expenses"|"base"|"canvas","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
+            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban"|"expenses"|"base"|"canvas"|"meeting","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -4146,7 +4146,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban", "expenses", "base", "canvas"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
+            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban", "expenses", "base", "canvas", "meeting"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
           }
         }
 } as const
