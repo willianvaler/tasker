@@ -31,6 +31,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   // Links [[...]] (OB1): o "Citado em" acompanha o que outra pessoa escreve no projeto
   links: [['links']],
   milestones: [['milestones']],
+  // Linha de base do Gantt (GP2)
+  baselines: [['baselines']],
   task_dependencies: [keys.tasks, ['dependencies']],
   page_dependencies: [keys.tasks, ['dependencies'], ['page-dependencies']],
   bosses: [keys.game, ['project-boss'], ['board']],

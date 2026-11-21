@@ -8,6 +8,8 @@ import { Text } from '@/components/ui/text';
 import { buildFlow } from '@/lib/flow-graph';
 import { bottlenecks, overdueByPerson } from '@/lib/flow-stats';
 import { actorCan } from '@/lib/permissions';
+import { compareBaseline } from '@/lib/baseline';
+import { useBaselines } from '@/lib/queries/baselines';
 import { useProjectFlow } from '@/lib/queries/flow';
 import { useToday } from '@/lib/queries/profile';
 import { useFolderActor } from '@/lib/queries/projects';
@@ -37,7 +39,11 @@ export function FlowIndicators({ root }: { root: FolderNode }) {
     },
   });
 
+  // Linha de base (GP2): o atraso em relação à mais nova
+  const baselines = useBaselines(root.id);
   if (data.loading) return null;
+  const latest = baselines.data?.at(-1);
+  const plan = latest ? compareBaseline([...data.tasks.values()], latest.items) : null;
   const holding = bottlenecks(data.tasks, data.deps, { outside: data.outside });
   const critical = buildFlow({
     tasks: data.tasks,
@@ -50,7 +56,7 @@ export function FlowIndicators({ root }: { root: FolderNode }) {
   const times = (['waiting', 'to_start', 'doing'] as const).filter(
     (k) => (stats.data?.[k]?.count ?? 0) > 0 && stats.data?.[k]?.minutes != null,
   );
-  if (!holding.length && !critical?.minutes && !late.length && !times.length) return null;
+  if (!holding.length && !critical?.minutes && !late.length && !times.length && !plan) return null;
 
   return (
     <View role="region" aria-label={t('indicators.title')}>
@@ -86,6 +92,17 @@ export function FlowIndicators({ root }: { root: FolderNode }) {
           <Text className="text-sm text-ink">
             {t('indicators.late')}{' '}
             {late.map((l) => `${l.name || t('people.unassigned')} ${l.count}`).join(' · ')}
+          </Text>
+        )}
+        {latest && plan && (
+          <Text className="text-sm text-ink">
+            {plan.late
+              ? t('baseline.indicator', {
+                  name: latest.name,
+                  count: plan.late,
+                  days: plan.totalDelay,
+                })
+              : t('baseline.indicatorOk', { name: latest.name })}
           </Text>
         )}
         {times.length > 0 && (

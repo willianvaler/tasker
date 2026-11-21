@@ -6,7 +6,8 @@ import Svg, { Path } from 'react-native-svg';
 
 import { openTask } from '@/components/project/flow-parts';
 import { Chip } from '@/components/ui/chip';
-import { ActionMenu, useDialog } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { ActionMenu, ConfirmDialog, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
@@ -20,6 +21,8 @@ import {
 } from '@/lib/gantt';
 import { addDays, formatMonthYear, formatShortDate, weekdayOf } from '@/lib/parser/dates';
 import { actorCan } from '@/lib/permissions';
+import { compareBaseline, delayLabel } from '@/lib/baseline';
+import { useBaselineActions, useBaselines } from '@/lib/queries/baselines';
 import { useProjectDependencies } from '@/lib/queries/dependencies';
 import { useProjectAllTasks } from '@/lib/queries/flow';
 import { useToday } from '@/lib/queries/profile';
@@ -57,6 +60,13 @@ export function GanttView({ root }: { root: FolderNode }) {
   const [menu, setMenu, closeMenu] = useDialog<GanttRow>();
   // O clique que termina um arrasto não abre o menu
   const droppedAt = useRef(0);
+  // Linha de base (GP2): salvar quem mexe na estrutura; comparar, qualquer um do projeto
+  const baselines = useBaselines(root.id);
+  const baselineActions = useBaselineActions(root.id);
+  const canBaseline = useCanWrite(root.id) && actorCan(actor, 'page.manage');
+  const [compareId, setCompareId] = useState<string | null>(null);
+  const [naming, setNaming] = useState(false);
+  const [removing, setRemoving] = useState(false);
 
   if (tasks.isPending || deps.isPending) return null;
   const pageOrder = [...root.pages, ...root.children.flatMap((c) => c.pages)].map((p) => p.id);
@@ -100,6 +110,8 @@ export function GanttView({ root }: { root: FolderNode }) {
   const todayX = diffDays(plan.from, today) * dayW + dayW / 2;
   const arrows = ganttArrows(plan.rows, links);
   const days = Array.from({ length: plan.days }, (_, i) => addDays(plan.from, i));
+  const compared = baselines.data?.find((b) => b.id === compareId) ?? null;
+  const diff = compared ? compareBaseline(tasks.data ?? [], compared.items) : null;
 
   return (
     <View className="gap-4">
@@ -117,6 +129,57 @@ export function GanttView({ root }: { root: FolderNode }) {
           {writable ? t('gantt.hint') : t('gantt.readOnly')}
         </Text>
       </View>
+
+      {(canBaseline || (baselines.data?.length ?? 0) > 0) && (
+        <View className="gap-2">
+          <View className="flex-row flex-wrap items-center gap-2">
+            <Text className="text-sm font-semibold text-ink">{t('baseline.title')}</Text>
+            {baselines.data?.map((b) => (
+              <Chip
+                key={b.id}
+                role="checkbox"
+                label={`${b.name} · ${formatShortDate(b.created_at.slice(0, 10))}`}
+                selected={compareId === b.id}
+                onPress={() => setCompareId(compareId === b.id ? null : b.id)}
+              />
+            ))}
+            {canBaseline && (
+              <Button
+                variant="ghost"
+                label={t('baseline.save')}
+                disabled={(baselines.data?.length ?? 0) >= 5}
+                loading={baselineActions.save.isPending}
+                onPress={() => setNaming(true)}
+              />
+            )}
+            {canBaseline && compared && (
+              <Button
+                variant="ghost"
+                destructive
+                label={t('baseline.delete')}
+                onPress={() => setRemoving(true)}
+              />
+            )}
+          </View>
+          {diff ? (
+            <Text className="text-sm text-ink" accessibilityLiveRegion="polite">
+              {[
+                diff.late
+                  ? t('baseline.late', { count: diff.late, days: diff.totalDelay })
+                  : t('baseline.onPlan'),
+                diff.added.length ? t('baseline.added', { count: diff.added.length }) : null,
+                diff.removed.length ? t('baseline.removed', { count: diff.removed.length }) : null,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+            </Text>
+          ) : (
+            <Text className="text-sm text-ink-muted">
+              {(baselines.data?.length ?? 0) >= 5 ? t('baseline.full') : t('baseline.hint')}
+            </Text>
+          )}
+        </View>
+      )}
 
       {plan.rows.length > 0 && (
         <View className="flex-row rounded border border-line">
@@ -225,6 +288,46 @@ export function GanttView({ root }: { root: FolderNode }) {
                   );
                 })}
               </Svg>
+              {/* Linha de base (GP2): a barra do plano, fina e apagada, embaixo da atual */}
+              {diff &&
+                plan.rows.map((row, i) => {
+                  const base = diff.byTask.get(row.task.id);
+                  if (!base) return null;
+                  const current = span(row);
+                  return (
+                    <View key={`base-${row.task.id}`} pointerEvents="none">
+                      <View
+                        style={{
+                          position: 'absolute',
+                          left: diffDays(plan.from, base.start) * dayW,
+                          width: (diffDays(base.start, base.end) + 1) * dayW,
+                          top: HEAD + i * ROW + ROW - 7,
+                          height: 4,
+                        }}
+                        className="rounded bg-ink-muted/40"
+                      />
+                      {base.delay !== 0 && (
+                        <Text
+                          style={{
+                            position: 'absolute',
+                            left: current.left + current.width + 4,
+                            top: HEAD + i * ROW + ROW / 2 - 9,
+                          }}
+                          className={cn(
+                            'text-xs',
+                            base.delay > 0 ? 'text-danger' : 'text-ink-muted',
+                          )}
+                          accessibilityLabel={t('baseline.delayLabel', {
+                            title: row.task.title,
+                            label: delayLabel(base.delay),
+                          })}
+                        >
+                          {delayLabel(base.delay)}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
               {plan.rows.map((row, i) => (
                 <Bar
                   key={row.task.id}
@@ -272,6 +375,46 @@ export function GanttView({ root }: { root: FolderNode }) {
           </View>
           {writable && <Text className="text-sm text-ink-muted">{t('gantt.undatedHint')}</Text>}
         </View>
+      )}
+
+      {naming && (
+        <PromptDialog
+          title={t('baseline.save')}
+          message={t('baseline.saveMessage')}
+          fields={[
+            {
+              key: 'name',
+              placeholder: t('baseline.namePlaceholder'),
+              initial: t('baseline.defaultName'),
+              maxLength: 80,
+            },
+          ]}
+          onClose={() => setNaming(false)}
+          onConfirm={({ name }) => {
+            setNaming(false);
+            baselineActions.save
+              .mutateAsync(name)
+              .then((id) => {
+                setCompareId(id);
+                toast({ message: t('baseline.saved') });
+              })
+              .catch((err: Error) => toast({ message: err.message }));
+          }}
+        />
+      )}
+      {removing && compared && (
+        <ConfirmDialog
+          title={t('baseline.deleteTitle', { name: compared.name })}
+          message={t('baseline.deleteMessage')}
+          confirmLabel={t('baseline.delete')}
+          destructive
+          onClose={() => setRemoving(false)}
+          onConfirm={() => {
+            setRemoving(false);
+            setCompareId(null);
+            baselineActions.remove.mutate(compared.id);
+          }}
+        />
       )}
 
       {menu && (

@@ -4708,5 +4708,29 @@
     "openNext": "Open the next meeting",
     "prevActions": "Action items from the last meeting",
     "missingTask": "Deleted task"
+  },
+  "baseline": {
+    "title": "Baseline:",
+    "save": "Save baseline",
+    "saveMessage": "Stores each task's current dates, to compare later what slipped. Up to 5 per project.",
+    "namePlaceholder": "Name (e.g. Approved plan)",
+    "defaultName": "Plan",
+    "saved": "Baseline saved",
+    "delete": "Delete this baseline",
+    "deleteTitle": "Delete \"{{name}}\"?",
+    "deleteMessage": "Tasks don't change; only the snapshot of the plan goes away.",
+    "hint": "Tap a baseline to compare: the thin bar below is the plan.",
+    "full": "There are already 5 baselines: delete one to save another.",
+    "onPlan": "No task slipped against the plan",
+    "late_one": "{{count}} task slipped against the plan (+{{days}} d in total)",
+    "late_other": "{{count}} tasks slipped against the plan (+{{days}} d in total)",
+    "added_one": "{{count}} added later",
+    "added_other": "{{count}} added later",
+    "removed_one": "{{count}} removed",
+    "removed_other": "{{count}} removed",
+    "delayLabel": "{{title}}: {{label}} against the plan",
+    "indicator_one": "Against \"{{name}}\": {{count}} task slipped (+{{days}} d)",
+    "indicator_other": "Against \"{{name}}\": {{count}} tasks slipped (+{{days}} d in total)",
+    "indicatorOk": "On track with \"{{name}}\""
   }
 }

@@ -4708,5 +4708,29 @@
     "openNext": "Abrir la próxima reunión",
     "prevActions": "Acciones de la última reunión",
     "missingTask": "Tarea borrada"
+  },
+  "baseline": {
+    "title": "Línea base:",
+    "save": "Guardar línea base",
+    "saveMessage": "Guarda las fechas actuales de cada tarea, para comparar después qué se atrasó. Hasta 5 por proyecto.",
+    "namePlaceholder": "Nombre (ej.: Plan aprobado)",
+    "defaultName": "Plan",
+    "saved": "Línea base guardada",
+    "delete": "Borrar esta línea base",
+    "deleteTitle": "¿Borrar \"{{name}}\"?",
+    "deleteMessage": "Las tareas no cambian; solo desaparece la foto del plan.",
+    "hint": "Toca una línea base para comparar: la barra fina de abajo es el plan.",
+    "full": "Ya hay 5 líneas base: borra una para guardar otra.",
+    "onPlan": "Ninguna tarea se atrasó respecto al plan",
+    "late_one": "{{count}} tarea se atrasó respecto al plan (+{{days}} d en total)",
+    "late_other": "{{count}} tareas se atrasaron respecto al plan (+{{days}} d en total)",
+    "added_one": "{{count}} entró después",
+    "added_other": "{{count}} entraron después",
+    "removed_one": "{{count}} salió",
+    "removed_other": "{{count}} salieron",
+    "delayLabel": "{{title}}: {{label}} respecto al plan",
+    "indicator_one": "Respecto a \"{{name}}\": {{count}} tarea se atrasó (+{{days}} d)",
+    "indicator_other": "Respecto a \"{{name}}\": {{count}} tareas se atrasaron (+{{days}} d en total)",
+    "indicatorOk": "Al día con \"{{name}}\""
   }
 }

@@ -229,6 +229,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"baselines": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"folder_id": string,"id": string,"items": NonNullable<Json>,"name": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id": string,"id"?: string,"items"?: NonNullable<Json>,"name": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id"?: string,"id"?: string,"items"?: NonNullable<Json>,"name"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "baselines_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "baselines_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"body_goals": {
                   Row: {
                     "id": string,"kind": string,"target": number,"updated_at": string,"user_id": string
@@ -3739,6 +3765,9 @@ isOneToOne: false
                            },
 "run_overdue_automations":
 { Args: Record<PropertyKey, never>; Returns: number
+                           },
+"save_baseline":
+{ Args: { "p_name": string,"p_root": string }; Returns: string
                            },
 "save_folder_as_template":
 { Args: { "p_folder_id": string,"p_name": string }; Returns: string

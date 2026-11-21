@@ -4708,5 +4708,29 @@
     "openNext": "Abrir a próxima reunião",
     "prevActions": "Ações da última reunião",
     "missingTask": "Tarefa apagada"
+  },
+  "baseline": {
+    "title": "Linha de base:",
+    "save": "Salvar linha de base",
+    "saveMessage": "Guarda as datas de agora de cada tarefa, para comparar depois o que atrasou. Até 5 por projeto.",
+    "namePlaceholder": "Nome (ex.: Plano aprovado)",
+    "defaultName": "Plano",
+    "saved": "Linha de base salva",
+    "delete": "Apagar esta linha de base",
+    "deleteTitle": "Apagar \"{{name}}\"?",
+    "deleteMessage": "As tarefas não mudam; só a foto do plano some.",
+    "hint": "Toque numa linha de base para comparar: a barra fina embaixo é o plano.",
+    "full": "Já são 5 linhas de base: apague uma para salvar outra.",
+    "onPlan": "Nenhuma tarefa atrasou em relação ao plano",
+    "late_one": "{{count}} tarefa atrasou em relação ao plano (+{{days}} d no total)",
+    "late_other": "{{count}} tarefas atrasaram em relação ao plano (+{{days}} d no total)",
+    "added_one": "{{count}} entrou depois",
+    "added_other": "{{count}} entraram depois",
+    "removed_one": "{{count}} saiu",
+    "removed_other": "{{count}} saíram",
+    "delayLabel": "{{title}}: {{label}} em relação ao plano",
+    "indicator_one": "Em relação a \"{{name}}\": {{count}} tarefa atrasou (+{{days}} d)",
+    "indicator_other": "Em relação a \"{{name}}\": {{count}} tarefas atrasaram (+{{days}} d no total)",
+    "indicatorOk": "Em dia com \"{{name}}\""
   }
 }
