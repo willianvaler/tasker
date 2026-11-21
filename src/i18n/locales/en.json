@@ -3639,7 +3639,9 @@
     "bottomBar": "Bottom bar (phone)",
     "bottomBarHint": "Today and More stay put. Pick the two in the middle; the rest lives in More.",
     "slotLeft": "Left of +",
-    "slotRight": "Right of +"
+    "slotRight": "Right of +",
+    "agenda": "Schedule",
+    "agendaHint": "The hours when you accept appointments. The booking page and \"Find a time\" will use them."
   },
   "plan": {
     "eyebrow": "Dates, Inbox and the week",
@@ -4446,5 +4448,41 @@
     "early": "Starts before a prerequisite ends",
     "dragStart": "Drag the start of {{title}}",
     "dragEnd": "Drag the end of {{title}}"
+  },
+  "availability": {
+    "title": "Availability",
+    "intro": "The hours when you accept appointments, in your time zone. For now they are only saved: soon the booking page and \"Find a time\" will use them, showing others only free or busy.",
+    "loadError": "Couldn't load your availability. Check your connection.",
+    "week": "Week",
+    "weekHint": "One or more ranges per day, like 9-12, 14-18. Leave a day empty for no hours.",
+    "dayLabel": "Hours on {{day}}",
+    "closed": "No hours",
+    "dayInvalid": "Didn't get that. Write it like 9-12 or 9:00–12:00, 14:00–18:00.",
+    "copyMonday": "Copy Monday to weekdays",
+    "weekTotal": "{{hours}} h per week",
+    "weekEmpty": "No hours this week.",
+    "offline": "Offline: setting up your schedule needs internet.",
+    "saved": "Availability saved",
+    "saveError": "Couldn't save: {{message}}",
+    "preview": "Next 7 days",
+    "unavailable": "Unavailable",
+    "exceptions": "Exceptions",
+    "exceptionsHint": "Day off, a trip or an outside commitment: those days become unavailable, or only the hours, if you write them (14-16).",
+    "noExceptions": "No exceptions yet.",
+    "range": "{{from}} to {{to}}",
+    "wholeDay": "all day",
+    "removeException": "Remove the exception {{what}}",
+    "from": "From (date)",
+    "fromPlaceholder": "From: 12/24, Friday…",
+    "to": "To (date, optional)",
+    "toPlaceholder": "To (optional)",
+    "hours": "Hours (optional)",
+    "hoursPlaceholder": "Hours: 14-16",
+    "note": "Reason (optional)",
+    "notePlaceholder": "Reason (optional)",
+    "dateInvalid": "Didn't get the date. Write it like 12/24, tomorrow or Friday.",
+    "rangeInvalid": "The end comes before the start.",
+    "hoursInvalid": "A single range, like 14-16.",
+    "addException": "Add exception"
   }
 }

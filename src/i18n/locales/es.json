@@ -3639,7 +3639,9 @@
     "bottomBar": "Barra inferior (celular)",
     "bottomBarHint": "Hoy y Más quedan fijos. Elige las dos del medio; lo demás queda en Más.",
     "slotLeft": "A la izquierda del +",
-    "slotRight": "A la derecha del +"
+    "slotRight": "A la derecha del +",
+    "agenda": "Agenda",
+    "agendaHint": "Los horarios en que aceptas citas. Los usarán la página de reservas y \"Buscar horario\"."
   },
   "plan": {
     "eyebrow": "Fechas, Entrada y la semana",
@@ -4446,5 +4448,41 @@
     "early": "Empieza antes de que termine un prerrequisito",
     "dragStart": "Arrastrar el inicio de {{title}}",
     "dragEnd": "Arrastrar el fin de {{title}}"
+  },
+  "availability": {
+    "title": "Disponibilidad",
+    "intro": "Los horarios en que aceptas citas, en tu zona horaria. Por ahora solo se guardan: pronto la página de reservas y \"Buscar horario\" los usarán, mostrando a los demás solo libre u ocupado.",
+    "loadError": "No se pudo cargar la disponibilidad. Revisa la conexión.",
+    "week": "Semana",
+    "weekHint": "Uno o más tramos por día, como 9-12, 14-18. Deja vacío el día sin horario.",
+    "dayLabel": "Horarios del {{day}}",
+    "closed": "Sin horario",
+    "dayInvalid": "No lo entendí. Escríbelo como 9-12 o 9:00–12:00, 14:00–18:00.",
+    "copyMonday": "Copiar el lunes a los días laborables",
+    "weekTotal": "{{hours}} h por semana",
+    "weekEmpty": "Ningún horario en la semana.",
+    "offline": "Sin conexión: configurar la agenda necesita internet.",
+    "saved": "Disponibilidad guardada",
+    "saveError": "No se pudo guardar: {{message}}",
+    "preview": "Próximos 7 días",
+    "unavailable": "No disponible",
+    "exceptions": "Excepciones",
+    "exceptionsHint": "Día libre, viaje o un compromiso de fuera: esos días quedan no disponibles, o solo el horario, si escribes uno (14-16).",
+    "noExceptions": "Ninguna excepción marcada.",
+    "range": "{{from}} al {{to}}",
+    "wholeDay": "todo el día",
+    "removeException": "Quitar la excepción {{what}}",
+    "from": "Desde (fecha)",
+    "fromPlaceholder": "Desde: 24/12, viernes…",
+    "to": "Hasta (fecha, opcional)",
+    "toPlaceholder": "Hasta (opcional)",
+    "hours": "Horario (opcional)",
+    "hoursPlaceholder": "Horario: 14-16",
+    "note": "Motivo (opcional)",
+    "notePlaceholder": "Motivo (opcional)",
+    "dateInvalid": "No entendí la fecha. Escríbela como 24/12, mañana o viernes.",
+    "rangeInvalid": "El fin va antes del inicio.",
+    "hoursInvalid": "Un solo tramo, como 14-16.",
+    "addException": "Añadir excepción"
   }
 }

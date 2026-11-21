@@ -132,7 +132,7 @@ Cada tarefa: Ajuda nos 3 idiomas, i18n, E2E e o registro de sempre (STATUS, PEND
 
 ## 12. Decisões do dono
 
-Ainda sem resposta. O que está marcado **(padrão)** no texto vale até o dono dizer outra coisa.
+Respondidas em 21/11/2026 (D309): o dono aceitou todos os padrões ("vale o padrão, pode começar pela agenda"). A coluna **Padrão** é a decisão.
 
 | # | Pergunta | Padrão |
 |---|---|---|

@@ -427,6 +427,19 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **OB14** Compartilhar e publicar anotações: **Mais → Compartilhar e publicar** numa anotação pessoal. **Pessoas**: amigos, cada um **Só ler** ou **Pode editar** (`note_shares`, RPCs `share_note`/`unshare_note`, aviso `note_shared`, sync e Realtime); quem recebe acha em **Compartilhadas comigo**, edita título, texto e propriedades (fixar, modelo, histórico e apagar seguem da dona) e pode **Sair da anotação**; desfazer a amizade tira o compartilhamento. A última gravação vence, com o aviso **Esta anotação mudou enquanto você editava** (Ver a versão nova / Manter a minha); sem nada por gravar, o texto novo entra sozinho. **Publicar**: endereço `/p/<token>` fora do login, só leitura, sempre o texto de agora, com **Levar as anotações citadas** (as pessoais da dona, um nível), senha opcional com bcrypt e 10 tentativas a cada 10 min, e **Despublicar**; links para fora do conjunto viram texto, incorporar e consultas não aparecem (`lib/published-note.ts`). Política de privacidade nova (aceite de novo). pgTAP `compartilhar_anotacoes.test.sql`, E2E `compartilhar-anotacoes.spec.ts`, Ajuda nos 3 idiomas (D300)
 - [x] **OB15** Web Clipper: extensão **Questlist Web Clipper** (`extension/`, Manifest V3 para Chrome, Edge e Firefox, em 3 idiomas) que lê a página aberta, ou o trecho selecionado, em Markdown (conversor `lib/html-markdown.ts` com teste, copiado para a extensão por `npm run extensao`) e abre `/clip#<recorte>`; **Salvar como anotação** guarda com `source`, `author`, `published`, `created` e a etiqueta de recortes (`lib/clip.ts` com teste); sem login, o recorte espera a pessoa entrar. No celular, **Salvar como anotação** no Compartilhar (PB8). O deploy publica o `.zip` em `/questlist-clipper.zip` e Anotações oferece o download no computador. E2E `clipper.spec.ts`, Ajuda nos 3 idiomas (D305)
 
+## ESCOPO_V12 — agenda, reuniões, gestão de projetos e visões (pedido do dono em 20/11; decisões em 21/11, D309)
+
+- [x] **AG1** Disponibilidade da agenda: **Configurações → Agenda → Disponibilidade** (`/disponibilidade`) com os horários de cada dia da semana escritos como texto (`9-12, 14-18`, `9h às 12h`, `9am to 5pm`; trechos que encostam viram um, `24` fecha à meia-noite), **Copiar segunda para os dias úteis**, as horas da semana, a prévia dos **próximos 7 dias** e as **exceções** por data (um dia ou vários, inteiros ou só um trecho, com motivo). Tabelas `availability_rules` (a semana troca inteira pela RPC `set_availability`, que recusa sobreposição) e `availability_exceptions` (até 100 por vir), só a dona vê, fora do sync (configurar pede conexão), na exportação de dados; migração `20261200000000_agenda_disponibilidade.sql`, pgTAP `agenda_disponibilidade.test.sql`. Funções puras em `lib/availability.ts` (ler hora e dia, juntar e cortar trechos, `windowsOn`), com teste. E2E `agenda.spec.ts`, Ajuda nos 3 idiomas (D310)
+- [ ] **AG2** Tipos de compromisso, página pública `/agenda/<apelido>/<tipo>`, `booking_slots` e `book_slot`, lista de sistema Agenda, aviso, .ics, remarcar e cancelar; política atualizada
+- [ ] **AG3** Achar horário em grupo (projeto, time, clã); depois, enquete de horário
+- [ ] **GP1** Reuniões: tipo `meeting`, pauta com tarefas, timer por item, ata como anotação, ações viram tarefas, série
+- [ ] **GP2** Linha de base no Gantt (salvar, comparar, atraso nos indicadores)
+- [ ] **GP3** Roadmap por marco (`tasks.milestone_id`, tela, losango no Gantt, notas da versão)
+- [ ] **GP4** Valor da hora e orçamento do projeto (trabalho + gastos, previsto × realizado, CSV)
+- [ ] **VS1** Visões salvas da lista (Lista, Quadro por campo, Tabela, Calendário, Gantt)
+- [ ] **VS2** Totais no rodapé, campo calculado (`lib/formula/`) e total das subtarefas
+- [ ] **GP5** Webhook do GitHub (comentário e, se ligado, conclusão) e aba Código (opcional)
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar
@@ -462,3 +475,11 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 | V11-3 | Compartilhar anotação antes do CRDT | OB14 | Sim, a última gravação vence, com o aviso (D285) |
 | V11-4 | Anotação publicada sem conta | OB14 | Aberta, só leitura, senha opcional (D285) |
 | V11-5 | Versões contam no espaço de anexos | OB11 | Contam (D285) |
+| V12-1 | Por onde começar o V12 | AG1 | Agenda (AG1, AG2) (D309) |
+| V12-2 | Reservas antes de ter e-mail | AG2 | Sim: confirmação na tela e .ics; e-mail quando houver provedor (D309) |
+| V12-3 | Reserva confirma sozinha ou pede aprovação | AG2 | Sozinha, com a opção de aprovar por tipo (D309) |
+| V12-4 | Tempo de tarefa sem duração na agenda | AG2 | 30 min, ou a estimativa (D309) |
+| V12-5 | Quem vê o valor da hora | GP4 | Quem gerencia e a própria pessoa; os outros, só o total (D309) |
+| V12-6 | Visões do projeto e pessoais | VS1 | As duas; as do projeto pedem `page.manage` (D309) |
+| V12-7 | GitHub (GP5) no escopo | GP5 | Entra como opcional, por último (D309) |
+| V12-8 | IA no texto | — | Fora, por privacidade (D309) |

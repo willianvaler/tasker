@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { LogOut, RefreshCw, Timer, Trash2 } from 'lucide-react-native';
+import { CalendarClock, LogOut, RefreshCw, Timer, Trash2 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
@@ -148,6 +148,17 @@ function ProfileForm({ profile }: { profile: Profile }) {
           <AppDownload />
         </Group>
       )}
+
+      <Group title={t('settings.agenda')}>
+        <Text className="text-sm text-ink-muted">{t('settings.agendaHint')}</Text>
+        <Button
+          variant="ghost"
+          icon={CalendarClock}
+          className="self-start"
+          label={t('availability.title')}
+          onPress={() => router.push('/disponibilidade')}
+        />
+      </Group>
 
       <Group title={t('settings.focus')}>
         <Button

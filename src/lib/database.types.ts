@@ -163,6 +163,46 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"availability_exceptions": {
+                  Row: {
+                    "created_at": string,"ends": string | null,"ends_on": string,"id": string,"note": string | null,"starts": string | null,"starts_on": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"ends"?: string | null,"ends_on": string,"id"?: string,"note"?: string | null,"starts"?: string | null,"starts_on": string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"ends"?: string | null,"ends_on"?: string,"id"?: string,"note"?: string | null,"starts"?: string | null,"starts_on"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "availability_exceptions_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"availability_rules": {
+                  Row: {
+                    "created_at": string,"ends": string,"id": string,"starts": string,"user_id": string,"weekday": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"ends": string,"id"?: string,"starts": string,"user_id"?: string,"weekday": number
+                  }
+                  Update: {
+                    "created_at"?: string,"ends"?: string,"id"?: string,"starts"?: string,"user_id"?: string,"weekday"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "availability_rules_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"body_goals": {
                   Row: {
                     "id": string,"kind": string,"target": number,"updated_at": string,"user_id": string
@@ -3562,6 +3602,9 @@ isOneToOne: false
                            },
 "set_appearance":
 { Args: { "p_background": string,"p_portrait": string }; Returns: undefined
+                           },
+"set_availability":
+{ Args: { "p_rules": Json }; Returns: undefined
                            },
 "set_challenge_code":
 { Args: { "p_challenge_id": string,"p_enabled": boolean }; Returns: string
