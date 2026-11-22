@@ -2,6 +2,7 @@ import { Link, router, useIsFocused, useLocalSearchParams } from 'expo-router';
 import {
   ArrowUpRight as ItemArrow,
   ChevronDown,
+  FilePlus2,
   FolderPlus,
   Plus,
   Trophy,
@@ -16,6 +17,7 @@ import { GroupLinkedPages } from '@/components/gym/page-groups';
 import { useFolderActions } from '@/components/folder-actions';
 import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
 import { ItemIcon } from '@/components/item-icon';
+import { MaterialsSection, useAddMaterials } from '@/components/materials-section';
 import { NotesList, useNewNote } from '@/components/notes-block';
 import { ProjectOverview } from '@/components/project-overview';
 import { FlowView } from '@/components/project/flow-view';
@@ -35,6 +37,7 @@ import { Text } from '@/components/ui/text';
 import { findFolder, useConfirmedMissing, useTree, useTreeMutations } from '@/lib/queries/tree';
 import { useIsOnline } from '@/providers/online';
 import { actorCan } from '@/lib/permissions';
+import { useMaterials } from '@/lib/queries/materials';
 import { useFolderActor, useMembers } from '@/lib/queries/projects';
 import { FindTimeButton } from '@/components/agenda/find-time';
 import { useCanWrite } from '@/providers/write';
@@ -63,6 +66,10 @@ export default function FolderScreen() {
   // Anotação na pasta: quem pode criar tarefas aqui (a mesma regra do banco)
   const canNote = canWriteHere && actorCan(actor, 'task.create');
   const newNote = useNewNote(id);
+  // Material de estudo (ES4): quem mexe na estrutura acrescenta
+  const materials = useMaterials(id);
+  const adder = useAddMaterials(id);
+  const hasMaterials = (materials.data?.length ?? 0) > 0;
 
   const folder = found?.folder;
   const children = folder && 'children' in folder ? folder.children : [];
@@ -169,6 +176,15 @@ export default function FolderScreen() {
               icon={FolderPlus}
               label={t('folder.subfolder')}
               onPress={() => actions.newFolder(folder.id)}
+            />
+          )}
+          {writable && !hasMaterials && !folder.is_inbox && !folder.gym_group && (
+            <Button
+              variant="ghost"
+              icon={FilePlus2}
+              label={t('materials.add')}
+              disabled={!online || !!adder.progress}
+              onPress={() => void adder.add()}
             />
           )}
           {writable && (
@@ -288,6 +304,9 @@ export default function FolderScreen() {
                 />
               )}
             </View>
+          )}
+          {folder && !folder.is_inbox && (
+            <MaterialsSection folderId={folder.id} writable={writable} adder={adder} />
           )}
           {/* Anotações da pasta ou projeto (pedido do dono, 20/10) */}
           {folder && !folder.is_inbox && (

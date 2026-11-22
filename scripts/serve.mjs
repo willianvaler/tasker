@@ -91,6 +91,8 @@ const CSP = [
   "font-src 'self' data:",
   "connect-src 'self'",
   "media-src 'self' data: blob:",
+  // O leitor de PDF do material (ES4) é o do navegador, num quadro com o arquivo em blob:
+  "frame-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

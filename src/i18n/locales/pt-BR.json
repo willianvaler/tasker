@@ -1442,7 +1442,8 @@
     "kindComment": "Comentário",
     "link": "Lixeira",
     "kindExpense": "Gasto",
-    "kindNote": "Anotação"
+    "kindNote": "Anotação",
+    "kindMaterial": "Material"
   },
   "team": {
     "title": "Times",
@@ -4981,5 +4982,36 @@
     "failed": "A imagem não foi: {{message}}",
     "image": "Imagem",
     "unavailable": "Imagem indisponível (sem internet ou sem acesso)"
+  },
+  "materials": {
+    "title": "Material",
+    "add": "Adicionar material",
+    "reading": "Lendo os arquivos…",
+    "notesWaiting": "As anotações ainda não chegaram ao servidor. Tente de novo em instantes.",
+    "sending": "Enviando PDF {{done}} de {{total}}…",
+    "added_one": "{{count}} material adicionado.",
+    "added_other": "{{count}} materiais adicionados.",
+    "tooBig": "O PDF passa de 50 MB.",
+    "tooBigCount_one": "{{count}} PDF passa de 50 MB e ficou de fora.",
+    "tooBigCount_other": "{{count}} PDFs passam de 50 MB e ficaram de fora.",
+    "skipped_one": "{{count}} arquivo ficou de fora (entram PDF, .md e as imagens dos .md).",
+    "skipped_other": "{{count}} arquivos ficaram de fora (entram PDF, .md e as imagens dos .md).",
+    "failed": "{{name}} não subiu: {{message}}",
+    "failedCount_one": "{{count}} arquivo não subiu.",
+    "failedCount_other": "{{count}} arquivos não subiram.",
+    "kindNote": "Anotação",
+    "kindPdf": "PDF · {{size}}",
+    "remove": "Tirar {{name}} do material",
+    "removeTitle": "Tirar do material?",
+    "removeHint": "O PDF vai para a lixeira e pode voltar por 30 dias.",
+    "removeNoteHint": "Sai da lista do material; a anotação continua nas Anotações.",
+    "removeConfirm": "Tirar",
+    "missing": "Material não encontrado (foi tirado ou você não tem acesso).",
+    "loading": "Abrindo o PDF…",
+    "openError": "Não deu para abrir: {{message}}",
+    "newTab": "Abrir numa aba",
+    "nativeHint": "O PDF abre no leitor de PDF do aparelho. Depois de aberto uma vez, abre de novo sem internet.",
+    "openDevice": "Abrir o PDF",
+    "usage": "Material de estudo: {{materials}} · imagens das anotações: {{images}} (já contados no total)."
   }
 }

@@ -1442,7 +1442,8 @@
     "kindComment": "Comment",
     "link": "Trash",
     "kindExpense": "Expense",
-    "kindNote": "Note"
+    "kindNote": "Note",
+    "kindMaterial": "Material"
   },
   "team": {
     "title": "Teams",
@@ -4981,5 +4982,36 @@
     "failed": "The image didn't go: {{message}}",
     "image": "Image",
     "unavailable": "Image unavailable (offline or no access)"
+  },
+  "materials": {
+    "title": "Material",
+    "add": "Add material",
+    "reading": "Reading the files…",
+    "notesWaiting": "The notes haven't reached the server yet. Try again in a moment.",
+    "sending": "Uploading PDF {{done}} of {{total}}…",
+    "added_one": "{{count}} material added.",
+    "added_other": "{{count}} materials added.",
+    "tooBig": "The PDF is over 50 MB.",
+    "tooBigCount_one": "{{count}} PDF is over 50 MB and was left out.",
+    "tooBigCount_other": "{{count}} PDFs are over 50 MB and were left out.",
+    "skipped_one": "{{count}} file was left out (PDF, .md and the .md images are accepted).",
+    "skipped_other": "{{count}} files were left out (PDF, .md and the .md images are accepted).",
+    "failed": "{{name}} didn't upload: {{message}}",
+    "failedCount_one": "{{count}} file didn't upload.",
+    "failedCount_other": "{{count}} files didn't upload.",
+    "kindNote": "Note",
+    "kindPdf": "PDF · {{size}}",
+    "remove": "Remove {{name}} from the material",
+    "removeTitle": "Remove from the material?",
+    "removeHint": "The PDF goes to the trash and can come back for 30 days.",
+    "removeNoteHint": "It leaves the material list; the note stays in Notes.",
+    "removeConfirm": "Remove",
+    "missing": "Material not found (it was removed or you don't have access).",
+    "loading": "Opening the PDF…",
+    "openError": "Couldn't open it: {{message}}",
+    "newTab": "Open in a tab",
+    "nativeHint": "The PDF opens in the device's PDF reader. Once opened, it opens again without internet.",
+    "openDevice": "Open the PDF",
+    "usage": "Study material: {{materials}} · note images: {{images}} (already in the total)."
   }
 }

@@ -1,0 +1,53 @@
+import { Directory, File, Paths } from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { BookOpen } from 'lucide-react-native';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import { PDF_MIME } from '@/lib/materials';
+import { materialUrl } from '@/lib/queries/materials';
+
+/** Baixa uma vez para o aparelho (fica no cache: abre de novo sem internet) */
+async function localCopy(path: string) {
+  const dir = new Directory(Paths.cache, 'materials');
+  if (!dir.exists) dir.create({ idempotent: true });
+  const file = new File(dir, path.replace(/\//g, '_'));
+  if (file.exists && (file.size ?? 0) > 0) return file;
+  return File.downloadFileAsync(await materialUrl(path), file, { idempotent: true });
+}
+
+/**
+ * Leitor de PDF no celular (ES4, D325): baixa o arquivo e abre no leitor de PDF do aparelho. O
+ * leitor dentro do app (pdf.js numa WebView) pede um APK novo e fica para depois.
+ */
+export function PdfView({ path, name }: { path: string; name: string }) {
+  const { t } = useTranslation();
+  const [state, setState] = useState<'idle' | 'busy' | string>('idle');
+  async function open() {
+    setState('busy');
+    try {
+      const file = await localCopy(path);
+      await Sharing.shareAsync(file.uri, { mimeType: PDF_MIME, UTI: 'com.adobe.pdf', dialogTitle: name });
+      setState('idle');
+    } catch (err) {
+      setState((err as Error).message || 'erro');
+    }
+  }
+  return (
+    <View className="items-start gap-3 p-4">
+      <Text className="text-ink-muted">{t('materials.nativeHint')}</Text>
+      <Button
+        icon={BookOpen}
+        label={t('materials.openDevice')}
+        loading={state === 'busy'}
+        onPress={() => void open()}
+      />
+      {state !== 'idle' && state !== 'busy' && (
+        <Text className="text-sm text-danger">{t('materials.openError', { message: state })}</Text>
+      )}
+    </View>
+  );
+}

@@ -1611,6 +1611,38 @@ isOneToOne: true
                   Relationships: [
                     
                   ]
+                },"project_files": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"folder_id": string,"id": string,"kind": string,"mime": string | null,"name": string,"note_id": string | null,"path": string | null,"size": number | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id": string,"id": string,"kind": string,"mime"?: string | null,"name": string,"note_id"?: string | null,"path"?: string | null,"size"?: number | null
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id"?: string,"id"?: string,"kind"?: string,"mime"?: string | null,"name"?: string,"note_id"?: string | null,"path"?: string | null,"size"?: number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "project_files_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "project_files_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "project_files_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "notes"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"project_rates": {
                   Row: {
                     "cents_per_hour": number,"currency": string,"folder_id": string,"id": string,"updated_at": string,"updated_by": string | null,"user_id": string | null
@@ -1789,14 +1821,14 @@ isOneToOne: false
                   ]
                 },"storage_garbage": {
                   Row: {
-                    "path": string,"queued_at": string
+                    "bucket": string,"path": string,"queued_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "path": string,"queued_at"?: string
+                    "bucket"?: string,"path": string,"queued_at"?: string
                   }
                   Update: {
-                    "path"?: string,"queued_at"?: string
+                    "bucket"?: string,"path"?: string,"queued_at"?: string
                   }
                   Relationships: [
                     
@@ -4117,6 +4149,9 @@ isOneToOne: false
       } },
 "start_workout_session":
 { Args: { "p_page_id": string,"p_with"?: (string)[] }; Returns: string
+                           },
+"storage_usage":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "streak_stats":
 { Args: { "p_today": string,"p_user": string }; Returns: Record<string, unknown>

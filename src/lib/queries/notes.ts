@@ -229,11 +229,14 @@ export function useNoteMutations() {
 
   /**
    * Várias anotações de uma vez (importar o cofre do Obsidian, OB13), com os ids já gerados (os
-   * links entre elas já apontam para eles). Pessoais, sem pasta
+   * links entre elas já apontam para eles). Pessoais, sem pasta; o material do projeto (ES4) passa
+   * a pasta
    */
   const createMany = useMutation({
     networkMode,
-    mutationFn: async (list: { id: string; title: string; body: string; props: NoteProps }[]) => {
+    mutationFn: async (
+      list: { id: string; title: string; body: string; props: NoteProps; folderId?: string | null }[],
+    ) => {
       if (!list.length) return;
       if (isLocal()) {
         const user_id = await sessionUserId();
@@ -242,12 +245,13 @@ export function useNoteMutations() {
           for (const n of list)
             await tx.execute(
               `insert into notes (id, user_id, title, body, pinned, folder_id, props, tags, is_template,
-                 created_at, updated_at) values (?, ?, ?, ?, 0, null, ?, ?, 0, ?, ?)`,
+                 created_at, updated_at) values (?, ?, ?, ?, 0, ?, ?, ?, 0, ?, ?)`,
               [
                 n.id,
                 user_id,
                 n.title.slice(0, 200),
                 n.body.slice(0, NOTE_MAX),
+                n.folderId ?? null,
                 JSON.stringify(n.props),
                 JSON.stringify(noteTags(n.body, n.props)),
                 at,
@@ -264,6 +268,7 @@ export function useNoteMutations() {
             title: n.title.slice(0, 200),
             body: n.body.slice(0, NOTE_MAX),
             props: n.props,
+            folder_id: n.folderId ?? null,
           })),
         );
         if (error) throw error;

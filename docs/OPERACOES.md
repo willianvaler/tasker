@@ -70,9 +70,9 @@ Os aparelhos recebem o estado restaurado no próximo sync. O que estava na fila 
 
 ## Anexos (Storage)
 
-Os arquivos ficam no bucket privado `attachments` do Storage local (container `supabase_storage_task_tracking`, ligado em `supabase/config.toml`). O backup do banco **não** leva os arquivos: copie também o volume do Storage (`podman volume ls | grep storage`).
+Os arquivos ficam no bucket privado `attachments` (o material de estudo, ES4, no bucket `materials`, até 50 MB por PDF) do Storage local (container `supabase_storage_task_tracking`, ligado em `supabase/config.toml`). O backup do banco **não** leva os arquivos: copie também o volume do Storage (`podman volume ls | grep storage`).
 
-Arquivo de anexo removido, ou de tarefa cuja lixeira venceu, entra em `public.storage_garbage`; o cron `questlist-storage-garbage` (a cada 10 min) apaga pela API do Storage, se `app_config` tiver o endereço e a chave de serviço. **A chave não vai para o repositório**: configure direto no banco, uma vez por máquina (e de novo se as chaves do Supabase local mudarem):
+Arquivo de anexo removido, ou de tarefa cuja lixeira venceu, entra em `public.storage_garbage` (com o bucket, coluna `bucket`); o cron `questlist-storage-garbage` (a cada 10 min) apaga pela API do Storage, se `app_config` tiver o endereço e a chave de serviço. **A chave não vai para o repositório**: configure direto no banco, uma vez por máquina (e de novo se as chaves do Supabase local mudarem):
 
 ```bash
 KEY=$(npx supabase status -o env | grep '^SERVICE_ROLE_KEY=' | cut -d= -f2- | tr -d '"')

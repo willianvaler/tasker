@@ -13,6 +13,7 @@ import { tasksToCsv } from '@/lib/export';
 import { clearPrefs } from '@/lib/prefs';
 import { formatBytes, MAX_ACCOUNT_BYTES } from '@/lib/attachments';
 import { useAttachmentUsage } from '@/lib/queries/attachments';
+import { useStorageUsage } from '@/lib/queries/materials';
 import { useDeleteAllNoteVersions, useNoteVersionsUsage } from '@/lib/queries/note-versions';
 import { deleteMyAccount, exportMyData } from '@/lib/queries/clan';
 import { signOut as endSession } from '@/lib/session';
@@ -26,6 +27,8 @@ export function PrivacySection() {
   const online = useIsOnline();
   const toast = useToast();
   const usage = useAttachmentUsage();
+  // O uso separado (V13-4): material de estudo e imagens das anotações
+  const parts = useStorageUsage();
   const [busy, setBusy] = useState<'json' | 'csv' | 'delete' | null>(null);
   const [confirm, setConfirm, close] = useDialog<true>();
   // Versões das anotações contam no espaço (OB11, V11-5): mostra a parte delas e deixa apagar
@@ -78,6 +81,14 @@ export function PrivacySection() {
           {t('attach.usage', {
             used: formatBytes(usage.data, i18n.language),
             total: formatBytes(MAX_ACCOUNT_BYTES, i18n.language),
+          })}
+        </Text>
+      )}
+      {!!(parts.data?.materials || parts.data?.note_images) && (
+        <Text className="text-sm text-ink-muted">
+          {t('materials.usage', {
+            materials: formatBytes(parts.data.materials, i18n.language),
+            images: formatBytes(parts.data.note_images, i18n.language),
           })}
         </Text>
       )}

@@ -1442,7 +1442,8 @@
     "kindComment": "Comentario",
     "link": "Papelera",
     "kindExpense": "Gasto",
-    "kindNote": "Nota"
+    "kindNote": "Nota",
+    "kindMaterial": "Material"
   },
   "team": {
     "title": "Equipos",
@@ -4981,5 +4982,36 @@
     "failed": "La imagen no se envió: {{message}}",
     "image": "Imagen",
     "unavailable": "Imagen no disponible (sin conexión o sin acceso)"
+  },
+  "materials": {
+    "title": "Material",
+    "add": "Añadir material",
+    "reading": "Leyendo los archivos…",
+    "notesWaiting": "Las notas aún no llegaron al servidor. Inténtalo de nuevo en un momento.",
+    "sending": "Subiendo PDF {{done}} de {{total}}…",
+    "added_one": "{{count}} material añadido.",
+    "added_other": "{{count}} materiales añadidos.",
+    "tooBig": "El PDF pasa de 50 MB.",
+    "tooBigCount_one": "{{count}} PDF pasa de 50 MB y quedó fuera.",
+    "tooBigCount_other": "{{count}} PDF pasan de 50 MB y quedaron fuera.",
+    "skipped_one": "{{count}} archivo quedó fuera (entran PDF, .md y las imágenes de los .md).",
+    "skipped_other": "{{count}} archivos quedaron fuera (entran PDF, .md y las imágenes de los .md).",
+    "failed": "{{name}} no se subió: {{message}}",
+    "failedCount_one": "{{count}} archivo no se subió.",
+    "failedCount_other": "{{count}} archivos no se subieron.",
+    "kindNote": "Nota",
+    "kindPdf": "PDF · {{size}}",
+    "remove": "Quitar {{name}} del material",
+    "removeTitle": "¿Quitar del material?",
+    "removeHint": "El PDF va a la papelera y puede volver durante 30 días.",
+    "removeNoteHint": "Sale de la lista del material; la nota sigue en Notas.",
+    "removeConfirm": "Quitar",
+    "missing": "Material no encontrado (fue quitado o no tienes acceso).",
+    "loading": "Abriendo el PDF…",
+    "openError": "No se pudo abrir: {{message}}",
+    "newTab": "Abrir en una pestaña",
+    "nativeHint": "El PDF se abre en el lector de PDF del dispositivo. Después de abrirlo una vez, se abre sin internet.",
+    "openDevice": "Abrir el PDF",
+    "usage": "Material de estudio: {{materials}} · imágenes de las notas: {{images}} (ya contados en el total)."
   }
 }

@@ -20,6 +20,7 @@ const KINDS = {
   comments: 'trash.kindComment',
   expenses: 'trash.kindExpense',
   notes: 'trash.kindNote',
+  project_files: 'trash.kindMaterial',
 } as const;
 
 // Fica no servidor (não no banco do aparelho): o que foi apagado já saiu do sync
