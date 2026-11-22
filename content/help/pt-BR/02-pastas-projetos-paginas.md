@@ -56,6 +56,7 @@ Escreva **/** no começo de uma linha para abrir os **comandos**: título, subt�
 
 - **Callout**: um quadro colorido. Escreva `> [!dica] Título` e, nas linhas de baixo, `> o texto`. Tipos: nota, dica, aviso, perigo, pergunta, informação, feito e citação (os nomes em inglês do Obsidian também valem). Com `-` depois do tipo (`> [!aviso]- Título`) ele começa fechado e abre ao tocar; com `+`, começa aberto e pode ser fechado.
 - **Destaque**: `==texto==` fica marcado com fundo.
+- **Fórmula**: LaTeX como no Obsidian. `$r\sin\theta$` fica na linha do texto e `$$\tau = rF\sin\theta$$` (numa linha só ou com os `$$` em linhas próprias) vira um bloco centrado. Vale nas anotações e na descrição da tarefa, também sem internet. Fórmula com erro aparece como o texto escrito; `R$ 10` continua dinheiro.
 - **Nota de rodapé**: `[^1]` no texto e, em qualquer linha, `[^1]: a explicação`. A chamada vira um número pequeno e as notas aparecem no fim.
 - **Tabela**: linhas com `|` separando as colunas e `| --- | --- |` embaixo do cabeçalho.
 

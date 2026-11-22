@@ -25,6 +25,14 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { FONT_FAMILY } from '@/lib/fonts';
 import { withTaskBoxes } from '@/lib/markdown-edit';
+import { MathView } from '@/components/math-view';
+import {
+  decodeTex,
+  extractMath,
+  MATH_SCHEME,
+  restoreBlocks,
+  splitMathBlocks,
+} from '@/lib/math-text';
 import { extractEmbeds, splitEmbedMarks } from '@/lib/note-embeds';
 import {
   FOOTNOTE_SCHEME,
@@ -60,6 +68,9 @@ class NoteRenderer extends Renderer {
   }
 
   link(children: string | ReactNode[], href: string, styles?: TextStyle, title?: string) {
+    // Fórmula na linha (ES2): o LaTeX vem no destino do link
+    if (href.startsWith(MATH_SCHEME))
+      return <MathView key={this.getKey()} tex={decodeTex(href)} display={false} />;
     if (href === MARK_SCHEME)
       return (
         <Text
@@ -333,14 +344,29 @@ export function NoteMarkdown({
   const colors = useColors();
   // ![[...]] sozinho na linha vira bloco (OB6); o resto segue para o Markdown
   const embedded = extractEmbeds(value);
+  // Fórmulas (ES2) saem antes do resto: destaque, etiqueta e rodapé estragariam o LaTeX
+  const math = extractMath(embedded.text);
   const prepared = prepareMarkdown(
-    resolve ? wikiToMarkdown(embedded.text, resolve, t('wikilinks.noAccess')) : embedded.text,
+    resolve ? wikiToMarkdown(math.text, resolve, t('wikilinks.noAccess')) : math.text,
   );
+  type EmbedSegment = ReturnType<typeof splitEmbedMarks>[number];
   const segments = splitCallouts(withTaskBoxes(prepared.text)).flatMap(
     (
       segment,
-    ): (NoteSegment | { kind: 'embed'; index: number } | { kind: 'query'; index: number })[] =>
-      segment.kind === 'markdown' ? splitEmbedMarks(segment.text) : [segment],
+    ): (
+      | NoteSegment
+      | { kind: 'embed'; index: number }
+      | { kind: 'query'; index: number }
+      | { kind: 'math'; tex: string }
+    )[] =>
+      segment.kind === 'markdown'
+        ? splitMathBlocks(segment.text, math.blocks).flatMap(
+            (part): (EmbedSegment | { kind: 'math'; tex: string })[] =>
+              part.kind === 'math' ? [part] : splitEmbedMarks(part.text),
+          )
+        : segment.kind === 'callout'
+          ? [{ ...segment, body: restoreBlocks(segment.body, math.blocks) }]
+          : [segment],
   );
 
   // Prévia ao passar o mouse e no toque longo (OB6): some um pouco depois de sair do link
@@ -366,6 +392,7 @@ export function NoteMarkdown({
     <View className="gap-1">
       {segments.map((segment, i) => {
         if (plain && (segment.kind === 'query' || segment.kind === 'embed')) return null;
+        if (segment.kind === 'math') return <MathView key={i} tex={segment.tex} display />;
         if (segment.kind === 'query') {
           const source = embedded.queries[segment.index];
           return source !== undefined ? <QueryBlock key={i} source={source} /> : null;

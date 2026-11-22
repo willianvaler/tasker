@@ -27,7 +27,10 @@ test('ficha de leitura: ler a descrição formatada e Editar abre o painel', asy
 
   // O Calendário abre a ficha, não o painel
   await page.goto('/calendario');
-  await page.getByRole('link', { name: new RegExp(title) }).first().click();
+  await page
+    .getByRole('link', { name: new RegExp(title) })
+    .first()
+    .click();
   await expect(page.getByRole('heading', { name: title })).toBeVisible();
   await expect(page.getByTestId('reader-notes').getByText('a segunda condição')).toBeVisible();
   await expect(page.getByTestId('reader-notes').getByText('medir')).toBeVisible();
@@ -45,4 +48,33 @@ test('ficha de leitura: ler a descrição formatada e Editar abre o painel', asy
   await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Editar', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toBeVisible();
+});
+
+// Fórmulas LaTeX (ES2, D323): bloco e na linha desenhados em SVG; dinheiro continua texto
+test('fórmulas LaTeX na descrição, vistas na ficha', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Física', name: 'Estática', type: 'Lista' });
+  const title = `Equilíbrio ${testInfo.project.name}`;
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  await input.fill(`${title} hoje`);
+  await input.press('Enter');
+  await page.getByRole('button', { name: `Detalhes de ${title}` }).click();
+  await page.getByRole('button', { name: 'Adicionar descrição' }).click();
+  const notes = page.getByRole('textbox', { name: 'Descrição' });
+  await notes.fill(
+    'O torque:\n\n$$\n\\tau = rF \\sin\\theta\n$$\n\nonde $r$ é a distância. A régua custou R$ 10.',
+  );
+  await notes.blur();
+  await page.getByRole('button', { name: 'Voltar' }).last().click();
+
+  await page.goto('/calendario');
+  await page
+    .getByRole('link', { name: new RegExp(title) })
+    .first()
+    .click();
+  const reader = page.getByTestId('reader-notes');
+  await expect(reader.getByTestId('math-block')).toBeVisible({ timeout: 15_000 });
+  await expect(reader.getByTestId('math-inline')).toBeVisible();
+  await expect(reader.getByText(/R\$ 10/)).toBeVisible();
+  await expect(reader.getByText('$$', { exact: false })).toHaveCount(0);
 });

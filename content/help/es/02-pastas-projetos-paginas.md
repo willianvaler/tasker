@@ -56,6 +56,7 @@ Escribe **/** al comienzo de una línea para abrir los **comandos**: título, su
 
 - **Destacado** (callout): un cuadro de color. Escribe `> [!consejo] Título` y, en las líneas de abajo, `> el texto`. Tipos: nota, consejo, advertencia, peligro, pregunta, información, hecho y cita (los nombres en inglés de Obsidian también sirven). Con `-` después del tipo (`> [!advertencia]- Título`) empieza cerrado y se abre al tocar; con `+`, empieza abierto y se puede cerrar.
 - **Resaltado**: `==texto==` queda marcado con fondo.
+- **Fórmula**: LaTeX como en Obsidian. `$r\sin\theta$` queda en la línea del texto y `$$\tau = rF\sin\theta$$` (en una sola línea o con los `$$` en líneas propias) se vuelve un bloque centrado. Vale en las notas y en la descripción de la tarea, también sin conexión. Una fórmula con error aparece como el texto escrito; `$ 10` con espacio sigue siendo dinero.
 - **Nota al pie**: `[^1]` en el texto y, en cualquier línea, `[^1]: la explicación`. La llamada se vuelve un número pequeño y las notas aparecen al final.
 - **Tabla**: líneas con `|` entre las columnas y `| --- | --- |` debajo del encabezado.
 

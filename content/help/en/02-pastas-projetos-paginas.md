@@ -56,6 +56,7 @@ Type **/** at the start of a line to open the **commands**: heading, subheading,
 
 - **Callout**: a colored box. Write `> [!tip] Title` and, on the lines below, `> the text`. Types: note, tip, warning, danger, question, info, success and quote (Obsidian's names work too). With `-` after the type (`> [!warning]- Title`) it starts closed and opens on tap; with `+`, it starts open and can be closed.
 - **Highlight**: `==text==` gets a background.
+- **Formula**: LaTeX as in Obsidian. `$r\sin\theta$` stays inline and `$$\tau = rF\sin\theta$$` (on one line or with the `$$` on lines of their own) becomes a centered block. Works in notes and task descriptions, offline too. A formula with an error shows the text as written; `$ 10` with a space stays money.
 - **Footnote**: `[^1]` in the text and, on any line, `[^1]: the explanation`. The reference becomes a small number and the notes show at the end.
 - **Table**: lines with `|` between the columns and `| --- | --- |` under the header.
 
