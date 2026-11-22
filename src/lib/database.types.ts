@@ -753,6 +753,20 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"email_outbox": {
+                  Row: {
+                    "attempts": number,"created_at": string,"id": string,"kind": string,"last_error": string | null,"locale": string,"payload": NonNullable<Json>,"sent_at": string | null,"status": string,"to_email": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "attempts"?: number,"created_at"?: string,"id"?: string,"kind": string,"last_error"?: string | null,"locale"?: string,"payload"?: NonNullable<Json>,"sent_at"?: string | null,"status"?: string,"to_email": string
+                  }
+                  Update: {
+                    "attempts"?: number,"created_at"?: string,"id"?: string,"kind"?: string,"last_error"?: string | null,"locale"?: string,"payload"?: NonNullable<Json>,"sent_at"?: string | null,"status"?: string,"to_email"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"exercises": {
                   Row: {
                     "body_part": string,"equipment": string,"force": string | null,"id": string,"instructions": NonNullable<Json>,"kind": string,"level": string | null,"mechanic": string | null,"name_en": string,"name_es": string | null,"name_pt": string | null,"secondary": (string)[],"target": string | null,"updated_at": string
@@ -2758,6 +2772,9 @@ isOneToOne: false
 "_app_caller":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
+"_app_url":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
 "_attack":
 { Args: { "p_base": number,"p_category": string,"p_overdue": boolean,"p_user": string }; Returns: Record<string, unknown>
                            },
@@ -2769,6 +2786,9 @@ isOneToOne: false
                            },
 "_award_leaf_completion":
 { Args: { "p_completion_id": string,"p_created_done": boolean,"p_cycle_kind": string,"p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
+                           },
+"_booking_email":
+{ Args: { "p_booking": Omit<Database["public"]['Tables']["bookings"]['Row'], Database["public"]['Tables']["bookings"]['ComputedFields']>,"p_kind": string }; Returns: undefined
                            },
 "_booking_free_slots":
 { Args: { "p_from": string,"p_ignore": string,"p_to": string,"p_type": Omit<Database["public"]['Tables']["booking_types"]['Row'], Database["public"]['Tables']["booking_types"]['ComputedFields']> }; Returns: string[]
@@ -2853,6 +2873,12 @@ isOneToOne: false
                            },
 "_e1rm":
 { Args: { "p_reps": number,"p_weight": number }; Returns: number
+                           },
+"_email_post":
+{ Args: { "p_id": string }; Returns: undefined
+                           },
+"_email_retry":
+{ Args: Record<PropertyKey, never>; Returns: undefined
                            },
 "_force_record_crit":
 { Args: { "p_cycle": string,"p_session": string,"p_task_id": string }; Returns: undefined
@@ -3255,7 +3281,7 @@ isOneToOne: false
 { Args: Record<PropertyKey, never>; Returns: string
                            },
 "create_from_template":
-{ Args: { "p_data": Json,"p_icon": string,"p_name": string,"p_shared"?: boolean }; Returns: string
+{ Args: { "p_data": Json,"p_icon": string,"p_name": string,"p_project"?: boolean,"p_shared"?: boolean }; Returns: string
                            },
 "create_invite":
 { Args: { "p_folder_id": string,"p_role"?: Database["public"]['Enums']["folder_role"] }; Returns: {

@@ -119,6 +119,8 @@ export function ImportApps() {
           icon: project.icon,
           data: projectData(project),
           shared: false,
+          // Projeto pessoal (D306), não pasta
+          project: true,
         });
         first ??= id;
         created++;

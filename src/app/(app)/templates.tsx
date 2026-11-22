@@ -20,7 +20,13 @@ import { uuidv7 } from '@/lib/uuid';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
-type Chosen = { name: string; icon: string; data: TemplateData; shared: boolean };
+type Chosen = {
+  name: string;
+  icon: string;
+  data: TemplateData;
+  shared: boolean;
+  project?: boolean;
+};
 
 // Criar projeto a partir de modelo: os prontos (no app) e os salvos pelo usuário.
 export default function TemplatesScreen() {
@@ -110,7 +116,13 @@ export default function TemplatesScreen() {
               pages={data.pages.map((p) => p.name)}
               disabled={!online}
               onPress={() =>
-                setChosen({ name: tpl.name, icon: tpl.icon ?? '', data, shared: false })
+                setChosen({
+                  name: tpl.name,
+                  icon: tpl.icon ?? '',
+                  data,
+                  shared: false,
+                  project: true,
+                })
               }
               onDelete={() => m.remove.mutate(tpl.id)}
               onPublish={

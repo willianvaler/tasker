@@ -641,12 +641,15 @@ export function useTemplateMutations() {
       icon: string;
       data: TemplateData;
       shared: boolean;
+      /** Projeto pessoal (importar, meus modelos); sem isso e sem compartilhar, nasce pasta */
+      project?: boolean;
     }) => {
       const { data, error } = await supabase.rpc('create_from_template', {
         p_name: input.name,
         p_icon: input.icon,
         p_data: input.data as unknown as Json,
         p_shared: input.shared,
+        p_project: input.project ?? false,
       });
       if (error) throw error;
       return data;
