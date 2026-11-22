@@ -9,7 +9,14 @@ import { LOCALES, type LocalePreference } from '@/i18n/locale';
 import { useLocalePreference } from '@/i18n/use-locale';
 import { cn } from '@/lib/cn';
 import { setDarkPalette, useDarkPalette } from '@/lib/dark-palette';
-import { getPanelMode, setPanelMode, type PanelMode, type ThemePreference } from '@/lib/prefs';
+import {
+  getPanelMode,
+  getReadFirst,
+  setPanelMode,
+  setReadFirst,
+  type PanelMode,
+  type ThemePreference,
+} from '@/lib/prefs';
 import { DARK_PALETTE_IDS, darkColors } from '@/lib/tokens';
 import { useThemePreference } from '@/providers/theme';
 
@@ -140,6 +147,23 @@ export function PanelModeChooser() {
         const value: PanelMode = on ? 'full' : 'simple';
         setPanelMode(value);
         setMode(value);
+      }}
+    />
+  );
+}
+
+/** Ficha de leitura em todo lugar (ES1, V13-1): a seta da linha também abre a ficha. É do aparelho. */
+export function ReadFirstChooser() {
+  const { t } = useTranslation();
+  const [on, setOn] = useState(getReadFirst);
+  return (
+    <ToggleRow
+      title={t('reader.everywhere')}
+      hint={t('reader.everywhereHint')}
+      value={on}
+      onChange={(value) => {
+        setReadFirst(value);
+        setOn(value);
       }}
     />
   );

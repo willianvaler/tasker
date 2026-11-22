@@ -74,7 +74,8 @@
     "newNote": "Nova anotação (no menu Novo)",
     "newBatch": "Várias de uma vez (no menu Novo)",
     "newTemplate": "A partir de um modelo (no menu Novo)",
-    "noteDaily": "Abrir a nota do dia"
+    "noteDaily": "Abrir a nota do dia",
+    "readerEdit": "Editar a tarefa aberta para ler"
   },
   "task": {
     "complete": "Concluir {{title}}",
@@ -4952,5 +4953,14 @@
       "invalid": "Confira o nome e o e-mail.",
       "limit": "Respostas demais por agora. Tente de novo em alguns minutos."
     }
+  },
+  "reader": {
+    "edit": "Editar",
+    "partOf": "Parte de: {{title}}",
+    "noNotes": "Sem descrição.",
+    "addNotes": "Escrever a descrição",
+    "open": "Ler {{title}}",
+    "everywhere": "Abrir as tarefas para ler",
+    "everywhereHint": "Tocar na tarefa (também na seta da lista) mostra a ficha de leitura; o painel de edição fica no Editar."
   }
 }

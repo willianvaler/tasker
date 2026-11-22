@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
@@ -15,6 +14,7 @@ import { IconButton } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
+import { openTask } from '@/lib/open-task';
 import { rewardMessage } from '@/lib/gamification';
 import { useGameState } from '@/lib/queries/game';
 import { formatDueDate } from '@/lib/parser/dates';
@@ -248,7 +248,7 @@ function TaskRowView({
       <IconButton
         icon={ChevronRight}
         label={t('task.details', { title: task.title })}
-        onPress={() => router.push({ pathname: '/task/[id]', params: { id: task.id } })}
+        onPress={() => openTask(task.id)}
       />
     </Pressable>
   );

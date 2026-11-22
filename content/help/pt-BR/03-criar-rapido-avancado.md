@@ -12,6 +12,8 @@ Na captura rápida e em **Adicionar várias**, toque em **Falar a lista** e dite
 
 Toque na seta da tarefa (ou `Enter` com ela selecionada) para abrir o **painel**: descrição (até 10.000 caracteres; vazia, aparece "+ Adicionar descrição"), data, prioridade, peso, tempo, subtarefas, quem faz, dependências, campos da lista e comentários. Cada campo salva sozinho ao sair dele.
 
+**Ficha de leitura.** No grafo, nos links `[[...]]`, no "Citado em", nas Bases, no Calendário e na busca, a tarefa abre para **ler**: título, dados, a descrição formatada (negrito, listas, links que abrem), os anexos, as subtarefas (dá para marcar) e quem cita. **Editar** (ou a tecla `E`) leva ao painel. Para que a seta da lista também abra a ficha, ligue **Configurações → Aparência → Abrir as tarefas para ler**. As anotações já abrem para ler quando têm texto; o título só muda no Editar.
+
 O painel mostra o essencial (vencimento, prioridade, etiquetas, descrição e subtarefas; em projeto, também quem faz e as ligações) e o que a tarefa já usa. O resto entra por **+ Adicionar**: repetição, tempo, séries, Meu dia, peso, quem vê, anexos, aprovação e histórico. Quer tudo aberto sempre? Ligue **Mostrar todas as seções do painel da tarefa** em Configurações → Aparência.
 
 ## O menu Novo

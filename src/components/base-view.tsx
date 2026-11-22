@@ -37,6 +37,7 @@ import {
   type BaseConfig,
 } from '@/lib/base-config';
 import { cn } from '@/lib/cn';
+import { readTask } from '@/lib/open-task';
 import {
   computeTotal,
   defaultTotal,
@@ -603,7 +604,7 @@ function BaseBody({
 const width = (column: string) => (column === 'title' ? 280 : column === 'tags' ? 180 : 140);
 
 function openRow(row: Row) {
-  if (row.kind === 'task') router.push({ pathname: '/task/[id]', params: { id: row.id } });
+  if (row.kind === 'task') readTask(row.id);
   else router.push({ pathname: '/nota/[id]', params: { id: row.id } });
 }
 

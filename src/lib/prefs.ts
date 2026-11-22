@@ -260,3 +260,27 @@ export function setExpenseTab(pageId: string, tab: 'all' | 'out' | 'in') {
   if (tab === 'all') localStore.removeItem(expenseTabKey(pageId));
   else localStore.setItem(expenseTabKey(pageId), tab);
 }
+
+/**
+ * Ficha de leitura em todo lugar (ES1, V13-1): ligada, tocar na tarefa (inclusive a seta da linha da
+ * lista) abre a ficha, e o painel fica no Editar. É do aparelho; desligada (padrão), só o grafo, os
+ * links, o "Citado em", as Bases, o Calendário e a busca abrem a ficha.
+ */
+const READ_FIRST_KEY = 'questlist:read-first';
+
+export function getReadFirst(): boolean {
+  try {
+    return localStore?.getItem(READ_FIRST_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function setReadFirst(value: boolean) {
+  try {
+    if (value) localStore?.setItem(READ_FIRST_KEY, '1');
+    else localStore?.removeItem(READ_FIRST_KEY);
+  } catch {
+    // Sem armazenamento (aba anônima): fica só nesta sessão do padrão
+  }
+}

@@ -1,4 +1,6 @@
 import { router } from 'expo-router';
+
+import { readTask } from '@/lib/open-task';
 import { Link2, Plus } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -28,7 +30,8 @@ import { useToast } from '@/providers/toast';
 export function openItem(kind: LinkKind, id: string, anchor?: string | null) {
   if (kind === 'note')
     router.push({ pathname: '/nota/[id]', params: anchor ? { id, secao: anchor } : { id } });
-  else if (kind === 'task') router.push({ pathname: '/task/[id]', params: { id } });
+  // Link, grafo, Citado em e canvas leem: a tarefa abre na ficha (ES1); Editar leva ao painel
+  else if (kind === 'task') readTask(id);
   else if (kind === 'page') router.push({ pathname: '/page/[id]', params: { id } });
   else router.push({ pathname: '/folder/[id]', params: { id } });
 }

@@ -74,7 +74,8 @@
     "newNote": "New note (in the New menu)",
     "newBatch": "Several at once (in the New menu)",
     "newTemplate": "From a template (in the New menu)",
-    "noteDaily": "Open the daily note"
+    "noteDaily": "Open the daily note",
+    "readerEdit": "Edit the task open for reading"
   },
   "task": {
     "complete": "Complete {{title}}",
@@ -4952,5 +4953,14 @@
       "invalid": "Check your name and email.",
       "limit": "Too many answers right now. Try again in a few minutes."
     }
+  },
+  "reader": {
+    "edit": "Edit",
+    "partOf": "Part of: {{title}}",
+    "noNotes": "No description.",
+    "addNotes": "Write the description",
+    "open": "Read {{title}}",
+    "everywhere": "Open tasks for reading",
+    "everywhereHint": "Tapping a task (the list arrow too) shows the reading view; the edit panel is under Edit."
   }
 }

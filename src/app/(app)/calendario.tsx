@@ -35,6 +35,7 @@ import {
   type CalendarPage,
 } from '@/lib/calendar';
 import { cn } from '@/lib/cn';
+import { readTask } from '@/lib/open-task';
 import { dailyNoteDays } from '@/lib/note-templates';
 import { useNotes } from '@/lib/queries/notes';
 import {
@@ -340,7 +341,7 @@ function DayList({
             onPress={() =>
               e.kind === 'workout'
                 ? router.push({ pathname: '/page/[id]', params: { id: e.pageId } })
-                : router.push({ pathname: '/task/[id]', params: { id: e.id } })
+                : readTask(e.id)
             }
             className="min-h-11 flex-row items-center gap-3 rounded px-1 hover:bg-wash active:bg-wash md:min-h-9"
           >

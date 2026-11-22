@@ -30,6 +30,8 @@ export const SHORTCUTS = [
     permission: 'task.create',
   },
   { id: 'task.edit', combos: ['mod+e'], description: 'shortcuts.taskEdit', scope: 'list' },
+  // Na ficha de leitura da tarefa (ES1): abre o painel de edição
+  { id: 'reader.edit', combos: ['e'], description: 'shortcuts.readerEdit', scope: 'global' },
   { id: 'form.save', combos: ['mod+enter'], description: 'shortcuts.formSave', scope: 'editor' },
   { id: 'help.open', combos: ['?'], description: 'shortcuts.helpOpen', scope: 'global' },
   {

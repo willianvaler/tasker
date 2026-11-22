@@ -12,6 +12,8 @@ En la captura rápida y en **Agregar varias**, toca **Dictar la lista** y habla.
 
 Toca la flecha de la tarea (o `Enter` con ella seleccionada) para abrir el **panel**: descripción (hasta 10.000 caracteres; vacía, aparece "+ Añadir descripción"), fecha, prioridad, peso, tiempo, subtareas, responsables, dependencias, campos de la lista y comentarios. Cada campo se guarda al salir de él.
 
+**Ficha de lectura.** En el grafo, los enlaces `[[...]]`, "Citado en", las Bases, el Calendario y la búsqueda, la tarea se abre para **leer**: título, datos, la descripción con formato (negrita, listas, enlaces que se abren), los adjuntos, las subtareas (se pueden marcar) y quién la cita. **Editar** (o la tecla `E`) abre el panel. Para que la flecha de la lista también abra la ficha, activa **Configuración → Apariencia → Abrir las tareas para leer**. Las notas ya se abren para leer cuando tienen texto; el título solo cambia en Editar.
+
 El panel muestra lo esencial (vencimiento, prioridad, etiquetas, descripción y subtareas; en un proyecto, también quién la hace y los vínculos) y lo que la tarea ya usa. Lo demás entra por **+ Agregar**: repetición, tiempo, series, Mi día, peso, quién la ve, adjuntos, aprobación e historial. ¿Quieres todo abierto siempre? Activa **Mostrar todas las secciones del panel de la tarea** en Ajustes → Apariencia.
 
 ## El menú Nuevo

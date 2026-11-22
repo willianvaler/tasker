@@ -12,6 +12,8 @@ In quick capture and in **Add several**, tap **Speak the list** and dictate. Eac
 
 Tap the task's arrow (or `Enter` with it selected) to open the **panel**: description (up to 10,000 characters; when empty, "+ Add description" shows), date, priority, weight, time, subtasks, assignees, dependencies, list fields and comments. Each field saves when you leave it.
 
+**Reading view.** In the graph, `[[...]]` links, "Cited in", Bases, the Calendar and search, a task opens for **reading**: title, details, the formatted description (bold, lists, links that open), attachments, subtasks (you can check them) and who cites it. **Edit** (or the `E` key) opens the panel. To make the list arrow open the reading view too, turn on **Settings → Appearance → Open tasks for reading**. Notes already open for reading when they have text; the title only changes under Edit.
+
 The panel shows the essentials (due date, priority, labels, description and subtasks; in a project, also who does it and the links) plus whatever the task already uses. The rest comes in through **+ Add**: repeat, time, sets, My day, weight, who sees it, attachments, approval and history. Want everything open all the time? Turn on **Show every section of the task panel** in Settings → Appearance.
 
 ## The New menu

@@ -87,6 +87,11 @@ export default function AppLayout() {
                 name="task/[id]"
                 options={{ presentation: 'transparentModal', animation: 'none' }}
               />
+              {/* Ficha de leitura da tarefa (ES1): o mesmo painel, sem edição */}
+              <Stack.Screen
+                name="ler/[id]"
+                options={{ presentation: 'transparentModal', animation: 'none' }}
+              />
               <Stack.Screen
                 name="task/new"
                 options={{ presentation: 'transparentModal', animation: 'none' }}

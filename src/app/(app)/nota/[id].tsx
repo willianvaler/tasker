@@ -456,7 +456,8 @@ function Editor({
         )}
         <TextInput
           value={title}
-          editable={!readOnly}
+          // Em leitura o título não muda (ES1): um toque nele editava sem querer
+          editable={!readOnly && editing}
           onChangeText={setTitle}
           onBlur={save}
           maxLength={200}

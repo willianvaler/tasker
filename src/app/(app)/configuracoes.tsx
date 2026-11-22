@@ -17,6 +17,7 @@ import {
   DarkPaletteChooser,
   LanguageChooser,
   PanelModeChooser,
+  ReadFirstChooser,
   ThemeChooser,
 } from '@/components/preference-choosers';
 import { AppDownload, useApkInfo } from '@/components/app-download';
@@ -122,6 +123,7 @@ function ProfileForm({ profile }: { profile: Profile }) {
         <DarkPaletteChooser />
         <LanguageChooser />
         <PanelModeChooser />
+        <ReadFirstChooser />
       </Group>
 
       <Group title={t('settings.resources')}>

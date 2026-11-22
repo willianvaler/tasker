@@ -58,6 +58,7 @@ import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
+import { readTask } from '@/lib/open-task';
 import { noteTitle, useNotes } from '@/lib/queries/notes';
 import type { Task } from '@/lib/queries/tasks';
 import { hasOperators, matchSearch, parseSearch, pickRandom, searchRank } from '@/lib/search';
@@ -489,7 +490,7 @@ function Palette({
     label: task.title,
     icon: <Icon icon={CheckSquare} tone="ink-muted" />,
     group: 2,
-    run: () => router.push({ pathname: '/task/[id]', params: { id: task.id } }),
+    run: () => readTask(task.id),
   }));
   // Anotações (do aparelho ou do cache), as do título primeiro
   const noteCommands: Command[] = !searching
