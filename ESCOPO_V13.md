@@ -45,11 +45,11 @@ O que falta, em resumo: **abrir para ler** (sobretudo a tarefa), **ver o materia
 
 ## 3. Material do projeto: PDF e HTML dentro do app
 
-- **Material** é uma seção nova do projeto (e de pasta): a lista dos arquivos de estudo, na ordem do nome (`01 - ...`, `02 - ...`), com o tipo e o tamanho. Entra por **Adicionar material** (arquivos, várias de uma vez) ou pela importação (§6). Os `.md` viram anotações do projeto (com as imagens, §2); PDF, HTML e o livro em HTML viram **arquivos do projeto** (tabela nova, `project_files`, no Storage privado, permissão do projeto: quem vê o projeto lê, quem tem `page.manage` acrescenta e tira).
+- **Material** é uma seção nova do projeto (e de pasta): a lista dos arquivos de estudo, na ordem do nome (`01 - ...`, `02 - ...`), com o tipo e o tamanho. Entra por **Adicionar material** (arquivos, várias de uma vez) ou pela importação (§6). Os `.md` viram anotações do projeto (com as imagens, §2); o **HTML é convertido para `.md`** na entrada (ver abaixo); o PDF vira **arquivo do projeto** (tabela nova, `project_files`, no Storage privado, permissão do projeto: quem vê o projeto lê, quem tem `page.manage` acrescenta e tira).
 - **Leitor de PDF** dentro do app: na web, o leitor do próprio navegador num quadro da tela (rápido, com busca e zoom); no celular, o **pdf.js** numa WebView (funciona offline com o arquivo no aparelho). Lembra a página onde parou (por pessoa, §5).
-- **HTML e livro em HTML:** abrem num quadro **isolado** (ver segurança abaixo), com o livro inteiro (o `index.html` e os arquivos ao lado) guardado como um pacote (`.zip` no Storage, aberto no aparelho e servido ao quadro). O simulador PhET roda (precisa de JavaScript).
-- **Segurança do HTML (obrigatório):** HTML enviado pela pessoa **nunca** roda na origem do app (`questlist.wavdev.org`): leria a sessão e os dados. Ele abre num `iframe` com `sandbox="allow-scripts"` **sem** `allow-same-origin`, servido de um endereço separado (subdomínio próprio, ex.: `arquivos.wavdev.org`, ou `blob:`/`srcdoc` com origem nula) e com CSP que proíbe chamar a API do app; sem acesso a cookies, armazenamento nem ao Supabase. No celular, WebView com JavaScript isolado e sem ponte para o app. PDF também abre isolado.
-- **Limites (padrão):** 10 MB por arquivo como hoje (os PDFs do dono têm até 3,2 MB), 50 MB por pacote de livro em HTML (o Vitrúvio tem 14 MB) e o mesmo 1 GB por conta, somando tudo (anexos, imagens das anotações, material). O Perfil mostra o uso separado.
+- **HTML vira Markdown (V13-5):** importar HTML é raro, então não há leitor de HTML nem endereço próprio para ele. Na entrada, o HTML passa pelo **conversor do Web Clipper** (`lib/html-markdown.ts`, D305: títulos, listas, tabelas, links, imagens) e vira **anotação** como os `.md`, com as imagens guardadas na anotação (§2). O **livro em HTML** (pasta com `index.html` e outras páginas) vira **uma anotação por página**, com os links entre páginas trocados por `[[links]]` e o `index.html` como sumário. Scripts, estilos e formulários são descartados na conversão (o conversor já faz isso).
+- **HTML interativo** (como o simulador PhET, que é JavaScript e não tem texto para converter): a conversão percebe que quase não sobra texto e oferece guardar o arquivo como está; ele abre **isolado**, num `iframe` com `sandbox="allow-scripts"` **sem** `allow-same-origin` e com `srcdoc`/`blob:` (origem nula: sem acesso à sessão, aos cookies, ao armazenamento nem ao Supabase); no celular, numa WebView sem ponte para o app, ou pelo navegador. HTML enviado pela pessoa **nunca** roda na origem do app (`questlist.wavdev.org`).
+- **Limites (V13-4):** **50 MB por arquivo** de material (é o teto que o Storage do servidor já aceita, `file_size_limit = "50MiB"`) e o mesmo 1 GB por conta, somando tudo (anexos, imagens das anotações, material). Os anexos da tarefa continuam em 10 MB (padrão). O Perfil mostra o uso separado.
 - **Offline (padrão):** as anotações já vão para o aparelho (sync); PDF e HTML baixam ao abrir e ficam no aparelho até faltar espaço; **Baixar o material para ler sem internet** no projeto guarda tudo de uma vez (com o tamanho antes).
 - **Direitos autorais:** o material é privado do projeto; não entra em publicar (OB14) nem em compartilhar como modelo ou na Comunidade. A fonte que o `.md` traz no topo continua lá.
 
@@ -106,25 +106,27 @@ O que falta, em resumo: **abrir para ler** (sobretudo a tarefa), **ver o materia
 | ES1 | Ficha de leitura da tarefa (descrição renderizada, Editar, `E`); grafo, `[[t:]]`, Citado em, Bases, Calendário e busca abrem a ficha; título da anotação não editável em leitura | — |
 | ES2 | Fórmulas LaTeX (KaTeX) na leitura da anotação e da descrição, web e celular | — |
 | ES3 | Imagens nas anotações (Storage, colar/arrastar, permissão da anotação) e o cofre do Obsidian importando e exportando as imagens | — |
-| ES4 | Material do projeto (`project_files`, seção Material, Adicionar material), leitor de PDF na web e no celular, limites e uso no Perfil; política | ES3 |
-| ES5 | HTML e livro em HTML isolados (origem separada, sandbox, CSP), pacote `.zip`; WebView isolada no celular | ES4 |
+| ES4 | Material do projeto (`project_files`, seção Material, Adicionar material), leitor de PDF na web e no celular, limites (50 MB) e uso no Perfil; política | ES3 |
+| ES5 | HTML vira anotação pelo conversor do Web Clipper (o livro em HTML vira uma anotação por página, com `[[links]]`); HTML interativo guardado como está e aberto isolado (`srcdoc`/`blob:`, sandbox sem mesma origem) | ES3, ES4 |
 | ES6 | Ligar material às tarefas (código e à mão), material na ficha e no grafo | ES1, ES4 |
 | ES7 | Projeto de estudo (interruptor, "o que estudar agora") e tela de leitura (anterior/próximo, onde parei, foco e concluir a sessão), baixar para ler offline | ES6 |
 | ES8 | Importar o plano inteiro (`.zip` com CSV + material) e Adicionar material com a pasta num projeto que já existe | ES6 |
 
-O **ES1** é pequeno e muda o dia a dia: pode sair antes do resto. O **ES5** é o mais delicado (segurança) e pede o subdomínio do §3 na Cloudflare.
+O **ES1** é pequeno e muda o dia a dia: sai antes do resto (V13-7). O **ES5** não pede endereço novo: o HTML vira texto, e só o interativo abre isolado.
 
 Cada tarefa: Ajuda nos 3 idiomas, i18n, E2E e o registro de sempre (STATUS, PENDENTES, FEITOS, DECISIONS). Tabela nova: RLS e pgTAP (dono acessa, estranho não vê, leitor não grava), privilégio por coluna, publicação do sync quando for o caso. Arquivo enviado pela pessoa: nunca roda na origem do app.
 
 ## 12. Decisões do dono
 
-| # | Pergunta | Padrão |
+Respondidas em 21/11/2026 (D321): "4 aumenta pra uns 50mb. 5 - sem endereço próprio, mas vamos pensar numa forma de converter o html pra .md acho que vai ser muito raro alguem importar um html. o restante segue no padrão". A coluna **Decisão** vale.
+
+| # | Pergunta | Decisão |
 |---|---|---|
-| V13-1 | Onde o toque abre a **ficha de leitura** em vez do painel? | No grafo, links, Citado em, Bases, Calendário, busca e nas tarefas de projeto de estudo; na **linha da lista** continua o painel (com "Ler" na seta). Preferência para ficha em todo lugar |
-| V13-2 | "Projeto de estudo" é um interruptor no projeto ou um tipo novo de projeto? | **Interruptor** no projeto (dá para ligar no "Engenharia na prática" que já existe) |
-| V13-3 | Ligar o material à tarefa pelo **código** no nome do arquivo (`M01`) automaticamente? | **Sim**, e também à mão |
-| V13-4 | Limite por arquivo do material: manter 10 MB ou subir (livros em PDF costumam passar)? | **10 MB por arquivo**, 50 MB por pacote de livro em HTML, 1 GB por conta |
-| V13-5 | HTML isolado num **subdomínio próprio** (ex.: `arquivos.wavdev.org`, precisa de registro na Cloudflare) ou só `srcdoc`/`blob:` com origem nula (sem subdomínio, mas o livro de várias páginas fica mais difícil)? | **Subdomínio próprio** |
-| V13-6 | Material disponível **sem internet** por projeto (baixar tudo de uma vez)? | **Sim**, com o tamanho antes |
-| V13-7 | Por onde começar: ES1 (ficha de leitura) sozinho primeiro, ou ES1 a ES4 de uma vez? | **ES1 primeiro**, depois ES2 a ES4 |
-| V13-8 | Destaques e anotações na margem ficam mesmo de fora agora? | **Fora** (§10) |
+| V13-1 | Onde o toque abre a **ficha de leitura** em vez do painel? | No grafo, links, Citado em, Bases, Calendário, busca e nas tarefas de projeto de estudo; na **linha da lista** continua o painel (com "Ler" na seta). Preferência para ficha em todo lugar (padrão) |
+| V13-2 | "Projeto de estudo" é um interruptor no projeto ou um tipo novo de projeto? | **Interruptor** no projeto (padrão) |
+| V13-3 | Ligar o material à tarefa pelo **código** no nome do arquivo (`M01`) automaticamente? | **Sim**, e também à mão (padrão) |
+| V13-4 | Limite por arquivo do material | **50 MB por arquivo** (dono); 1 GB por conta; anexos da tarefa seguem em 10 MB |
+| V13-5 | HTML isolado num subdomínio próprio ou sem endereço próprio? | **Sem endereço próprio** (dono): o HTML **vira `.md`** pelo conversor do Web Clipper; só o HTML interativo fica como arquivo e abre isolado com origem nula |
+| V13-6 | Material disponível **sem internet** por projeto? | **Sim**, com o tamanho antes (padrão) |
+| V13-7 | Por onde começar? | **ES1 primeiro**, depois ES2 a ES4 (padrão) |
+| V13-8 | Destaques e anotações na margem ficam de fora agora? | **Fora** (padrão) |
