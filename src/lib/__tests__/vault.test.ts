@@ -169,3 +169,75 @@ describe('exportVault', () => {
     expect(parseLinks(r.notes[0].body)[0].id).toBe(r.notes[1].id);
   });
 });
+
+describe('imagens do cofre (ES3)', () => {
+  const files = [
+    {
+      path: 'material/04 - Torque.md',
+      text: [
+        'Porta: ![Na figura, a porta](img/87055e99c8.jpg)',
+        'De novo ![](img/87055e99c8.jpg) e ![[alavanca.png|300]]',
+        'Com espaço ![x](<img/com espaço.png>) e %20 ![y](img/com%20espa%C3%A7o.png)',
+        'Fora: ![web](https://exemplo.com/a.png) e ![sumiu](img/nao-tem.png)',
+      ].join('\n'),
+    },
+    { path: 'material/sub/Outra.md', text: 'Sobe ![a](../img/87055e99c8.jpg)' },
+  ];
+  const imageFiles = [
+    'material/img/87055e99c8.jpg',
+    'material/img/com espaço.png',
+    'material/figuras/alavanca.png',
+    'material/img/sobrando.webp',
+    'material/livro.pdf',
+  ];
+  const r = importVault(files, { newId: ids(), imageFiles });
+  const [torque, outra] = r.notes;
+
+  it('a imagem citada sobe uma vez por anotação e o link vira qlimg:', () => {
+    const mine = r.images.filter((i) => i.noteId === torque.id);
+    expect(mine.map((i) => i.file)).toEqual([
+      'material/figuras/alavanca.png',
+      'material/img/87055e99c8.jpg',
+      'material/img/com espaço.png',
+    ]);
+    const jpg = mine.find((i) => i.file.endsWith('.jpg'));
+    expect(jpg?.mime).toBe('image/jpeg');
+    expect(torque.body).toContain(`![Na figura, a porta](qlimg:${jpg?.ref})`);
+    expect(torque.body.split(`qlimg:${jpg?.ref}`).length - 1).toBe(2);
+    // ![[x.png|300]] acha pelo nome em qualquer pasta, com o nome como texto
+    expect(torque.body).toContain('![alavanca](qlimg:');
+  });
+  it('caminho relativo com ../, < > e %20', () => {
+    expect(outra.body).toMatch(/^Sobe !\[a\]\(qlimg:[0-9a-f-]{36}\/[0-9a-f-]{36}\.jpg\)$/);
+    expect(
+      r.images.filter((i) => i.file.endsWith('com espaço.png') && i.noteId === torque.id),
+    ).toHaveLength(1);
+  });
+  it('endereço da web fica; o que não está no .zip conta e fica como estava', () => {
+    expect(torque.body).toContain('![web](https://exemplo.com/a.png)');
+    expect(torque.body).toContain('![sumiu](img/nao-tem.png)');
+    expect(r.missingImages).toBe(1);
+  });
+  it('arquivos que ficam de fora: a imagem que ninguém cita e o PDF', () => {
+    expect(r.skippedFiles).toBe(2);
+  });
+  it('exportar leva a imagem para a pasta anexos, relativa à pasta da anotação', () => {
+    const ref = r.images[0].ref;
+    const out = exportVault(
+      [
+        { id: 'n1', title: 'Na raiz', body: `![a](qlimg:${ref})`, props: {}, dir: [] },
+        {
+          id: 'n2',
+          title: 'Funda',
+          body: `![b](qlimg:${ref})`,
+          props: {},
+          dir: ['Física', 'Estática'],
+        },
+      ],
+      { untitled: 'Sem título' },
+    );
+    const file = ref.split('/')[1];
+    expect(out[0].text).toBe(`![a](anexos/${file})`);
+    expect(out[1].text).toBe(`![b](../../anexos/${file})`);
+  });
+});

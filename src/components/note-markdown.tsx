@@ -13,7 +13,7 @@ import {
 } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
-import { Platform, Pressable, View, type TextStyle } from 'react-native';
+import { Platform, Pressable, View, type ImageStyle, type TextStyle } from 'react-native';
 import { Renderer, useMarkdown } from 'react-native-marked';
 import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +26,8 @@ import { Text } from '@/components/ui/text';
 import { FONT_FAMILY } from '@/lib/fonts';
 import { withTaskBoxes } from '@/lib/markdown-edit';
 import { MathView } from '@/components/math-view';
+import { NoteImage } from '@/components/note-image';
+import { parseImageRef } from '@/lib/note-images';
 import {
   decodeTex,
   extractMath,
@@ -65,6 +67,13 @@ class NoteRenderer extends Renderer {
     private readonly plain = false,
   ) {
     super();
+  }
+
+  image(uri: string, alt?: string, style?: ImageStyle, title?: string) {
+    // Imagem da anotação (ES3): o arquivo no Storage, com o endereço assinado
+    const ref = parseImageRef(uri);
+    if (ref) return <NoteImage key={this.getKey()} refPath={ref} alt={alt} />;
+    return super.image(uri, alt, style, title);
   }
 
   link(children: string | ReactNode[], href: string, styles?: TextStyle, title?: string) {

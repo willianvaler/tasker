@@ -4286,8 +4286,8 @@
     "confirmBody": "Cada .md vira uma anotação sua, com o frontmatter como propriedades e os [[links]] ligados pelo título.",
     "unresolved_one": "{{count}} link aponta para o que não existe e fica apagado.",
     "unresolved_other": "{{count}} links apontam para o que não existe e ficam apagados.",
-    "skippedFiles_one": "{{count}} arquivo que não é .md (imagem, PDF, .canvas) fica de fora.",
-    "skippedFiles_other": "{{count}} arquivos que não são .md (imagens, PDFs, .canvas) ficam de fora.",
+    "skippedFiles_one": "{{count}} arquivo fica de fora (PDF, .canvas ou imagem que nenhuma anotação cita).",
+    "skippedFiles_other": "{{count}} arquivos ficam de fora (PDFs, .canvas ou imagens que nenhuma anotação cita).",
     "truncated_one": "{{count}} anotação passa de 20 mil caracteres e será cortada.",
     "truncated_other": "{{count}} anotações passam de 20 mil caracteres e serão cortadas.",
     "overLimit_one": "{{count}} anotação passa do limite de 2000 por importação e fica de fora.",
@@ -4300,7 +4300,19 @@
     "exported_one": "{{count}} anotação exportada.",
     "exported_other": "{{count}} anotações exportadas.",
     "templatesDir": "Modelos",
-    "sharedDir": "Compartilhadas comigo"
+    "sharedDir": "Compartilhadas comigo",
+    "images_one": "{{count}} imagem vai junto.",
+    "images_other": "{{count}} imagens vão junto.",
+    "missingImages_one": "{{count}} imagem citada não está no .zip (o link fica como estava).",
+    "missingImages_other": "{{count}} imagens citadas não estão no .zip (o link fica como estava).",
+    "imagesWaiting": "Esperando as anotações chegarem ao servidor para enviar as imagens…",
+    "imagesSending": "Enviando as imagens: {{done}} de {{total}}",
+    "imagesSent_one": "{{count}} imagem enviada.",
+    "imagesSent_other": "{{count}} imagens enviadas.",
+    "imagesFailed_one": "{{count}} imagem não foi (sem internet ou sem espaço). Tente importar de novo depois.",
+    "imagesFailed_other": "{{count}} imagens não foram (sem internet ou sem espaço). Tente importar de novo depois.",
+    "imagesMissing_one": "{{count}} imagem não pôde ser baixada e ficou de fora do .zip.",
+    "imagesMissing_other": "{{count}} imagens não puderam ser baixadas e ficaram de fora do .zip."
   },
   "noteShare": {
     "open": "Compartilhar e publicar",
@@ -4962,5 +4974,12 @@
     "open": "Ler {{title}}",
     "everywhere": "Abrir as tarefas para ler",
     "everywhereHint": "Tocar na tarefa (também na seta da lista) mostra a ficha de leitura; o painel de edição fica no Editar."
+  },
+  "noteImages": {
+    "insert": "Inserir imagem",
+    "sending": "Enviando a imagem…",
+    "failed": "A imagem não foi: {{message}}",
+    "image": "Imagem",
+    "unavailable": "Imagem indisponível (sem internet ou sem acesso)"
   }
 }

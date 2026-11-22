@@ -56,6 +56,7 @@ Escreva **/** no começo de uma linha para abrir os **comandos**: título, subt�
 
 - **Callout**: um quadro colorido. Escreva `> [!dica] Título` e, nas linhas de baixo, `> o texto`. Tipos: nota, dica, aviso, perigo, pergunta, informação, feito e citação (os nomes em inglês do Obsidian também valem). Com `-` depois do tipo (`> [!aviso]- Título`) ele começa fechado e abre ao tocar; com `+`, começa aberto e pode ser fechado.
 - **Destaque**: `==texto==` fica marcado com fundo.
+- **Imagem**: no editor, o botão de imagem envia uma ou mais fotos (reduzidas como as dos anexos) e põe cada uma onde está o cursor. Ela aparece na leitura, na largura do texto, com o texto embaixo; quem lê a anotação vê a imagem. Ocupa o espaço de anexos (1 GB) e vai para a lixeira junto com a anotação.
 - **Fórmula**: LaTeX como no Obsidian. `$r\sin\theta$` fica na linha do texto e `$$\tau = rF\sin\theta$$` (numa linha só ou com os `$$` em linhas próprias) vira um bloco centrado. Vale nas anotações e na descrição da tarefa, também sem internet. Fórmula com erro aparece como o texto escrito; `R$ 10` continua dinheiro.
 - **Nota de rodapé**: `[^1]` no texto e, em qualquer linha, `[^1]: a explicação`. A chamada vira um número pequeno e as notas aparecem no fim.
 - **Tabela**: linhas com `|` separando as colunas e `| --- | --- |` embaixo do cabeçalho.
@@ -125,7 +126,7 @@ Em **Publicar na internet**, **Publicar** cria um endereço (`/p/...`) que qualq
 
 ### Importar e exportar o Obsidian
 
-Na tela de Anotações, **Importar do Obsidian (.zip)**: compacte a pasta do cofre e escolha o .zip. Cada `.md` vira uma anotação sua, com o nome do arquivo como título, o frontmatter como propriedades (`tags` e `aliases` inclusive) e os `[[links]]` ligados pelo título (às anotações do cofre e às que você já tem); o que não existe fica como link apagado. Antes de importar, o app mostra quantas anotações entram e o que fica de fora: imagens, PDFs e `.canvas` não são importados, e o texto acima de 20 mil caracteres é cortado. **Exportar para o Obsidian (.zip)** faz o inverso: um `.md` por anotação, nas pastas dos projetos, com o frontmatter e os links pelo nome do arquivo; link para tarefa ou lista vira o nome dela.
+Na tela de Anotações, **Importar do Obsidian (.zip)**: compacte a pasta do cofre e escolha o .zip. Cada `.md` vira uma anotação sua, com o nome do arquivo como título, o frontmatter como propriedades (`tags` e `aliases` inclusive) e os `[[links]]` ligados pelo título (às anotações do cofre e às que você já tem); o que não existe fica como link apagado. Antes de importar, o app mostra quantas anotações entram e quantas imagens vão junto e o que fica de fora: as **imagens citadas** pelos `.md` (`![texto](img/x.png)` ou `![[x.png]]`, achadas pelo caminho ou pelo nome) entram com a anotação; PDFs, `.canvas` e imagens que nenhuma anotação cita não são importados, e o texto acima de 20 mil caracteres é cortado. As imagens sobem depois das anotações e pedem internet. **Exportar para o Obsidian (.zip)** faz o inverso: um `.md` por anotação, nas pastas dos projetos, com o frontmatter e os links pelo nome do arquivo; link para tarefa ou lista vira o nome dela; as imagens vão na pasta `anexos`.
 
 ### Recortes da web (Web Clipper)
 

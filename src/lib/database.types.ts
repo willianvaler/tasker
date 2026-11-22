@@ -1189,6 +1189,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"note_assets": {
+                  Row: {
+                    "created_at": string,"height": number | null,"id": string,"mime": string,"name": string,"note_id": string,"path": string,"size": number,"user_id": string,"width": number | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"height"?: number | null,"id": string,"mime": string,"name": string,"note_id": string,"path": string,"size": number,"user_id"?: string,"width"?: number | null
+                  }
+                  Update: {
+                    "created_at"?: string,"height"?: number | null,"id"?: string,"mime"?: string,"name"?: string,"note_id"?: string,"path"?: string,"size"?: number,"user_id"?: string,"width"?: number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "note_assets_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "notes"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "note_assets_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"note_publication_failures": {
                   Row: {
                     "at": string,"note_id": string
@@ -3178,6 +3204,9 @@ isOneToOne: false
 "can_edit_expense":
 { Args: { "p_expense_id": string }; Returns: boolean
                            },
+"can_edit_note":
+{ Args: { "p_note": string }; Returns: boolean
+                           },
 "can_edit_task":
 { Args: { "p_task_id": string }; Returns: boolean
                            },
@@ -3186,6 +3215,9 @@ isOneToOne: false
                            },
 "can_see_group_path":
 { Args: { "p_name": string }; Returns: boolean
+                           },
+"can_see_note":
+{ Args: { "p_note": string }; Returns: boolean
                            },
 "can_see_post":
 { Args: { "p_post_id": string }; Returns: boolean

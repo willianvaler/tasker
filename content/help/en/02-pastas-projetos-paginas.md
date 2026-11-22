@@ -56,6 +56,7 @@ Type **/** at the start of a line to open the **commands**: heading, subheading,
 
 - **Callout**: a colored box. Write `> [!tip] Title` and, on the lines below, `> the text`. Types: note, tip, warning, danger, question, info, success and quote (Obsidian's names work too). With `-` after the type (`> [!warning]- Title`) it starts closed and opens on tap; with `+`, it starts open and can be closed.
 - **Highlight**: `==text==` gets a background.
+- **Image**: in the editor, the image button sends one or more photos (reduced like attachments) and places each where the cursor is. It shows in the reading view, as wide as the text, with the text below; anyone who can read the note sees the image. It uses the attachments space (1 GB) and goes to the trash with the note.
 - **Formula**: LaTeX as in Obsidian. `$r\sin\theta$` stays inline and `$$\tau = rF\sin\theta$$` (on one line or with the `$$` on lines of their own) becomes a centered block. Works in notes and task descriptions, offline too. A formula with an error shows the text as written; `$ 10` with a space stays money.
 - **Footnote**: `[^1]` in the text and, on any line, `[^1]: the explanation`. The reference becomes a small number and the notes show at the end.
 - **Table**: lines with `|` between the columns and `| --- | --- |` under the header.
@@ -125,7 +126,7 @@ Under **Publish on the web**, **Publish** creates an address (`/p/...`) anyone c
 
 ### Import and export Obsidian
 
-On the Notes screen, **Import from Obsidian (.zip)**: compress the vault folder and choose the .zip. Each `.md` becomes one of your notes, with the file name as the title, the frontmatter as properties (`tags` and `aliases` included) and the `[[links]]` connected by title (to the vault's notes and to the ones you already have); anything that doesn't exist stays a dimmed link. Before importing, the app shows how many notes come in and what is left out: images, PDFs and `.canvas` files aren't imported, and text over 20,000 characters is cut. **Export to Obsidian (.zip)** does the opposite: one `.md` per note, in the projects' folders, with the frontmatter and links by file name; a link to a task or list becomes its name.
+On the Notes screen, **Import from Obsidian (.zip)**: compress the vault folder and choose the .zip. Each `.md` becomes one of your notes, with the file name as the title, the frontmatter as properties (`tags` and `aliases` included) and the `[[links]]` connected by title (to the vault's notes and to the ones you already have); anything that doesn't exist stays a dimmed link. Before importing, the app shows how many notes come in and how many images come along and what is left out: **images cited** by the `.md` files (`![text](img/x.png)` or `![[x.png]]`, found by path or by name) come in with the note; PDFs, `.canvas` files and images no note cites aren't imported, and text over 20,000 characters is cut. Images upload after the notes and need internet. **Export to Obsidian (.zip)** does the opposite: one `.md` per note, in the projects' folders, with the frontmatter and links by file name; a link to a task or list becomes its name; images go in the `anexos` folder.
 
 ### Web clips (Web Clipper)
 

@@ -4286,8 +4286,8 @@
     "confirmBody": "Cada .md se convierte en una nota tuya, con el frontmatter como propiedades y los [[enlaces]] unidos por el título.",
     "unresolved_one": "{{count}} enlace apunta a algo que no existe y queda atenuado.",
     "unresolved_other": "{{count}} enlaces apuntan a cosas que no existen y quedan atenuados.",
-    "skippedFiles_one": "{{count}} archivo que no es .md (imagen, PDF, .canvas) queda fuera.",
-    "skippedFiles_other": "{{count}} archivos que no son .md (imágenes, PDF, .canvas) quedan fuera.",
+    "skippedFiles_one": "{{count}} archivo queda fuera (PDF, .canvas o una imagen que ninguna nota cita).",
+    "skippedFiles_other": "{{count}} archivos quedan fuera (PDF, .canvas o imágenes que ninguna nota cita).",
     "truncated_one": "{{count}} nota pasa de 20 mil caracteres y se cortará.",
     "truncated_other": "{{count}} notas pasan de 20 mil caracteres y se cortarán.",
     "overLimit_one": "{{count}} nota pasa del límite de 2000 por importación y queda fuera.",
@@ -4300,7 +4300,19 @@
     "exported_one": "{{count}} nota exportada.",
     "exported_other": "{{count}} notas exportadas.",
     "templatesDir": "Plantillas",
-    "sharedDir": "Compartidas conmigo"
+    "sharedDir": "Compartidas conmigo",
+    "images_one": "{{count}} imagen va también.",
+    "images_other": "{{count}} imágenes van también.",
+    "missingImages_one": "{{count}} imagen citada no está en el .zip (el enlace queda como estaba).",
+    "missingImages_other": "{{count}} imágenes citadas no están en el .zip (los enlaces quedan como estaban).",
+    "imagesWaiting": "Esperando que las notas lleguen al servidor para enviar las imágenes…",
+    "imagesSending": "Enviando las imágenes: {{done}} de {{total}}",
+    "imagesSent_one": "{{count}} imagen enviada.",
+    "imagesSent_other": "{{count}} imágenes enviadas.",
+    "imagesFailed_one": "{{count}} imagen no se envió (sin conexión o sin espacio). Intenta importar de nuevo más tarde.",
+    "imagesFailed_other": "{{count}} imágenes no se enviaron (sin conexión o sin espacio). Intenta importar de nuevo más tarde.",
+    "imagesMissing_one": "{{count}} imagen no se pudo descargar y quedó fuera del .zip.",
+    "imagesMissing_other": "{{count}} imágenes no se pudieron descargar y quedaron fuera del .zip."
   },
   "noteShare": {
     "open": "Compartir y publicar",
@@ -4962,5 +4974,12 @@
     "open": "Leer {{title}}",
     "everywhere": "Abrir las tareas para leer",
     "everywhereHint": "Tocar la tarea (también la flecha de la lista) muestra la ficha de lectura; el panel de edición queda en Editar."
+  },
+  "noteImages": {
+    "insert": "Insertar imagen",
+    "sending": "Enviando la imagen…",
+    "failed": "La imagen no se envió: {{message}}",
+    "image": "Imagen",
+    "unavailable": "Imagen no disponible (sin conexión o sin acceso)"
   }
 }

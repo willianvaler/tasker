@@ -4,6 +4,7 @@
 // anotações que já existem), ganhando o id (OB1). Exportar: o inverso, um `.md` por anotação, com
 // os links de volta para [[Nome do arquivo]]. O .zip fica para quem chama (fflate). Funções puras.
 
+import { IMAGE_MIME, imageMarkdown, imageRef, isImageFile } from './note-images';
 import { cleanPropName, type NoteProps, type PropValue } from './note-props';
 import { fold } from './query/parse';
 import { cleanLinkTitle, linkMarkup, parseLinks, type LinkKind } from './wikilinks';
@@ -150,9 +151,23 @@ function skippable(path: string) {
 
 export type VaultFile = { path: string; text: string };
 export type ImportedNote = { id: string; title: string; body: string; props: NoteProps };
+/** Imagem do cofre citada numa anotação (ES3): o arquivo do .zip vai para o Storage com este id */
+export type ImportedImage = {
+  id: string;
+  noteId: string;
+  /** Caminho no .zip */
+  file: string;
+  ref: string;
+  mime: string;
+  name: string;
+};
 export type ImportResult = {
   notes: ImportedNote[];
-  /** Arquivos que não são anotação (imagens, PDFs, .canvas) */
+  /** Imagens citadas pelas anotações e achadas no .zip (sobem junto) */
+  images: ImportedImage[];
+  /** Imagens citadas que não estão no .zip (o link fica como estava) */
+  missingImages: number;
+  /** Arquivos que não entram (PDFs, .canvas, imagens que nenhuma anotação cita) */
   skippedFiles: number;
   /** Anotações cortadas no limite de 20 mil caracteres */
   truncated: number;
@@ -170,10 +185,17 @@ export function importVault(
     newId: () => string;
     /** Anotações que já existem na conta: link para elas também resolve */
     existing?: readonly { id: string; title: string }[];
+    /** Imagens que estão no .zip (caminhos): as citadas pelas anotações sobem junto (ES3) */
+    imageFiles?: readonly string[];
   },
 ): ImportResult {
   const md = files.filter((f) => !skippable(f.path));
-  const skippedFiles = files.filter((f) => !f.path.endsWith('/')).length - md.length;
+  const otherFiles = [
+    ...new Set([
+      ...files.filter((f) => !f.path.endsWith('/') && skippable(f.path)).map((f) => f.path),
+      ...(opts.imageFiles ?? []),
+    ]),
+  ];
   const taken = md.slice(0, IMPORT_MAX);
   // Título → id (o primeiro com o nome vence, como o Obsidian quando há dois iguais)
   const byTitle = new Map<string, string>();
@@ -202,11 +224,66 @@ export function importVault(
     return byTitle.get(t) ?? byTitle.get(fold(baseName(target)));
   };
 
+  // Imagens do .zip: pelo caminho inteiro e pelo nome (o Obsidian acha ![[x.png]] em qualquer pasta)
+  const imageByPath = new Map<string, string>();
+  const imageByName = new Map<string, string>();
+  for (const file of opts.imageFiles ?? []) {
+    if (!isImageFile(file)) continue;
+    imageByPath.set(fold(file), file);
+    const base = fold(file.split('/').pop() ?? file);
+    if (!imageByName.has(base)) imageByName.set(base, file);
+  }
+  const images: ImportedImage[] = [];
+  const usedImages = new Set<string>();
+  let missingImages = 0;
+  const mdDir = new Map(taken.map((f, i) => [parsed[i].id, f.path.split('/').slice(0, -1)]));
+
   let truncated = 0;
   let unresolved = 0;
   let droppedProps = 0;
   const notes = parsed.map((n) => {
     let body = n.body;
+    // Imagens primeiro (![[x.png]] também é um link para o leitor dos [[...]])
+    const mine = new Map<string, string>();
+    const place = (target: string, alt: string): string | null => {
+      const file = findImage(target, mdDir.get(n.id) ?? [], imageByPath, imageByName);
+      if (!file) {
+        missingImages++;
+        return null;
+      }
+      let ref = mine.get(file);
+      if (!ref) {
+        const id = opts.newId();
+        const ext = (file.split('.').pop() ?? 'png').toLowerCase();
+        ref = imageRef(n.id, id, ext);
+        mine.set(file, ref);
+        usedImages.add(file);
+        images.push({
+          id,
+          noteId: n.id,
+          file,
+          ref,
+          mime: IMAGE_MIME[ext] ?? 'image/png',
+          name: (file.split('/').pop() ?? file).slice(0, 200),
+        });
+      }
+      return imageMarkdown(alt, ref);
+    };
+    body = body
+      .replace(/!\[\[([^\]|#]+?)(?:\|[^\]]*)?\]\]/g, (whole, target: string) =>
+        isImageFile(target.trim())
+          ? (place(target.trim(), (target.trim().split('/').pop() ?? '').replace(/\.[^.]+$/, '')) ??
+            whole)
+          : whole,
+      )
+      .replace(
+        /!\[([^\]]*)\]\((?:<([^>]+)>|([^)\s]+))(?:\s+"[^"]*")?\)/g,
+        (whole, alt: string, angled: string | undefined, plain: string | undefined) => {
+          const target = (angled ?? plain ?? '').trim();
+          if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(target) || !isImageFile(target)) return whole;
+          return place(target, alt) ?? whole;
+        },
+      );
     const links = parseLinks(body);
     // De trás para a frente: as posições de antes continuam valendo
     for (const link of [...links].reverse()) {
@@ -229,12 +306,43 @@ export function importVault(
   });
   return {
     notes,
-    skippedFiles,
+    images,
+    missingImages,
+    skippedFiles: otherFiles.filter((f) => !usedImages.has(f)).length,
     truncated,
     overLimit: md.length - taken.length,
     unresolved,
     droppedProps,
   };
+}
+
+/**
+ * Acha a imagem citada: o caminho relativo à pasta da anotação (com `../` e `%20`), o caminho a
+ * partir do alto do cofre e, por fim, só o nome do arquivo (como o Obsidian).
+ */
+function findImage(
+  target: string,
+  dir: readonly string[],
+  byPath: ReadonlyMap<string, string>,
+  byName: ReadonlyMap<string, string>,
+): string | null {
+  let decoded = target;
+  try {
+    decoded = decodeURI(target);
+  } catch {
+    // Fica como veio
+  }
+  const parts: string[] = [...dir];
+  for (const piece of decoded.replace(/^\.\//, '').split('/')) {
+    if (piece === '..') parts.pop();
+    else if (piece && piece !== '.') parts.push(piece);
+  }
+  return (
+    byPath.get(fold(parts.join('/'))) ??
+    byPath.get(fold(decoded.replace(/^\/+/, ''))) ??
+    byName.get(fold(decoded.split('/').pop() ?? decoded)) ??
+    null
+  );
 }
 
 // ---------- exportar ----------
@@ -253,6 +361,9 @@ export type ExportNote = {
  * apelido quando o texto do link é outro); para tarefa, lista, pasta ou o que não foi exportado,
  * fica o nome (o Obsidian não tem onde apontar)
  */
+/** Pasta das imagens no .zip exportado */
+export const EXPORT_IMAGE_DIR = 'anexos';
+
 export function exportVault(
   notes: readonly ExportNote[],
   opts: { untitled: string; resolve?: (kind: LinkKind, id: string) => string | null | undefined },
@@ -283,6 +394,12 @@ export function exportVault(
       }
       body = body.slice(0, link.start) + out + body.slice(link.end);
     }
+    // Imagens da anotação (ES3) apontam para a pasta "anexos" no alto do cofre
+    const up = '../'.repeat(n.dir.length);
+    body = body.replace(/(!\[[^\]]*\]\()qlimg:([^)\s]+)\)/g, (whole, head: string, ref: string) => {
+      const file = ref.split('/').pop();
+      return file ? `${head}${up}${EXPORT_IMAGE_DIR}/${file})` : whole;
+    });
     return { path: fileOf.get(n.id)!.path, text: toFrontmatter(n.props) + body };
   });
 }

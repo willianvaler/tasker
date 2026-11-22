@@ -12,8 +12,10 @@ import {
   MoreHorizontal,
   Pencil,
   Trash2,
+  ImagePlus,
   type LucideIcon,
 } from 'lucide-react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -75,6 +77,8 @@ import { useColors } from '@/lib/tokens';
 import { parseLinks } from '@/lib/wikilinks';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
+import { useIsOnline } from '@/providers/online';
+import { sendPickedNoteImage } from '@/lib/queries/note-images';
 
 type Content = { title: string; body: string; props: NoteProps };
 
@@ -185,6 +189,7 @@ function Editor({
   const colors = useColors();
   const m = useNoteMutations();
   const toast = useToast();
+  const online = useIsOnline();
   // OB14 (D300): anotação pessoal de outra pessoa, compartilhada comigo; só ler até saber o papel
   const me = useSession().session?.user.id;
   const shares = useNoteShares();
@@ -347,6 +352,46 @@ function Editor({
     setForced({ start: start + 2, end: start + 2 });
   }
 
+  // Imagem (ES3): escolhe no aparelho, envia e põe o ![...](qlimg:...) onde está o cursor
+  const [sendingImage, setSendingImage] = useState(false);
+  async function insertImage() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      quality: 1,
+      allowsMultipleSelection: true,
+      selectionLimit: 10,
+    });
+    if (result.canceled || !result.assets.length) return;
+    setSendingImage(true);
+    try {
+      const parts: string[] = [];
+      for (const asset of result.assets)
+        parts.push(
+          await sendPickedNoteImage(note.id, {
+            uri: asset.uri,
+            name: asset.fileName,
+            width: asset.width,
+            height: asset.height,
+          }),
+        );
+      // Sem cursor posto no texto (o começo), a imagem vai para o fim
+      const atStart = selection.start === 0 && selection.end === 0;
+      const start = atStart ? body.length : Math.min(selection.start, selection.end);
+      const end = atStart ? body.length : Math.max(selection.start, selection.end);
+      const before = body.slice(0, start);
+      const block = `${before && !before.endsWith('\n') ? '\n\n' : ''}${parts.join('\n\n')}\n`;
+      const next = before + block + body.slice(end);
+      setBody(next);
+      const caret = start + block.length;
+      setSelection({ start: caret, end: caret });
+      setForced({ start: caret, end: caret });
+    } catch (err) {
+      toast({ message: t('noteImages.failed', { message: (err as Error).message }) });
+    } finally {
+      setSendingImage(false);
+    }
+  }
+
   function format(kind: Format) {
     const next = applyFormat(body, selection, kind);
     setBody(next.text);
@@ -487,6 +532,15 @@ function Editor({
               label={t('wikilinks.insert')}
               tone="ink"
               onPress={insertLink}
+            />
+          )}
+          {editing && (
+            <IconButton
+              icon={ImagePlus}
+              label={sendingImage ? t('noteImages.sending') : t('noteImages.insert')}
+              tone="ink"
+              disabled={sendingImage || !online}
+              onPress={() => void insertImage()}
             />
           )}
           {!wideOutline && outline.length > 0 && (

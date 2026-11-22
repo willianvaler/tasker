@@ -4286,8 +4286,8 @@
     "confirmBody": "Each .md becomes one of your notes, with the frontmatter as properties and the [[links]] connected by title.",
     "unresolved_one": "{{count}} link points to something that doesn't exist and stays dimmed.",
     "unresolved_other": "{{count}} links point to things that don't exist and stay dimmed.",
-    "skippedFiles_one": "{{count}} file that isn't .md (image, PDF, .canvas) is left out.",
-    "skippedFiles_other": "{{count}} files that aren't .md (images, PDFs, .canvas) are left out.",
+    "skippedFiles_one": "{{count}} file is left out (a PDF, .canvas or an image no note cites).",
+    "skippedFiles_other": "{{count}} files are left out (PDFs, .canvas or images no note cites).",
     "truncated_one": "{{count}} note is over 20,000 characters and will be cut.",
     "truncated_other": "{{count}} notes are over 20,000 characters and will be cut.",
     "overLimit_one": "{{count}} note is over the limit of 2,000 per import and is left out.",
@@ -4300,7 +4300,19 @@
     "exported_one": "{{count}} note exported.",
     "exported_other": "{{count}} notes exported.",
     "templatesDir": "Templates",
-    "sharedDir": "Shared with me"
+    "sharedDir": "Shared with me",
+    "images_one": "{{count}} image comes along.",
+    "images_other": "{{count}} images come along.",
+    "missingImages_one": "{{count}} cited image isn't in the .zip (the link stays as it was).",
+    "missingImages_other": "{{count}} cited images aren't in the .zip (the links stay as they were).",
+    "imagesWaiting": "Waiting for the notes to reach the server to send the images…",
+    "imagesSending": "Sending images: {{done}} of {{total}}",
+    "imagesSent_one": "{{count}} image sent.",
+    "imagesSent_other": "{{count}} images sent.",
+    "imagesFailed_one": "{{count}} image didn't go (offline or out of space). Try importing again later.",
+    "imagesFailed_other": "{{count}} images didn't go (offline or out of space). Try importing again later.",
+    "imagesMissing_one": "{{count}} image couldn't be downloaded and was left out of the .zip.",
+    "imagesMissing_other": "{{count}} images couldn't be downloaded and were left out of the .zip."
   },
   "noteShare": {
     "open": "Share and publish",
@@ -4962,5 +4974,12 @@
     "open": "Read {{title}}",
     "everywhere": "Open tasks for reading",
     "everywhereHint": "Tapping a task (the list arrow too) shows the reading view; the edit panel is under Edit."
+  },
+  "noteImages": {
+    "insert": "Insert image",
+    "sending": "Sending the image…",
+    "failed": "The image didn't go: {{message}}",
+    "image": "Image",
+    "unavailable": "Image unavailable (offline or no access)"
   }
 }

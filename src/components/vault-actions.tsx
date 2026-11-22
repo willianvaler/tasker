@@ -1,11 +1,12 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate';
 import { Download, Upload } from 'lucide-react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { saveFile } from '@/lib/download';
 import { isSharedWithMe, noteTitle, useNoteMutations, useNotes } from '@/lib/queries/notes';
@@ -14,11 +15,34 @@ import { useToday } from '@/lib/queries/profile';
 import { pageLabel, useTree } from '@/lib/queries/tree';
 import { readPickedBytes } from '@/lib/read-bytes';
 import { uuidv7 } from '@/lib/uuid';
-import { exportVault, importVault, type ImportResult, type VaultFile } from '@/lib/vault';
+import {
+  EXPORT_IMAGE_DIR,
+  exportVault,
+  importVault,
+  type ImportResult,
+  type VaultFile,
+} from '@/lib/vault';
+import { imagePath, isImageFile, noteImageRefs } from '@/lib/note-images';
+import { signedUrl } from '@/lib/queries/attachments';
+import { sendNoteImage, waitForNotesOnServer } from '@/lib/queries/note-images';
 import { useToast } from '@/providers/toast';
 
 // Importar e exportar o cofre do Obsidian (OB13, D298): um .zip com um .md por anotação. Lê e
-// monta o .zip no aparelho (fflate); só as anotações novas vão para o banco.
+// monta o .zip no aparelho (fflate); só as anotações novas vão para o banco. As imagens citadas
+// pelas anotações vão junto (ES3, D324): sobem depois que as anotações chegam ao servidor e, ao
+// exportar, voltam na pasta "anexos".
+
+/** Quantas imagens sobem ou descem ao mesmo tempo */
+const PARALLEL = 4;
+
+async function eachLimited<T>(items: readonly T[], run: (item: T) => Promise<void>) {
+  let next = 0;
+  await Promise.all(
+    Array.from({ length: Math.min(PARALLEL, items.length) }, async () => {
+      while (next < items.length) await run(items[next++]);
+    }),
+  );
+}
 
 /** Arquivo grande demais para abrir no celular */
 const ZIP_MAX = 50 * 1024 * 1024;
@@ -33,6 +57,9 @@ export function VaultActions() {
   const m = useNoteMutations();
   const [busy, setBusy] = useState<'import' | 'export' | null>(null);
   const [preview, setPreview, closePreview] = useDialog<ImportResult>();
+  // Os bytes das imagens do .zip, entre a prévia e o confirmar
+  const imageBytes = useRef(new Map<string, Uint8Array>());
+  const [progress, setProgress] = useState<string | null>(null);
 
   async function pick() {
     setBusy('import');
@@ -54,21 +81,27 @@ export function VaultActions() {
       }
       const bytes = await readPickedBytes(asset);
       const names: string[] = [];
-      // Só abre os .md (as imagens do cofre não são lidas, só contadas)
+      // Abre os .md e as imagens (as que nenhuma anotação cita ficam de fora depois)
       const unzipped = unzipSync(bytes, {
         filter: (file) => {
           names.push(file.name);
-          return /\.md$/i.test(file.name);
+          return /\.md$/i.test(file.name) || isImageFile(file.name);
         },
       });
-      const files: VaultFile[] = names.map((path) => ({
-        path,
-        text: unzipped[path] ? strFromU8(unzipped[path]) : '',
-      }));
+      const files: VaultFile[] = names
+        .filter((path) => !isImageFile(path))
+        .map((path) => ({
+          path,
+          text: unzipped[path] ? strFromU8(unzipped[path]) : '',
+        }));
       const parsed = importVault(files, {
         newId: uuidv7,
         existing: (notes.data ?? []).map((n) => ({ id: n.id, title: noteTitle(n, '') })),
+        imageFiles: names.filter(isImageFile),
       });
+      imageBytes.current = new Map(
+        parsed.images.flatMap((i) => (unzipped[i.file] ? [[i.file, unzipped[i.file]]] : [])),
+      );
       if (!parsed.notes.length) {
         toast({ message: t('vault.empty') });
         return;
@@ -86,9 +119,51 @@ export function VaultActions() {
     setBusy('import');
     m.createMany
       .mutateAsync(result.notes)
-      .then(() => toast({ message: t('vault.imported', { count: result.notes.length }) }))
+      .then(async () => {
+        toast({ message: t('vault.imported', { count: result.notes.length }) });
+        if (result.images.length) await sendImages(result);
+      })
       .catch((err: Error) => toast({ message: t('vault.error', { message: err.message }) }))
-      .finally(() => setBusy(null));
+      .finally(() => {
+        setBusy(null);
+        setProgress(null);
+        imageBytes.current = new Map();
+      });
+  }
+
+  /** As imagens sobem depois que as anotações chegam ao servidor (a permissão é a da anotação) */
+  async function sendImages(result: ImportResult) {
+    setProgress(t('vault.imagesWaiting'));
+    const noteIds = [...new Set(result.images.map((i) => i.noteId))];
+    if (!(await waitForNotesOnServer(noteIds))) {
+      toast({ message: t('vault.imagesFailed', { count: result.images.length }) });
+      return;
+    }
+    let done = 0;
+    let failed = 0;
+    await eachLimited(result.images, async (image) => {
+      const bytes = imageBytes.current.get(image.file);
+      try {
+        if (!bytes) throw new Error('missing');
+        await sendNoteImage({
+          id: image.id,
+          noteId: image.noteId,
+          body: bytes,
+          mime: image.mime,
+          ext: image.ref.split('.').pop() ?? 'png',
+          name: image.name,
+        });
+      } catch {
+        failed++;
+      }
+      done++;
+      setProgress(t('vault.imagesSending', { done, total: result.images.length }));
+    });
+    toast({
+      message: failed
+        ? t('vault.imagesFailed', { count: failed })
+        : t('vault.imagesSent', { count: result.images.length }),
+    });
   }
 
   async function exportAll() {
@@ -122,7 +197,27 @@ export function VaultActions() {
             kind === 'page' ? pages.get(id) : kind === 'folder' ? folders.get(id) : null,
         },
       );
-      const zip = zipSync(Object.fromEntries(files.map((f) => [f.path, strToU8(f.text)])));
+      // Imagens das anotações (ES3): baixadas e postas na pasta "anexos"
+      const refs = [...new Set(notes.data.flatMap((n) => noteImageRefs(n.body)))];
+      const images: [string, Uint8Array][] = [];
+      let missing = 0;
+      await eachLimited(refs, async (ref) => {
+        try {
+          const res = await fetch(await signedUrl(imagePath(ref)));
+          if (!res.ok) throw new Error(String(res.status));
+          images.push([
+            `${EXPORT_IMAGE_DIR}/${ref.split('/').pop()}`,
+            new Uint8Array(await res.arrayBuffer()),
+          ]);
+        } catch {
+          missing++;
+        }
+      });
+      if (missing) toast({ message: t('vault.imagesMissing', { count: missing }) });
+      const zip = zipSync({
+        ...Object.fromEntries(files.map((f) => [f.path, strToU8(f.text)])),
+        ...Object.fromEntries(images),
+      });
       await saveFile(`questlist-${today}.zip`, zip, 'application/zip');
       toast({ message: t('vault.exported', { count: files.length }) });
     } catch (err) {
@@ -142,6 +237,7 @@ export function VaultActions() {
         disabled={!!busy}
         onPress={() => void pick()}
       />
+      {progress && <Text className="w-full text-xs text-ink-muted">{progress}</Text>}
       <Button
         variant="ghost"
         icon={Download}
@@ -156,6 +252,8 @@ export function VaultActions() {
           title={t('vault.confirmTitle', { count: preview.notes.length })}
           message={[
             t('vault.confirmBody'),
+            preview.images.length ? t('vault.images', { count: preview.images.length }) : '',
+            preview.missingImages ? t('vault.missingImages', { count: preview.missingImages }) : '',
             preview.unresolved ? t('vault.unresolved', { count: preview.unresolved }) : '',
             preview.skippedFiles ? t('vault.skippedFiles', { count: preview.skippedFiles }) : '',
             preview.truncated ? t('vault.truncated', { count: preview.truncated }) : '',
