@@ -20,7 +20,7 @@ Quem abre o link **não precisa de conta**: escolhe o dia e o horário (no fuso 
 
 A reserva vira uma **tarefa** na lista **Reservas**, da pasta **Agenda** (criada na primeira reserva), com o horário, a duração e as respostas na descrição, e você recebe um aviso. Com aprovação, a reserva fica pendente (o horário já fica guardado) até você **Aprovar** ou **Recusar** em Compromissos; **Cancelar** tira a tarefa (ela vai para a lixeira).
 
-Quem reservou recebe na tela o botão **Adicionar à agenda (.ics)** e um link para **remarcar** ou **cancelar**. Ainda não mandamos e-mail: a pessoa precisa guardar o link. Os dados de quem reservou somem 1 ano depois do compromisso.
+Quem reservou recebe na tela o botão **Adicionar à agenda (.ics)** e um link para **remarcar** ou **cancelar**. A pessoa também recebe **por e-mail** a confirmação (com o convite .ics e o link), o pedido aguardando aprovação, a recusa, a remarcação e o cancelamento. Os dados de quem reservou somem 1 ano depois do compromisso.
 
 ## Achar horário em grupo
 
@@ -32,7 +32,7 @@ Escolhido o horário, **Criar compromisso** cria a tarefa com o horário e lembr
 
 Para marcar com quem não está no app: **Configurações → Agenda → Enquetes de horário → Nova enquete**. Dê um título, a duração, um recado se quiser (lugar, link da chamada) e de 2 a 5 horários: toque nos seus horários livres dos próximos dias ou escreva um (`25/11 14:00`, `25/11 às 9`). Mande o **link da enquete**. Quem abre não precisa de conta: põe o nome (o e-mail é opcional), marca os horários que servem, no fuso de quem abre, e pode mudar a resposta enquanto a enquete estiver aberta. A página mostra os nomes de quem já respondeu em cada horário, nunca o e-mail; os e-mails só você vê.
 
-Você recebe um aviso a cada pessoa nova. Na enquete, cada horário mostra quantos podem (o mais votado em destaque); **Fechar neste horário** cria a tarefa com horário na lista da agenda (a mesma das reservas), com quem marcou nas notas, e o link passa a mostrar o horário escolhido com **Adicionar à agenda (.ics)**. Enquanto ainda não houver e-mail no app, avise as pessoas pelo mesmo caminho em que mandou o link. A enquete some 1 ano depois de fechada.
+Você recebe um aviso a cada pessoa nova. Na enquete, cada horário mostra quantos podem (o mais votado em destaque); **Fechar neste horário** cria a tarefa com horário na lista da agenda (a mesma das reservas), com quem marcou nas notas, e o link passa a mostrar o horário escolhido com **Adicionar à agenda (.ics)**. Quem deixou o e-mail recebe o horário escolhido com o convite .ics; quem não deixou vê pelo link. A enquete some 1 ano depois de fechada.
 
 ## Sem internet
 

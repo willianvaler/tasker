@@ -21,6 +21,7 @@
   "exclude": [
     "node_modules",
     "supabase/functions/push",
-    "supabase/functions/read-photo"
+    "supabase/functions/read-photo",
+    "supabase/functions/send-email"
   ]
 }

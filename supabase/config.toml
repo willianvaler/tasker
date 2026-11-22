@@ -419,3 +419,7 @@ enabled = true
 # Push (Fase 6): chamada pelo banco com um segredo próprio, não com JWT de usuário
 [functions.push]
 verify_jwt = false
+
+# E-mail da agenda (AG5): só o banco chama, com o segredo (EMAIL_WEBHOOK_SECRET)
+[functions.send-email]
+verify_jwt = false

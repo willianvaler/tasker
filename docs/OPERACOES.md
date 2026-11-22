@@ -86,6 +86,29 @@ Sem isso, a fila só cresce (nada se perde; apaga quando configurar). Em produç
 
 As duas fotos de cada exercício da free-exercise-db (873 do catálogo) ficam no bucket público `exercise-photos` (480 px em `<id>/0.jpg` e `1.jpg`, miniatura de 160 px em `mini/<id>/…`, uns 60 MB). Quem sobe é o `node scripts/exercicios/fotos.mjs`, com a chave de serviço do `supabase status` da pasta: baixa do GitHub uma vez (cache em `data/exercicios/cache/fotos/`), reduz com o `jimp-compact` e envia. O `atualizar.sh` roda com `--se-faltar` a cada atualização: compara o `versao.txt` do bucket e só sobe se a lista ou os tamanhos mudaram (a primeira vez leva alguns minutos). Falhar não derruba a atualização; o app só não mostra as fotos. A lista de quem tem foto que o app usa é o `src/lib/gym/exercise-photos.json` (versionado; regere com `--so-lista` se o catálogo mudar). As fotos não entram no backup do banco: dá para subir de novo a qualquer hora.
 
+## E-mail da agenda (Resend, AG5)
+
+Reservas e enquetes de horário mandam e-mail a quem reservou ou respondeu (D320). O banco põe a mensagem em `public.email_outbox`; cada linha nova chama a Edge Function `send-email` pelo pg_net, que manda pelo **Resend**. O que falhar é tentado de novo a cada 10 min (até 3 vezes); a fila some em 30 dias. Em cada ambiente do servidor (produção e alpha), uma vez:
+
+```bash
+# 1) Segredos da função (supabase/functions/.env, fora do git)
+cat >> supabase/functions/.env <<'FIM'
+RESEND_API_KEY=<chave do Resend, só envio>
+EMAIL_WEBHOOK_SECRET=<um texto aleatório: openssl rand -hex 24>
+EMAIL_FROM=Questlist <nao-responda@SEU-DOMINIO>
+FIM
+# 2) Onde o banco chama a função e o endereço do app nos links (o kong é o do ambiente)
+docker exec -i supabase_db_<projeto> psql -U postgres -c "insert into public.app_config values
+  ('email_url', 'http://supabase_kong_<projeto>:8000/functions/v1/send-email'),
+  ('email_secret', '<o mesmo EMAIL_WEBHOOK_SECRET>'),
+  ('app_url', 'https://questlist.wavdev.org')
+  on conflict (key) do update set value = excluded.value"
+# 3) Reiniciar o Supabase para a função nova e o .env entrarem (~1 min fora)
+npx supabase stop && npx supabase start
+```
+
+Sem domínio verificado no Resend, o remetente `onboarding@resend.dev` só entrega no e-mail da conta do Resend. Ver o que saiu: `select kind, to_email, status, attempts, last_error, created_at from public.email_outbox order by created_at desc limit 20;`. O `alpha-copiar-producao.sh` tira `email_url`/`email_secret` da cópia (o alpha usa os dele). A confirmação de conta e o "esqueci a senha" (Auth) ainda usam o e-mail embutido do Supabase: ligar o SMTP do Resend no Auth é o próximo passo do V5-3.
+
 ## Leitura de fotos (Gemini, V9)
 
 **Foto da nota** e **Foto de uma lista** chamam a Edge Function `read-photo`, que manda a foto ao Gemini (API do Google AI Studio). O portão do `/supabase` só deixa passar essa função, e só com login de verdade. A chave **não vai para o repositório**: fica em `supabase/functions/.env` (no `.gitignore`), que o `supabase start` carrega:

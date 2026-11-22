@@ -53,7 +53,7 @@ const ptBR: Record<LegalDoc, Doc> = {
   privacy: {
     title: 'Política de privacidade',
     updated:
-      'Versão de 21 de novembro de 2026 (agenda, reservas, enquetes de horário e valor da hora)',
+      'Versão de 21 de novembro de 2026 (agenda, reservas, enquetes de horário, e-mails da agenda e valor da hora)',
     sections: [
       {
         title: 'Quem cuida dos dados',
@@ -73,7 +73,7 @@ const ptBR: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Terceiros e transferência internacional',
-        body: 'O servidor fica no Brasil. O tráfego passa pela Cloudflare (proteção e entrega, com servidores em vários países). Os avisos no celular passam pelo serviço de notificações da Expo e pelo Firebase (Google) ou pela Apple, que recebem só o texto do aviso e o identificador do aparelho. As lojas (Google Play e App Store) tratam os dados de quem instala o app segundo as políticas delas. A “Foto da nota” é lida no nosso próprio servidor, por um programa de reconhecimento de texto (Tesseract), e não é enviada a nenhuma outra empresa. Quando você usa “Foto de uma lista”, a foto é enviada ao Google (API Gemini) só para ser lida; nesta fase de testes usamos o plano gratuito do Google, em que o Google pode usar o que recebe para melhorar os produtos dele, inclusive com revisão humana. Por isso, evite fotografar listas com dados de outras pessoas. A foto da nota fica guardada no nosso servidor, junto do lançamento. Quando você toca em “Falar a lista”, a sua voz é transformada em texto pelo reconhecimento de fala do aparelho ou do navegador (no Android e no Chrome, o do Google; no iPhone e no Safari, o da Apple), segundo as políticas deles; o app recebe só o texto e não grava o áudio. Essas transferências seguem a LGPD (art. 33), com empresas que adotam cláusulas de proteção de dados.',
+        body: 'O servidor fica no Brasil. O tráfego passa pela Cloudflare (proteção e entrega, com servidores em vários países). Os avisos no celular passam pelo serviço de notificações da Expo e pelo Firebase (Google) ou pela Apple, que recebem só o texto do aviso e o identificador do aparelho. Os e-mails da agenda (a confirmação de uma reserva e o horário escolhido numa enquete, para quem deixou o endereço) são enviados pelo Resend (servidores nos EUA), que recebe o endereço, o nome e o texto do e-mail. As lojas (Google Play e App Store) tratam os dados de quem instala o app segundo as políticas delas. A “Foto da nota” é lida no nosso próprio servidor, por um programa de reconhecimento de texto (Tesseract), e não é enviada a nenhuma outra empresa. Quando você usa “Foto de uma lista”, a foto é enviada ao Google (API Gemini) só para ser lida; nesta fase de testes usamos o plano gratuito do Google, em que o Google pode usar o que recebe para melhorar os produtos dele, inclusive com revisão humana. Por isso, evite fotografar listas com dados de outras pessoas. A foto da nota fica guardada no nosso servidor, junto do lançamento. Quando você toca em “Falar a lista”, a sua voz é transformada em texto pelo reconhecimento de fala do aparelho ou do navegador (no Android e no Chrome, o do Google; no iPhone e no Safari, o da Apple), segundo as políticas deles; o app recebe só o texto e não grava o áudio. Essas transferências seguem a LGPD (art. 33), com empresas que adotam cláusulas de proteção de dados.',
       },
       {
         title: 'Por quanto tempo',
@@ -140,7 +140,8 @@ const en: Record<LegalDoc, Doc> = {
   },
   privacy: {
     title: 'Privacy policy',
-    updated: 'Version of November 21, 2026 (schedule, bookings, time polls and hourly rates)',
+    updated:
+      'Version of November 21, 2026 (schedule, bookings, time polls, schedule emails and hourly rates)',
     sections: [
       {
         title: 'Who looks after the data',
@@ -160,7 +161,7 @@ const en: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Third parties and international transfer',
-        body: "The server is in Brazil. Traffic goes through Cloudflare (protection and delivery, with servers in many countries). Phone notifications go through Expo's notification service and Firebase (Google) or Apple, which receive only the notification text and the device identifier. The app stores (Google Play and App Store) handle installer data under their own policies. The “Receipt photo” is read on our own server by a text recognition program (Tesseract) and isn't sent to any other company. When you use “Photo of a list”, the photo is sent to Google (Gemini API) only to be read; during this testing phase we use Google's free tier, under which Google may use what it receives to improve its products, including human review. So avoid photographing lists with other people's data. The receipt photo is stored on our server, with the entry. When you tap “Speak the list”, your voice is turned into text by the speech recognition of your device or browser (on Android and Chrome, Google's; on iPhone and Safari, Apple's), under their policies; the app receives only the text and doesn't record the audio. These transfers follow the LGPD (art. 33), with companies that adopt data protection clauses.",
+        body: "The server is in Brazil. Traffic goes through Cloudflare (protection and delivery, with servers in many countries). Phone notifications go through Expo's notification service and Firebase (Google) or Apple, which receive only the notification text and the device identifier. Schedule emails (a booking confirmation and the time chosen in a poll, for people who left their address) are sent through Resend (servers in the US), which receives the address, the name and the email text. The app stores (Google Play and App Store) handle installer data under their own policies. The “Receipt photo” is read on our own server by a text recognition program (Tesseract) and isn't sent to any other company. When you use “Photo of a list”, the photo is sent to Google (Gemini API) only to be read; during this testing phase we use Google's free tier, under which Google may use what it receives to improve its products, including human review. So avoid photographing lists with other people's data. The receipt photo is stored on our server, with the entry. When you tap “Speak the list”, your voice is turned into text by the speech recognition of your device or browser (on Android and Chrome, Google's; on iPhone and Safari, Apple's), under their policies; the app receives only the text and doesn't record the audio. These transfers follow the LGPD (art. 33), with companies that adopt data protection clauses.",
       },
       {
         title: 'How long',
@@ -228,7 +229,7 @@ const es: Record<LegalDoc, Doc> = {
   privacy: {
     title: 'Política de privacidad',
     updated:
-      'Versión del 21 de noviembre de 2026 (agenda, reservas, encuestas de horario y valor de la hora)',
+      'Versión del 21 de noviembre de 2026 (agenda, reservas, encuestas de horario, correos de la agenda y valor de la hora)',
     sections: [
       {
         title: 'Quién cuida los datos',
@@ -248,7 +249,7 @@ const es: Record<LegalDoc, Doc> = {
       },
       {
         title: 'Terceros y transferencia internacional',
-        body: 'El servidor está en Brasil. El tráfico pasa por Cloudflare (protección y entrega, con servidores en varios países). Los avisos en el móvil pasan por el servicio de notificaciones de Expo y por Firebase (Google) o Apple, que reciben solo el texto del aviso y el identificador del dispositivo. Las tiendas (Google Play y App Store) tratan los datos de quien instala la app según sus propias políticas. La “Foto del ticket” se lee en nuestro propio servidor, con un programa de reconocimiento de texto (Tesseract), y no se envía a ninguna otra empresa. Cuando usas “Foto de una lista”, la foto se envía a Google (API Gemini) solo para leerla; en esta fase de pruebas usamos el plan gratuito de Google, en el que Google puede usar lo que recibe para mejorar sus productos, incluso con revisión humana. Por eso, evita fotografiar listas con datos de otras personas. La foto del ticket queda guardada en nuestro servidor, junto al registro. Cuando tocas “Dictar la lista”, tu voz se convierte en texto con el reconocimiento de voz del dispositivo o del navegador (en Android y Chrome, el de Google; en iPhone y Safari, el de Apple), según sus políticas; la app recibe solo el texto y no graba el audio. Estas transferencias siguen la LGPD (art. 33), con empresas que adoptan cláusulas de protección de datos.',
+        body: 'El servidor está en Brasil. El tráfico pasa por Cloudflare (protección y entrega, con servidores en varios países). Los avisos en el móvil pasan por el servicio de notificaciones de Expo y por Firebase (Google) o Apple, que reciben solo el texto del aviso y el identificador del dispositivo. Los correos de la agenda (la confirmación de una reserva y el horario elegido en una encuesta, para quien dejó su dirección) se envían por Resend (servidores en EE. UU.), que recibe la dirección, el nombre y el texto del correo. Las tiendas (Google Play y App Store) tratan los datos de quien instala la app según sus propias políticas. La “Foto del ticket” se lee en nuestro propio servidor, con un programa de reconocimiento de texto (Tesseract), y no se envía a ninguna otra empresa. Cuando usas “Foto de una lista”, la foto se envía a Google (API Gemini) solo para leerla; en esta fase de pruebas usamos el plan gratuito de Google, en el que Google puede usar lo que recibe para mejorar sus productos, incluso con revisión humana. Por eso, evita fotografiar listas con datos de otras personas. La foto del ticket queda guardada en nuestro servidor, junto al registro. Cuando tocas “Dictar la lista”, tu voz se convierte en texto con el reconocimiento de voz del dispositivo o del navegador (en Android y Chrome, el de Google; en iPhone y Safari, el de Apple), según sus políticas; la app recibe solo el texto y no graba el audio. Estas transferencias siguen la LGPD (art. 33), con empresas que adoptan cláusulas de protección de datos.',
       },
       {
         title: 'Por cuánto tiempo',

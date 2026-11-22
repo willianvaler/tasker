@@ -59,7 +59,7 @@ docker exec -i "$DB_CONTAINER" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -
 delete from auth.refresh_tokens;
 delete from auth.sessions;
 delete from public.push_tokens;
-delete from public.app_config where key in ('push_url', 'push_secret');
+delete from public.app_config where key in ('push_url', 'push_secret', 'email_url', 'email_secret', 'app_url');
 insert into public.app_config values
   ('storage_url', 'http://supabase_kong_$SUPABASE_PROJECT_ID:8000/storage/v1'),
   ('storage_key', '$KEY')

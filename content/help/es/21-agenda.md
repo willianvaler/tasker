@@ -20,7 +20,7 @@ Quien abre el enlace **no necesita cuenta**: elige el día y el horario (en su z
 
 La reserva se vuelve una **tarea** en la lista **Reservas**, de la carpeta **Agenda** (creada con la primera reserva), con el horario, la duración y las respuestas en la descripción, y recibes un aviso. Con aprobación, la reserva queda pendiente (el horario ya queda guardado) hasta que la **Apruebes** o **Rechaces** en Citas; **Cancelar** quita la tarea (va a la papelera).
 
-Quien reservó recibe en la pantalla el botón **Añadir al calendario (.ics)** y un enlace para **cambiar** o **cancelar**. Todavía no enviamos correo: la persona tiene que guardar el enlace. Los datos de quien reservó se borran 1 año después de la cita.
+Quien reservó recibe en la pantalla el botón **Añadir al calendario (.ics)** y un enlace para **cambiar** o **cancelar**. La persona también recibe **por correo** la confirmación (con la invitación .ics y el enlace), la solicitud pendiente, el rechazo, el cambio de horario y la cancelación. Los datos de quien reservó se borran 1 año después de la cita.
 
 ## Buscar horario en grupo
 
@@ -32,7 +32,7 @@ Elegido el horario, **Crear cita** crea la tarea con ese horario y aviso 15 min 
 
 Para quedar con quien no está en la app: **Configuración → Agenda → Encuestas de horario → Nueva encuesta**. Ponle un título, la duración, un mensaje si quieres (lugar, enlace de la llamada) y de 2 a 5 horarios: toca tus horarios libres de los próximos días o escribe uno (`25/11 14:00`). Manda el **enlace de la encuesta**. Quien lo abre no necesita cuenta: pone el nombre (el correo es opcional), marca los horarios que le sirven, en su propia zona horaria, y puede cambiar la respuesta mientras la encuesta esté abierta. La página muestra los nombres de quien ya respondió en cada horario, nunca el correo; los correos solo los ves tú.
 
-Recibes un aviso por cada persona nueva. En la encuesta, cada horario muestra cuántos pueden (el más votado, destacado); **Cerrar en este horario** crea la tarea con hora en la lista de la agenda (la misma de las reservas), con quien lo marcó en las notas, y el enlace pasa a mostrar el horario elegido con **Añadir al calendario (.ics)**. Mientras la app no envíe correos, avisa a las personas por el mismo camino por el que mandaste el enlace. La encuesta se borra 1 año después de cerrada.
+Recibes un aviso por cada persona nueva. En la encuesta, cada horario muestra cuántos pueden (el más votado, destacado); **Cerrar en este horario** crea la tarea con hora en la lista de la agenda (la misma de las reservas), con quien lo marcó en las notas, y el enlace pasa a mostrar el horario elegido con **Añadir al calendario (.ics)**. Quien dejó su correo recibe el horario elegido con la invitación .ics; los demás lo ven en el enlace. La encuesta se borra 1 año después de cerrada.
 
 ## Sin conexión
 
