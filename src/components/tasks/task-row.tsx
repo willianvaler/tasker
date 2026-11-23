@@ -248,7 +248,7 @@ function TaskRowView({
       <IconButton
         icon={ChevronRight}
         label={t('task.details', { title: task.title })}
-        onPress={() => openTask(task.id)}
+        onPress={() => openTask(task.id, task.folder_id)}
       />
     </Pressable>
   );

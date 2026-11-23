@@ -66,6 +66,7 @@ export function toFolder(row: Row): Tables<'folders'> {
     archived: !!row.archived,
     // Linha que chegou antes da coluna existir: vale o padrão do banco (ligado)
     auto_complete_parent: row.auto_complete_parent == null ? true : !!row.auto_complete_parent,
+    study: !!row.study,
     created_at: iso(row.created_at)!,
     updated_at: iso(row.updated_at)!,
   };

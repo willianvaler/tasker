@@ -18,6 +18,7 @@ import { useFolderActions } from '@/components/folder-actions';
 import { folderSummary, MenuButton, PageRow } from '@/components/folder-cards';
 import { ItemIcon } from '@/components/item-icon';
 import { MaterialsSection, useAddMaterials } from '@/components/materials-section';
+import { StudyNow } from '@/components/study';
 import { NotesList, useNewNote } from '@/components/notes-block';
 import { ProjectOverview } from '@/components/project-overview';
 import { FlowView } from '@/components/project/flow-view';
@@ -230,6 +231,8 @@ export default function FolderScreen() {
         </ScreenScroll>
       ) : (
         <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
+          {/* Projeto de estudo (ES7): a próxima sessão em cima de tudo */}
+          {folder && 'children' in folder && folder.study && <StudyNow root={folder} />}
           {folder && 'children' in folder && project && (!empty || showSetup) && (
             <View className="mb-4">
               <View className="mb-6">

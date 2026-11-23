@@ -21,6 +21,8 @@ const folders = new Table(
     max_depth: column.integer,
     auto_complete_parent: column.integer,
     dependency_mode: column.text,
+    // Projeto de estudo (ES7)
+    study: column.integer,
     updated_at: column.text,
     updated_by: column.text,
     version: column.integer,

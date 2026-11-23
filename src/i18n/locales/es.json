@@ -5032,5 +5032,29 @@
     "viaParent": "de la tarea madre: {{title}}",
     "viaPage": "de la lista: {{title}}",
     "unlink": "Desvincular {{name}} de esta tarea"
+  },
+  "study": {
+    "now": "Qué estudiar ahora",
+    "allDone": "Todas las sesiones están completadas.",
+    "read": "Estudiar",
+    "open": "Abrir la sesión",
+    "focus": "Empezar foco",
+    "session": "Sesión",
+    "complete": "Completar sesión",
+    "reopen": "Reabrir",
+    "toggle": "Es un plan de estudios",
+    "toggleHint": "Las tareas se abren para leer, y el proyecto muestra qué estudiar ahora.",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "smaller": "Texto más pequeño",
+    "bigger": "Texto más grande",
+    "edit": "Editar",
+    "page": "Página donde me quedé",
+    "pageHint": "Se abre en esta página la próxima vez (aquí y en tus otros dispositivos).",
+    "offline": "Descargar para leer sin internet",
+    "offlineSaving": "Descargando {{done}} de {{total}}…",
+    "offlineDone": "Material guardado en el dispositivo para leer sin internet.",
+    "offlineConfirm": "¿Descargar {{count}} archivos ({{size}}) a este dispositivo?",
+    "offlineFailed": "{{count}} archivo no se descargó. Inténtalo de nuevo con internet."
   }
 }

@@ -91,18 +91,21 @@ test('material: adicionar PDF e .md, ler o PDF e tirar', async ({ page }, testIn
   await expect(page.getByTestId('html-frame')).toHaveAttribute('sandbox', 'allow-scripts');
   await page.goBack();
 
-  // O livro em HTML virou anotação da pasta, com a imagem
+  // O livro em HTML virou anotação da pasta, com a imagem (aberta na leitura)
   await section.getByRole('link', { name: '06 - M02 - Vitrúvio' }).click();
-  await expect(page.getByRole('textbox', { name: 'Título da anotação' })).toHaveValue(
-    '06 - M02 - Vitrúvio',
-  );
+  await expect(page.getByRole('heading', { name: '06 - M02 - Vitrúvio' })).toBeVisible();
+  await expect(page.getByTestId('note-reader').getByText('A educação do arquiteto.')).toBeVisible();
+  await expect(page.getByTestId('note-reader').getByTestId('note-image')).toBeVisible();
   await page.goBack();
 
-  // O .md virou anotação da pasta, com a imagem
+  // O .md virou anotação da pasta: abre na leitura, e Editar leva ao editor
   await section.getByRole('link', { name: '04 - M01 - Equilíbrio' }).click();
+  await expect(page.getByRole('heading', { name: '04 - M01 - Equilíbrio' })).toBeVisible();
+  await page.getByTestId('note-reader').getByRole('button', { name: 'Editar' }).click();
   await expect(page.getByRole('textbox', { name: 'Título da anotação' })).toHaveValue(
     '04 - M01 - Equilíbrio',
   );
+  await page.goBack();
   await page.goBack();
 
   // O PDF abre no leitor do navegador, num quadro com o arquivo em blob:

@@ -12,7 +12,15 @@ import {
   type LucideIcon,
 } from 'lucide-react-native';
 import { router } from 'expo-router';
-import { useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from 'react';
 import { Platform, Pressable, View, type ImageStyle, type TextStyle } from 'react-native';
 import { Renderer, useMarkdown } from 'react-native-marked';
 import { useColorScheme } from 'nativewind';
@@ -186,10 +194,17 @@ type ChunkProps = {
 };
 
 /** Um trecho de Markdown com as cores e as fontes do app */
+/** Tamanho do texto da leitura (ES7): multiplica as fontes das anotações dentro dele */
+export const NoteTextScale = createContext(1);
+
 function Chunk({ source, renderer, small, onHeadingLayout }: ChunkProps) {
   const colors = useColors();
   const { colorScheme } = useColorScheme();
-  const size = small ? { fontSize: 14, lineHeight: 20 } : { fontSize: 16, lineHeight: 24 };
+  const k = useContext(NoteTextScale);
+  const px = (n: number) => Math.round(n * k);
+  const size = small
+    ? { fontSize: px(14), lineHeight: px(20) }
+    : { fontSize: px(16), lineHeight: px(24) };
   const text = { color: colors.ink, fontFamily: FONT_FAMILY.sans, ...size };
   const heading = { color: colors.ink, fontFamily: FONT_FAMILY.serif, marginTop: 8 };
   const elements = useMarkdown(source, {
@@ -204,9 +219,9 @@ function Chunk({ source, renderer, small, onHeadingLayout }: ChunkProps) {
       li: text,
       strong: { fontFamily: FONT_FAMILY.sansSemibold, fontWeight: 'normal' },
       em: { fontStyle: 'italic' },
-      h1: { ...heading, fontSize: 24, lineHeight: 32 },
-      h2: { ...heading, fontSize: 20, lineHeight: 28 },
-      h3: { ...heading, fontSize: 18, lineHeight: 26 },
+      h1: { ...heading, fontSize: px(24), lineHeight: px(32) },
+      h2: { ...heading, fontSize: px(20), lineHeight: px(28) },
+      h3: { ...heading, fontSize: px(18), lineHeight: px(26) },
       codespan: { fontFamily: FONT_FAMILY.mono, backgroundColor: colors.wash },
       link: { color: colors.accent, textDecorationLine: 'underline' },
       table: { borderColor: colors.line, marginVertical: 4 },

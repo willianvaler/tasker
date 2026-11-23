@@ -284,3 +284,23 @@ export function setReadFirst(value: boolean) {
     // Sem armazenamento (aba anônima): fica só nesta sessão do padrão
   }
 }
+
+/** Tamanho do texto na tela de leitura (ES7): do aparelho */
+const READER_SCALE_KEY = 'questlist:reader-scale';
+
+export function getReaderScale(): number {
+  try {
+    const value = Number(localStore?.getItem(READER_SCALE_KEY));
+    return Number.isFinite(value) && value >= 0.5 && value <= 2 ? value : 1;
+  } catch {
+    return 1;
+  }
+}
+
+export function setReaderScale(value: number) {
+  try {
+    localStore?.setItem(READER_SCALE_KEY, String(value));
+  } catch {
+    // Sem armazenamento: vale só agora
+  }
+}

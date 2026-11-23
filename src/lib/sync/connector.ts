@@ -31,6 +31,7 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'max_depth',
       'auto_complete_parent',
       'dependency_mode',
+      'study',
     ],
   },
   pages: {

@@ -1,17 +1,18 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { unzipSync } from 'fflate';
 import { router } from 'expo-router';
-import { AppWindow, FileText, NotebookText, Plus, Trash2 } from 'lucide-react-native';
+import { AppWindow, Download, FileText, NotebookText, Plus, Trash2 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
-import { IconButton } from '@/components/ui/button';
+import { Button, IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { formatBytes } from '@/lib/attachments';
+import { saveMaterialOffline } from '@/lib/material-cache';
 import { ignoredZipPath, buildMaterialImport } from '@/lib/material-import';
 import { materialKindOf, materialTitle, planMaterials } from '@/lib/materials';
 import {
@@ -199,10 +200,15 @@ export function useAddMaterials(folderId: string) {
   return { add, progress };
 }
 
-export function openMaterial(material: { id: string; note_id: string | null }) {
-  if (material.note_id)
-    router.push({ pathname: '/nota/[id]', params: { id: material.note_id } });
-  else router.push({ pathname: '/material/[id]', params: { id: material.id } });
+/**
+ * Abre o material na tela de leitura (ES7): o PDF e o HTML no leitor, a anotação em leitura (com
+ * Editar). Com a tarefa, o anterior/próximo segue o material dela e a sessão aparece embaixo
+ */
+export function openMaterial(material: { id: string }, taskId?: string) {
+  router.push({
+    pathname: '/material/[id]',
+    params: taskId ? { id: material.id, tarefa: taskId } : { id: material.id },
+  });
 }
 
 /** A seção da pasta: aparece com material, ou para quem pode acrescentar quando há o botão */
@@ -221,6 +227,24 @@ export function MaterialsSection({
   const { remove } = useMaterialMutations(folderId);
   const [confirm, setConfirm, closeConfirm] = useDialog<Material>();
   const list = materials.data ?? [];
+  // Ler sem internet (ES7): o PDF e o HTML vão para o aparelho de uma vez (as anotações já vão pelo sync)
+  const files = list.filter((m) => m.path);
+  const filesSize = files.reduce((sum, m) => sum + (m.size ?? 0), 0);
+  const [offline, setOffline, closeOffline] = useDialog<true>();
+  const [saving, setSaving] = useState<string | null>(null);
+  const toast = useToast();
+  async function saveAll() {
+    closeOffline();
+    let failed = 0;
+    for (const [i, m] of files.entries()) {
+      setSaving(t('study.offlineSaving', { done: i + 1, total: files.length }));
+      await saveMaterialOffline(m.path ?? '').catch(() => failed++);
+    }
+    setSaving(null);
+    toast({
+      message: failed ? t('study.offlineFailed', { count: failed }) : t('study.offlineDone'),
+    });
+  }
   if (!list.length && !adder.progress) return null;
 
   return (
@@ -287,6 +311,34 @@ export function MaterialsSection({
           )}
         </View>
       ))}
+      {files.length > 0 && online && (
+        <View className="flex-row flex-wrap items-center gap-2 px-2 pt-1">
+          <Button
+            variant="ghost"
+            icon={Download}
+            label={`${t('study.offline')} · ${formatBytes(filesSize, i18n.language)}`}
+            disabled={!!saving}
+            onPress={() => setOffline(true)}
+          />
+          {saving && (
+            <Text className="text-sm text-ink-muted" accessibilityLiveRegion="polite">
+              {saving}
+            </Text>
+          )}
+        </View>
+      )}
+      {offline && (
+        <ConfirmDialog
+          title={t('study.offline')}
+          message={t('study.offlineConfirm', {
+            count: files.length,
+            size: formatBytes(filesSize, i18n.language),
+          })}
+          confirmLabel={t('study.offline')}
+          onClose={closeOffline}
+          onConfirm={() => void saveAll()}
+        />
+      )}
       {confirm && (
         <ConfirmDialog
           title={t('materials.removeTitle')}

@@ -5032,5 +5032,29 @@
     "viaParent": "from the parent task: {{title}}",
     "viaPage": "from the list: {{title}}",
     "unlink": "Unlink {{name}} from this task"
+  },
+  "study": {
+    "now": "What to study now",
+    "allDone": "All sessions are done.",
+    "read": "Study",
+    "open": "Open the session",
+    "focus": "Start focus",
+    "session": "Session",
+    "complete": "Complete session",
+    "reopen": "Reopen",
+    "toggle": "It's a study plan",
+    "toggleHint": "Tasks open for reading, and the project shows what to study now.",
+    "prev": "Previous",
+    "next": "Next",
+    "smaller": "Smaller text",
+    "bigger": "Larger text",
+    "edit": "Edit",
+    "page": "Page where I stopped",
+    "pageHint": "Opens on this page next time (here and on your other devices).",
+    "offline": "Download to read offline",
+    "offlineSaving": "Downloading {{done}} of {{total}}…",
+    "offlineDone": "Material saved on this device to read offline.",
+    "offlineConfirm": "Download {{count}} files ({{size}}) to this device?",
+    "offlineFailed": "{{count}} file didn't download. Try again with internet."
   }
 }

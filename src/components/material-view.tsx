@@ -1,4 +1,3 @@
-import { Directory, File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { BookOpen } from 'lucide-react-native';
 import { useState } from 'react';
@@ -8,23 +7,13 @@ import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { PDF_MIME } from '@/lib/materials';
-import { materialUrl } from '@/lib/queries/materials';
-
-/** Baixa uma vez para o aparelho (fica no cache: abre de novo sem internet) */
-async function localCopy(path: string) {
-  // O nome guarda a extensão do material (o leitor do aparelho escolhe por ela)
-  const dir = new Directory(Paths.cache, 'materials');
-  if (!dir.exists) dir.create({ idempotent: true });
-  const file = new File(dir, path.replace(/\//g, '_'));
-  if (file.exists && (file.size ?? 0) > 0) return file;
-  return File.downloadFileAsync(await materialUrl(path), file, { idempotent: true });
-}
+import { localMaterialFile } from '@/lib/material-cache';
 
 /**
  * Leitor de PDF no celular (ES4, D325): baixa o arquivo e abre no leitor de PDF do aparelho. O
  * leitor dentro do app (pdf.js numa WebView) pede um APK novo e fica para depois.
  */
-export function PdfView({ path, name }: { path: string; name: string }) {
+export function PdfView({ path, name }: { path: string; name: string; page?: number }) {
   return <OpenOnDevice path={path} name={name} html={false} />;
 }
 
@@ -39,7 +28,7 @@ function OpenOnDevice({ path, name, html }: { path: string; name: string; html: 
   async function open() {
     setState('busy');
     try {
-      const file = await localCopy(path);
+      const file = await localMaterialFile(path);
       await Sharing.shareAsync(
         file.uri,
         html

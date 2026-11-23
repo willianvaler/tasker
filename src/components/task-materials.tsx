@@ -25,6 +25,38 @@ import { useToast } from '@/providers/toast';
 const iconFor = (m: { note_id: string | null; mime: string | null }) =>
   m.note_id ? NotebookText : m.mime === 'text/html' ? AppWindow : FileText;
 
+type MaterialTask = {
+  id: string;
+  page_id: string | null;
+  folder_id: string | null;
+  parent_task_id?: string | null;
+};
+
+/** O material que vale para a tarefa (o dela, o herdado da mãe ou da lista) e o do projeto todo */
+export function useTaskMaterialList(task: MaterialTask | null | undefined) {
+  const tree = useTree();
+  const found = task?.folder_id ? findFolder(tree.data, task.folder_id) : undefined;
+  // O projeto (a raiz): o material de qualquer subpasta dele vale
+  const root = found?.parent ?? (found && 'children' in found.folder ? found.folder : undefined);
+  const folderIds = root ? [root.id, ...root.children.map((c) => c.id)] : [];
+  const all = useProjectMaterials(folderIds);
+  const links = useMaterialLinks(root?.id, !!root && (all.data?.length ?? 0) > 0);
+  const pageTasks = usePageTasks(task?.page_id ?? undefined);
+  // As tarefas mães, da mais próxima para a mais distante (a sessão herda da miniatura)
+  const byId = new Map((pageTasks.data ?? []).map((x) => [x.id, x]));
+  const ancestors: string[] = [];
+  for (
+    let p = task?.parent_task_id ?? null;
+    p && ancestors.length < 10;
+    p = byId.get(p)?.parent_task_id ?? null
+  )
+    ancestors.push(p);
+  const items = task
+    ? materialsForTask(links.data ?? [], { id: task.id, page_id: task.page_id, ancestors })
+    : [];
+  return { root, all: all.data ?? [], items, pending: all.isPending || links.isPending };
+}
+
 /**
  * Material da tarefa (ES6, D327): o que está ligado a ela (pelo código no nome do arquivo ou à
  * mão), ou o que ela herda da tarefa mãe ou da lista. Tocar abre no leitor; quem edita a tarefa
@@ -44,34 +76,13 @@ export function TaskMaterials({
 }) {
   const { t } = useTranslation();
   const online = useIsOnline();
-  const tree = useTree();
-  const found = task.folder_id ? findFolder(tree.data, task.folder_id) : undefined;
-  // O projeto (a raiz): o material de qualquer subpasta dele vale
-  const root = found?.parent ?? (found && 'children' in found.folder ? found.folder : undefined);
-  const folderIds = root ? [root.id, ...root.children.map((c) => c.id)] : [];
-  const all = useProjectMaterials(folderIds);
-  const links = useMaterialLinks(root?.id, !!root && (all.data?.length ?? 0) > 0);
-  const pageTasks = usePageTasks(task.page_id ?? undefined);
+  const { root, all, items } = useTaskMaterialList(task);
   const { link, unlink } = useMaterialLinkMutations();
   const [picking, setPicking] = useState(false);
   const toast = useToast();
   const onError = (err: Error) => toast({ message: err.message });
 
-  if (!root || !all.data?.length) return null;
-  // As tarefas mães, da mais próxima para a mais distante (a sessão herda da miniatura)
-  const byId = new Map((pageTasks.data ?? []).map((x) => [x.id, x]));
-  const ancestors: string[] = [];
-  for (
-    let p = task.parent_task_id ?? null;
-    p && ancestors.length < 10;
-    p = byId.get(p)?.parent_task_id ?? null
-  )
-    ancestors.push(p);
-  const items = materialsForTask(links.data ?? [], {
-    id: task.id,
-    page_id: task.page_id,
-    ancestors,
-  });
+  if (!root || !all.length) return null;
   if (!items.length && !editable) return null;
   const own = new Map(items.filter((m) => m.via === 'task').map((m) => [m.material_id, m]));
   const canEdit = editable && online;
@@ -113,7 +124,7 @@ export function TaskMaterials({
             accessibilityRole="link"
             accessibilityLabel={materialTitle(m.material_name)}
             className="flex-1 flex-row items-center gap-3 px-2 py-2"
-            onPress={() => openMaterial({ id: m.material_id, note_id: m.note_id })}
+            onPress={() => openMaterial({ id: m.material_id }, task.id)}
           >
             <Icon icon={iconFor(m)} tone="ink-muted" />
             <View className="flex-1">
@@ -138,7 +149,7 @@ export function TaskMaterials({
         <DialogFrame onClose={() => setPicking(false)} wide>
           <Text className="text-lg font-semibold text-ink">{t('materials.linkTitle')}</Text>
           <ScrollView style={{ maxHeight: 420 }}>
-            {all.data.map((material) => {
+            {all.map((material) => {
               const current = own.get(material.id);
               return (
                 <View key={material.id} className="flex-row items-center gap-2 py-1">

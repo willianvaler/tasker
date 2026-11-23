@@ -292,6 +292,8 @@ export function useTreeMutations() {
       auto_complete_parent?: boolean;
       max_depth?: number | null;
       dependency_mode?: 'strict' | 'flexible';
+      /** Projeto de estudo (ES7, D328) */
+      study?: boolean;
     }) => {
       if (isLocal()) return localUpdate('folders', id, patch);
       const { error } = await supabase.from('folders').update(patch).eq('id', id);

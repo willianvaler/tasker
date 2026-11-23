@@ -167,6 +167,15 @@ export function ProjectOverview({ root }: { root: FolderNode }) {
 
       {actorCan(actor, 'page.manage') && (
         <ToggleRow
+          title={t('study.toggle')}
+          hint={t('study.toggleHint')}
+          value={root.study}
+          onChange={(value) => treeMutations.setFolderSettings.mutate({ id: root.id, study: value })}
+        />
+      )}
+
+      {actorCan(actor, 'page.manage') && (
+        <ToggleRow
           title={t('project.autoCompleteParent')}
           hint={t('project.autoCompleteParentHint')}
           value={root.auto_complete_parent}

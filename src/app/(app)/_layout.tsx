@@ -13,6 +13,7 @@ import { ConsentGate } from '@/components/consent-gate';
 import { GameGate } from '@/components/game-mode';
 import { GameVocab } from '@/components/game-vocab';
 import { ReminderScheduler } from '@/components/reminder-scheduler';
+import { useStudyRegistry } from '@/components/study';
 import { SyncDot } from '@/components/sync-dot';
 import { SyncRejections } from '@/components/sync-rejections';
 import { useLocaleSync } from '@/i18n/use-locale';
@@ -32,6 +33,8 @@ void clearWorkoutNotification();
 export default function AppLayout() {
   useRealtimeSync();
   usePushTapHandler();
+  // Projeto de estudo (ES7): as tarefas dele abrem a ficha
+  useStudyRegistry();
   useShareIntent();
   useStashedClip();
   useLocaleSync();

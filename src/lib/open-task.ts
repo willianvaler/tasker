@@ -14,8 +14,19 @@ export function editTask(id: string) {
   router.push({ pathname: '/task/[id]', params: { id } });
 }
 
-/** Da lista e do quadro: o painel, ou a ficha se a pessoa pediu ficha em todo lugar */
-export function openTask(id: string) {
-  if (getReadFirst()) readTask(id);
+/** Pastas de projeto de estudo (ES7, D328): lá as tarefas abrem a ficha. Quem preenche é o app */
+let studyFolders: ReadonlySet<string> = new Set();
+export function setStudyFolders(ids: ReadonlySet<string>) {
+  studyFolders = ids;
+}
+export const isStudyFolder = (folderId: string | null | undefined) =>
+  !!folderId && studyFolders.has(folderId);
+
+/**
+ * Da lista e do quadro: o painel, ou a ficha se a pessoa pediu ficha em todo lugar ou se a tarefa é
+ * de um projeto de estudo
+ */
+export function openTask(id: string, folderId?: string | null) {
+  if (getReadFirst() || isStudyFolder(folderId)) readTask(id);
   else editTask(id);
 }

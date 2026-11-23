@@ -7,14 +7,14 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
 import { PDF_MIME } from '@/lib/materials';
-import { materialUrl } from '@/lib/queries/materials';
+import { getMaterialBlob } from '@/lib/material-cache';
 
 /**
  * Leitor de PDF na web (ES4, D325): o do próprio navegador, num quadro da tela (busca, zoom,
  * páginas). O arquivo vem do Storage e vira um endereço `blob:` (o endereço do Storage não pode
  * ir num quadro: as respostas do app proíbem ser emolduradas).
  */
-export function PdfView({ path, name }: { path: string; name: string }) {
+export function PdfView({ path, name, page }: { path: string; name: string; page?: number }) {
   const { t } = useTranslation();
   const [src, setSrc] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -22,9 +22,7 @@ export function PdfView({ path, name }: { path: string; name: string }) {
     let alive = true;
     let url: string | null = null;
     (async () => {
-      const res = await fetch(await materialUrl(path));
-      if (!res.ok) throw new Error(String(res.status));
-      url = URL.createObjectURL(new Blob([await res.blob()], { type: PDF_MIME }));
+      url = URL.createObjectURL(new Blob([await getMaterialBlob(path)], { type: PDF_MIME }));
       if (alive) setSrc(url);
       else URL.revokeObjectURL(url);
     })().catch((err: Error) => alive && setError(err.message));
@@ -52,7 +50,9 @@ export function PdfView({ path, name }: { path: string; name: string }) {
         />
       </View>
       <iframe
-        src={src}
+        // O leitor do navegador abre na página do "#page=" (onde parei)
+        key={page ?? 0}
+        src={page ? `${src}#page=${page}` : src}
         title={name}
         data-testid="pdf-frame"
         style={{ flex: 1, width: '100%', minHeight: '70vh', border: 0, borderRadius: 4 }}
@@ -74,9 +74,7 @@ export function HtmlView({ path, name }: { path: string; name: string }) {
   useEffect(() => {
     let alive = true;
     (async () => {
-      const res = await fetch(await materialUrl(path));
-      if (!res.ok) throw new Error(String(res.status));
-      const text = await res.text();
+      const text = await (await getMaterialBlob(path)).text();
       if (alive) setHtml(text);
     })().catch((err: Error) => alive && setError(err.message));
     return () => {

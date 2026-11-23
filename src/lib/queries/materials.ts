@@ -154,9 +154,7 @@ export function useMaterialMutations(folderId: string) {
 
 /** Endereço assinado (1 h) do arquivo do material */
 export async function materialUrl(path: string) {
-  const { data, error } = await supabase.storage
-    .from(MATERIAL_BUCKET)
-    .createSignedUrl(path, 3600);
+  const { data, error } = await supabase.storage.from(MATERIAL_BUCKET).createSignedUrl(path, 3600);
   if (error) throw error;
   return data.signedUrl;
 }
@@ -252,4 +250,49 @@ export function useMaterialLinkMutations() {
     onSettled: settle,
   });
   return { link, unlink };
+}
+
+// ---------- Onde parei (ES7, D328) ----------
+
+export type ReadingPosition = { scroll?: number; page?: number };
+
+/** A posição de leitura da pessoa neste material (fica no cache para abrir sem internet) */
+export function useReadingPosition(materialId: string | undefined) {
+  return useQuery({
+    queryKey: ['reading-position', materialId ?? ''],
+    enabled: !!materialId,
+    queryFn: async (): Promise<ReadingPosition | null> => {
+      const { data, error } = await supabase
+        .from('reading_positions')
+        .select('position')
+        .eq('material_id', materialId ?? '')
+        .maybeSingle();
+      if (error) throw error;
+      return (data?.position as ReadingPosition | undefined) ?? null;
+    },
+  });
+}
+
+export function useSaveReadingPosition(materialId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (position: ReadingPosition) => {
+      const { data } = await supabase.auth.getSession();
+      const userId = data.session?.user.id;
+      if (!userId) return;
+      const { error } = await supabase
+        .from('reading_positions')
+        .upsert(
+          {
+            user_id: userId,
+            material_id: materialId,
+            position,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'user_id,material_id' },
+        );
+      if (error) throw error;
+    },
+    onMutate: (position) => queryClient.setQueryData(['reading-position', materialId], position),
+  });
 }
