@@ -3,13 +3,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MAX_ACCOUNT_BYTES } from '@/lib/attachments';
 import { tr } from '@/lib/i18n-ref';
 import {
+  HTML_MIME,
+  HTML_STORAGE_MIME,
   MATERIAL_BUCKET,
   materialPath,
   MAX_MATERIAL_BYTES,
   PDF_MIME,
   sortMaterials,
 } from '@/lib/materials';
-import { readFileBytes } from '@/lib/read-file';
 import { uuidv7 } from '@/lib/uuid';
 import type { Tables } from '../db';
 import { supabase } from '../supabase';
@@ -62,22 +63,25 @@ function friendly(message: string): Error {
   return new Error(message);
 }
 
-/** Envia um PDF e grava a linha; sem a linha, apaga o arquivo para não ficar órfão */
-export async function sendMaterialPdf(
+/**
+ * Envia um PDF ou um HTML interativo e grava a linha; sem a linha, apaga o arquivo para não ficar
+ * órfão. O HTML sobe como binário (o endereço do Storage nunca o abre como página)
+ */
+export async function sendMaterialFile(
   folderId: string,
-  file: { uri: string; name: string; size?: number | null },
+  file: { name: string; body: Uint8Array | Blob; kind: 'pdf' | 'html' },
 ) {
-  if ((file.size ?? 0) > MAX_MATERIAL_BYTES) throw new Error(tr('materials.tooBig'));
-  const { body } = await readFileBytes(file.uri);
-  const size = body instanceof Blob ? body.size : body.byteLength;
+  const size = file.body instanceof Blob ? file.body.size : file.body.byteLength;
   if (size > MAX_MATERIAL_BYTES) throw new Error(tr('materials.tooBig'));
   const { data: used } = await supabase.rpc('attachment_usage');
   if (Number(used ?? 0) + size > MAX_ACCOUNT_BYTES) throw new Error(tr('attach.full'));
   const id = uuidv7();
-  const path = materialPath(folderId, id);
-  const up = await supabase.storage
-    .from(MATERIAL_BUCKET)
-    .upload(path, body, { contentType: PDF_MIME, upsert: true, cacheControl: '31536000' });
+  const path = materialPath(folderId, id, file.kind);
+  const up = await supabase.storage.from(MATERIAL_BUCKET).upload(path, file.body, {
+    contentType: file.kind === 'pdf' ? PDF_MIME : HTML_STORAGE_MIME,
+    upsert: true,
+    cacheControl: '31536000',
+  });
   if (up.error) throw friendly(up.error.message);
   const { error } = await supabase.from('project_files').insert({
     id,
@@ -85,7 +89,7 @@ export async function sendMaterialPdf(
     kind: 'file',
     path,
     name: file.name.slice(0, 200),
-    mime: PDF_MIME,
+    mime: file.kind === 'pdf' ? PDF_MIME : HTML_MIME,
     size,
   });
   if (error) {
@@ -145,7 +149,7 @@ export function useMaterialMutations(folderId: string) {
   return { remove, settle };
 }
 
-/** Endereço assinado (1 h) do PDF */
+/** Endereço assinado (1 h) do arquivo do material */
 export async function materialUrl(path: string) {
   const { data, error } = await supabase.storage
     .from(MATERIAL_BUCKET)

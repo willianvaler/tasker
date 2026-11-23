@@ -12,6 +12,7 @@ import { materialUrl } from '@/lib/queries/materials';
 
 /** Baixa uma vez para o aparelho (fica no cache: abre de novo sem internet) */
 async function localCopy(path: string) {
+  // O nome guarda a extensão do material (o leitor do aparelho escolhe por ela)
   const dir = new Directory(Paths.cache, 'materials');
   if (!dir.exists) dir.create({ idempotent: true });
   const file = new File(dir, path.replace(/\//g, '_'));
@@ -24,13 +25,27 @@ async function localCopy(path: string) {
  * leitor dentro do app (pdf.js numa WebView) pede um APK novo e fica para depois.
  */
 export function PdfView({ path, name }: { path: string; name: string }) {
+  return <OpenOnDevice path={path} name={name} html={false} />;
+}
+
+/** HTML interativo (ES5, D326): no navegador do aparelho, fora do app */
+export function HtmlView({ path, name }: { path: string; name: string }) {
+  return <OpenOnDevice path={path} name={name} html />;
+}
+
+function OpenOnDevice({ path, name, html }: { path: string; name: string; html: boolean }) {
   const { t } = useTranslation();
   const [state, setState] = useState<'idle' | 'busy' | string>('idle');
   async function open() {
     setState('busy');
     try {
       const file = await localCopy(path);
-      await Sharing.shareAsync(file.uri, { mimeType: PDF_MIME, UTI: 'com.adobe.pdf', dialogTitle: name });
+      await Sharing.shareAsync(
+        file.uri,
+        html
+          ? { mimeType: 'text/html', UTI: 'public.html', dialogTitle: name }
+          : { mimeType: PDF_MIME, UTI: 'com.adobe.pdf', dialogTitle: name },
+      );
       setState('idle');
     } catch (err) {
       setState((err as Error).message || 'erro');
@@ -38,10 +53,12 @@ export function PdfView({ path, name }: { path: string; name: string }) {
   }
   return (
     <View className="items-start gap-3 p-4">
-      <Text className="text-ink-muted">{t('materials.nativeHint')}</Text>
+      <Text className="text-ink-muted">
+        {t(html ? 'materials.nativeHtmlHint' : 'materials.nativeHint')}
+      </Text>
       <Button
         icon={BookOpen}
-        label={t('materials.openDevice')}
+        label={t(html ? 'materials.openHtml' : 'materials.openDevice')}
         loading={state === 'busy'}
         onPress={() => void open()}
       />

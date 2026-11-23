@@ -1,6 +1,7 @@
 import * as DocumentPicker from 'expo-document-picker';
+import { unzipSync } from 'fflate';
 import { router } from 'expo-router';
-import { FileText, NotebookText, Plus, Trash2 } from 'lucide-react-native';
+import { AppWindow, FileText, NotebookText, Plus, Trash2 } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -11,10 +12,11 @@ import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { formatBytes } from '@/lib/attachments';
-import { materialTitle, planMaterials } from '@/lib/materials';
+import { ignoredZipPath, buildMaterialImport } from '@/lib/material-import';
+import { materialKindOf, materialTitle, planMaterials } from '@/lib/materials';
 import {
   addNoteMaterials,
-  sendMaterialPdf,
+  sendMaterialFile,
   useMaterialMutations,
   useMaterials,
   type Material,
@@ -27,10 +29,45 @@ import { importVault } from '@/lib/vault';
 import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
-// Material da pasta ou projeto (ES4, D325): os arquivos de estudo na ordem do nome. O PDF abre no
-// leitor (/material/<id>); o `.md` virou anotação da pasta e abre como anotação.
+// Material da pasta ou projeto (ES4/ES5, D325/D326): os arquivos de estudo na ordem do nome. O PDF
+// e o HTML interativo abrem no leitor (/material/<id>); o `.md` e o HTML com texto viraram
+// anotações da pasta e abrem como anotação.
 
-type Picked = DocumentPicker.DocumentPickerAsset;
+/** Um arquivo para entrar: escolhido no aparelho ou de dentro de um .zip */
+type Entry = {
+  name: string;
+  size?: number | null;
+  mime?: string | null;
+  read: () => Promise<Uint8Array>;
+};
+const decode = (bytes: Uint8Array) => new TextDecoder().decode(bytes);
+
+/** Abre o .zip: cada arquivo vira uma entrada, com o caminho dentro dele */
+async function unzipEntries(zip: Entry): Promise<Entry[]> {
+  // Os que não entram nem são abertos, mas contam no "ficaram de fora"
+  const left: string[] = [];
+  const files = unzipSync(await zip.read(), {
+    filter: (f) => {
+      if (ignoredZipPath(f.name)) return false;
+      const kind = materialKindOf(f.name);
+      if (kind === 'other' || kind === 'zip') left.push(f.name);
+      return kind !== 'other' && kind !== 'zip';
+    },
+  });
+  return [
+    ...Object.entries(files).map(([path, data]) => ({
+      name: path,
+      size: data.byteLength,
+      read: async () => data,
+    })),
+    ...left.map((path) => ({
+      name: path,
+      read: async (): Promise<Uint8Array> => {
+        throw new Error('skipped');
+      },
+    })),
+  ];
+}
 
 export function useAddMaterials(folderId: string) {
   const { t } = useTranslation();
@@ -47,20 +84,32 @@ export function useAddMaterials(folderId: string) {
       copyToCacheDirectory: true,
     });
     if (result.canceled || !result.assets.length) return;
-    const plan = planMaterials(result.assets);
     let added = 0;
     let failed = 0;
+    let interactiveCount = 0;
     try {
-      // .md: anotações da pasta, com as imagens escolhidas junto (as que o texto cita)
-      if (plan.markdown.length) {
-        setProgress(t('materials.reading'));
-        const files = await Promise.all(
-          plan.markdown.map(async (f) => ({
-            path: f.name,
-            text: new TextDecoder().decode(await readPickedBytes(f)),
-          })),
-        );
-        const parsed = importVault(files, {
+      setProgress(t('materials.reading'));
+      const picked: Entry[] = result.assets.map((a) => ({
+        name: a.name,
+        size: a.size,
+        mime: a.mimeType,
+        read: () => readPickedBytes(a),
+      }));
+      const first = planMaterials(picked);
+      const fromZips = (await Promise.all(first.zips.map(unzipEntries))).flat();
+      // .zip dentro do .zip fica de fora
+      const plan = planMaterials([...picked.filter((e) => !first.zips.includes(e)), ...fromZips]);
+      plan.skipped.push(...plan.zips);
+
+      // .md e HTML com texto: anotações da pasta (com as imagens que eles citam)
+      const texts = async (list: Entry[]) =>
+        Promise.all(list.map(async (e) => ({ path: e.name, text: decode(await e.read()) })));
+      const built = buildMaterialImport({
+        markdown: await texts(plan.markdown),
+        html: await texts(plan.html),
+      });
+      if (built.vault.length) {
+        const parsed = importVault(built.vault, {
           newId: uuidv7,
           existing: (notes.data ?? []).map((n) => ({ id: n.id, title: noteTitle(n, '') })),
           imageFiles: plan.images.map((f) => f.name),
@@ -69,19 +118,15 @@ export function useAddMaterials(folderId: string) {
         setProgress(t('vault.imagesWaiting'));
         if (!(await waitForNotesOnServer(parsed.notes.map((n) => n.id))))
           throw new Error(t('materials.notesWaiting'));
-        await addNoteMaterials(
-          folderId,
-          parsed.notes.map((n, i) => ({
-            noteId: n.id,
-            name:
-              plan.markdown.find((f) => materialTitle(f.name.split('/').pop() ?? '') === n.title)
-                ?.name ??
-              plan.markdown[i]?.name ??
-              `${n.title}.md`,
-          })),
-        );
-        added += parsed.notes.length;
-        const byName = new Map<string, Picked>(plan.images.map((f) => [f.name, f]));
+        // Só a anotação principal de cada material entra na lista (as partes do livro, não)
+        const byTitle = new Map(parsed.notes.map((n) => [n.title, n.id]));
+        const rows = built.mains.flatMap((main) => {
+          const noteId = byTitle.get(main.title);
+          return noteId ? [{ noteId, name: main.name }] : [];
+        });
+        await addNoteMaterials(folderId, rows);
+        added += rows.length;
+        const byName = new Map(plan.images.map((f) => [f.name, f]));
         let sent = 0;
         for (const image of parsed.images) {
           const file = byName.get(image.file);
@@ -90,7 +135,7 @@ export function useAddMaterials(folderId: string) {
             await sendNoteImage({
               id: image.id,
               noteId: image.noteId,
-              body: await readPickedBytes(file),
+              body: await file.read(),
               mime: image.mime,
               ext: image.ref.split('.').pop() ?? 'png',
               name: image.name,
@@ -101,26 +146,43 @@ export function useAddMaterials(folderId: string) {
           setProgress(t('vault.imagesSending', { done: ++sent, total: parsed.images.length }));
         }
       }
-      // PDFs: um de cada vez (podem ter 50 MB)
+      // PDFs e HTML interativo: um de cada vez (podem ter 50 MB)
+      const htmlByPath = new Map(plan.html.map((e) => [e.name, e]));
+      const uploads = [
+        ...plan.pdfs.map((e) => ({
+          entry: e,
+          name: e.name.split('/').pop() ?? e.name,
+          kind: 'pdf' as const,
+        })),
+        ...built.interactive.flatMap((i) => {
+          const entry = htmlByPath.get(i.path);
+          return entry ? [{ entry, name: i.name, kind: 'html' as const }] : [];
+        }),
+      ];
       let done = 0;
-      for (const pdf of plan.pdfs) {
-        setProgress(t('materials.sending', { done: ++done, total: plan.pdfs.length }));
+      for (const upload of uploads) {
+        setProgress(t('materials.sending', { done: ++done, total: uploads.length }));
         try {
-          await sendMaterialPdf(folderId, pdf);
+          await sendMaterialFile(folderId, {
+            name: upload.name,
+            body: await upload.entry.read(),
+            kind: upload.kind,
+          });
           added++;
+          if (upload.kind === 'html') interactiveCount++;
         } catch (err) {
           failed++;
-          toast({ message: t('materials.failed', { name: pdf.name, message: (err as Error).message }) });
+          toast({
+            message: t('materials.failed', { name: upload.name, message: (err as Error).message }),
+          });
         }
       }
-      const left = plan.skipped.length + plan.tooBig.length;
       toast({
         message: [
           t('materials.added', { count: added }),
+          interactiveCount ? t('materials.interactiveCount', { count: interactiveCount }) : null,
           plan.tooBig.length ? t('materials.tooBigCount', { count: plan.tooBig.length }) : null,
-          left - plan.tooBig.length > 0
-            ? t('materials.skipped', { count: left - plan.tooBig.length })
-            : null,
+          plan.skipped.length ? t('materials.skipped', { count: plan.skipped.length }) : null,
           failed ? t('materials.failedCount', { count: failed }) : null,
         ]
           .filter(Boolean)
@@ -183,14 +245,26 @@ export function MaterialsSection({
         </Text>
       )}
       {list.map((material) => (
-        <View key={material.id} className="min-h-11 flex-row items-center hover:bg-wash md:min-h-10">
+        <View
+          key={material.id}
+          className="min-h-11 flex-row items-center hover:bg-wash md:min-h-10"
+        >
           <Pressable
             accessibilityRole="link"
             accessibilityLabel={materialTitle(material.name)}
             className="flex-1 flex-row items-center gap-3 px-2 py-2"
             onPress={() => openMaterial(material)}
           >
-            <Icon icon={material.kind === 'note' ? NotebookText : FileText} tone="ink-muted" />
+            <Icon
+              icon={
+                material.kind === 'note'
+                  ? NotebookText
+                  : material.mime === 'text/html'
+                    ? AppWindow
+                    : FileText
+              }
+              tone="ink-muted"
+            />
             <View className="flex-1">
               <Text className="text-sm text-ink" numberOfLines={2}>
                 {materialTitle(material.name)}
@@ -198,7 +272,9 @@ export function MaterialsSection({
               <Text className="text-xs text-ink-muted">
                 {material.kind === 'note'
                   ? t('materials.kindNote')
-                  : t('materials.kindPdf', { size: formatBytes(material.size ?? 0, i18n.language) })}
+                  : t(material.mime === 'text/html' ? 'materials.kindHtml' : 'materials.kindPdf', {
+                      size: formatBytes(material.size ?? 0, i18n.language),
+                    })}
               </Text>
             </View>
           </Pressable>

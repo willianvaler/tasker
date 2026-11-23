@@ -1,9 +1,12 @@
 import { expect, test } from '@playwright/test';
+import { strToU8, zipSync } from 'fflate';
 
 import { openTab, signUp } from './helpers';
 
-// ES4 (ESCOPO_V13 §3, D325): material da pasta. Adicionar PDF + .md (com a imagem que ele cita);
-// o que não entra fica de fora; o PDF abre no leitor do navegador; tirar leva para a lixeira.
+// ES4/ES5 (ESCOPO_V13 §3, D325/D326): material da pasta. Adicionar PDF + .md (com a imagem que ele
+// cita), um simulador em HTML (fica como arquivo e roda isolado) e um .zip com um livro em HTML (vira
+// anotação, com a imagem); o que não entra fica de fora; o PDF abre no leitor do navegador; tirar
+// leva para a lixeira.
 const PDF = `%PDF-1.4
 1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj
@@ -23,7 +26,8 @@ test('material: adicionar PDF e .md, ler o PDF e tirar', async ({ page }, testIn
   await page.getByRole('button', { name: 'Nova pasta' }).last().click();
   await page.getByPlaceholder('Nome (ex.: Academia)').fill(folder);
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await expect(page.getByRole('heading', { name: folder })).toBeVisible();
+  // A pasta nova abre sozinha; a árvore pode levar um pouco para recarregar
+  await expect(page.getByRole('heading', { name: folder })).toBeVisible({ timeout: 20_000 });
 
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Adicionar material' }).click();
@@ -37,16 +41,62 @@ test('material: adicionar PDF e .md, ler o PDF e tirar', async ({ page }, testIn
       buffer: Buffer.from('# Equilíbrio\n\n![porta](img/porta.png)\n\nTorque $\\tau = rF$.'),
     },
     { name: 'porta.png', mimeType: 'image/png', buffer: PNG },
-    { name: '05 - PhET.html', mimeType: 'text/html', buffer: Buffer.from('<html></html>') },
+    {
+      name: '05 - PhET.html',
+      mimeType: 'text/html',
+      // Roda o script e tenta alcançar o app: no quadro isolado, não consegue
+      buffer: Buffer.from(`<html><body><script>
+        let out = 'rodou';
+        try { out += parent.document.title ? ' e viu o app' : ''; } catch { out += ', isolado'; }
+        try { localStorage.length; out += ' com armazenamento'; } catch { out += ', sem armazenamento'; }
+        document.body.textContent = out;
+      </script></body></html>`),
+    },
+    {
+      name: 'livro.zip',
+      mimeType: 'application/zip',
+      buffer: Buffer.from(
+        zipSync({
+          'material/06 - M02 - Vitrúvio/index.html': strToU8(
+            '<h1>Vitrúvio</h1><p>A educação do arquiteto.</p><img src="images/caria.png" alt="Cariátides">',
+          ),
+          'material/06 - M02 - Vitrúvio/images/caria.png': new Uint8Array(PNG),
+          'material/mapa.canvas': strToU8('{}'),
+          'material/.obsidian/app.json': strToU8('{}'),
+        }),
+      ),
+    },
   ]);
-  await expect(page.getByText(/2 materiais adicionados\. 1 arquivo ficou de fora/)).toBeVisible({
-    timeout: 60_000,
-  });
+  await expect(
+    page.getByText(
+      /4 materiais adicionados\. 1 HTML interativo guardado como está\. 1 arquivo ficou de fora/,
+    ),
+  ).toBeVisible({ timeout: 60_000 });
 
   // A lista do material, na ordem do nome
   const section = page.getByTestId('materials');
-  await expect(section.getByRole('link')).toHaveText([/03 - M01 - Assis/, /04 - M01 - Equilíbrio/]);
+  await expect(section.getByRole('link')).toHaveText([
+    /03 - M01 - Assis/,
+    /04 - M01 - Equilíbrio/,
+    /05 - PhET/,
+    /06 - M02 - Vitrúvio/,
+  ]);
   await expect(section.getByText(/^PDF · /)).toBeVisible();
+  await expect(section.getByText(/^HTML interativo · /)).toBeVisible();
+
+  // O simulador roda isolado: o script funciona, mas não alcança o app nem o armazenamento
+  await section.getByRole('link', { name: '05 - PhET' }).click();
+  const frame = page.frameLocator('[data-testid="html-frame"]');
+  await expect(frame.locator('body')).toHaveText('rodou, isolado, sem armazenamento');
+  await expect(page.getByTestId('html-frame')).toHaveAttribute('sandbox', 'allow-scripts');
+  await page.goBack();
+
+  // O livro em HTML virou anotação da pasta, com a imagem
+  await section.getByRole('link', { name: '06 - M02 - Vitrúvio' }).click();
+  await expect(page.getByRole('textbox', { name: 'Título da anotação' })).toHaveValue(
+    '06 - M02 - Vitrúvio',
+  );
+  await page.goBack();
 
   // O .md virou anotação da pasta, com a imagem
   await section.getByRole('link', { name: '04 - M01 - Equilíbrio' }).click();
@@ -68,7 +118,11 @@ test('material: adicionar PDF e .md, ler o PDF e tirar', async ({ page }, testIn
   );
   await page.getByRole('button', { name: 'Tirar', exact: true }).click();
   expect((await removed).ok()).toBe(true);
-  await expect(section.getByRole('link')).toHaveText([/04 - M01 - Equilíbrio/]);
+  await expect(section.getByRole('link')).toHaveText([
+    /04 - M01 - Equilíbrio/,
+    /05 - PhET/,
+    /06 - M02 - Vitrúvio/,
+  ]);
   await page.goto('/lixeira');
   await expect(page.getByText('03 - M01 - Assis.pdf')).toBeVisible();
 });

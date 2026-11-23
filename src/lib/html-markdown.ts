@@ -169,7 +169,8 @@ function convert(node: MdNode, ctx: Ctx): string {
     case 'A': {
       const text = inline(node, ctx).trim();
       const href = absoluteUrl(attr(node, 'href'), ctx.base);
-      if (!href || href.startsWith(`${ctx.base}#`)) return text;
+      // Link em volta de imagem (a miniatura que abre a grande): fica a imagem, sem o link
+      if (!href || href.startsWith(`${ctx.base}#`) || text.includes('![')) return text;
       return text
         ? `[${text.replace(/[[\]]/g, '')}](${href.replace(/\(/g, '%28').replace(/\)/g, '%29')})`
         : '';

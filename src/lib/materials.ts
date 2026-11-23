@@ -1,6 +1,7 @@
-// Material do projeto (ES4, D325): regras puras, iguais às do banco (project_files_fill e o bucket
-// `materials`). O PDF vai para o Storage; o `.md` vira anotação da pasta (com as imagens que vierem
-// junto, ES3); o resto fica de fora (o HTML chega no ES5).
+// Material do projeto (ES4, D325; ES5, D326): regras puras, iguais às do banco (project_files_fill
+// e o bucket `materials`). O PDF vai para o Storage; o `.md` e o HTML com texto viram anotações da
+// pasta (com as imagens que vierem junto, ES3); o HTML que é quase só script vai como arquivo; o
+// `.zip` (a pasta do material) é aberto e cada arquivo segue a mesma regra.
 
 import { isImageFile } from './note-images';
 
@@ -8,19 +9,26 @@ import { isImageFile } from './note-images';
 export const MAX_MATERIAL_BYTES = 50 * 1024 * 1024;
 export const MATERIAL_BUCKET = 'materials';
 export const PDF_MIME = 'application/pdf';
+/** O HTML interativo: na tabela é `text/html`; no Storage sobe como binário (nunca abre como página) */
+export const HTML_MIME = 'text/html';
+export const HTML_STORAGE_MIME = 'application/octet-stream';
+/** O .zip inteiro é lido para a memória do aparelho */
+export const MAX_ZIP_BYTES = 200 * 1024 * 1024;
 
-export type MaterialKind = 'pdf' | 'markdown' | 'image' | 'other';
+export type MaterialKind = 'pdf' | 'markdown' | 'html' | 'zip' | 'image' | 'other';
 
 export function materialKindOf(name: string, mime?: string | null): MaterialKind {
   if (/\.pdf$/i.test(name) || mime === PDF_MIME) return 'pdf';
   if (/\.(md|markdown)$/i.test(name)) return 'markdown';
+  if (/\.html?$/i.test(name)) return 'html';
+  if (/\.zip$/i.test(name)) return 'zip';
   if (isImageFile(name)) return 'image';
   return 'other';
 }
 
-/** "<pasta>/<id>.pdf": a RLS do Storage olha a primeira parte */
-export function materialPath(folderId: string, id: string) {
-  return `${folderId}/${id}.pdf`;
+/** "<pasta>/<id>.pdf" (ou ".html"): a RLS do Storage olha a primeira parte */
+export function materialPath(folderId: string, id: string, ext: 'pdf' | 'html' = 'pdf') {
+  return `${folderId}/${id}.${ext}`;
 }
 
 /** Na ordem do nome, com os números em ordem de número ("2 - " antes de "10 - ") */
@@ -32,23 +40,30 @@ export function sortMaterials<T extends { name: string }>(list: readonly T[]): T
 
 export type PickedMaterial = { name: string; size?: number | null; mime?: string | null };
 
-/** O que entra de uma escolha de arquivos: PDFs, `.md`, imagens (para os `.md`) e o que fica de fora */
+/**
+ * O que entra de uma escolha de arquivos: PDFs, `.md`, HTML, `.zip`, imagens (para os textos) e o
+ * que fica de fora
+ */
 export function planMaterials<T extends PickedMaterial>(files: readonly T[]) {
   const pdfs: T[] = [];
   const markdown: T[] = [];
+  const html: T[] = [];
+  const zips: T[] = [];
   const images: T[] = [];
   const tooBig: T[] = [];
   const skipped: T[] = [];
+  const lists = { pdf: pdfs, markdown, html, zip: zips, image: images };
   for (const file of files) {
     const kind = materialKindOf(file.name, file.mime);
+    const max = kind === 'zip' ? MAX_ZIP_BYTES : MAX_MATERIAL_BYTES;
     if (kind === 'other') skipped.push(file);
-    else if (kind === 'pdf' && (file.size ?? 0) > MAX_MATERIAL_BYTES) tooBig.push(file);
-    else (kind === 'pdf' ? pdfs : kind === 'markdown' ? markdown : images).push(file);
+    else if (kind !== 'image' && kind !== 'markdown' && (file.size ?? 0) > max) tooBig.push(file);
+    else lists[kind].push(file);
   }
-  return { pdfs, markdown, images, tooBig, skipped };
+  return { pdfs, markdown, html, zips, images, tooBig, skipped };
 }
 
 /** Nome mostrado na lista: sem a extensão */
 export function materialTitle(name: string) {
-  return name.replace(/\.(pdf|md|markdown)$/i, '');
+  return name.replace(/\.(pdf|md|markdown|html?)$/i, '');
 }

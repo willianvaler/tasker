@@ -4994,8 +4994,8 @@
     "tooBig": "The PDF is over 50 MB.",
     "tooBigCount_one": "{{count}} PDF is over 50 MB and was left out.",
     "tooBigCount_other": "{{count}} PDFs are over 50 MB and were left out.",
-    "skipped_one": "{{count}} file was left out (PDF, .md and the .md images are accepted).",
-    "skipped_other": "{{count}} files were left out (PDF, .md and the .md images are accepted).",
+    "skipped_one": "{{count}} file was left out (PDF, .md, HTML, .zip and the images the texts cite are accepted).",
+    "skipped_other": "{{count}} files were left out (PDF, .md, HTML, .zip and the images the texts cite are accepted).",
     "failed": "{{name}} didn't upload: {{message}}",
     "failedCount_one": "{{count}} file didn't upload.",
     "failedCount_other": "{{count}} files didn't upload.",
@@ -5012,6 +5012,16 @@
     "newTab": "Open in a tab",
     "nativeHint": "The PDF opens in the device's PDF reader. Once opened, it opens again without internet.",
     "openDevice": "Open the PDF",
-    "usage": "Study material: {{materials}} · note images: {{images}} (already in the total)."
+    "usage": "Study material: {{materials}} · note images: {{images}} (already in the total).",
+    "prev": "previous",
+    "next": "next",
+    "contents": "contents",
+    "interactiveCount_one": "{{count}} interactive HTML stored as is.",
+    "interactiveCount_other": "{{count}} interactive HTML files stored as is.",
+    "kindHtml": "Interactive HTML · {{size}}",
+    "htmlLoading": "Opening…",
+    "htmlIsolated": "Isolated page: it runs its own scripts but can't see your account or the app.",
+    "nativeHtmlHint": "The page opens in the device's browser. Once opened, it opens again without internet.",
+    "openHtml": "Open the page"
   }
 }

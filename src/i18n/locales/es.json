@@ -4994,8 +4994,8 @@
     "tooBig": "El PDF pasa de 50 MB.",
     "tooBigCount_one": "{{count}} PDF pasa de 50 MB y quedó fuera.",
     "tooBigCount_other": "{{count}} PDF pasan de 50 MB y quedaron fuera.",
-    "skipped_one": "{{count}} archivo quedó fuera (entran PDF, .md y las imágenes de los .md).",
-    "skipped_other": "{{count}} archivos quedaron fuera (entran PDF, .md y las imágenes de los .md).",
+    "skipped_one": "{{count}} archivo quedó fuera (entran PDF, .md, HTML, .zip y las imágenes que los textos citan).",
+    "skipped_other": "{{count}} archivos quedaron fuera (entran PDF, .md, HTML, .zip y las imágenes que los textos citan).",
     "failed": "{{name}} no se subió: {{message}}",
     "failedCount_one": "{{count}} archivo no se subió.",
     "failedCount_other": "{{count}} archivos no se subieron.",
@@ -5012,6 +5012,16 @@
     "newTab": "Abrir en una pestaña",
     "nativeHint": "El PDF se abre en el lector de PDF del dispositivo. Después de abrirlo una vez, se abre sin internet.",
     "openDevice": "Abrir el PDF",
-    "usage": "Material de estudio: {{materials}} · imágenes de las notas: {{images}} (ya contados en el total)."
+    "usage": "Material de estudio: {{materials}} · imágenes de las notas: {{images}} (ya contados en el total).",
+    "prev": "anterior",
+    "next": "siguiente",
+    "contents": "índice",
+    "interactiveCount_one": "{{count}} HTML interactivo guardado tal cual.",
+    "interactiveCount_other": "{{count}} HTML interactivos guardados tal cual.",
+    "kindHtml": "HTML interactivo · {{size}}",
+    "htmlLoading": "Abriendo…",
+    "htmlIsolated": "Página aislada: ejecuta sus propios scripts, pero no ve tu cuenta ni la app.",
+    "nativeHtmlHint": "La página se abre en el navegador del dispositivo. Después de abrirla una vez, se abre sin internet.",
+    "openHtml": "Abrir la página"
   }
 }

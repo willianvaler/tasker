@@ -3,7 +3,7 @@
 -- o espaço conta no 1 GB.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(12);
+select plan(14);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'dona@teste.local'),
@@ -40,17 +40,26 @@ select throws_ok($$ insert into public.project_files (id, folder_id, kind, path,
   '22023', null, 'caminho de outra pasta é recusado');
 select throws_ok($$ insert into public.project_files (id, folder_id, kind, path, name, mime, size) values
   ('cccccccc-0000-0000-0000-000000000005', 'aaaaaaaa-0000-0000-0000-000000000001', 'file',
-   'aaaaaaaa-0000-0000-0000-000000000001/cccccccc-0000-0000-0000-000000000005.pdf', 'x.html', 'text/html', 10) $$,
-  '23514', null, 'só PDF');
+   'aaaaaaaa-0000-0000-0000-000000000001/cccccccc-0000-0000-0000-000000000005.pdf', 'x.zip', 'application/zip', 10) $$,
+  '23514', null, 'só PDF e HTML');
+-- ES5: o HTML interativo, com a extensão do tipo
+select lives_ok($$ insert into public.project_files (id, folder_id, kind, path, name, mime, size) values
+  ('cccccccc-0000-0000-0000-000000000008', 'aaaaaaaa-0000-0000-0000-000000000001', 'file',
+   'aaaaaaaa-0000-0000-0000-000000000001/cccccccc-0000-0000-0000-000000000008.html', '05 - PhET.html', 'text/html', 3000000) $$,
+  'HTML interativo entra como arquivo');
+select throws_ok($$ insert into public.project_files (id, folder_id, kind, path, name, mime, size) values
+  ('cccccccc-0000-0000-0000-000000000009', 'aaaaaaaa-0000-0000-0000-000000000001', 'file',
+   'aaaaaaaa-0000-0000-0000-000000000001/cccccccc-0000-0000-0000-000000000009.pdf', 'y.html', 'text/html', 10) $$,
+  '22023', null, 'HTML com extensão de PDF é recusado');
 select throws_ok($$ insert into public.project_files (id, folder_id, kind, path, name, mime, size) values
   ('cccccccc-0000-0000-0000-000000000006', 'aaaaaaaa-0000-0000-0000-000000000001', 'file',
    'aaaaaaaa-0000-0000-0000-000000000001/cccccccc-0000-0000-0000-000000000006.pdf', 'grande.pdf', 'application/pdf', 60000000) $$,
   '23514', null, 'mais de 50 MB é recusado');
-select is((public.storage_usage() ->> 'materials')::bigint, 30000000::bigint, 'o uso separado mostra o material');
+select is((public.storage_usage() ->> 'materials')::bigint, 33000000::bigint, 'o uso separado mostra o material');
 
 -- Leitor: vê e não acrescenta
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "role": "authenticated"}';
-select is((select count(*)::int from public.project_files), 2, 'leitor do projeto vê o material');
+select is((select count(*)::int from public.project_files), 3, 'leitor do projeto vê o material');
 select throws_ok($$ insert into public.project_files (id, folder_id, kind, path, name, mime, size) values
   ('cccccccc-0000-0000-0000-000000000007', 'aaaaaaaa-0000-0000-0000-000000000001', 'file',
    'aaaaaaaa-0000-0000-0000-000000000001/cccccccc-0000-0000-0000-000000000007.pdf', 'y.pdf', 'application/pdf', 10) $$,
@@ -71,7 +80,7 @@ select ok((select count(*) = 1 from public.deleted_items
 set local role authenticated;
 select public.restore_deleted((select id from public.deleted_items
                                where kind = 'project_files' and row_id = 'cccccccc-0000-0000-0000-000000000001'));
-select is((select count(*)::int from public.project_files), 2, 'restaurar traz o material de volta');
+select is((select count(*)::int from public.project_files), 3, 'restaurar traz o material de volta');
 
 select * from finish();
 rollback;
