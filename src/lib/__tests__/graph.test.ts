@@ -116,3 +116,35 @@ describe('grafo (OB9)', () => {
     expect(bounds([])).toEqual({ minX: 0, minY: 0, maxX: 0, maxY: 0 });
   });
 });
+
+describe('grafo com material (ES6)', () => {
+  const target = (kind: 'task' | 'page', id: string) => ({ kind, id, title: id, folderId: 'f1' });
+  const graph = buildGraph({
+    notes: [{ id: 'n1', title: 'OpenStax 9.2', folderId: 'f1' }],
+    tasks: new Map(),
+    pages: [{ id: 'p0', title: 'Fase 0', folderId: 'f1' }],
+    folders: [],
+    links: [],
+    materials: [
+      { id: 'm1', title: 'Assis', folderId: 'f1', noteId: null, target: target('task', 'M01') },
+      { id: 'm2', title: 'OpenStax 9.2', folderId: 'f1', noteId: 'n1', target: target('task', 'M01') },
+      { id: 'm3', title: 'Prelúdio', folderId: 'f1', noteId: null, target: target('page', 'p0') },
+      { id: 'm4', title: 'Sem acesso', folderId: 'f1', noteId: 'oculta', target: target('task', 'M01') },
+      { id: 'm5', title: 'Lista oculta', folderId: 'f1', noteId: null, target: target('page', 'px') },
+    ],
+  });
+  it('o PDF vira ponto; a anotação liga pelo próprio ponto; a lista também', () => {
+    expect(graph.nodes.map((n) => n.key).sort()).toEqual([
+      'material:m1',
+      'material:m3',
+      'note:n1',
+      'page:p0',
+      'task:M01',
+    ]);
+    expect(graph.edges.map((e) => e.key).sort()).toEqual([
+      'material:m1|task:M01',
+      'material:m3|page:p0',
+      'note:n1|task:M01',
+    ]);
+  });
+});

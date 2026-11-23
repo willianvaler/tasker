@@ -22,7 +22,7 @@ import { fold } from '@/lib/query/parse';
 // [[links]], com filtros por tipo, etiqueta, pasta, as soltas e "só o que está ligado a este".
 // `?foco=note:<id>` abre já no grafo local de um item.
 
-const KINDS: GraphKind[] = ['note', 'task', 'page', 'folder', 'ghost'];
+const KINDS: GraphKind[] = ['note', 'task', 'page', 'folder', 'material', 'ghost'];
 
 export default function GraphScreen() {
   const { t } = useTranslation();
@@ -31,7 +31,7 @@ export default function GraphScreen() {
   const tree = useTree();
   const data = useGraph();
   const openNode = useOpenNode();
-  const [kinds, setKinds] = useState<GraphKind[]>(['note', 'task', 'page', 'folder', 'ghost']);
+  const [kinds, setKinds] = useState<GraphKind[]>(['note', 'task', 'page', 'folder', 'material', 'ghost']);
   const [orphans, setOrphans] = useState(true);
   const [tag, setTag] = useState('');
   const [folder, setFolder] = useState<string | null>(null);
@@ -44,6 +44,7 @@ export default function GraphScreen() {
     page: t('graph.kind.page'),
     folder: t('graph.kind.folder'),
     ghost: t('graph.kind.ghost'),
+    material: t('graph.kind.material'),
   };
   const root = tree.data?.folders.find((f) => f.id === folder);
   const graph = data.graph

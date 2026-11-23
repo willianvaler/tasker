@@ -4200,7 +4200,8 @@
       "task": "Tarefas",
       "page": "Listas",
       "folder": "Pastas",
-      "ghost": "Ainda não existe"
+      "ghost": "Ainda não existe",
+      "material": "Material"
     },
     "nodes_one": "{{count}} ponto",
     "nodes_other": "{{count}} pontos",
@@ -5022,6 +5023,14 @@
     "htmlLoading": "Abrindo…",
     "htmlIsolated": "Página isolada: roda os próprios scripts, mas não vê a sua conta nem o app.",
     "nativeHtmlHint": "A página abre no navegador do aparelho. Depois de aberta uma vez, abre de novo sem internet.",
-    "openHtml": "Abrir a página"
+    "openHtml": "Abrir a página",
+    "link": "Ligar material",
+    "linkTitle": "Material desta tarefa",
+    "noneLinked": "Nenhum material ligado. O material liga sozinho pelo código no nome do arquivo (ex.: \"03 - M01 - ...\" na tarefa \"M01 · ...\").",
+    "viaCode": "pelo código",
+    "viaHand": "ligado à mão",
+    "viaParent": "da tarefa mãe: {{title}}",
+    "viaPage": "da lista: {{title}}",
+    "unlink": "Desligar {{name}} desta tarefa"
   }
 }

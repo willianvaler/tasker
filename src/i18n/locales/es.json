@@ -4200,7 +4200,8 @@
       "task": "Tareas",
       "page": "Listas",
       "folder": "Carpetas",
-      "ghost": "Aún no existe"
+      "ghost": "Aún no existe",
+      "material": "Material"
     },
     "nodes_one": "{{count}} punto",
     "nodes_other": "{{count}} puntos",
@@ -5022,6 +5023,14 @@
     "htmlLoading": "Abriendo…",
     "htmlIsolated": "Página aislada: ejecuta sus propios scripts, pero no ve tu cuenta ni la app.",
     "nativeHtmlHint": "La página se abre en el navegador del dispositivo. Después de abrirla una vez, se abre sin internet.",
-    "openHtml": "Abrir la página"
+    "openHtml": "Abrir la página",
+    "link": "Vincular material",
+    "linkTitle": "Material de esta tarea",
+    "noneLinked": "Ningún material vinculado. El material se vincula solo por el código en el nombre del archivo (ej.: \"03 - M01 - ...\" a la tarea \"M01 · ...\").",
+    "viaCode": "por el código",
+    "viaHand": "vinculado a mano",
+    "viaParent": "de la tarea madre: {{title}}",
+    "viaPage": "de la lista: {{title}}",
+    "unlink": "Desvincular {{name}} de esta tarea"
   }
 }

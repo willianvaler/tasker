@@ -1,3 +1,5 @@
+import { router } from 'expo-router';
+
 import { useOpenLink } from '@/components/note-links';
 import { forceLayout, type Graph, type GraphKind, type GraphNode, type Point } from '@/lib/graph';
 import type { ColorToken } from '@/lib/tokens';
@@ -11,17 +13,20 @@ export const KIND_COLOR: Record<GraphKind, ColorToken> = {
   page: 'rarity-rare',
   folder: 'rarity-epic',
   ghost: 'ink-muted',
+  material: 'warn',
 };
 
 /** Abre o item do ponto; o fantasma abre (ou cria) a anotação com o título, como o [[link]] */
 export function useOpenNode() {
   const open = useOpenLink();
   return (node: GraphNode) =>
-    open(
-      node.kind === 'ghost'
-        ? { kind: 'new', title: node.title, anchor: null }
-        : { kind: node.kind, id: node.id, anchor: null },
-    );
+    node.kind === 'material'
+      ? router.push({ pathname: '/material/[id]', params: { id: node.id } })
+      : open(
+          node.kind === 'ghost'
+            ? { kind: 'new', title: node.title, anchor: null }
+            : { kind: node.kind, id: node.id, anchor: null },
+        );
 }
 
 // O layout é a parte cara (O(n²) por passo): guarda os últimos pelo desenho do grafo, para não

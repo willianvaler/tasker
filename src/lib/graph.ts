@@ -6,7 +6,7 @@
 import { fold } from './query/parse';
 import type { LinkKind } from './wikilinks';
 
-export type GraphKind = LinkKind | 'ghost';
+export type GraphKind = LinkKind | 'ghost' | 'material';
 export type GraphNode = {
   /** `<kind>:<id>`; o fantasma (link para o que não existe) é `ghost:<título sem acento>` */
   key: string;
@@ -50,6 +50,17 @@ export function buildGraph(input: {
   tasks: ReadonlyMap<string, GraphItem>;
   pages: readonly GraphItem[];
   folders: readonly GraphItem[];
+  /**
+   * Material ligado às tarefas e listas (ES6): o PDF/HTML vira ponto próprio; o que é anotação liga
+   * pelo ponto da anotação
+   */
+  materials?: readonly {
+    id: string;
+    title: string;
+    folderId: string;
+    noteId: string | null;
+    target: { kind: 'task' | 'page'; id: string; title: string; folderId: string };
+  }[];
 }): Graph {
   const nodes = new Map<string, GraphNode>();
   const add = (kind: GraphKind, item: GraphItem) => {
@@ -97,6 +108,30 @@ export function buildGraph(input: {
     const source = add(link.source_kind, from);
     if (source === target) continue;
     // Uma linha por par, nos dois sentidos
+    const [a, b] = source < target ? [source, target] : [target, source];
+    const key = `${a}|${b}`;
+    if (!edges.has(key)) edges.set(key, { key, source, target });
+  }
+  for (const m of input.materials ?? []) {
+    const note = m.noteId ? notes.get(m.noteId) : undefined;
+    // Anotação ou lista que a pessoa não vê: fica de fora
+    if (m.noteId && !note) continue;
+    if (m.target.kind === 'page' && !pages.has(m.target.id)) continue;
+    const target =
+      m.target.kind === 'page'
+        ? add('page', pages.get(m.target.id)!)
+        : add(
+            'task',
+            input.tasks.get(m.target.id) ?? {
+              id: m.target.id,
+              title: m.target.title,
+              folderId: m.target.folderId,
+            },
+          );
+    const source = note
+      ? add('note', note)
+      : add('material', { id: m.id, title: m.title, folderId: m.folderId });
+    if (source === target) continue;
     const [a, b] = source < target ? [source, target] : [target, source];
     const key = `${a}|${b}`;
     if (!edges.has(key)) edges.set(key, { key, source, target });

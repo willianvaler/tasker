@@ -73,6 +73,7 @@ import { ExerciseHistory } from '@/components/gym/exercise-history';
 import { ExerciseRecords } from '@/components/gym/exercise-records';
 import { ExerciseLink } from '@/components/gym/exercise-link';
 import { ProgressionEditor, SupersetEditor } from '@/components/gym/progression';
+import { TaskMaterials } from '@/components/task-materials';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskHistory } from '@/components/tasks/task-history';
 import { Related } from '@/components/related';
@@ -853,6 +854,9 @@ function TaskDetails({ task }: { task: Task }) {
         )}
 
         <TaskBacklinks taskId={task.id} title={t('wikilinks.backlinks')} />
+
+        {/* Material de estudo ligado (ES6, D327): some quando o projeto não tem material */}
+        <TaskMaterials task={task} editable={allowed.edit} />
 
         {show('attachments') && gym('attachments') && (
           <Section title={t('attach.section')}>

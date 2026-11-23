@@ -199,8 +199,8 @@ export function useAddMaterials(folderId: string) {
   return { add, progress };
 }
 
-export function openMaterial(material: Material) {
-  if (material.kind === 'note' && material.note_id)
+export function openMaterial(material: { id: string; note_id: string | null }) {
+  if (material.note_id)
     router.push({ pathname: '/nota/[id]', params: { id: material.note_id } });
   else router.push({ pathname: '/material/[id]', params: { id: material.id } });
 }

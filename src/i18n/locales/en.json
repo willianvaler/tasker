@@ -4200,7 +4200,8 @@
       "task": "Tasks",
       "page": "Lists",
       "folder": "Folders",
-      "ghost": "Doesn't exist yet"
+      "ghost": "Doesn't exist yet",
+      "material": "Material"
     },
     "nodes_one": "{{count}} node",
     "nodes_other": "{{count}} nodes",
@@ -5022,6 +5023,14 @@
     "htmlLoading": "Opening…",
     "htmlIsolated": "Isolated page: it runs its own scripts but can't see your account or the app.",
     "nativeHtmlHint": "The page opens in the device's browser. Once opened, it opens again without internet.",
-    "openHtml": "Open the page"
+    "openHtml": "Open the page",
+    "link": "Link material",
+    "linkTitle": "Material for this task",
+    "noneLinked": "No material linked. Material links by itself through the code in the file name (e.g. \"03 - M01 - ...\" to the task \"M01 · ...\").",
+    "viaCode": "by code",
+    "viaHand": "linked by hand",
+    "viaParent": "from the parent task: {{title}}",
+    "viaPage": "from the list: {{title}}",
+    "unlink": "Unlink {{name}} from this task"
   }
 }

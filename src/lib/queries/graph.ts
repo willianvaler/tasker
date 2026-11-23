@@ -4,6 +4,7 @@ import { buildGraph, type Graph, type GraphItem, type GraphLinkRow } from '../gr
 import { supabase } from '../supabase';
 import { db } from '../sync/db';
 import { isLocal, myFolderIds, sessionUserId } from '../sync/local';
+import { useMaterialLinks } from './materials';
 import { noteTitle, useNotes } from './notes';
 import { useTree } from './tree';
 
@@ -29,6 +30,9 @@ const parseLabels = (value: unknown): string[] => {
 export function useGraph(): { graph: Graph | null; isPending: boolean; error: Error | null } {
   const notes = useNotes();
   const tree = useTree();
+  // Material ligado às tarefas (ES6): online (o material não vai para o aparelho); sem ele, o grafo
+  // segue com os links
+  const materials = useMaterialLinks(null);
   const data = useQuery({
     queryKey: ['links', 'graph'],
     networkMode: isLocal() ? 'always' : 'online',
@@ -121,6 +125,18 @@ export function useGraph(): { graph: Graph | null; isPending: boolean; error: Er
     tasks: new Map(data.data.tasks.map((t) => [t.id, { ...t, tags: t.labels }])),
     pages: tree.data.pages.map((p) => ({ id: p.id, title: p.name, folderId: p.folder_id })),
     folders,
+    materials: (materials.data ?? []).map((m) => ({
+      id: m.material_id,
+      title: m.material_name.replace(/\.(pdf|md|markdown|html?)$/i, ''),
+      folderId: m.material_folder_id,
+      noteId: m.note_id,
+      target: {
+        kind: m.target_kind === 'page' ? ('page' as const) : ('task' as const),
+        id: m.target_id,
+        title: m.target_title,
+        folderId: m.target_folder_id,
+      },
+    })),
   });
   return { graph, isPending: false, error: null };
 }

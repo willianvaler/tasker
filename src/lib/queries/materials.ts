@@ -12,6 +12,7 @@ import {
   sortMaterials,
 } from '@/lib/materials';
 import { uuidv7 } from '@/lib/uuid';
+import type { MaterialLinkRow } from '@/lib/material-links';
 import type { Tables } from '../db';
 import { supabase } from '../supabase';
 
@@ -129,6 +130,8 @@ export function useMaterialMutations(folderId: string) {
     queryClient.invalidateQueries({ queryKey: key(folderId) });
     queryClient.invalidateQueries({ queryKey: ['attachment-usage'] });
     queryClient.invalidateQueries({ queryKey: ['storage-usage'] });
+    queryClient.invalidateQueries({ queryKey: ['material-links'] });
+    queryClient.invalidateQueries({ queryKey: ['project-materials'] });
   };
   /** Tirar da lista: vai para a lixeira (a anotação, se for uma, continua nas Anotações) */
   const remove = useMutation({
@@ -180,4 +183,73 @@ export function useStorageUsage() {
       };
     },
   });
+}
+
+// ---------- Ligar o material às tarefas (ES6, D327) ----------
+
+/** As ligações do material do projeto de `folderId` (pelo código e à mão); sem pasta, todas */
+export function useMaterialLinks(folderId: string | null | undefined, enabled = true) {
+  return useQuery({
+    queryKey: ['material-links', folderId ?? 'all'],
+    enabled,
+    queryFn: async (): Promise<MaterialLinkRow[]> => {
+      const { data, error } = await supabase.rpc(
+        'material_task_links',
+        folderId ? { p_folder: folderId } : {},
+      );
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+/** Todo o material do projeto (a raiz e as subpastas), na ordem do nome */
+export function useProjectMaterials(folderIds: readonly string[]) {
+  const ids = [...folderIds].sort();
+  return useQuery({
+    queryKey: ['project-materials', ids],
+    enabled: ids.length > 0,
+    queryFn: async (): Promise<Material[]> => {
+      const { data, error } = await supabase.from('project_files').select('*').in('folder_id', ids);
+      if (error) throw error;
+      return sortMaterials(data);
+    },
+  });
+}
+
+export function useMaterialLinkMutations() {
+  const queryClient = useQueryClient();
+  const settle = () => queryClient.invalidateQueries({ queryKey: ['material-links'] });
+  const link = useMutation({
+    mutationFn: async ({ materialId, taskId }: { materialId: string; taskId: string }) => {
+      const { error } = await supabase
+        .from('material_links')
+        .upsert(
+          { material_id: materialId, task_id: taskId, linked: true },
+          { onConflict: 'material_id,task_id' },
+        );
+      if (error) throw error;
+    },
+    onSettled: settle,
+  });
+  /** A automática (pelo código) fica marcada como desfeita; a feita à mão sai */
+  const unlink = useMutation({
+    mutationFn: async ({ material, taskId }: { material: MaterialLinkRow; taskId: string }) => {
+      const { error } = material.auto
+        ? await supabase
+            .from('material_links')
+            .upsert(
+              { material_id: material.material_id, task_id: taskId, linked: false },
+              { onConflict: 'material_id,task_id' },
+            )
+        : await supabase
+            .from('material_links')
+            .delete()
+            .eq('material_id', material.material_id)
+            .eq('task_id', taskId);
+      if (error) throw error;
+    },
+    onSettled: settle,
+  });
+  return { link, unlink };
 }

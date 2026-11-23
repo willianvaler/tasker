@@ -7,6 +7,7 @@ import { Pressable, View } from 'react-native';
 import { FieldValues } from '@/components/fields';
 import { Backlinks, OutgoingLinks, useOpenLink } from '@/components/note-links';
 import { NoteMarkdown } from '@/components/note-markdown';
+import { TaskMaterials } from '@/components/task-materials';
 import { Attachments } from '@/components/tasks/attachments';
 import { TaskMeta } from '@/components/tasks/task-meta';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
@@ -146,6 +147,9 @@ function TaskReader({ task }: { task: Task }) {
           )}
         </View>
       )}
+
+      {/* O material de estudo ligado (ES6): pelo código, à mão, ou herdado da mãe ou da lista */}
+      <TaskMaterials task={task} editable={can.edit} />
 
       {subtasks.length > 0 && (
         <View>

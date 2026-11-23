@@ -21,7 +21,7 @@ export function LocalGraph({ kind, id }: { kind: LinkKind; id: string }) {
   const focus = nodeKey(kind, id);
   if (!data.graph) return null;
   const graph = filterGraph(data.graph, {
-    kinds: ['note', 'task', 'page', 'folder', 'ghost'],
+    kinds: ['note', 'task', 'page', 'folder', 'material', 'ghost'],
     orphans: false,
     focus,
     depth: 2,

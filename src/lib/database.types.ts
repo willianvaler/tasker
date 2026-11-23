@@ -1117,6 +1117,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"material_links": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"folder_id": string | null,"linked": boolean,"material_id": string,"task_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id"?: string | null,"linked"?: boolean,"material_id": string,"task_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"folder_id"?: string | null,"linked"?: boolean,"material_id"?: string,"task_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "material_links_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "material_links_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "material_links_material_id_fkey"
+      columns: ["material_id"]
+isOneToOne: false
+      referencedRelation: "project_files"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "material_links_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"medications": {
                   Row: {
                     "created_at": string,"dose": number,"every_days": number,"id": string,"name": string,"notes": string | null,"pack_size": number | null,"paused": boolean,"stock": number,"stock_on": string,"times_per_day": number,"updated_at": string,"user_id": string
@@ -3704,6 +3742,9 @@ isOneToOne: false
 "is_team_member":
 { Args: { "p_min_role"?: Database["public"]['Enums']["team_role"],"p_team_id": string }; Returns: boolean
                            },
+"item_code":
+{ Args: { "p_title": string }; Returns: string
+                           },
 "item_relations":
 { Args: { "p_id": string,"p_type": string }; Returns: {
               "can_unlink": boolean,"icon": string,"id": string,"other_id": string,"other_type": string,"title": string
@@ -3758,6 +3799,14 @@ isOneToOne: false
       } },
 "log_warmup":
 { Args: { "p_task_id": string,"p_values"?: Json }; Returns: Json
+                           },
+"material_code":
+{ Args: { "p_name": string }; Returns: string
+                           },
+"material_task_links":
+{ Args: { "p_folder"?: string }; Returns: {
+              "auto": boolean,"material_folder_id": string,"material_id": string,"material_name": string,"mime": string,"note_id": string,"target_folder_id": string,"target_id": string,"target_kind": string,"target_title": string
+            }[]
                            },
 "members_matching":
 { Args: { "p_name": string,"p_root": string }; Returns: string[]
