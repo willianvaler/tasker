@@ -80,9 +80,12 @@
         {
           "microphonePermission": "O app usa o microfone só quando você toca em Falar a lista, para ditar tarefas.",
           "speechRecognitionPermission": "O app transforma o que você fala em tarefas.",
-          "androidSpeechServicePackages": ["com.google.android.googlequicksearchbox"]
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox"
+          ]
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,

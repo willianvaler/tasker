@@ -4982,7 +4982,8 @@
     "sending": "Enviando la imagen…",
     "failed": "La imagen no se envió: {{message}}",
     "image": "Imagen",
-    "unavailable": "Imagen no disponible (sin conexión o sin acceso)"
+    "unavailable": "Imagen no disponible (sin conexión o sin acceso)",
+    "svgWebOnly": "Las imágenes SVG solo entran desde la web (en el móvil quedan fuera)."
   },
   "materials": {
     "title": "Material",
@@ -5011,7 +5012,7 @@
     "loading": "Abriendo el PDF…",
     "openError": "No se pudo abrir: {{message}}",
     "newTab": "Abrir en una pestaña",
-    "nativeHint": "El PDF se abre en el lector de PDF del dispositivo. Después de abrirlo una vez, se abre sin internet.",
+    "nativeHint": "El PDF se abre aquí; si el lector no abre, usa el del dispositivo.",
     "openDevice": "Abrir el PDF",
     "usage": "Material de estudio: {{materials}} · imágenes de las notas: {{images}} (ya contados en el total).",
     "prev": "anterior",

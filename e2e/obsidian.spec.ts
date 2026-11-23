@@ -141,3 +141,44 @@ test('anotações: inserir imagem no editor', async ({ page }, testInfo) => {
   await page.getByRole('button', { name: 'Visualizar' }).click();
   await expect(page.getByTestId('note-image')).toBeVisible();
 });
+
+// CD44: colar uma imagem (Ctrl+V) e soltar um SVG no texto; o SVG sobe desenhado em PNG
+test('anotações: colar imagem e soltar SVG no editor', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'Colar e arrastar são do computador');
+  await signUp(page, testInfo);
+  await page.goto('/notas');
+  await page.getByRole('button', { name: 'Nova anotação' }).first().click();
+  await page.getByRole('textbox', { name: 'Título da anotação' }).fill('Coladas');
+  const body = page.getByRole('textbox', { name: 'Texto da anotação' });
+  await body.fill('Texto.');
+  await body.evaluate(
+    (el, png) => {
+      const data = new DataTransfer();
+      data.items.add(new File([new Uint8Array(png)], 'colada.png', { type: 'image/png' }));
+      el.dispatchEvent(
+        new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }),
+      );
+    },
+    [...PNG],
+  );
+  await expect(body).toHaveValue(/!\[colada\]\(qlimg:[^)]+\.(webp|jpg)\)/, { timeout: 30_000 });
+
+  const uploaded = page.waitForResponse(
+    (r) =>
+      r.url().includes('/storage/v1/object/attachments/notes/') && r.request().method() === 'POST',
+  );
+  await body.evaluate((el) => {
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 20"><rect width="40" height="20" fill="red"/></svg>';
+    const data = new DataTransfer();
+    data.items.add(new File([svg], 'diagrama.svg', { type: 'image/svg+xml' }));
+    el.dispatchEvent(
+      new DragEvent('drop', { dataTransfer: data, bubbles: true, cancelable: true }),
+    );
+  });
+  // Sobe desenhado em PNG (sendNoteImage), nunca o SVG
+  expect((await uploaded).ok()).toBe(true);
+  await expect(body).toHaveValue(/!\[diagrama\]\(qlimg:[^)]+\.svg\)/, { timeout: 30_000 });
+  await page.getByRole('button', { name: 'Visualizar' }).click();
+  await expect(page.getByTestId('note-image')).toHaveCount(2);
+});

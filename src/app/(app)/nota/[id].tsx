@@ -78,7 +78,8 @@ import { parseLinks } from '@/lib/wikilinks';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
 import { useIsOnline } from '@/providers/online';
-import { sendPickedNoteImage } from '@/lib/queries/note-images';
+import { sendNoteImage, sendPickedNoteImage } from '@/lib/queries/note-images';
+import { useImageDrop } from '@/lib/use-image-drop';
 
 type Content = { title: string; body: string; props: NoteProps };
 
@@ -362,17 +363,41 @@ function Editor({
       selectionLimit: 10,
     });
     if (result.canceled || !result.assets.length) return;
+    await insertFiles(
+      result.assets.map((asset) => ({
+        uri: asset.uri,
+        name: asset.fileName,
+        width: asset.width,
+        height: asset.height,
+      })),
+    );
+  }
+
+  // Colar ou arrastar imagem no texto (web): sobe como a do botão
+  useImageDrop(
+    input,
+    (files) => void insertFiles(files),
+    editing && online && !sendingImage && !readOnly,
+  );
+
+  /** Envia as imagens e põe os links no cursor (sem cursor no texto, no fim) */
+  async function insertFiles(
+    files: { uri: string; name?: string | null; width?: number; height?: number; mime?: string }[],
+  ) {
     setSendingImage(true);
     try {
       const parts: string[] = [];
-      for (const asset of result.assets)
+      for (const file of files)
         parts.push(
-          await sendPickedNoteImage(note.id, {
-            uri: asset.uri,
-            name: asset.fileName,
-            width: asset.width,
-            height: asset.height,
-          }),
+          file.mime === 'image/svg+xml'
+            ? await sendNoteImage({
+                noteId: note.id,
+                body: await (await fetch(file.uri)).blob(),
+                mime: file.mime,
+                ext: 'svg',
+                name: file.name ?? 'imagem.svg',
+              })
+            : await sendPickedNoteImage(note.id, file),
         );
       // Sem cursor posto no texto (o começo), a imagem vai para o fim
       const atStart = selection.start === 0 && selection.end === 0;

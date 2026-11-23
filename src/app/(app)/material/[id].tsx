@@ -2,7 +2,13 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { AArrowDown, AArrowUp, ChevronLeft, ChevronRight, Pencil } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type NativeScrollEvent, type NativeSyntheticEvent, ScrollView, View } from 'react-native';
+import {
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+  Platform,
+  ScrollView,
+  View,
+} from 'react-native';
 
 import { HtmlView, PdfView } from '@/components/material-view';
 import { useOpenLink } from '@/components/note-links';
@@ -237,23 +243,31 @@ function PdfReader({ material, path }: { material: Material; path: string }) {
     setDraft(null);
     if (Number.isInteger(page) && page > 0 && page !== saved) save.mutate({ page });
   };
+  // No celular, o leitor do app avisa a página: guarda sozinho (um pouco depois de parar)
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const onPage = (page: number) => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => save.mutate({ page }), 1500);
+  };
   if (position.isPending) return null;
   return (
     <View className="flex-1 gap-2 pb-4">
-      <View className="flex-row flex-wrap items-center gap-2">
-        <Text className="text-sm text-ink-muted">{t('study.page')}</Text>
-        <Input
-          accessibilityLabel={t('study.page')}
-          accessibilityHint={t('study.pageHint')}
-          value={value}
-          onChangeText={(text) => setDraft(text.replace(/\D/g, '').slice(0, 5))}
-          onBlur={commit}
-          onSubmitEditing={commit}
-          keyboardType="number-pad"
-          className="w-20"
-        />
-      </View>
-      <PdfView path={path} name={material.name} page={saved} />
+      {Platform.OS === 'web' && (
+        <View className="flex-row flex-wrap items-center gap-2">
+          <Text className="text-sm text-ink-muted">{t('study.page')}</Text>
+          <Input
+            accessibilityLabel={t('study.page')}
+            accessibilityHint={t('study.pageHint')}
+            value={value}
+            onChangeText={(text) => setDraft(text.replace(/\D/g, '').slice(0, 5))}
+            onBlur={commit}
+            onSubmitEditing={commit}
+            keyboardType="number-pad"
+            className="w-20"
+          />
+        </View>
+      )}
+      <PdfView path={path} name={material.name} page={saved} onPage={onPage} />
     </View>
   );
 }

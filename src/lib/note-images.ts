@@ -12,9 +12,12 @@ export const IMAGE_MIME: Record<string, string> = {
   jpeg: 'image/jpeg',
   gif: 'image/gif',
   webp: 'image/webp',
+  // O SVG vira PNG antes de subir (lib/svg-raster): guardado como está, aberto pelo endereço do
+  // app, ele rodaria script
+  svg: 'image/svg+xml',
 };
 
-export const isImageFile = (name: string) => /\.(png|jpe?g|gif|webp)$/i.test(name);
+export const isImageFile = (name: string) => /\.(png|jpe?g|gif|webp|svg)$/i.test(name);
 
 /** `<anotação>/<id>.<ext>` */
 export const imageRef = (noteId: string, assetId: string, ext: string) =>

@@ -84,9 +84,18 @@ test('sync: reenvio depois de resposta perdida não duplica', async ({ page }, t
     .poll(async () => (await serverTask(title))?.status, { timeout: 20_000 })
     .toBe('todo');
   const { id } = await serverTask(title);
+  // Vence no dia 10 do mês que vem (sempre no futuro): concluir leva ao dia 10 do mês seguinte.
+  // Data fixa no passado quebrava com o tempo: a recorrência pula o que já passou
+  const now = new Date();
+  const ymd = (months: number) => {
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + months, 10));
+    return d.toISOString().slice(0, 10);
+  };
+  const due = ymd(1);
+  const nextDue = ymd(2);
   await adminRest(`tasks?id=eq.${id}`, {
     method: 'PATCH',
-    body: JSON.stringify({ due_date: '2026-10-15', recurrence: { type: 'monthly' } }),
+    body: JSON.stringify({ due_date: due, recurrence: { type: 'monthly' } }),
   });
 
   // A primeira chamada chega ao servidor, mas a resposta não volta: o app vai reenviar
@@ -101,11 +110,11 @@ test('sync: reenvio depois de resposta perdida não duplica', async ({ page }, t
   await expect.poll(() => lost).toBe(true);
   await expect
     .poll(async () => (await adminRest(`tasks?id=eq.${id}&select=due_date`))[0].due_date)
-    .toBe('2026-11-15');
+    .toBe(nextDue);
   await expect(page.getByText('0 alterações esperando envio')).toBeVisible({ timeout: 30_000 });
 
   const [task] = await adminRest(`tasks?id=eq.${id}&select=due_date`);
-  expect(task.due_date).toBe('2026-11-15');
+  expect(task.due_date).toBe(nextDue);
   const completions = await adminRest(`task_completions?task_id=eq.${id}&select=id`);
   expect(completions).toHaveLength(1);
 });

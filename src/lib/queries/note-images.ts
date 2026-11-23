@@ -1,5 +1,6 @@
 import { tr } from '@/lib/i18n-ref';
 import { prepareImage } from '@/lib/image-prep';
+import { rasterizeSvg } from '@/lib/svg-raster';
 import { imageMarkdown, imagePath, imageRef } from '@/lib/note-images';
 import { supabase } from '@/lib/supabase';
 import { uuidv7 } from '@/lib/uuid';
@@ -47,16 +48,17 @@ export async function sendNoteImage(input: {
   id?: string;
 }): Promise<string> {
   const id = input.id ?? uuidv7();
+  // SVG: sobe desenhado em PNG (no mesmo caminho que o texto já cita)
+  if (input.mime === 'image/svg+xml')
+    input = { ...input, body: await rasterizeSvg(input.body), mime: 'image/png' };
   const ref = imageRef(input.noteId, id, input.ext);
   const path = imagePath(ref);
   await retrying(async () =>
-    supabase.storage
-      .from(BUCKET)
-      .upload(path, input.body, {
-        contentType: input.mime,
-        upsert: true,
-        cacheControl: '31536000',
-      }),
+    supabase.storage.from(BUCKET).upload(path, input.body, {
+      contentType: input.mime,
+      upsert: true,
+      cacheControl: '31536000',
+    }),
   );
   try {
     await retrying(async () =>

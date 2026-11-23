@@ -14,7 +14,17 @@ import { getMaterialBlob } from '@/lib/material-cache';
  * páginas). O arquivo vem do Storage e vira um endereço `blob:` (o endereço do Storage não pode
  * ir num quadro: as respostas do app proíbem ser emolduradas).
  */
-export function PdfView({ path, name, page }: { path: string; name: string; page?: number }) {
+export function PdfView({
+  path,
+  name,
+  page,
+}: {
+  path: string;
+  name: string;
+  page?: number;
+  /** Só o leitor do celular avisa a página */
+  onPage?: (page: number) => void;
+}) {
   const { t } = useTranslation();
   const [src, setSrc] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);

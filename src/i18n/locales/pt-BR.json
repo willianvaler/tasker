@@ -4982,7 +4982,8 @@
     "sending": "Enviando a imagem…",
     "failed": "A imagem não foi: {{message}}",
     "image": "Imagem",
-    "unavailable": "Imagem indisponível (sem internet ou sem acesso)"
+    "unavailable": "Imagem indisponível (sem internet ou sem acesso)",
+    "svgWebOnly": "Imagem SVG só entra pela web (no celular, ela fica de fora)."
   },
   "materials": {
     "title": "Material",
@@ -5011,7 +5012,7 @@
     "loading": "Abrindo o PDF…",
     "openError": "Não deu para abrir: {{message}}",
     "newTab": "Abrir numa aba",
-    "nativeHint": "O PDF abre no leitor de PDF do aparelho. Depois de aberto uma vez, abre de novo sem internet.",
+    "nativeHint": "O PDF abre aqui; se o leitor não abrir, use o leitor do aparelho.",
     "openDevice": "Abrir o PDF",
     "usage": "Material de estudo: {{materials}} · imagens das anotações: {{images}} (já contados no total).",
     "prev": "anterior",

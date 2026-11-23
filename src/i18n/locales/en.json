@@ -4982,7 +4982,8 @@
     "sending": "Sending the image…",
     "failed": "The image didn't go: {{message}}",
     "image": "Image",
-    "unavailable": "Image unavailable (offline or no access)"
+    "unavailable": "Image unavailable (offline or no access)",
+    "svgWebOnly": "SVG images only go in from the web (on a phone they're left out)."
   },
   "materials": {
     "title": "Material",
@@ -5011,7 +5012,7 @@
     "loading": "Opening the PDF…",
     "openError": "Couldn't open it: {{message}}",
     "newTab": "Open in a tab",
-    "nativeHint": "The PDF opens in the device's PDF reader. Once opened, it opens again without internet.",
+    "nativeHint": "The PDF opens here; if the reader doesn't open, use the device's reader.",
     "openDevice": "Open the PDF",
     "usage": "Study material: {{materials}} · note images: {{images}} (already in the total).",
     "prev": "previous",
