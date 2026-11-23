@@ -3,7 +3,7 @@
 // [[links]] entre eles e traz as imagens); cada `.md`, cada HTML solto e cada livro em HTML é um
 // material (a anotação principal); o HTML que é quase só script vai como arquivo.
 
-import { convertHtmlGroup, groupHtml } from './html-book';
+import { convertHtmlGroup, groupHtml, splitLongNote } from './html-book';
 import type { VaultFile } from './vault';
 
 export type TextEntry = { path: string; text: string };
@@ -24,11 +24,11 @@ export function buildMaterialImport(input: { markdown: TextEntry[]; html: TextEn
   const mains: { title: string; name: string }[] = [];
   const interactive: { path: string; name: string }[] = [];
   for (const md of input.markdown) {
-    vault.push({ path: md.path, text: md.text });
-    mains.push({
-      title: baseName(md.path).replace(/\.(md|markdown)$/i, ''),
-      name: baseName(md.path),
-    });
+    const title = baseName(md.path).replace(/\.(md|markdown)$/i, '');
+    const dir = md.path.split('/').slice(0, -1).join('/');
+    // Texto maior que uma anotação: sumário + partes (o sumário é o material), em vez de cortar
+    vault.push(...splitLongNote(title, md.text, dir ? `${dir}/` : ''));
+    mains.push({ title, name: baseName(md.path) });
   }
   for (const group of groupHtml(input.html.map((h) => ({ path: h.path, html: h.text })))) {
     const result = convertHtmlGroup(group);

@@ -148,35 +148,39 @@ export function convertHtmlGroup(group: HtmlGroup): HtmlConversion {
       });
 
   const files: VaultFile[] = [];
-  for (const page of pages) {
-    const markdown = relink(page.markdown);
-    if (markdown.length <= PART_MAX) {
-      files.push({ path: `${prefix}${page.title}.md`, text: markdown });
-      continue;
-    }
-    // Longa demais: sumário + partes
-    const parts = splitMarkdown(markdown);
-    const width = String(parts.length).length;
-    const titles = parts.map((part, i) => {
-      const n = String(i + 1).padStart(Math.max(2, width), '0');
-      return safeTitle(`${shortName(page.title)} · ${n} ${firstHeading(part)}`.slice(0, 160));
-    });
-    parts.forEach((part, i) => {
-      const nav = [
-        i > 0 ? `← [[${titles[i - 1]}|${tr('materials.prev')}]]` : null,
-        `[[${page.title}|${tr('materials.contents')}]]`,
-        i < parts.length - 1 ? `[[${titles[i + 1]}|${tr('materials.next')}]] →` : null,
-      ]
-        .filter(Boolean)
-        .join(' · ');
-      files.push({ path: `${prefix}${titles[i]}.md`, text: `${part}\n\n---\n\n${nav}` });
-    });
-    files.push({
-      path: `${prefix}${page.title}.md`,
-      text: titles.map((title) => `- [[${title}]]`).join('\n'),
-    });
-  }
+  for (const page of pages) files.push(...splitLongNote(page.title, relink(page.markdown), prefix));
   return { files, mainTitle: name, interactive: false };
+}
+
+/**
+ * Texto maior que uma anotação: um sumário (com o título e o cabeçalho de propriedades, se houver) e
+ * uma anotação por parte, cortada nos títulos, com anterior · sumário · próxima. O que cabe vai inteiro
+ */
+export function splitLongNote(title: string, markdown: string, prefix = ''): VaultFile[] {
+  if (markdown.length <= PART_MAX) return [{ path: `${prefix}${title}.md`, text: markdown }];
+  // O frontmatter (propriedades) fica no sumário
+  const front = /^---\n[\s\S]*?\n---\n/.exec(markdown)?.[0] ?? '';
+  const parts = splitMarkdown(markdown.slice(front.length));
+  const width = String(parts.length).length;
+  const titles = parts.map((part, i) => {
+    const n = String(i + 1).padStart(Math.max(2, width), '0');
+    return safeTitle(`${shortName(title)} · ${n} ${firstHeading(part)}`.slice(0, 160));
+  });
+  const files = parts.map((part, i) => {
+    const nav = [
+      i > 0 ? `← [[${titles[i - 1]}|${tr('materials.prev')}]]` : null,
+      `[[${title}|${tr('materials.contents')}]]`,
+      i < parts.length - 1 ? `[[${titles[i + 1]}|${tr('materials.next')}]] →` : null,
+    ]
+      .filter(Boolean)
+      .join(' · ');
+    return { path: `${prefix}${titles[i]}.md`, text: `${part}\n\n---\n\n${nav}` };
+  });
+  files.push({
+    path: `${prefix}${title}.md`,
+    text: `${front}${titles.map((t) => `- [[${t}]]`).join('\n')}`,
+  });
+  return files;
 }
 
 /** O nome sem o parêntese do fim ("Livro (abrir index.html)" → "Livro"), para o título das partes */

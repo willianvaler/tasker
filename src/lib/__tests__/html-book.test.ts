@@ -170,3 +170,25 @@ describe('Adicionar material: o que entra', () => {
     ).toEqual(['c/a.md']);
   });
 });
+
+describe('.md longo vira sumário e partes (CD45)', () => {
+  it('as propriedades ficam no sumário; o curto vai inteiro', () => {
+    const long = `---\ntags: [estudo]\n---\n${['Um', 'Dois'].map((t) => `## ${t}\n\n${'z'.repeat(12000)}`).join('\n')}`;
+    const r = buildMaterialImport({
+      markdown: [{ path: 'mat/23 - M14 - Exercícios.md', text: long }],
+      html: [],
+    });
+    expect(r.vault.map((f) => f.path)).toEqual([
+      'mat/23 - M14 - Exercícios · 01 Um.md',
+      'mat/23 - M14 - Exercícios · 02 Dois.md',
+      'mat/23 - M14 - Exercícios.md',
+    ]);
+    expect(
+      r.vault[2].text.startsWith('---\ntags: [estudo]\n---\n- [[23 - M14 - Exercícios · 01 Um]]'),
+    ).toBe(true);
+    expect(r.vault[0].text.startsWith('## Um')).toBe(true);
+    expect(r.mains).toEqual([{ title: '23 - M14 - Exercícios', name: '23 - M14 - Exercícios.md' }]);
+    const short = buildMaterialImport({ markdown: [{ path: 'a.md', text: 'curto' }], html: [] });
+    expect(short.vault).toEqual([{ path: 'a.md', text: 'curto' }]);
+  });
+});
