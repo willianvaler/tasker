@@ -74,3 +74,4 @@ supabase/functions/.env
 /dist-play/
 data/exercicios/cache/
 /public/questlist-clipper.zip
+/public/pdfjs/

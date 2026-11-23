@@ -15,7 +15,7 @@ import { useOpenLink } from '@/components/note-links';
 import { NoteMarkdown, NoteTextScale } from '@/components/note-markdown';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
-import { StudySessionBar } from '@/components/study';
+import { StudyNav, StudySessionBar, useStudyRoot, useStudySequence } from '@/components/study';
 import { useTaskMaterialList } from '@/components/task-materials';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button, IconButton } from '@/components/ui/button';
@@ -36,7 +36,7 @@ import {
 import { useNotes } from '@/lib/queries/notes';
 import { useTask } from '@/lib/queries/tasks';
 import { findFolder, useTree } from '@/lib/queries/tree';
-import { neighbors, nextScale } from '@/lib/study';
+import { neighbors, nextScale, stepIndex } from '@/lib/study';
 import { parseLinks } from '@/lib/wikilinks';
 
 /**
@@ -57,6 +57,13 @@ export default function MaterialScreen() {
   const project = useProjectMaterials(root ? [root.id, ...root.children.map((c) => c.id)] : []);
   const forTask = useTaskMaterialList(tarefa ? (task.data ?? null) : null);
   const [scale, setScale] = useState(getReaderScale);
+  // Projeto de estudo (CD46): anterior e próximo andam pelos capítulos (tarefas e material)
+  const studyRoot = useStudyRoot(m?.folder_id);
+  const steps = useStudySequence(studyRoot);
+  const here = { kind: 'material' as const, id, task: tarefa ?? null };
+  const chapters = steps && stepIndex(steps, here) >= 0 ? steps : null;
+  // Enquanto a ordem de leitura carrega, nada de setas (a outra ordem levaria a outro lugar)
+  const waiting = !!studyRoot && !steps;
 
   // A ordem: a do material da tarefa, quando veio dela; senão, a do projeto
   const order =
@@ -112,18 +119,24 @@ export default function MaterialScreen() {
           </>
         )}
         <ThemeToggle />
-        <IconButton
-          icon={ChevronLeft}
-          label={t('study.prev')}
-          disabled={!prev}
-          onPress={() => prev && go(prev)}
-        />
-        <IconButton
-          icon={ChevronRight}
-          label={t('study.next')}
-          disabled={!next}
-          onPress={() => next && go(next)}
-        />
+        {chapters ? (
+          <StudyNav steps={chapters} at={here} />
+        ) : waiting ? null : (
+          <>
+            <IconButton
+              icon={ChevronLeft}
+              label={t('study.prev')}
+              disabled={!prev}
+              onPress={() => prev && go(prev)}
+            />
+            <IconButton
+              icon={ChevronRight}
+              label={t('study.next')}
+              disabled={!next}
+              onPress={() => next && go(next)}
+            />
+          </>
+        )}
       </View>
       {material.isPending ? null : !m ? (
         <EmptyState title={t('materials.missing')} />
@@ -230,22 +243,30 @@ function NoteReader({
   );
 }
 
-/** O PDF com a página onde parou (o leitor do navegador abre nela) */
+/** O PDF com a página onde parou: o leitor abre nela e guarda sozinho a página em que a pessoa está */
 function PdfReader({ material, path }: { material: Material; path: string }) {
   const { t } = useTranslation();
   const position = useReadingPosition(material.id);
   const save = useSaveReadingPosition(material.id);
   const saved = position.data?.page;
   const [draft, setDraft] = useState<string | null>(null);
-  const value = draft ?? (saved ? String(saved) : '');
+  /** Pular para uma página (na web): abre o leitor de novo nela */
+  const [jump, setJump] = useState<number | null>(null);
+  const [current, setCurrent] = useState<number | null>(null);
+  const value = draft ?? String(current ?? saved ?? '');
   const commit = () => {
-    const page = Number(value);
+    if (draft === null) return;
+    const page = Number(draft);
     setDraft(null);
-    if (Number.isInteger(page) && page > 0 && page !== saved) save.mutate({ page });
+    if (!Number.isInteger(page) || page <= 0) return;
+    setJump(page);
+    setCurrent(page);
+    if (page !== saved) save.mutate({ page });
   };
-  // No celular, o leitor do app avisa a página: guarda sozinho (um pouco depois de parar)
+  // Guarda um pouco depois de parar de rolar
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const onPage = (page: number) => {
+    setCurrent(page);
     clearTimeout(timer.current);
     timer.current = setTimeout(() => save.mutate({ page }), 1500);
   };
@@ -267,7 +288,13 @@ function PdfReader({ material, path }: { material: Material; path: string }) {
           />
         </View>
       )}
-      <PdfView path={path} name={material.name} page={saved} onPage={onPage} />
+      <PdfView
+        key={jump ?? 0}
+        path={path}
+        name={material.name}
+        page={jump ?? saved}
+        onPage={onPage}
+      />
     </View>
   );
 }

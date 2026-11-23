@@ -108,10 +108,10 @@ test('material: adicionar PDF e .md, ler o PDF e tirar', async ({ page }, testIn
   await page.goBack();
   await page.goBack();
 
-  // O PDF abre no leitor do navegador, num quadro com o arquivo em blob:
+  // O PDF abre no leitor do app (pdf.js num quadro), com o arquivo em blob:
   await section.getByRole('link', { name: '03 - M01 - Assis' }).click();
   await expect(page.getByRole('heading', { name: '03 - M01 - Assis' })).toBeVisible();
-  await expect(page.getByTestId('pdf-frame')).toHaveAttribute('src', /^blob:/);
+  await expect(page.getByTestId('pdf-frame')).toHaveAttribute('srcdoc', /blob:/);
   await page.goBack();
 
   // Tirar: vai para a lixeira

@@ -8,6 +8,8 @@ cd "$(dirname "$0")/.."
 source scripts/ambiente.sh
 # Web Clipper (OB15): o .zip da extensão vai junto, em /questlist-clipper.zip
 node scripts/extensao.mjs --zip >/dev/null
+# Leitor de PDF da web (CD46): o pdf.js em /pdfjs/
+node scripts/pdfjs-web.mjs
 EXPO_PUBLIC_SUPABASE_URL=/supabase EXPO_PUBLIC_POWERSYNC_URL=/powersync EXPO_PUBLIC_WEB_URL=$WEB_URL \
   npx expo export --platform web --clear --output-dir dist-remote >/dev/null
 systemctl --user restart "$SERVICO-web.service"

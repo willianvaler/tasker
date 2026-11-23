@@ -1,7 +1,9 @@
 // Leitor de PDF dentro do app no celular (ES7/CD44, D329): a página que a WebView abre a partir de
 // `file://`, com o pdf.js 3 (assets/pdfjs) ao lado. Desenha as páginas conforme aparecem, abre na
 // página guardada e avisa o app em que página a pessoa está (onde parei, sem anotar à mão). O PDF
-// é só desenhado (sem eval, sem scripts do documento). Puro: o teste confere no Chromium.
+// é só desenhado (sem eval, sem scripts do documento). Puro: o teste confere no Chromium. Na web
+// (CD46) a mesma página vai num quadro `srcdoc` com o PDF em `blob:` e avisa pelo `postMessage`: o
+// leitor do navegador não serve (o Firefox do Android baixa o PDF e tenta abrir o `file:///`).
 
 export type PdfReaderOptions = {
   /** Endereço do PDF (file://) */
@@ -11,11 +13,20 @@ export type PdfReaderOptions = {
   /** Cores do tema (lib/tokens) */
   background: string;
   ink: string;
+  /** Onde estão o pdf.min.js e o pdf.worker.min.js (no celular, ao lado; na web, `/pdfjs/`) */
+  assets?: string;
 };
 
 const quote = (value: string) => JSON.stringify(value).replace(/</g, '\\u003c');
 
-export function pdfReaderHtml({ pdf, page, background, ink }: PdfReaderOptions): string {
+export function pdfReaderHtml({
+  pdf,
+  page,
+  background,
+  ink,
+  assets = '',
+}: PdfReaderOptions): string {
+  const base = assets.replace(/[^\w/.-]/g, '');
   const bg = background.replace(/[^#\w(),. %]/g, '');
   const fg = ink.replace(/[^#\w(),. %]/g, '');
   return `<!doctype html>
@@ -28,8 +39,8 @@ export function pdfReaderHtml({ pdf, page, background, ink }: PdfReaderOptions):
   .page canvas { width: 100%; height: 100%; display: block; }
   #status { padding: 24px; text-align: center; }
 </style>
-<script src="pdf.worker.min.js"></script>
-<script src="pdf.min.js"></script>
+<script src="${base}pdf.worker.min.js"></script>
+<script src="${base}pdf.min.js"></script>
 </head><body>
 <div id="status">…</div>
 <div id="pages"></div>
@@ -38,6 +49,7 @@ export function pdfReaderHtml({ pdf, page, background, ink }: PdfReaderOptions):
   var send = function (msg) {
     var text = JSON.stringify(msg);
     if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(text);
+    else if (window.parent !== window) window.parent.postMessage({ questlistPdf: text }, '*');
     else window.__messages = (window.__messages || []).concat([msg]);
   };
   var lib = window.pdfjsLib;
@@ -46,6 +58,8 @@ export function pdfReaderHtml({ pdf, page, background, ink }: PdfReaderOptions):
   var holder = document.getElementById('pages');
   var status = document.getElementById('status');
   lib.getDocument({ url: ${quote(pdf)}, isEvalSupported: false, disableFontFace: false }).promise.then(function (doc) {
+    // Página guardada além do fim (o arquivo mudou): abre na última
+    if (start > doc.numPages) start = doc.numPages;
     return doc.getPage(1).then(function (first) {
       var base = first.getViewport({ scale: 1 });
       var width = Math.min(window.innerWidth - 16, 1000);

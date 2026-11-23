@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { BookOpen, Check, Play } from 'lucide-react-native';
+import { BookOpen, Check, ChevronLeft, ChevronRight, Play } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -8,15 +8,16 @@ import { openMaterial } from '@/components/materials-section';
 import { useTaskMaterialList } from '@/components/task-materials';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
 import { usePomodoro } from '@/components/timer-bar';
-import { Button } from '@/components/ui/button';
+import { Button, IconButton } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { materialTitle } from '@/lib/materials';
-import { readTask, setStudyFolders } from '@/lib/open-task';
+import { setStudyFolders, studyTask } from '@/lib/open-task';
+import { useMaterialLinks } from '@/lib/queries/materials';
 import { useProjectAllTasks } from '@/lib/queries/flow';
 import { useTask, type Task } from '@/lib/queries/tasks';
-import { type FolderNode, useTree } from '@/lib/queries/tree';
-import { nextSession } from '@/lib/study';
+import { findFolder, type FolderNode, type Page, useTree } from '@/lib/queries/tree';
+import { nextSession, stepIndex, studySequence, type StudyStep } from '@/lib/study';
 import { useTaskCan } from '@/providers/write';
 
 // Estudar (ES7, ESCOPO_V13 §5, D328): o projeto de estudo abre as tarefas na ficha, mostra o que
@@ -37,14 +38,13 @@ export function useStudyRegistry() {
   }, [roots]);
 }
 
-/** O que estudar agora: a próxima sessão aberta, com o material dela */
-export function StudyNow({ root }: { root: FolderNode }) {
-  const { t } = useTranslation();
-  const tree = useTree();
-  const tasks = useProjectAllTasks(root);
-  const pomodoro = usePomodoro();
+/** As listas do projeto na ordem de leitura: as da raiz, depois as das subpastas */
+export function studyPages<P extends Pick<Page, 'folder_id' | 'position'>>(
+  pages: readonly P[],
+  root: Pick<FolderNode, 'id' | 'children'>,
+) {
   const folderIds = new Set([root.id, ...root.children.map((c) => c.id)]);
-  const pages = (tree.data?.pages ?? [])
+  return pages
     .filter((p) => folderIds.has(p.folder_id))
     .sort((a, b) =>
       a.folder_id === b.folder_id
@@ -55,6 +55,77 @@ export function StudyNow({ root }: { root: FolderNode }) {
             ? 1
             : 0,
     );
+}
+
+/** O projeto (a raiz) de uma pasta, e se ele é de estudo */
+export function useStudyRoot(folderId: string | null | undefined) {
+  const tree = useTree();
+  const found = folderId ? findFolder(tree.data, folderId) : null;
+  const root = found?.parent ?? (found && 'children' in found.folder ? found.folder : undefined);
+  return root?.study ? root : undefined;
+}
+
+/** A ordem de leitura do projeto de estudo (capítulos, CD46) */
+export function useStudySequence(root: FolderNode | undefined) {
+  const tree = useTree();
+  const tasks = useProjectAllTasks(root);
+  const links = useMaterialLinks(root?.id, !!root);
+  if (!root || !tasks.data || !links.data) return null;
+  return studySequence(studyPages(tree.data?.pages ?? [], root), tasks.data, links.data);
+}
+
+/** Vai para outro passo sem empilhar (como virar o capítulo) */
+export function goToStep(step: StudyStep) {
+  if (step.kind === 'task') router.replace({ pathname: '/estudo/[id]', params: { id: step.id } });
+  else
+    router.replace({
+      pathname: '/material/[id]',
+      params: step.task ? { id: step.id, tarefa: step.task } : { id: step.id },
+    });
+}
+
+/** Anterior e próximo na ordem de leitura, com "3 de 40" */
+export function StudyNav({
+  steps,
+  at,
+}: {
+  steps: readonly StudyStep[];
+  at: Parameters<typeof stepIndex>[1];
+}) {
+  const { t } = useTranslation();
+  const i = stepIndex(steps, at);
+  const prev = i > 0 ? steps[i - 1] : null;
+  const next = i >= 0 && i < steps.length - 1 ? steps[i + 1] : null;
+  return (
+    <>
+      {i >= 0 && (
+        <Text className="px-1 font-mono text-xs text-ink-muted" testID="study-position">
+          {t('study.position', { n: i + 1, total: steps.length })}
+        </Text>
+      )}
+      <IconButton
+        icon={ChevronLeft}
+        label={t('study.prev')}
+        disabled={!prev}
+        onPress={() => prev && goToStep(prev)}
+      />
+      <IconButton
+        icon={ChevronRight}
+        label={t('study.next')}
+        disabled={!next}
+        onPress={() => next && goToStep(next)}
+      />
+    </>
+  );
+}
+
+/** O que estudar agora: a próxima sessão aberta, com o material dela */
+export function StudyNow({ root }: { root: FolderNode }) {
+  const { t } = useTranslation();
+  const tree = useTree();
+  const tasks = useProjectAllTasks(root);
+  const pomodoro = usePomodoro();
+  const pages = studyPages(tree.data?.pages ?? [], root);
   const next = tasks.data ? nextSession(pages, tasks.data) : null;
   const session = next?.task;
   const list = useTaskMaterialList(
@@ -95,7 +166,7 @@ export function StudyNow({ root }: { root: FolderNode }) {
               onPress={() =>
                 list.items.length
                   ? openMaterial({ id: list.items[0].material_id }, session.id)
-                  : readTask(session.id)
+                  : studyTask(session.id)
               }
             />
             <Button

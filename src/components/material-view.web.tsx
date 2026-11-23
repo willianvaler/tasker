@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -8,26 +8,37 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Text } from '@/components/ui/text';
 import { PDF_MIME } from '@/lib/materials';
 import { getMaterialBlob } from '@/lib/material-cache';
+import { parseReaderMessage, pdfReaderHtml } from '@/lib/pdf-reader-html';
+import { useColors } from '@/lib/tokens';
 
 /**
- * Leitor de PDF na web (ES4, D325): o do próprio navegador, num quadro da tela (busca, zoom,
- * páginas). O arquivo vem do Storage e vira um endereço `blob:` (o endereço do Storage não pode
- * ir num quadro: as respostas do app proíbem ser emolduradas).
+ * Leitor de PDF na web (ES4/CD46, D325): o mesmo pdf.js do celular (`lib/pdf-reader-html`), num
+ * quadro `srcdoc` com o arquivo em `blob:` (o endereço do Storage não pode ir num quadro). Não usa o
+ * leitor do navegador: o Firefox do Android baixa o PDF e tenta abrir o `file:///` (erro de
+ * segurança). Abre na página guardada e avisa a página em que a pessoa está (`onPage`).
  */
 export function PdfView({
   path,
   name,
   page,
+  onPage,
 }: {
   path: string;
   name: string;
   page?: number;
-  /** Só o leitor do celular avisa a página */
   onPage?: (page: number) => void;
 }) {
   const { t } = useTranslation();
+  const colors = useColors();
   const [src, setSrc] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const frame = useRef<HTMLIFrameElement>(null);
+  // A página só vale ao abrir (para pular, quem chama troca a `key`)
+  const [startPage] = useState(page ?? 1);
+  const report = useRef(onPage);
+  useEffect(() => {
+    report.current = onPage;
+  });
   useEffect(() => {
     let alive = true;
     let url: string | null = null;
@@ -41,9 +52,34 @@ export function PdfView({
       if (url) URL.revokeObjectURL(url);
     };
   }, [path]);
+  useEffect(() => {
+    const listen = (e: MessageEvent) => {
+      if (e.source !== frame.current?.contentWindow) return;
+      const data = (e.data as { questlistPdf?: unknown } | null)?.questlistPdf;
+      const msg = typeof data === 'string' ? parseReaderMessage(data) : null;
+      if (msg?.type === 'page') report.current?.(msg.page);
+      else if (msg?.type === 'error') setError(msg.message);
+    };
+    window.addEventListener('message', listen);
+    return () => window.removeEventListener('message', listen);
+  }, []);
+  const html = useMemo(
+    () =>
+      src
+        ? pdfReaderHtml({
+            pdf: src,
+            page: startPage,
+            background: colors.paper,
+            ink: colors.ink,
+            assets: '/pdfjs/',
+          })
+        : null,
+    // O tema entra na página: muda, desenha de novo
+    [src, startPage, colors.paper, colors.ink],
+  );
 
   if (error) return <EmptyState title={t('materials.openError', { message: error })} />;
-  if (!src)
+  if (!src || !html)
     return (
       <Text className="p-4 text-sm text-ink-muted" accessibilityLiveRegion="polite">
         {t('materials.loading')}
@@ -60,11 +96,11 @@ export function PdfView({
         />
       </View>
       <iframe
-        // O leitor do navegador abre na página do "#page=" (onde parei)
-        key={page ?? 0}
-        src={page ? `${src}#page=${page}` : src}
+        ref={frame}
+        srcDoc={html}
         title={name}
         data-testid="pdf-frame"
+        data-start-page={startPage}
         style={{ flex: 1, width: '100%', minHeight: '70vh', border: 0, borderRadius: 4 }}
       />
     </View>

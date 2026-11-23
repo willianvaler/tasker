@@ -193,6 +193,7 @@ if [ -n "${EXPECT_USERS:-}" ] && [ "$USERS" != "$EXPECT_USERS" ]; then
 fi
 
 passo "Web publicada (dist-remote)"
+node scripts/pdfjs-web.mjs
 EXPO_PUBLIC_SUPABASE_URL=/supabase EXPO_PUBLIC_POWERSYNC_URL=/powersync EXPO_PUBLIC_WEB_URL=https://questlist.wavdev.org \
   npx expo export --platform web --clear --output-dir dist-remote >/dev/null
 echo ok

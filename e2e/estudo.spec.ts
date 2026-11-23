@@ -67,11 +67,17 @@ test('projeto de estudo: o que estudar agora, ler o material e concluir a sessã
   const saved = page.waitForResponse(
     (r) => r.url().includes('/rest/v1/reading_positions') && r.request().method() === 'POST',
   );
-  const pageBox = page.getByRole('textbox', { name: 'Página onde parei' });
+  const pageBox = page.getByRole('textbox', { name: 'Página', exact: true });
   await pageBox.fill('5');
   await pageBox.press('Enter');
   expect((await saved).ok()).toBe(true);
-  await expect(page.getByTestId('pdf-frame')).toHaveAttribute('src', /#page=5$/);
+  // O PDF é desenhado pelo pdf.js do app (não pelo leitor do navegador), aberto na página pedida
+  await expect(page.getByTestId('pdf-frame')).toHaveAttribute('data-start-page', '5');
+  await expect(
+    page.frameLocator('[data-testid="pdf-frame"]').locator('.page canvas').first(),
+  ).toBeAttached({ timeout: 20_000 });
+  // A sequência de capítulos (CD46): M01, os dois materiais dela, M02
+  await expect(page.getByTestId('study-position')).toHaveText('2 de 4');
 
   // Próximo: a anotação em leitura, com o texto maior
   await page.getByRole('button', { name: 'Próximo' }).click();
@@ -93,13 +99,10 @@ test('projeto de estudo: o que estudar agora, ler o material e concluir a sessã
   await expect
     .poll(() => page.getByTestId('note-reader').evaluate((el) => el.scrollTop))
     .toBeGreaterThan(100);
-  await expect(page.getByRole('button', { name: 'Próximo' })).toHaveAttribute(
-    'aria-disabled',
-    'true',
-  );
+  await expect(page.getByTestId('study-position')).toHaveText('3 de 4');
   // Voltar ao PDF: a página guardada continua
   await page.getByRole('button', { name: 'Anterior' }).click();
-  await expect(page.getByTestId('pdf-frame')).toHaveAttribute('src', /#page=5$/);
+  await expect(page.getByTestId('pdf-frame')).toHaveAttribute('data-start-page', '5');
 
   // Concluir a sessão: o cartão passa para a seguinte
   await session.getByRole('button', { name: 'Concluir sessão' }).click();
@@ -123,9 +126,25 @@ test('projeto de estudo: o que estudar agora, ler o material e concluir a sessã
     timeout: 20_000,
   });
 
-  // Num projeto de estudo, a seta da lista abre a ficha (não o painel)
+  // Num projeto de estudo, a seta da lista abre a tarefa na tela de leitura (CD46), não o painel
   await page.goto(listUrl);
   await page.getByRole('button', { name: 'Detalhes de M02 · Ponte de palitos' }).click();
   await expect(page.getByRole('heading', { name: 'M02 · Ponte de palitos' })).toBeVisible();
+  await expect(page).toHaveURL(/\/estudo\//);
   await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveCount(0);
+  // É o último capítulo; o anterior é o material da M01
+  await expect(page.getByTestId('study-position')).toHaveText('4 de 4');
+  await page.getByRole('button', { name: 'Anterior' }).click();
+  await expect(page.getByRole('heading', { name: '04 - M01 - Equilíbrio' })).toBeVisible();
+  await page.getByRole('button', { name: 'Anterior' }).click();
+  await expect(page.getByRole('heading', { name: '03 - M01 - Assis' })).toBeVisible();
+  await page.getByRole('button', { name: 'Anterior' }).click();
+  // A tarefa da M01: o material dela embaixo, e o próximo volta ao PDF
+  await expect(page.getByRole('heading', { name: 'M01 · Balança de régua' })).toBeVisible();
+  await expect(page.getByTestId('study-position')).toHaveText('1 de 4');
+  const materials = page.getByTestId('task-materials');
+  await expect(materials.getByRole('link', { name: '03 - M01 - Assis' })).toBeVisible();
+  await expect(materials.getByRole('link', { name: '04 - M01 - Equilíbrio' })).toBeVisible();
+  await page.getByRole('button', { name: 'Próximo' }).click();
+  await expect(page.getByRole('heading', { name: '03 - M01 - Assis' })).toBeVisible();
 });
