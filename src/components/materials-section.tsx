@@ -2,6 +2,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { unzipSync } from 'fflate';
 import { router } from 'expo-router';
 import { AppWindow, Download, FileText, NotebookText, Plus, Trash2 } from 'lucide-react-native';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -35,6 +36,7 @@ import { useToast } from '@/providers/toast';
 // anotações da pasta e abrem como anotação.
 
 /** Um arquivo para entrar: escolhido no aparelho ou de dentro de um .zip */
+export type MaterialEntry = Entry;
 type Entry = {
   name: string;
   size?: number | null;
@@ -70,32 +72,25 @@ async function unzipEntries(zip: Entry): Promise<Entry[]> {
   ];
 }
 
-export function useAddMaterials(folderId: string) {
+/**
+ * Põe material numa pasta a partir de arquivos (escolhidos ou de dentro de um .zip): o `.md` e o
+ * HTML com texto viram anotações (com as imagens), o PDF e o HTML interativo vão como arquivo. Usado
+ * pelo Adicionar material e pela importação do plano inteiro (ES8). Mostra o resumo num aviso.
+ */
+export function useMaterialImporter() {
   const { t } = useTranslation();
   const toast = useToast();
+  const queryClient = useQueryClient();
   const notes = useNotes({ templates: 'include' });
   const m = useNoteMutations();
-  const { settle } = useMaterialMutations(folderId);
   const [progress, setProgress] = useState<string | null>(null);
 
-  async function add() {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: '*/*',
-      multiple: true,
-      copyToCacheDirectory: true,
-    });
-    if (result.canceled || !result.assets.length) return;
+  async function importEntries(folderId: string, picked: Entry[]) {
     let added = 0;
     let failed = 0;
     let interactiveCount = 0;
     try {
       setProgress(t('materials.reading'));
-      const picked: Entry[] = result.assets.map((a) => ({
-        name: a.name,
-        size: a.size,
-        mime: a.mimeType,
-        read: () => readPickedBytes(a),
-      }));
       const first = planMaterials(picked);
       const fromZips = (await Promise.all(first.zips.map(unzipEntries))).flat();
       // .zip dentro do .zip fica de fora
@@ -193,11 +188,41 @@ export function useAddMaterials(folderId: string) {
       toast({ message: t('vault.error', { message: (err as Error).message }) });
     } finally {
       setProgress(null);
-      settle();
+      for (const key of [
+        'materials',
+        'material-links',
+        'project-materials',
+        'attachment-usage',
+        'storage-usage',
+      ])
+        queryClient.invalidateQueries({ queryKey: [key] });
     }
   }
 
-  return { add, progress };
+  return { importEntries, progress };
+}
+
+/** Os arquivos escolhidos no aparelho, como entradas */
+export const pickedEntries = (assets: DocumentPicker.DocumentPickerAsset[]): Entry[] =>
+  assets.map((a) => ({
+    name: a.name,
+    size: a.size,
+    mime: a.mimeType,
+    read: () => readPickedBytes(a),
+  }));
+
+export function useAddMaterials(folderId: string) {
+  const importer = useMaterialImporter();
+  async function add() {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: '*/*',
+      multiple: true,
+      copyToCacheDirectory: true,
+    });
+    if (result.canceled || !result.assets.length) return;
+    await importer.importEntries(folderId, pickedEntries(result.assets));
+  }
+  return { add, progress: importer.progress };
 }
 
 /**

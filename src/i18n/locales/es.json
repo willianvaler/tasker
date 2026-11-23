@@ -4428,7 +4428,7 @@
   },
   "importApps": {
     "button": "Importar de Habitica o Todoist",
-    "hint": "Habitica: el JSON de Ajustes → Exportar datos. Todoist: el CSV de un proyecto o el .zip de la copia de seguridad. Cada uno se vuelve un proyecto tuyo, para revisar antes.",
+    "hint": "Habitica: el JSON de Ajustes → Exportar datos. Todoist: el CSV de un proyecto o el .zip de la copia de seguridad. Cada uno se vuelve un proyecto tuyo, para revisar antes. Plan de estudios: un .zip con el CSV y la carpeta del material (PDF, .md, HTML) crea el proyecto ya como plan de estudios, con el material vinculado a las tareas por el código.",
     "habits": "Hábitos",
     "dailies": "Diarias",
     "todos": "Pendientes",
@@ -4454,7 +4454,8 @@
     "confirm": "Importar",
     "imported_one": "{{count}} tarea importada.",
     "imported_other": "{{count}} tareas importadas.",
-    "partial": "Entraron {{done}} de {{total}} proyectos. Error: {{message}}"
+    "partial": "Entraron {{done}} de {{total}} proyectos. Error: {{message}}",
+    "material": "Material: {{count}} elementos ({{size}}) para {{project}}: {{linked}} vinculados a las tareas por el código, {{unlinked}} sin tarea. El proyecto se vuelve plan de estudios."
   },
   "gantt": {
     "start": "Empieza el",

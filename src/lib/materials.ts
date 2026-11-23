@@ -67,3 +67,37 @@ export function planMaterials<T extends PickedMaterial>(files: readonly T[]) {
 export function materialTitle(name: string) {
   return name.replace(/\.(pdf|md|markdown|html?)$/i, '');
 }
+
+// ---------- Plano de estudos inteiro (ES8, D330) ----------
+// Espelho do código (D327) só para a prévia da importação: quem liga de verdade é o banco
+// (`public.material_code`/`item_code`). Mudou a regra? Mude os dois, com os mesmos casos de teste.
+
+const CODE = '([A-Za-zÀ-ÿ]{1,6} ?[0-9]{1,3}[A-Za-zÀ-ÿ]?)';
+export function materialCode(name: string): string | null {
+  return new RegExp(`^\\s*\\d+\\s*-\\s*${CODE}\\s+-\\s`).exec(name)?.[1]?.toLowerCase() ?? null;
+}
+export function itemCode(title: string): string | null {
+  return new RegExp(`^\\s*${CODE}\\s+[·-]\\s`).exec(title)?.[1]?.toLowerCase() ?? null;
+}
+
+/** Quantos materiais ligam a um título (tarefa ou lista) pelo código, e quantos ficam sem */
+export function matchMaterials(names: readonly string[], titles: readonly string[]) {
+  const codes = new Set(titles.map(itemCode).filter((c): c is string => !!c));
+  let linked = 0;
+  for (const name of names) if (codes.has(materialCode(name) ?? '')) linked++;
+  return { linked, unlinked: names.length - linked };
+}
+
+/** De vários projetos, o que casa com mais códigos do material (empate: o primeiro) */
+export function bestProjectFor(names: readonly string[], projects: readonly (readonly string[])[]) {
+  let best = 0;
+  let bestScore = -1;
+  projects.forEach((titles, i) => {
+    const score = matchMaterials(names, titles).linked;
+    if (score > bestScore) {
+      best = i;
+      bestScore = score;
+    }
+  });
+  return best;
+}

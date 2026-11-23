@@ -597,3 +597,19 @@ export function projectData(project: ImportProject) {
     })),
   };
 }
+
+/** Os títulos do projeto (listas e tarefas, subtarefas inclusive): para casar com o material (ES8) */
+export function projectTitles(project: ImportProject): string[] {
+  const out: string[] = [];
+  const walk = (items: ImportItem[]) => {
+    for (const item of items) {
+      out.push(item.title);
+      walk(item.children);
+    }
+  };
+  for (const page of project.pages) {
+    out.push(page.name);
+    walk(page.items);
+  }
+  return out;
+}

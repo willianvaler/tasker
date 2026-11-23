@@ -9,14 +9,21 @@ import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
+import { useMaterialImporter, type MaterialEntry } from '@/components/materials-section';
+import { formatBytes } from '@/lib/attachments';
+import { groupHtml } from '@/lib/html-book';
 import {
   importHabitica,
   importTodoist,
   isHabiticaExport,
   isTodoistCsv,
   projectData,
+  projectTitles,
   type ImportPlan,
 } from '@/lib/import-apps';
+import { ignoredZipPath } from '@/lib/material-import';
+import { bestProjectFor, matchMaterials, materialKindOf, MAX_ZIP_BYTES } from '@/lib/materials';
+import { useTreeMutations } from '@/lib/queries/tree';
 import { useToday } from '@/lib/queries/profile';
 import { useTemplateMutations } from '@/lib/queries/projects';
 import { readPickedBytes } from '@/lib/read-bytes';
@@ -25,19 +32,49 @@ import { useIsOnline } from '@/providers/online';
 import { useToast } from '@/providers/toast';
 
 // Importar do Habitica e do Todoist (PC1, D306): lê o arquivo no aparelho, mostra o que vai entrar
-// e cria um projeto pessoal por origem (pelo create_from_template, como os kits).
+// e cria um projeto pessoal por origem (pelo create_from_template, como os kits). Plano de estudos
+// inteiro (ES8, D330): o .zip com o CSV e a pasta do material cria o projeto já como plano de
+// estudos e põe o material nele (ligado pelos códigos); com vários CSVs, o material vai para o
+// projeto que casa com mais códigos.
+
+/** O material que veio no .zip: para qual projeto e o resumo da prévia */
+type MaterialPlan = {
+  entries: MaterialEntry[];
+  project: number;
+  count: number;
+  linked: number;
+  unlinked: number;
+  size: number;
+};
+type Plan = ImportPlan & { material?: MaterialPlan };
+
+const baseName = (path: string) => path.split('/').pop() ?? path;
+
+/** Os nomes que viram material (o livro em HTML conta uma vez) */
+function materialNames(entries: readonly MaterialEntry[]) {
+  const kinds = entries.map((e) => ({ e, kind: materialKindOf(e.name) }));
+  const html = kinds.filter((k) => k.kind === 'html').map((k) => ({ path: k.e.name, html: '' }));
+  return [
+    ...kinds
+      .filter((k) => k.kind === 'markdown' || k.kind === 'pdf')
+      .map((k) => baseName(k.e.name)),
+    ...groupHtml(html).map((g) => (g.book ? g.name : baseName(g.pages[0].path))),
+  ];
+}
 
 /** Arquivo grande demais para abrir no celular */
 const FILE_MAX = 30 * 1024 * 1024;
 
 export function ImportApps() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const toast = useToast();
   const today = useToday();
   const online = useIsOnline();
   const m = useTemplateMutations();
+  const treeMutations = useTreeMutations();
+  const importer = useMaterialImporter();
   const [busy, setBusy] = useState(false);
-  const [preview, setPreview, closePreview] = useDialog<ImportPlan>();
+  const [preview, setPreview, closePreview] = useDialog<Plan>();
 
   async function pick() {
     setBusy(true);
@@ -55,7 +92,8 @@ export function ImportApps() {
       });
       if (result.canceled) return;
       const asset = result.assets[0];
-      if ((asset.size ?? 0) > FILE_MAX) {
+      const zip = /\.zip$/i.test(asset.name);
+      if ((asset.size ?? 0) > (zip ? MAX_ZIP_BYTES : FILE_MAX)) {
         toast({ message: t('importApps.tooBig') });
         return;
       }
@@ -72,13 +110,34 @@ export function ImportApps() {
           dateNote: t('importApps.dateNote'),
         },
       };
-      let plan: ImportPlan | null = null;
-      if (/\.zip$/i.test(asset.name)) {
-        // Backup do Todoist: um CSV por projeto
-        const files = Object.entries(unzipSync(bytes, { filter: (f) => /\.csv$/i.test(f.name) }))
+      let plan: Plan | null = null;
+      if (zip) {
+        // Backup do Todoist (um CSV por projeto) ou plano de estudos (CSV + a pasta do material)
+        const files = unzipSync(bytes, {
+          filter: (f) =>
+            !ignoredZipPath(f.name) &&
+            (/\.csv$/i.test(f.name) || materialKindOf(f.name) !== 'other'),
+        });
+        const csvs = Object.entries(files)
+          .filter(([name]) => /\.csv$/i.test(name))
           .map(([name, data]) => ({ name, text: strFromU8(data) }))
           .filter((f) => isTodoistCsv(f.text));
-        if (files.length) plan = importTodoist(files, options);
+        if (csvs.length) plan = importTodoist(csvs, options);
+        const entries: MaterialEntry[] = Object.entries(files)
+          .filter(([name]) => !/\.csv$/i.test(name) && materialKindOf(name) !== 'zip')
+          .map(([name, data]) => ({ name, size: data.byteLength, read: async () => data }));
+        const names = materialNames(entries);
+        if (plan && names.length) {
+          const titles = plan.projects.map(projectTitles);
+          const project = bestProjectFor(names, titles);
+          plan.material = {
+            entries,
+            project,
+            count: names.length,
+            ...matchMaterials(names, titles[project] ?? []),
+            size: entries.reduce((sum, e) => sum + (e.size ?? 0), 0),
+          };
+        }
       } else {
         const text = strFromU8(bytes);
         if (isTodoistCsv(text)) plan = importTodoist([{ name: asset.name, text }], options);
@@ -106,14 +165,15 @@ export function ImportApps() {
     }
   }
 
-  async function confirmImport(plan: ImportPlan) {
+  async function confirmImport(plan: Plan) {
     closePreview();
     setBusy(true);
     let first: string | null = null;
     let created = 0;
     try {
       // Um projeto por vez: cada um é uma chamada, e o que já entrou fica se o seguinte falhar
-      for (const project of plan.projects) {
+      let study: string | null = null;
+      for (const [i, project] of plan.projects.entries()) {
         const id = await m.createFrom.mutateAsync({
           name: project.name,
           icon: project.icon,
@@ -123,9 +183,18 @@ export function ImportApps() {
           project: true,
         });
         first ??= id;
+        if (plan.material?.project === i) study = id;
         created++;
       }
       toast({ message: t('importApps.imported', { count: plan.tasks }) });
+      // Plano de estudos (ES8): o projeto do material liga o interruptor e recebe o material
+      if (study && plan.material) {
+        await treeMutations.setFolderSettings.mutateAsync({ id: study, study: true });
+        // O progresso aparece aqui; no fim, abre o projeto
+        await importer.importEntries(study, plan.material.entries);
+        router.push({ pathname: '/folder/[id]', params: { id: study } });
+        return;
+      }
       if (first) router.push({ pathname: '/folder/[id]', params: { id: first } });
     } catch (err) {
       toast({
@@ -152,6 +221,11 @@ export function ImportApps() {
         onPress={() => void pick()}
       />
       <Text className="text-sm text-ink-muted">{t('importApps.hint')}</Text>
+      {importer.progress && (
+        <Text className="text-sm text-ink-muted" accessibilityLiveRegion="polite">
+          {importer.progress}
+        </Text>
+      )}
       {preview && (
         <ConfirmDialog
           title={t('importApps.confirmTitle', { count: preview.tasks })}
@@ -173,6 +247,15 @@ export function ImportApps() {
               ? t('importApps.overLimit', { count: preview.skipped.overLimit })
               : '',
             preview.unreadDates ? t('importApps.unreadDates', { count: preview.unreadDates }) : '',
+            preview.material
+              ? t('importApps.material', {
+                  count: preview.material.count,
+                  size: formatBytes(preview.material.size, i18n.language),
+                  project: preview.projects[preview.material.project]?.name ?? '',
+                  linked: preview.material.linked,
+                  unlinked: preview.material.unlinked,
+                })
+              : '',
           ]
             .filter(Boolean)
             .join('\n')}
