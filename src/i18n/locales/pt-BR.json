@@ -633,8 +633,6 @@
     "intro": "Junte os amigos num clã: toda semana aparece um boss do grupo, e cada XP que alguém ganha é um golpe nele. Quem ajudou ganha a recompensa. Sem ranking de quem ficou para trás.",
     "name": "Nome do clã",
     "namePlaceholder": "Nome do clã (ex.: Os Produtivos)",
-    "emoji": "Emoji do clã",
-    "emojiPlaceholder": "Emoji (opcional, ex.: 🛡️)",
     "create": "Criar clã",
     "gotInvite": "Recebeu um convite? Abra o link que te mandaram.",
     "weeklyBoss": "Boss da semana do clã",

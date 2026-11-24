@@ -5,8 +5,8 @@ import {
   CalendarPlus,
   ChevronLeft,
   ChevronRight,
-  Circle,
-  CircleCheck,
+  Square,
+  SquareCheck,
   Copy,
   Dumbbell,
   NotebookPen,
@@ -346,7 +346,7 @@ function DayList({
             className="min-h-11 flex-row items-center gap-3 rounded px-1 hover:bg-wash active:bg-wash md:min-h-9"
           >
             <Icon
-              icon={e.kind === 'workout' ? Dumbbell : e.done ? CircleCheck : Circle}
+              icon={e.kind === 'workout' ? Dumbbell : e.done ? SquareCheck : Square}
               tone={e.kind === 'workout' ? 'accent' : 'ink-muted'}
             />
             <Text

@@ -41,7 +41,18 @@ export async function openTab(page: Page, tabName: string) {
   const side = page
     .getByRole('navigation')
     .getByRole('link', { name: new RegExp(`^(\\S+ )?${name}$`) });
-  if (!INSIDE[name] && (await tab.or(side).count())) {
+  const inside = INSIDE[name];
+  if (inside) {
+    // A tela de dentro: abre a de fora pelo caminho normal e segue dali
+    await openTab(page, inside[0]);
+    for (const step of inside.slice(1))
+      await page
+        .getByRole('link', { name: new RegExp(`^${step}`) })
+        .last()
+        .click();
+    return;
+  }
+  if (await tab.or(side).count()) {
     await tab.or(side).first().click();
     return;
   }
@@ -51,12 +62,10 @@ export async function openTab(page: Page, tabName: string) {
     .or(page.getByRole('navigation').getByRole('link', { name: /^Mais/ }))
     .first()
     .click();
-  for (const step of INSIDE[name] ?? [name]) {
-    await page
-      .getByRole('link', { name: new RegExp(`^${step}`) })
-      .last()
-      .click();
-  }
+  await page
+    .getByRole('link', { name: new RegExp(`^${name}`) })
+    .last()
+    .click();
 }
 
 /** Configurações (D257): pelo Mais (aba no celular, rodapé da barra lateral no computador). */

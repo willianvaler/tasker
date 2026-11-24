@@ -68,6 +68,8 @@ export const ICON_WORDS: Record<string, { category: IconCategory; words: string 
   camera: { category: 'leisure', words: 'foto camera photo camara' },
   'gamepad-2': { category: 'leisure', words: 'jogo game videogame juego' },
   trophy: { category: 'leisure', words: 'trofeu conquista campeonato trophy trofeo' },
+  shield: { category: 'leisure', words: 'escudo cla guilda defesa shield clan guild escudo' },
+  swords: { category: 'leisure', words: 'espadas batalha boss luta swords battle espadas batalla' },
   leaf: { category: 'leisure', words: 'natureza folha leaf nature hoja' },
   folder: { category: 'general', words: 'pasta folder carpeta' },
   list: { category: 'general', words: 'lista list lista' },

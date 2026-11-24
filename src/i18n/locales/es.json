@@ -633,8 +633,6 @@
     "intro": "Junta a tus amigos en un clan: cada semana aparece un jefe del grupo, y cada XP que alguien gana es un golpe. Quien ayudó recibe la recompensa. Sin ranking de quién se quedó atrás.",
     "name": "Nombre del clan",
     "namePlaceholder": "Nombre del clan (ej.: Los Productivos)",
-    "emoji": "Emoji del clan",
-    "emojiPlaceholder": "Emoji (opcional, ej.: 🛡️)",
     "create": "Crear clan",
     "gotInvite": "¿Recibiste una invitación? Abre el enlace que te mandaron.",
     "weeklyBoss": "Jefe de la semana del clan",

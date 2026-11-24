@@ -1,16 +1,17 @@
 import * as Clipboard from 'expo-clipboard';
-import { Copy, Link2, LogOut, Shield } from 'lucide-react-native';
+import { Copy, Link2, LogOut } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { BossBoard } from '@/components/boss-board';
 import { BossLine } from '@/components/game-bar';
+import { IconPicker } from '@/components/icon-picker';
+import { ItemIcon } from '@/components/item-icon';
 import { READABLE, Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
-import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { PersonRow } from '@/components/ui/person';
 import { FindTimeButton } from '@/components/agenda/find-time';
@@ -41,7 +42,7 @@ export default function ClanScreen() {
   const toast = useToast();
   const m = useClanMutations();
   const [name, setName] = useState('');
-  const [icon, setIcon] = useState('');
+  const [icon, setIcon] = useState<string | null>(null);
   const [link, setLink] = useState<string | null>(null);
   const [confirmLeave, setConfirmLeave, closeLeave] = useDialog<true>();
   const onError = (err: Error) => toast({ message: t('clan.error', { message: err.message }) });
@@ -63,19 +64,14 @@ export default function ClanScreen() {
               placeholder={t('clan.namePlaceholder')}
               accessibilityLabel={t('clan.name')}
             />
-            <Input
-              value={icon}
-              onChangeText={setIcon}
-              maxLength={8}
-              placeholder={t('clan.emojiPlaceholder')}
-              accessibilityLabel={t('clan.emoji')}
-            />
+            <SectionLabel title={t('iconPicker.label')} className="pt-0" />
+            <IconPicker value={icon} kind="clan" onChange={setIcon} />
             <Button
               className="self-start"
               label={t('clan.create')}
               disabled={!name.trim() || !online}
               loading={m.create.isPending}
-              onPress={() => m.create.mutate({ name: name.trim(), icon: icon.trim() }, { onError })}
+              onPress={() => m.create.mutate({ name: name.trim(), icon: icon ?? '' }, { onError })}
             />
           </View>
           <Text className="text-sm text-ink-muted">{t('clan.gotInvite')}</Text>
@@ -91,13 +87,7 @@ export default function ClanScreen() {
     <Screen size="medium">
       <ScreenHeader
         title={data.name}
-        icon={
-          data.icon ? (
-            <Text className="text-lg">{data.icon}</Text>
-          ) : (
-            <Icon icon={Shield} size={20} tone="ink-muted" />
-          )
-        }
+        icon={<ItemIcon icon={data.icon} kind="clan" size={20} />}
         back
       />
       <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-12">

@@ -97,6 +97,9 @@ const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; also?: string[]
   },
 ];
 
+/** Telas que a barra lateral sempre mostra (o Mais do computador não as repete) */
+export const SIDEBAR_HREFS: readonly string[] = NAV.map((n) => n.href);
+
 /**
  * Barra lateral em tela larga: 256 px, atalhos, Pastas e Projetos como
  * seções separadas e recolhíveis, e no rodapé o nível, os atalhos do jogo e o estado da conexão.

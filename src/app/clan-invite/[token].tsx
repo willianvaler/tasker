@@ -1,12 +1,11 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { Shield } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { InviteShell } from '@/components/invite-shell';
+import { ItemIcon } from '@/components/item-icon';
 import { SignInForm } from '@/components/sign-in-form';
 import { Button } from '@/components/ui/button';
-import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useClanInvitePreview, useClanMutations } from '@/lib/queries/clan';
 import { useSession } from '@/providers/session';
@@ -38,11 +37,7 @@ export default function ClanInviteScreen() {
     body = (
       <>
         <View className="gap-2 border-b border-line pb-6">
-          {clan.icon ? (
-            <Text className="text-lg">{clan.icon}</Text>
-          ) : (
-            <Icon icon={Shield} size={20} tone="ink-muted" />
-          )}
+          <ItemIcon icon={clan.icon} kind="clan" size={20} />
           <Text accessibilityRole="header" className="font-serif text-xl text-ink">
             {clan.name}
           </Text>

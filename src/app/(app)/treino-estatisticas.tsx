@@ -85,29 +85,17 @@ export default function WorkoutStatsScreen() {
     <Screen size="wide">
       <ScreenHeader title={t('stats.title')} back />
       <ScreenScroll contentContainerClassName="gap-8 pb-12">
-        <View className="flex-row flex-wrap items-center gap-2">
-          <View accessibilityRole="radiogroup" className="flex-row gap-1">
-            {PERIODS.map((p) => (
-              <Chip
-                key={p}
-                role="radio"
-                label={t(`stats.period_${p}`)}
-                selected={period === p}
-                onPress={() => setPeriod(p)}
-              />
-            ))}
-          </View>
-          <View accessibilityRole="radiogroup" className="flex-row gap-1">
-            {(['male', 'female'] as const).map((f) => (
-              <Chip
-                key={f}
-                role="radio"
-                label={t(`stats.figure_${f}`)}
-                selected={figure === f}
-                onPress={() => savePrefs.mutate({ gym: { ...gymPrefs, figure: f } })}
-              />
-            ))}
-          </View>
+        {/* O período filtra tudo; a figura (corpo) fica junto do mapa que ela muda */}
+        <View accessibilityRole="radiogroup" className="flex-row gap-1">
+          {PERIODS.map((p) => (
+            <Chip
+              key={p}
+              role="radio"
+              label={t(`stats.period_${p}`)}
+              selected={period === p}
+              onPress={() => setPeriod(p)}
+            />
+          ))}
         </View>
 
         {list.length === 0 && !sets.isPending ? (
@@ -124,9 +112,22 @@ export default function WorkoutStatsScreen() {
 
             <View className="gap-3 lg:flex-row lg:gap-8">
               <View className="gap-3 lg:flex-1">
-                <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
-                  {t('stats.muscles')}
-                </Text>
+                <View className="flex-row flex-wrap items-center justify-between gap-2">
+                  <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                    {t('stats.muscles')}
+                  </Text>
+                  <View accessibilityRole="radiogroup" className="flex-row gap-1">
+                    {(['male', 'female'] as const).map((f) => (
+                      <Chip
+                        key={f}
+                        role="radio"
+                        label={t(`stats.figure_${f}`)}
+                        selected={figure === f}
+                        onPress={() => savePrefs.mutate({ gym: { ...gymPrefs, figure: f } })}
+                      />
+                    ))}
+                  </View>
+                </View>
                 <BodyMap
                   figure={figure}
                   levels={levels}

@@ -633,8 +633,6 @@
     "intro": "Gather your friends in a clan: every week a group boss shows up, and every XP someone earns is a hit on it. Whoever helped gets the reward. No ranking of who fell behind.",
     "name": "Clan name",
     "namePlaceholder": "Clan name (e.g. The Productive)",
-    "emoji": "Clan emoji",
-    "emojiPlaceholder": "Emoji (optional, e.g. 🛡️)",
     "create": "Create clan",
     "gotInvite": "Got an invite? Open the link they sent you.",
     "weeklyBoss": "Clan boss of the week",

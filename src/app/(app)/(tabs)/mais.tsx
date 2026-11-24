@@ -27,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 import { useWindowDimensions, View } from 'react-native';
 
 import { HubRow, HubSection } from '@/components/hub';
+import { SIDEBAR_HREFS } from '@/components/sidebar';
 import { useUnreadCount } from '@/components/notifications-bell';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -53,10 +54,13 @@ export default function MoreScreen() {
   const inProject = !!tree.data?.folders.some((f) => f.is_shared);
   const gymOn = profile?.gym_enabled === true;
   const gymInWellness = useGymInWellness();
-  // No celular, o que já está na barra de baixo não se repete aqui
+  // O que já está à vista não se repete aqui: no celular, a barra de baixo; no computador, a
+  // barra lateral
   const slots = useTabSlots();
   const narrow = useWindowDimensions().width < 768;
-  const show = (slot: TabSlot) => !narrow || !slots.includes(slot);
+  const show = (slot: TabSlot) =>
+    narrow ? !slots.includes(slot) : !SIDEBAR_HREFS.includes(`/${slot}`);
+  const offSidebar = (href: string) => narrow || !SIDEBAR_HREFS.includes(href);
 
   return (
     <Screen size="medium">
@@ -82,12 +86,14 @@ export default function MoreScreen() {
           )}
           {show('inbox') && <HubRow icon={Inbox} label={t('nav.inbox')} href="/inbox" />}
           {show('habits') && <HubRow icon={Repeat} label={t('nav.habits')} href="/habits" />}
-          <HubRow
-            icon={CalendarDays}
-            label={t('nav.calendar')}
-            hint={t('plan.calendarHint')}
-            href="/calendario"
-          />
+          {offSidebar('/calendario') && (
+            <HubRow
+              icon={CalendarDays}
+              label={t('nav.calendar')}
+              hint={t('plan.calendarHint')}
+              href="/calendario"
+            />
+          )}
           <HubRow
             icon={ClipboardCheck}
             label={t('review.title')}

@@ -8,6 +8,7 @@ import {
   List,
   Presentation,
   Repeat,
+  Shield,
   Users,
   Wallet,
   type LucideIcon,
@@ -29,7 +30,8 @@ export type ItemKind =
   | 'expenses'
   | 'base'
   | 'canvas'
-  | 'meeting';
+  | 'meeting'
+  | 'clan';
 
 /** Ícone padrão de cada tipo. */
 export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
@@ -44,10 +46,11 @@ export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
   base: Database,
   canvas: Frame,
   meeting: Presentation,
+  clan: Shield,
 };
 
 /**
- * Ícone de pasta, projeto ou página: o que o usuário escolheu (ícone Lucide guardado como
+ * Ícone de pasta, projeto, página ou clã: o que o usuário escolheu (ícone Lucide guardado como
  * "lucide:id", ou um emoji) ou, sem escolha, o ícone do tipo. Emoji só aparece quando é escolha do usuário.
  */
 export function ItemIcon({

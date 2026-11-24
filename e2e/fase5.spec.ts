@@ -42,7 +42,9 @@ test('clã: convite por link, boss da semana e destaques', async ({ page, browse
   await signUp(page, testInfo);
   await openTab(page, 'Clã');
   await page.getByRole('textbox', { name: 'Nome do clã' }).fill('Os Produtivos');
-  await page.getByRole('textbox', { name: 'Emoji do clã' }).fill('🛡️');
+  await page.getByRole('textbox', { name: /^Buscar ícone/ }).fill('escudo');
+  await page.getByRole('radio', { name: 'shield', exact: true }).click();
+  await expect(page.getByRole('radio', { name: 'shield', exact: true })).toBeChecked();
   await page.getByRole('button', { name: 'Criar clã' }).click();
   await expect(page.getByRole('heading', { name: 'Os Produtivos' })).toBeVisible();
   await expect(page.getByText('Boss da semana do clã')).toBeVisible();
