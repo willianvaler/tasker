@@ -38,9 +38,6 @@ test('telas-chave', async ({ page }, testInfo) => {
   await page.getByRole('checkbox', { name: 'Concluir Ligar para a mãe' }).first().click();
   await page.waitForTimeout(500);
   await shoot(page, 'hoje', project);
-  await openTab(page, 'Início');
-  await page.waitForTimeout(400);
-  await shoot(page, 'inicio', project);
 
   // Página em lista
   await createPage(page, { folder: 'Mercado', name: 'Lista da semana', type: 'Lista' });
@@ -78,6 +75,12 @@ test('telas-chave', async ({ page }, testInfo) => {
   await page.getByRole('button', { name: /^Sair do treino/ }).click();
 
   await page.goto('/');
+  // O descanso continua na barra de baixo depois de sair: pula, para não sair nas capturas seguintes
+  const skipRest = page.getByRole('button', { name: /^Pular( descanso)?$/ }).first();
+  if (await skipRest.waitFor({ timeout: 5000 }).then(() => true, () => false)) {
+    await skipRest.click();
+    await expect(skipRest).toBeHidden();
+  }
   await openTab(page, 'Pastas');
   await shoot(page, 'pastas', project);
 
@@ -90,9 +93,9 @@ test('telas-chave', async ({ page }, testInfo) => {
   await shoot(page, 'ajuda-artigo', project);
   await page.goto('/');
 
-  await openTab(page, 'Perfil');
+  await page.goto('/configuracoes');
   await page.waitForTimeout(400);
-  await shoot(page, 'perfil', project);
+  await shoot(page, 'configuracoes', project);
 
   await page.goto('/character');
   await page.getByRole('button', { name: 'Escolher Mago' }).click();

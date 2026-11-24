@@ -229,6 +229,7 @@ O que já foi feito em todos os escopos, numa tabela só, para ler rápido. **Ge
 | V5 | CD50 | Revisão geral das telas (24/11), parte 4: a vida do boss continua a barra grossa e vermelha do estilo Habitica, registrada como a única exceção à régua de 2 px no `docs/DESIGN.md` (progresso de tarefa e projeto segue a régua) | — |
 | V5 | CD51 | Revisão geral das telas (24/11), parte 5: na agenda do Calendário a tarefa aparece com a caixa quadrada (feita ou não), como na lista, em vez do círculo | — |
 | V5 | CD52 | Revisão geral das telas (24/11), parte 6, menos texto: as frases de abertura de 15 telas encurtadas nos três idiomas, ficando o que a pessoa precisa para agir (Importar, Tipos de compromisso, Planos prontos, APK, Enquete de horário, Clã, Compartilhar anotação, Loja, Feed do calendário, Cardápio, Hábitos prontos, Disponibilidade, Achar horário, Comunidade, Renascer) | — |
+| V5 | CD53 | Capturas das telas-chave refeitas (`npm run capturas`, 1280/390, claro/escuro) | D257, D258 |
 | **V6** | AC0 | Decisões do V6, app para quem treina, lista de tarefas e tipos comuns | — |
 | V6 | AC1.1 | `profiles.gym_enabled` (null = não respondeu; só pela RPC `set_gym_mode`) e `profiles.ui_prefs` (objeto, até 4 KB), com pgTAP | D182 |
 | V6 | AC1.2 | `lib/sidebar-blocks.ts`: ordem padrão, ordem salva (bloco novo entra no lugar certo), subir/descer, esconder (feito pelo Claude: a fila local foi parada) | — |
