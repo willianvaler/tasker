@@ -29,14 +29,14 @@ export type Kit = {
 const pt: Kit[] = [
   {
     key: 'treino',
-    icon: '🏋️',
+    icon: 'lucide:dumbbell',
     name: 'Treino da semana',
     description:
       'Treinos A e B em cards que reiniciam toda segunda, mais aquecimento e alongamento.',
     pages: [
       {
         name: 'Treino A (peito e costas)',
-        icon: '💪',
+        icon: 'lucide:dumbbell',
         view_type: 'cards',
         reset_cycle: 'weekly',
         lines: `Aquecimento 10 minutos
@@ -48,7 +48,7 @@ Prancha 3x`,
       },
       {
         name: 'Treino B (pernas)',
-        icon: '🦵',
+        icon: 'lucide:dumbbell',
         view_type: 'cards',
         reset_cycle: 'weekly',
         lines: `Aquecimento 10 minutos
@@ -62,14 +62,14 @@ Alongamento`,
   },
   {
     key: 'cardapio',
-    icon: '🥗',
+    icon: 'lucide:apple',
     name: 'Cardápio semanal',
     description:
       'Um prato por linha com os ingredientes embaixo: no menu da lista, gere a lista de compras.',
     pages: [
       {
         name: 'Cardápio',
-        icon: '🍽️',
+        icon: 'lucide:utensils',
         reset_cycle: 'weekly',
         lines: `Segunda: frango grelhado com arroz
   500 g de frango
@@ -93,20 +93,20 @@ Sexta: peixe assado
       },
       {
         name: 'Compras',
-        icon: '🛒',
+        icon: 'lucide:shopping-cart',
         lines: `Conferir a despensa\nFazer a lista de compras\nIr ao mercado ^2`,
       },
     ],
   },
   {
     key: 'reforma',
-    icon: '🔨',
+    icon: 'lucide:hammer',
     name: 'Reforma',
     description: 'Etapas em ordem (uma só começa quando a anterior termina) e o orçamento da obra.',
     pages: [
       {
         name: 'Etapas',
-        icon: '🧱',
+        icon: 'lucide:list',
         lines: `Definir o que vai ser feito !!
 Pedir três orçamentos ^1
 Fechar com o profissional ^2
@@ -118,18 +118,18 @@ Piso e revestimento ^7
 Pintura ^8
 Limpeza final ^9`,
       },
-      { name: 'Orçamento', icon: '💰', view_type: 'expenses', budget_cents: 1500000 },
+      { name: 'Orçamento', icon: 'lucide:wallet', view_type: 'expenses', budget_cents: 1500000 },
     ],
   },
   {
     key: 'viagem',
-    icon: '🧭',
+    icon: 'lucide:map-pin',
     name: 'Viagem com roteiro',
     description: 'Reservas na ordem certa, mala em cards e os gastos da viagem com orçamento.',
     pages: [
       {
         name: 'Planejamento',
-        icon: '🗓️',
+        icon: 'lucide:calendar',
         lines: `Escolher o destino e as datas !!
 Passagens ^1
 Hospedagem ^1
@@ -142,22 +142,22 @@ Avisar o banco`,
       },
       {
         name: 'Mala',
-        icon: '🧳',
+        icon: 'lucide:package',
         view_type: 'cards',
         lines: `Roupas\nItens de higiene\nRemédios\nCarregadores\nAdaptador de tomada\nDocumentos`,
       },
-      { name: 'Gastos', icon: '💳', view_type: 'expenses', budget_cents: 500000 },
+      { name: 'Gastos', icon: 'lucide:receipt', view_type: 'expenses', budget_cents: 500000 },
     ],
   },
   {
     key: 'estudos',
-    icon: '📚',
+    icon: 'lucide:graduation-cap',
     name: 'Estudos',
     description: 'Matérias com os tópicos, revisões que se repetem e a prova no fim.',
     pages: [
       {
         name: 'Matérias',
-        icon: '📖',
+        icon: 'lucide:book-open',
         lines: `Matéria 1
   Tópico 1
   Tópico 2
@@ -170,7 +170,7 @@ Simulado ^4 ^8 !!`,
       },
       {
         name: 'Rotina',
-        icon: '⏱️',
+        icon: 'lucide:repeat',
         view_type: 'habits',
         lines: `Estudar 1 hora\nRevisar o que estudou ontem\nLer 10 páginas /seg,qua,sex`,
       },
@@ -178,13 +178,13 @@ Simulado ^4 ^8 !!`,
   },
   {
     key: 'evento',
-    icon: '🎪',
+    icon: 'lucide:party-popper',
     name: 'Evento',
     description: 'Da data ao dia do evento, com convidados, fornecedores e o orçamento.',
     pages: [
       {
         name: 'Preparação',
-        icon: '📋',
+        icon: 'lucide:list',
         lines: `Definir data e local !!
 Lista de convidados ^1
 Enviar os convites ^2
@@ -197,11 +197,11 @@ Fechar o número com os fornecedores ^4 ^8`,
       },
       {
         name: 'No dia',
-        icon: '⏰',
+        icon: 'lucide:flag',
         view_type: 'cards',
         lines: `Receber os fornecedores\nMontar o espaço\nRecepção\nDesmontar`,
       },
-      { name: 'Orçamento', icon: '💰', view_type: 'expenses', budget_cents: 300000 },
+      { name: 'Orçamento', icon: 'lucide:wallet', view_type: 'expenses', budget_cents: 300000 },
     ],
   },
 ];
@@ -209,13 +209,13 @@ Fechar o número com os fornecedores ^4 ^8`,
 const en: Kit[] = [
   {
     key: 'treino',
-    icon: '🏋️',
+    icon: 'lucide:dumbbell',
     name: 'Weekly workout',
     description: 'Workouts A and B as cards that reset every Monday, plus warm-up and stretching.',
     pages: [
       {
         name: 'Workout A (chest and back)',
-        icon: '💪',
+        icon: 'lucide:dumbbell',
         view_type: 'cards',
         reset_cycle: 'weekly',
         lines: `Warm-up 10 minutes
@@ -227,7 +227,7 @@ Plank 3x`,
       },
       {
         name: 'Workout B (legs)',
-        icon: '🦵',
+        icon: 'lucide:dumbbell',
         view_type: 'cards',
         reset_cycle: 'weekly',
         lines: `Warm-up 10 minutes
@@ -241,14 +241,14 @@ Stretching`,
   },
   {
     key: 'cardapio',
-    icon: '🥗',
+    icon: 'lucide:apple',
     name: 'Weekly menu',
     description:
       'One dish per line with the ingredients below: from the list menu, build the shopping list.',
     pages: [
       {
         name: 'Menu',
-        icon: '🍽️',
+        icon: 'lucide:utensils',
         reset_cycle: 'weekly',
         lines: `Monday: grilled chicken with rice
   500 g of chicken
@@ -272,20 +272,20 @@ Friday: baked fish
       },
       {
         name: 'Shopping',
-        icon: '🛒',
+        icon: 'lucide:shopping-cart',
         lines: `Check the pantry\nWrite the shopping list\nGo to the store ^2`,
       },
     ],
   },
   {
     key: 'reforma',
-    icon: '🔨',
+    icon: 'lucide:hammer',
     name: 'Renovation',
     description: 'Steps in order (each one starts when the previous ends) and the project budget.',
     pages: [
       {
         name: 'Steps',
-        icon: '🧱',
+        icon: 'lucide:list',
         lines: `Decide what will be done !!
 Get three quotes ^1
 Hire the contractor ^2
@@ -297,19 +297,19 @@ Flooring and tiles ^7
 Painting ^8
 Final cleaning ^9`,
       },
-      { name: 'Budget', icon: '💰', view_type: 'expenses', budget_cents: 300000 },
+      { name: 'Budget', icon: 'lucide:wallet', view_type: 'expenses', budget_cents: 300000 },
     ],
   },
   {
     key: 'viagem',
-    icon: '🧭',
+    icon: 'lucide:map-pin',
     name: 'Trip with itinerary',
     description:
       'Bookings in the right order, packing as cards and the trip expenses with a budget.',
     pages: [
       {
         name: 'Planning',
-        icon: '🗓️',
+        icon: 'lucide:calendar',
         lines: `Choose the destination and dates !!
 Flights ^1
 Accommodation ^1
@@ -322,22 +322,22 @@ Tell the bank`,
       },
       {
         name: 'Packing',
-        icon: '🧳',
+        icon: 'lucide:package',
         view_type: 'cards',
         lines: `Clothes\nToiletries\nMedicine\nChargers\nPlug adapter\nDocuments`,
       },
-      { name: 'Expenses', icon: '💳', view_type: 'expenses', budget_cents: 200000 },
+      { name: 'Expenses', icon: 'lucide:receipt', view_type: 'expenses', budget_cents: 200000 },
     ],
   },
   {
     key: 'estudos',
-    icon: '📚',
+    icon: 'lucide:graduation-cap',
     name: 'Studies',
     description: 'Subjects with their topics, recurring reviews and the exam at the end.',
     pages: [
       {
         name: 'Subjects',
-        icon: '📖',
+        icon: 'lucide:book-open',
         lines: `Subject 1
   Topic 1
   Topic 2
@@ -350,7 +350,7 @@ Practice exam ^4 ^8 !!`,
       },
       {
         name: 'Routine',
-        icon: '⏱️',
+        icon: 'lucide:repeat',
         view_type: 'habits',
         lines: `Study for 1 hour\nReview yesterday's notes\nRead 10 pages /mon,wed,fri`,
       },
@@ -358,13 +358,13 @@ Practice exam ^4 ^8 !!`,
   },
   {
     key: 'evento',
-    icon: '🎪',
+    icon: 'lucide:party-popper',
     name: 'Event',
     description: 'From the date to the day itself, with guests, suppliers and the budget.',
     pages: [
       {
         name: 'Preparation',
-        icon: '📋',
+        icon: 'lucide:list',
         lines: `Set the date and venue !!
 Guest list ^1
 Send the invitations ^2
@@ -377,11 +377,11 @@ Confirm numbers with suppliers ^4 ^8`,
       },
       {
         name: 'On the day',
-        icon: '⏰',
+        icon: 'lucide:flag',
         view_type: 'cards',
         lines: `Meet the suppliers\nSet up the venue\nWelcome the guests\nTear down`,
       },
-      { name: 'Budget', icon: '💰', view_type: 'expenses', budget_cents: 100000 },
+      { name: 'Budget', icon: 'lucide:wallet', view_type: 'expenses', budget_cents: 100000 },
     ],
   },
 ];
@@ -389,14 +389,14 @@ Confirm numbers with suppliers ^4 ^8`,
 const es: Kit[] = [
   {
     key: 'treino',
-    icon: '🏋️',
+    icon: 'lucide:dumbbell',
     name: 'Entreno de la semana',
     description:
       'Entrenos A y B en tarjetas que se reinician cada lunes, más calentamiento y estiramiento.',
     pages: [
       {
         name: 'Entreno A (pecho y espalda)',
-        icon: '💪',
+        icon: 'lucide:dumbbell',
         view_type: 'cards',
         reset_cycle: 'weekly',
         lines: `Calentamiento 10 minutos
@@ -408,7 +408,7 @@ Plancha 3x`,
       },
       {
         name: 'Entreno B (piernas)',
-        icon: '🦵',
+        icon: 'lucide:dumbbell',
         view_type: 'cards',
         reset_cycle: 'weekly',
         lines: `Calentamiento 10 minutos
@@ -422,14 +422,14 @@ Estiramiento`,
   },
   {
     key: 'cardapio',
-    icon: '🥗',
+    icon: 'lucide:apple',
     name: 'Menú semanal',
     description:
       'Un plato por línea con los ingredientes debajo: en el menú de la lista, genera la lista de compras.',
     pages: [
       {
         name: 'Menú',
-        icon: '🍽️',
+        icon: 'lucide:utensils',
         reset_cycle: 'weekly',
         lines: `Lunes: pollo a la plancha con arroz
   500 g de pollo
@@ -453,21 +453,21 @@ Viernes: pescado al horno
       },
       {
         name: 'Compras',
-        icon: '🛒',
+        icon: 'lucide:shopping-cart',
         lines: `Revisar la despensa\nHacer la lista de compras\nIr al súper ^2`,
       },
     ],
   },
   {
     key: 'reforma',
-    icon: '🔨',
+    icon: 'lucide:hammer',
     name: 'Reforma',
     description:
       'Etapas en orden (cada una empieza cuando termina la anterior) y el presupuesto de la obra.',
     pages: [
       {
         name: 'Etapas',
-        icon: '🧱',
+        icon: 'lucide:list',
         lines: `Definir qué se va a hacer !!
 Pedir tres presupuestos ^1
 Cerrar con el profesional ^2
@@ -479,19 +479,19 @@ Suelo y revestimiento ^7
 Pintura ^8
 Limpieza final ^9`,
       },
-      { name: 'Presupuesto', icon: '💰', view_type: 'expenses', budget_cents: 300000 },
+      { name: 'Presupuesto', icon: 'lucide:wallet', view_type: 'expenses', budget_cents: 300000 },
     ],
   },
   {
     key: 'viagem',
-    icon: '🧭',
+    icon: 'lucide:map-pin',
     name: 'Viaje con itinerario',
     description:
       'Reservas en el orden correcto, la maleta en tarjetas y los gastos del viaje con presupuesto.',
     pages: [
       {
         name: 'Planificación',
-        icon: '🗓️',
+        icon: 'lucide:calendar',
         lines: `Elegir el destino y las fechas !!
 Vuelos ^1
 Alojamiento ^1
@@ -504,22 +504,22 @@ Avisar al banco`,
       },
       {
         name: 'Maleta',
-        icon: '🧳',
+        icon: 'lucide:package',
         view_type: 'cards',
         lines: `Ropa\nArtículos de aseo\nMedicinas\nCargadores\nAdaptador de enchufe\nDocumentos`,
       },
-      { name: 'Gastos', icon: '💳', view_type: 'expenses', budget_cents: 200000 },
+      { name: 'Gastos', icon: 'lucide:receipt', view_type: 'expenses', budget_cents: 200000 },
     ],
   },
   {
     key: 'estudos',
-    icon: '📚',
+    icon: 'lucide:graduation-cap',
     name: 'Estudios',
     description: 'Asignaturas con sus temas, repasos que se repiten y el examen al final.',
     pages: [
       {
         name: 'Asignaturas',
-        icon: '📖',
+        icon: 'lucide:book-open',
         lines: `Asignatura 1
   Tema 1
   Tema 2
@@ -532,7 +532,7 @@ Simulacro ^4 ^8 !!`,
       },
       {
         name: 'Rutina',
-        icon: '⏱️',
+        icon: 'lucide:repeat',
         view_type: 'habits',
         lines: `Estudiar 1 hora\nRepasar lo de ayer\nLeer 10 páginas /lun,mié,vie`,
       },
@@ -540,13 +540,13 @@ Simulacro ^4 ^8 !!`,
   },
   {
     key: 'evento',
-    icon: '🎪',
+    icon: 'lucide:party-popper',
     name: 'Evento',
     description: 'De la fecha al día del evento, con invitados, proveedores y el presupuesto.',
     pages: [
       {
         name: 'Preparación',
-        icon: '📋',
+        icon: 'lucide:list',
         lines: `Definir fecha y lugar !!
 Lista de invitados ^1
 Enviar las invitaciones ^2
@@ -559,11 +559,11 @@ Cerrar el número con los proveedores ^4 ^8`,
       },
       {
         name: 'El día',
-        icon: '⏰',
+        icon: 'lucide:flag',
         view_type: 'cards',
         lines: `Recibir a los proveedores\nMontar el espacio\nRecepción\nDesmontar`,
       },
-      { name: 'Presupuesto', icon: '💰', view_type: 'expenses', budget_cents: 100000 },
+      { name: 'Presupuesto', icon: 'lucide:wallet', view_type: 'expenses', budget_cents: 100000 },
     ],
   },
 ];

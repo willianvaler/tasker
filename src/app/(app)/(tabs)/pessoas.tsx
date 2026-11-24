@@ -21,7 +21,7 @@ export default function PeopleScreen() {
   return (
     <Screen size="medium">
       <ScreenScroll contentContainerClassName="gap-6 pb-clear">
-        <ScreenHeader search title={t('nav.people')} eyebrow={t('hub.peopleHint')} />
+        <ScreenHeader search title={t('nav.people')} />
         <HubSection>
           <HubRow
             icon={UserPlus}

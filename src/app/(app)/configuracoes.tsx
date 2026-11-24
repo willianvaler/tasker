@@ -46,12 +46,11 @@ const deviceTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // Mais e para Pessoas, e o jogo para a tela Jogo.
 export default function SettingsScreen() {
   const { t } = useTranslation();
-  const { session } = useSession();
   const profile = useProfile();
   return (
     <Screen size="wide">
       <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="pb-clear">
-        <ScreenHeader back title={t('settings.title')} eyebrow={session?.user.email} />
+        <ScreenHeader back title={t('settings.title')} />
         {profile.data ? <ProfileForm key={profile.data.id} profile={profile.data} /> : null}
       </ScreenScroll>
     </Screen>
@@ -62,6 +61,7 @@ export default function SettingsScreen() {
 // computador). Grupos separados por espaço e rótulo, sem caixas.
 function ProfileForm({ profile }: { profile: Profile }) {
   const { t } = useTranslation();
+  const { session } = useSession();
   const update = useUpdateProfile();
   const apk = useApkInfo();
   const online = useIsOnline();
@@ -74,6 +74,12 @@ function ProfileForm({ profile }: { profile: Profile }) {
   const accountGroups = (
     <>
       <Group title={t('profile.account')}>
+        {/* O e-mail da conta, em texto (ficava em caixa-alta acima do título) */}
+        {session?.user.email ? (
+          <Text className="font-mono text-xs text-ink-muted" selectable>
+            {session.user.email}
+          </Text>
+        ) : null}
         <Field label={t('profile.name')}>
           <Input
             value={name}

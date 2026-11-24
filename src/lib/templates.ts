@@ -22,12 +22,12 @@ export const BUILT_IN_TEMPLATES: BuiltInTemplate[] = [
   {
     key: 'churrasco',
     name: 'Churrasco',
-    icon: '🍖',
+    icon: 'lucide:flame',
     description: 'Compras, local e convidados. Cole a lista com @nomes antes de convidar.',
     pages: [
       {
         name: 'Compras',
-        icon: '🛒',
+        icon: 'lucide:shopping-cart',
         lines: `Carne !!
   Picanha
   Linguiça
@@ -44,7 +44,7 @@ Farofa e vinagrete`,
       },
       {
         name: 'Organização',
-        icon: '📋',
+        icon: 'lucide:list',
         lines: `Definir local !!
 Definir data e horário
 Lista de convidados
@@ -56,12 +56,12 @@ Dividir a conta`,
   {
     key: 'viagem',
     name: 'Viagem',
-    icon: '✈️',
+    icon: 'lucide:plane',
     description: 'Reservas, documentos e a mala em cards para marcar enquanto arruma.',
     pages: [
       {
         name: 'Antes de ir',
-        icon: '🗓️',
+        icon: 'lucide:calendar',
         lines: `Passagens !!
 Hospedagem !!
 Seguro viagem
@@ -73,7 +73,7 @@ Roteiro`,
       },
       {
         name: 'Mala',
-        icon: '🧳',
+        icon: 'lucide:package',
         view_type: 'cards',
         lines: `Roupas
 Roupa de banho
@@ -87,12 +87,12 @@ Fone de ouvido`,
   {
     key: 'mudanca',
     name: 'Mudança',
-    icon: '📦',
+    icon: 'lucide:package',
     description: 'Do contrato à última caixa, com contas para transferir.',
     pages: [
       {
         name: 'Antes',
-        icon: '📝',
+        icon: 'lucide:pencil',
         lines: `Contratar transportadora !!
 Separar caixas e fita
 Doar o que não vai
@@ -104,7 +104,7 @@ Embalar por cômodo
       },
       {
         name: 'Contas e endereço',
-        icon: '🏠',
+        icon: 'lucide:house',
         lines: `Luz
 Água
 Gás
@@ -117,12 +117,12 @@ Atualizar endereço nas compras online`,
   {
     key: 'festa',
     name: 'Festa',
-    icon: '🎉',
+    icon: 'lucide:party-popper',
     description: 'Convite, comida, decoração e o dia da festa.',
     pages: [
       {
         name: 'Preparação',
-        icon: '🎈',
+        icon: 'lucide:gift',
         lines: `Definir data e local !!
 Lista de convidados
 Enviar convites
@@ -134,7 +134,7 @@ Playlist`,
       },
       {
         name: 'No dia',
-        icon: '⏰',
+        icon: 'lucide:flag',
         view_type: 'cards',
         lines: `Buscar o bolo
 Montar a decoração
@@ -150,7 +150,7 @@ export const STARTER_TEMPLATES: BuiltInTemplate[] = [
   {
     key: 'treino',
     name: 'Academia',
-    icon: '🏋️',
+    icon: 'lucide:dumbbell',
     description: 'Treino em cards que reinicia toda segunda.',
     pages: [
       {
@@ -167,17 +167,17 @@ Prancha 3x`,
   {
     key: 'casa',
     name: 'Casa',
-    icon: '🏠',
+    icon: 'lucide:house',
     description: 'Lista do mercado e contas do mês.',
     pages: [
-      { name: 'Mercado', icon: '🛒', lines: `Arroz\nFeijão\nCafé\nFrutas` },
-      { name: 'Contas', icon: '💡', lines: `Luz /mensal\nInternet /mensal` },
+      { name: 'Mercado', icon: 'lucide:shopping-cart', lines: `Arroz\nFeijão\nCafé\nFrutas` },
+      { name: 'Contas', icon: 'lucide:lightbulb', lines: `Luz /mensal\nInternet /mensal` },
     ],
   },
   {
     key: 'habitos',
     name: 'Hábitos',
-    icon: '🔥',
+    icon: 'lucide:flame',
     description: 'Marque todo dia e veja a sequência crescer.',
     pages: [
       {

@@ -15,7 +15,6 @@ export default function WorkoutHubScreen() {
         <ScreenHeader
           search
           help="repeticoes-descanso"
-          eyebrow={t('workoutHub.eyebrow')}
           title={t('nav.workout')}
         />
         <WorkoutHub />

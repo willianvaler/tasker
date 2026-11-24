@@ -90,7 +90,7 @@ test('hábitos: contador com meta e bom/ruim com + e −', async ({ page }, test
   const plus = page.waitForResponse((r) => isRpc(r, 'habit_tick'));
   await page.getByRole('button', { name: `Hábito bom: ${food}` }).click();
   await plus;
-  await expect(page.getByText(`👍 ${food} · +3 XP`, { exact: false })).toBeVisible();
+  await expect(page.getByText(`+ ${food} · +3 XP`, { exact: false })).toBeVisible();
   await page.getByRole('button', { name: `Hábito ruim: ${food}` }).click();
   await expect(onScreen(page.getByLabel('Hoje: 1 bons, 1 ruins'))).toBeVisible();
   // Desfazer o − (o aviso dele é o último)

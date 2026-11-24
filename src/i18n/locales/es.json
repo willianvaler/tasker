@@ -90,6 +90,7 @@
     "subtasks": "{{done}} de {{total}} subtareas",
     "recurrence": "Se repite: {{rule}}",
     "due": "Fecha: {{date}}",
+    "reminderOn": "Con recordatorio",
     "deleted": "Eliminada: {{title}}",
     "duplicated": "Duplicada: {{title}}",
     "dateTitle": "Fecha de \"{{title}}\"",
@@ -542,7 +543,7 @@
     "channel": "Avisos",
     "denied": "Permiso denegado. Actívalo en los ajustes del teléfono.",
     "noProject": "App sin proyecto EAS configurado (ver PUBLICACAO.md).",
-    "browser": "En el navegador, los avisos aparecen en la campana 🔔."
+    "browser": "En el navegador, los avisos aparecen en la campana."
   },
   "character": {
     "title": "Personaje",

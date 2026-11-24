@@ -266,7 +266,8 @@ export function ClassPicker({
                     ? t('character.current')
                     : t(current ? 'character.become' : 'character.choose', { name: c.name })
                 }
-                variant={selected ? 'ghost' : 'primary'}
+                // Fantasma em todos: cinco botões no acento brigavam entre si (um acento por tela)
+                variant="ghost"
                 disabled={selected || !online}
                 loading={setClass.isPending && setClass.variables === key}
                 onPress={() =>

@@ -1,25 +1,24 @@
 // Hábitos prontos da Vida saudável (BE3, D275). O nome de cada um fica no i18n
-// (`healthy.items.<key>`); aqui só o tipo: caixinha por dia ou contador com a meta do dia.
+// (`healthy.items.<key>`) e o ícone, no componente; aqui só o tipo: caixinha por dia ou contador com a meta do dia.
 
 export type HealthyHabit = {
   key: string;
-  icon: string;
   kind: 'check' | 'counter';
   target?: number;
 };
 
 export const HEALTHY_HABITS: HealthyHabit[] = [
-  { key: 'water', icon: '💧', kind: 'counter', target: 8 },
-  { key: 'sleep', icon: '😴', kind: 'check' },
-  { key: 'walk', icon: '🚶', kind: 'check' },
-  { key: 'steps', icon: '👟', kind: 'check' },
-  { key: 'fruit', icon: '🍎', kind: 'counter', target: 2 },
-  { key: 'veggies', icon: '🥦', kind: 'check' },
-  { key: 'noSugar', icon: '🚫', kind: 'check' },
-  { key: 'stretch', icon: '🤸', kind: 'check' },
-  { key: 'meditate', icon: '🧘', kind: 'check' },
-  { key: 'screens', icon: '📵', kind: 'check' },
-  { key: 'sun', icon: '☀️', kind: 'check' },
+  { key: 'water', kind: 'counter', target: 8 },
+  { key: 'sleep', kind: 'check' },
+  { key: 'walk', kind: 'check' },
+  { key: 'steps', kind: 'check' },
+  { key: 'fruit', kind: 'counter', target: 2 },
+  { key: 'veggies', kind: 'check' },
+  { key: 'noSugar', kind: 'check' },
+  { key: 'stretch', kind: 'check' },
+  { key: 'meditate', kind: 'check' },
+  { key: 'screens', kind: 'check' },
+  { key: 'sun', kind: 'check' },
 ];
 
 /** Para saber se o hábito já existe: sem caixa, sem acento, sem espaço sobrando. */

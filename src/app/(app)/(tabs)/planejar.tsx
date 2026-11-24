@@ -53,7 +53,6 @@ export default function PlanScreen() {
         <ScreenHeader
           search
           help="calendario"
-          eyebrow={t('plan.eyebrow')}
           title={t('nav.plan')}
           right={
             narrow && (

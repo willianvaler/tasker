@@ -1,4 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
+import { Globe, Users } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -6,6 +7,7 @@ import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
+import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { formatDueDate } from '@/lib/parser/dates';
@@ -110,14 +112,14 @@ function TaskList({
           key={task.id}
           className="min-h-11 flex-row items-center gap-3 border-b border-line py-2"
         >
-          <Text
-            className="text-sm"
+          <View
+            accessible
             accessibilityLabel={t(
               task.visibility === 'public' ? 'visibility.publicLabel' : 'visibility.friendsLabel',
             )}
           >
-            {task.visibility === 'public' ? '🌐' : '👥'}
-          </Text>
+            <Icon icon={task.visibility === 'public' ? Globe : Users} tone="ink-muted" />
+          </View>
           <View className="flex-1">
             <Text
               className={

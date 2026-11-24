@@ -27,7 +27,6 @@ export default function WellnessScreen() {
         <ScreenHeader
           search
           help="bem-estar"
-          eyebrow={t('wellness.eyebrow')}
           title={t('nav.wellness')}
         />
         {gymInside ? (

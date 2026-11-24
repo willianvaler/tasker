@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { ChevronDown, ChevronUp } from 'lucide-react-native';
+import { ChevronDown, ChevronUp, Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -144,7 +144,10 @@ function PlanCard({ plan }: { plan: GymPlan }) {
           aria-expanded={open}
           onPress={() => setOpen(!open)}
         />
+        {/* Fantasma: com 6 planos na tela, 6 botões no acento (um acento por tela) */}
         <Button
+          variant="ghost"
+          icon={Plus}
           label={t('plans.use')}
           accessibilityLabel={t('plans.useLabel', { name })}
           loading={pending}

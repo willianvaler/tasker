@@ -70,7 +70,6 @@ export default function HelpScreen() {
           <View className="gap-4 xl:flex-1">
             <SectionLabel title={t('help.articles')} />
             <View
-              className="gap-2"
               onLayout={(e) => {
                 articlesTop.current = e.nativeEvent.layout.y;
               }}
@@ -80,7 +79,8 @@ export default function HelpScreen() {
                 return (
                   <View
                     key={a.slug}
-                    className="rounded border border-line bg-surface"
+                    // Linhas, não cartões (DESIGN.md: espaço e divisória em vez de caixas)
+                    className="border-b border-line"
                     onLayout={(e) => {
                       if (a.slug !== artigo || scrolled.current) return;
                       scrolled.current = true;
@@ -94,13 +94,13 @@ export default function HelpScreen() {
                       accessibilityRole="button"
                       aria-expanded={expanded}
                       onPress={() => toggle(a.slug)}
-                      className="min-h-12 flex-row items-center gap-3 rounded px-3 hover:bg-wash active:bg-wash"
+                      className="min-h-12 flex-row items-center gap-3 rounded px-1 hover:bg-wash active:bg-wash"
                     >
                       <Icon icon={expanded ? ChevronDown : ChevronRight} tone="ink-muted" />
                       <Text className="flex-1 text-base font-semibold text-ink">{a.title}</Text>
                     </Pressable>
                     {expanded && (
-                      <View className="gap-4 border-t border-line px-4 pb-4 pt-2">
+                      <View className="gap-4 pb-4 pl-8 pr-2">
                         <Markdown source={a.body} />
                       </View>
                     )}

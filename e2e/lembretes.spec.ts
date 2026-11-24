@@ -12,7 +12,8 @@ test('horário e lembrete de tarefa', async ({ page }, testInfo) => {
   await input.press('Enter');
   await created;
   // A linha mostra a hora e o sino do lembrete (padrão: na hora)
-  await expect(shown(page, /Hoje 23:00 🔔/).first()).toBeVisible();
+  await expect(shown(page, /Hoje 23:00/).first()).toBeVisible();
+  await expect(page.getByLabel('Com lembrete').filter({ visible: true }).first()).toBeVisible();
 
   await page
     .getByRole('button', { name: `Detalhes de ${title}` })

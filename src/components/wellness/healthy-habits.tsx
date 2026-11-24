@@ -1,9 +1,27 @@
-import { Check, Plus, Scale } from 'lucide-react-native';
+import {
+  Apple,
+  Ban,
+  Carrot,
+  Check,
+  Droplet,
+  Flower2,
+  Footprints,
+  Leaf,
+  type LucideIcon,
+  MonitorOff,
+  Moon,
+  PersonStanding,
+  Plus,
+  Scale,
+  StretchHorizontal,
+  Sun,
+} from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { HubRow, HubSection } from '@/components/hub';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { HEALTHY_HABITS, habitTitleKey } from '@/lib/healthy-habits';
@@ -72,7 +90,7 @@ export function HealthyHabitsSection() {
               key={h.key}
               className="min-h-11 flex-row items-center gap-3 border-b border-line py-1"
             >
-              <Text className="w-6 text-center text-base">{h.icon}</Text>
+              <Icon icon={HABIT_ICONS[h.key] ?? Leaf} tone="ink-muted" />
               <View className="flex-1">
                 <Text className="text-sm text-ink">{title}</Text>
                 <Text className="text-xs text-ink-muted">
@@ -115,3 +133,19 @@ export function HealthyHabitsSection() {
     </View>
   );
 }
+
+// Ícone de cada hábito pronto (era emoji; o checklist do DESIGN.md deixa emoji só para o que a
+// pessoa escolhe)
+const HABIT_ICONS: Record<string, LucideIcon> = {
+  water: Droplet,
+  sleep: Moon,
+  walk: PersonStanding,
+  steps: Footprints,
+  fruit: Apple,
+  veggies: Carrot,
+  noSugar: Ban,
+  stretch: StretchHorizontal,
+  meditate: Flower2,
+  screens: MonitorOff,
+  sun: Sun,
+};

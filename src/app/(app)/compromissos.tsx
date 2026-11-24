@@ -12,6 +12,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/dialog';
 import { EmptyState } from '@/components/ui/empty-state';
+import { NoticeLine } from '@/components/ui/notice-line';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { formatDuration, type BookingType } from '@/lib/booking';
@@ -64,15 +65,13 @@ export default function BookingsScreen() {
           <Text className="text-ink-muted">{t('bookingTypes.intro')}</Text>
 
           {noHours && (
-            <View className="gap-2 rounded border border-line p-4">
-              <Text className="text-ink">{t('bookingTypes.noHours')}</Text>
+            <NoticeLine title={t('bookingTypes.noHours')}>
               <Button
-                className="self-start"
                 icon={CalendarClock}
                 label={t('availability.title')}
                 onPress={() => router.push('/disponibilidade')}
               />
-            </View>
+            </NoticeLine>
           )}
 
           {agendaUrl && (
@@ -85,7 +84,13 @@ export default function BookingsScreen() {
                 {agendaUrl}
               </Text>
               <View className="flex-row flex-wrap gap-2">
-                <Button icon={Copy} label={t('share.copy')} onPress={() => copy(agendaUrl)} />
+                {/* Sem horários o link não mostra nada: o acento fica no aviso de cima */}
+                <Button
+                  variant={noHours ? 'ghost' : 'primary'}
+                  icon={Copy}
+                  label={t('share.copy')}
+                  onPress={() => copy(agendaUrl)}
+                />
                 {Platform.OS === 'web' && (
                   <Button
                     variant="ghost"

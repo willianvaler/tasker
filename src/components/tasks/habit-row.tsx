@@ -82,8 +82,8 @@ export function useHabitTickWithToast() {
     const plusminus = task.habit_kind === 'plusminus';
     const message = plusminus
       ? delta === 1
-        ? `👍 ${task.title}`
-        : `👎 ${task.title}`
+        ? `+ ${task.title}`
+        : `− ${task.title}`
       : `${task.title}: ${Math.max(0, Math.min(task.habit_target ?? 1, task.count_up + delta))}/${task.habit_target ?? 1}`;
     const action = plusminus
       ? { label: t('common.undo'), onPress: () => undo.mutate(vars), redo: () => run(task, delta) }

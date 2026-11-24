@@ -1,4 +1,4 @@
-import { Repeat } from 'lucide-react-native';
+import { Bell, Globe, Repeat, Users } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -49,20 +49,24 @@ export function TaskMeta({
       >
         {formatDueDate(task.due_date, today)}
         {task.due_time ? ` ${shortTime(task.due_time)}` : ''}
-        {task.due_time && task.remind_before != null ? ' 🔔' : ''}
       </Text>
+    ),
+    task.due_date && task.due_time && task.remind_before != null && (
+      <View key="reminder" accessible accessibilityLabel={t('task.reminderOn')}>
+        <Icon icon={Bell} size={16} tone="ink-muted" />
+      </View>
     ),
     // V10 §2: quem mais vê (privada não mostra nada)
     task.visibility && task.visibility !== 'private' && (
-      <Text
+      <View
         key="visibility"
-        className={meta}
+        accessible
         accessibilityLabel={t(
           task.visibility === 'public' ? 'visibility.publicLabel' : 'visibility.friendsLabel',
         )}
       >
-        {task.visibility === 'public' ? '🌐' : '👥'}
-      </Text>
+        <Icon icon={task.visibility === 'public' ? Globe : Users} size={16} tone="ink-muted" />
+      </View>
     ),
     task.priority > 0 && (
       <Text key="priority" className={cn('font-mono text-xs', PRIORITY_COLOR[task.priority])}>

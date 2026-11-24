@@ -90,6 +90,7 @@
     "subtasks": "{{done}} of {{total}} subtasks",
     "recurrence": "Repeats: {{rule}}",
     "due": "Date: {{date}}",
+    "reminderOn": "With reminder",
     "deleted": "Deleted: {{title}}",
     "duplicated": "Duplicated: {{title}}",
     "dateTitle": "Date for \"{{title}}\"",
@@ -542,7 +543,7 @@
     "channel": "Notifications",
     "denied": "Permission denied. Allow it in your phone settings.",
     "noProject": "App without an EAS project set up (see PUBLICACAO.md).",
-    "browser": "In the browser, notifications show up in the bell 🔔."
+    "browser": "In the browser, notifications show up in the bell."
   },
   "character": {
     "title": "Character",
