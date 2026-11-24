@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { READABLE, ScreenScroll } from '@/components/screen';
+import { openTask } from '@/lib/open-task';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog } from '@/components/ui/dialog';
@@ -335,7 +336,7 @@ export function MeetingView({ page }: { page: Page }) {
                 <Pressable
                   key={id}
                   accessibilityRole="link"
-                  onPress={() => router.push(`/task/${id}`)}
+                  onPress={() => openTask(id, page.folder_id)}
                   className="flex-row items-center gap-2 py-1"
                 >
                   <Text
@@ -385,7 +386,7 @@ export function MeetingView({ page }: { page: Page }) {
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={t('meeting.openItem', { title: item.title })}
-                  onPress={() => router.push(`/task/${item.id}`)}
+                  onPress={() => openTask(item.id, page.folder_id)}
                   className="flex-row items-center gap-2"
                 >
                   {wasDiscussed ? (
@@ -546,7 +547,7 @@ export function MeetingView({ page }: { page: Page }) {
                   <Pressable
                     key={id}
                     accessibilityRole="link"
-                    onPress={() => router.push(`/task/${id}`)}
+                    onPress={() => openTask(id, page.folder_id)}
                     className="py-1"
                   >
                     <Text

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { READABLE, Screen, ScreenScroll } from '@/components/screen';
+import { openTask } from '@/lib/open-task';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -141,7 +142,7 @@ export default function RoadmapScreen() {
                         <Pressable
                           key={task.id}
                           accessibilityRole="link"
-                          onPress={() => router.push(`/task/${task.id}`)}
+                          onPress={() => openTask(task.id, root?.id)}
                           className="flex-row items-center gap-2 py-1"
                         >
                           <Text

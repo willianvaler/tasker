@@ -13,7 +13,6 @@ import { ScreenHeader } from '@/components/screen-header';
 import { MentionChips } from '@/components/tasks/assignee-chips';
 import { TaskMeta } from '@/components/tasks/task-meta';
 import { Button, IconButton } from '@/components/ui/button';
-import { EmptyState } from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { Text, textClass } from '@/components/ui/text';
 import { takeBatchDraft } from '@/lib/batch-draft';
@@ -23,7 +22,7 @@ import { effectiveMaxDepth } from '@/config/limits';
 import { countBatch, countFlattened, parseBatchInput, type BatchItem } from '@/lib/parser/batch';
 import { rootFolder } from '@/lib/queries/projects';
 import { parseQuickInput } from '@/lib/parser/quick';
-import { setLastPageId } from '@/lib/prefs';
+import { getLastPageId, setLastPageId } from '@/lib/prefs';
 import type { MentionResolution } from '@/lib/members';
 import { useMentions } from '@/lib/queries/mentions';
 import { resolveBatchPrereq, type PrereqResolution } from '@/lib/prereqs';
@@ -53,7 +52,10 @@ export default function BatchScreen() {
   // @nome ambíguo resolvido na prévia: "chave do item|nome" → user_id
   const [choices, setChoices] = useState<Record<string, string>>({});
 
-  const page = tree.data?.pages.find((p) => p.id === draft?.pageId);
+  // Sem rascunho (aberta pelo endereço ou depois de recarregar): a última lista usada, senão a Entrada
+  const [fallbackId] = useState(() => getLastPageId());
+  const page =
+    tree.data?.pages.find((p) => p.id === (draft?.pageId ?? fallbackId)) ?? tree.data?.inbox;
   // Em cards, "4x12" e "20kg" viram séries/repetições/carga
   const isCards = page?.view_type === 'cards';
   const mentions = useMentions(page?.id);
@@ -188,15 +190,6 @@ export default function BatchScreen() {
     confirm();
   });
 
-  if (!draft) {
-    return (
-      <Screen>
-        <ScreenHeader title={t('batch.title')} back />
-        <EmptyState title={t('batch.noDraft')} />
-      </Screen>
-    );
-  }
-
   return (
     <Screen>
       <ScreenHeader title={t('batch.title')} back />
@@ -206,7 +199,7 @@ export default function BatchScreen() {
       <TextInput
         ref={inputRef}
         multiline
-        autoFocus={!draft.text && !isTouchScreen()}
+        autoFocus={!draft?.text && !isTouchScreen()}
         value={text}
         onChangeText={(value) => {
           changeText(value);

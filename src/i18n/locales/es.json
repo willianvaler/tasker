@@ -857,7 +857,6 @@
   },
   "batch": {
     "title": "Agregar varias",
-    "noDraft": "Ábrelo desde la lista donde quieres crear las tareas.",
     "where": "En {{page}} · una por línea o separadas por \";\" · sangría = subtarea · [x] = ya hecha",
     "placeholder": "Pega o escribe la lista, por ejemplo:\ncarne; cerveza; carbón\nhielo !!\n- [x] invitar a todos",
     "list": "Lista de tareas",
@@ -1356,7 +1355,7 @@
   },
   "help": {
     "title": "Ayuda",
-    "intro": "Lo esencial cabe en una frase: escribe y presiona Enter. El resto está aquí, en palabras simples. Los artículos completos llegan pronto; por ahora, los atajos.",
+    "intro": "Lo esencial cabe en una frase: escribe y presiona Enter. El resto está en los artículos y en la lista de atajos.",
     "shortcuts": "Atajos de teclado",
     "search": "Buscar en la ayuda (ej.: carbón, renombrar)",
     "none": "Ningún atajo con ese nombre.",
@@ -1382,6 +1381,8 @@
     "remapResetAll": "Volver todos los atajos al original"
   },
   "sync": {
+    "errorNetwork": "No se pudo hablar con el servidor ({{message}}).",
+    "errorOther": "El servidor rechazó: {{message}}",
     "badResponse": "El servidor no respondió como se esperaba (la red puede estar bloqueando el acceso). Inténtalo de nuevo en un momento o en otra red.",
     "title": "Sincronización",
     "disabled": "La sincronización local está apagada en este build (falta EXPO_PUBLIC_POWERSYNC_URL).",
@@ -2442,7 +2443,7 @@
     "defeated_quest": "📜 ¡Misión cumplida!"
   },
   "projectsHub": {
-    "title": "Configuración de proyectos",
+    "title": "Proyectos e invitaciones",
     "hint": "Tus proyectos y equipos en un solo lugar: quién participa, invitaciones, automatizaciones y lo demás de cada proyecto.",
     "empty": "Aún no hay proyectos. Usa + para crear el primero.",
     "open": "Abrir el proyecto {{name}}",

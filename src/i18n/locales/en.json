@@ -857,7 +857,6 @@
   },
   "batch": {
     "title": "Add several",
-    "noDraft": "Open it from the list where you want to create the tasks.",
     "where": "In {{page}} · one per line or separated by \";\" · indent = subtask · [x] = already done",
     "placeholder": "Paste or type the list, for example:\nmeat; beer; charcoal\nice !!\n- [x] invite everyone",
     "list": "Task list",
@@ -1356,7 +1355,7 @@
   },
   "help": {
     "title": "Help",
-    "intro": "The essentials fit in one sentence: type and press Enter. The rest is here, in plain words. Full articles are coming soon; for now, the shortcuts.",
+    "intro": "The essentials fit in one sentence: type and press Enter. The rest is in the articles and the shortcut list.",
     "shortcuts": "Keyboard shortcuts",
     "search": "Search help (e.g. charcoal, rename)",
     "none": "No shortcut with that name.",
@@ -1382,6 +1381,8 @@
     "remapResetAll": "Restore all shortcuts to default"
   },
   "sync": {
+    "errorNetwork": "Could not reach the server ({{message}}).",
+    "errorOther": "The server refused: {{message}}",
     "badResponse": "The server didn't answer as expected (the network may be blocking access). Try again in a moment or on another network.",
     "title": "Sync",
     "disabled": "Local sync is off in this build (EXPO_PUBLIC_POWERSYNC_URL is missing).",
@@ -2442,7 +2443,7 @@
     "defeated_quest": "📜 Quest complete!"
   },
   "projectsHub": {
-    "title": "Project settings",
+    "title": "Projects and invites",
     "hint": "Your projects and teams in one place: who takes part, invites, automations and the rest of each project.",
     "empty": "No projects yet. Use + to create the first one.",
     "open": "Open project {{name}}",

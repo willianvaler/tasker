@@ -92,6 +92,7 @@ export default function SyncScreen() {
   }
 
   const last = status.lastSyncedAt;
+  const flowError = status.dataFlowStatus.uploadError ?? status.dataFlowStatus.downloadError;
   return (
     <Screen size="medium">
       <ScreenHeader help="sem-internet" title={t('sync.title')} back />
@@ -109,9 +110,12 @@ export default function SyncScreen() {
             {t('sync.pending', { count: counts.pending })}
           </Text>
         )}
-        {(status.dataFlowStatus.uploadError || status.dataFlowStatus.downloadError) && (
-          <Text className="font-mono text-xs text-danger">
-            {(status.dataFlowStatus.uploadError ?? status.dataFlowStatus.downloadError)?.message}
+        {flowError && (
+          <Text className="text-xs text-danger">
+            {/* "Failed to fetch" e afins vêm do navegador, em inglês: a frase traduzida e o original */}
+            {NETWORK_ERROR.test(flowError.message)
+              ? t('sync.errorNetwork', { message: flowError.message })
+              : t('sync.errorOther', { message: flowError.message })}
           </Text>
         )}
         <View className="flex-row flex-wrap gap-2">
@@ -171,3 +175,5 @@ export default function SyncScreen() {
     </Screen>
   );
 }
+
+const NETWORK_ERROR = /fetch|network|load failed|timed? ?out|ECONN/i;

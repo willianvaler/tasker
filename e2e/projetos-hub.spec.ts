@@ -22,7 +22,7 @@ test('projetos: criar pelo bloco fixo e configurar pelo Perfil', async ({ page }
   // Pessoas → Projetos e convites (D257)
   await page.goto('/pessoas');
   await page.getByRole('link', { name: 'Projetos e convites' }).click();
-  await expect(page.getByRole('heading', { name: 'Configurações de projetos' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Projetos e convites' })).toBeVisible();
   await expect(page.getByRole('link', { name: `Abrir o projeto ${name}` })).toBeVisible();
   await page.getByRole('button', { name: 'Pessoas e convites' }).click();
   await expect(page).toHaveURL(/\/share\//);

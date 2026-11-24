@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, Platform, Pressable, View } from 'react-native';
 
 import { BookingTypeForm, NEW_TYPE } from '@/components/agenda/booking-type-form';
+import { readTask } from '@/lib/open-task';
 import { READABLE, Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
@@ -258,7 +259,7 @@ function BookingList({
             <Pressable
               accessibilityRole={b.task_id ? 'link' : undefined}
               disabled={!b.task_id}
-              onPress={() => b.task_id && router.push(`/task/${b.task_id}`)}
+              onPress={() => b.task_id && readTask(b.task_id)}
             >
               <Text
                 className={cn(

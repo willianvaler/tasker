@@ -12,6 +12,7 @@ import ptBR from './locales/pt-BR.json';
 import vocabEn from './vocab/en.json';
 import vocabEs from './vocab/es.json';
 import vocabPtBR from './vocab/pt-BR.json';
+import { pluralZeroAsOther } from './plural';
 import { DEFAULT_LOCALE, type Locale, type LocalePreference, resolveLocale } from './locale';
 
 export const resources = {
@@ -41,6 +42,8 @@ i18n.use(initReactI18next).init({
   returnNull: false,
   initAsync: false,
 });
+
+pluralZeroAsOther(i18n);
 
 // Datas da interface ("Hoje", "sex, 17 out") e o parser seguem o idioma
 setDateLocale(i18n.language);

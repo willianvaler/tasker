@@ -3,7 +3,7 @@ import { router, useIsFocused } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Plus, SlidersHorizontal } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Platform, TextInput, useWindowDimensions, View } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 
 import { IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
@@ -78,7 +78,10 @@ export function QuickAdd({
   });
   const { t } = useTranslation();
   const colors = useColors();
-  const wide = useWindowDimensions().width >= 768;
+  // Pela largura da própria linha, não da janela: na Captura (576 px) as dicas cortavam o campo
+  const [rowWidth, setRowWidth] = useState(0);
+  const roomy = rowWidth >= 420;
+  const showHints = rowWidth >= 720;
   // O react-native-web ainda só entende o antigo blurOnSubmit (o Input faz o mesmo)
   const webSubmit = Platform.OS === 'web' ? ({ blurOnSubmit: false } as object) : {};
   const ready = !!pageId && writable;
@@ -184,7 +187,10 @@ export function QuickAdd({
   return (
     <View>
       {/* Linha de captura: "+" no acento, campo sem caixa, divisória fina */}
-      <View className="min-h-11 flex-row items-center gap-3 border-b border-line md:min-h-10">
+      <View
+        className="min-h-11 flex-row items-center gap-3 border-b border-line md:min-h-10"
+        onLayout={(e) => setRowWidth(e.nativeEvent.layout.width)}
+      >
         <Icon icon={Plus} tone={ready ? 'accent' : 'ink-muted'} />
         <TextInput
           ref={inputRef}
@@ -193,7 +199,7 @@ export function QuickAdd({
               ? t('quickAdd.loading')
               : online
                 ? // Y2 (#7): no celular, o texto curto (o longo ficava cortado)
-                  (placeholder ?? t(wide ? 'quickAdd.placeholder' : 'quickAdd.placeholderShort'))
+                  (placeholder ?? t(roomy ? 'quickAdd.placeholder' : 'quickAdd.placeholderShort'))
                 : t('quickAdd.offline')
           }
           placeholderTextColor={colors['ink-muted']}
@@ -225,7 +231,7 @@ export function QuickAdd({
           className={textClass('min-h-10 flex-1 text-base text-ink md:text-sm')}
         />
         {/* Y2 (#8): hábito tem as dicas próprias, embaixo do campo (data e @pessoa não servem) */}
-        {wide && ready && !text && !habit && (
+        {showHints && ready && !text && !habit && (
           <Text className="font-mono text-xs text-ink-muted">{t('quickAdd.hint')}</Text>
         )}
         {ready && !habit && (

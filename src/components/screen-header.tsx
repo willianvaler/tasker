@@ -46,7 +46,7 @@ export function ScreenHeader({
   rename?: HeaderRename;
   /** Artigo da Ajuda sobre a tela: mostra o "?" (F2, D146) */
   help?: string;
-  /** Título longo (artigo da Ajuda) quebra a linha em vez de cortar */
+  /** Título longo (artigo da Ajuda) quebra quantas linhas precisar (sem ele, até 2) */
   wrap?: boolean;
   /** Telas principais: botão de busca no celular (no computador a busca fica na barra lateral, D258) */
   search?: boolean;
@@ -89,7 +89,8 @@ export function ScreenHeader({
             >
               <Text
                 className="font-serif text-xl text-ink"
-                numberOfLines={wrap ? undefined : 1}
+                // Duas linhas antes de cortar: no celular "Biblioteca de exercícios" virava "Biblioteca d…"
+                numberOfLines={wrap ? undefined : 2}
                 accessibilityRole="header"
               >
                 {title}
