@@ -615,7 +615,7 @@
     "title": "Tienda",
     "gold": "{{gold}} de oro",
     "goldShort": "{{gold}} oro",
-    "hint": "Todo aquí es solo visual: no cambia XP ni daño. Gana oro completando tareas y derrotando jefes; algunos ítems solo caen de jefes (cuanto mayor el nivel, más probabilidad de uno raro).",
+    "hint": "Solo visual: no cambia XP ni daño. El oro viene de las tareas y los jefes; algunos ítems solo caen de jefes.",
     "all": "Todo",
     "equipped": "Equipado",
     "equip": "Equipar",
@@ -630,7 +630,7 @@
   },
   "clan": {
     "title": "Clan",
-    "intro": "Junta a tus amigos en un clan: cada semana aparece un jefe del grupo, y cada XP que alguien gana es un golpe. Quien ayudó recibe la recompensa. Sin ranking de quién se quedó atrás.",
+    "intro": "Cada semana el clan enfrenta un jefe, y el XP de cada uno se vuelve un golpe. Quien ayudó recibe la recompensa.",
     "name": "Nombre del clan",
     "namePlaceholder": "Nombre del clan (ej.: Los Productivos)",
     "create": "Crear clan",
@@ -1121,7 +1121,7 @@
   },
   "community": {
     "title": "Comunidad",
-    "intro": "Proyectos, entrenamientos, menús y listas que la gente publicó. Usar crea una copia tuya, para cambiarla a gusto.",
+    "intro": "Lo que la gente publicó. Usar crea una copia tuya.",
     "search": "Buscar en la comunidad",
     "all": "Todo",
     "kind": {
@@ -2385,7 +2385,7 @@
     "title": "App para Android",
     "details": "Versión {{version}} · {{size}} · {{date}}.",
     "download": "Descargar la app (APK)",
-    "hint": "En tu Android, abre el archivo descargado y permite instalar desde esta fuente cuando lo pida. Para actualizar, descárgalo de nuevo e instálalo encima (tus datos se mantienen). Aún no hay versión para iPhone.",
+    "hint": "Abre el archivo en Android y permite instalar desde esta fuente. Para actualizar, instálalo encima: tus datos se mantienen. Aún no hay versión para iPhone.",
     "update": "Hay una versión nueva de la app.",
     "upToDate": "Estás en la versión más reciente.",
     "downloadUpdate": "Descargar la versión nueva",
@@ -3142,7 +3142,7 @@
     "exercises_one": "{{count}} ejercicio",
     "exercises_other": "{{count}} ejercicios",
     "feedTitle": "En Google Calendar (u otro calendario)",
-    "feedIntro": "Genera un enlace secreto y suscríbete en tu calendario: las tareas con fecha aparecen allí, y cada entrenamiento aparece una vez en su día, con el enlace a la lista.",
+    "feedIntro": "Suscríbete a este enlace secreto en tu calendario para ver allí las tareas con fecha y los entrenamientos.",
     "feedOffline": "Sin conexión: el enlace del calendario solo cambia con internet.",
     "feedLink": "Enlace del calendario",
     "feedOn": "Generar enlace del calendario",
@@ -3414,7 +3414,7 @@
     "title": "Renacer",
     "word": "renacer",
     "count": "Renacido {{count}}× · +{{bonus}}% de XP",
-    "hint": "A partir del nivel {{level}} puedes renacer: el nivel vuelve a 1 y los bosses del día y de la semana vuelven a la dificultad inicial, pero conservas el oro, los objetos, las mascotas, los logros y los atributos, y ganas +5% de XP para siempre (ahora sería +{{bonus}}%, hasta +{{max}}%).",
+    "hint": "Desde el nivel {{level}}: el nivel y los jefes vuelven al inicio, conservas oro, objetos, mascotas, logros y atributos, y ganas +5% de XP para siempre (ahora +{{bonus}}%, hasta +{{max}}%).",
     "action": "Renacer",
     "locked": "Renacer en el nivel {{level}}",
     "confirmTitle": "¿Renacer?",
@@ -3776,7 +3776,7 @@
   "plans": {
     "title": "Planes listos",
     "hubHint": "Cuerpo completo, ABC, 5×5 y otros, ya con días y progresión",
-    "intro": "Elige un plan y el Gimnasio recibe una carpeta con los entrenamientos, los días de la semana ya marcados, la progresión y los ejercicios de la biblioteca. Después solo pon el peso en el primer entrenamiento: los siguientes los sugiere la app.",
+    "intro": "El plan se vuelve una carpeta en el Gimnasio, con los entrenamientos y los días ya marcados. Pon el peso en el primero; los siguientes los sugiere la app.",
     "place": "Dónde entrenar",
     "places": {
       "all": "Todos",
@@ -3888,7 +3888,7 @@
   },
   "diet": {
     "title": "Dieta",
-    "intro": "Arma el menú de la semana: los platos de cada día, por comida, con los ingredientes. La app muestra aquí lo que hay para hoy y genera la lista de compras de la semana.",
+    "intro": "Los platos de cada día, por comida. De aquí salen el menú de hoy y la lista de compras de la semana.",
     "start": "Armar el menú de la semana",
     "folder": "Dieta",
     "pageName": "Menú de la semana",
@@ -3919,7 +3919,7 @@
   },
   "healthy": {
     "title": "Vida saludable",
-    "intro": "Hábitos listos para poner en la pantalla Hábitos con un toque. Después puedes cambiar el nombre, la meta y los días, como cualquier hábito.",
+    "intro": "Un toque pone el hábito en la pantalla Hábitos; nombre, meta y días cambian después.",
     "daily": "todos los días",
     "perDay_one": "{{count}} vez al día",
     "perDay_other": "{{count}} veces al día",
@@ -4325,7 +4325,7 @@
     "title": "Compartir y publicar",
     "offline": "Compartir y publicar necesitan internet.",
     "people": "Personas",
-    "peopleHint": "Los amigos que elijas ven esta nota en sus Notas. Quien puede editar cambia el texto; si dos personas guardan casi a la vez, vale la última y la otra ve un aviso.",
+    "peopleHint": "Quien elijas ve esta nota en sus Notas. Si dos personas guardan a la vez, vale la última.",
     "someone": "Alguien",
     "roleRead": "Solo leer",
     "roleEdit": "Puede editar",
@@ -4432,7 +4432,7 @@
   },
   "importApps": {
     "button": "Importar de Habitica o Todoist",
-    "hint": "Habitica: el JSON de Ajustes → Exportar datos. Todoist: el CSV de un proyecto o el .zip de la copia de seguridad. Cada uno se vuelve un proyecto tuyo, para revisar antes. Plan de estudios: un .zip con el CSV y la carpeta del material (PDF, .md, HTML) crea el proyecto ya como plan de estudios, con el material vinculado a las tareas por el código.",
+    "hint": "Habitica: el JSON de Exportar datos. Todoist: el CSV o el .zip de la copia. Plan de estudios: un .zip con el CSV y el material. Cada uno se vuelve un proyecto tuyo.",
     "habits": "Hábitos",
     "dailies": "Diarias",
     "todos": "Pendientes",
@@ -4490,7 +4490,7 @@
   },
   "availability": {
     "title": "Disponibilidad",
-    "intro": "Los horarios en que aceptas citas, en tu zona horaria. La página de reservas y \"Buscar horario\" usan estos horarios y muestran a los demás solo libre u ocupado.",
+    "intro": "Cuándo aceptas citas, en tu zona horaria. Los demás solo ven libre u ocupado.",
     "loadError": "No se pudo cargar la disponibilidad. Revisa la conexión.",
     "week": "Semana",
     "weekHint": "Uno o más tramos por día, como 9-12, 14-18. Deja vacío el día sin horario.",
@@ -4576,7 +4576,7 @@
   },
   "bookingTypes": {
     "title": "Citas",
-    "intro": "Tipos de cita que otras personas pueden reservar contigo, sin cuenta, por tu enlace. La reserva se vuelve una tarea en la lista Reservas (carpeta Agenda) y recibes un aviso. Solo ven los horarios libres, nunca lo que tienes agendado.",
+    "intro": "Lo que otras personas pueden reservar contigo por tu enlace, sin cuenta. Solo ven los horarios libres; la reserva se vuelve una tarea en la lista Reservas.",
     "noHours": "Todavía no tienes horarios en la semana: sin ellos, la página no muestra ningún horario.",
     "link": "Tu enlace",
     "linkHint": "Cada tipo tiene también su propio enlace (el botón de copiar al lado).",
@@ -4647,7 +4647,7 @@
   "findTime": {
     "open": "Buscar horario",
     "title": "Buscar horario",
-    "hint": "Los horarios en que todas las personas elegidas están libres, según la semana de cada una y lo que ya tienen agendado. Nadie ve lo que ocupa la agenda de los demás.",
+    "hint": "Horarios en que todos están libres. Nadie ve lo que ocupa la agenda de los demás.",
     "people": "Con quién",
     "you": "tú",
     "duration": "Duración",
@@ -4919,7 +4919,7 @@
   },
   "poll": {
     "title": "Encuestas de horario",
-    "intro": "Para quedar con quien no está en la app: propone de 2 a 5 horarios, manda el enlace y cada persona marca los que le sirven. Después, cierra en el mejor horario y se vuelve una tarea en tu agenda.",
+    "intro": "Propone de 2 a 5 horarios y manda el enlace: cada persona marca los que le sirven, sin cuenta. Cierra en el mejor y se vuelve una tarea.",
     "new": "Nueva encuesta",
     "edit": "Cambiar la encuesta",
     "empty": "Ninguna encuesta todavía.",

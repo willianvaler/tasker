@@ -615,7 +615,7 @@
     "title": "Loja",
     "gold": "{{gold}} de ouro",
     "goldShort": "{{gold}} ouro",
-    "hint": "Tudo aqui é só visual: não muda XP nem dano. Ganhe ouro concluindo tarefas e derrotando bosses; alguns itens só caem de boss (quanto maior o nível, mais chance de raro).",
+    "hint": "Só visual: não muda XP nem dano. O ouro vem das tarefas e dos bosses; alguns itens só caem de boss.",
     "all": "Tudo",
     "equipped": "Equipado",
     "equip": "Equipar",
@@ -630,7 +630,7 @@
   },
   "clan": {
     "title": "Clã",
-    "intro": "Junte os amigos num clã: toda semana aparece um boss do grupo, e cada XP que alguém ganha é um golpe nele. Quem ajudou ganha a recompensa. Sem ranking de quem ficou para trás.",
+    "intro": "Toda semana o clã enfrenta um boss, e o XP de cada um vira golpe nele. Quem ajudou ganha a recompensa.",
     "name": "Nome do clã",
     "namePlaceholder": "Nome do clã (ex.: Os Produtivos)",
     "create": "Criar clã",
@@ -1121,7 +1121,7 @@
   },
   "community": {
     "title": "Comunidade",
-    "intro": "Projetos, treinos, cardápios e listas que as pessoas publicaram. Usar cria uma cópia sua, para mudar à vontade.",
+    "intro": "O que as pessoas publicaram. Usar cria uma cópia sua.",
     "search": "Buscar na comunidade",
     "all": "Tudo",
     "kind": {
@@ -2385,7 +2385,7 @@
     "title": "App para Android",
     "details": "Versão {{version}} · {{size}} · {{date}}.",
     "download": "Baixar o app (APK)",
-    "hint": "No celular Android, abra o arquivo baixado e permita instalar desta fonte quando ele pedir. Para atualizar, baixe de novo e instale por cima (os dados ficam). Ainda não há versão para iPhone.",
+    "hint": "Abra o arquivo no Android e permita instalar desta fonte. Para atualizar, instale por cima: os dados ficam. Ainda não há versão para iPhone.",
     "update": "Há uma versão nova do app.",
     "upToDate": "Você está na versão mais recente.",
     "downloadUpdate": "Baixar a versão nova",
@@ -3142,7 +3142,7 @@
     "exercises_one": "{{count}} exercício",
     "exercises_other": "{{count}} exercícios",
     "feedTitle": "No Google Agenda (ou outro calendário)",
-    "feedIntro": "Gere um link secreto e assine no seu calendário: as tarefas com data aparecem lá, e cada treino aparece uma vez no dia, com o link da lista.",
+    "feedIntro": "Assine este link secreto no seu calendário para ver lá as tarefas com data e os treinos.",
     "feedOffline": "Sem conexão: o link do calendário só muda com internet.",
     "feedLink": "Link do calendário",
     "feedOn": "Gerar link do calendário",
@@ -3414,7 +3414,7 @@
     "title": "Renascer",
     "word": "renascer",
     "count": "{{count}}× renascido · +{{bonus}}% de XP",
-    "hint": "A partir do nível {{level}}, dá para renascer: o nível volta a 1 e os bosses do dia e da semana voltam à dificuldade inicial, mas você fica com o ouro, os itens, os mascotes, as conquistas e os atributos, e ganha +5% de XP para sempre (agora seria +{{bonus}}%, até +{{max}}%).",
+    "hint": "A partir do nível {{level}}: o nível e os bosses voltam ao começo, você mantém ouro, itens, mascotes, conquistas e atributos e ganha +5% de XP para sempre (agora +{{bonus}}%, até +{{max}}%).",
     "action": "Renascer",
     "locked": "Renascer no nível {{level}}",
     "confirmTitle": "Renascer?",
@@ -3776,7 +3776,7 @@
   "plans": {
     "title": "Planos prontos",
     "hubHint": "Corpo inteiro, ABC, 5×5 e outros, já com dias e progressão",
-    "intro": "Escolha um plano e a Academia ganha uma pasta com os treinos, os dias da semana já marcados, a progressão e os exercícios da biblioteca. Depois é só pôr a carga no primeiro treino: as próximas o app sugere.",
+    "intro": "O plano vira uma pasta na Academia, com os treinos e os dias já marcados. Ponha a carga no primeiro treino; as próximas o app sugere.",
     "place": "Onde treinar",
     "places": {
       "all": "Todos",
@@ -3888,7 +3888,7 @@
   },
   "diet": {
     "title": "Dieta",
-    "intro": "Monte o cardápio da semana: os pratos de cada dia, por refeição, com os ingredientes. O app mostra aqui o que tem para hoje e gera a lista de compras da semana.",
+    "intro": "Os pratos de cada dia, por refeição. Daqui sai o que tem para hoje e a lista de compras da semana.",
     "start": "Montar o cardápio da semana",
     "folder": "Dieta",
     "pageName": "Cardápio da semana",
@@ -3919,7 +3919,7 @@
   },
   "healthy": {
     "title": "Vida saudável",
-    "intro": "Hábitos prontos para pôr na tela Hábitos com um toque. Depois dá para mudar o nome, a meta e os dias, como qualquer hábito.",
+    "intro": "Um toque põe o hábito na tela Hábitos; nome, meta e dias mudam depois.",
     "daily": "todo dia",
     "perDay_one": "{{count}} vez por dia",
     "perDay_other": "{{count}} vezes por dia",
@@ -4325,7 +4325,7 @@
     "title": "Compartilhar e publicar",
     "offline": "Compartilhar e publicar precisam de internet.",
     "people": "Pessoas",
-    "peopleHint": "Amigos que você escolhe veem esta anotação nas Anotações deles. Quem pode editar muda o texto; se duas pessoas gravarem quase juntas, vale a última, e a outra vê um aviso.",
+    "peopleHint": "Quem você escolher vê esta anotação nas Anotações. Se duas pessoas gravarem juntas, vale a última.",
     "someone": "Alguém",
     "roleRead": "Só ler",
     "roleEdit": "Pode editar",
@@ -4432,7 +4432,7 @@
   },
   "importApps": {
     "button": "Importar do Habitica ou do Todoist",
-    "hint": "Habitica: o JSON de Configurações → Exportar dados. Todoist: o CSV de um projeto ou o .zip do backup. Cada um vira um projeto seu, para conferir antes. Plano de estudos: um .zip com o CSV e a pasta do material (PDF, .md, HTML) cria o projeto já como plano de estudos, com o material ligado às tarefas pelo código.",
+    "hint": "Habitica: o JSON de Exportar dados. Todoist: o CSV ou o .zip do backup. Plano de estudos: um .zip com o CSV e o material. Cada um vira um projeto seu.",
     "habits": "Hábitos",
     "dailies": "Diárias",
     "todos": "Afazeres",
@@ -4490,7 +4490,7 @@
   },
   "availability": {
     "title": "Disponibilidade",
-    "intro": "Os horários em que você aceita compromissos, no seu fuso. A página de reservas e o \"Achar horário\" usam estes horários e mostram aos outros só livre ou ocupado.",
+    "intro": "Quando você aceita compromissos, no seu fuso. Os outros veem só livre ou ocupado.",
     "loadError": "Não deu para carregar a disponibilidade. Confira a conexão.",
     "week": "Semana",
     "weekHint": "Um ou mais trechos por dia, como 9-12, 14-18. Deixe vazio o dia sem horário.",
@@ -4576,7 +4576,7 @@
   },
   "bookingTypes": {
     "title": "Compromissos",
-    "intro": "Tipos de compromisso que outras pessoas podem reservar com você, sem conta, pelo seu link. A reserva vira uma tarefa na lista Reservas (pasta Agenda) e você recebe um aviso. Elas só veem os horários livres, nunca o que você tem marcado.",
+    "intro": "O que outras pessoas podem reservar com você pelo seu link, sem conta. Elas veem só os horários livres; a reserva vira tarefa na lista Reservas.",
     "noHours": "Você ainda não tem horários na semana: sem eles, a página não mostra nenhum horário.",
     "link": "Seu link",
     "linkHint": "Cada tipo tem também o próprio link (o botão de copiar ao lado do tipo).",
@@ -4647,7 +4647,7 @@
   "findTime": {
     "open": "Achar horário",
     "title": "Achar horário",
-    "hint": "Os horários em que todas as pessoas escolhidas estão livres, pela semana de cada uma e pelo que já têm marcado. Ninguém vê o que ocupa a agenda dos outros.",
+    "hint": "Horários em que todos estão livres. Ninguém vê o que ocupa a agenda dos outros.",
     "people": "Com quem",
     "you": "você",
     "duration": "Duração",
@@ -4919,7 +4919,7 @@
   },
   "poll": {
     "title": "Enquetes de horário",
-    "intro": "Para marcar com quem não está no app: proponha de 2 a 5 horários, mande o link e cada pessoa marca os que servem. Depois, feche no melhor horário e ele vira tarefa na sua agenda.",
+    "intro": "Proponha de 2 a 5 horários e mande o link: cada pessoa marca os que servem, sem conta. Feche no melhor e ele vira tarefa na sua agenda.",
     "new": "Nova enquete",
     "edit": "Mudar a enquete",
     "empty": "Nenhuma enquete ainda.",

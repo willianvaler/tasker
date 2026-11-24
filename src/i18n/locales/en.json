@@ -615,7 +615,7 @@
     "title": "Shop",
     "gold": "{{gold}} gold",
     "goldShort": "{{gold}} gold",
-    "hint": "Everything here is cosmetic: it doesn't change XP or damage. Earn gold by completing tasks and defeating bosses; some items only drop from bosses (the higher the level, the better the odds of a rare one).",
+    "hint": "Cosmetic only: no effect on XP or damage. Gold comes from tasks and bosses; some items only drop from bosses.",
     "all": "All",
     "equipped": "Equipped",
     "equip": "Equip",
@@ -630,7 +630,7 @@
   },
   "clan": {
     "title": "Clan",
-    "intro": "Gather your friends in a clan: every week a group boss shows up, and every XP someone earns is a hit on it. Whoever helped gets the reward. No ranking of who fell behind.",
+    "intro": "Every week the clan faces a boss, and everyone's XP becomes a hit on it. Whoever helped gets the reward.",
     "name": "Clan name",
     "namePlaceholder": "Clan name (e.g. The Productive)",
     "create": "Create clan",
@@ -1121,7 +1121,7 @@
   },
   "community": {
     "title": "Community",
-    "intro": "Projects, workouts, menus and lists people have published. Using one makes your own copy to change as you like.",
+    "intro": "What people have published. Using one makes your own copy.",
     "search": "Search the community",
     "all": "All",
     "kind": {
@@ -2385,7 +2385,7 @@
     "title": "Android app",
     "details": "Version {{version}} · {{size}} · {{date}}.",
     "download": "Download the app (APK)",
-    "hint": "On your Android phone, open the downloaded file and allow installing from this source when asked. To update, download again and install over it (your data stays). There is no iPhone version yet.",
+    "hint": "Open the file on Android and allow installing from this source. To update, install over it: your data stays. No iPhone version yet.",
     "update": "A new version of the app is available.",
     "upToDate": "You're on the latest version.",
     "downloadUpdate": "Download the new version",
@@ -3142,7 +3142,7 @@
     "exercises_one": "{{count}} exercise",
     "exercises_other": "{{count}} exercises",
     "feedTitle": "In Google Calendar (or another calendar)",
-    "feedIntro": "Create a secret link and subscribe to it in your calendar: tasks with a date show up there, and each workout shows up once on its day, with a link to the list.",
+    "feedIntro": "Subscribe to this secret link in your calendar to see dated tasks and workouts there.",
     "feedOffline": "Offline: the calendar link can only change with internet.",
     "feedLink": "Calendar link",
     "feedOn": "Create calendar link",
@@ -3414,7 +3414,7 @@
     "title": "Rebirth",
     "word": "rebirth",
     "count": "Reborn {{count}}× · +{{bonus}}% XP",
-    "hint": "From level {{level}} you can be reborn: your level goes back to 1 and the daily and weekly bosses go back to the starting difficulty, but you keep your gold, items, pets, achievements and attributes, and get +5% XP forever (now it would be +{{bonus}}%, up to +{{max}}%).",
+    "hint": "From level {{level}}: your level and bosses start over, you keep gold, items, pets, achievements and attributes, and get +5% XP forever (now +{{bonus}}%, up to +{{max}}%).",
     "action": "Be reborn",
     "locked": "Rebirth at level {{level}}",
     "confirmTitle": "Be reborn?",
@@ -3776,7 +3776,7 @@
   "plans": {
     "title": "Ready-made plans",
     "hubHint": "Full body, ABC, 5×5 and more, with days and progression set",
-    "intro": "Pick a plan and the Gym gets a folder with the workouts, the weekdays already set, the progression and the exercises from the library. Then just add the weight on the first workout: the app suggests the next ones.",
+    "intro": "The plan becomes a folder in the Gym, with the workouts and days already set. Add the weight on the first workout; the app suggests the next ones.",
     "place": "Where to train",
     "places": {
       "all": "All",
@@ -3888,7 +3888,7 @@
   },
   "diet": {
     "title": "Diet",
-    "intro": "Plan the week's menu: each day's dishes, by meal, with the ingredients. The app shows what's on for today here and makes the week's shopping list.",
+    "intro": "Each day's dishes, by meal. From here come today's menu and the week's shopping list.",
     "start": "Plan the week's menu",
     "folder": "Diet",
     "pageName": "Weekly menu",
@@ -3919,7 +3919,7 @@
   },
   "healthy": {
     "title": "Healthy living",
-    "intro": "Ready-made habits to add to the Habits screen with one tap. You can change the name, goal and days later, like any habit.",
+    "intro": "One tap adds the habit to the Habits screen; name, goal and days can change later.",
     "daily": "every day",
     "perDay_one": "{{count}} time a day",
     "perDay_other": "{{count}} times a day",
@@ -4325,7 +4325,7 @@
     "title": "Share and publish",
     "offline": "Sharing and publishing need internet.",
     "people": "People",
-    "peopleHint": "Friends you pick see this note in their Notes. Those who can edit change the text; if two people save almost at once, the last one wins and the other sees a warning.",
+    "peopleHint": "The people you pick see this note in their Notes. If two people save at once, the last one wins.",
     "someone": "Someone",
     "roleRead": "Read only",
     "roleEdit": "Can edit",
@@ -4432,7 +4432,7 @@
   },
   "importApps": {
     "button": "Import from Habitica or Todoist",
-    "hint": "Habitica: the JSON from Settings → Export data. Todoist: a project's CSV or the backup .zip. Each becomes a project of yours, to review first. Study plan: a .zip with the CSV and the material folder (PDF, .md, HTML) creates the project as a study plan, with the material linked to tasks by code.",
+    "hint": "Habitica: the JSON from Export data. Todoist: the CSV or the backup .zip. Study plan: a .zip with the CSV and the material. Each becomes a project of yours.",
     "habits": "Habits",
     "dailies": "Dailies",
     "todos": "To-dos",
@@ -4490,7 +4490,7 @@
   },
   "availability": {
     "title": "Availability",
-    "intro": "The hours when you accept appointments, in your time zone. The booking page and \"Find a time\" use these hours and show others only free or busy.",
+    "intro": "When you accept appointments, in your time zone. Others only see free or busy.",
     "loadError": "Couldn't load your availability. Check your connection.",
     "week": "Week",
     "weekHint": "One or more ranges per day, like 9-12, 14-18. Leave a day empty for no hours.",
@@ -4576,7 +4576,7 @@
   },
   "bookingTypes": {
     "title": "Appointments",
-    "intro": "Kinds of appointment others can book with you, without an account, through your link. A booking becomes a task in the Bookings list (Schedule folder) and you get a notification. They only see free times, never what you have scheduled.",
+    "intro": "What others can book with you through your link, without an account. They only see free times; a booking becomes a task in the Bookings list.",
     "noHours": "You don't have weekly hours yet: without them, the page shows no times.",
     "link": "Your link",
     "linkHint": "Each type also has its own link (the copy button next to it).",
@@ -4647,7 +4647,7 @@
   "findTime": {
     "open": "Find a time",
     "title": "Find a time",
-    "hint": "The times when everyone you pick is free, by each person's week and what they already have scheduled. Nobody sees what fills the others' schedules.",
+    "hint": "Times when everyone is free. Nobody sees what fills the others' schedules.",
     "people": "With",
     "you": "you",
     "duration": "Duration",
@@ -4919,7 +4919,7 @@
   },
   "poll": {
     "title": "Time polls",
-    "intro": "To meet with people who aren't on the app: propose 2 to 5 times, send the link and everyone checks the ones that work. Then close it on the best time and it becomes a task in your schedule.",
+    "intro": "Propose 2 to 5 times and send the link: everyone checks the ones that work, no account needed. Close on the best one and it becomes a task.",
     "new": "New poll",
     "edit": "Edit poll",
     "empty": "No polls yet.",
