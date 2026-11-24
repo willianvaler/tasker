@@ -81,7 +81,7 @@ Todos os estados existem: hover, foco, pressionado, desabilitado (opacidade 40 %
 Elementos de assinatura:
 - **Concluir = carimbo + risco.** A caixa vira um "X traçado à mão" em `accent` (SVG) e um risco de caneta atravessa o título (180 ms). Com "reduzir movimento", aparece direto, sem animação.
 - **Progresso como régua:** linha de 2 px em `line` com o trecho feito em `accent`; nada de barra gorda arredondada.
-- **Boss:** faixa estreita no topo da Hoje com nome, linha de HP de 2 px e `HP 640/900` em mono.
+- **Boss:** faixa estreita no topo da Hoje com nome, barra de HP e `HP 640/900` em mono. **Exceção à régua (CD50):** a vida do boss é a barra grossa, arredondada e em `danger` do estilo Habitica (`ProgressBar thick`, em `game-bar.tsx` e `bosses-panel.tsx`), porque lida de relance como "vida" no modo jogo. Vale só para a vida do boss; progresso de tarefa e projeto segue a régua de 2 px.
 - **XP/nível:** número pequeno em mono no cabeçalho + fio de 2 px.
 - **Estado vazio:** uma frase com humor leve (nos 3 idiomas) e um traço simples; nunca "Sem dados".
 

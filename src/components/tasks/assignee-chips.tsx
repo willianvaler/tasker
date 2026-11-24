@@ -77,18 +77,19 @@ export function MentionChips({
   mentions: MentionResolution[];
   onChoose: (name: string, userId: string) => void;
 }) {
+  const { t } = useTranslation();
   if (mentions.length === 0) return null;
   return (
     <View className="mt-1 flex-row flex-wrap items-center gap-1">
       {mentions.map((m) =>
         m.kind === 'ambiguous' ? (
           <View key={m.name} className="flex-row flex-wrap items-center gap-1">
-            <Text className="text-xs text-danger">@{m.name}: quem?</Text>
+            <Text className="text-xs text-danger">{t('task.mentionWho', { name: m.name })}</Text>
             {m.candidates.map((c) => (
               <Pressable
                 key={c.userId}
                 accessibilityRole="button"
-                accessibilityLabel={`@${m.name} é ${c.displayName}`}
+                accessibilityLabel={t('task.mentionIs', { name: m.name, person: c.displayName })}
                 className="min-h-8 justify-center rounded-full border border-line px-2 active:bg-wash"
                 onPress={() => onChoose(m.name, c.userId)}
               >
@@ -106,8 +107,7 @@ export function MentionChips({
                 : 'border-dashed border-ink-muted text-ink-muted',
             )}
           >
-            @{m.name}
-            {m.kind === 'pending' ? ' · pendente' : ' ✓'}
+            {t(m.kind === 'pending' ? 'task.mentionPending' : 'task.mentionOk', { name: m.name })}
           </Text>
         ),
       )}

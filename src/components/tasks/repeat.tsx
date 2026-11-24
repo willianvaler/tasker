@@ -248,7 +248,7 @@ export function RepeatPlanEditor({
   const [rest, setRest] = useState(value?.rest_seconds?.toString() ?? '');
   const [restAfter, setRestAfter] = useState(value?.rest_after_seconds?.toString() ?? '');
   const [duration, setDuration] = useState(value?.duration_seconds?.toString() ?? '');
-  const [interval, setInterval] = useState(value?.interval_minutes?.toString() ?? '');
+  const [interval, setIntervalText] = useState(value?.interval_minutes?.toString() ?? '');
 
   function pick(mode: RepeatMode | null) {
     if (!mode) return onChange(null);
@@ -262,7 +262,7 @@ export function RepeatPlanEditor({
     setTotal(next.total.toString());
     setRest(next.rest_seconds?.toString() ?? '');
     setDuration(next.duration_seconds?.toString() ?? '');
-    setInterval(next.interval_minutes?.toString() ?? '');
+    setIntervalText(next.interval_minutes?.toString() ?? '');
     onChange(next);
   }
 
@@ -293,7 +293,7 @@ export function RepeatPlanEditor({
           ? [{ label: t('repeat.duration'), value: duration, set: setDuration, max: 4 }]
           : []),
         ...(value.mode === 'interval'
-          ? [{ label: t('repeat.interval'), value: interval, set: setInterval, max: 4 }]
+          ? [{ label: t('repeat.interval'), value: interval, set: setIntervalText, max: 4 }]
           : []),
         ...(value.mode !== 'interval'
           ? [{ label: t('repeat.rest'), value: rest, set: setRest, max: 4 }]
