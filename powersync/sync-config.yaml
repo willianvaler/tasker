@@ -83,6 +83,21 @@ streams:
     auto_subscribe: true
     query: SELECT * FROM medications WHERE user_id = auth.user_id()
 
+  # Automações pessoais (AU1, D333): só as minhas; as de projeto são lidas pela rede
+  automation_rules:
+    auto_subscribe: true
+    query: SELECT id, scope, owner_id, name, enabled, definition, trigger_type, next_run_at, consecutive_failures, disabled_reason, runs, last_run_at, created_at, updated_at FROM automation_rules WHERE scope = 'pessoal' AND owner_id = auth.user_id()
+
+  # Conectores (Smart Life, V14 §8): só o estado, nunca segredo
+  connectors:
+    auto_subscribe: true
+    query: SELECT id, owner_id, kind, status, last_ok_at FROM connectors WHERE owner_id = auth.user_id()
+
+  # Dispositivos do conector (SL2)
+  devices:
+    auto_subscribe: true
+    query: SELECT id, owner_id, connector_id, name, category, capabilities, state, state_at, presumed, online, hidden, sensitive, last_command_at, updated_at FROM devices WHERE owner_id = auth.user_id()
+
   # Remarcações de treino (AC9.5): só as minhas
   workout_moves:
     auto_subscribe: true

@@ -137,6 +137,52 @@ isOneToOne: true
                   Relationships: [
                     
                   ]
+                },"automation_events": {
+                  Row: {
+                    "attempts": number,"available_at": string,"claimed_at": string | null,"created_at": string,"dedupe_key": string | null,"folder_id": string | null,"id": string,"kind": string,"owner_id": string | null,"payload": NonNullable<Json>,"processed_at": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "attempts"?: number,"available_at"?: string,"claimed_at"?: string | null,"created_at"?: string,"dedupe_key"?: string | null,"folder_id"?: string | null,"id"?: string,"kind": string,"owner_id"?: string | null,"payload"?: NonNullable<Json>,"processed_at"?: string | null
+                  }
+                  Update: {
+                    "attempts"?: number,"available_at"?: string,"claimed_at"?: string | null,"created_at"?: string,"dedupe_key"?: string | null,"folder_id"?: string | null,"id"?: string,"kind"?: string,"owner_id"?: string | null,"payload"?: NonNullable<Json>,"processed_at"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "automation_events_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "automation_events_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"automation_hooks": {
+                  Row: {
+                    "created_at": string,"id": string,"last_used_at": string | null,"require_signature": boolean,"rule_id": string,"token_hash": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"last_used_at"?: string | null,"require_signature"?: boolean,"rule_id": string,"token_hash": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"last_used_at"?: string | null,"require_signature"?: boolean,"rule_id"?: string,"token_hash"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "automation_hooks_rule_id_fkey"
+      columns: ["rule_id"]
+isOneToOne: true
+      referencedRelation: "automation_rules"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"automation_log": {
                   Row: {
                     "at": string,"id": string,"message": string | null,"ok": boolean,"rule_id": string,"task_id": string | null
@@ -159,14 +205,14 @@ isOneToOne: false
                   ]
                 },"automation_rules": {
                   Row: {
-                    "action": string,"created_at": string,"created_by": string | null,"enabled": boolean,"folder_id": string,"id": string,"last_run_at": string | null,"page_id": string | null,"params": NonNullable<Json>,"runs": number,"trigger": string
+                    "action": string | null,"consecutive_failures": number,"created_at": string,"created_by": string | null,"definition": NonNullable<Json>,"disabled_reason": string | null,"enabled": boolean,"folder_id": string | null,"id": string,"last_run_at": string | null,"name": string,"next_run_at": string | null,"owner_id": string | null,"page_id": string | null,"params": NonNullable<Json>,"runs": number,"scope": string,"trigger": string | null,"trigger_type": string | null,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "action": string,"created_at"?: string,"created_by"?: string | null,"enabled"?: boolean,"folder_id": string,"id"?: string,"last_run_at"?: string | null,"page_id"?: string | null,"params"?: NonNullable<Json>,"runs"?: number,"trigger": string
+                    "action"?: string | null,"consecutive_failures"?: number,"created_at"?: string,"created_by"?: string | null,"definition"?: NonNullable<Json>,"disabled_reason"?: string | null,"enabled"?: boolean,"folder_id"?: string | null,"id"?: string,"last_run_at"?: string | null,"name"?: string,"next_run_at"?: string | null,"owner_id"?: string | null,"page_id"?: string | null,"params"?: NonNullable<Json>,"runs"?: number,"scope"?: string,"trigger"?: string | null,"trigger_type"?: string | null,"updated_at"?: string
                   }
                   Update: {
-                    "action"?: string,"created_at"?: string,"created_by"?: string | null,"enabled"?: boolean,"folder_id"?: string,"id"?: string,"last_run_at"?: string | null,"page_id"?: string | null,"params"?: NonNullable<Json>,"runs"?: number,"trigger"?: string
+                    "action"?: string | null,"consecutive_failures"?: number,"created_at"?: string,"created_by"?: string | null,"definition"?: NonNullable<Json>,"disabled_reason"?: string | null,"enabled"?: boolean,"folder_id"?: string | null,"id"?: string,"last_run_at"?: string | null,"name"?: string,"next_run_at"?: string | null,"owner_id"?: string | null,"page_id"?: string | null,"params"?: NonNullable<Json>,"runs"?: number,"scope"?: string,"trigger"?: string | null,"trigger_type"?: string | null,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -182,10 +228,36 @@ isOneToOne: false
       referencedRelation: "folders"
       referencedColumns: ["id"]
     },{
+      foreignKeyName: "automation_rules_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
       foreignKeyName: "automation_rules_page_id_fkey"
       columns: ["page_id"]
 isOneToOne: false
       referencedRelation: "pages"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"automation_runs": {
+                  Row: {
+                    "attempts": number,"detail": string | null,"error": string | null,"event_id": string | null,"finished_at": string | null,"id": string,"resume_at": string | null,"rule_id": string,"started_at": string,"state": NonNullable<Json>,"status": string,"step": number,"steps": NonNullable<Json>,"warnings": NonNullable<Json>
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "attempts"?: number,"detail"?: string | null,"error"?: string | null,"event_id"?: string | null,"finished_at"?: string | null,"id"?: string,"resume_at"?: string | null,"rule_id": string,"started_at"?: string,"state"?: NonNullable<Json>,"status"?: string,"step"?: number,"steps"?: NonNullable<Json>,"warnings"?: NonNullable<Json>
+                  }
+                  Update: {
+                    "attempts"?: number,"detail"?: string | null,"error"?: string | null,"event_id"?: string | null,"finished_at"?: string | null,"id"?: string,"resume_at"?: string | null,"rule_id"?: string,"started_at"?: string,"state"?: NonNullable<Json>,"status"?: string,"step"?: number,"steps"?: NonNullable<Json>,"warnings"?: NonNullable<Json>
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "automation_runs_rule_id_fkey"
+      columns: ["rule_id"]
+isOneToOne: false
+      referencedRelation: "automation_rules"
       referencedColumns: ["id"]
     }
                   ]
@@ -392,6 +464,26 @@ isOneToOne: false
                   }
                   Relationships: [
                     
+                  ]
+                },"bridges": {
+                  Row: {
+                    "created_at": string,"id": string,"last_seen_at": string | null,"name": string,"owner_id": string,"revoked_at": string | null,"token_hash": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string | null,"name"?: string,"owner_id"?: string,"revoked_at"?: string | null,"token_hash": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string | null,"name"?: string,"owner_id"?: string,"revoked_at"?: string | null,"token_hash"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "bridges_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
                   ]
                 },"calendar_feeds": {
                   Row: {
@@ -699,6 +791,46 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"connector_secrets": {
+                  Row: {
+                    "connector_id": string,"created_at": string,"secret_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "connector_id": string,"created_at"?: string,"secret_id": string
+                  }
+                  Update: {
+                    "connector_id"?: string,"created_at"?: string,"secret_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "connector_secrets_connector_id_fkey"
+      columns: ["connector_id"]
+isOneToOne: true
+      referencedRelation: "connectors"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"connectors": {
+                  Row: {
+                    "created_at": string,"data_center": string | null,"id": string,"kind": string,"last_error": string | null,"last_ok_at": string | null,"owner_id": string,"status": string,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"data_center"?: string | null,"id"?: string,"kind": string,"last_error"?: string | null,"last_ok_at"?: string | null,"owner_id"?: string,"status"?: string,"updated_at"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"data_center"?: string | null,"id"?: string,"kind"?: string,"last_error"?: string | null,"last_ok_at"?: string | null,"owner_id"?: string,"status"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "connectors_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"consents": {
                   Row: {
                     "accepted_at": string,"id": string,"source": string,"user_id": string,"version": string
@@ -752,6 +884,58 @@ isOneToOne: false
                   }
                   Relationships: [
                     
+                  ]
+                },"device_commands": {
+                  Row: {
+                    "attempts": number,"command": NonNullable<Json>,"created_at": string,"device_id": string,"done_at": string | null,"expires_at": string,"id": string,"idem_key": string,"owner_id": string,"result": Json | null,"run_id": string | null,"status": string,"via": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "attempts"?: number,"command": NonNullable<Json>,"created_at"?: string,"device_id": string,"done_at"?: string | null,"expires_at": string,"id"?: string,"idem_key": string,"owner_id": string,"result"?: Json | null,"run_id"?: string | null,"status"?: string,"via"?: string
+                  }
+                  Update: {
+                    "attempts"?: number,"command"?: NonNullable<Json>,"created_at"?: string,"device_id"?: string,"done_at"?: string | null,"expires_at"?: string,"id"?: string,"idem_key"?: string,"owner_id"?: string,"result"?: Json | null,"run_id"?: string | null,"status"?: string,"via"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "device_commands_device_id_fkey"
+      columns: ["device_id"]
+isOneToOne: false
+      referencedRelation: "devices"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "device_commands_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"devices": {
+                  Row: {
+                    "capabilities": NonNullable<Json>,"category": string,"connector_id": string,"created_at": string,"external_id": string,"hidden": boolean,"id": string,"last_command_at": string | null,"name": string,"online": boolean | null,"owner_id": string,"parent_external_id": string | null,"presumed": boolean,"sensitive": boolean,"state": NonNullable<Json>,"state_at": string | null,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "capabilities"?: NonNullable<Json>,"category": string,"connector_id": string,"created_at"?: string,"external_id": string,"hidden"?: boolean,"id"?: string,"last_command_at"?: string | null,"name": string,"online"?: boolean | null,"owner_id": string,"parent_external_id"?: string | null,"presumed"?: boolean,"sensitive"?: boolean,"state"?: NonNullable<Json>,"state_at"?: string | null,"updated_at"?: string
+                  }
+                  Update: {
+                    "capabilities"?: NonNullable<Json>,"category"?: string,"connector_id"?: string,"created_at"?: string,"external_id"?: string,"hidden"?: boolean,"id"?: string,"last_command_at"?: string | null,"name"?: string,"online"?: boolean | null,"owner_id"?: string,"parent_external_id"?: string | null,"presumed"?: boolean,"sensitive"?: boolean,"state"?: NonNullable<Json>,"state_at"?: string | null,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "devices_connector_id_fkey"
+      columns: ["connector_id"]
+isOneToOne: false
+      referencedRelation: "connectors"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "devices_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
                   ]
                 },"email_outbox": {
                   Row: {
@@ -2903,6 +3087,24 @@ isOneToOne: false
 "_automation_act":
 { Args: { "p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: undefined
                            },
+"_automation_called_rules":
+{ Args: { "p_definition": Json }; Returns: string[]
+                           },
+"_automation_check_condition":
+{ Args: { "p_level": number,"p_node": Json }; Returns: number
+                           },
+"_automation_check_steps":
+{ Args: { "p_level": number,"p_scope": string,"p_steps": Json }; Returns: number
+                           },
+"_automation_fail":
+{ Args: { "p_message": string }; Returns: undefined
+                           },
+"_automation_from_legacy":
+{ Args: { "p_action": string,"p_page": string,"p_params": Json,"p_trigger": string }; Returns: Json
+                           },
+"_automation_legacy_name":
+{ Args: { "p_action": string,"p_trigger": string }; Returns: string
+                           },
 "_award_completion":
 { Args: { "p_completion_id": string,"p_created_done": boolean,"p_cycle_kind": string,"p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
                            },
@@ -3258,6 +3460,12 @@ isOneToOne: false
 "attribute_points":
 { Args: { "p_user": string }; Returns: number
                            },
+"automation_catalog":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"automation_validate":
+{ Args: { "p_definition": Json,"p_folder": string,"p_owner": string,"p_rule_id": string,"p_scope": string }; Returns: undefined
+                           },
 "book_slot":
 { Args: { "p_email": string,"p_handle": string,"p_name": string,"p_note"?: string,"p_phone"?: string,"p_slug": string,"p_starts": string }; Returns: Json
                            },
@@ -3305,6 +3513,9 @@ isOneToOne: false
                            },
 "can_edit_task":
 { Args: { "p_task_id": string }; Returns: boolean
+                           },
+"can_see_automation_rule":
+{ Args: { "p_rule": string }; Returns: boolean
                            },
 "can_see_expense":
 { Args: { "p_expense_id": string }; Returns: boolean

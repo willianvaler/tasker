@@ -607,6 +607,53 @@ const profiles = new Table({
 
 // Ações que viram RPC (concluir, habit_tick...): não ficam no SQLite, só na fila; o uploadData as
 // executa na ordem pelo run_once, com o id da linha como chave de idempotência
+// Automações pessoais (AU1): a regra é editada aqui e validada pelo banco ao subir
+const automation_rules = new Table(
+  {
+    scope: column.text,
+    owner_id: column.text,
+    name: column.text,
+    enabled: column.integer,
+    definition: column.text,
+    trigger_type: column.text,
+    next_run_at: column.text,
+    consecutive_failures: column.integer,
+    disabled_reason: column.text,
+    runs: column.integer,
+    last_run_at: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { owner: ['owner_id'] } },
+);
+
+// Conector e dispositivos (V14 §8): o estado, sem segredo
+const connectors = new Table({
+  owner_id: column.text,
+  kind: column.text,
+  status: column.text,
+  last_ok_at: column.text,
+});
+
+const devices = new Table(
+  {
+    owner_id: column.text,
+    connector_id: column.text,
+    name: column.text,
+    category: column.text,
+    capabilities: column.text,
+    state: column.text,
+    state_at: column.text,
+    presumed: column.integer,
+    online: column.integer,
+    hidden: column.integer,
+    sensitive: column.integer,
+    last_command_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { owner: ['owner_id'] } },
+);
+
 const commands = new Table({ name: column.text, args: column.text }, { insertOnly: true });
 
 export const AppSchema = new Schema({
@@ -645,6 +692,9 @@ export const AppSchema = new Schema({
   people,
   note_shares,
   profiles,
+  automation_rules,
+  connectors,
+  devices,
   commands,
 });
 export type LocalDatabase = (typeof AppSchema)['types'];

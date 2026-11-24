@@ -163,6 +163,12 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['value', 'measured_on', 'note'],
   },
   body_goals: { insert: ['kind', 'target'], update: ['target'] },
+  // Automações pessoais (AU1): o banco valida a definição (automation_validate)
+  automation_rules: {
+    insert: ['scope', 'name', 'enabled', 'definition'],
+    update: ['name', 'enabled', 'definition'],
+  },
+  devices: { insert: [], update: ['name', 'hidden', 'sensitive'] },
   medications: {
     insert: [
       'name',
@@ -251,6 +257,7 @@ const JSON_COLUMNS = new Set([
   'items',
   'split_among',
   'props',
+  'definition',
 ]);
 
 function pick(data: Record<string, unknown>, columns: string[]) {

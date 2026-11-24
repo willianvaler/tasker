@@ -20,7 +20,7 @@ e na tela `/automacoes/[id]`. O dono escolheu **absorver** essas automações no
 | Limite | 20 regras por projeto |
 | Volume | No banco local, 34 regras (dos testes E2E). **Na produção, a contar** (o acesso ao banco do servidor ficou para o dono liberar) |
 
-### O que a absorção pede (proposta para o AU1, a confirmar com o dono)
+### O que a absorção pede (respondido pelo dono em 24/11, D333: itens 1 a 4 como propostos, menos o 5)
 
 1. **Escopo da regra:** a regra nova tem `scope` = `pessoal` (dona = `owner_id`, V14-3) ou `projeto`
    (`folder_id` da pasta raiz, como na D143). As de projeto continuam pedindo `automation.manage` e
@@ -39,7 +39,7 @@ e na tela `/automacoes/[id]`. O dono escolheu **absorver** essas automações no
    (`task_done` → `tarefa.concluida`, `notify` → `notificar` etc.). `page_done`, `task_ready`,
    `task_assigned`, `assign`, `move` e `rest_timer` entram no catálogo do V14 (não estavam nele).
 5. **XP (V14-4):** hoje a tarefa criada por automação dá XP ao ser concluída, como qualquer outra.
-   Com o V14-4, passa a não dar (marca `created_by_rule`). Vale também para as de projeto migradas.
+   **O dono decidiu manter (D333):** continua dando XP, também nas regras pessoais novas.
 6. **Tela:** `/automacoes/[id]` (do projeto) e a nova Configurações → Automações usam o mesmo
    editor (AU7), filtrado pelo escopo.
 
@@ -103,4 +103,4 @@ A próxima decisão é a **D332**.
 
 - **Contagem das automações na produção:** quantas regras D143 estão ativas e de que tipos (a consulta
   ao banco do servidor precisa da permissão do dono). Muda só o cuidado da migração, não o desenho.
-- **Itens 1 a 6 da §1 (absorção):** proposta, a confirmar com o dono antes do AU1.
+- ~~Itens 1 a 6 da §1 (absorção)~~: respondidos em 24/11 (D333).
