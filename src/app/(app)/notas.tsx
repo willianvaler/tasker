@@ -75,7 +75,7 @@ export default function NotesScreen() {
         <ScreenHeader
           title={t('notes.title')}
           back
-          right={<Button icon={Plus} label={t('notes.new')} onPress={newNote} />}
+          right={<Button variant="ghost" icon={Plus} label={t('notes.new')} onPress={newNote} />}
         />
         <View className="flex-row flex-wrap gap-2">
           <Button

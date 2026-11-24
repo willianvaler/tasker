@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -52,6 +53,15 @@ export default function RewardsScreen() {
         title={t('rewards.title')}
         eyebrow={t('rewards.gold', { gold })}
         back
+        right={
+          <Button
+            variant="ghost"
+            icon={Plus}
+            label={t('rewards.new')}
+            disabled={!online}
+            onPress={() => setEditing('new')}
+          />
+        }
       />
       <ScreenScroll contentContainerClassName="gap-8 pb-12">
         <Text className="text-sm text-ink-muted">
@@ -103,13 +113,6 @@ export default function RewardsScreen() {
               />
             </View>
           ))}
-          <Button
-            variant="ghost"
-            className="self-start"
-            label={`+ ${t('rewards.new')}`}
-            disabled={!online}
-            onPress={() => setEditing('new')}
-          />
         </View>
 
         <Panel title={t('rewards.armoire')}>

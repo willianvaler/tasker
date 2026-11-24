@@ -43,6 +43,7 @@ export default function TeamsScreen() {
         back
         right={
           <Button
+            variant="ghost"
             icon={Plus}
             label={t('team.new')}
             disabled={!online}

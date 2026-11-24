@@ -1,8 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 
+import { InviteShell } from '@/components/invite-shell';
 import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { SignInForm } from '@/components/sign-in-form';
 import { Button } from '@/components/ui/button';
@@ -86,19 +86,5 @@ export default function SentPageScreen() {
     );
   }
 
-  return (
-    <SafeAreaView className="flex-1 bg-paper">
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className="flex-1"
-      >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerClassName="flex-grow items-center justify-center px-6 py-12"
-        >
-          <View className="w-full max-w-sm gap-4">{body}</View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
+  return <InviteShell>{body}</InviteShell>;
 }

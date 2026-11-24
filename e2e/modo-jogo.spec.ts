@@ -96,7 +96,7 @@ test('modo jogo: virada do dia, recompensa, mascote e morte', async ({ page }, t
 
   // Recompensa: criar e resgatar com o ouro
   await page.goto('/recompensas');
-  await page.getByRole('button', { name: '+ Nova recompensa' }).click();
+  await page.getByRole('button', { name: 'Nova recompensa' }).click();
   await page.getByPlaceholder('O que é (ex.: um episódio de série)').fill('Um episódio');
   await page.getByPlaceholder('Preço em ouro').fill('30');
   await page

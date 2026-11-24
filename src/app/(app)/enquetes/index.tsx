@@ -29,16 +29,22 @@ export default function PollsScreen() {
   return (
     <Screen size="medium">
       <ScreenScroll contentContainerClassName="pb-clear">
-        <ScreenHeader back help="agenda" title={t('poll.title')} />
+        <ScreenHeader
+          back
+          help="agenda"
+          title={t('poll.title')}
+          right={
+            <Button
+              variant="ghost"
+              icon={Plus}
+              label={t('poll.new')}
+              disabled={!online}
+              onPress={() => setCreating(true)}
+            />
+          }
+        />
         <View className={cn(READABLE, 'gap-6')}>
           <Text className="text-ink-muted">{t('poll.intro')}</Text>
-          <Button
-            className="self-start"
-            icon={Plus}
-            label={t('poll.new')}
-            disabled={!online}
-            onPress={() => setCreating(true)}
-          />
           {polls.isSuccess && list.length === 0 && <EmptyState title={t('poll.empty')} />}
           {polls.error && (
             <Text className="text-sm text-danger">
