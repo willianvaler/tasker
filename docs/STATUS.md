@@ -501,7 +501,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **ED4** Botões e modelos (D360, migração `20270101000000_botoes_anotacoes.sql`): o bloco ` ```questlist-button ` com `{rotulo, acao}` vira um botão (`components/note-button.tsx`) que roda a ação do registro do V14 pela RPC `note_button_run`, como uma execução de verdade do motor (expansão de `{{ }}`, histórico na regra escondida **Botões das anotações**, efeito externo pelo executor); `marcar` emite o gatilho `pagina.marcada_como`; criar tarefa sem lista vai para a Caixa de entrada. Webhook e dispositivo pedem confirmação (no app e no servidor); dado sensível do V15 (`saude.*`, `local.*`, `camera.*`, `dispositivo.*`) é recusado. Modelos ganham `{{pessoa}}` e `{{cursor}}` (abre editando ali); o modelo recorrente é uma automação de horário com **Criar anotação de um modelo** (PR7). **Correção:** `can_see_note` dentro de `security definer` sempre dizia sim (a RLS não vale lá); `note_mark` e "criar de modelo" agora usam `_note_visible`, com a regra da policy. Ajuda nos 3 idiomas. pgTAP `anotacoes_botoes.test.sql` (9), Jest e E2E `editor-botoes.spec.ts`
 - [ ] **CL1**: fora (colaboração ao vivo)
 
-## ESCOPO_V15 — contexto do celular, casa, saúde, estudo, captura e integrações (pedido do dono em 24/11; começado em 25/11 com os padrões, D361; IA pelo Gemini do servidor, D363; V15-14 à espera do dono)
+## ESCOPO_V15 — contexto do celular, casa, saúde, estudo, captura e integrações (pedido do dono em 24/11; começado em 25/11 com os padrões, D361; IA pelo Gemini do servidor, D363; V15-14 à espera do dono; **pausado em 25/11 pela reforma de usabilidade 2, D368**)
 
 - [ ] **CT0** Spike de plataforma (geofence, Wi-Fi, bateria, widgets, declaração da Play, orçamento de bateria): pede o aparelho do dono
 - [x] **CT4** Gatilho por link, QR e NFC (D362, migração `20270102000000_gatilho_link.sql`): `automation_links` (token só como hash, confirmação, usos), RPCs `automation_link_create`/`revoke`/`set_confirm`/`open`/`fire`, só regra pessoal manual e só para a dona logada; regra com webhook ou dispositivo sempre confirma. Seção **Link por QR e NFC** no editor (`components/automation/link-section.tsx`: gerar, trocar, revogar, pedir confirmação, QR de `lib/qr.ts` e Imprimir o QR); tela `/r/<token>` fora do login (`src/app/r/[token].tsx`); limite de 30 por minuto por IP no `serve.mjs`. Ajuda nos 3 idiomas, pgTAP `automacoes_link.test.sql` (17), Jest `qr.test.ts`, E2E `automacoes-link.spec.ts`. Falta abrir direto no app do Android (App Links)
@@ -510,6 +510,16 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **CS3** Garantias e documentos (D367, migração `20270104000000_garantias.sql`): garantia por meses desde a compra ou até uma data, fim calculado no servidor (`warranty_end`, espelho em `lib/maintenance.ts`), nota fiscal como gasto do V9 (`expense_id`), avisos 30 e 7 dias antes pelo pg_cron (`send_warranty_alerts`); no formulário do equipamento, com busca nos gastos. Ajuda (Casa) nos 3 idiomas, pgTAP `garantias.test.sql` (12), Jest `maintenance.test.ts`, E2E `casa.spec.ts`
 - [x] **CP1** Compartilhar → nova tarefa com anexo (D366): o `share-intent` do Android aceita imagem e PDF (copia para o cache do app), `sharedFile` em `lib/shared-content.ts` recusa PDF acima de 10 MB e outros tipos, e a criação com detalhes sobe o arquivo como anexo depois de criar, na lista escolhida. Ajuda (Começando) nos 3 idiomas, Jest `shared-file.test.ts`, E2E em `compartilhar.spec.ts`. Precisa do APK novo; na web, só texto e link
 - [ ] O resto (CT1 a CT3, CT5, CA1 a CA3, CS2 a CS5, SA0 a SA5, ET1, ET2, CP2 a CP4, IG1-B, IG2, IG3, AI1): ordem do §11
+
+## Reforma de usabilidade 2 (pedido do dono em 25/11; D368; plano em `docs/PROPOSTA_UX2.md`)
+
+- [x] **CD54** Atalho D "perdido": a lista fora de foco deixa de valer para os atalhos e restaura só a própria seleção ao voltar (`lib/selection.ts`, E2E `selecao-atalho.spec.ts`)
+- [ ] **R2a** Consulta: ícone de banco no lugar da lupa e cabeçalho da tabela que ordena
+- [ ] **R1.0** Spike do editor de blocos (biblioteca, WebView, ida e volta sem perda, Moto E14)
+- [ ] **R1.1 a R1.4** Editor de blocos: básicos, menu `/` e `+`, blocos do Questlist, celular
+- [ ] **R2b** Construtor visual da consulta e da Base
+- [ ] **R3** Achar as coisas (inventário, estados vazios, Novo e Ctrl+K completos, medição)
+- [ ] **R4** Organização (conversar com o dono)
 
 ## ESCOPO v1 — backlog (§11)
 
