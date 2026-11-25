@@ -3395,6 +3395,9 @@ isOneToOne: false
 "_json_num":
 { Args: { "p_value": Json }; Returns: number
                            },
+"_jsonb_depth":
+{ Args: { "p": Json }; Returns: number
+                           },
 "_link_context":
 { Args: { "p_line": string }; Returns: string
                            },
@@ -3593,6 +3596,15 @@ isOneToOne: false
                            },
 "automation_emit":
 { Args: { "p_dedupe"?: string,"p_folder"?: string,"p_kind": string,"p_owner"?: string,"p_payload"?: Json }; Returns: string
+                           },
+"automation_hook_create":
+{ Args: { "p_rule": string }; Returns: string
+                           },
+"automation_hook_fire":
+{ Args: { "p_body": Json,"p_raw"?: string,"p_signature"?: string,"p_token": string }; Returns: undefined
+                           },
+"automation_hook_require_signature":
+{ Args: { "p_require": boolean,"p_rule": string }; Returns: undefined
                            },
 "automation_run_now":
 { Args: { "p_rule": string }; Returns: string

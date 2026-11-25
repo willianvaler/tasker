@@ -1,12 +1,14 @@
 // Servidor da versão web para acesso remoto (túnel da Cloudflare): entrega o build em dist/ com
 // fallback de SPA e repassa /supabase/* (HTTP e websocket do Realtime) para o Supabase local e
-// /powersync/* para o serviço de sync. /calendario/<token>.ics é o feed do calendário (C1).
+// /powersync/* para o serviço de sync. /calendario/<token>.ics é o feed do calendário (C1) e
+// /hooks/<token> o webhook de entrada das automações (AU9).
 //   npm run deploy (gera dist-remote/ e reinicia o serviço) · PORT=8081 node scripts/serve.mjs
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import http from 'node:http';
 import net from 'node:net';
 import { extname, join, normalize } from 'node:path';
 
+import { createHookHandler } from './hooks.mjs';
 import { BOOKING_WRITES, createLimiter } from './rate-limit.mjs';
 import { checkSupabase, PUBLISHABLE } from './supabase-gate.mjs';
 
@@ -251,9 +253,29 @@ async function guarded(target, req) {
 
 const bookingLimiter = createLimiter({ max: 10, windowMs: 10 * 60_000 });
 
+// Webhook de entrada (AU9): o banco decide; daqui, limite, tamanho e a resposta sempre igual
+const serveHook = createHookHandler({
+  fire: async (token, body, raw, signature) => {
+    if (!PUBLISHABLE) return;
+    await fetch(
+      `http://127.0.0.1:${UPSTREAMS['/supabase'].port}/rest/v1/rpc/automation_hook_fire`,
+      {
+        method: 'POST',
+        headers: { apikey: PUBLISHABLE, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_token: token, p_body: body, p_raw: raw, p_signature: signature }),
+      },
+    );
+  },
+});
+
 const server = http.createServer((req, res) => {
   // O Google Agenda assina por webcal:// e busca por http://: o feed responde sem redirecionar
-  if (viaHttp(req) && req.headers.host && !req.url.startsWith('/calendario/')) {
+  if (
+    viaHttp(req) &&
+    req.headers.host &&
+    !req.url.startsWith('/calendario/') &&
+    !req.url.startsWith('/hooks/')
+  ) {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
     return res.end();
   }
@@ -279,6 +301,7 @@ const server = http.createServer((req, res) => {
     });
   else if (req.url.startsWith('/downloads/')) serveDownload(req, res);
   else if (req.url.startsWith('/calendario/')) void serveCalendar(req, res);
+  else if (req.url.startsWith('/hooks/')) serveHook(req, res);
   else serveFile(req, res);
 });
 

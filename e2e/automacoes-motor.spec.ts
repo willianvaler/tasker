@@ -267,3 +267,100 @@ test('agendador: horário dispara pelo varredor e o esperar volta sozinho', asyn
   const [depois] = await adminRest(`automation_rules?id=eq.${rule.id}&select=next_run_at`);
   expect(new Date(depois.next_run_at).getTime()).toBeGreaterThan(Date.now());
 });
+
+// AU9: webhook de entrada pelo serve.mjs de verdade (o mesmo da produção), numa porta livre
+test('webhook de entrada: 202, aviso com hook.*, troca do token, 413 e 429', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'o motor é do servidor: basta um perfil');
+  test.setTimeout(120_000);
+  const { spawn } = await import('node:child_process');
+  const { createHash, randomBytes } = await import('node:crypto');
+  const port = 8090 + Math.floor(Math.random() * 5);
+  const server = spawn('node', ['scripts/serve.mjs'], {
+    env: { ...process.env, PORT: String(port) },
+    stdio: 'ignore',
+  });
+  try {
+    await expect
+      .poll(
+        async () => (await fetch(`http://127.0.0.1:${port}/hooks/x`).catch(() => null))?.status,
+        { timeout: 15_000 },
+      )
+      .toBe(405);
+    await signUp(page, testInfo);
+    const uid = await userIdOf(page);
+    const [rule] = await adminRest('automation_rules', {
+      method: 'POST',
+      body: JSON.stringify({
+        scope: 'pessoal',
+        owner_id: uid,
+        name: 'Recebe',
+        definition: {
+          v: 1,
+          gatilho: { tipo: 'webhook' },
+          passos: [{ tipo: 'notificar', corpo: 'Chegou {{hook.nome}}', canal: 'app' }],
+        },
+      }),
+    });
+    // O token sai do banco uma vez (automation_hook_create, no pgTAP); aqui o hash entra direto
+    const novoToken = () => randomBytes(32).toString('hex');
+    const hash = (t: string) => createHash('sha256').update(t).digest('hex');
+    const token = novoToken();
+    await adminRest('automation_hooks', {
+      method: 'POST',
+      body: JSON.stringify({ rule_id: rule.id, token_hash: hash(token) }),
+    });
+    const hook = (t: string, body: unknown) =>
+      fetch(`http://127.0.0.1:${port}/hooks/${t}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: typeof body === 'string' ? body : JSON.stringify(body),
+      });
+    const avisos = async () =>
+      (await adminRest(`notifications?user_id=eq.${uid}&kind=eq.automation&select=payload`)).map(
+        (n: { payload: { message: string } }) => n.payload.message,
+      );
+
+    const r = await hook(token, { nome: 'Ana' });
+    expect(r.status).toBe(202);
+    expect(await r.text()).toBe('');
+    await expect.poll(avisos, { timeout: 30_000 }).toEqual(['Chegou Ana']);
+
+    // Token inválido responde igual
+    expect((await hook(novoToken(), { nome: 'x' })).status).toBe(202);
+    // Corpo acima de 16 KB
+    expect((await hook(token, { x: 'a'.repeat(17_000) })).status).toBe(413);
+
+    // Trocar o token: o antigo deixa de valer na hora
+    const outro = novoToken();
+    await adminRest(`automation_hooks?rule_id=eq.${rule.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ token_hash: hash(outro) }),
+    });
+    expect((await hook(token, { nome: 'Velho' })).status).toBe(202);
+    expect((await hook(outro, { nome: 'Bia' })).status).toBe(202);
+    await expect
+      .poll(avisos, { timeout: 30_000 })
+      .toEqual(expect.arrayContaining(['Chegou Ana', 'Chegou Bia']));
+    expect(await avisos()).not.toContain('Chegou Velho');
+
+    // Pedidos demais pelo mesmo token: 429
+    const statuses: number[] = [];
+    for (let i = 0; i < 35; i++) statuses.push((await hook(outro, '')).status);
+    expect(statuses).toContain(429);
+
+    // A RPC não é alcançável direto pelo /supabase
+    const direto = await fetch(
+      `http://127.0.0.1:${port}/supabase/rest/v1/rpc/automation_hook_fire`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_token: outro, p_body: {} }),
+      },
+    );
+    expect(direto.status).toBeGreaterThanOrEqual(400);
+  } finally {
+    server.kill();
+  }
+});

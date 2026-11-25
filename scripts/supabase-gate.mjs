@@ -16,7 +16,8 @@ const AUTH = `http://127.0.0.1:${process.env.SUPABASE_API_PORT ?? 54321}/auth/v1
 const ALLOWED = ['/auth/v1/', '/rest/v1/', '/realtime/v1/', '/storage/v1/'];
 // Edge Functions que o app chama (V9: leitura de foto); só com login de verdade
 const FUNCTIONS = ['/functions/v1/read-photo'];
-const BLOCKED = ['/auth/v1/admin'];
+// O webhook de entrada (AU9) só pelo /hooks/<token> do serve.mjs, com o limite de pedidos
+const BLOCKED = ['/auth/v1/admin', '/rest/v1/rpc/automation_hook_fire'];
 const ROLES = new Set(['authenticated', 'anon']);
 
 /** Chave publicável: SUPABASE_PUBLISHABLE_KEY ou a do .env.local do app (não é segredo). */
