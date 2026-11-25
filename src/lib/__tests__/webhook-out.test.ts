@@ -239,7 +239,7 @@ describe('passo enviar_webhook', () => {
       tipo: 'webhook',
       metodo: 'POST',
     });
-    expect(JSON.parse((a.efeito as { corpo: string }).corpo)).toEqual({
+    expect(JSON.parse((a.efeito as unknown as { corpo: string }).corpo)).toEqual({
       content: 'Nível 7: "a"b"',
     });
   });
