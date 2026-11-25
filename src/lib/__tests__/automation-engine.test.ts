@@ -2,6 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import {
   advance,
+  vencimentoDe,
   avaliar,
   expandir,
   CATALOGO,
@@ -182,8 +183,8 @@ describe('compile e advance', () => {
   });
 
   test('passo que ainda não existe no executor falha com mensagem', () => {
-    const prog = compile([{ tipo: 'criar_tarefa', titulo: 'x' }], registroBase());
-    expect(advance(prog, 0, ctx(), registroBase()).erro).toMatch(/criar_tarefa/);
+    const prog = compile([{ tipo: 'enviar_webhook', url: 'https://x' }], registroBase());
+    expect(advance(prog, 0, ctx(), registroBase()).erro).toMatch(/enviar_webhook/);
   });
 });
 
@@ -229,7 +230,7 @@ describe('executeRun', () => {
     const db = fakeDb();
     const res = await executeRun(
       run([
-        { tipo: 'descanso', segundos: 30 },
+        { tipo: 'enviar_webhook', url: 'https://x' },
         { tipo: 'notificar', corpo: 'x' },
       ]),
       registroBase(),
@@ -378,5 +379,124 @@ describe('condições (V14 §4)', () => {
     expect(db.effects.map((e) => (e.effect as { corpo: string }).corpo)).toEqual([
       'Feito: Relatório',
     ]);
+  });
+});
+
+describe('ações (AU4)', () => {
+  const reg = registroBase();
+  const um = (passo: Record<string, unknown>, c: Contexto = ctx()) =>
+    advance(compile([passo as never], reg), 0, c, reg);
+  const comEvento = ctx({
+    estado: {
+      evento: {
+        tarefa: '11111111-1111-4111-8111-111111111111',
+        titulo: 'Pagar a luz',
+        lista: '22222222-2222-4222-8222-222222222222',
+      },
+      var: {},
+    },
+    fuso: 'America/Sao_Paulo',
+  });
+
+  test('criar tarefa: título e lista com variáveis, vencimento +N dias no fuso da dona', () => {
+    const a = um(
+      {
+        tipo: 'criar_tarefa',
+        titulo: 'Conferir: {{evento.titulo}}',
+        lista: '{{evento.lista}}',
+        vencimento: '+2',
+        etiquetas: ['#Casa'],
+      },
+      comEvento,
+    );
+    expect(a.efeito).toEqual({
+      tipo: 'criar_tarefa',
+      titulo: 'Conferir: Pagar a luz',
+      lista: '22222222-2222-4222-8222-222222222222',
+      vencimento: '2026-11-26',
+      etiquetas: ['casa'],
+    });
+    expect(a.estado.meta).toEqual({ tarefas: 1 });
+  });
+
+  test('no máximo 20 tarefas por execução', () => {
+    const cheio = ctx({ estado: { evento: {}, var: {}, meta: { tarefas: 20 } } });
+    expect(um({ tipo: 'criar_tarefa', titulo: 'x' }, cheio).erro).toMatch(/20/);
+  });
+
+  test.each([
+    ['2026-12-01', '2026-12-01'],
+    ['+1 dia', '2026-11-25'],
+    ['+3 days', '2026-11-27'],
+    ['+0', '2026-11-24'],
+  ])('vencimento %s → %s', (v, out) => {
+    expect(vencimentoDe(v, ctx({ fuso: 'America/Sao_Paulo' }), [])).toBe(out);
+  });
+
+  test('atualizar tarefa só manda etiquetas, lista e vencimento (V14-5)', () => {
+    const a = um(
+      {
+        tipo: 'atualizar_tarefa',
+        adicionar_etiquetas: ['x'],
+        status: 'done',
+        concluir: true,
+        apagar: true,
+        reabrir: true,
+      },
+      comEvento,
+    );
+    expect(a.efeito).toEqual({ tipo: 'atualizar_tarefa', adicionar_etiquetas: ['x'] });
+  });
+
+  test('definir variável: número vira número e o texto é expandido', () => {
+    const a = um({ tipo: 'definir_variavel', nome: 'n', valor: '42' });
+    expect(a.estado.var).toEqual({ n: 42 });
+    expect(
+      um({ tipo: 'definir_variavel', nome: 't', valor: '{{evento.titulo}}!' }, comEvento).estado
+        .var,
+    ).toEqual({ t: 'Pagar a luz!' });
+    expect(um({ tipo: 'definir_variavel', nome: 'Errado', valor: 1 }).erro).toBeDefined();
+  });
+
+  test('executar regra: sem ciclo e até 3 em sequência', () => {
+    const outra = '33333333-3333-4333-8333-333333333333';
+    expect(um({ tipo: 'executar_regra', regra: outra }).efeito).toEqual({
+      tipo: 'executar_regra',
+      regra: outra,
+    });
+    const emCadeia = ctx({ estado: { evento: { _cadeia: [outra] }, var: {} } });
+    expect(um({ tipo: 'executar_regra', regra: outra }, emCadeia).erro).toMatch(/círculo/);
+    const funda = ctx({ estado: { evento: { _cadeia: ['a', 'b'] }, var: {} } });
+    expect(um({ tipo: 'executar_regra', regra: outra }, funda).erro).toMatch(/3/);
+  });
+
+  test('descanso entre 5 s e 1 h; modo jogo só os três valores', () => {
+    expect(um({ tipo: 'descanso', segundos: 9999 }).efeito).toEqual({
+      tipo: 'descanso',
+      segundos: 3600,
+    });
+    expect(um({ tipo: 'alternar_modo_jogo', modo: 'full' }).efeito).toEqual({
+      tipo: 'alternar_modo_jogo',
+      modo: 'full',
+    });
+    expect(um({ tipo: 'alternar_modo_jogo', modo: 'hard' }).erro).toBeDefined();
+  });
+
+  test('criar, definir, se e parar numa execução só', async () => {
+    const db = fakeDb();
+    const r = run([
+      { tipo: 'definir_variavel', nome: 'feito', valor: 'sim' },
+      {
+        tipo: 'se',
+        condicao: { campo: 'var.feito', op: '=', valor: 'sim' },
+        entao: [
+          { tipo: 'criar_tarefa', titulo: 'Depois', lista: '22222222-2222-4222-8222-222222222222' },
+          { tipo: 'parar' },
+        ],
+      },
+      { tipo: 'notificar', corpo: 'não sai' },
+    ]);
+    expect(await executeRun(r, reg, db.commit)).toBe('ok');
+    expect(db.effects.map((e) => (e.effect as { tipo: string }).tipo)).toEqual(['criar_tarefa']);
   });
 });

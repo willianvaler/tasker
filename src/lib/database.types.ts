@@ -3097,7 +3097,7 @@ isOneToOne: false
 { Args: { "p_level": number,"p_scope": string,"p_steps": Json }; Returns: number
                            },
 "_automation_effect":
-{ Args: { "p_effect": Json,"p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']>,"p_run": Omit<Database["public"]['Tables']["automation_runs"]['Row'], Database["public"]['Tables']["automation_runs"]['ComputedFields']> }; Returns: undefined
+{ Args: { "p_effect": Json,"p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']>,"p_run": Omit<Database["public"]['Tables']["automation_runs"]['Row'], Database["public"]['Tables']["automation_runs"]['ComputedFields']> }; Returns: Json
                            },
 "_automation_fail":
 { Args: { "p_message": string }; Returns: undefined
@@ -3142,6 +3142,9 @@ isOneToOne: false
       } },
 "_automation_sweep":
 { Args: Record<PropertyKey, never>; Returns: undefined
+                           },
+"_automation_task_of":
+{ Args: { "p_effect": Json,"p_run": Omit<Database["public"]['Tables']["automation_runs"]['Row'], Database["public"]['Tables']["automation_runs"]['ComputedFields']> }; Returns: string
                            },
 "_automation_task_payload":
 { Args: { "p_actor": string,"p_task": string }; Returns: Json

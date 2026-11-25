@@ -60,6 +60,8 @@ export type Passo = { tipo: string; [chave: string]: unknown };
 export type Estado = {
   evento: Record<string, unknown>;
   var: Record<string, unknown>;
+  /** Contadores da execução (tarefas criadas etc.), para os limites por execução. */
+  meta?: Record<string, number>;
 };
 
 export type Contexto = {
@@ -82,6 +84,8 @@ export type Resultado = {
   efeito?: Efeito;
   /** Variáveis novas ou trocadas (somam às que existem). */
   var?: Record<string, unknown>;
+  /** Contadores que somam aos da execução. */
+  meta?: Record<string, number>;
   /** Para tipos com blocos: qual bloco seguir (ou nenhum). */
   ramo?: string | null;
   /** Encerra a execução com sucesso. */
@@ -644,9 +648,12 @@ export function advance(
       log: { ...base, ok: false, erro: r.erro },
     };
   }
-  const estado: Estado = r.var
-    ? { ...ctx.estado, var: { ...ctx.estado.var, ...r.var } }
-    : ctx.estado;
+  let estado: Estado = r.var ? { ...ctx.estado, var: { ...ctx.estado.var, ...r.var } } : ctx.estado;
+  if (r.meta) {
+    const meta = { ...(estado.meta ?? {}) };
+    for (const [k, n] of Object.entries(r.meta)) meta[k] = (meta[k] ?? 0) + n;
+    estado = { ...estado, meta };
+  }
   let proximo = p + 1;
   if (inst.blocos)
     proximo = r.ramo && r.ramo in inst.blocos ? inst.blocos[r.ramo] : (inst.fim ?? p + 1);
@@ -710,7 +717,11 @@ export async function executeRun(
   agora: () => string = () => new Date().toISOString(),
 ): Promise<'ok' | 'falhou' | 'ignorado'> {
   const programa = compile(run.definition.passos ?? [], registro, run.definition.condicoes);
-  let estado: Estado = { evento: run.state.evento ?? {}, var: run.state.var ?? {} };
+  let estado: Estado = {
+    evento: run.state.evento ?? {},
+    var: run.state.var ?? {},
+    ...(run.state.meta ? { meta: run.state.meta } : {}),
+  };
   let pc = run.step;
   for (let guarda = 0; guarda <= programa.length + 1; guarda++) {
     const ctx: Contexto = {
@@ -749,6 +760,62 @@ export async function executeRun(
 
 const texto = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : '');
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Texto do passo com `{{ }}` expandido (só texto; o resto vira vazio). */
+const txt = (v: unknown, ctx: Contexto, avisos: string[]) =>
+  typeof v === 'string' ? expandir(v, ctx, avisos).trim() : '';
+
+/** Id escrito no passo ou vindo de uma variável (`{{evento.lista}}`); vazio se não for um id. */
+const idDe = (v: unknown, ctx: Contexto, avisos: string[]) => {
+  const out = txt(v, ctx, avisos);
+  return UUID.test(out) ? out : undefined;
+};
+
+/** Hoje no fuso da dona, AAAA-MM-DD. */
+export function hojeNoFuso(ctx: Contexto): string {
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: ctx.fuso ?? 'UTC',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date(ctx.agora));
+  } catch {
+    return ctx.agora.slice(0, 10);
+  }
+}
+
+/** Vencimento: `AAAA-MM-DD`, `+N` (dias a partir de hoje, no fuso da dona), null (tirar) ou nada. */
+export function vencimentoDe(
+  v: unknown,
+  ctx: Contexto,
+  avisos: string[],
+): string | null | undefined {
+  if (v === null) return null;
+  const out = txt(v, ctx, avisos);
+  if (!out) return undefined;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(out)) return out;
+  const m = /^\+\s*(\d{1,3})\s*(d|dia|dias|day|days|día|días)?$/i.exec(out);
+  if (m) {
+    const d = new Date(`${hojeNoFuso(ctx)}T00:00:00Z`);
+    d.setUTCDate(d.getUTCDate() + Number(m[1]));
+    return d.toISOString().slice(0, 10);
+  }
+  avisos.push(`Vencimento não entendido: ${out}`);
+  return undefined;
+}
+
+const etiquetas = (v: unknown, ctx: Contexto, avisos: string[]) =>
+  (Array.isArray(v) ? v : [])
+    .map((x) => txt(x, ctx, avisos).replace(/^#/, '').toLowerCase())
+    .filter(Boolean)
+    .slice(0, 20);
+
+/** Limites por execução (V14 §5). */
+export const MAX_TAREFAS_POR_EXECUCAO = 20;
+export const MAX_VARIAVEIS = 20;
+
 export const PASSOS_BASE: TipoPasso[] = [
   {
     id: 'notificar',
@@ -785,6 +852,120 @@ export const PASSOS_BASE: TipoPasso[] = [
       const avisos: string[] = [];
       return { ramo: avaliar(p.condicao as Condicao, ctx, avisos) ? 'entao' : 'senao', avisos };
     },
+  },
+  {
+    id: 'criar_tarefa',
+    execute: (ctx, p) => {
+      if ((ctx.estado.meta?.tarefas ?? 0) >= MAX_TAREFAS_POR_EXECUCAO) {
+        return { erro: `No máximo ${MAX_TAREFAS_POR_EXECUCAO} tarefas criadas por execução` };
+      }
+      const avisos: string[] = [];
+      const titulo = txt(p.titulo, ctx, avisos).slice(0, 500);
+      if (!titulo) return { erro: 'A tarefa precisa de título', avisos };
+      const vencimento = vencimentoDe(p.vencimento, ctx, avisos);
+      const lista = idDe(p.lista, ctx, avisos);
+      const tags = etiquetas(p.etiquetas, ctx, avisos);
+      return {
+        avisos,
+        meta: { tarefas: 1 },
+        efeito: {
+          tipo: 'criar_tarefa',
+          titulo,
+          ...(lista ? { lista } : {}),
+          ...(vencimento ? { vencimento } : {}),
+          ...(tags.length ? { etiquetas: tags } : {}),
+          ...(p.evitar_duplicar === true ? { evitar_duplicar: true } : {}),
+        },
+      };
+    },
+  },
+  {
+    id: 'atualizar_tarefa',
+    // Só estas chaves saem no efeito: concluir, reabrir e apagar não existem (V14-5)
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      const doEvento = p.tarefa === undefined || p.tarefa === 'evento';
+      const tarefa = doEvento ? undefined : idDe(p.tarefa, ctx, avisos);
+      if (!doEvento && !tarefa) return { erro: 'Tarefa não encontrada', avisos };
+      const add = etiquetas(p.adicionar_etiquetas, ctx, avisos);
+      const del = etiquetas(p.remover_etiquetas, ctx, avisos);
+      const mover = idDe(p.mover_para, ctx, avisos);
+      const vencimento = 'vencimento' in p ? vencimentoDe(p.vencimento, ctx, avisos) : undefined;
+      return {
+        avisos,
+        efeito: {
+          tipo: 'atualizar_tarefa',
+          ...(tarefa ? { tarefa } : {}),
+          ...(add.length ? { adicionar_etiquetas: add } : {}),
+          ...(del.length ? { remover_etiquetas: del } : {}),
+          ...(mover ? { mover_para: mover } : {}),
+          ...(vencimento !== undefined ? { vencimento } : {}),
+        },
+      };
+    },
+  },
+  {
+    id: 'atribuir',
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      const pessoa = idDe(p.pessoa, ctx, avisos);
+      if (!pessoa) return { erro: 'Escolha a pessoa', avisos };
+      const doEvento = p.tarefa === undefined || p.tarefa === 'evento';
+      const tarefa = doEvento ? undefined : idDe(p.tarefa, ctx, avisos);
+      return { avisos, efeito: { tipo: 'atribuir', pessoa, ...(tarefa ? { tarefa } : {}) } };
+    },
+  },
+  {
+    id: 'descanso',
+    execute: (_ctx, p) => {
+      const n = Math.round(Number(p.segundos ?? 60));
+      return {
+        efeito: {
+          tipo: 'descanso',
+          segundos: Number.isFinite(n) ? Math.min(Math.max(n, 5), 3600) : 60,
+        },
+      };
+    },
+  },
+  {
+    id: 'definir_variavel',
+    execute: (ctx, p) => {
+      const nome = String(p.nome ?? '');
+      if (!/^[a-z_][a-z0-9_]{0,30}$/.test(nome)) return { erro: 'Nome de variável inválido' };
+      if (!(nome in ctx.estado.var) && Object.keys(ctx.estado.var).length >= MAX_VARIAVEIS) {
+        return { erro: `No máximo ${MAX_VARIAVEIS} variáveis por execução` };
+      }
+      const avisos: string[] = [];
+      const bruto = typeof p.valor === 'string' ? expandir(p.valor, ctx, avisos) : p.valor;
+      const valor =
+        typeof bruto === 'string' && bruto.trim() !== '' && Number.isFinite(Number(bruto))
+          ? Number(bruto)
+          : bruto;
+      return { avisos, var: { [nome]: valor ?? '' } };
+    },
+  },
+  {
+    id: 'executar_regra',
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      const regra = idDe(p.regra, ctx, avisos);
+      if (!regra) return { erro: 'Escolha a automação', avisos };
+      // A cadeia de quem chamou também é conferida no banco (sem ciclo, até 3)
+      const cadeia = Array.isArray(ctx.estado.evento._cadeia)
+        ? ctx.estado.evento._cadeia.map(String)
+        : [];
+      if (regra === ctx.regra.id || cadeia.includes(regra))
+        return { erro: 'Automação chamando a si mesma em círculo' };
+      if (cadeia.length + 1 >= 3) return { erro: 'No máximo 3 automações em sequência' };
+      return { avisos, efeito: { tipo: 'executar_regra', regra } };
+    },
+  },
+  {
+    id: 'alternar_modo_jogo',
+    execute: (_ctx, p) =>
+      p.modo === 'off' || p.modo === 'light' || p.modo === 'full'
+        ? { efeito: { tipo: 'alternar_modo_jogo', modo: p.modo } }
+        : { erro: 'Modo de jogo: off, light ou full' },
   },
 ];
 

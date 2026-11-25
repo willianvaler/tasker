@@ -23,6 +23,7 @@ export {
   executeRun,
   PASSOS_BASE,
   registroBase,
+  vencimentoDe,
 } from '../../../supabase/functions/_shared/automation-engine';
 export type {
   Commit,

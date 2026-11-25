@@ -151,3 +151,73 @@ test('gatilhos do motor: tarefa, lista, atribuição, nível, boss e marco avisa
   );
   expect(runs.flatMap((r) => r.warnings)).toContain('Variável inexistente: evento.inexistente');
 });
+
+// AU4: concluir pela tela cria a tarefa seguinte na mesma lista e etiqueta a concluída
+test('ações do motor: concluir cria a próxima tarefa e põe etiqueta', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'o motor é do servidor: basta um perfil');
+  test.setTimeout(90_000);
+  await signUp(page, testInfo);
+  const uid = await userIdOf(page);
+  const pageId = await createPage(page, {
+    folder: `Roupa ${Date.now()}`,
+    name: 'Lavanderia',
+    type: 'Lista',
+  });
+  await adminRest('automation_rules', {
+    method: 'POST',
+    body: JSON.stringify({
+      scope: 'pessoal',
+      owner_id: uid,
+      name: 'Depois de lavar',
+      definition: {
+        v: 1,
+        gatilho: { tipo: 'tarefa.concluida' },
+        condicoes: { campo: 'evento.titulo', op: 'comeca_com', valor: 'lavar' },
+        passos: [
+          { tipo: 'definir_variavel', nome: 'peca', valor: '{{evento.titulo|corta:20}}' },
+          {
+            tipo: 'criar_tarefa',
+            titulo: 'Estender: {{var.peca}}',
+            lista: '{{evento.lista}}',
+            vencimento: '+1',
+            evitar_duplicar: true,
+          },
+          { tipo: 'atualizar_tarefa', adicionar_etiquetas: ['feito-pelo-motor'] },
+        ],
+      },
+    }),
+  });
+
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  const saved = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
+  await input.fill('Lavar as toalhas');
+  await input.press('Enter');
+  await saved;
+  const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
+  await page.getByRole('checkbox', { name: 'Concluir Lavar as toalhas' }).click();
+  await done;
+
+  await expect
+    .poll(
+      async () =>
+        (
+          await adminRest(
+            `tasks?page_id=eq.${pageId}&title=eq.Estender: Lavar as toalhas&select=id`,
+          )
+        ).length,
+      {
+        timeout: 30_000,
+      },
+    )
+    .toBe(1);
+  const [lavar] = await adminRest(
+    `tasks?page_id=eq.${pageId}&title=eq.Lavar as toalhas&select=labels,status`,
+  );
+  expect(lavar).toEqual({ labels: ['feito-pelo-motor'], status: 'done' });
+  await page.reload();
+  await expect(
+    page.getByRole('checkbox', { name: 'Concluir Estender: Lavar as toalhas' }),
+  ).toBeVisible();
+});
