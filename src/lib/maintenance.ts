@@ -15,6 +15,13 @@ export type Equipment = {
   purchased_on: string | null;
   device_id: string | null;
   notes: string | null;
+  /** Garantia (CS3, D367): N meses a partir da compra, ou até uma data (um dos dois) */
+  warranty_months: number | null;
+  warranty_until: string | null;
+  /** A nota fiscal: um lançamento do V9 */
+  expense_id: string | null;
+  /** Do servidor: o fim da garantia */
+  warranty_ends_on: string | null;
 };
 
 export type MaintenancePlan = {
@@ -68,12 +75,8 @@ export function sortPlans(plans: MaintenancePlan[], today: IsoDate): Maintenance
   );
 }
 
-/**
- * Data digitada no formulário: `25/11`, `25/11/2026`, `2026-11-25` ou "hoje" (pt, en, es). Só datas
- * até hoje (é o "último feito" ou a compra): `25/12` em novembro é o do ano passado. Vazio ou
- * inválido → null.
- */
-export function parsePastDay(text: string, today: IsoDate): IsoDate | null {
+/** Data digitada: `25/11`, `25/11/2026`, `2026-11-25` ou "hoje" (pt, en, es); vazio ou inválido → null. */
+export function parseDay(text: string, today: IsoDate): IsoDate | null {
   const s = text.trim().toLowerCase();
   if (!s) return null;
   if (['hoje', 'today', 'hoy'].includes(s)) return today;
@@ -83,17 +86,49 @@ export function parsePastDay(text: string, today: IsoDate): IsoDate | null {
     return back.getUTCMonth() + 1 === m && back.getUTCDate() === d ? iso : null;
   };
   let m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(s);
-  if (m) {
-    const iso = valid(+m[1], +m[2], +m[3]);
-    return iso && iso <= today ? iso : null;
-  }
+  if (m) return valid(+m[1], +m[2], +m[3]);
   m = /^(\d{1,2})\/(\d{1,2})(?:\/(\d{2}|\d{4}))?$/.exec(s);
   if (!m) return null;
   const year = m[3] ? (m[3].length === 2 ? 2000 + +m[3] : +m[3]) : +today.slice(0, 4);
-  let iso = valid(year, +m[2], +m[1]);
-  if (iso && !m[3] && iso > today) iso = valid(year - 1, +m[2], +m[1]);
+  return valid(year, +m[2], +m[1]);
+}
+
+/**
+ * Data até hoje (o "último feito" ou a compra): `25/12` em novembro é a do ano passado; futura → null.
+ */
+export function parsePastDay(text: string, today: IsoDate): IsoDate | null {
+  let iso = parseDay(text, today);
+  if (iso && iso > today && /^\d{1,2}\/\d{1,2}$/.test(text.trim())) iso = parseDay(`${text.trim()}/${+today.slice(0, 4) - 1}`, today);
   return iso && iso <= today ? iso : null;
 }
 
 /** O inverso do parsePastDay para preencher o campo ao editar: `2026-09-01` → `01/09/2026`. */
 export const formatDayInput = (iso: IsoDate) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
+
+/** Fim da garantia (mesma conta de public.warranty_end): a data dada, ou a compra + meses. */
+export function warrantyEnd(
+  until: IsoDate | null,
+  months: number | null,
+  bought: IsoDate | null,
+): IsoDate | null {
+  if (until) return until;
+  if (months && bought) return addMonths(bought, months);
+  return null;
+}
+
+export type WarrantyState =
+  | { kind: 'none' }
+  | { kind: 'needsDate' }
+  | { kind: 'active'; ends: IsoDate; daysLeft: number }
+  | { kind: 'expired'; ends: IsoDate };
+
+/** Situação da garantia para a tela: sem garantia, falta a compra, ativa (com os dias) ou vencida. */
+export function warrantyState(e: Equipment, today: IsoDate): WarrantyState {
+  if (!e.warranty_months && !e.warranty_until) return { kind: 'none' };
+  const ends = e.warranty_ends_on ?? warrantyEnd(e.warranty_until, e.warranty_months, e.purchased_on);
+  if (!ends) return { kind: 'needsDate' };
+  const daysLeft = Math.round(
+    (Date.parse(`${ends}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000,
+  );
+  return daysLeft < 0 ? { kind: 'expired', ends } : { kind: 'active', ends, daysLeft };
+}

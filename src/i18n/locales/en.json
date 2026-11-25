@@ -5728,6 +5728,25 @@
     "removeEquipment": "Delete {{name}}?",
     "removeEquipmentHint": "Its maintenance plans go too, along with their open tasks. Completed ones stay in the history.",
     "removePlan": "Delete the maintenance {{name}}?",
-    "removePlanHint": "Its open task goes; completed ones stay."
+    "removePlanHint": "Its open task goes; completed ones stay.",
+    "warranty": "Warranty",
+    "warrantyKind": {
+      "none": "No warranty",
+      "months": "Months from purchase",
+      "until": "Until a date"
+    },
+    "warrantyMonths": "Warranty months",
+    "warrantyMonthsHint": "months from the purchase",
+    "warrantyUntilLabel": "Warranty until",
+    "warrantyNeedsDate": "Warranty: enter the purchase date",
+    "warrantyExpired": "Warranty ended on {{date}}",
+    "warrantyUntil_one": "Warranty until {{date}} ({{count}} day left)",
+    "warrantyUntil_other": "Warranty until {{date}} ({{count}} days left)",
+    "receipt": "Receipt",
+    "receiptPick": "Link to an expense",
+    "receiptSearch": "Search your expenses",
+    "receiptNone": "No expenses found.",
+    "receiptRemove": "Remove",
+    "receiptLinked": "Linked to an expense"
   }
 }

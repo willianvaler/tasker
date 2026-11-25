@@ -2,6 +2,10 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   formatDayInput,
+  parseDay,
+  warrantyEnd,
+  warrantyState,
+  type Equipment,
   nextMaintenance,
   parsePastDay,
   planStatus,
@@ -77,10 +81,51 @@ describe('data digitada (último feito, compra)', () => {
   it('dia e mês sem ano no futuro é do ano passado', () => {
     expect(parsePastDay('25/12', today)).toBe('2025-12-25');
   });
+  it('a data livre aceita o futuro (garantia até)', () => {
+    expect(parseDay('25/12', today)).toBe('2026-12-25');
+    expect(parseDay('01/06/2027', today)).toBe('2027-06-01');
+  });
   it('recusa data inválida, futura ou vazia', () => {
     expect(parsePastDay('31/02/2026', today)).toBeNull();
     expect(parsePastDay('2027-01-01', today)).toBeNull();
     expect(parsePastDay('', today)).toBeNull();
     expect(parsePastDay('ontem à noite', today)).toBeNull();
+  });
+});
+
+describe('garantia (mesmos casos do pgTAP garantias.test.sql)', () => {
+  it('compra + meses, ou a data dada', () => {
+    expect(warrantyEnd(null, 12, '2025-12-25')).toBe('2026-12-25');
+    expect(warrantyEnd('2026-12-02', null, null)).toBe('2026-12-02');
+    expect(warrantyEnd(null, 12, null)).toBeNull();
+  });
+  const eq = (o: Partial<Equipment>): Equipment => ({
+    id: 'e',
+    name: 'Geladeira',
+    room: null,
+    brand: null,
+    model: null,
+    purchased_on: null,
+    device_id: null,
+    notes: null,
+    warranty_months: null,
+    warranty_until: null,
+    expense_id: null,
+    warranty_ends_on: null,
+    ...o,
+  });
+  it('situação para a tela', () => {
+    const today = '2026-11-25';
+    expect(warrantyState(eq({}), today)).toEqual({ kind: 'none' });
+    expect(warrantyState(eq({ warranty_months: 12 }), today)).toEqual({ kind: 'needsDate' });
+    expect(warrantyState(eq({ warranty_until: '2026-12-02' }), today)).toEqual({
+      kind: 'active',
+      ends: '2026-12-02',
+      daysLeft: 7,
+    });
+    expect(warrantyState(eq({ warranty_until: '2026-11-01' }), today)).toEqual({
+      kind: 'expired',
+      ends: '2026-11-01',
+    });
   });
 });

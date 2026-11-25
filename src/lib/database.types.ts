@@ -1007,14 +1007,14 @@ isOneToOne: false
                   ]
                 },"equipments": {
                   Row: {
-                    "brand": string | null,"created_at": string,"device_id": string | null,"id": string,"model": string | null,"name": string,"notes": string | null,"purchased_on": string | null,"room": string | null,"updated_at": string,"user_id": string
+                    "brand": string | null,"created_at": string,"device_id": string | null,"expense_id": string | null,"id": string,"model": string | null,"name": string,"notes": string | null,"purchased_on": string | null,"room": string | null,"updated_at": string,"user_id": string,"warranty_ends_on": string | null,"warranty_months": number | null,"warranty_until": string | null,"warranty_warned": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "brand"?: string | null,"created_at"?: string,"device_id"?: string | null,"id"?: string,"model"?: string | null,"name": string,"notes"?: string | null,"purchased_on"?: string | null,"room"?: string | null,"updated_at"?: string,"user_id"?: string
+                    "brand"?: string | null,"created_at"?: string,"device_id"?: string | null,"expense_id"?: string | null,"id"?: string,"model"?: string | null,"name": string,"notes"?: string | null,"purchased_on"?: string | null,"room"?: string | null,"updated_at"?: string,"user_id"?: string,"warranty_ends_on"?: string | null,"warranty_months"?: number | null,"warranty_until"?: string | null,"warranty_warned"?: number | null
                   }
                   Update: {
-                    "brand"?: string | null,"created_at"?: string,"device_id"?: string | null,"id"?: string,"model"?: string | null,"name"?: string,"notes"?: string | null,"purchased_on"?: string | null,"room"?: string | null,"updated_at"?: string,"user_id"?: string
+                    "brand"?: string | null,"created_at"?: string,"device_id"?: string | null,"expense_id"?: string | null,"id"?: string,"model"?: string | null,"name"?: string,"notes"?: string | null,"purchased_on"?: string | null,"room"?: string | null,"updated_at"?: string,"user_id"?: string,"warranty_ends_on"?: string | null,"warranty_months"?: number | null,"warranty_until"?: string | null,"warranty_warned"?: number | null
                   }
                   Relationships: [
                     {
@@ -1022,6 +1022,12 @@ isOneToOne: false
       columns: ["device_id"]
 isOneToOne: false
       referencedRelation: "devices"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "equipments_expense_id_fkey"
+      columns: ["expense_id"]
+isOneToOne: false
+      referencedRelation: "expenses"
       referencedColumns: ["id"]
     },{
       foreignKeyName: "equipments_user_id_fkey"
@@ -4890,6 +4896,9 @@ isOneToOne: false
 "send_task_reminders":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
+"send_warranty_alerts":
+{ Args: { "p_now"?: string }; Returns: number
+                           },
 "send_workout_reminders":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
@@ -5158,6 +5167,9 @@ isOneToOne: false
                            },
 "valid_repeat_plan":
 { Args: { "p": Json }; Returns: boolean
+                           },
+"warranty_end":
+{ Args: { "p_bought": string,"p_months": number,"p_until": string }; Returns: string
                            },
 "weight_factor":
 { Args: { "p_weight": number }; Returns: number

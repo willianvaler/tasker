@@ -2,7 +2,7 @@
 -- de concluir.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(21);
+select plan(23);
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'dona@teste.local'),
@@ -73,7 +73,13 @@ select is(public.maintenance_next('2024-02-29', 12, 'meses', '2024-02-29'), '202
 
 -- A exportação leva os dois
 set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "role": "authenticated"}';
+select is(jsonb_array_length(public.export_my_data() -> 'equipments'), 1, 'a exportação leva os equipamentos');
 select is(jsonb_array_length(public.export_my_data() -> 'maintenance_plans'), 1, 'a exportação leva os planos');
+
+-- Apagar o equipamento com o plano e a tarefa aberta: tudo sai junto
+update public.maintenance_plans set paused = false;
+select lives_ok($$ delete from public.equipments where id = 'e1000000-0000-0000-0000-000000000001' $$,
+  'apagar o equipamento com a manutenção aberta funciona');
 
 select * from finish();
 rollback;

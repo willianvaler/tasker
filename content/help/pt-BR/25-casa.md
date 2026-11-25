@@ -13,3 +13,9 @@ Em **Manutenção** (no equipamento), escreva o que fazer ("Limpar o filtro"), *
 Cada manutenção tem **uma tarefa aberta** na **Caixa de entrada**, com a etiqueta **#manutencao** e o vencimento na próxima data. Ela aparece na Hoje, no Calendário e nas consultas como qualquer tarefa. Ao concluir (na lista ou no **Feito** da tela Casa), o dia da conclusão vira o "último feito" e a próxima tarefa nasce contando dali: concluir o "a cada 90 dias" com uma semana de atraso empurra a próxima uma semana também. **Desfazer** a conclusão volta o último feito e tira a tarefa seguinte.
 
 A lista **Manutenção** mostra primeiro o que está **atrasado**, depois o que vence **hoje** ou nos próximos 7 dias. **Parar** (no ⋯) tira a tarefa aberta até você **Retomar**. Tudo funciona sem internet; a próxima data confirma quando o aparelho sincroniza.
+
+## Garantia e nota fiscal
+
+No equipamento, **Garantia** pode ser **meses desde a compra** (pede a data da compra; sem ela, a tela avisa "informe a data da compra") ou **até uma data**. A linha do equipamento mostra até quando vale e quantos dias faltam. O Questlist avisa **30 dias** e **7 dias** antes de acabar (no sino e no celular, a partir das 9 h), uma vez cada; mudar a garantia recomeça os avisos.
+
+A **nota fiscal** é um gasto que você já lançou numa lista de gastos: **Ligar a um gasto** procura entre os seus lançamentos. A foto da nota fica no próprio gasto.

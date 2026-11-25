@@ -11,14 +11,15 @@ import { uuidv7 } from '../uuid';
 // (lib/maintenance.ts) enquanto o plano novo não sincronizou.
 
 export type HomeData = { equipments: Equipment[]; plans: MaintenancePlan[] };
-type EquipmentFields = Omit<Equipment, 'id'>;
+type EquipmentFields = Omit<Equipment, 'id' | 'warranty_ends_on'>;
 type PlanFields = Pick<
   MaintenancePlan,
   'name' | 'every_n' | 'unit' | 'last_done_on' | 'page_id' | 'paused'
 >;
 
 const KEY = ['equipments'] as const;
-const E_COLS = 'id, name, room, brand, model, purchased_on, device_id, notes';
+const E_COLS =
+  'id, name, room, brand, model, purchased_on, device_id, notes, warranty_months, warranty_until, expense_id, warranty_ends_on';
 const P_COLS =
   'id, equipment_id, name, every_n, unit, last_done_on, page_id, paused, next_on, task_id';
 
@@ -88,12 +89,29 @@ export function useHomeActions() {
         const now = new Date().toISOString();
         await db.execute(
           `insert into equipments (id, user_id, name, room, brand, model, purchased_on, device_id,
-             notes, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [e.id, userId, e.name, e.room, e.brand, e.model, e.purchased_on, e.device_id, e.notes, now, now],
+             notes, warranty_months, warranty_until, expense_id, created_at, updated_at)
+           values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            e.id,
+            userId,
+            e.name,
+            e.room,
+            e.brand,
+            e.model,
+            e.purchased_on,
+            e.device_id,
+            e.notes,
+            e.warranty_months,
+            e.warranty_until,
+            e.expense_id,
+            now,
+            now,
+          ],
         );
         return;
       }
-      const { error } = await supabase.from('equipments').insert(e);
+      const { warranty_ends_on: _server, ...row } = e;
+      const { error } = await supabase.from('equipments').insert(row);
       if (error) throw error;
     },
     onMutate: (e) => patch((d) => ({ ...d, equipments: [...d.equipments, e] })),
@@ -110,7 +128,10 @@ export function useHomeActions() {
     onMutate: ({ id, fields }) =>
       patch((d) => ({
         ...d,
-        equipments: d.equipments.map((e) => (e.id === id ? { ...e, ...fields } : e)),
+        // O fim da garantia é do servidor: some até voltar, e a tela usa a conta local
+        equipments: d.equipments.map((e) =>
+          e.id === id ? { ...e, ...fields, warranty_ends_on: null } : e,
+        ),
       })),
     onSettled: settle,
   });
@@ -220,6 +241,44 @@ export function useHomeActions() {
   });
 
   return { addEquipment, updateEquipment, removeEquipment, addPlan, updatePlan, removePlan };
+}
+
+export type ExpenseOption = {
+  id: string;
+  description: string;
+  amount_cents: number;
+  currency: string;
+  spent_on: string;
+  receipt_path: string | null;
+};
+
+/** Os gastos que a pessoa lançou (os últimos 200), para escolher a nota fiscal do equipamento. */
+export function useMyExpenses(enabled: boolean) {
+  return useQuery({
+    queryKey: ['equipments', 'expenses'],
+    enabled,
+    networkMode: isLocal() ? 'always' : 'online',
+    queryFn: async (): Promise<ExpenseOption[]> => {
+      const userId = await sessionUserId();
+      if (!userId) return [];
+      const cols = 'id, description, amount_cents, currency, spent_on, receipt_path';
+      if (isLocal())
+        return db.getAll<ExpenseOption>(
+          `select ${cols} from expenses where created_by = ? and kind = 'out'
+           order by spent_on desc, created_at desc limit 200`,
+          [userId],
+        );
+      const { data, error } = await supabase
+        .from('expenses')
+        .select(cols)
+        .eq('created_by', userId)
+        .eq('kind', 'out')
+        .order('spent_on', { ascending: false })
+        .limit(200);
+      if (error) throw error;
+      return (data ?? []) as ExpenseOption[];
+    },
+  });
 }
 
 export const newHomeId = () => uuidv7();

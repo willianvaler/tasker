@@ -13,3 +13,9 @@ Under **Maintenance** (on the appliance), write what to do ("Clean the filter"),
 Each maintenance plan has **one open task** in the **Inbox**, with the **#manutencao** tag and the due date on the next date. It shows up in Today, the Calendar and queries like any task. When you complete it (in the list or with **Done** on the Home screen), the completion day becomes the "last done" and the next task is counted from there: finishing an "every 90 days" plan a week late pushes the next one a week too. **Undoing** the completion restores the last done date and removes the next task.
 
 The **Maintenance** list shows what is **overdue** first, then what is due **today** or in the next 7 days. **Pause** (in the ⋯) removes the open task until you **Resume**. Everything works offline; the next date is confirmed when the device syncs.
+
+## Warranty and receipt
+
+On the appliance, **Warranty** can be **months from purchase** (it needs the purchase date; without it, the screen says "enter the purchase date") or **until a date**. The appliance row shows when it ends and how many days are left. Questlist reminds you **30 days** and **7 days** before it ends (in the bell and on the phone, from 9 AM), once each; changing the warranty restarts the reminders.
+
+The **receipt** is an expense you already logged in an expenses list: **Link to an expense** searches your entries. The photo of the receipt stays with the expense.

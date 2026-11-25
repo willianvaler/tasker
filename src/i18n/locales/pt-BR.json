@@ -5728,6 +5728,25 @@
     "removeEquipment": "Apagar {{name}}?",
     "removeEquipmentHint": "As manutenções dele saem junto, e as tarefas abertas delas também. As já concluídas ficam no histórico.",
     "removePlan": "Apagar a manutenção {{name}}?",
-    "removePlanHint": "A tarefa aberta dela sai; as concluídas ficam."
+    "removePlanHint": "A tarefa aberta dela sai; as concluídas ficam.",
+    "warranty": "Garantia",
+    "warrantyKind": {
+      "none": "Sem garantia",
+      "months": "Meses desde a compra",
+      "until": "Até uma data"
+    },
+    "warrantyMonths": "Meses de garantia",
+    "warrantyMonthsHint": "meses a partir da compra",
+    "warrantyUntilLabel": "Garantia até",
+    "warrantyNeedsDate": "Garantia: informe a data da compra",
+    "warrantyExpired": "Garantia acabou em {{date}}",
+    "warrantyUntil_one": "Garantia até {{date}} (falta {{count}} dia)",
+    "warrantyUntil_other": "Garantia até {{date}} (faltam {{count}} dias)",
+    "receipt": "Nota fiscal",
+    "receiptPick": "Ligar a um gasto",
+    "receiptSearch": "Procurar nos seus gastos",
+    "receiptNone": "Nenhum gasto encontrado.",
+    "receiptRemove": "Tirar",
+    "receiptLinked": "Ligada a um gasto"
   }
 }

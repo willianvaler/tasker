@@ -266,6 +266,11 @@ const equipments = new Table({
   purchased_on: column.text,
   device_id: column.text,
   notes: column.text,
+  warranty_months: column.integer,
+  warranty_until: column.text,
+  expense_id: column.text,
+  warranty_ends_on: column.text,
+  warranty_warned: column.integer,
   created_at: column.text,
   updated_at: column.text,
 });

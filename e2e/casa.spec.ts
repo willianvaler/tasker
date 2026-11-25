@@ -35,3 +35,26 @@ test('casa: equipamento, manutenção, tarefa na Caixa de entrada e feito', asyn
   await expect(page.getByText(/Atrasada desde/)).toHaveCount(0);
   await expect(page.getByText(/Próxima:/)).toBeVisible();
 });
+
+// CS3 (D367): garantia por meses sem a compra pede a data; até uma data mostra os dias que faltam
+test('casa: garantia do equipamento', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await page.goto('/casa');
+  const daqui = new Date(Date.now() + 40 * 86_400_000);
+  const dd = (n: number) => String(n).padStart(2, '0');
+  const ate = `${dd(daqui.getDate())}/${dd(daqui.getMonth() + 1)}/${daqui.getFullYear()}`;
+
+  await page.getByRole('button', { name: 'Novo equipamento' }).first().click();
+  await page.getByLabel('Nome', { exact: true }).fill('Geladeira');
+  await page.getByRole('radio', { name: 'Meses desde a compra' }).click();
+  await expect(page.getByText('Garantia: informe a data da compra')).toBeVisible();
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.getByText('Garantia: informe a data da compra')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Novo equipamento' }).first().click();
+  await page.getByLabel('Nome', { exact: true }).fill('TV');
+  await page.getByRole('radio', { name: 'Até uma data' }).click();
+  await page.getByLabel('Garantia até').fill(ate);
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.getByText(/Garantia até .* \(faltam (39|40|41) dias\)/)).toBeVisible();
+});

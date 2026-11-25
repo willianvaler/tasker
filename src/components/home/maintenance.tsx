@@ -14,16 +14,25 @@ import { cn } from '@/lib/cn';
 import { contextMenu } from '@/lib/context-menu';
 import {
   formatDayInput,
+  parseDay,
   parsePastDay,
   planNext,
   planStatus,
   sortPlans,
+  warrantyState,
   type Equipment,
   type MaintenancePlan,
   type MaintenanceUnit,
 } from '@/lib/maintenance';
 import { formatDueDate, formatShortDate } from '@/lib/parser/dates';
-import { newHomeId, useHome, useHomeActions } from '@/lib/queries/equipments';
+import { formatMoney } from '@/lib/expenses';
+import {
+  newHomeId,
+  useHome,
+  useHomeActions,
+  useMyExpenses,
+  type ExpenseOption,
+} from '@/lib/queries/equipments';
 import { useToday } from '@/lib/queries/profile';
 import { useToggleTask } from '@/lib/queries/tasks';
 import { useToast } from '@/providers/toast';
@@ -126,6 +135,7 @@ export function HomeMaintenance() {
                     ? ` · ${t('casa.boughtOn', { date: formatShortDate(e.purchased_on) })}`
                     : ''}
                 </Text>
+                <WarrantyLine equipment={e} today={today} />
               </View>
               <Button
                 variant="ghost"
@@ -155,7 +165,7 @@ export function HomeMaintenance() {
               actions.updateEquipment.mutate({ id: equipment.id, fields }, { onError: fail });
             else
               actions.addEquipment.mutate(
-                { id: newHomeId(), device_id: null, ...fields },
+                { id: newHomeId(), device_id: null, warranty_ends_on: null, ...fields },
                 { onError: fail },
               );
           }}
@@ -341,7 +351,32 @@ function PlanRow({
   );
 }
 
-type EquipmentFields = Omit<Equipment, 'id' | 'device_id'>;
+type EquipmentFields = Omit<Equipment, 'id' | 'device_id' | 'warranty_ends_on'>;
+
+/** "Garantia até 25/12/2026 (30 dias)", "Garantia: informe a data da compra", "Garantia acabou". */
+function WarrantyLine({ equipment, today }: { equipment: Equipment; today: string }) {
+  const { t } = useTranslation();
+  const w = warrantyState(equipment, today);
+  if (w.kind === 'none') return null;
+  const text =
+    w.kind === 'needsDate'
+      ? t('casa.warrantyNeedsDate')
+      : w.kind === 'expired'
+        ? t('casa.warrantyExpired', { date: formatShortDate(w.ends) })
+        : t('casa.warrantyUntil', { date: formatShortDate(w.ends), count: w.daysLeft });
+  return (
+    <Text
+      className={cn(
+        'text-xs',
+        w.kind === 'needsDate' || (w.kind === 'active' && w.daysLeft <= 30)
+          ? 'font-semibold text-warn'
+          : 'text-ink-muted',
+      )}
+    >
+      {text}
+    </Text>
+  );
+}
 
 function EquipmentForm({
   equipment,
@@ -352,7 +387,7 @@ function EquipmentForm({
   onSave: (fields: EquipmentFields) => void;
   onClose: () => void;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const today = useToday();
   const [name, setName] = useState(equipment?.name ?? '');
   const [room, setRoom] = useState(equipment?.room ?? '');
@@ -362,8 +397,28 @@ function EquipmentForm({
     equipment?.purchased_on ? formatDayInput(equipment.purchased_on) : '',
   );
   const boughtOn = bought.trim() ? parsePastDay(bought, today) : null;
-  const valid = name.trim().length > 0 && (!bought.trim() || boughtOn != null);
+  // Garantia: meses a partir da compra ou até uma data (CS3)
+  const [wKind, setWKind] = useState<'none' | 'months' | 'until'>(
+    equipment?.warranty_until ? 'until' : equipment?.warranty_months ? 'months' : 'none',
+  );
+  const [wMonths, setWMonths] = useState(
+    equipment?.warranty_months ? String(equipment.warranty_months) : '12',
+  );
+  const [wUntil, setWUntil] = useState(
+    equipment?.warranty_until ? formatDayInput(equipment.warranty_until) : '',
+  );
+  const [expenseId, setExpenseId] = useState(equipment?.expense_id ?? null);
+  const [picking, setPicking] = useState(false);
+  const expenses = useMyExpenses(picking || !!expenseId);
+  const months = Number(wMonths);
+  const untilOn = wUntil.trim() ? parseDay(wUntil, today) : null;
+  const warrantyOk =
+    wKind === 'none' ||
+    (wKind === 'months' && Number.isInteger(months) && months >= 1 && months <= 240) ||
+    (wKind === 'until' && untilOn != null);
+  const valid = name.trim().length > 0 && (!bought.trim() || boughtOn != null) && warrantyOk;
   const clean = (s: string) => s.trim() || null;
+  const expense = expenses.data?.find((x) => x.id === expenseId);
 
   function save() {
     if (!valid) return;
@@ -374,6 +429,9 @@ function EquipmentForm({
       model: clean(model),
       purchased_on: boughtOn,
       notes: equipment?.notes ?? null,
+      warranty_months: wKind === 'months' ? months : null,
+      warranty_until: wKind === 'until' ? untilOn : null,
+      expense_id: expenseId,
     });
   }
 
@@ -419,11 +477,125 @@ function EquipmentForm({
       {!!bought.trim() && boughtOn == null && (
         <Text className="text-sm text-danger">{t('casa.badDate')}</Text>
       )}
+      <View className="gap-1">
+        <Text className="text-sm text-ink">{t('casa.warranty')}</Text>
+        <View
+          className="flex-row flex-wrap gap-2"
+          accessibilityRole="radiogroup"
+          accessibilityLabel={t('casa.warranty')}
+        >
+          {(['none', 'months', 'until'] as const).map((k) => (
+            <Chip
+              key={k}
+              role="radio"
+              label={t(`casa.warrantyKind.${k}`)}
+              selected={wKind === k}
+              onPress={() => setWKind(k)}
+            />
+          ))}
+        </View>
+        {wKind === 'months' && (
+          <View className="flex-row items-center gap-2">
+            <Input
+              className="w-20"
+              accessibilityLabel={t('casa.warrantyMonths')}
+              keyboardType="number-pad"
+              value={wMonths}
+              onChangeText={setWMonths}
+            />
+            <Text className="text-sm text-ink-muted">{t('casa.warrantyMonthsHint')}</Text>
+          </View>
+        )}
+        {wKind === 'until' && (
+          <Input
+            accessibilityLabel={t('casa.warrantyUntilLabel')}
+            value={wUntil}
+            placeholder={t('casa.datePlaceholder')}
+            onChangeText={setWUntil}
+          />
+        )}
+        {wKind === 'months' && !bought.trim() && (
+          <Text className="text-xs text-warn">{t('casa.warrantyNeedsDate')}</Text>
+        )}
+        {wKind === 'until' && !!wUntil.trim() && untilOn == null && (
+          <Text className="text-sm text-danger">{t('casa.badDate')}</Text>
+        )}
+      </View>
+      <View className="gap-1">
+        <Text className="text-sm text-ink">{t('casa.receipt')}</Text>
+        {expenseId ? (
+          <View className="flex-row items-center gap-2">
+            <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
+              {expense
+                ? `${expense.description} · ${formatMoney(expense.amount_cents, expense.currency, i18n.language)} · ${formatShortDate(expense.spent_on)}`
+                : t('casa.receiptLinked')}
+            </Text>
+            <Button variant="ghost" label={t('casa.receiptRemove')} onPress={() => setExpenseId(null)} />
+          </View>
+        ) : picking ? (
+          <ExpensePicker
+            options={expenses.data ?? []}
+            loading={expenses.isPending}
+            onPick={(id) => {
+              setExpenseId(id);
+              setPicking(false);
+            }}
+          />
+        ) : (
+          <Button
+            variant="ghost"
+            className="self-start"
+            label={t('casa.receiptPick')}
+            onPress={() => setPicking(true)}
+          />
+        )}
+      </View>
       <View className="flex-row justify-end gap-2">
         <Button variant="ghost" label={t('common.cancel')} onPress={onClose} />
         <Button label={t('common.save')} disabled={!valid} onPress={save} />
       </View>
     </DialogFrame>
+  );
+}
+
+/** Os gastos lançados pela pessoa, com busca, para ligar a nota fiscal (CS3). */
+function ExpensePicker({
+  options,
+  loading,
+  onPick,
+}: {
+  options: ExpenseOption[];
+  loading: boolean;
+  onPick: (id: string) => void;
+}) {
+  const { t, i18n } = useTranslation();
+  const [q, setQ] = useState('');
+  const term = q.trim().toLowerCase();
+  const list = options.filter((o) => !term || o.description.toLowerCase().includes(term)).slice(0, 8);
+  return (
+    <View className="gap-1">
+      <Input
+        accessibilityLabel={t('casa.receiptSearch')}
+        placeholder={t('casa.receiptSearch')}
+        value={q}
+        onChangeText={setQ}
+      />
+      {loading ? (
+        <Text className="text-sm text-ink-muted">{t('common.loading')}</Text>
+      ) : list.length === 0 ? (
+        <Text className="text-sm text-ink-muted">{t('casa.receiptNone')}</Text>
+      ) : (
+        list.map((o) => (
+          <Button
+            key={o.id}
+            variant="ghost"
+            className="self-start"
+            label={`${o.description} · ${formatMoney(o.amount_cents, o.currency, i18n.language)} · ${formatShortDate(o.spent_on)}`}
+            onPress={() => onPick(o.id)}
+          />
+        ))
+      )}
+    </View>
   );
 }
 
