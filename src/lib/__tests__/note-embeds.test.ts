@@ -1,6 +1,10 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, test } from '@jest/globals';
 
 import {
+  blockAtOffset,
+  embedBody,
+  embedKey,
+  MAX_EMBED_DEPTH,
   embedTarget,
   extractEmbeds,
   noteSection,
@@ -89,5 +93,36 @@ describe('incorporar (OB6)', () => {
 
   it('prévia: as primeiras linhas com texto, sem código', () => {
     expect(previewLines('\n# T\n\n```\ncodigo\n```\na\nb\nc', 3)).toBe('# T\na\nb');
+  });
+});
+
+describe('transclusão de bloco (ED2)', () => {
+  const corpo = 'Intro\n\nO limite existe quando ^lim1\n\n- a\n- b ^lst\n\nFim';
+
+  test('mostra só o bloco, sem a marca do fim', () => {
+    expect(embedBody(corpo, '^lim1')).toBe('O limite existe quando');
+    expect(embedBody(corpo, '^lst')).toBe('- a\n- b');
+  });
+
+  test('bloco que não existe mais: indisponível (null), sem mostrar o resto', () => {
+    expect(embedBody(corpo, '^sumiu')).toBeNull();
+  });
+
+  test('título e anotação inteira continuam como antes', () => {
+    expect(embedBody('# A\nx\n# B\ny', 'B')).toBe('# B\ny');
+    expect(embedBody('abc', null)).toBe('abc');
+  });
+
+  test('o bloco do cursor', () => {
+    expect(blockAtOffset(corpo, 0)).toBe(0);
+    expect(blockAtOffset(corpo, corpo.indexOf('limite'))).toBe(1);
+    expect(blockAtOffset(corpo, corpo.indexOf('Fim') + 3)).toBe(3);
+    // Na linha em branco entre dois blocos: o próximo
+    expect(blockAtOffset(corpo, corpo.indexOf('\n\n- a') + 1)).toBe(2);
+  });
+
+  test('a chave da trilha distingue o bloco da anotação inteira', () => {
+    expect(embedKey('n1', null)).not.toBe(embedKey('n1', '^x'));
+    expect(MAX_EMBED_DEPTH).toBe(3);
   });
 });

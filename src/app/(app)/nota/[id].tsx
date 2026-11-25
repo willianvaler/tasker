@@ -15,6 +15,7 @@ import {
   ImagePlus,
   type LucideIcon,
 } from 'lucide-react-native';
+import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
 import { useCallback, useDeferredValue, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -62,7 +63,8 @@ import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { applyFormat, type Format, type Selection } from '@/lib/markdown-edit';
 import { noteOutline, outlineIndex, wordCount } from '@/lib/note-blocks';
-import { mesclarPorBloco } from '@/lib/note-format';
+import { blockAtOffset, embedKey } from '@/lib/note-embeds';
+import { garantirIdBloco, mesclarPorBloco } from '@/lib/note-format';
 import { noteAliases, type NoteProps } from '@/lib/note-props';
 import { isDailyNote, templateVars } from '@/lib/note-templates';
 import { useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
@@ -362,6 +364,21 @@ function Editor({
       save();
       setEditing(false);
     }
+  }
+
+  // ED2: referenciar o bloco do cursor cria o `^id` (só nele) e copia o [[Anotação#^id]]
+  async function copyBlockLink() {
+    if (!note) return;
+    const i = blockAtOffset(body, Math.min(selection.start, selection.end));
+    const r = i >= 0 ? garantirIdBloco(body, i) : null;
+    if (!r) {
+      toast({ message: t('notes.noBlock') });
+      return;
+    }
+    if (r.md !== body) setBody(r.md);
+    const nome = (title.trim() || t('notes.untitled')).replace(/[[\]|#]/g, ' ');
+    await Clipboard.setStringAsync(`[[${nome}#^${r.id}|n:${note.id}]]`);
+    toast({ message: t('notes.blockLinkCopied') });
   }
 
   function insertLink() {
@@ -695,6 +712,7 @@ function Editor({
                 {body.trim() ? (
                   <NoteMarkdown
                     value={body}
+                    trail={[embedKey(note.id, null)]}
                     resolve={resolve}
                     onLink={openLink}
                     onHeadingLayout={onHeadingLayout}
@@ -789,6 +807,17 @@ function Editor({
           title={t('templatesNotes.more')}
           onClose={closeMoreMenu}
           actions={[
+            ...(editing
+              ? [
+                  {
+                    label: t('notes.copyBlockLink'),
+                    onPress: () => {
+                      closeMoreMenu();
+                      void copyBlockLink();
+                    },
+                  },
+                ]
+              : []),
             {
               label: t(favorite ? 'favorites.remove' : 'favorites.add'),
               onPress: () => {

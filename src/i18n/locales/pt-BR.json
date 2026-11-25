@@ -2766,7 +2766,10 @@
     "conflictMerge": "Mesclar por bloco",
     "conflictView": "Ver a outra versão",
     "conflictDiscard": "Descartar a outra",
-    "conflictOther": "A outra versão"
+    "conflictOther": "A outra versão",
+    "copyBlockLink": "Copiar link do bloco",
+    "blockLinkCopied": "Link do bloco copiado. Cole com ! na frente para incorporar.",
+    "noBlock": "Ponha o cursor num parágrafo, item ou bloco."
   },
   "callouts": {
     "note": "Nota",
@@ -4382,13 +4385,15 @@
   },
   "embeds": {
     "open": "Abrir {{title}}",
-    "tooDeep": "Anotação incorporada dentro de outra: abra para ver.",
+    "tooDeep": "Incorporada fundo demais: abra para ver.",
     "empty": "(vazia)",
     "emptyList": "Nenhuma tarefa nesta lista.",
     "more_one": "Mais {{count}} tarefa na lista.",
     "more_other": "Mais {{count}} tarefas na lista.",
     "noImage": "Imagem “{{name}}” não encontrada nos anexos.",
-    "create": "Criar “{{title}}”"
+    "create": "Criar “{{title}}”",
+    "blockMissing": "Bloco indisponível.",
+    "cycle": "Esta anotação já aparece acima (ciclo): abra para ver."
   },
   "linkPreview": {
     "done": "Concluída",

@@ -2766,7 +2766,10 @@
     "conflictMerge": "Combinar por bloque",
     "conflictView": "Ver la otra versión",
     "conflictDiscard": "Descartar la otra",
-    "conflictOther": "La otra versión"
+    "conflictOther": "La otra versión",
+    "copyBlockLink": "Copiar enlace del bloque",
+    "blockLinkCopied": "Enlace del bloque copiado. Pégalo con ! delante para incrustar.",
+    "noBlock": "Pon el cursor en un párrafo, elemento o bloque."
   },
   "callouts": {
     "note": "Nota",
@@ -4382,13 +4385,15 @@
   },
   "embeds": {
     "open": "Abrir {{title}}",
-    "tooDeep": "Nota incrustada dentro de otra: ábrela para verla.",
+    "tooDeep": "Incrustada demasiado hondo: ábrela para ver.",
     "empty": "(vacía)",
     "emptyList": "Ninguna tarea en esta lista.",
     "more_one": "{{count}} tarea más en la lista.",
     "more_other": "{{count}} tareas más en la lista.",
     "noImage": "Imagen “{{name}}” no encontrada en los adjuntos.",
-    "create": "Crear “{{title}}”"
+    "create": "Crear “{{title}}”",
+    "blockMissing": "Bloque no disponible.",
+    "cycle": "Esta nota ya aparece arriba (ciclo): ábrela para ver."
   },
   "linkPreview": {
     "done": "Completada",

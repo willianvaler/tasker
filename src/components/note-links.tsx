@@ -134,7 +134,10 @@ export function Backlinks({
           <LinkRow
             key={b.sourceId}
             icon={LINK_ICON[b.sourceKind]}
-            title={b.title || t('notes.untitled')}
+            title={
+              (b.title || t('notes.untitled')) +
+              (b.blocks.length ? ` › ${b.blocks.map((x) => `^${x}`).join(', ')}` : '')
+            }
             context={b.context}
             onPress={() => openItem(b.sourceKind, b.sourceId)}
           />

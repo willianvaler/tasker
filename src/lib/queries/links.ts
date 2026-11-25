@@ -18,10 +18,17 @@ export type Backlink = {
   /** Vazio: anotação sem título (o app mostra a primeira linha) */
   title: string;
   context: string;
+  /** Os blocos (`^id`) desta anotação que a origem cita (ED2: backlinks por bloco) */
+  blocks: string[];
 };
 export type LinkCandidate = { kind: LinkKind; id: string; title: string; context: string | null };
 
-type LinkRow = { source_kind: 'note' | 'task'; source_id: string; context: string };
+type LinkRow = {
+  source_kind: 'note' | 'task';
+  source_id: string;
+  context: string;
+  anchor: string | null;
+};
 
 /** Quem aponta para `id` (uma linha por origem, com a frase do primeiro link) */
 export function useBacklinks(kind: LinkKind, id: string | undefined) {
@@ -33,7 +40,7 @@ export function useBacklinks(kind: LinkKind, id: string | undefined) {
     queryFn: async (): Promise<(LinkRow & { task_title: string | null })[]> => {
       if (isLocal()) {
         return db.getAll(
-          `select l.source_kind, l.source_id, l.context, t.title as task_title
+          `select l.source_kind, l.source_id, l.context, l.anchor, t.title as task_title
              from links l left join tasks t on l.source_kind = 'task' and t.id = l.source_id
             where l.target_id = ? and l.target_kind = ? and l.source_id <> ?
             order by l.created_at desc, l.position`,
@@ -42,7 +49,7 @@ export function useBacklinks(kind: LinkKind, id: string | undefined) {
       }
       const { data, error } = await supabase
         .from('links')
-        .select('source_kind, source_id, context')
+        .select('source_kind, source_id, context, anchor')
         .eq('target_id', id ?? '')
         .eq('target_kind', kind)
         .neq('source_id', id ?? '')
@@ -63,21 +70,28 @@ export function useBacklinks(kind: LinkKind, id: string | undefined) {
     },
   });
   const byId = new Map((notes.data ?? []).map((n) => [n.id, n]));
-  const seen = new Set<string>();
+  const seen = new Map<string, Backlink>();
   const list: Backlink[] = [];
   for (const row of query.data ?? []) {
-    if (seen.has(row.source_id)) continue;
-    seen.add(row.source_id);
+    const block = row.anchor?.startsWith('^') ? row.anchor.slice(1) : null;
+    const already = seen.get(row.source_id);
+    if (already) {
+      if (block && !already.blocks.includes(block)) already.blocks.push(block);
+      continue;
+    }
     const note = row.source_kind === 'note' ? byId.get(row.source_id) : undefined;
     // A origem que a pessoa não lê mais (ou ainda não chegou ao aparelho) fica de fora
     if (row.source_kind === 'note' && !note) continue;
     if (row.source_kind === 'task' && row.task_title == null) continue;
-    list.push({
+    const item: Backlink = {
       sourceKind: row.source_kind,
       sourceId: row.source_id,
       title: note ? noteTitle(note, '') : (row.task_title ?? ''),
       context: row.context,
-    });
+      blocks: block ? [block] : [],
+    };
+    seen.set(row.source_id, item);
+    list.push(item);
   }
   return { ...query, list };
 }

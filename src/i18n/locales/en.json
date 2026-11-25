@@ -2766,7 +2766,10 @@
     "conflictMerge": "Merge by block",
     "conflictView": "See the other version",
     "conflictDiscard": "Discard the other",
-    "conflictOther": "The other version"
+    "conflictOther": "The other version",
+    "copyBlockLink": "Copy block link",
+    "blockLinkCopied": "Block link copied. Paste with ! in front to embed.",
+    "noBlock": "Put the cursor in a paragraph, item or block."
   },
   "callouts": {
     "note": "Note",
@@ -4382,13 +4385,15 @@
   },
   "embeds": {
     "open": "Open {{title}}",
-    "tooDeep": "Note embedded inside another: open it to see.",
+    "tooDeep": "Embedded too deep: open it to see.",
     "empty": "(empty)",
     "emptyList": "No tasks in this list.",
     "more_one": "{{count}} more task in the list.",
     "more_other": "{{count}} more tasks in the list.",
     "noImage": "Image “{{name}}” not found in attachments.",
-    "create": "Create “{{title}}”"
+    "create": "Create “{{title}}”",
+    "blockMissing": "Block unavailable.",
+    "cycle": "This note already shows above (a cycle): open it to see."
   },
   "linkPreview": {
     "done": "Completed",

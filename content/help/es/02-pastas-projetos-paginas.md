@@ -96,6 +96,8 @@ La última opción crea un enlace a algo que **aún no existe** (`[[Nueva idea]]
 
 Debajo de la nota, **Citado en** muestra las notas y tareas que enlazan a ella, con la frase alrededor. **Enlaces salientes** lista lo que ella cita. **Menciones sin enlace** muestra tus notas que escriben su nombre sin `[[ ]]`, y **Enlazar** convierte la mención en enlace. La descripción de una tarea también acepta `[[`, y el panel de la tarea y la parte de arriba de una lista muestran **Citado en**. Funciona sin internet.
 
+**Bloque:** con el cursor en un párrafo, elemento o bloque, **⋯ → Copiar enlace del bloque** pone una marca `^abc123` al final (solo ahí) y copia `[[Nota#^abc123]]`. Pégalo como enlace, o con `!` delante para mostrar el bloque dentro de otra nota, solo lectura, con el atajo a la origen; se edita en la origen. La origen muestra en **Citado en** qué bloques citan las otras. Hasta 3 capas de incrustación; una vuelta (A muestra B, que muestra A) aparece como aviso, y un bloque borrado o de una nota que no puedes leer aparece como **Bloque no disponible**, sin el texto.
+
 **Incrustar:** una línea solo con `![[...]]` (un `!` antes del enlace, o el comando `/incrustar`) muestra el elemento dentro de la nota: otra nota (entera, o solo una sección con `![[Nota#Título]]`), una lista con las casillas de verdad (completar ahí la completa en la lista), una tarea, o una imagen de los adjuntos de tus tareas por el nombre del archivo (`![[foto.jpg]]`). En la computadora, dejar el ratón sobre un enlace muestra una vista previa con las primeras líneas; en el móvil, mantén pulsado.
 
 ### Bases

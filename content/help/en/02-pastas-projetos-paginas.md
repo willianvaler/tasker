@@ -96,6 +96,8 @@ The last option creates a link to something that **doesn't exist yet** (`[[New i
 
 Below the note, **Linked from** shows the notes and tasks that link to it, with the sentence around the link. **Outgoing links** lists what it links to. **Unlinked mentions** shows your notes that write its name without `[[ ]]`, and **Link** turns the mention into a link. A task's description also accepts `[[`, and the task panel and the top of a list show **Linked from**. It works offline.
 
+**Block:** with the cursor in a paragraph, item or block, **⋯ → Copy block link** puts a `^abc123` mark at its end (only there) and copies `[[Note#^abc123]]`. Paste it as a link, or with `!` in front to show the block inside another note, read-only, with a shortcut to the source; you edit at the source. The source shows under **Linked from** which blocks others cite. Up to 3 embedding layers; a loop (A shows B, which shows A) shows as a warning, and a deleted block or one from a note you can't read shows as **Block unavailable**, without the text.
+
 **Embed:** a line with only `![[...]]` (a `!` before the link, or the `/embed` command) shows the item inside the note: another note (whole, or just a section with `![[Note#Heading]]`), a list with real checkboxes (completing there completes it in the list), a task, or an image from your task attachments by file name (`![[photo.jpg]]`). On a computer, resting the mouse on a link shows a preview with the first lines; on a phone, touch and hold.
 
 ### Bases

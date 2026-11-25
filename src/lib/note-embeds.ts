@@ -2,6 +2,7 @@
 // dentro da anotação (outra anotação ou um trecho dela, uma lista com as caixinhas de verdade, uma
 // tarefa ou uma imagem dos anexos). Funções puras, com testes.
 
+import { blocoPorId, blocos, semIdBloco, textoDoBloco } from '@/lib/note-format';
 import { parseLinks, headingKey, type WikiLink } from '@/lib/wikilinks';
 
 /** Marca que fica no lugar do ![[...]] até a hora de desenhar (não é Markdown que se escreva) */
@@ -14,8 +15,35 @@ const QUERY_FENCE = /^\s*```\s*(questlist|query|consulta)\s*$/i;
 /** Arquivo de imagem pelo nome (o ![[foto.png]] do Obsidian) */
 export const IMAGE_FILE = /\.(png|jpe?g|gif|webp|avif|heic|bmp|svg)$/i;
 
-/** Quantos níveis de anotação dentro de anotação (evita voltas: A incorpora B que incorpora A) */
-export const MAX_EMBED_DEPTH = 2;
+/** Quantos níveis de anotação dentro de anotação (ED2: a 4ª camada fica só o link) */
+export const MAX_EMBED_DEPTH = 3;
+
+/** A chave de um ![[...]] na trilha (para achar a volta: A incorpora B, que incorpora A) */
+export const embedKey = (id: string, anchor: string | null) => `${id}#${anchor ?? ''}`;
+
+/**
+ * O que a transclusão mostra: o bloco `^id` (sem a marca do fim), a seção de um título ou a
+ * anotação inteira. `null` quando o bloco não existe mais ("bloco indisponível", ED2).
+ */
+export function embedBody(body: string, anchor: string | null): string | null {
+  if (anchor?.startsWith('^')) {
+    const b = blocoPorId(body, anchor.slice(1));
+    return b ? semIdBloco(textoDoBloco(body, b)).trimEnd() : null;
+  }
+  return noteSection(body, anchor);
+}
+
+/** O índice do bloco onde está o cursor (para "copiar link do bloco", ED2); -1 fora de bloco */
+export function blockAtOffset(body: string, offset: number): number {
+  const lista = blocos(body);
+  let melhor = -1;
+  lista.forEach((b, i) => {
+    if (b.tipo === 'propriedades' || b.tipo === 'regua') return;
+    if (offset >= b.inicio && offset <= b.fim) melhor = i;
+    else if (melhor < 0 && b.inicio > offset) melhor = i;
+  });
+  return melhor;
+}
 
 /**
  * Troca as linhas que são só um ![[...]] (fora das cercas de código) por uma marca numerada e

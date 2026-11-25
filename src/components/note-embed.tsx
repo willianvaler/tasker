@@ -8,7 +8,7 @@ import { NoteMarkdown } from '@/components/note-markdown';
 import { TaskRow } from '@/components/tasks/task-row';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { embedTarget, MAX_EMBED_DEPTH, noteSection } from '@/lib/note-embeds';
+import { embedBody, embedKey, embedTarget, MAX_EMBED_DEPTH } from '@/lib/note-embeds';
 import { useAttachmentByName, useSignedUrls } from '@/lib/queries/attachments';
 import { noteTitle, useNotes } from '@/lib/queries/notes';
 import { useToday } from '@/lib/queries/profile';
@@ -26,11 +26,13 @@ const PAGE_ROWS = 15;
 export function NoteEmbed({
   link,
   depth,
+  trail = [],
   onLink,
   resolve,
 }: {
   link: WikiLink;
   depth: number;
+  trail?: string[];
   onLink?: (href: LinkHref) => void;
   resolve?: ResolveLink;
 }) {
@@ -38,7 +40,14 @@ export function NoteEmbed({
   switch (target.kind) {
     case 'note':
       return (
-        <EmbeddedNote id={target.id} link={link} depth={depth} onLink={onLink} resolve={resolve} />
+        <EmbeddedNote
+          id={target.id}
+          link={link}
+          depth={depth}
+          trail={trail}
+          onLink={onLink}
+          resolve={resolve}
+        />
       );
     case 'page':
       return <EmbeddedPage id={target.id} />;
@@ -100,12 +109,14 @@ function EmbeddedNote({
   id,
   link,
   depth,
+  trail,
   onLink,
   resolve,
 }: {
   id: string;
   link: WikiLink;
   depth: number;
+  trail: string[];
   onLink?: (href: LinkHref) => void;
   resolve?: ResolveLink;
 }) {
@@ -120,7 +131,10 @@ function EmbeddedNote({
       pathname: '/nota/[id]',
       params: link.anchor ? { id, secao: link.anchor } : { id },
     });
-  const body = noteSection(note.body, link.anchor);
+  // Sem permissão a anotação nem chega ao aparelho (RLS): o texto não vaza (NoAccess acima)
+  const body = embedBody(note.body, link.anchor);
+  const key = embedKey(id, link.anchor);
+  const cycle = trail.includes(key);
   return (
     <Frame
       icon={FileText}
@@ -129,11 +143,22 @@ function EmbeddedNote({
       testID="embed-note"
     >
       <View className="px-3 py-1">
-        {depth >= MAX_EMBED_DEPTH ? (
-          // Fundo demais (ou volta para a mesma): fica o link
+        {body === null ? (
+          <Text className="py-1 text-sm italic text-ink-muted">{t('embeds.blockMissing')}</Text>
+        ) : cycle ? (
+          // Volta para quem já está aberto (A → B → A): avisa e não expande
+          <Text className="py-1 text-sm text-warn">{t('embeds.cycle')}</Text>
+        ) : depth >= MAX_EMBED_DEPTH ? (
+          // Fundo demais: fica o link
           <Text className="py-1 text-sm text-ink-muted">{t('embeds.tooDeep')}</Text>
         ) : body.trim() ? (
-          <NoteMarkdown value={body} onLink={onLink} resolve={resolve} depth={depth + 1} />
+          <NoteMarkdown
+            value={body}
+            onLink={onLink}
+            resolve={resolve}
+            depth={depth + 1}
+            trail={[...trail, key]}
+          />
         ) : (
           <Text className="py-1 text-sm text-ink-muted">{t('embeds.empty')}</Text>
         )}

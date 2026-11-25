@@ -353,6 +353,7 @@ export function NoteMarkdown({
   resolve,
   onHeadingLayout,
   depth = 0,
+  trail,
   plain = false,
 }: {
   value: string;
@@ -361,6 +362,8 @@ export function NoteMarkdown({
   onHeadingLayout?: (index: number, y: number) => void;
   /** Dentro de quantos ![[...]] esta anotação está (OB6): a prévia fica só na de fora */
   depth?: number;
+  /** As anotações já abertas em volta (ED2: aviso de ciclo); a de fora passa `[embedKey(id, null)]` */
+  trail?: string[];
   /** Página pública (OB14): sem prévia, sem incorporar, sem consulta e sem abrir etiquetas */
   plain?: boolean;
 }) {
@@ -424,7 +427,14 @@ export function NoteMarkdown({
         if (segment.kind === 'embed') {
           const link = embedded.embeds[segment.index];
           return link ? (
-            <NoteEmbed key={i} link={link} depth={depth} onLink={onLink} resolve={resolve} />
+            <NoteEmbed
+              key={i}
+              link={link}
+              depth={depth}
+              trail={trail}
+              onLink={onLink}
+              resolve={resolve}
+            />
           ) : null;
         }
         if (segment.kind === 'callout')

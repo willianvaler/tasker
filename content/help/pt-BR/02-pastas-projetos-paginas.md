@@ -96,6 +96,8 @@ A última opção cria um link para o que **ainda não existe** (`[[Nova ideia]]
 
 Embaixo da anotação, **Citado em** mostra as anotações e tarefas que têm link para ela, com a frase em volta. **Links que saem** lista o que ela cita. **Menções sem link** mostra as suas anotações que escrevem o nome dela sem `[[ ]]`, e **Ligar** transforma a menção em link. A descrição de uma tarefa também aceita `[[`, e o painel da tarefa e o alto de uma lista mostram o **Citado em**. Funciona sem internet.
 
+**Bloco:** com o cursor num parágrafo, item ou bloco, **⋯ → Copiar link do bloco** põe uma marca `^abc123` no fim dele (só nele) e copia `[[Anotação#^abc123]]`. Cole como link, ou com `!` na frente para mostrar o bloco dentro de outra anotação, só para ler, com o atalho para a origem; editar é na origem. A origem mostra em **Citado em** quais blocos as outras citam. Até 3 camadas de incorporação; uma volta (A mostra B, que mostra A) aparece como aviso, e um bloco apagado ou de anotação que você não lê aparece como **Bloco indisponível**, sem o texto.
+
 **Incorporar:** uma linha só com `![[...]]` (o `!` antes do link, ou o comando `/incorporar`) mostra o item dentro da anotação: outra anotação (inteira, ou só um trecho com `![[Anotação#Título]]`), uma lista com as caixinhas de verdade (concluir ali conclui na lista), uma tarefa, ou uma imagem dos anexos das suas tarefas pelo nome do arquivo (`![[foto.jpg]]`). No computador, parar o mouse sobre um link mostra uma prévia com as primeiras linhas; no celular, toque e segure.
 
 ### Bases
