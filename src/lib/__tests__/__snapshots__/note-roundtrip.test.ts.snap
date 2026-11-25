@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ida e volta pelo cofre (ED0) o texto volta igual, a não ser nos links (o que se perde fica registrado) 1`] = `
-{
-  "comLinks": 113,
-  "mudam": 112,
-  "semLinks": 87,
-}
-`;

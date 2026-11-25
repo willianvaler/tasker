@@ -23,7 +23,8 @@ const KIND: Record<string, LinkKind> = { n: 'note', t: 'task', p: 'page', f: 'fo
 const LINK = /(!?)\[\[([^[\]|#\n]+)(?:#([^[\]|\n]+))?(?:\|([^[\]\n]*))?\]\]/g;
 const REF = /^([ntpf]):([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i;
 /** O servidor para nisso também */
-export const MAX_LINKS = 300;
+/** Links lidos por texto: o mesmo do banco (`_refresh_links`, 2 mil desde o ED1) */
+export const MAX_LINKS = 2000;
 
 export function parseLinks(text: string): WikiLink[] {
   const out: WikiLink[] = [];

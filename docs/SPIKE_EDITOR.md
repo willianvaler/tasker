@@ -48,7 +48,7 @@ digita (a barra e o `/` inserem texto).
   1. **Texto do link diferente do nome:** `[[Nota 4|n:<id da Nota 5>]]` exporta certo
      (`[[Nota 5|Nota 4]]`), mas a importação **descarta o apelido** e volta como `[[Nota 5|n:…]]`.
   2. **Incorporar com título escrito:** `![[Nota|n:<id>]]` volta como `![[Nome real|n:<id>]]`.
-  Os dois são só o texto mostrado do link (o destino continua certo) e são o trabalho do **ED7**.
+  Os dois são só o texto mostrado do link (o destino continua certo). **Corrigidos no ED7 (D347):** a ida e volta ficou exata.
 - Não houve 200 anotações reais do dono neste PC (o banco local é de testes). O corpus fixo do ED1
   (`tests/fixtures/notas/`) precisa de anotações reais **exportadas pelo dono**, sem dado pessoal.
 

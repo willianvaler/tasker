@@ -294,7 +294,8 @@ export function importVault(
         if (!/\.[a-z0-9]{2,5}$/i.test(link.title)) unresolved++;
         continue;
       }
-      const markup = linkMarkup(titles.get(id) ?? link.title, 'note', id, link.anchor);
+      // O texto escrito do link (o apelido depois do |) vale; sem ele, o nome da anotação (ED7, D347)
+      const markup = linkMarkup(link.alias ?? titles.get(id) ?? link.title, 'note', id, link.anchor);
       body = body.slice(0, link.start) + (link.embed ? '!' : '') + markup + body.slice(link.end);
     }
     if (body.length > NOTE_BODY_MAX) {
@@ -389,7 +390,8 @@ export function exportVault(
       if (target) {
         const anchor = link.anchor ? `#${cleanLinkTitle(link.anchor)}` : '';
         const shown = cleanLinkTitle(link.title);
-        out = `${link.embed ? '!' : ''}[[${target.base}${anchor}${shown !== target.base && !link.embed ? `|${shown}` : ''}]]`;
+        // Com o apelido também no incorporar, a importação devolve o texto escrito (ED7)
+        out = `${link.embed ? '!' : ''}[[${target.base}${anchor}${shown !== target.base ? `|${shown}` : ''}]]`;
       } else {
         out = opts.resolve?.(link.kind, link.id) ?? link.title;
       }

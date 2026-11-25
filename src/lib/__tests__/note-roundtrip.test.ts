@@ -4,9 +4,9 @@ import { exportVault, importVault } from '@/lib/vault';
 
 import { gerarNotas } from './fixtures/notas-geradas';
 
-// ED0 (ESCOPO_V16): ida e volta das anotações pelo cofre (exportar → importar). O editor grava o
-// texto como foi digitado (é um campo de Markdown), então a ida e volta do editor é a identidade;
-// o que pode perder é a exportação. Este teste fixa o que se perde hoje (docs/SPIKE_EDITOR.md).
+// ED0/ED7 (ESCOPO_V16): ida e volta das anotações pelo cofre (exportar → importar). O editor grava o
+// texto como foi digitado, então a ida e volta do editor é a identidade; e desde o ED7 (D347) a do
+// cofre também: as 200 anotações voltam com o texto, as propriedades e os links iguais.
 
 describe('ida e volta pelo cofre (ED0)', () => {
   const notas = gerarNotas(200);
@@ -21,7 +21,8 @@ describe('ida e volta pelo cofre (ED0)', () => {
   const porTitulo = new Map(back.notes.map((n) => [n.title, n]));
   const idNovo = new Map(notas.map((n) => [n.id, porTitulo.get(n.title)?.id]));
   // Os links voltam com o id novo: troca o id antigo pelo novo para comparar
-  const comIdNovo = (body: string) => body.replace(/\|n:([0-9a-f-]{36})\]\]/g, (_, id: string) => `|n:${idNovo.get(id)}]]`);
+  const comIdNovo = (body: string) =>
+    body.replace(/\|n:([0-9a-f-]{36})\]\]/g, (_, id: string) => `|n:${idNovo.get(id)}]]`);
 
   test('todas as 200 voltam, com título', () => {
     expect(back.notes).toHaveLength(200);
@@ -32,16 +33,39 @@ describe('ida e volta pelo cofre (ED0)', () => {
     for (const n of notas) expect(porTitulo.get(n.title)?.props ?? {}).toEqual(n.props);
   });
 
-  test('o texto volta igual, a não ser nos links (o que se perde fica registrado)', () => {
-    const iguais = notas.filter((n) => porTitulo.get(n.title)?.body === n.body).length;
-    const semLinks = notas.filter((n) => !/\[\[[^\]]*\|n:/.test(n.body));
-    // Sem links para outras anotações, o texto volta byte a byte
-    for (const n of semLinks) expect(porTitulo.get(n.title)?.body).toBe(n.body);
-    // Com links, o texto do link é trocado pelo nome do arquivo (o apelido fica depois do |)
-    const comLinks = notas.filter((n) => /\[\[[^\]]*\|n:/.test(n.body));
-    const perdas = comLinks.filter((n) => porTitulo.get(n.title)?.body !== comIdNovo(n.body));
-    expect(iguais + comLinks.length).toBeGreaterThanOrEqual(semLinks.length);
-    // Registro para o SPIKE_EDITOR.md: quantas mudam e um exemplo
-    expect({ semLinks: semLinks.length, comLinks: comLinks.length, mudam: perdas.length }).toMatchSnapshot();
+  test('o texto volta igual, links (com o texto escrito, âncora e ID de bloco) inclusive', () => {
+    for (const n of notas) expect(porTitulo.get(n.title)?.body).toBe(comIdNovo(n.body));
+  });
+
+  test('referência de bloco e transclusão voltam com o ^id', () => {
+    const files2 = exportVault(
+      [
+        {
+          id: 'a0000000-0000-4000-8000-000000000001',
+          title: 'Origem',
+          body: 'Bloco citado ^abc123',
+          props: {},
+          dir: ['Pasta'],
+        },
+        {
+          id: 'a0000000-0000-4000-8000-000000000002',
+          title: 'Cita',
+          body: 'Ver [[Origem#^abc123|n:a0000000-0000-4000-8000-000000000001]]\n\n![[Origem#^abc123|n:a0000000-0000-4000-8000-000000000001]]',
+          props: {},
+          dir: [],
+        },
+      ],
+      { untitled: 'S' },
+    );
+    expect(files2.find((f) => f.path === 'Cita.md')?.text).toBe(
+      'Ver [[Origem#^abc123]]\n\n![[Origem#^abc123]]',
+    );
+    let j = 0;
+    const back2 = importVault(files2, { newId: () => `b0000000-0000-4000-8000-00000000000${j++}` });
+    const origem = back2.notes.find((n) => n.title === 'Origem');
+    expect(back2.notes.find((n) => n.title === 'Cita')?.body).toBe(
+      `Ver [[Origem#^abc123|n:${origem?.id}]]\n\n![[Origem#^abc123|n:${origem?.id}]]`,
+    );
+    expect(origem?.body).toBe('Bloco citado ^abc123');
   });
 });

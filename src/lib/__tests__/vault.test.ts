@@ -94,8 +94,9 @@ describe('importVault', () => {
       ['Inexistente', null, null],
     ]);
     const back = parseLinks(farinha.body);
+    // O texto escrito do link do Obsidian (o apelido) fica (ED7, D347)
     expect(back.map((l) => [l.title, l.id, l.embed, l.anchor])).toEqual([
-      ['Pão', pao.id, false, null],
+      ['pão caseiro', pao.id, false, null],
       ['Pão', pao.id, true, 'Massa'],
     ]);
     expect(parseLinks(antiga.body).map((l) => l.id)).toEqual([
