@@ -76,3 +76,36 @@ test('anotações: consulta questlist', async ({ page }, testInfo) => {
   await expect(blocks.nth(1).getByTestId('query-count')).toHaveText('1 tarefa');
   await expect(blocks.nth(2).getByRole('table')).toContainText(`☑ Lavar ${stamp}`);
 });
+
+// R2a (reforma de usabilidade 2, D369): o cabeçalho da tabela da consulta ordena, só na tela
+test('anotações: tabela da consulta ordena pelo cabeçalho', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'basta um perfil');
+  const stamp = Date.now();
+  const tag = `tab${stamp}`;
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  for (const title of [`Banana ${stamp} #${tag}`, `Abacate ${stamp} #${tag}`, `Caju ${stamp} #${tag}`]) {
+    await input.fill(title);
+    await input.press('Enter');
+  }
+  await expect(page.getByRole('checkbox', { name: `Concluir Caju ${stamp}` })).toBeVisible();
+  await page.getByRole('button', { name: 'Nova anotação' }).first().click();
+  await page.getByRole('textbox', { name: 'Título da anotação' }).fill(`Tabela ${stamp}`);
+  await page
+    .getByRole('textbox', { name: 'Texto da anotação' })
+    .fill(['```questlist', `tarefas onde etiqueta = ${tag} como tabela`, '```'].join('\n'));
+  await page.getByRole('button', { name: 'Visualizar' }).click();
+
+  const firstCell = () => page.getByRole('row').nth(1).getByRole('cell').first();
+  const header = page.getByRole('columnheader', { name: 'Ordenar por Título' });
+  await expect(header).toHaveAttribute('aria-sort', 'none');
+  await header.click();
+  await expect(header).toHaveAttribute('aria-sort', 'ascending');
+  await expect(firstCell()).toHaveText(`Abacate ${stamp}`);
+  await header.click();
+  await expect(header).toHaveAttribute('aria-sort', 'descending');
+  await expect(firstCell()).toHaveText(`Caju ${stamp}`);
+  await header.click();
+  await expect(header).toHaveAttribute('aria-sort', 'none');
+});

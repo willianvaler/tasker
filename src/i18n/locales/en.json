@@ -4434,7 +4434,8 @@
       "limit": "The limit must be a number (not “{{word}}”).",
       "view": "Show as list, table or count (not “{{word}}”).",
       "notesDone": "Notes have no “done”: use a property (e.g. props.read = yes)."
-    }
+    },
+    "sortBy": "Sort by {{column}}"
   },
   "base": {
     "query": "Base query",

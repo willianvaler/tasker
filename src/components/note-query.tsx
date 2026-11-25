@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
-import { CircleAlert, Search } from 'lucide-react-native';
+import { ArrowDown, ArrowUp, CircleAlert, Database } from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
@@ -8,6 +9,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { formatDueDate, todayIn } from '@/lib/parser/dates';
 import { isSelective, parseQuery, type Query, type QueryError } from '@/lib/query/parse';
+import { compareSortValues, sortKey, type SortValue } from '@/lib/query/sort';
 import {
   fetchPlan,
   propColumns,
@@ -34,7 +36,7 @@ export function QueryBlock({ source }: { source: string }) {
   return (
     <View testID="note-query" className="my-1 overflow-hidden rounded-lg border border-line">
       <View className="flex-row items-center gap-2 border-b border-line bg-wash px-3 py-1">
-        <Icon icon={Search} size={16} tone="ink-muted" />
+        <Icon icon={Database} size={16} tone="ink-muted" />
         <Text numberOfLines={2} className="flex-1 font-mono text-xs text-ink-muted">
           {source || t('query.title')}
         </Text>
@@ -164,6 +166,14 @@ function TaskResults({
               task.priority ? '!'.repeat(task.priority) : '',
               (task.labels ?? []).map((l) => `#${l}`).join(' '),
             ],
+            // O que a ordem do cabeçalho compara (a data crua, a prioridade em número)
+            keys: [
+              task.title,
+              task.page ? pageLabel(task.page) : '',
+              task.due_date,
+              task.priority || null,
+              (task.labels ?? []).join(' '),
+            ],
           }))}
         />
       ) : (
@@ -229,6 +239,11 @@ function NoteResults({
               (note.tags ?? []).map((tag) => `#${tag}`).join(' '),
               ...props.map((p) => show(propOf(note.props, p))),
             ],
+            keys: [
+              noteTitle(note, t('notes.untitled')),
+              (note.tags ?? []).join(' '),
+              ...props.map((p) => sortKey(propOf(note.props, p))),
+            ],
           }))}
         />
       ) : (
@@ -266,31 +281,58 @@ function More({ shown, total }: { shown: number; total: number }) {
   );
 }
 
-/** Tabela simples: rola de lado quando não cabe; tocar na linha abre o item */
+/**
+ * Tabela: rola de lado quando não cabe; tocar na linha abre o item. O cabeçalho ordena (crescente,
+ * decrescente e de volta à ordem da consulta), só na tela, sem mudar o texto da consulta (R2a, D369).
+ */
 function Table({
   columns,
   rows,
 }: {
   columns: string[];
-  rows: { id: string; onPress: () => void; cells: string[] }[];
+  rows: { id: string; onPress: () => void; cells: string[]; keys: SortValue[] }[];
 }) {
+  const { t } = useTranslation();
+  const [sort, setSort] = useState<{ col: number; desc: boolean } | null>(null);
   const width = Math.max(columns.length * 140, 0);
+  const shown = sort
+    ? [...rows].sort((a, b) => compareSortValues(a.keys[sort.col], b.keys[sort.col], sort.desc))
+    : rows;
+  const cycle = (col: number) =>
+    setSort((s) =>
+      !s || s.col !== col ? { col, desc: false } : !s.desc ? { col, desc: true } : null,
+    );
   return (
     <ScrollView horizontal contentContainerStyle={{ minWidth: '100%' }}>
       <View role="table" style={{ minWidth: width, flexGrow: 1 }}>
         <View role="row" className="flex-row border-b border-line bg-wash">
-          {columns.map((c, i) => (
-            <Text
-              key={i}
-              role="columnheader"
-              numberOfLines={1}
-              className="flex-1 px-3 py-1 text-xs font-semibold uppercase text-ink-muted"
-            >
-              {c}
-            </Text>
-          ))}
+          {columns.map((c, i) => {
+            const active = sort?.col === i;
+            return (
+              <Pressable
+                key={i}
+                role="columnheader"
+                aria-sort={active ? (sort.desc ? 'descending' : 'ascending') : 'none'}
+                accessibilityLabel={t('query.sortBy', { column: c })}
+                onPress={() => cycle(i)}
+                className="flex-1 flex-row items-center gap-1 px-3 py-1 hover:bg-line"
+              >
+                <Text
+                  numberOfLines={1}
+                  className={
+                    active
+                      ? 'text-xs font-semibold uppercase text-ink'
+                      : 'text-xs font-semibold uppercase text-ink-muted'
+                  }
+                >
+                  {c}
+                </Text>
+                {active && <Icon icon={sort.desc ? ArrowDown : ArrowUp} size={16} tone="ink" />}
+              </Pressable>
+            );
+          })}
         </View>
-        {rows.map((row) => (
+        {shown.map((row) => (
           <Pressable
             key={row.id}
             role="row"

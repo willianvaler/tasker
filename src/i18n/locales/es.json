@@ -4434,7 +4434,8 @@
       "limit": "El límite tiene que ser un número (no “{{word}}”).",
       "view": "Mostrar como lista, tabla o conteo (no “{{word}}”).",
       "notesDone": "Las notas no tienen “completadas”: usa una propiedad (ej.: props.leido = sí)."
-    }
+    },
+    "sortBy": "Ordenar por {{column}}"
   },
   "base": {
     "query": "Consulta de la base",
