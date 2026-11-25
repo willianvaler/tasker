@@ -148,7 +148,7 @@ Sem chave, a função responde "a leitura de fotos ainda não foi ligada no serv
 - **Chave de assinatura:** `~/.config/questlist/release.keystore`, com a senha em `~/.config/questlist/keystore.env` (criadas no primeiro build, **fora do repositório**). Faça backup das duas: com outra chave, o Android não instala por cima e quem tem o app precisa desinstalar (perde o que não sincronizou).
 - **Endereços:** o APK fala com `https://questlist.wavdev.org/supabase` e `/powersync` (mude com `QUESTLIST_URL=... npm run apk`).
 - **Arquitetura:** `arm64-v8a` e `armeabi-v7a` (celulares de entrada que rodam em 32 bits, como Motorolas com chip Unisoc). Para um emulador x86_64: `APK_ARCHS=armeabi-v7a,arm64-v8a,x86_64 npm run apk`.
-- **Versão:** o código da versão é o número de commits; o app instalado compara com o `apk.json` para avisar que há versão nova.
+- **Versão:** o nome da versão é o da última tag de produção (`v2026.11.25` → `2026.11.25`, gravado no `app.json` da cópia de build; `APK_VERSION=...` força outro) e o código da versão é o número de commits; o app instalado compara o código com o `apk.json` para avisar que há versão nova. Por isso, gere o APK depois do `npm run promover`.
 - Push (notificação vinda do servidor) não funciona no APK: precisa do Firebase, que depende da conta do dono. Os avisos do timer (locais) funcionam.
 
 ## Mudou o banco?

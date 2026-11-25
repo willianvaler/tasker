@@ -43,7 +43,12 @@ export EXPO_PUBLIC_WEB_URL="$URL"
 export NODE_ENV=production
 export EXPO_PUBLIC_APK_CODE="$(git rev-list --count HEAD)"
 if [ "$AAB" = 1 ]; then export EXPO_PUBLIC_STORE=play; else unset EXPO_PUBLIC_STORE; fi
-VERSION="$(node -p "require('./app.json').expo.version")"
+# Versão: a da última tag de produção (v2026.11.25 → 2026.11.25; v2026.11.25.2 → 2026.11.25.2), que
+# sobe sozinha a cada `npm run promover`. Sem tag, a do app.json. O código (versionCode) continua
+# sendo o número de commits, que é o que o Android compara para atualizar
+TAG="$(git describe --tags --abbrev=0 --match 'v[0-9]*' HEAD 2>/dev/null || true)"
+VERSION="${APK_VERSION:-${TAG#v}}"
+[ -n "$VERSION" ] || VERSION="$(node -p "require('./app.json').expo.version")"
 CODE="$(git rev-list --count HEAD)"
 COMMIT="$(git log -1 --format=%h)"
 [ -z "$(git status --porcelain --untracked-files=no)" ] || echo "Aviso: há mudanças não commitadas; o APK sai do commit $COMMIT, sem elas"
@@ -64,6 +69,8 @@ cd "$SRC"
 
 # O cache do Metro guarda os EXPO_PUBLIC_* de outro build (o da web usa endereços relativos)
 rm -rf "${TMPDIR:-/tmp}"/metro-* node_modules/.cache/metro 2>/dev/null || true
+# A versão entra no app.json da cópia (o app mostra a mesma do APK; a pasta de trabalho fica igual)
+node -e "const f='app.json',j=require('./'+f);j.expo.version=process.argv[1];require('fs').writeFileSync(f,JSON.stringify(j,null,2)+'\\n')" "$VERSION"
 CI=1 npx expo prebuild --platform android --clean --no-install >/dev/null
 sed -i -E "s/versionCode [0-9]+/versionCode $CODE/; s/versionName \"[^\"]+\"/versionName \"$VERSION ($COMMIT)\"/" \
   android/app/build.gradle
