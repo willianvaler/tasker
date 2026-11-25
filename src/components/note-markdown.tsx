@@ -14,6 +14,7 @@ import {
 import { router } from 'expo-router';
 import {
   createContext,
+  isValidElement,
   useContext,
   useMemo,
   useRef,
@@ -21,7 +22,14 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from 'react';
-import { Platform, Pressable, View, type ImageStyle, type TextStyle } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  View,
+  type ImageStyle,
+  type TextStyle,
+  type ViewStyle,
+} from 'react-native';
 import { Renderer, useMarkdown } from 'react-native-marked';
 import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
@@ -66,6 +74,25 @@ const HEADING = 'note-heading-';
  * (`==texto==`) e a chamada de nota de rodapé chegam como links com endereço próprio (OB3). Os
  * títulos levam um testID, para a anotação saber onde cada um ficou.
  */
+/** O item começa pela caixinha (☐/☑ do `withTaskBoxes`)? Procura o primeiro texto do item. */
+function firstText(node: ReactNode): string | null {
+  if (typeof node === 'string') return node.trim() ? node : null;
+  if (typeof node === 'number') return String(node);
+  if (Array.isArray(node)) {
+    for (const child of node) {
+      const found = firstText(child);
+      if (found !== null) return found;
+    }
+    return null;
+  }
+  if (isValidElement(node)) return firstText((node.props as { children?: ReactNode }).children);
+  return null;
+}
+
+function isTaskItem(node: ReactNode): boolean {
+  return /^\s*[☐☑]/.test(firstText(node) ?? '');
+}
+
 class NoteRenderer extends Renderer {
   constructor(
     private readonly onLink: ((href: LinkHref) => void) | undefined,
@@ -163,6 +190,25 @@ class NoteRenderer extends Renderer {
       >
         {children}
       </Text>
+    );
+  }
+
+  // Lista só de tarefas: a caixinha já é o marcador, sem o "•" na frente (M9)
+  list(
+    ordered: boolean,
+    li: ReactNode[],
+    listStyle?: ViewStyle,
+    textStyle?: TextStyle,
+    startIndex?: number,
+  ) {
+    if (ordered || li.length === 0 || !li.every(isTaskItem))
+      return super.list(ordered, li, listStyle, textStyle, startIndex);
+    return (
+      <View key={this.getKey()} style={listStyle}>
+        {li.map((node, i) => (
+          <View key={i}>{node}</View>
+        ))}
+      </View>
     );
   }
 

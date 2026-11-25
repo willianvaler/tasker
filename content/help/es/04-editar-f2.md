@@ -1,6 +1,6 @@
 # Editar rápido con F2
 
-Selecciona una tarea (haz clic o usa `J` y `K`) y pulsa **F2**: el título se vuelve un campo. Enter guarda, Esc cancela.
+Hacer clic (o tocar) en el nombre de la tarea la **abre**. Para renombrarla ahí mismo, **mantén pulsado** el nombre, o selecciona la fila (haz clic fuera del nombre o usa `J` y `K`) y pulsa **F2**: el título se vuelve un campo. Enter guarda, Esc cancela.
 
 Sin tarea seleccionada, **F2** renombra la lista o carpeta abierta, y ahí mismo puedes cambiar el **ícono**.
 

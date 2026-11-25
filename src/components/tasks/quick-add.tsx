@@ -195,16 +195,15 @@ export function QuickAdd({
         <TextInput
           ref={inputRef}
           placeholder={
-            !pageId
-              ? t('quickAdd.loading')
-              : online
+            // Sem a árvore ainda, o campo aparece normal e desligado (nada de "Carregando…", M12)
+            online
                 ? // Y2 (#7): no celular, o texto curto (o longo ficava cortado)
                   (placeholder ?? t(roomy ? 'quickAdd.placeholder' : 'quickAdd.placeholderShort'))
                 : t('quickAdd.offline')
           }
           placeholderTextColor={colors['ink-muted']}
           value={text}
-          editable={writable}
+          editable={writable && !!pageId}
           onChangeText={(value) => {
             // No celular, colar várias linhas chega aqui com as quebras
             if (/\r?\n/.test(value.trim())) openBatch(value);

@@ -11,7 +11,7 @@ export type CalloutType =
   'note' | 'info' | 'tip' | 'success' | 'question' | 'warning' | 'danger' | 'quote';
 
 /** Os nomes do Obsidian (em inglês, para importar e exportar) e os do app em pt-BR e es */
-const CALLOUT_ALIASES: Record<string, CalloutType> = {
+export const CALLOUT_ALIASES: Record<string, CalloutType> = {
   note: 'note',
   nota: 'note',
   abstract: 'info',

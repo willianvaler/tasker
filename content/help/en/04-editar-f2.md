@@ -1,6 +1,6 @@
 # Quick edit with F2
 
-Select a task (click it or use `J` and `K`) and press **F2**: the title becomes a field. Enter saves, Esc cancels.
+Clicking (or tapping) a task's name **opens** it. To rename in place, **hold** the name, or select the row (click outside the name or use `J` and `K`) and press **F2**: the title becomes a field. Enter saves, Esc cancels.
 
 With no task selected, **F2** renames the open list or folder, and you can change its **icon** right there.
 

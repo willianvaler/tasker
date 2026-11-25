@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { useSlashItems } from '@/components/block-editor-items';
+import { calloutLabels, useSlashItems } from '@/components/block-editor-items';
 import { mountBlockEditor, type BlockEditorApi } from '@/lib/block-editor/mount';
 import { texToSvg } from '@/lib/mathjax';
 import { useLinkCandidates } from '@/lib/queries/links';
@@ -57,6 +57,7 @@ export function BlockEditor({
       editable,
       placeholder: t('blockEditor.placeholder'),
       plusLabel: t('blockEditor.plus'),
+      calloutLabels: calloutLabels(t),
       onChange: (md) => latest.current.onChange(md),
       onBlur: () => latest.current.onBlur?.(),
       onLinkQuery: setLinkQuery,

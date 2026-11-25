@@ -177,9 +177,8 @@ test('paleta de comandos: Ctrl+K busca página e tarefa e abre', async ({ page }
     page.getByRole('search').getByRole('button', { name: /Comprar passagem/ }),
   ).toBeVisible();
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveValue(
-    'Comprar passagem',
-  );
+  // A busca é "ir ver" (D322): abre a ficha da tarefa
+  await expect(page.getByRole('heading', { name: 'Comprar passagem', level: 1 })).toBeVisible();
 });
 
 test('criação avançada: todos os campos e Ctrl+Enter', async ({ page }, testInfo) => {
@@ -307,5 +306,21 @@ test('trocar um atalho na Ajuda vale na hora e volta ao de fábrica', async ({ p
   await page.getByRole('button', { name: 'Voltar todos os atalhos ao padrão' }).click();
   await expect(page.getByRole('button', { name: 'Voltar todos os atalhos ao padrão' })).toHaveCount(
     0,
+  );
+});
+
+// Avaliação de UX (A1): clicar no nome abre a tarefa, como no Notion; renomear é segurar ou F2
+test('clicar no nome da tarefa abre os detalhes', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  await createPage(page, { folder: 'Casa', name: 'Jardim', type: 'Lista' });
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
+  await input.fill('Podar a roseira');
+  await input.press('Enter');
+  await created;
+  await page.getByRole('button', { name: 'Podar a roseira', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Título da tarefa' })).toHaveCount(0);
+  await expect(page.getByRole('textbox', { name: 'Título', exact: true })).toHaveValue(
+    'Podar a roseira',
   );
 });

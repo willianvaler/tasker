@@ -51,7 +51,9 @@ test('anotações: criar, formatar, salvar sozinho, reabrir e apagar', async ({ 
   await expect(item).toBeVisible();
   await expect(item).not.toContainText('**');
   await item.click();
-  await page.getByRole('button', { name: 'Apagar' }).click();
-  await page.getByRole('button', { name: 'Apagar' }).last().click();
+  // Apagar mora no ⋯ (avaliação de UX, A3)
+  await page.getByRole('button', { name: 'Mais opções da anotação' }).last().click();
+  await page.getByRole('menuitem', { name: 'Apagar' }).click();
+  await page.getByRole('button', { name: 'Apagar', exact: true }).last().click();
   await expect(page.getByText(title)).toHaveCount(0);
 });

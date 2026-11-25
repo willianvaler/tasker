@@ -1,6 +1,6 @@
 # Editar rápido com F2
 
-Selecione uma tarefa (clique nela ou use `J` e `K`) e aperte **F2**: o título vira um campo. Enter salva, Esc desiste.
+Clicar (ou tocar) no nome da tarefa **abre** a tarefa. Para renomear ali mesmo, **segure** o nome, ou selecione a linha (clique fora do nome ou use `J` e `K`) e aperte **F2**: o título vira um campo. Enter salva, Esc desiste.
 
 Sem tarefa selecionada, **F2** renomeia a lista ou a pasta aberta, e dá para trocar o **ícone** ali mesmo.
 

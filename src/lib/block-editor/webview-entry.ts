@@ -13,6 +13,7 @@ type InitMessage = {
   editable: boolean;
   placeholder: string;
   plusLabel: string;
+  calloutLabels?: Record<string, string>;
   items: SlashItem[];
   today: string;
   queryTemplate: string;
@@ -54,6 +55,7 @@ function init(m: InitMessage) {
     editable: m.editable,
     placeholder: m.placeholder,
     plusLabel: m.plusLabel,
+    calloutLabels: m.calloutLabels,
     throttleMs: 300,
     onChange: (md) => post({ type: 'change', markdown: md }),
     onBlur: () => post({ type: 'blur' }),

@@ -7,7 +7,7 @@ import { WebView } from 'react-native-webview';
 
 import editorBundle from '../../assets/editor/editor.txt';
 
-import { useSlashItems } from '@/components/block-editor-items';
+import { calloutLabels, useSlashItems } from '@/components/block-editor-items';
 import type { BlockEditorApi } from '@/lib/block-editor/mount';
 import { editorPageHtml, parseEditorMessage } from '@/lib/block-editor/webview-html';
 import { texToSvg } from '@/lib/mathjax';
@@ -224,6 +224,7 @@ export function BlockEditor({
                   editable,
                   placeholder: t('blockEditor.placeholder'),
                   plusLabel: t('blockEditor.plus'),
+                  calloutLabels: calloutLabels(t),
                   items,
                   today,
                   queryTemplate: t('blockEditor.queryTemplate'),

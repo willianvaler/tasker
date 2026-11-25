@@ -392,6 +392,13 @@ export function Sidebar() {
         <View className="flex-row items-center gap-2 pl-2">
           <BrandMark size={24} />
           <Text className="flex-1 font-serif text-lg text-ink">Questlist</Text>
+          {/* Modo fica ao lado do tema (M10): o primeiro item da navegação é a Hoje */}
+          <IconButton
+            icon={Zap}
+            label={t('modes.open')}
+            tone="ink"
+            onPress={() => router.push('/modos')}
+          />
           <ThemeToggle />
         </View>
       </View>
@@ -415,15 +422,6 @@ export function Sidebar() {
             <Icon icon={Search} tone="ink-muted" />
             <Text className="flex-1 text-sm text-ink-muted">{t('palette.open')}</Text>
             <Kbd>Ctrl K</Kbd>
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t('modes.open')}
-            className="mb-2 min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
-            onPress={() => router.push('/modos')}
-          >
-            <Icon icon={Zap} tone="ink-muted" />
-            <Text className="flex-1 text-sm text-ink">{t('modes.title')}</Text>
           </Pressable>
           {NAV.map((item) => (
             <NavRow

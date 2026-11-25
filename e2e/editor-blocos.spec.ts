@@ -33,6 +33,8 @@ test('editor de blocos: menu /, título, lista de tarefas, tabela, callout e con
   await expect(editor.locator('h2')).toHaveText('Plano da semana');
   await expect(editor.locator('ul[data-type="taskList"] li')).toHaveCount(1);
   await expect(editor.locator('.ql-callout')).toContainText('Atenção ao prazo');
+  // O nome do tipo no idioma do app, como na leitura (M7)
+  await expect(editor.locator('.ql-callout')).toHaveAttribute('data-title', /^(Dica|Nota)$/);
 
   // Sai do callout e põe uma consulta e uma tabela
   await editor.locator('h2').click();

@@ -82,7 +82,7 @@
     "reopen": "Reabrir {{title}}",
     "details": "Detalhes de {{title}}",
     "titleField": "Título da tarefa",
-    "editHint": "Toque para editar o título",
+    "editHint": "Abre a tarefa. Segure (ou F2) para renomear",
     "done": "Concluída: {{title}}",
     "doneNext": "Feito! Próxima: {{date}}",
     "assignees": "Responsáveis: {{names}}",
@@ -154,7 +154,6 @@
   "quickAdd": {
     "label": "Nova tarefa",
     "placeholder": "Nova tarefa… (Enter para criar)",
-    "loading": "Carregando…",
     "readOnly": "Só leitura: você é leitor deste projeto",
     "offline": "Nova tarefa… (vai quando a conexão voltar)",
     "hint": "amanhã · !! · #etiqueta · @pessoa · ^depende de",

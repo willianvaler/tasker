@@ -82,7 +82,7 @@
     "reopen": "Reopen {{title}}",
     "details": "Details of {{title}}",
     "titleField": "Task title",
-    "editHint": "Tap to edit the title",
+    "editHint": "Opens the task. Hold (or F2) to rename",
     "done": "Done: {{title}}",
     "doneNext": "Done! Next: {{date}}",
     "assignees": "Assigned to: {{names}}",
@@ -154,7 +154,6 @@
   "quickAdd": {
     "label": "New task",
     "placeholder": "New task… (Enter to create)",
-    "loading": "Loading…",
     "readOnly": "Read only: you are a viewer in this project",
     "offline": "New task… (sent when you are back online)",
     "hint": "tomorrow · !! · #tag · @person · ^depends on",

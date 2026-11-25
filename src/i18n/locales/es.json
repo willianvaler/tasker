@@ -82,7 +82,7 @@
     "reopen": "Reabrir {{title}}",
     "details": "Detalles de {{title}}",
     "titleField": "Título de la tarea",
-    "editHint": "Toca para editar el título",
+    "editHint": "Abre la tarea. Mantén pulsado (o F2) para renombrar",
     "done": "Completada: {{title}}",
     "doneNext": "¡Hecho! Próxima: {{date}}",
     "assignees": "Responsables: {{names}}",
@@ -154,7 +154,6 @@
   "quickAdd": {
     "label": "Nueva tarea",
     "placeholder": "Nueva tarea… (Enter para crear)",
-    "loading": "Cargando…",
     "readOnly": "Solo lectura: eres lector en este proyecto",
     "offline": "Nueva tarea… (se envía al volver la conexión)",
     "hint": "mañana · !! · #etiqueta · @persona · ^depende de",

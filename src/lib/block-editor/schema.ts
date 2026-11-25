@@ -71,6 +71,12 @@ export const RawBlock = Node.create({
 });
 
 /** Callout `> [!tipo]+ Título`: uma caixa com blocos dentro */
+/** Nomes dos tipos de callout no idioma do app (M7: o editor dizia "Tip" e a leitura, "Dica") */
+let calloutLabels: Record<string, string> = {};
+export function setCalloutLabels(labels: Record<string, string> | undefined) {
+  calloutLabels = labels ?? {};
+}
+
 export const Callout = Node.create({
   name: 'callout',
   group: 'block',
@@ -91,7 +97,7 @@ export const Callout = Node.create({
       'div',
       mergeAttributes(HTMLAttributes, {
         'data-callout': node.attrs.kind,
-        'data-title': node.attrs.title || node.attrs.kind,
+        'data-title': node.attrs.title || calloutLabels[String(node.attrs.kind).toLowerCase()] || node.attrs.kind,
         class: 'ql-callout',
       }),
       0,

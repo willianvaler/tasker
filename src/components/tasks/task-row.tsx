@@ -211,12 +211,17 @@ function TaskRowView({
             <Pressable
               accessibilityRole="button"
               accessibilityHint={t('task.editHint')}
-              disabled={!allowed.edit}
               className="self-start"
-              onPress={() => {
-                setTitle(task.title);
-                setEditing(true);
-              }}
+              // Clique abre (como no Notion e no Todoist); renomear é segurar, F2 ou no painel
+              onPress={() => openTask(task.id, task.folder_id)}
+              onLongPress={
+                allowed.edit
+                  ? () => {
+                      setTitle(task.title);
+                      setEditing(true);
+                    }
+                  : undefined
+              }
             >
               <Text
                 numberOfLines={2}

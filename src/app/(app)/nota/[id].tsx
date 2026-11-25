@@ -14,7 +14,6 @@ import {
   ListTree,
   MoreHorizontal,
   Pencil,
-  Trash2,
   ImagePlus,
   type LucideIcon,
 } from 'lucide-react-native';
@@ -552,15 +551,6 @@ function Editor({
                 tone="ink"
                 onPress={() => setMoreMenu(true)}
               />
-              {!sharedWithMe && (
-                <Button
-                  destructive
-                  variant="ghost"
-                  icon={Trash2}
-                  label={t('notes.delete')}
-                  onPress={() => setConfirm(true)}
-                />
-              )}
             </>
           }
         />
@@ -879,7 +869,9 @@ function Editor({
             {editing ? t(blocks ? 'blockEditor.slashHint' : 'notes.markdownHint') : ''}
           </Text>
           <Text className="font-mono text-xs text-ink-muted">
-            {t('notes.words', { count: wordCount(lento) })} · {lento.length}/{NOTE_MAX}
+            {t('notes.words', { count: wordCount(lento) })}
+            {/* O limite só aparece perto do fim (M8) */}
+            {lento.length > NOTE_MAX * 0.9 ? ` · ${lento.length}/${NOTE_MAX}` : ''}
           </Text>
         </View>
       </KeyboardAvoidingView>
@@ -1011,6 +1003,19 @@ function Editor({
                       updatePrefs.mutate({
                         notes: { dailyTemplate: note.id === dailyTemplate ? null : note.id },
                       });
+                    },
+                  },
+                ]
+              : []),
+            // Apagar mora no ⋯ (avaliação de UX, A3): ação destrutiva fora do lugar mais visível
+            ...(!sharedWithMe
+              ? [
+                  {
+                    label: t('notes.delete'),
+                    destructive: true,
+                    onPress: () => {
+                      closeMoreMenu();
+                      setConfirm(true);
                     },
                   },
                 ]

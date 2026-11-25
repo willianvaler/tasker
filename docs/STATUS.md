@@ -521,7 +521,8 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **R1.4** Editor de blocos no celular (D373): o núcleo numa WebView (`assets/editor/editor.txt`, `npm run editor:webview`, `components/block-editor.tsx`), botão Inserir, Enter do teclado virtual no menu; conferido num emulador Android 16 com o alpha. Precisa do APK novo
 - [x] **R2b** Construtor visual da consulta e da Base (D374): `components/query-builder.tsx`, `lib/query/serialize.ts` (ida e volta testada nos 3 idiomas), E2E em `consultas.spec.ts`
 - [x] **R3** Achar as coisas (D375): Ctrl+K e Novo mais completos, o editor que ensina o `/`, inventário e passos em `docs/PROPOSTA_UX2.md` §5
-- [ ] **R4** Organização (conversar com o dono)
+- [x] **AV1** Avaliação de UX, passo 1 (D376, `docs/AVALIACAO_UX.md` §6): clicar no nome da tarefa abre (renomear é segurar ou F2, A1); Apagar da anotação no ⋯ (A3); captura da Hoje sem "Carregando…" (M12); callout com o nome traduzido no editor (M7); contador só de palavras, o limite acima de 90% (M8); lista de tarefas na leitura sem o "•" (M9); Modo ao lado do tema na barra lateral (M10). E2E em `v2-estrutura.spec.ts`, `anotacoes.spec.ts`, `editor-blocos.spec.ts`; Ajuda nos 3 idiomas
+- [ ] **R4** Organização (proposta no §4 da avaliação, aceita pelo dono em 25/11)
 
 ## ESCOPO v1 — backlog (§11)
 

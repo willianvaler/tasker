@@ -3,7 +3,7 @@ import { Editor } from '@tiptap/core';
 import { LinkSuggest, setLinkSuggestions, type LinkSuggestion } from './link';
 import { MathPreview, type RenderMath } from './math';
 import { docToMarkdown, markdownToDoc } from './markdown';
-import { editorExtensions } from './schema';
+import { editorExtensions, setCalloutLabels } from './schema';
 import { openSlashAfter, SlashMenu, type SlashOptions } from './slash';
 
 // Monta o editor de blocos (R1, D370, D371) num elemento: a web usa direto (block-editor.web.tsx) e a
@@ -35,6 +35,8 @@ export type MountOptions = {
   editable: boolean;
   placeholder: string;
   plusLabel: string;
+  /** Nome de cada tipo de callout (`tip` → "Dica") */
+  calloutLabels?: Record<string, string>;
   slash: SlashOptions;
   /** Chamado com o Markdown novo, no máximo a cada `throttleMs` (e ao sair do campo) */
   onChange: (md: string) => void;
@@ -106,6 +108,7 @@ function injectCss() {
 
 export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEditorApi {
   injectCss();
+  setCalloutLabels(o.calloutLabels);
   host.style.position = 'relative';
   let loaded = markdownToDoc(o.markdown);
   let last = o.markdown;
