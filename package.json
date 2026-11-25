@@ -50,6 +50,7 @@
     "lucide-react-native": "^1.56.0",
     "mathjax-full": "3.2.2",
     "nativewind": "4.2.7",
+    "qrcode-generator": "^2.0.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-i18next": "^17.0.16",

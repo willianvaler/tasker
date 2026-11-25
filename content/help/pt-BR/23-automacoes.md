@@ -54,6 +54,12 @@ Cada chamada leva também `X-Questlist-Idempotency`: se chegar duas vezes com o 
 
 Numa automação com o gatilho **Chamada de fora**, **Gerar endereço** mostra o endereço **uma vez** (guarde). Mande um `POST` com JSON ou formulário, até 16 KB; a resposta é sempre `202`, sem corpo. **Trocar endereço** invalida o antigo na hora. Há um limite de chamadas por minuto; acima dele, a resposta é `429`.
 
+## Link por QR e NFC
+
+Uma automação pessoal com o gatilho **manual** pode ganhar um link: em **Quando**, toque em **Gerar link**. O endereço e o QR aparecem uma vez só; use **Imprimir o QR** para colar na porta, na mesa ou no carro. Para NFC, grave o mesmo endereço numa etiqueta com qualquer app gravador: ao encostar o celular, o sistema abre o link, sem nada a instalar no Questlist.
+
+Ao abrir o link, o Questlist pede para entrar (se precisar) e executa a automação como você. Só a sua conta usa o link: para outra pessoa, ele aparece como inválido. Por padrão a tela pede **Executar** antes; desligue **Pedir confirmação ao abrir** para rodar direto. Automação que chama um webhook ou um dispositivo **sempre** pede confirmação. **Trocar o link** ou **Revogar** faz o QR e as etiquetas antigas pararem na hora. No Android, o link abre no navegador, onde o Questlist já está com você logado.
+
 ## Anotações
 
 Criada, propriedade mudou, etiqueta adicionada e botão apertado são gatilhos; acrescentar texto, definir propriedade, pôr etiqueta, criar de um modelo e **iniciar um processo** são ações. Nenhuma ação apaga texto.

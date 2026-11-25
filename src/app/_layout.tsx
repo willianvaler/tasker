@@ -117,6 +117,8 @@ function RootNavigator() {
       <Stack.Screen name="reserva/[token]" />
       {/* Enquete de horário (AG4): votar sem conta */}
       <Stack.Screen name="horario/[token]" />
+      {/* Link de automação por QR ou NFC (CT4): entra aqui mesmo */}
+      <Stack.Screen name="r/[token]" />
       {/* Política de privacidade: pública (as lojas pedem o endereço) */}
       <Stack.Screen name="privacidade" />
       <Stack.Screen name="termos" />

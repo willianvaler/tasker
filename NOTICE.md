@@ -69,3 +69,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Código QR (`src/lib/qr.ts`)
+
+### qrcode-generator, de Kazuhiko Arase
+
+<https://github.com/kazuhikoarase/qrcode-generator> — biblioteca (pacote npm) que monta o QR do link das automações (CT4) no próprio aparelho. Licença MIT. "QR Code" é marca registrada da DENSO WAVE INCORPORATED.
+
+```
+Copyright (c) 2009 Kazuhiko Arase
+
+URL: http://www.d-project.com/
+
+Licensed under the MIT license:
+  http://www.opensource.org/licenses/mit-license.php
+```

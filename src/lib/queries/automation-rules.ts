@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
 
 import type { Definicao } from '../automation/editor';
 import type { Json, Tables } from '../db';
@@ -114,6 +115,64 @@ export function useHook(ruleId: string | undefined, enabled: boolean) {
   });
 }
 
+// Link por QR e NFC (CT4, D362): só o estado; o token aparece uma vez, no criar
+export function useLink(ruleId: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: [KEY, 'link', ruleId],
+    enabled: !!ruleId && enabled,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('automation_links')
+        .select('id, confirm, uses, last_used_at, created_at')
+        .eq('rule_id', ruleId ?? '')
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export const linkOpenSchema = z.union([
+  z.object({ valido: z.literal(false) }),
+  z.object({
+    valido: z.literal(true),
+    regra: z.string(),
+    nome: z.string(),
+    ligada: z.boolean(),
+    externo: z.boolean(),
+    confirmar: z.boolean(),
+  }),
+]);
+export type LinkOpen = z.infer<typeof linkOpenSchema>;
+
+/** O que a tela /r/<token> mostra (só com login; sem ele, não consulta). */
+export function useLinkOpen(token: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: [KEY, 'link-open', token],
+    enabled: !!token && enabled,
+    staleTime: 0,
+    gcTime: 0,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('automation_link_open', { p_token: token ?? '' });
+      if (error) throw error;
+      return linkOpenSchema.parse(data);
+    },
+  });
+}
+
+export function useLinkFire() {
+  return useMutation({
+    mutationFn: async ({ token, confirmed }: { token: string; confirmed: boolean }) => {
+      const { data, error } = await supabase.rpc('automation_link_fire', {
+        p_token: token,
+        p_confirmado: confirmed,
+      });
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
 export function useRuleMutations() {
   const qc = useQueryClient();
   const settle = () => qc.invalidateQueries({ queryKey: [KEY] });
@@ -188,6 +247,31 @@ export function useRuleMutations() {
         const { data, error } = await supabase.rpc('automation_hook_create', { p_rule: id });
         if (error) throw error;
         return data;
+      },
+      onSettled: settle,
+    }),
+    linkCreate: useMutation({
+      mutationFn: async (id: string) => {
+        const { data, error } = await supabase.rpc('automation_link_create', { p_rule: id });
+        if (error) throw error;
+        return data;
+      },
+      onSettled: settle,
+    }),
+    linkRevoke: useMutation({
+      mutationFn: async (id: string) => {
+        const { error } = await supabase.rpc('automation_link_revoke', { p_rule: id });
+        if (error) throw error;
+      },
+      onSettled: settle,
+    }),
+    linkConfirm: useMutation({
+      mutationFn: async ({ id, confirm }: { id: string; confirm: boolean }) => {
+        const { error } = await supabase.rpc('automation_link_set_confirm', {
+          p_rule: id,
+          p_confirm: confirm,
+        });
+        if (error) throw error;
       },
       onSettled: settle,
     }),

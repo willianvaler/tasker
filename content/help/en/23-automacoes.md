@@ -54,6 +54,12 @@ Every call also carries `X-Questlist-Idempotency`: if it arrives twice with the 
 
 In an automation with the **Incoming call** trigger, **Generate address** shows the address **once** (keep it). Send a `POST` with JSON or a form, up to 16 KB; the answer is always `202`, with no body. **Change address** invalidates the old one at once. There's a per-minute limit; above it, the answer is `429`.
 
+## QR and NFC link
+
+A personal automation with the **manual** trigger can get a link: under **When**, tap **Create link**. The address and the QR code show up only once; use **Print the QR code** to stick it on a door, a desk or in the car. For NFC, write the same address to a tag with any NFC writer app: when you tap the phone on it, the system opens the link, with nothing to install in Questlist.
+
+When the link opens, Questlist asks you to sign in (if needed) and runs the automation as you. Only your account can use the link: for anyone else it shows as invalid. By default the page asks you to tap **Run** first; turn off **Ask for confirmation when opened** to run it right away. An automation that calls a webhook or a device **always** asks. **Replace link** or **Revoke** makes the old QR codes and tags stop working at once. On Android, the link opens in the browser, where you are already signed in to Questlist.
+
 ## Notes
 
 Created, property changed, tag added and button pressed are triggers; append text, set property, add tag, create from a template and **start a process** are actions. No action erases text.

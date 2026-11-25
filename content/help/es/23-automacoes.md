@@ -54,6 +54,12 @@ Cada llamada lleva también `X-Questlist-Idempotency`: si llega dos veces con el
 
 En una automatización con el disparador **Llamada externa**, **Generar dirección** muestra la dirección **una vez** (guárdala). Envía un `POST` con JSON o formulario, hasta 16 KB; la respuesta es siempre `202`, sin cuerpo. **Cambiar dirección** invalida la anterior al instante. Hay un límite de llamadas por minuto; por encima, la respuesta es `429`.
 
+## Enlace por QR y NFC
+
+Una automatización personal con el disparador **manual** puede tener un enlace: en **Cuando**, toca **Generar enlace**. La dirección y el QR aparecen una sola vez; usa **Imprimir el QR** para pegarlo en la puerta, el escritorio o el coche. Para NFC, graba la misma dirección en una etiqueta con cualquier app de grabación: al acercar el móvil, el sistema abre el enlace, sin instalar nada en Questlist.
+
+Al abrir el enlace, Questlist te pide entrar (si hace falta) y ejecuta la automatización como tú. Solo tu cuenta usa el enlace: para otra persona aparece como no válido. Por defecto la pantalla pide **Ejecutar** antes; apaga **Pedir confirmación al abrir** para que se ejecute directo. Una automatización que llama a un webhook o a un dispositivo **siempre** pide confirmación. **Cambiar el enlace** o **Revocar** hace que los QR y las etiquetas antiguas dejen de funcionar al instante. En Android, el enlace se abre en el navegador, donde ya tienes la sesión de Questlist.
+
 ## Notas
 
 Creada, propiedad cambiada, etiqueta añadida y botón pulsado son disparadores; añadir texto, definir propiedad, etiquetar, crear desde plantilla e **iniciar un proceso** son acciones. Ninguna acción borra texto.

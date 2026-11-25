@@ -11,6 +11,7 @@ import {
   TriggerFields,
   type EditorCtx,
 } from '@/components/automation/rule-editor';
+import { AutomationLinkSection } from '@/components/automation/link-section';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
 import { Button } from '@/components/ui/button';
@@ -244,6 +245,15 @@ function Editor({
             ctx={ctx}
             onChange={(gatilho) => setDef({ ...def, gatilho })}
           />
+          {def.gatilho.tipo === 'manual' && escopo === 'pessoal' && (
+            <AutomationLinkSection
+              ruleId={rule?.id}
+              ruleName={name}
+              external={/"(enviar_webhook|comandar_dispositivo)"/.test(JSON.stringify(def.passos))}
+              canEdit={podeEditar}
+              onError={onError}
+            />
+          )}
           {def.gatilho.tipo === 'webhook' && escopo === 'pessoal' && (
             <View className="gap-2">
               {!rule ? (

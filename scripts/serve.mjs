@@ -9,7 +9,7 @@ import net from 'node:net';
 import { extname, join, normalize } from 'node:path';
 
 import { createHookHandler } from './hooks.mjs';
-import { BOOKING_WRITES, createLimiter } from './rate-limit.mjs';
+import { AUTOMATION_LINK, BOOKING_WRITES, createLimiter } from './rate-limit.mjs';
 import { checkSupabase, PUBLISHABLE } from './supabase-gate.mjs';
 
 // Portas do ambiente (D178): a produção usa os padrões; alpha e lab trocam pelo .ambiente.local
@@ -252,6 +252,8 @@ async function guarded(target, req) {
 }
 
 const bookingLimiter = createLimiter({ max: 10, windowMs: 10 * 60_000 });
+// Link de automação (CT4): 30 por minuto por IP
+const linkLimiter = createLimiter({ max: 30, windowMs: 60_000 });
 
 // Webhook de entrada (AU9): o banco decide; daqui, limite, tamanho e a resposta sempre igual
 const serveHook = createHookHandler({
@@ -291,6 +293,13 @@ const server = http.createServer((req, res) => {
     if (!bookingLimiter.hit(String(who))) {
       res.writeHead(429, { 'Content-Type': 'text/plain; charset=utf-8', 'Retry-After': '600' });
       return res.end('Pedidos demais: tente de novo em alguns minutos');
+    }
+  }
+  if (req.method === 'POST' && AUTOMATION_LINK.test(req.url)) {
+    const who = req.headers['cf-connecting-ip'] ?? req.socket.remoteAddress ?? '?';
+    if (!linkLimiter.hit(String(who))) {
+      res.writeHead(429, { 'Content-Type': 'text/plain; charset=utf-8', 'Retry-After': '60' });
+      return res.end('Pedidos demais: tente de novo em um minuto');
     }
   }
   if (target)

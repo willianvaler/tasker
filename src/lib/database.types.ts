@@ -183,6 +183,26 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"automation_links": {
+                  Row: {
+                    "confirm": boolean,"created_at": string,"id": string,"last_used_at": string | null,"rule_id": string,"token_hash": string,"uses": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "confirm"?: boolean,"created_at"?: string,"id"?: string,"last_used_at"?: string | null,"rule_id": string,"token_hash": string,"uses"?: number
+                  }
+                  Update: {
+                    "confirm"?: boolean,"created_at"?: string,"id"?: string,"last_used_at"?: string | null,"rule_id"?: string,"token_hash"?: string,"uses"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "automation_links_rule_id_fkey"
+      columns: ["rule_id"]
+isOneToOne: true
+      referencedRelation: "automation_rules"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"automation_log": {
                   Row: {
                     "at": string,"id": string,"message": string | null,"ok": boolean,"rule_id": string,"task_id": string | null
@@ -3327,6 +3347,9 @@ isOneToOne: false
 "_automation_from_legacy":
 { Args: { "p_action": string,"p_page": string,"p_params": Json,"p_trigger": string }; Returns: Json
                            },
+"_automation_has_external":
+{ Args: { "p_definition": Json }; Returns: boolean
+                           },
 "_automation_kick":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
@@ -3339,6 +3362,22 @@ isOneToOne: false
 "_automation_limited":
 { Args: { "p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']> }; Returns: string
                            },
+"_automation_link_find":
+{ Args: { "p_token": string }; Returns: {
+              "confirm": boolean,
+"created_at": string,
+"id": string,
+"last_used_at": string | null,
+"rule_id": string,
+"token_hash": string,
+"uses": number
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "automation_links"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "_automation_matching":
 { Args: { "p_folder": string,"p_kind": string,"p_owner": string,"p_payload": Json }; Returns: {
               "action": string | null,
@@ -3894,6 +3933,21 @@ isOneToOne: false
                            },
 "automation_hook_require_signature":
 { Args: { "p_require": boolean,"p_rule": string }; Returns: undefined
+                           },
+"automation_link_create":
+{ Args: { "p_rule": string }; Returns: string
+                           },
+"automation_link_fire":
+{ Args: { "p_confirmado"?: boolean,"p_token": string }; Returns: string
+                           },
+"automation_link_open":
+{ Args: { "p_token": string }; Returns: Json
+                           },
+"automation_link_revoke":
+{ Args: { "p_rule": string }; Returns: undefined
+                           },
+"automation_link_set_confirm":
+{ Args: { "p_confirm": boolean,"p_rule": string }; Returns: undefined
                            },
 "automation_run_now":
 { Args: { "p_rule": string }; Returns: string

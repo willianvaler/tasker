@@ -26,3 +26,7 @@ export function createLimiter({ max, windowMs, now = () => Date.now() }) {
 /** RPCs anônimas da agenda que gravam (as de leitura passam sem conta). */
 export const BOOKING_WRITES =
   /^\/supabase\/rest\/v1\/rpc\/(book_slot|reschedule_booking|cancel_booking|time_poll_vote)(?:\?|$)/;
+
+/** Abrir e executar o link de uma automação (QR e NFC, CT4): pedem login, mas o token é sondável. */
+export const AUTOMATION_LINK =
+  /^\/supabase\/rest\/v1\/rpc\/automation_link_(open|fire)(?:\?|$)/;

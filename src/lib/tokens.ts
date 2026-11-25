@@ -156,6 +156,9 @@ export const MARKER_COLORS = [
 ] as const;
 
 /** Durações de animação (ms): curtas e úteis. */
+// QR do link de automação (CT4): preto no branco nos dois temas, senão a câmera lê mal
+export const QR_COLORS = { light: '#ffffff', dark: '#000000' } as const;
+
 export const DURATION = { fast: 100, base: 150, slow: 180 } as const;
 
 /** Medidas fixas (px). */
