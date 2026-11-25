@@ -111,7 +111,7 @@ Sem domínio verificado no Resend, o remetente `onboarding@resend.dev` só entre
 
 ### Automações (executor, AU2)
 
-As automações rodam na Edge Function `automation-run`, chamada pelo banco a cada evento novo (pg_net) e pelo varredor do pg_cron a cada minuto (`automacoes-varredor`; retenção `automacoes-retencao`, eventos 7 dias, execuções 30). Sem `automation_url` no `app_config`, nada roda (as regras ficam com os eventos na fila). Em cada ambiente do servidor, uma vez:
+**Desde o AU5 as automações de projeto da D143 também dependem disto: sem o executor ligado, elas não rodam.** As automações rodam na Edge Function `automation-run`, chamada pelo banco a cada evento novo (pg_net) e pelo varredor do pg_cron a cada minuto (`automacoes-varredor`; retenção `automacoes-retencao`, eventos 7 dias, execuções 30). Sem `automation_url` no `app_config`, nada roda (as regras ficam com os eventos na fila). Em cada ambiente do servidor, uma vez:
 
 ```bash
 echo "AUTOMATION_WEBHOOK_SECRET=$(openssl rand -hex 24)" >> supabase/functions/.env

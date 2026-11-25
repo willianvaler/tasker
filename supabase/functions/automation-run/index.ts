@@ -23,7 +23,7 @@ Deno.serve(async (req) => {
   );
   const registro = registroBase();
   const start = Date.now();
-  const total = { ok: 0, falhou: 0, ignorado: 0 };
+  const total = { ok: 0, falhou: 0, ignorado: 0, esperando: 0, tentar: 0 };
 
   while (Date.now() - start < BUDGET_MS) {
     const { data, error } = await supabase.rpc('automation_claim', { p_limit: 20 });
@@ -43,6 +43,7 @@ Deno.serve(async (req) => {
           p_warnings: c.warnings,
           p_status: c.status,
           p_error: c.error,
+          p_resume: c.resume,
         });
         // Erro de rede: a execução fica "rodando" e volta pela reivindicação vencida (2 min)
         if (e) return 'ignorado';

@@ -8,7 +8,7 @@
 
 ## Automatizaciones
 
-En un proyecto, **Automatizaciones** crea reglas "cuando… entonces…". Ejemplo: cuando se complete una tarea de la lista Día, crear "Limpiar la parrilla" en la lista Después. Hasta 20 por proyecto; si una acción no puede ejecutarse, aparece en las últimas ejecuciones y no se pierde nada.
+En un proyecto, **Automatizaciones** crea reglas "cuando… entonces…". Ejemplo: cuando se complete una tarea de la lista Día, crear "Limpiar la parrilla" en la lista Después. Hasta 20 por proyecto. La regla se ejecuta en el servidor unos segundos después de lo que la activó, con los permisos de quien la creó; si una acción no puede ejecutarse (esa persona salió del proyecto, la lista ya no existe), aparece en las últimas ejecuciones y no se pierde nada.
 
 ## Matriz de Eisenhower
 

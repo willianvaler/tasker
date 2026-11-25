@@ -243,14 +243,14 @@ isOneToOne: false
                   ]
                 },"automation_runs": {
                   Row: {
-                    "attempts": number,"claimed_at": string | null,"detail": string | null,"error": string | null,"event_id": string | null,"finished_at": string | null,"id": string,"resume_at": string | null,"rule_id": string,"started_at": string,"state": NonNullable<Json>,"status": string,"step": number,"steps": NonNullable<Json>,"warnings": NonNullable<Json>
+                    "attempts": number,"claimed_at": string | null,"definition": Json | null,"detail": string | null,"error": string | null,"event_id": string | null,"finished_at": string | null,"id": string,"resume_at": string | null,"retries": number,"rule_id": string,"started_at": string,"state": NonNullable<Json>,"status": string,"step": number,"steps": NonNullable<Json>,"warnings": NonNullable<Json>
                   }
                   ComputedFields: never
                   Insert: {
-                    "attempts"?: number,"claimed_at"?: string | null,"detail"?: string | null,"error"?: string | null,"event_id"?: string | null,"finished_at"?: string | null,"id"?: string,"resume_at"?: string | null,"rule_id": string,"started_at"?: string,"state"?: NonNullable<Json>,"status"?: string,"step"?: number,"steps"?: NonNullable<Json>,"warnings"?: NonNullable<Json>
+                    "attempts"?: number,"claimed_at"?: string | null,"definition"?: Json | null,"detail"?: string | null,"error"?: string | null,"event_id"?: string | null,"finished_at"?: string | null,"id"?: string,"resume_at"?: string | null,"retries"?: number,"rule_id": string,"started_at"?: string,"state"?: NonNullable<Json>,"status"?: string,"step"?: number,"steps"?: NonNullable<Json>,"warnings"?: NonNullable<Json>
                   }
                   Update: {
-                    "attempts"?: number,"claimed_at"?: string | null,"detail"?: string | null,"error"?: string | null,"event_id"?: string | null,"finished_at"?: string | null,"id"?: string,"resume_at"?: string | null,"rule_id"?: string,"started_at"?: string,"state"?: NonNullable<Json>,"status"?: string,"step"?: number,"steps"?: NonNullable<Json>,"warnings"?: NonNullable<Json>
+                    "attempts"?: number,"claimed_at"?: string | null,"definition"?: Json | null,"detail"?: string | null,"error"?: string | null,"event_id"?: string | null,"finished_at"?: string | null,"id"?: string,"resume_at"?: string | null,"retries"?: number,"rule_id"?: string,"started_at"?: string,"state"?: NonNullable<Json>,"status"?: string,"step"?: number,"steps"?: NonNullable<Json>,"warnings"?: NonNullable<Json>
                   }
                   Relationships: [
                     {
@@ -260,6 +260,20 @@ isOneToOne: false
       referencedRelation: "automation_rules"
       referencedColumns: ["id"]
     }
+                  ]
+                },"automation_scan_state": {
+                  Row: {
+                    "kind": string,"last_scan_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "kind": string,"last_scan_at": string
+                  }
+                  Update: {
+                    "kind"?: string,"last_scan_at"?: string
+                  }
+                  Relationships: [
+                    
                   ]
                 },"availability_exceptions": {
                   Row: {
@@ -3084,9 +3098,6 @@ isOneToOne: false
 "_attack":
 { Args: { "p_base": number,"p_category": string,"p_overdue": boolean,"p_user": string }; Returns: Record<string, unknown>
                            },
-"_automation_act":
-{ Args: { "p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: undefined
-                           },
 "_automation_called_rules":
 { Args: { "p_definition": Json }; Returns: string[]
                            },
@@ -3095,6 +3106,9 @@ isOneToOne: false
                            },
 "_automation_check_steps":
 { Args: { "p_level": number,"p_scope": string,"p_steps": Json }; Returns: number
+                           },
+"_automation_due_at":
+{ Args: { "p_date": string,"p_time": string,"p_tz": string }; Returns: string
                            },
 "_automation_effect":
 { Args: { "p_effect": Json,"p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']>,"p_run": Omit<Database["public"]['Tables']["automation_runs"]['Row'], Database["public"]['Tables']["automation_runs"]['ComputedFields']> }; Returns: Json
@@ -3140,6 +3154,15 @@ isOneToOne: false
         isOneToOne: false
         isSetofReturn: true
       } },
+"_automation_next_run":
+{ Args: { "p_after": string,"p_definition": Json,"p_tz": string }; Returns: string
+                           },
+"_automation_scan_due":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
+"_automation_schedule":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "_automation_sweep":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
@@ -3402,9 +3425,6 @@ isOneToOne: false
 "_roll_drop":
 { Args: { "p_level": number,"p_user": string }; Returns: string
                            },
-"_run_automations":
-{ Args: { "p_task_id": string,"p_trigger": string }; Returns: undefined
-                           },
 "_save_note_version":
 { Args: { "p_body": string,"p_note": string,"p_props": Json,"p_title": string,"p_user": string }; Returns: boolean
                            },
@@ -3520,7 +3540,7 @@ isOneToOne: false
 { Args: { "p_rule": string }; Returns: string
                            },
 "automation_step":
-{ Args: { "p_claim": string,"p_effect"?: Json,"p_error"?: string,"p_log"?: Json,"p_next": number,"p_run": string,"p_state": Json,"p_status"?: string,"p_step": number,"p_warnings"?: Json }; Returns: string
+{ Args: { "p_claim": string,"p_effect"?: Json,"p_error"?: string,"p_log"?: Json,"p_next": number,"p_resume"?: string,"p_run": string,"p_state": Json,"p_status"?: string,"p_step": number,"p_warnings"?: Json }; Returns: string
                            },
 "automation_validate":
 { Args: { "p_definition": Json,"p_folder": string,"p_owner": string,"p_rule_id": string,"p_scope": string }; Returns: undefined
@@ -4308,9 +4328,6 @@ isOneToOne: false
                            },
 "run_once":
 { Args: { "p_args": Json,"p_key": string,"p_name": string }; Returns: Json
-                           },
-"run_overdue_automations":
-{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "save_baseline":
 { Args: { "p_name": string,"p_root": string }; Returns: string

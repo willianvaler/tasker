@@ -20,7 +20,7 @@ insert into public.automation_rules (id, scope, name, definition) values
 insert into public.automation_rules (id, scope, folder_id, name, definition) values
   ('d0000000-0000-0000-0000-000000000002', 'projeto', 'aaaaaaaa-0000-0000-0000-000000000001', 'Projeto',
    '{"v": 1, "gatilho": {"tipo": "tarefa.concluida"}, "passos": [{"tipo": "notificar", "corpo": "Feita"}]}');
--- Regra antiga (D143): fica no caminho síncrono
+-- Regra antiga (D143): desde o AU5, também pelo motor
 insert into public.automation_rules (id, folder_id, trigger, action, params) values
   ('d0000000-0000-0000-0000-000000000003', 'aaaaaaaa-0000-0000-0000-000000000001', 'task_done', 'notify', '{"message": "x"}');
 reset role;
@@ -45,18 +45,18 @@ select is(public.automation_emit('nivel.subiu', '{"nivel": 5}', '11111111-1111-1
 select isnt(public.automation_emit('tarefa.concluida', '{}', null, 'aaaaaaaa-0000-0000-0000-000000000001'), null,
   'regra de projeto no formato novo recebe evento');
 
--- Reivindicar: uma execução por regra e evento; a regra antiga fica de fora
+-- Reivindicar: uma execução por regra e evento (a regra antiga entra desde o AU5)
 create temp table claimed as select jsonb_array_elements(public.automation_claim(20)) as r;
-select is((select count(*)::int from claimed), 2, 'duas execuções reivindicadas');
-select is((select count(*)::int from public.automation_runs where rule_id = 'd0000000-0000-0000-0000-000000000003'), 0,
-  'a regra antiga (D143) não roda pelo motor novo');
+select is((select count(*)::int from claimed), 3, 'três execuções reivindicadas');
+select is((select count(*)::int from public.automation_runs where rule_id = 'd0000000-0000-0000-0000-000000000003'), 1,
+  'a regra antiga (D143) roda pelo motor (AU5)');
 select is((select count(*)::int from public.automation_events where processed_at is null), 0, 'os eventos foram processados');
 select is(jsonb_array_length(public.automation_claim(20)), 0, 'execução em andamento não é reivindicada de novo');
 
 -- O mesmo evento entregue de novo não gera outra execução
 update public.automation_events set processed_at = null;
 select is(jsonb_array_length(public.automation_claim(20)), 0, 'evento entregue duas vezes: nenhuma execução nova');
-select is((select count(*)::int from public.automation_runs), 2, 'continuam duas execuções');
+select is((select count(*)::int from public.automation_runs), 3, 'continuam três execuções');
 
 -- Passo com efeito: sai uma vez
 create temp table pessoal as select r from claimed where r ->> 'rule_id' = 'd0000000-0000-0000-0000-000000000001';

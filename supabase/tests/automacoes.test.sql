@@ -1,7 +1,10 @@
--- V3 §2.8 (M6): automações "quando… então…".
+-- V3 §2.8 (M6): automações "quando… então…" do projeto (D143). Desde o AU5 (D337) elas rodam pelo
+-- motor do V14: o gatilho vira evento, a reivindicação vira execução e o passo, o efeito.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(10);
+select plan(13);
+delete from public.automation_runs;
+delete from public.automation_events;
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'dono@teste.local'),
@@ -16,32 +19,53 @@ set local role authenticated;
 insert into public.pages (id, folder_id, name) values
   ('bbbbbbbb-0000-0000-0000-000000000001', 'aaaaaaaa-0000-0000-0000-000000000001', 'Dia'),
   ('bbbbbbbb-0000-0000-0000-000000000002', 'aaaaaaaa-0000-0000-0000-000000000001', 'Depois');
-insert into public.tasks (id, page_id, title, due_date) values
-  ('c0000000-0000-0000-0000-000000000001', 'bbbbbbbb-0000-0000-0000-000000000001', 'Assar a carne', null),
-  ('c0000000-0000-0000-0000-000000000002', 'bbbbbbbb-0000-0000-0000-000000000002', 'Pagar o açougue', '2020-01-01');
+insert into public.tasks (id, page_id, title) values
+  ('c0000000-0000-0000-0000-000000000001', 'bbbbbbbb-0000-0000-0000-000000000001', 'Assar a carne'),
+  ('c0000000-0000-0000-0000-000000000002', 'bbbbbbbb-0000-0000-0000-000000000002', 'Pagar o açougue');
 
-insert into public.automation_rules (folder_id, page_id, trigger, action, params) values
-  ('aaaaaaaa-0000-0000-0000-000000000001', 'bbbbbbbb-0000-0000-0000-000000000001', 'task_done', 'create_task',
-   '{"title": "Limpar a churrasqueira", "page_id": "bbbbbbbb-0000-0000-0000-000000000002"}'),
-  ('aaaaaaaa-0000-0000-0000-000000000001', null, 'task_done', 'move', '{"page_id": "99999999-0000-0000-0000-000000000000"}'),
-  ('aaaaaaaa-0000-0000-0000-000000000001', null, 'page_done', 'notify', '{"to": "creator", "message": "Dia fechado"}'),
-  ('aaaaaaaa-0000-0000-0000-000000000001', null, 'task_overdue', 'add_label', '{"label": "#atrasada"}');
+insert into public.automation_rules (id, folder_id, page_id, trigger, action, params) values
+  ('d0000000-0000-0000-0000-000000000001', 'aaaaaaaa-0000-0000-0000-000000000001', 'bbbbbbbb-0000-0000-0000-000000000001',
+   'task_done', 'create_task', '{"title": "Limpar a churrasqueira", "page_id": "bbbbbbbb-0000-0000-0000-000000000002"}'),
+  ('d0000000-0000-0000-0000-000000000002', 'aaaaaaaa-0000-0000-0000-000000000001', null,
+   'page_done', 'notify', '{"to": "creator", "message": "Dia fechado"}');
 
-select lives_ok($$ select public.complete_task('c0000000-0000-0000-0000-000000000001') $$,
-  'concluir funciona mesmo com uma ação que falha');
-select is((select count(*)::int from public.tasks where title = 'Limpar a churrasqueira'), 1,
-  'a automação criou a tarefa seguinte');
-select is((select status::text from public.tasks where id = 'c0000000-0000-0000-0000-000000000001'), 'done',
-  'a conclusão de quem disparou ficou');
-select ok(exists (select 1 from public.automation_log where not ok), 'a ação que falhou ficou no registro');
-select is((select count(*)::int from public.notifications where kind = 'automation'), 1, 'página concluída notifica');
-
--- Prazo vencido: roda uma vez (e não de novo na mesma janela)
+-- Concluir em "Dia": a regra da lista e a da lista inteira viram execução no motor
+select lives_ok($$ select public.complete_task('c0000000-0000-0000-0000-000000000001') $$, 'concluir funciona');
 reset role;
-select is(public.run_overdue_automations(), 1, 'tarefa vencida dispara');
-select is(public.run_overdue_automations(), 0, 'e não repete');
-select ok((select 'atrasada' = any (labels) from public.tasks where id = 'c0000000-0000-0000-0000-000000000002'),
-  'pôs a etiqueta');
+create temp table claimed as select jsonb_array_elements(public.automation_claim(20)) as r;
+select is((select count(*)::int from claimed where r ->> 'rule_id' = 'd0000000-0000-0000-0000-000000000001'), 1,
+  'a regra antiga roda pelo motor novo');
+select is((select r #>> '{definition,passos,0,tipo}' from claimed where r ->> 'rule_id' = 'd0000000-0000-0000-0000-000000000001'),
+  'criar_tarefa', 'com a definição traduzida');
+select is((select count(*)::int from claimed where r ->> 'rule_id' = 'd0000000-0000-0000-0000-000000000002'), 1,
+  'a lista "Dia" inteira concluída também dispara');
+create temp table dia as select r from claimed where r ->> 'rule_id' = 'd0000000-0000-0000-0000-000000000001';
+
+-- O passo cria a tarefa seguinte e a tela antiga vê o registro
+select is(public.automation_step((select (r ->> 'id')::uuid from dia), (select (r ->> 'claimed_at')::timestamptz from dia),
+  0, 1, (select r -> 'state' from dia),
+  '{"tipo": "criar_tarefa", "titulo": "Limpar a churrasqueira", "lista": "bbbbbbbb-0000-0000-0000-000000000002"}',
+  '{"caminho": "0", "tipo": "criar_tarefa", "ok": true}', '[]', 'ok'), 'ok', 'o passo roda');
+select is((select count(*)::int from public.tasks where title = 'Limpar a churrasqueira' and page_id = 'bbbbbbbb-0000-0000-0000-000000000002'),
+  1, 'a automação criou a tarefa seguinte');
+select is((select ok from public.automation_log where rule_id = 'd0000000-0000-0000-0000-000000000001'), true,
+  'e a tela antiga vê a execução no automation_log');
+select is((select runs from public.automation_rules where id = 'd0000000-0000-0000-0000-000000000001'), 1, 'a regra conta a execução');
+
+-- Concluir em "Depois" não dispara a regra que é só de "Dia"
+set local role authenticated;
+select public.complete_task('c0000000-0000-0000-0000-000000000002');
+reset role;
+select is((select count(*)::int from jsonb_array_elements(public.automation_claim(20)) x
+  where x ->> 'rule_id' = 'd0000000-0000-0000-0000-000000000001'), 0, 'a regra da lista "Dia" não roda em "Depois"');
+
+-- O aviso da regra antiga sai no formato de antes (sem rule_id: "mensagem: tarefa")
+select is(public._automation_effect(
+  (select x from public.automation_runs x limit 1),
+  (select r from public.automation_rules r where id = 'd0000000-0000-0000-0000-000000000002'),
+  '{"tipo": "notificacao", "corpo": "Dia fechado", "para": "dona"}'), null, 'aviso da regra antiga');
+select ok((select not payload ? 'rule_id' from public.notifications where kind = 'automation' and payload ->> 'message' = 'Dia fechado'),
+  'no formato antigo');
 set local role authenticated;
 
 -- Leitor não cria; limite de 20

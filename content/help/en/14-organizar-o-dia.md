@@ -8,7 +8,7 @@
 
 ## Automations
 
-In a project, **Automations** creates "when… then…" rules. Example: when a task in the On the day list is completed, create "Clean the grill" in the After list. Up to 20 per project; if an action can't run, it shows in the recent runs and nothing is lost.
+In a project, **Automations** creates "when… then…" rules. Example: when a task in the On the day list is completed, create "Clean the grill" in the After list. Up to 20 per project. The rule runs on the server a few seconds after whatever triggered it, with the permissions of whoever created it; if an action can't run (that person left the project, the list is gone), it shows in the recent runs and nothing is lost.
 
 ## Eisenhower matrix
 

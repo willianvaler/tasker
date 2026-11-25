@@ -47,16 +47,18 @@ const run = (passos: Execucao['definition']['passos'], over: Partial<Execucao> =
 function fakeDb() {
   const rows = new Map<string, { step: number; status: string }>();
   const effects: { run: string; step: number; effect: unknown }[] = [];
+  const commits: Commit[] = [];
   const commit = async (c: Commit) => {
     const row = rows.get(c.run) ?? { step: 0, status: 'rodando' };
     rows.set(c.run, row);
     if (row.status !== 'rodando' || row.step !== c.step) return 'ignorado' as const;
     if (c.effect) effects.push({ run: c.run, step: c.step, effect: c.effect });
-    row.step = c.status === 'falhou' ? c.step : c.next;
+    row.step = c.status === 'falhou' || c.status === 'tentar' ? c.step : c.next;
+    commits.push(c);
     row.status = c.status;
     return 'ok' as const;
   };
-  return { rows, effects, commit };
+  return { rows, effects, commit, commits };
 }
 
 describe('catálogo (espelho do automation_catalog() do banco)', () => {
@@ -498,5 +500,56 @@ describe('ações (AU4)', () => {
     ]);
     expect(await executeRun(r, reg, db.commit)).toBe('ok');
     expect(db.effects.map((e) => (e.effect as { tipo: string }).tipo)).toEqual(['criar_tarefa']);
+  });
+});
+
+describe('esperar e tentar de novo (AU5)', () => {
+  test('esperar 1 hora: a execução para com a hora de voltar e retoma do passo seguinte', async () => {
+    const db = fakeDb();
+    const passos = [
+      { tipo: 'notificar', corpo: 'antes' },
+      { tipo: 'esperar', minutos: 60 },
+      { tipo: 'notificar', corpo: 'depois' },
+    ];
+    const res = await executeRun(
+      run(passos),
+      registroBase(),
+      db.commit,
+      () => '2026-11-24T12:00:00.000Z',
+    );
+    expect(res).toBe('esperando');
+    expect(db.commits.at(-1)).toMatchObject({
+      status: 'esperando',
+      next: 2,
+      resume: '2026-11-24T13:00:00.000Z',
+    });
+    expect(db.effects).toHaveLength(1);
+    // O executor reiniciou: a execução volta reivindicada no passo 2
+    db.rows.set('run1', { step: 2, status: 'rodando' });
+    expect(await executeRun(run(passos, { step: 2 }), registroBase(), db.commit)).toBe('ok');
+    expect(db.effects.map((e) => (e.effect as { corpo: string }).corpo)).toEqual([
+      'antes',
+      'depois',
+    ]);
+  });
+
+  test('esperar fora de 1 minuto a 7 dias falha', () => {
+    const reg = registroBase();
+    expect(advance(compile([{ tipo: 'esperar', minutos: 0 }], reg), 0, ctx(), reg).status).toBe(
+      'falhou',
+    );
+    expect(advance(compile([{ tipo: 'esperar', minutos: 20000 }], reg), 0, ctx(), reg).status).toBe(
+      'falhou',
+    );
+  });
+
+  test('erro passageiro pede nova tentativa sem andar o passo', async () => {
+    const instavel: TipoPasso = { id: 'instavel', execute: () => ({ tentar: 'Rede fora' }) };
+    const db = fakeDb();
+    expect(await executeRun(run([{ tipo: 'instavel' }]), registroCom([instavel]), db.commit)).toBe(
+      'tentar',
+    );
+    expect(db.commits[0]).toMatchObject({ status: 'tentar', step: 0, next: 0, error: 'Rede fora' });
+    expect(db.rows.get('run1')).toEqual({ step: 0, status: 'tentar' });
   });
 });

@@ -88,6 +88,10 @@ export type Resultado = {
   meta?: Record<string, number>;
   /** Para tipos com blocos: qual bloco seguir (ou nenhum). */
   ramo?: string | null;
+  /** Para a execução e volta depois de N minutos (o estado fica no banco). */
+  esperar?: number;
+  /** Erro passageiro (rede, 5xx): o mesmo passo de novo depois de 1, 5 e 30 min. */
+  tentar?: string;
   /** Encerra a execução com sucesso. */
   parar?: boolean;
   /** Erro do passo: a execução falha com esta mensagem. */
@@ -583,11 +587,16 @@ export type Avanco = {
   proximo: number;
   estado: Estado;
   efeito?: Efeito;
-  status: 'rodando' | 'ok' | 'falhou';
+  status: Situacao;
   erro?: string;
   avisos: string[];
   log?: LinhaPasso;
+  /** Quando voltar (ISO), se a execução fica esperando. */
+  volta?: string;
 };
+
+/** O que o passo deixa a execução: segue, acabou, falhou, espera ou tenta de novo depois. */
+export type Situacao = 'rodando' | 'ok' | 'falhou' | 'esperando' | 'tentar';
 
 /** Um passo: puro. Saltos são seguidos sem virar passo. */
 export function advance(
@@ -638,6 +647,15 @@ export function advance(
   } catch (e) {
     r = { erro: e instanceof Error ? e.message : String(e) };
   }
+  if (r.tentar) {
+    return {
+      proximo: p,
+      estado: ctx.estado,
+      status: 'tentar',
+      erro: r.tentar,
+      avisos: r.avisos ?? [],
+    };
+  }
   if (r.erro) {
     return {
       proximo: p,
@@ -661,6 +679,18 @@ export function advance(
   const log: LinhaPasso = inst.blocos
     ? { ...base, ok: true, ramo: r.ramo ?? null }
     : { ...base, ok: true };
+  if (r.esperar && proximo < programa.length) {
+    const volta = new Date(new Date(ctx.agora).getTime() + r.esperar * 60_000).toISOString();
+    return {
+      proximo,
+      estado,
+      efeito: r.efeito,
+      status: 'esperando',
+      avisos: r.avisos ?? [],
+      log,
+      volta,
+    };
+  }
   return {
     proximo,
     estado,
@@ -699,8 +729,9 @@ export type Commit = {
   effect: Efeito | null;
   log: LinhaPasso | null;
   warnings: string[];
-  status: 'rodando' | 'ok' | 'falhou';
+  status: Situacao;
   error: string | null;
+  resume: string | null;
 };
 
 /** Grava o passo no banco. 'ignorado': outro executor já fez este passo (ou a execução mudou). */
@@ -715,7 +746,7 @@ export async function executeRun(
   registro: Registro,
   commit: CommitFn,
   agora: () => string = () => new Date().toISOString(),
-): Promise<'ok' | 'falhou' | 'ignorado'> {
+): Promise<'ok' | 'falhou' | 'ignorado' | 'esperando' | 'tentar'> {
   const programa = compile(run.definition.passos ?? [], registro, run.definition.condicoes);
   let estado: Estado = {
     evento: run.state.evento ?? {},
@@ -745,6 +776,7 @@ export async function executeRun(
       warnings: a.avisos,
       status: a.status,
       error: a.erro ?? null,
+      resume: a.volta ?? null,
     });
     if (res !== 'ok') return res;
     if (a.status !== 'rodando') return a.status;
@@ -755,7 +787,7 @@ export async function executeRun(
 }
 
 // ---------------------------------------------------------------------------------------------
-// Tipos de passo do AU2 (os outros chegam no AU3 a AU5 e no SL3)
+// Tipos de passo (enviar_webhook chega no AU8 e comandar_dispositivo no SL3)
 // ---------------------------------------------------------------------------------------------
 
 const texto = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : '');
@@ -845,6 +877,16 @@ export const PASSOS_BASE: TipoPasso[] = [
     },
   },
   { id: 'parar', execute: () => ({ parar: true }) },
+  {
+    id: 'esperar',
+    execute: (_ctx, p) => {
+      const minutos = Math.round(Number(p.minutos));
+      if (!Number.isFinite(minutos) || minutos < 1 || minutos > 10080) {
+        return { erro: 'Esperar de 1 minuto a 7 dias' };
+      }
+      return { esperar: minutos };
+    },
+  },
   {
     id: 'se',
     blocos: ['entao', 'senao'],

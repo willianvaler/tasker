@@ -221,3 +221,49 @@ test('ações do motor: concluir cria a próxima tarefa e põe etiqueta', async 
     page.getByRole('checkbox', { name: 'Concluir Estender: Lavar as toalhas' }),
   ).toBeVisible();
 });
+
+// AU5: regra de horário disparada pelo varredor do pg_cron (todo minuto) e um `esperar` de 1 minuto
+// que volta sozinho: o aviso de depois só chega no minuto seguinte
+test('agendador: horário dispara pelo varredor e o esperar volta sozinho', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'o motor é do servidor: basta um perfil');
+  test.setTimeout(300_000);
+  await signUp(page, testInfo);
+  const uid = await userIdOf(page);
+  const [rule] = await adminRest('automation_rules', {
+    method: 'POST',
+    body: JSON.stringify({
+      scope: 'pessoal',
+      owner_id: uid,
+      name: 'Ar da noite',
+      definition: {
+        v: 1,
+        gatilho: { tipo: 'horario', hora: '19:00' },
+        passos: [
+          { tipo: 'notificar', corpo: 'Ligar o ar', canal: 'app' },
+          { tipo: 'esperar', minutos: 1 },
+          { tipo: 'notificar', corpo: 'Desligar o ar', canal: 'app' },
+        ],
+      },
+    }),
+  });
+  expect(rule.next_run_at).toBeTruthy();
+  // "Agora" é a hora da regra: o varredor do próximo minuto dispara
+  await adminRest(`automation_rules?id=eq.${rule.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ next_run_at: new Date(Date.now() - 5_000).toISOString() }),
+  });
+  const avisos = async () =>
+    (await adminRest(`notifications?user_id=eq.${uid}&kind=eq.automation&select=payload`)).map(
+      (n: { payload: { message: string } }) => n.payload.message,
+    );
+  await expect.poll(avisos, { timeout: 90_000, intervals: [2_000] }).toEqual(['Ligar o ar']);
+  const [run] = await adminRest(`automation_runs?rule_id=eq.${rule.id}&select=status,resume_at`);
+  expect(run.status).toBe('esperando');
+  await expect.poll(avisos, { timeout: 150_000, intervals: [5_000] }).toHaveLength(2);
+  const [fim] = await adminRest(`automation_runs?rule_id=eq.${rule.id}&select=status`);
+  expect(fim.status).toBe('ok');
+  const [depois] = await adminRest(`automation_rules?id=eq.${rule.id}&select=next_run_at`);
+  expect(new Date(depois.next_run_at).getTime()).toBeGreaterThan(Date.now());
+});

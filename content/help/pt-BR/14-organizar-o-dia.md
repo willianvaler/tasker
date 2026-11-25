@@ -8,7 +8,7 @@
 
 ## Automações
 
-No projeto, **Automações** cria regras "quando… então…". Exemplo: quando uma tarefa da lista Dia for concluída, criar "Limpar a churrasqueira" na lista Depois. Até 20 por projeto; se uma ação não puder rodar, ela aparece nas últimas execuções e nada se perde.
+No projeto, **Automações** cria regras "quando… então…". Exemplo: quando uma tarefa da lista Dia for concluída, criar "Limpar a churrasqueira" na lista Depois. Até 20 por projeto. A regra roda no servidor alguns segundos depois do que a disparou, com as permissões de quem a criou; se uma ação não puder rodar (a pessoa saiu do projeto, a lista sumiu), ela aparece nas últimas execuções e nada se perde.
 
 ## Matriz de Eisenhower
 
