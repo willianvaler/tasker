@@ -2471,7 +2471,10 @@
         "overdueHint": "Todos los días a las 19:00, si hay tareas atrasadas, avisar.",
         "overdueTitle": "Tareas atrasadas",
         "plug": "Apagar el enchufe al completar",
-        "plugHint": "Al completar una tarea, apagar un enchufe inteligente."
+        "plugHint": "Al completar una tarea, apagar un enchufe inteligente.",
+        "discordBoss": "Avisar en Discord al vencer a un jefe",
+        "discordBossHint": "Al derrotar a un jefe, enviar un mensaje al webhook de un canal de Discord.",
+        "discordBossBody": "¡Derroté al jefe {{boss}}!"
       },
       "models": "Plantillas",
       "moveDown": "Bajar el paso {{n}}",

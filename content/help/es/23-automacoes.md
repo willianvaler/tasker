@@ -50,6 +50,15 @@ function comprueba(cabecera, cuerpo, secreto) {
 
 Cada llamada lleva también `X-Questlist-Idempotency`: si llega dos veces con el mismo valor, es la misma llamada.
 
+### Receta: avisar en un canal de Discord
+
+1. En Discord, abre **Editar canal → Integraciones → Webhooks → Nuevo webhook**, ponle un nombre y toca **Copiar URL del webhook**.
+2. En Questlist, en **Configuración → Automatizaciones**, elige la plantilla **Avisar en Discord al subir de nivel** o **Avisar en Discord al vencer a un jefe**.
+3. En **Entonces**, pega la dirección copiada en lugar de `https://discord.com/api/webhooks/` y ajusta el texto de `content` (acepta `{{evento.nivel}}` y `{{evento.boss_nome}}`).
+4. **Probar** muestra lo que se enviaría sin enviar nada; **Guardar** enciende la automatización.
+
+Discord muestra el mensaje con el nombre del webhook. La dirección del webhook es como una contraseña: quien la tenga publica en el canal. Si se filtra, borra el webhook en Discord y crea otro. Ningún dato sensible (salud, ubicación, cámara, dispositivo) entra en el mensaje.
+
 ## Recibir una llamada (webhook de entrada)
 
 En una automatización con el disparador **Llamada externa**, **Generar dirección** muestra la dirección **una vez** (guárdala). Envía un `POST` con JSON o formulario, hasta 16 KB; la respuesta es siempre `202`, sin cuerpo. **Cambiar dirección** invalida la anterior al instante. Hay un límite de llamadas por minuto; por encima, la respuesta es `429`.

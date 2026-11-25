@@ -50,6 +50,15 @@ function confere(cabecalho, corpo, segredo) {
 
 Cada chamada leva também `X-Questlist-Idempotency`: se chegar duas vezes com o mesmo valor, é a mesma chamada.
 
+### Receita: avisar um canal do Discord
+
+1. No Discord, abra as **Configurações do canal → Integrações → Webhooks → Novo webhook**, dê um nome e toque em **Copiar URL do webhook**.
+2. No Questlist, em **Configurações → Automações**, escolha o modelo **Contar no Discord quando subir de nível** ou **Contar no Discord quando vencer um boss**.
+3. Em **Então**, cole o endereço copiado no lugar de `https://discord.com/api/webhooks/` e ajuste o texto do `content` (ele aceita `{{evento.nivel}}` e `{{evento.boss_nome}}`).
+4. **Testar** mostra o que seria enviado sem enviar nada; **Salvar** liga a automação.
+
+O Discord mostra a mensagem com o nome do webhook. O endereço do webhook é como uma senha: quem tiver o endereço posta no canal. Se ele vazar, apague o webhook no Discord e crie outro. Nenhum dado sensível (saúde, local, câmera, dispositivo) entra na mensagem.
+
 ## Receber uma chamada (webhook de entrada)
 
 Numa automação com o gatilho **Chamada de fora**, **Gerar endereço** mostra o endereço **uma vez** (guarde). Mande um `POST` com JSON ou formulário, até 16 KB; a resposta é sempre `202`, sem corpo. **Trocar endereço** invalida o antigo na hora. Há um limite de chamadas por minuto; acima dele, a resposta é `429`.

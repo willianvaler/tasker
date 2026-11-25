@@ -505,7 +505,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 
 - [ ] **CT0** Spike de plataforma (geofence, Wi-Fi, bateria, widgets, declaração da Play, orçamento de bateria): pede o aparelho do dono
 - [x] **CT4** Gatilho por link, QR e NFC (D362, migração `20270102000000_gatilho_link.sql`): `automation_links` (token só como hash, confirmação, usos), RPCs `automation_link_create`/`revoke`/`set_confirm`/`open`/`fire`, só regra pessoal manual e só para a dona logada; regra com webhook ou dispositivo sempre confirma. Seção **Link por QR e NFC** no editor (`components/automation/link-section.tsx`: gerar, trocar, revogar, pedir confirmação, QR de `lib/qr.ts` e Imprimir o QR); tela `/r/<token>` fora do login (`src/app/r/[token].tsx`); limite de 30 por minuto por IP no `serve.mjs`. Ajuda nos 3 idiomas, pgTAP `automacoes_link.test.sql` (17), Jest `qr.test.ts`, E2E `automacoes-link.spec.ts`. Falta abrir direto no app do Android (App Links)
-- [ ] **IG1-A** Discord por webhook de saída (modelos e receita)
+- [x] **IG1-A** Discord por webhook de saída (D364): modelos **Contar no Discord quando subir de nível** e **quando vencer um boss** (`lib/automation/editor.ts`, `enviar_webhook` com `content`), receita na Ajuda de Automações nos 3 idiomas, Jest em `automation-editor.test.ts`. Falta o envio real a um canal do dono
 - [ ] **CS1** Equipamentos e manutenção
 - [ ] **CP1** Compartilhar → nova tarefa
 - [ ] O resto (CT1 a CT3, CT5, CA1 a CA3, CS2 a CS5, SA0 a SA5, ET1, ET2, CP2 a CP4, IG1-B, IG2, IG3, AI1): ordem do §11

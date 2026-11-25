@@ -181,6 +181,26 @@ export const MODELOS: Modelo[] = [
     }),
   },
   {
+    id: 'discord-boss',
+    titulo: () => tr('auto.ed.model.discordBoss'),
+    descricao: () => tr('auto.ed.model.discordBossHint'),
+    montar: () => ({
+      name: tr('auto.ed.model.discordBoss'),
+      definition: {
+        v: 1,
+        gatilho: { tipo: 'boss.derrotado' },
+        passos: [
+          {
+            tipo: 'enviar_webhook',
+            url: 'https://discord.com/api/webhooks/',
+            metodo: 'POST',
+            corpo: { content: tr('auto.ed.model.discordBossBody', { boss: '{{evento.boss_nome}}' }) },
+          },
+        ],
+      },
+    }),
+  },
+  {
     id: 'entrada',
     titulo: () => tr('auto.ed.model.hook'),
     descricao: () => tr('auto.ed.model.hookHint'),

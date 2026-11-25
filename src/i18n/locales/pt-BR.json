@@ -2471,7 +2471,10 @@
         "overdueHint": "Todo dia às 19:00, se houver tarefas atrasadas, avisar.",
         "overdueTitle": "Tarefas atrasadas",
         "plug": "Desligar a tomada ao concluir",
-        "plugHint": "Ao concluir uma tarefa, desligar uma tomada inteligente."
+        "plugHint": "Ao concluir uma tarefa, desligar uma tomada inteligente.",
+        "discordBoss": "Contar no Discord quando vencer um boss",
+        "discordBossHint": "Ao derrotar um boss, mandar uma mensagem para o webhook de um canal do Discord.",
+        "discordBossBody": "Derrotei o boss {{boss}}!"
       },
       "models": "Modelos",
       "moveDown": "Descer o passo {{n}}",

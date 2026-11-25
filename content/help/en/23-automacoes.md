@@ -50,6 +50,15 @@ function verify(header, body, secret) {
 
 Every call also carries `X-Questlist-Idempotency`: if it arrives twice with the same value, it's the same call.
 
+### Recipe: post to a Discord channel
+
+1. In Discord, open **Edit Channel → Integrations → Webhooks → New Webhook**, give it a name and tap **Copy Webhook URL**.
+2. In Questlist, under **Settings → Automations**, pick the template **Post on Discord when leveling up** or **Post on Discord when defeating a boss**.
+3. Under **Then**, paste the copied address in place of `https://discord.com/api/webhooks/` and adjust the `content` text (it accepts `{{evento.nivel}}` and `{{evento.boss_nome}}`).
+4. **Test** shows what would be sent without sending anything; **Save** turns the automation on.
+
+Discord shows the message with the webhook's name. The webhook address works like a password: anyone who has it can post to the channel. If it leaks, delete the webhook in Discord and create another. No sensitive data (health, location, camera, device) goes into the message.
+
 ## Receive a call (incoming webhook)
 
 In an automation with the **Incoming call** trigger, **Generate address** shows the address **once** (keep it). Send a `POST` with JSON or a form, up to 16 KB; the answer is always `202`, with no body. **Change address** invalidates the old one at once. There's a per-minute limit; above it, the answer is `429`.

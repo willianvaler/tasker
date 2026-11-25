@@ -2471,7 +2471,10 @@
         "overdueHint": "Every day at 19:00, if there are overdue tasks, notify.",
         "overdueTitle": "Overdue tasks",
         "plug": "Turn off a plug when completing",
-        "plugHint": "When a task is completed, turn off a smart plug."
+        "plugHint": "When a task is completed, turn off a smart plug.",
+        "discordBoss": "Post on Discord when defeating a boss",
+        "discordBossHint": "When you defeat a boss, send a message to a Discord channel webhook.",
+        "discordBossBody": "I defeated the boss {{boss}}!"
       },
       "models": "Templates",
       "moveDown": "Move step {{n}} down",

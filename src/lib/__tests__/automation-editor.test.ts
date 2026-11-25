@@ -67,6 +67,23 @@ describe('editor de automações (AU7)', () => {
     }
   });
 
+  test('os modelos do Discord mandam o content com o nível e o boss (IG1-A)', () => {
+    const corpo = (id: string) =>
+      JSON.stringify(MODELOS.find((m) => m.id === id)!.montar({}).definition.passos[0]);
+    expect(corpo('discord')).toContain('{{evento.nivel}}');
+    expect(corpo('discord-boss')).toContain('{{evento.boss_nome}}');
+    for (const id of ['discord', 'discord-boss']) {
+      const passo = MODELOS.find((m) => m.id === id)!.montar({}).definition.passos[0] as {
+        tipo: string;
+        url: string;
+        corpo: { content: string };
+      };
+      expect(passo.tipo).toBe('enviar_webhook');
+      expect(passo.url.startsWith('https://discord.com/api/webhooks/')).toBe(true);
+      expect(typeof passo.corpo.content).toBe('string');
+    }
+  });
+
   test('modelo das atrasadas avisa com a contagem', () => {
     const { definition } = MODELOS.find((m) => m.id === 'atrasadas')!.montar({});
     const out = simulate(
