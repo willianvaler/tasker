@@ -47,7 +47,9 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V14 | — | **Ligar o executor no servidor (alpha e produção) junto com o push do AU2 a AU5**: `AUTOMATION_WEBHOOK_SECRET` no `supabase/functions/.env`, `automation_url`/`automation_secret` no `app_config` e reiniciar o Supabase (`docs/OPERACOES.md`). Sem isso, desde o AU5 as **automações de projeto que já existem param de rodar** (o caminho antigo saiu) | não começado | push/promover |
 | V14 | SL0 | Spike do Smart Life/Tuya: o Positivo no Smart Life, chaves da Tuya, comando real, cota, termos, estado do IR, fixtures, protocolo local | não começado | dono |
 | V14 | SL1 a SL5 | Conector Tuya: conexão, descoberta, comandos, ponte doméstica, tela Dispositivos | não começado | SL0 aprovado |
-| **V15** | — | Contexto do celular, câmeras, casa, saúde, estudo, captura, integrações | não começado | V14 |
+| **V15** | — | Começado em 25/11 com os padrões (D361). Na fila: CT4 (link por QR/NFC), IG1-A (Discord), CS1 (equipamentos), CP1 (Compartilhar → tarefa); depois o resto do §11 | em andamento | — |
+| V15 | CT0 (e CT1 a CT3, CP3) | Spike de contexto no aparelho: geofence, Wi-Fi, bateria, widgets, orçamento de bateria | pendente | aparelho do dono |
+| V15 | V15-14, V15-16 | Confirmar a API pública com tokens (IG2, IG3, IG1-B) e a IA local (AI1): mudam o V11 §9 e o V12-8 | pendente | dono |
 | **V16** | ED1 | Mandar o corpus de anotações reais (`tests/fixtures/notas/`, sem dado pessoal) | pendente | dono |
 | V16 | opcional | **Editor de blocos** (no lugar do campo de texto Markdown): adiado pelo dono em 25/11 (V16-4, D345). O `react-native-webview` já está no app; o custo é a conversão de e para Markdown sem perda e o peso no Moto E14 | opcional | dono |
 | V16 | CL1, ED5 (o que reprovou) | Colaboração ao vivo; abrir 5.000 blocos e digitar com 20 mil palavras ainda acima do orçamento | parcial | o resto do V16 feito; o editor de blocos é opcional (D345); medir no Moto E14 |

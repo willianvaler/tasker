@@ -501,6 +501,15 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **ED4** Botões e modelos (D360, migração `20270101000000_botoes_anotacoes.sql`): o bloco ` ```questlist-button ` com `{rotulo, acao}` vira um botão (`components/note-button.tsx`) que roda a ação do registro do V14 pela RPC `note_button_run`, como uma execução de verdade do motor (expansão de `{{ }}`, histórico na regra escondida **Botões das anotações**, efeito externo pelo executor); `marcar` emite o gatilho `pagina.marcada_como`; criar tarefa sem lista vai para a Caixa de entrada. Webhook e dispositivo pedem confirmação (no app e no servidor); dado sensível do V15 (`saude.*`, `local.*`, `camera.*`, `dispositivo.*`) é recusado. Modelos ganham `{{pessoa}}` e `{{cursor}}` (abre editando ali); o modelo recorrente é uma automação de horário com **Criar anotação de um modelo** (PR7). **Correção:** `can_see_note` dentro de `security definer` sempre dizia sim (a RLS não vale lá); `note_mark` e "criar de modelo" agora usam `_note_visible`, com a regra da policy. Ajuda nos 3 idiomas. pgTAP `anotacoes_botoes.test.sql` (9), Jest e E2E `editor-botoes.spec.ts`
 - [ ] **CL1**: fora (colaboração ao vivo)
 
+## ESCOPO_V15 — contexto do celular, casa, saúde, estudo, captura e integrações (pedido do dono em 24/11; começado em 25/11 com os padrões, D361; V15-14 e V15-16 à espera do dono)
+
+- [ ] **CT0** Spike de plataforma (geofence, Wi-Fi, bateria, widgets, declaração da Play, orçamento de bateria): pede o aparelho do dono
+- [ ] **CT4** Gatilho por link (QR e NFC)
+- [ ] **IG1-A** Discord por webhook de saída (modelos e receita)
+- [ ] **CS1** Equipamentos e manutenção
+- [ ] **CP1** Compartilhar → nova tarefa
+- [ ] O resto (CT1 a CT3, CT5, CA1 a CA3, CS2 a CS5, SA0 a SA5, ET1, ET2, CP2 a CP4, IG1-B, IG2, IG3, AI1): ordem do §11
+
 ## ESCOPO v1 — backlog (§11)
 
 - [x] **C1** Calendário: tela `/calendario` (mês e semana, tarefas com data de todas as pastas e projetos, recorrentes em todos os dias, página de treino como um item por dia que abre a página, hábitos fora), na barra lateral, no Início ("Próximos 7 dias"), na paleta e em `G C`; feed .ics com link secreto por pessoa (`calendar_feeds`, `calendar_feed_link`/`calendar_feed_off`, `calendar_ics` montado no banco com RRULE) servido pelo `serve.mjs` em `/calendario/<token>.ics` e botão "Adicionar ao Google Agenda"; pgTAP, E2E `e2e/calendario.spec.ts` e Ajuda nos 3 idiomas (D185). A API do Google (OAuth, mão dupla) fica para depois, se o atraso do feed incomodar

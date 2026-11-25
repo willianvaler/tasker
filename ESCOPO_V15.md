@@ -102,9 +102,9 @@ Sem aprovação do dono do documento, CT1 a CT3 e CP3 não começam.
 
 > Privacidade em primeiro lugar. **O Questlist não grava nem armazena vídeo**, e câmera **não** é compartilhada com amigos nem times.
 
-- **CM1 — Câmeras como atalho:** cadastro de câmera (nome, cômodo, app de origem, link ou *deep link*) na tela Dispositivos do V14. O botão abre o app da câmera. Sem vídeo dentro do Questlist. Firme neste escopo.
-- **CM2 — Foto instantânea sob demanda:** se a câmera for Tuya e o SL0 mostrar API de *snapshot* dentro da cota, o botão "ver agora" busca **uma imagem**, mostra e **não guarda** (nem em disco nem no servidor). **Depende do resultado do SL0**; sem ele, fica adiado.
-- **CM3 — Alerta de movimento como gatilho:** só se SL0/CM2 mostrarem que a Tuya oferece isso sem custo fora da cota. Caso contrário, **fica fora**.
+- **CA1 — Câmeras como atalho:** cadastro de câmera (nome, cômodo, app de origem, link ou *deep link*) na tela Dispositivos do V14. O botão abre o app da câmera. Sem vídeo dentro do Questlist. Firme neste escopo.
+- **CA2 — Foto instantânea sob demanda:** se a câmera for Tuya e o SL0 mostrar API de *snapshot* dentro da cota, o botão "ver agora" busca **uma imagem**, mostra e **não guarda** (nem em disco nem no servidor). **Depende do resultado do SL0**; sem ele, fica adiado.
+- **CA3 — Alerta de movimento como gatilho:** só se SL0/CA2 mostrarem que a Tuya oferece isso sem custo fora da cota. Caso contrário, **fica fora**.
 - **Vídeo ao vivo embutido e gravação:** fora (V15-6).
 
 ---
@@ -241,7 +241,7 @@ Prioridade: **1** = alto valor e baixo risco, **2** = bom valor, **3** = depende
 | CT2 | Wi-Fi (Android) | 2 | CT0, V14 AU6 |
 | CT5 | Guia de integração com apps de automação | 2 | CT4, V14 AU9 |
 | IG1-A | Discord por webhook (modelos e receita) | 1 | V14 AU7, AU8 |
-| CM1 | Câmeras como atalho | 2 | V14 SL5 |
+| CA1 | Câmeras como atalho | 2 | V14 SL5 |
 | CS1 | Equipamentos e manutenção | 1 | — |
 | CS2 | Rodízio de tarefas domésticas | 2 | V10 |
 | CS3 | Garantias e documentos | 2 | CS1 |
@@ -262,8 +262,8 @@ Prioridade: **1** = alto valor e baixo risco, **2** = bom valor, **3** = depende
 | IG2 | API pública com tokens pessoais | 2 | V14 AU6 + decisão V15-14 |
 | IG3 | Servidor MCP | 2 | IG2 |
 | IG1-B | Bot de comandos do Discord | 3 | IG2 |
-| CM2 | Foto instantânea | 3 | V14 SL0, SL3 |
-| CM3 | Alerta de movimento | 3 | CM2 |
+| CA2 | Foto instantânea | 3 | V14 SL0, SL3 |
+| CA3 | Alerta de movimento | 3 | CA2 |
 | AI1 | IA local opcional | 3 | decisão V15-16 |
 
 **Conferir colisão dos prefixos** (`CT`, `CM`, `CS`, `SA`, `ET`, `CP`, `IG`, `AI`) contra `STATUS.md` e `PENDENTES.md` antes de começar e renomear aqui se necessário.
@@ -290,7 +290,7 @@ Todas com resposta **(padrão)** até o dono responder.
 | V15-2 | Quantos locais ativos? | **20**, igual nos dois sistemas |
 | V15-3 | Localização em segundo plano | Pedida só ao criar o primeiro uso. Aceita atraso de minutos e perda de evento com o app encerrado, e a Ajuda explica |
 | V15-4 | Dados de saúde, local, câmera e dispositivo em webhook, API e MCP | **Bloqueados**, liberação campo a campo pela pessoa |
-| V15-5 | Câmeras | Só **atalho** (CM1) é firme. CM2 e CM3 dependem do SL0 |
+| V15-5 | Câmeras | Só **atalho** (CA1) é firme. CA2 e CA3 dependem do SL0 |
 | V15-6 | Vídeo ao vivo, gravação e compartilhar câmera | **Fora** |
 | V15-7 | Nome do medicamento na notificação | **Oculto** por padrão |
 | V15-8 | Macros | Só **tabela da própria pessoa** |
@@ -324,9 +324,9 @@ Todas com resposta **(padrão)** até o dono responder.
 
 **CT5** — O artigo existe nos 3 idiomas com pelo menos 2 receitas testadas em apps reais, registradas em `docs/TESTES_MANUAIS_V15.md`.
 
-**CM1** — Câmera cadastrada abre o app de origem. Não há vídeo, imagem ou segredo guardado no Questlist.
+**CA1** — Câmera cadastrada abre o app de origem. Não há vídeo, imagem ou segredo guardado no Questlist.
 
-**CM2** — A imagem é mostrada e **não** é gravada (teste: nada no Storage nem no banco).
+**CA2** — A imagem é mostrada e **não** é gravada (teste: nada no Storage nem no banco).
 
 **CS1** — Plano "a cada 90 dias após concluir" cria a tarefa, e a próxima data muda ao concluir. Plano vinculado a um dispositivo aparece na tela do dispositivo.
 
