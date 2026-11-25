@@ -33,8 +33,10 @@ o R1.4 (APK novo).
 | `<textarea>` de hoje, digitar (1× / 6×) | 1,3 / 8,4 ms | 4,4 / 38,5 ms | 12,8 / 106,1 ms |
 
 - Os números do TipTap são com `content-visibility: auto` nos blocos (o navegador pula o layout do
-  que está fora da tela). Sem isso, digitar com 5.000 blocos e CPU 6× ia a 151 ms por tecla: **o CSS
-  entra no editor desde o R1.1**.
+  que está fora da tela). Sem isso, digitar com 5.000 blocos e CPU 6× ia a 151 ms por tecla.
+  **Correção no R1.1 (D371):** esse CSS quebra o cursor do Chromium dentro do `contenteditable` com a
+  digitação rápida (o texto ia para o parágrafo errado), então saiu; documento muito grande pede outra
+  solução (virtualização), a rever.
 - **Digitar fica igual ou melhor que o campo de hoje**; abrir custa mais nos documentos pequenos
   (241 contra 60 ms com CPU 6×), ainda dentro do orçamento do ED5 (800 ms).
 - Acima de uns 2.000 blocos, os dois pioram. A anotação comum tem bem menos (o teto antigo, de 20 mil

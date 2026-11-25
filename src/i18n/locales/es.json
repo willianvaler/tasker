@@ -5749,5 +5749,112 @@
     "receiptNone": "No se encontraron gastos.",
     "receiptRemove": "Quitar",
     "receiptLinked": "Vinculada a un gasto"
+  },
+  "blockEditor": {
+    "plus": "Agregar un bloque",
+    "queryTemplate": "tareas donde vence <= hoy+7 no completadas",
+    "buttonTemplate": "{\"rotulo\": \"Crear tarea\", \"acao\": {\"tipo\": \"criar_tarefa\", \"titulo\": \"Nueva tarea\"}}",
+    "markdown": "Markdown",
+    "blocks": "Bloques",
+    "markdownHint": "Editar como Markdown",
+    "blocksHint": "Volver al editor de bloques",
+    "slashHint": "Escribe / para insertar título, lista, tabla, callout, consulta y más",
+    "items": {
+      "text": {
+        "label": "Texto",
+        "hint": "Párrafo común",
+        "keywords": "parrafo texto"
+      },
+      "h1": {
+        "label": "Título 1",
+        "hint": "Título grande",
+        "keywords": "titulo h1"
+      },
+      "h2": {
+        "label": "Título 2",
+        "hint": "Título mediano",
+        "keywords": "titulo h2"
+      },
+      "h3": {
+        "label": "Título 3",
+        "hint": "Título pequeño",
+        "keywords": "titulo h3"
+      },
+      "bullet": {
+        "label": "Lista",
+        "hint": "Lista con viñetas",
+        "keywords": "lista vinetas"
+      },
+      "ordered": {
+        "label": "Lista numerada",
+        "hint": "1, 2, 3…",
+        "keywords": "lista numerada"
+      },
+      "task": {
+        "label": "Lista de tareas",
+        "hint": "Casillas para marcar",
+        "keywords": "tarea checklist"
+      },
+      "quote": {
+        "label": "Cita",
+        "hint": "Texto citado",
+        "keywords": "cita quote"
+      },
+      "callout": {
+        "label": "Callout",
+        "hint": "Caja destacada (consejo, aviso, nota)",
+        "keywords": "callout aviso consejo nota"
+      },
+      "code": {
+        "label": "Código",
+        "hint": "Bloque de código",
+        "keywords": "codigo code"
+      },
+      "table": {
+        "label": "Tabla",
+        "hint": "Tabla 3 × 3",
+        "keywords": "tabla table"
+      },
+      "divider": {
+        "label": "Divisor",
+        "hint": "Línea entre secciones",
+        "keywords": "divisor linea hr"
+      },
+      "formula": {
+        "label": "Fórmula",
+        "hint": "Fórmula LaTeX en bloque",
+        "keywords": "formula latex matematica"
+      },
+      "query": {
+        "label": "Consulta",
+        "hint": "Tareas o notas que cumplen un filtro",
+        "keywords": "consulta filtro base"
+      },
+      "button": {
+        "label": "Botón",
+        "hint": "Botón que ejecuta una acción",
+        "keywords": "boton button accion"
+      },
+      "link": {
+        "label": "Enlace a nota",
+        "hint": "Enlaza otra nota, tarea o lista",
+        "keywords": "enlace link"
+      },
+      "embed": {
+        "label": "Incrustar",
+        "hint": "Muestra otra nota o lista aquí dentro",
+        "keywords": "incrustar embed"
+      },
+      "image": {
+        "label": "Imagen",
+        "hint": "Subir una foto o imagen",
+        "keywords": "imagen foto"
+      },
+      "today": {
+        "label": "Fecha de hoy",
+        "hint": "Escribe la fecha de hoy",
+        "keywords": "fecha hoy"
+      }
+    }
   }
 }

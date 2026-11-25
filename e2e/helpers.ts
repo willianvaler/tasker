@@ -4,6 +4,8 @@ import { expect, type Page, type Response, type TestInfo } from '@playwright/tes
 export async function signUp(page: Page, testInfo: TestInfo) {
   const email = `e2e-${testInfo.project.name}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@teste.local`;
   await page.goto('/');
+  // Os testes escrevem o Markdown no campo de texto; o editor de blocos tem o próprio teste
+  await page.evaluate(() => localStorage.setItem('questlist:note-editor', 'markdown'));
   await page.getByText('Não tenho conta').click();
   await page.getByPlaceholder('Seu nome').fill('Teste E2E');
   await page.getByPlaceholder('E-mail').fill(email);

@@ -13,6 +13,7 @@ const DEVICE_KEY = 'questlist:device';
 const GAME_SOUNDS_KEY = 'questlist:game-sounds';
 const SHORTCUTS_KEY = 'questlist:shortcuts';
 const RETURNING_KEY = 'questlist:returning';
+const NOTE_EDITOR_KEY = 'questlist:note-editor';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -33,6 +34,15 @@ export function getGameSounds(): boolean {
 
 export function setGameSounds(on: boolean) {
   localStore.setItem(GAME_SOUNDS_KEY, on ? 'on' : 'off');
+}
+
+/** Editor das anotações (R1, D371): blocos (padrão) ou o campo de Markdown. É do aparelho. */
+export function getNoteEditor(): 'blocks' | 'markdown' {
+  return localStore.getItem(NOTE_EDITOR_KEY) === 'markdown' ? 'markdown' : 'blocks';
+}
+
+export function setNoteEditor(value: 'blocks' | 'markdown') {
+  localStore.setItem(NOTE_EDITOR_KEY, value);
 }
 
 /** Alguém já entrou neste aparelho: a entrada mostra o formulário antes da apresentação (S1). */

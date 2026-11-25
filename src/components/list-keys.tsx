@@ -316,12 +316,14 @@ export function ListKeys() {
   useShortcut('app.undo', () => {
     // Dentro de um campo de texto, Ctrl+Z é do campo
     const el = typeof document !== 'undefined' ? document.activeElement : null;
-    if (el && ['INPUT', 'TEXTAREA'].includes(el.tagName)) return false;
+    if (el && (['INPUT', 'TEXTAREA'].includes(el.tagName) || (el as HTMLElement).isContentEditable))
+      return false;
     return undoLast();
   });
   useShortcut('app.redo', () => {
     const el = typeof document !== 'undefined' ? document.activeElement : null;
-    if (el && ['INPUT', 'TEXTAREA'].includes(el.tagName)) return false;
+    if (el && (['INPUT', 'TEXTAREA'].includes(el.tagName) || (el as HTMLElement).isContentEditable))
+      return false;
     return redoLast();
   });
   useShortcut('app.sidebar', () => toggleSidebar());

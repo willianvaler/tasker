@@ -1,6 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import {
+  Blocks,
   Bold,
+  Code,
   Eye,
   Heading2,
   Italic,
@@ -43,6 +45,7 @@ import {
   useCanSplit,
 } from '@/components/split-pane';
 import { ScreenHeader } from '@/components/screen-header';
+import { BLOCK_EDITOR, BlockEditor } from '@/components/block-editor';
 import { NoteMarkdown } from '@/components/note-markdown';
 import { NoteShareDialog } from '@/components/note-share';
 import { NoteProperties } from '@/components/note-properties';
@@ -67,7 +70,9 @@ import { blockAtOffset, embedKey } from '@/lib/note-embeds';
 import { garantirIdBloco, mesclarPorBloco } from '@/lib/note-format';
 import { noteAliases, type NoteProps } from '@/lib/note-props';
 import { isDailyNote, templateVars } from '@/lib/note-templates';
-import { useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
+import { getNoteEditor, setNoteEditor } from '@/lib/prefs';
+import { useToday, useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
+import type { BlockEditorApi } from '@/lib/block-editor/mount';
 import { useLinkTitles } from '@/lib/queries/links';
 import { useNoteShareActions, useNoteShares } from '@/lib/queries/note-shares';
 import {
@@ -244,6 +249,11 @@ function Editor({
     cursor !== undefined ? { start: inicio, end: inicio } : undefined,
   );
   const input = useRef<TextInput>(null);
+  // Editor de blocos (R1, D371): na web, por padrão; "Markdown" volta ao campo de texto
+  const [markdownMode, setMarkdownMode] = useState(() => getNoteEditor() === 'markdown');
+  const blocks = BLOCK_EDITOR && !markdownMode;
+  const blockApi = useRef<BlockEditorApi | null>(null);
+  const today = useToday();
   const scroll = useRef<ScrollView>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<true>();
   const [outlineMenu, setOutlineMenu, closeOutlineMenu] = useDialog<true>();
@@ -401,6 +411,10 @@ function Editor({
   }
 
   function insertLink() {
+    if (blocks) {
+      blockApi.current?.insertText('[[');
+      return;
+    }
     const start = Math.min(selection.start, selection.end);
     const next = body.slice(0, start) + '[[' + body.slice(Math.max(selection.start, selection.end));
     setBody(next);
@@ -473,6 +487,11 @@ function Editor({
   }
 
   function format(kind: Format) {
+    if (blocks) {
+      const map = { bold: 'bold', italic: 'italic', heading: 'heading', list: 'bullet', numbered: 'ordered', task: 'task' } as const;
+      blockApi.current?.format(map[kind]);
+      return;
+    }
     const next = applyFormat(body, selection, kind);
     setBody(next.text);
     setSelection(next.selection);
@@ -667,6 +686,18 @@ function Editor({
               onPress={() => setOutlineMenu(true)}
             />
           )}
+          {editing && BLOCK_EDITOR && (
+            <IconButton
+              icon={markdownMode ? Blocks : Code}
+              label={t(markdownMode ? 'blockEditor.blocksHint' : 'blockEditor.markdownHint')}
+              tone="ink"
+              onPress={() => {
+                blockApi.current?.getMarkdown();
+                setNoteEditor(markdownMode ? 'blocks' : 'markdown');
+                setMarkdownMode(!markdownMode);
+              }}
+            />
+          )}
           {!readOnly && (
             <Button
               variant="ghost"
@@ -697,7 +728,19 @@ function Editor({
         {editing && !autocomplete.open && slash.list}
         <View className="flex-1 flex-row gap-6">
           <View className="flex-1">
-            {editing ? (
+            {editing && blocks ? (
+              <ScreenScroll className="flex-1" keyboardShouldPersistTaps="handled">
+                <BlockEditor
+                  value={body}
+                  onChange={setBody}
+                  onBlur={save}
+                  editable={!readOnly}
+                  apiRef={blockApi}
+                  onImage={() => void insertImage()}
+                  today={today}
+                />
+              </ScreenScroll>
+            ) : editing ? (
               // O campo ocupa o resto da tela e rola por dentro
               <TextInput
                 ref={input}
@@ -781,7 +824,7 @@ function Editor({
         </View>
         <View className="flex-row justify-between gap-3 py-2">
           <Text className="flex-1 text-xs text-ink-muted" numberOfLines={1}>
-            {editing ? t('notes.markdownHint') : ''}
+            {editing ? t(blocks ? 'blockEditor.slashHint' : 'notes.markdownHint') : ''}
           </Text>
           <Text className="font-mono text-xs text-ink-muted">
             {t('notes.words', { count: wordCount(lento) })} · {lento.length}/{NOTE_MAX}

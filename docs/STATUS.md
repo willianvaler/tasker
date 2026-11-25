@@ -516,7 +516,9 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 - [x] **CD54** Atalho D "perdido": a lista fora de foco deixa de valer para os atalhos e restaura só a própria seleção ao voltar (`lib/selection.ts`, E2E `selecao-atalho.spec.ts`)
 - [x] **R2a** Consulta: ícone de banco no lugar da lupa e cabeçalho da tabela que ordena (D369, `components/note-query.tsx`, `lib/query/sort.ts`, Jest `query-sort.test.ts`, E2E em `consultas.spec.ts`, Ajuda nos 3 idiomas)
 - [x] **R1.0** Spike do editor de blocos (D370, `docs/SPIKE_EDITOR_BLOCOS.md`): TipTap 3 sobre ProseMirror, medido no Chromium (CPU 1× e 6×), ida e volta sem perda pelos blocos do `note-format`; o Moto E14 fica para o R1.4
-- [ ] **R1.1 a R1.4** Editor de blocos: básicos, menu `/` e `+`, blocos do Questlist, celular
+- [x] **R1.1** e **R1.2** Editor de blocos na web com o menu `/` e o botão `+` (D371, `src/lib/block-editor/`, `components/block-editor.web.tsx`; Jest `block-editor.test.ts` com o corpus e mil entradas aleatórias, E2E `editor-blocos.spec.ts`, Ajuda nos 3 idiomas)
+- [ ] **R1.3** Blocos do Questlist no editor (link `[[` com sugestão, consulta e botão formatados, fórmula, imagem, incorporar)
+- [ ] **R1.4** Editor de blocos no celular (WebView, APK novo)
 - [ ] **R2b** Construtor visual da consulta e da Base
 - [ ] **R3** Achar as coisas (inventário, estados vazios, Novo e Ctrl+K completos, medição)
 - [ ] **R4** Organização (conversar com o dono)

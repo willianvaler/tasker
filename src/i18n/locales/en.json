@@ -5749,5 +5749,112 @@
     "receiptNone": "No expenses found.",
     "receiptRemove": "Remove",
     "receiptLinked": "Linked to an expense"
+  },
+  "blockEditor": {
+    "plus": "Add a block",
+    "queryTemplate": "tasks where due <= today+7 not done",
+    "buttonTemplate": "{\"rotulo\": \"Create task\", \"acao\": {\"tipo\": \"criar_tarefa\", \"titulo\": \"New task\"}}",
+    "markdown": "Markdown",
+    "blocks": "Blocks",
+    "markdownHint": "Edit as Markdown",
+    "blocksHint": "Back to the block editor",
+    "slashHint": "Type / to insert a heading, list, table, callout, query and more",
+    "items": {
+      "text": {
+        "label": "Text",
+        "hint": "Plain paragraph",
+        "keywords": "paragraph text"
+      },
+      "h1": {
+        "label": "Heading 1",
+        "hint": "Big heading",
+        "keywords": "title h1"
+      },
+      "h2": {
+        "label": "Heading 2",
+        "hint": "Medium heading",
+        "keywords": "title h2"
+      },
+      "h3": {
+        "label": "Heading 3",
+        "hint": "Small heading",
+        "keywords": "title h3"
+      },
+      "bullet": {
+        "label": "Bulleted list",
+        "hint": "List with bullets",
+        "keywords": "list bullet"
+      },
+      "ordered": {
+        "label": "Numbered list",
+        "hint": "1, 2, 3…",
+        "keywords": "list numbered ordered"
+      },
+      "task": {
+        "label": "To-do list",
+        "hint": "Checkboxes to tick",
+        "keywords": "task checklist todo"
+      },
+      "quote": {
+        "label": "Quote",
+        "hint": "Quoted text",
+        "keywords": "quote"
+      },
+      "callout": {
+        "label": "Callout",
+        "hint": "Highlight box (tip, warning, note)",
+        "keywords": "callout tip warning note"
+      },
+      "code": {
+        "label": "Code",
+        "hint": "Code block",
+        "keywords": "code"
+      },
+      "table": {
+        "label": "Table",
+        "hint": "3 × 3 table",
+        "keywords": "table"
+      },
+      "divider": {
+        "label": "Divider",
+        "hint": "Line between sections",
+        "keywords": "divider rule hr"
+      },
+      "formula": {
+        "label": "Formula",
+        "hint": "LaTeX formula block",
+        "keywords": "formula latex math"
+      },
+      "query": {
+        "label": "Query",
+        "hint": "Tasks or notes matching a filter",
+        "keywords": "query filter base"
+      },
+      "button": {
+        "label": "Button",
+        "hint": "Button that runs an action",
+        "keywords": "button action"
+      },
+      "link": {
+        "label": "Link to note",
+        "hint": "Link another note, task or list",
+        "keywords": "link wikilink"
+      },
+      "embed": {
+        "label": "Embed",
+        "hint": "Show another note or list inside this one",
+        "keywords": "embed transclusion"
+      },
+      "image": {
+        "label": "Image",
+        "hint": "Upload a photo or image",
+        "keywords": "image photo"
+      },
+      "today": {
+        "label": "Today's date",
+        "hint": "Writes today's date",
+        "keywords": "date today"
+      }
+    }
   }
 }
