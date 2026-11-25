@@ -49,7 +49,7 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V14 | SL1 a SL5 | Conector Tuya: conexão, descoberta, comandos, ponte doméstica, tela Dispositivos | não começado | SL0 aprovado |
 | **V15** | — | Começado em 25/11 com os padrões (D361). CT4 (link por QR/NFC) feito em 25/11 (D362). Na fila: IG1-A (Discord), CS1 (equipamentos), CP1 (Compartilhar → tarefa); depois o resto do §11 | em andamento | — |
 | V15 | CT0 (e CT1 a CT3, CP3) | Spike de contexto no aparelho: geofence, Wi-Fi, bateria, widgets, orçamento de bateria | pendente | aparelho do dono |
-| V15 | V15-14, V15-16 | Confirmar a API pública com tokens (IG2, IG3, IG1-B) e a IA local (AI1): mudam o V11 §9 e o V12-8 | pendente | dono |
+| V15 | V15-14 | Confirmar a API pública com tokens (IG2, IG3, IG1-B): muda o V11 §9. A IA (V15-16) foi respondida: Gemini do servidor, nada local (D363) | pendente | dono |
 | **V16** | ED1 | Mandar o corpus de anotações reais (`tests/fixtures/notas/`, sem dado pessoal) | pendente | dono |
 | V16 | opcional | **Editor de blocos** (no lugar do campo de texto Markdown): adiado pelo dono em 25/11 (V16-4, D345). O `react-native-webview` já está no app; o custo é a conversão de e para Markdown sem perda e o peso no Moto E14 | opcional | dono |
 | V16 | CL1, ED5 (o que reprovou) | Colaboração ao vivo; abrir 5.000 blocos e digitar com 20 mil palavras ainda acima do orçamento | parcial | o resto do V16 feito; o editor de blocos é opcional (D345); medir no Moto E14 |
