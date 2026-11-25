@@ -1,0 +1,3663 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`paridade das expressões (FN0) os resultados do Node não mudam sem querer 1`] = `
+[
+  {
+    "expr": "("")",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": ""Revisão" - e({var.b}, {var.b} <= "x")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(e("ação" + {pagina.prop.nota}, (10)))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "abs(if(-{var.s}, length({var.t}), {var.vazio} + 6))",
+    "res": {
+      "ok": true,
+      "value": 6,
+    },
+  },
+  {
+    "expr": "agora()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25T12:34:56.000Z",
+    },
+  },
+  {
+    "expr": "3",
+    "res": {
+      "ok": true,
+      "value": 3,
+    },
+  },
+  {
+    "expr": "nao(16) != agora() / ("2026-12-24") >= "2026-12-24" >= "10"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{pagina.prop.nota} - """,
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "dias_ate("x" < 7 + 4 = "10")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "-3",
+    "res": {
+      "ok": true,
+      "value": -3,
+    },
+  },
+  {
+    "expr": "abs("2026-12-24" >= "10" != if(16, {var.naoexiste}, "10"))",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "contem(round(1.53), round(-18))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": ""10"",
+    "res": {
+      "ok": true,
+      "value": "10",
+    },
+  },
+  {
+    "expr": "arredondar({var.vazio} = nao("10"), 3)",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "{var.l}",
+    "res": {
+      "ok": true,
+      "value": [
+        3,
+        1,
+        "x",
+        2,
+      ],
+    },
+  },
+  {
+    "expr": "{pagina.prop.nota}",
+    "res": {
+      "ok": true,
+      "value": 9,
+    },
+  },
+  {
+    "expr": "e({var.e}, round({var.z}))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "nao({var.nada} > 3.80) > tamanho({var.l}) + max(12, {var.e}, "x")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "nao(min({inicio.etiquetas}, 10)) <= abs(vazio(""))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "8",
+    "res": {
+      "ok": true,
+      "value": 8,
+    },
+  },
+  {
+    "expr": "13 / ({var.e}) >= (3.09)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.e}",
+    "res": {
+      "ok": true,
+      "value": "2026-11-20",
+    },
+  },
+  {
+    "expr": "-"10"",
+    "res": {
+      "ok": true,
+      "value": -10,
+    },
+  },
+  {
+    "expr": "3.25",
+    "res": {
+      "ok": true,
+      "value": 3.25,
+    },
+  },
+  {
+    "expr": "({var.d} / 5) != se(ou({var.naoexiste}, 0), tamanho("10"), "x")",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "vazio(6) = "" > "Revisão" < 0 <= 14",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(arredondar(se(15, {inicio.titulo}, {inicio.prioridade}), ou({var.vazio}, 2.69)))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "ou(arredondar("x", 9 <= {var.vazio}), 10)",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "if(agora(), "", {var.n})",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "({var.t})",
+    "res": {
+      "ok": true,
+      "value": "acao rapida",
+    },
+  },
+  {
+    "expr": "if(nao(contiene({pagina.prop.status}, 3.20)), (6 + 0.62), contem({var.z}, round(9.88)))",
+    "res": {
+      "ok": true,
+      "value": 6.62,
+    },
+  },
+  {
+    "expr": "contem(18 != {var.l} > "2026-12-24" - 0.48, ({var.naoexiste}))",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "7.33",
+    "res": {
+      "ok": true,
+      "value": 7.33,
+    },
+  },
+  {
+    "expr": "9.90",
+    "res": {
+      "ok": true,
+      "value": 9.9,
+    },
+  },
+  {
+    "expr": "contem(se(round(5), 7, {inicio.prioridade}), 16)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "max(11, length(-5), 8.32)",
+    "res": {
+      "ok": true,
+      "value": 11,
+    },
+  },
+  {
+    "expr": "contiene(2.27 - {pagina.prop.status}, {var.nada}) > {var.naoexiste} / tamanho(19)",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "("")",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "arredondar(hoje(), {pagina.prop.status})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "tamanho(12)",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "if(agora(), 5.76 < {var.m} > 2, 8.37)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "length({var.e} >= 5) - {var.b} < "10" / {var.e} != {var.z}",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": ""10"",
+    "res": {
+      "ok": true,
+      "value": "10",
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "{var.nada}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "if(-"ação", agora(), ({var.nada})) / 18",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "ou(agora(), {inicio.etiquetas})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.n}",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "ou((dias_ate("10")), nao({var.n}))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": ""ação" != 19",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "-"" + -5 + "Revisão" / "10"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.l}",
+    "res": {
+      "ok": true,
+      "value": [
+        3,
+        1,
+        "x",
+        2,
+      ],
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": ""10" * dias_ate(7.56 + 6)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "11",
+    "res": {
+      "ok": true,
+      "value": 11,
+    },
+  },
+  {
+    "expr": "{inicio.titulo}",
+    "res": {
+      "ok": true,
+      "value": "Revisão da semana",
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "{pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": "Estudando",
+    },
+  },
+  {
+    "expr": "contiene(hoje(), dias_ate({var.z}) <= {inicio.etiquetas})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": ""Revisão" < "10" - """,
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "vazio({var.n}) != {var.naoexiste}",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": ""ação" - "10"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "round(18) = {inicio.etiquetas} / "10" - """,
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "min((e("ação", "2026-12-24")), abs({var.t}) != se({var.l}, "", "2026-12-24"))",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "arredondar({pagina.prop.status} != "Revisão" + 5, vazio(contem({var.t}, {inicio.titulo})))",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "("ação")",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "(nao(4.32)) < length(ou(6.90, "x"))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "12",
+    "res": {
+      "ok": true,
+      "value": 12,
+    },
+  },
+  {
+    "expr": "{var.nada} <= if(min(0, 8.58), "2026-12-24" + "", ({var.nada}))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "arredondar(max({inicio.titulo}, dias_ate(9), "x" = {var.z}), 5.18)",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "("x" * 3.68 = {var.b})",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "min({var.t}, 5.06 / 11)",
+    "res": {
+      "ok": true,
+      "value": 0.45999999999999996,
+    },
+  },
+  {
+    "expr": "arredondar(3, "Revisão" <= contiene({var.t}, {var.l}))",
+    "res": {
+      "ok": true,
+      "value": 3,
+    },
+  },
+  {
+    "expr": "(ou(arredondar(6.06, 10), (12)))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "(length(arredondar("", "ação")))",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "se({var.naoexiste} / -3, 0 = {inicio.etiquetas}, 8) <= max("10", 16 > "x", 9 = "")",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "5",
+    "res": {
+      "ok": true,
+      "value": 5,
+    },
+  },
+  {
+    "expr": "5",
+    "res": {
+      "ok": true,
+      "value": 5,
+    },
+  },
+  {
+    "expr": "min(round({var.z} >= {pagina.prop.status}), abs(12 <= "x"))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "se("10" + "2026-12-24", ("10"), abs({inicio.titulo})) = "" * {inicio.prioridade} / 0.92 < "Revisão"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "nao(max("ação" - 6.72, -"", 17))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "("")",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "max("Revisão", {pagina.prop.nota} - round(4.88), {var.b} < {inicio.prioridade} > {var.t} < "Revisão")",
+    "res": {
+      "ok": true,
+      "value": 4,
+    },
+  },
+  {
+    "expr": "dias_ate(6) + {var.d}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.nada}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "max("2026-12-24", (2.24) != hoje(), round(max({var.m}, {var.m}, "10")))",
+    "res": {
+      "ok": true,
+      "value": 10,
+    },
+  },
+  {
+    "expr": "{var.m}",
+    "res": {
+      "ok": true,
+      "value": -2.5,
+    },
+  },
+  {
+    "expr": "length({var.vazio}) < {var.vazio} / 0",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": "Estudando",
+    },
+  },
+  {
+    "expr": "nao({var.z} >= 6.30 * (5.19))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.n} = se(({pagina.prop.nota}), round(1), length("Revisão"))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "max(length(4.76) * {var.naoexiste}, {var.b}, max(round(15), {var.t} >= {var.z}, {var.m}))",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "ou(2, ({var.vazio} + {var.nada}))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "if(ou({inicio.prioridade}, "x" <= "x"), hoje(), if("x" + 4.35, ou({var.l}, 7.36), {var.s} != {var.e}))",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25",
+    },
+  },
+  {
+    "expr": "agora() <= 0.48",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "min("x" = {pagina.prop.status} >= ({pagina.prop.status}), (e("10", "ação")))",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "-""",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "-19 * 4 <= contem(14, {var.nada})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "({inicio.titulo} != 8.32)",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "{var.vazio} + {var.n} <= 9.97 != se("x", {var.e}, 7.05) + tamanho(6)",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "17",
+    "res": {
+      "ok": true,
+      "value": 17,
+    },
+  },
+  {
+    "expr": "{pagina.prop.nota} != e(tamanho(13), -"2026-12-24")",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "(min({var.z}, 0.32)) >= {var.vazio}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.d}",
+    "res": {
+      "ok": true,
+      "value": "2026-12-01",
+    },
+  },
+  {
+    "expr": "(11)",
+    "res": {
+      "ok": true,
+      "value": 11,
+    },
+  },
+  {
+    "expr": "e("10", ou(-5, (11)))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "("x")",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "("")",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "length(abs(agora()))",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "-{inicio.titulo}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "arredondar(nao(9), {var.s} + 14) < (0.59)",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.m}",
+    "res": {
+      "ok": true,
+      "value": -2.5,
+    },
+  },
+  {
+    "expr": """",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "(3.47) != 2.94",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "({inicio.etiquetas})",
+    "res": {
+      "ok": true,
+      "value": [
+        "casa",
+        "Estudo",
+      ],
+    },
+  },
+  {
+    "expr": "ou(13, -5 >= 7 - {var.n})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "((19) = dias_ate("2026-12-24"))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "6.13 - 1.59",
+    "res": {
+      "ok": true,
+      "value": 4.54,
+    },
+  },
+  {
+    "expr": "hoje()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25",
+    },
+  },
+  {
+    "expr": "{pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": "Estudando",
+    },
+  },
+  {
+    "expr": "{inicio.prioridade} > 5",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "dias_ate(6.90)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "11",
+    "res": {
+      "ok": true,
+      "value": 11,
+    },
+  },
+  {
+    "expr": "min({inicio.prioridade} + {var.z} <= e(6.89, "x"), {var.e})",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "{var.s}",
+    "res": {
+      "ok": true,
+      "value": "Ação Rápida",
+    },
+  },
+  {
+    "expr": "arredondar(-"ação" - -2 >= {pagina.prop.status}, nao("10"))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "nao(vazio(9) <= 8.26)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "-{var.s}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "({var.m})",
+    "res": {
+      "ok": true,
+      "value": -2.5,
+    },
+  },
+  {
+    "expr": "-arredondar("x", {var.n}) / 5.45 <= {pagina.prop.nota}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "1",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "length((e({var.s}, "ação")))",
+    "res": {
+      "ok": true,
+      "value": 4,
+    },
+  },
+  {
+    "expr": "agora()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25T12:34:56.000Z",
+    },
+  },
+  {
+    "expr": "contem("x", "" > {var.n} > "Revisão")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "ou(round("2026-12-24" != {var.e}), -{var.e} - {var.s})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "6",
+    "res": {
+      "ok": true,
+      "value": 6,
+    },
+  },
+  {
+    "expr": "-("10") >= tamanho(arredondar({var.vazio}, ""))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "2 >= dias_ate(3) = -5",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "agora() < "2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "2",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "nao({var.vazio})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.nada}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(-hoje())",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "agora()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25T12:34:56.000Z",
+    },
+  },
+  {
+    "expr": "dias_ate(agora() >= ({inicio.etiquetas}))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "abs(-arredondar({var.l}, 15))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "5",
+    "res": {
+      "ok": true,
+      "value": 5,
+    },
+  },
+  {
+    "expr": "nao({pagina.prop.status})",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "6.15",
+    "res": {
+      "ok": true,
+      "value": 6.15,
+    },
+  },
+  {
+    "expr": "{var.d}",
+    "res": {
+      "ok": true,
+      "value": "2026-12-01",
+    },
+  },
+  {
+    "expr": "("10") + tamanho({inicio.prioridade}) >= (-4)",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "e(("10"), 13) - max(5.40, {var.b}, 2) != se(5, "x", {var.s})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "dias_ate(dias_ate({pagina.prop.status}) = hoje())",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "{inicio.prioridade} / contiene({var.z} / {pagina.prop.status}, "x" = 15)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.t} <= (0) - {inicio.titulo} <= "2026-12-24" + {var.n}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "13",
+    "res": {
+      "ok": true,
+      "value": 13,
+    },
+  },
+  {
+    "expr": "max({var.naoexiste}, {var.b}, {var.naoexiste})",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "max(vazio("x"), 4.60, ({pagina.prop.status})) > abs({var.m})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.t}",
+    "res": {
+      "ok": true,
+      "value": "acao rapida",
+    },
+  },
+  {
+    "expr": "{var.naoexiste}",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "arredondar(max({var.n}, hoje(), "" > ""), {inicio.etiquetas} >= 0.74 != 0)",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": "-"x"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "("")",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "5.20",
+    "res": {
+      "ok": true,
+      "value": 5.2,
+    },
+  },
+  {
+    "expr": "2.47",
+    "res": {
+      "ok": true,
+      "value": 2.47,
+    },
+  },
+  {
+    "expr": "contiene(if({var.e}, 11, "ação"), if(e({pagina.prop.nota}, {var.s}), "Revisão" = "10", "x" < "10"))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "-11 + {var.t}",
+    "res": {
+      "ok": true,
+      "value": "-11acao rapida",
+    },
+  },
+  {
+    "expr": "hoje()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25",
+    },
+  },
+  {
+    "expr": "agora()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25T12:34:56.000Z",
+    },
+  },
+  {
+    "expr": ""2026-12-24" < {pagina.prop.nota} * "10" <= {var.l} + 15",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "-17 != 8 / 7 >= 0 + min(8, {var.d})",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "max(e(agora(), nao({var.s})), tamanho("") > max(19, 9.45, 5), 10)",
+    "res": {
+      "ok": true,
+      "value": 10,
+    },
+  },
+  {
+    "expr": "nao(-{var.b} >= 1)",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "e((-""), "2026-12-24")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "min({var.t}, "Revisão")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "e({pagina.prop.status} / "ação", {inicio.prioridade} = 9) >= round("2026-12-24")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "nao(({var.nada}))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "8.07",
+    "res": {
+      "ok": true,
+      "value": 8.07,
+    },
+  },
+  {
+    "expr": """ >= 1.30 != "Revisão" * "x" * ("ação")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "se(6.82 != {inicio.etiquetas}, -{pagina.prop.status}, min({var.vazio}, 19) < (4))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{pagina.prop.nota}",
+    "res": {
+      "ok": true,
+      "value": 9,
+    },
+  },
+  {
+    "expr": "agora()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25T12:34:56.000Z",
+    },
+  },
+  {
+    "expr": "{var.d}",
+    "res": {
+      "ok": true,
+      "value": "2026-12-01",
+    },
+  },
+  {
+    "expr": "6.75 > 13",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "8",
+    "res": {
+      "ok": true,
+      "value": 8,
+    },
+  },
+  {
+    "expr": "({var.l} >= 10)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""10"",
+    "res": {
+      "ok": true,
+      "value": "10",
+    },
+  },
+  {
+    "expr": "arredondar(-{var.b} != agora(), length(19) > 11)",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "8.29 = -{pagina.prop.nota}",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "tamanho((-4) * 2)",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "{var.naoexiste} > abs(16 <= 7)",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "{pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": "Estudando",
+    },
+  },
+  {
+    "expr": "nao("x")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{inicio.etiquetas} + {pagina.prop.nota} >= -{var.m} * round({var.nada}) + -5 <= {var.b}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "hoje()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25",
+    },
+  },
+  {
+    "expr": "(agora()) - 4 = {var.m} / {var.b} - {inicio.etiquetas}",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "vazio(nao(9.44)) / 4.54",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "(17)",
+    "res": {
+      "ok": true,
+      "value": 17,
+    },
+  },
+  {
+    "expr": "vazio((""))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.m}",
+    "res": {
+      "ok": true,
+      "value": -2.5,
+    },
+  },
+  {
+    "expr": "length("ação" / "10") < if(-3.94, {var.naoexiste}, "2026-12-24" > 2.54)",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "agora() != "10"",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.t}",
+    "res": {
+      "ok": true,
+      "value": "acao rapida",
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": ""Revisão" / -8.15",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": """",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "agora()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25T12:34:56.000Z",
+    },
+  },
+  {
+    "expr": "dias_ate(vazio(("2026-12-24")))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "4 * "ação"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""10"",
+    "res": {
+      "ok": true,
+      "value": "10",
+    },
+  },
+  {
+    "expr": "18 + {var.z}",
+    "res": {
+      "ok": true,
+      "value": 18,
+    },
+  },
+  {
+    "expr": "arredondar((6), {var.e} > "ação" * "10" = {inicio.prioridade})",
+    "res": {
+      "ok": true,
+      "value": 6,
+    },
+  },
+  {
+    "expr": "({var.vazio})",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "contem({var.nada}, {inicio.prioridade}) - {inicio.titulo} >= (nao({inicio.etiquetas}))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.s}",
+    "res": {
+      "ok": true,
+      "value": "Ação Rápida",
+    },
+  },
+  {
+    "expr": ""x" / vazio({inicio.etiquetas})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "0 = "x" > (3.91) / 6.80",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "tamanho(hoje()) / contiene({inicio.prioridade}, "2026-12-24" / {pagina.prop.nota})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(nao("x"))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": "Estudando",
+    },
+  },
+  {
+    "expr": "abs(6)",
+    "res": {
+      "ok": true,
+      "value": 6,
+    },
+  },
+  {
+    "expr": "arredondar("10", {var.m} < "2026-12-24" * 11)",
+    "res": {
+      "ok": true,
+      "value": 10,
+    },
+  },
+  {
+    "expr": "(min({var.b}, -{var.m}))",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "{pagina.prop.nota}",
+    "res": {
+      "ok": true,
+      "value": 9,
+    },
+  },
+  {
+    "expr": "4 - dias_ate(5 = 11)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "arredondar((1.13), 10 = 15) + nao(length(""))",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "-({inicio.etiquetas})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "e(6, 3.48 = "Revisão" >= "Revisão")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{var.e} - {var.nada} > ("10") * if({var.m} - {var.nada}, 7.12, {var.e})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "e(7.61, ("10" < 1.37))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{inicio.titulo}",
+    "res": {
+      "ok": true,
+      "value": "Revisão da semana",
+    },
+  },
+  {
+    "expr": ""10" = 17 <= {var.b} - """,
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "length(17 - {var.nada}) * "" >= se({var.naoexiste}, {var.t}, "Revisão")",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "arredondar(13, "2026-12-24") + "ação" > {pagina.prop.status} >= -9.27 <= "Revisão"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "7",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": "-{var.nada}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "arredondar(({var.t}), (3.55)) < ({var.e}) * e("Revisão", {inicio.prioridade})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "abs("" + 4) + contiene("x", max(12, 2, 5))",
+    "res": {
+      "ok": true,
+      "value": 4,
+    },
+  },
+  {
+    "expr": ""10"",
+    "res": {
+      "ok": true,
+      "value": "10",
+    },
+  },
+  {
+    "expr": "6 + "ação"",
+    "res": {
+      "ok": true,
+      "value": "6ação",
+    },
+  },
+  {
+    "expr": "-"" >= abs({var.n}) >= tamanho({pagina.prop.status} <= 1.12)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "6",
+    "res": {
+      "ok": true,
+      "value": 6,
+    },
+  },
+  {
+    "expr": "(nao("ação" / "Revisão"))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": ""Revisão" > "2026-12-24" != 10 != 9 * "x"",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.s}",
+    "res": {
+      "ok": true,
+      "value": "Ação Rápida",
+    },
+  },
+  {
+    "expr": "{inicio.prioridade}",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "{var.vazio} - tamanho(-5) != {var.z} < "10"",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.e}",
+    "res": {
+      "ok": true,
+      "value": "2026-11-20",
+    },
+  },
+  {
+    "expr": "e({var.b}, {var.d} / 8.17 + {var.b} > {var.l})",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "e("ação" - 11 * {var.m}, 14)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{var.d} = e(ou("Revisão", 10), {var.nada} > {inicio.titulo})",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "9.01 = {var.naoexiste}",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "16",
+    "res": {
+      "ok": true,
+      "value": 16,
+    },
+  },
+  {
+    "expr": "-{inicio.prioridade} = {pagina.prop.nota} - "2026-12-24" = "x" = 5.67 * {var.e}",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "vazio("ação")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "round("x" + abs(8.20))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(if({pagina.prop.nota}, "", "x") - "ação")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "max("x", min("" - "x", 19), ("2026-12-24") - "2026-12-24" / 4)",
+    "res": {
+      "ok": true,
+      "value": 19,
+    },
+  },
+  {
+    "expr": "10",
+    "res": {
+      "ok": true,
+      "value": 10,
+    },
+  },
+  {
+    "expr": "19",
+    "res": {
+      "ok": true,
+      "value": 19,
+    },
+  },
+  {
+    "expr": "vazio(round(5) / min(17, "2026-12-24"))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{var.d}",
+    "res": {
+      "ok": true,
+      "value": "2026-12-01",
+    },
+  },
+  {
+    "expr": "min(-arredondar({pagina.prop.status}, {var.l}), dias_ate({var.z} = {inicio.titulo}))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.z} >= 1 + "2026-12-24" != dias_ate(8.95)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "se(-2 + "", 18 <= 17 + 4.51 + 6, "ação" + "2026-12-24" <= "")",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "16",
+    "res": {
+      "ok": true,
+      "value": 16,
+    },
+  },
+  {
+    "expr": "6 / {var.l} - {var.n} + {inicio.etiquetas}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "se(min(abs("Revisão"), -""), "" < "x" > 14 * 5.88, contem(hoje(), se({var.naoexiste}, {inicio.prioridade}, 7.94)))",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "13",
+    "res": {
+      "ok": true,
+      "value": 13,
+    },
+  },
+  {
+    "expr": "agora() = -5",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{var.m} + hoje()",
+    "res": {
+      "ok": true,
+      "value": "-2.52026-11-25",
+    },
+  },
+  {
+    "expr": "(13)",
+    "res": {
+      "ok": true,
+      "value": 13,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "-se("10", "10", {var.b}) = 12 >= {var.vazio}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "round(tamanho(-5))",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "vazio(({var.t}) != dias_ate({inicio.etiquetas}))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "2.40 < {pagina.prop.nota} * {var.m} / 3",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": ""2026-12-24" != "Revisão" / {var.b} < {var.e} / (agora())",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "length(contem({var.b}, 15)) / ou("2026-12-24" != "ação", {var.nada} != 9)",
+    "res": {
+      "ok": true,
+      "value": 5,
+    },
+  },
+  {
+    "expr": """ >= hoje()",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "abs(if({var.z}, {var.t}, {var.s}) != contem({pagina.prop.status}, 14))",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "{var.z}",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "{inicio.titulo}",
+    "res": {
+      "ok": true,
+      "value": "Revisão da semana",
+    },
+  },
+  {
+    "expr": """",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "abs({var.z} = {var.s} <= "10")",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "9 > agora() + contem(contiene("10", {var.b}), {var.b} * "10")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "7 >= "2026-12-24" != {var.naoexiste}",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "length(arredondar(3.41, "ação") != hoje())",
+    "res": {
+      "ok": true,
+      "value": 4,
+    },
+  },
+  {
+    "expr": ""Revisão" <= 3",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "8.99 - 0.35",
+    "res": {
+      "ok": true,
+      "value": 8.64,
+    },
+  },
+  {
+    "expr": "nao(5) <= 6 != {var.l} >= "2026-12-24" > "10"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "e(e(11, "x") + {pagina.prop.nota}, -{var.vazio} > "x" / "ação")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "length("")",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "min(tamanho(12), "10" * {var.t}) / hoje() = {var.z} >= "10"",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{var.n}",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": "length({var.nada})",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "{var.z}",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "{var.e} - length({var.z} >= "ação")",
+    "res": {
+      "ok": true,
+      "value": "2026-11-20",
+    },
+  },
+  {
+    "expr": "contiene(({inicio.prioridade}), 14)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{inicio.prioridade}",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "length(se(se("ação", {var.d}, {inicio.etiquetas}), {var.e} + {inicio.titulo}, min("Revisão", 5.99)))",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "(ou({var.s} <= 9.36, 6.83 / 4))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "-"2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "length("Revisão") = (6.37) = se({var.naoexiste}, 3.21, "x" > {var.s})",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "{inicio.etiquetas}",
+    "res": {
+      "ok": true,
+      "value": [
+        "casa",
+        "Estudo",
+      ],
+    },
+  },
+  {
+    "expr": "abs(dias_ate((8.03)))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "agora() != 1 <= {var.e} > hoje()",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""2026-12-24" * "x" + 3 != {var.vazio} / 4.81 * {inicio.prioridade} - {var.t}",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "{var.d}",
+    "res": {
+      "ok": true,
+      "value": "2026-12-01",
+    },
+  },
+  {
+    "expr": "(18 * 3.05 + (9))",
+    "res": {
+      "ok": true,
+      "value": 63.9,
+    },
+  },
+  {
+    "expr": "se({inicio.prioridade}, vazio(18), 6 = nao(17))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "if(({var.naoexiste}), -19 > "Revisão", (({pagina.prop.nota})))",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "(({var.b}))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "(abs("2026-12-24") <= {var.m} + 14)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "6.94",
+    "res": {
+      "ok": true,
+      "value": 6.94,
+    },
+  },
+  {
+    "expr": "12",
+    "res": {
+      "ok": true,
+      "value": 12,
+    },
+  },
+  {
+    "expr": "max("10" != 5, {var.t} <= 8.31, dias_ate({var.z})) <= 2.24 + {var.b} < 6.66",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "(-{var.t} + {var.l})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(vazio({var.vazio} < {var.b}))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "8 + 14 < {inicio.titulo} <= "ação"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": "Estudando",
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "contiene(9 > "10" + 3 < "10", 12)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "e(nao(-{inicio.prioridade}), length(round(0)))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "({var.s})",
+    "res": {
+      "ok": true,
+      "value": "Ação Rápida",
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "-"2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "ou(agora(), if({inicio.titulo}, 5, 6.96) - 6.26 >= "x")",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "if((nao(19)), -13, if(contem({var.n}, "x"), if(10, 4, {inicio.etiquetas}), "x"))",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "ou(5, {var.z}) != {inicio.prioridade}",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "13 > 0 * {var.nada} <= 17 = contem(17 / {inicio.titulo}, 5)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "e(1.44 <= length({pagina.prop.nota}), ou(13 + {var.e}, vazio("Revisão")))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": """ * -5 / nao({var.z})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "length(19) < arredondar("x", "") = se(se({pagina.prop.status}, "10", 14), {var.nada} + 4, arredondar(11, {var.naoexiste}))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": """",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "-1 <= 3.25",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "contem(14, "ação" < "x")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "-{var.nada} < round({inicio.prioridade})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "abs({inicio.prioridade} - 7 >= "10")",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "0 * "" + {var.z} <= 8.67 + "x"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "dias_ate("ação" + "" / "")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.m} = hoje() <= {var.s} >= -{var.e}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.naoexiste}",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "abs(se({pagina.prop.status}, 4, -3) - "2026-12-24" >= {var.n})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(16)",
+    "res": {
+      "ok": true,
+      "value": 16,
+    },
+  },
+  {
+    "expr": """",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "("Revisão")",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "if((e({inicio.etiquetas}, -5)), e({var.nada} + "2026-12-24", {var.z}), 9.46 != 13 > {var.l})",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "(max(abs("Revisão"), tamanho("10"), (15)))",
+    "res": {
+      "ok": true,
+      "value": 15,
+    },
+  },
+  {
+    "expr": ""ação" + 0 > {inicio.prioridade} - 9 * {var.b} > {var.n} >= {pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.nada}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "("Revisão" > 10 > "ação")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "19",
+    "res": {
+      "ok": true,
+      "value": 19,
+    },
+  },
+  {
+    "expr": "{var.l}",
+    "res": {
+      "ok": true,
+      "value": [
+        3,
+        1,
+        "x",
+        2,
+      ],
+    },
+  },
+  {
+    "expr": "((round({var.e})))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "arredondar((3), 9) != "" < {pagina.prop.nota}",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{pagina.prop.nota} != "x" * 5.04 - 8 * "2026-12-24" > -""",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""Revisão" + {var.b}",
+    "res": {
+      "ok": true,
+      "value": "Revisãotrue",
+    },
+  },
+  {
+    "expr": "7 < 2.46 >= "" != "x"",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "({var.e}) + "" >= {var.d}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.e} < se("" <= "ação", 9, {inicio.titulo} < 4.22)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(ou("Revisão", {var.vazio})) >= 13",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "round(4.79)",
+    "res": {
+      "ok": true,
+      "value": 5,
+    },
+  },
+  {
+    "expr": "ou(dias_ate(9.72), "x" >= {var.s}) != length("x" = 15)",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "min("10" < {var.m} < {var.nada}, {var.naoexiste})",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "{var.b} <= (if(5.40, {inicio.etiquetas}, 3))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""Revisão" + abs("x") != (min(6, "2026-12-24"))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "(7)",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": "10",
+    "res": {
+      "ok": true,
+      "value": 10,
+    },
+  },
+  {
+    "expr": "dias_ate(contem(min({var.s}, {var.d}), hoje()))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "arredondar("Revisão", 3) != 6.45 <= "2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "abs({var.d} != "ação") / length("Revisão") = "Revisão"",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "e(min("x", {var.e} != {inicio.etiquetas}), length(vazio(5.14)))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.n}",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": "hoje()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25",
+    },
+  },
+  {
+    "expr": "{var.naoexiste}",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "tamanho({var.naoexiste})",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "round("10" = {var.b})",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "{var.s} / "Revisão"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "-arredondar(contem("Revisão", 13), 13)",
+    "res": {
+      "ok": true,
+      "value": -0,
+    },
+  },
+  {
+    "expr": "{var.n} * "Revisão"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "vazio(max({var.l}, (14), "Revisão"))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "(16 * "x" > dias_ate({var.l}))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""2026-12-24" <= se({var.m} < 16, 12 <= {pagina.prop.status}, "")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "nao({var.d}) * -0 / {var.z}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "((max(2, {pagina.prop.status}, 0)))",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "-arredondar(if("ação", "2026-12-24", "10"), 12 <= {pagina.prop.status})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "max({var.s}, contiene(2 - 5.24, "" >= {var.n}), -"ação" * "10")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "16",
+    "res": {
+      "ok": true,
+      "value": 16,
+    },
+  },
+  {
+    "expr": "6.73",
+    "res": {
+      "ok": true,
+      "value": 6.73,
+    },
+  },
+  {
+    "expr": "1.72",
+    "res": {
+      "ok": true,
+      "value": 1.72,
+    },
+  },
+  {
+    "expr": "(({var.n}))",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": "{inicio.titulo}",
+    "res": {
+      "ok": true,
+      "value": "Revisão da semana",
+    },
+  },
+  {
+    "expr": "{var.m} / 6",
+    "res": {
+      "ok": true,
+      "value": -0.4166666666666667,
+    },
+  },
+  {
+    "expr": "vazio(dias_ate("2026-12-24") > ({inicio.prioridade}))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "nao({var.e})",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "-3 = 2 / tamanho("Revisão") + -{inicio.etiquetas} - {var.e}",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "max(tamanho({inicio.prioridade}), round({pagina.prop.status}) >= 4, {var.m} - contiene({inicio.prioridade}, ""))",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "{var.n} >= nao("")",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "agora()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25T12:34:56.000Z",
+    },
+  },
+  {
+    "expr": "-{var.n} >= agora() + {var.d} >= 3 = 9",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "-vazio(round(13))",
+    "res": {
+      "ok": true,
+      "value": -0,
+    },
+  },
+  {
+    "expr": "arredondar(tamanho(se(10, "Revisão", {var.z})), "10" = "ação" != e(2.63, 13))",
+    "res": {
+      "ok": true,
+      "value": 7,
+    },
+  },
+  {
+    "expr": "dias_ate({var.d} >= {var.d} * hoje())",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "se(4 / arredondar(13, {var.m}), 9, se({var.d}, 11, {var.l}) > 7)",
+    "res": {
+      "ok": true,
+      "value": 9,
+    },
+  },
+  {
+    "expr": "min("10" <= {var.vazio}, -"x") != "Revisão" < "Revisão" > 4",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "min(-{var.d} < 1, {inicio.titulo})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "-13 > round(6.41) < abs({var.n})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{pagina.prop.nota}",
+    "res": {
+      "ok": true,
+      "value": 9,
+    },
+  },
+  {
+    "expr": "ou(se(ou("ação", 3), {var.naoexiste} - "", {var.vazio}), "2026-12-24")",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "{inicio.titulo}",
+    "res": {
+      "ok": true,
+      "value": "Revisão da semana",
+    },
+  },
+  {
+    "expr": "dias_ate(2.99) - round(8) < 0",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "hoje()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25",
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "tamanho(({pagina.prop.nota}) < round("x"))",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "ou({var.z}, "x") = {var.t} * {inicio.etiquetas} / hoje()",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "{var.vazio}",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "ou(ou("x", 9) - 9.14, {var.s})",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": ""ação" = 7.79 < {var.l}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{var.e} * ou({var.l} >= 2.23, -"Revisão")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "(12 > {inicio.titulo})",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""2026-12-24" > arredondar(9, 7) = ("2026-12-24")",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "contiene(max({inicio.titulo}, 15, {inicio.titulo}) > {var.naoexiste} <= {var.e}, length(18 <= 1))",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "{var.e}",
+    "res": {
+      "ok": true,
+      "value": "2026-11-20",
+    },
+  },
+  {
+    "expr": "vazio((abs("Revisão")))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "0 = {var.vazio} < 2.10 != 3.01 / 4 - "2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{var.z}",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "(arredondar("ação" / 1, vazio({inicio.titulo})))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "{pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": "Estudando",
+    },
+  },
+  {
+    "expr": "abs(-3.62)",
+    "res": {
+      "ok": true,
+      "value": 3.62,
+    },
+  },
+  {
+    "expr": "{var.nada}",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "4",
+    "res": {
+      "ok": true,
+      "value": 4,
+    },
+  },
+  {
+    "expr": "nao(-(""))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "7.06",
+    "res": {
+      "ok": true,
+      "value": 7.06,
+    },
+  },
+  {
+    "expr": "contem(({var.s}) / 14 != 16, 1 > round({var.nada}))",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": ""Revisão"",
+    "res": {
+      "ok": true,
+      "value": "Revisão",
+    },
+  },
+  {
+    "expr": "6 > "2026-12-24" > "x"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "arredondar(vazio(round(15)), "10")",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "16",
+    "res": {
+      "ok": true,
+      "value": 16,
+    },
+  },
+  {
+    "expr": "abs(nao(ou("2026-12-24", 4)))",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "{var.b}",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "hoje()",
+    "res": {
+      "ok": true,
+      "value": "2026-11-25",
+    },
+  },
+  {
+    "expr": "length(hoje() <= (17))",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": ""10" / {var.d} - nao("10")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "7.64 != contem("2026-12-24", "x") - {pagina.prop.status}",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": ""ação"",
+    "res": {
+      "ok": true,
+      "value": "ação",
+    },
+  },
+  {
+    "expr": "dias_ate(6)",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "contem(e(2 <= "ação", length({var.b})), ({var.d}) != 2 * {var.naoexiste})",
+    "res": {
+      "error": {
+        "code": "unknownField",
+        "name": "var.naoexiste",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "abs("2026-12-24")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": ""x"",
+    "res": {
+      "ok": true,
+      "value": "x",
+    },
+  },
+  {
+    "expr": "{var.s}",
+    "res": {
+      "ok": true,
+      "value": "Ação Rápida",
+    },
+  },
+  {
+    "expr": "round(e(5, {inicio.etiquetas})) / 14 * {var.n} >= "2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": """",
+    "res": {
+      "ok": true,
+      "value": "",
+    },
+  },
+  {
+    "expr": "length((16)) > """,
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "vazio(11)",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "se({var.e} = 9.63 = "x", 2.18, contiene(({inicio.prioridade}), 11))",
+    "res": {
+      "ok": true,
+      "value": false,
+    },
+  },
+  {
+    "expr": "19 - 4.10 - 1 >= se(length(0), max(8.52, {var.d}, "ação"), "10")",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "{inicio.titulo}",
+    "res": {
+      "ok": true,
+      "value": "Revisão da semana",
+    },
+  },
+  {
+    "expr": "(length(6)) != (se(3, {pagina.prop.status}, "Revisão"))",
+    "res": {
+      "ok": true,
+      "value": true,
+    },
+  },
+  {
+    "expr": "tamanho(min("Revisão", {var.l}) / "2026-12-24")",
+    "res": {
+      "ok": true,
+      "value": 0,
+    },
+  },
+  {
+    "expr": "{var.t} - (-"ação")",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "e(vazio({var.l}), "") >= "x"",
+    "res": {
+      "ok": true,
+      "value": null,
+    },
+  },
+  {
+    "expr": "16 * max({inicio.prioridade}, 16, "x") - min({var.l} / 12, nao(13))",
+    "res": {
+      "ok": true,
+      "value": 256,
+    },
+  },
+  {
+    "expr": "4",
+    "res": {
+      "ok": true,
+      "value": 4,
+    },
+  },
+  {
+    "expr": ""2026-12-24"",
+    "res": {
+      "ok": true,
+      "value": "2026-12-24",
+    },
+  },
+  {
+    "expr": "length(length("Revisão"))",
+    "res": {
+      "ok": true,
+      "value": 1,
+    },
+  },
+  {
+    "expr": "12",
+    "res": {
+      "ok": true,
+      "value": 12,
+    },
+  },
+  {
+    "expr": "length(min(("10"), "10"))",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "tamanho({inicio.etiquetas})",
+    "res": {
+      "ok": true,
+      "value": 2,
+    },
+  },
+  {
+    "expr": "{var.l}",
+    "res": {
+      "ok": true,
+      "value": [
+        3,
+        1,
+        "x",
+        2,
+      ],
+    },
+  },
+  {
+    "expr": "se(1, 2)",
+    "res": {
+      "error": {
+        "code": "arity",
+        "name": "se",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "1 +",
+    "res": {
+      "error": {
+        "at": 3,
+        "code": "syntax",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": ""aberto",
+    "res": {
+      "error": {
+        "at": 0,
+        "code": "unclosed",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "desconhecida(1)",
+    "res": {
+      "error": {
+        "code": "unknownFunction",
+        "name": "desconhecida",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "{}",
+    "res": {
+      "error": {
+        "at": 0,
+        "code": "syntax",
+      },
+      "ok": false,
+    },
+  },
+  {
+    "expr": "",
+    "res": {
+      "error": {
+        "code": "empty",
+      },
+      "ok": false,
+    },
+  },
+]
+`;

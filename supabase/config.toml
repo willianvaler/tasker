@@ -427,3 +427,7 @@ verify_jwt = false
 # Executor das automações (AU2): só o banco chama, com o segredo (AUTOMATION_WEBHOOK_SECRET)
 [functions.automation-run]
 verify_jwt = false
+
+# Paridade das expressões (FN0): diagnóstico, só com o segredo do executor
+[functions.expr-paridade]
+verify_jwt = false

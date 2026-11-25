@@ -2283,7 +2283,8 @@
     "editFormula": "Change the formula of {{name}}",
     "yes": "yes",
     "no": "no",
-    "subtaskTotal": "Subtasks: {{value}}"
+    "subtaskTotal": "Subtasks: {{value}}",
+    "formulaBudget": "Calculation too large: simplify the formula."
   },
   "auto": {
     "title": "Automations",

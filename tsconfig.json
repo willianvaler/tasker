@@ -23,6 +23,7 @@
     "supabase/functions/push",
     "supabase/functions/read-photo",
     "supabase/functions/send-email",
-    "supabase/functions/automation-run"
+    "supabase/functions/automation-run",
+    "supabase/functions/expr-paridade"
   ]
 }

@@ -88,7 +88,9 @@ export function computeFormula(
         return builtin ? builtin(task) : undefined;
       },
     });
-    return { ok: true, value: typeof value === 'number' && !Number.isFinite(value) ? null : value };
+    // Campo da lista nunca é lista: lista só existe nas variáveis de processo
+    const v = Array.isArray(value) ? null : value;
+    return { ok: true, value: typeof v === 'number' && !Number.isFinite(v) ? null : v };
   } catch (e) {
     if (e instanceof FormulaFail) return { ok: false, error: e.error };
     throw e;

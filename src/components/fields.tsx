@@ -50,6 +50,8 @@ export function useFormulaIssueText() {
         return t('fields.formulaField', { name: issue.name });
       case 'cycle':
         return t('fields.formulaCycle', { name: issue.name });
+      case 'budget':
+        return t('fields.formulaBudget');
       default:
         return t('fields.formulaSyntax');
     }
