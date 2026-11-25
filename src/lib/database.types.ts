@@ -1879,6 +1879,168 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"process_definitions": {
+                  Row: {
+                    "active": boolean,"created_at": string,"description": string,"draft": NonNullable<Json>,"id": string,"is_function": boolean,"name": string,"owner_id": string,"start_trigger": string | null,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "active"?: boolean,"created_at"?: string,"description"?: string,"draft"?: NonNullable<Json>,"id"?: string,"is_function"?: boolean,"name": string,"owner_id"?: string,"start_trigger"?: string | null,"updated_at"?: string
+                  }
+                  Update: {
+                    "active"?: boolean,"created_at"?: string,"description"?: string,"draft"?: NonNullable<Json>,"id"?: string,"is_function"?: boolean,"name"?: string,"owner_id"?: string,"start_trigger"?: string | null,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "process_definitions_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"process_instances": {
+                  Row: {
+                    "definition_id": string,"depth": number,"error": string | null,"fail_streak": number,"finished_at": string | null,"id": string,"origin": NonNullable<Json>,"owner_id": string,"page_id": string | null,"parent_instance_id": string | null,"parent_token_id": string | null,"start_data": NonNullable<Json>,"started_at": string,"started_by": string | null,"status": string,"steps_count": number,"updated_at": string,"vars": NonNullable<Json>,"version_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "definition_id": string,"depth"?: number,"error"?: string | null,"fail_streak"?: number,"finished_at"?: string | null,"id"?: string,"origin"?: NonNullable<Json>,"owner_id": string,"page_id"?: string | null,"parent_instance_id"?: string | null,"parent_token_id"?: string | null,"start_data"?: NonNullable<Json>,"started_at"?: string,"started_by"?: string | null,"status"?: string,"steps_count"?: number,"updated_at"?: string,"vars"?: NonNullable<Json>,"version_id": string
+                  }
+                  Update: {
+                    "definition_id"?: string,"depth"?: number,"error"?: string | null,"fail_streak"?: number,"finished_at"?: string | null,"id"?: string,"origin"?: NonNullable<Json>,"owner_id"?: string,"page_id"?: string | null,"parent_instance_id"?: string | null,"parent_token_id"?: string | null,"start_data"?: NonNullable<Json>,"started_at"?: string,"started_by"?: string | null,"status"?: string,"steps_count"?: number,"updated_at"?: string,"vars"?: NonNullable<Json>,"version_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "process_instances_definition_id_fkey"
+      columns: ["definition_id"]
+isOneToOne: false
+      referencedRelation: "process_definitions"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "process_instances_owner_id_fkey"
+      columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "process_instances_parent_instance_id_fkey"
+      columns: ["parent_instance_id"]
+isOneToOne: false
+      referencedRelation: "process_instances"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "process_instances_started_by_fkey"
+      columns: ["started_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "process_instances_version_id_fkey"
+      columns: ["version_id"]
+isOneToOne: false
+      referencedRelation: "process_versions"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"process_steps": {
+                  Row: {
+                    "assignee": string | null,"attempt": number,"due_at": string | null,"error": string | null,"finished_at": string | null,"id": string,"instance_id": string,"node_id": string,"node_type": string,"result": Json | null,"started_at": string,"status": string,"token_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "assignee"?: string | null,"attempt"?: number,"due_at"?: string | null,"error"?: string | null,"finished_at"?: string | null,"id"?: string,"instance_id": string,"node_id": string,"node_type": string,"result"?: Json | null,"started_at"?: string,"status": string,"token_id"?: string | null
+                  }
+                  Update: {
+                    "assignee"?: string | null,"attempt"?: number,"due_at"?: string | null,"error"?: string | null,"finished_at"?: string | null,"id"?: string,"instance_id"?: string,"node_id"?: string,"node_type"?: string,"result"?: Json | null,"started_at"?: string,"status"?: string,"token_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "process_steps_assignee_fkey"
+      columns: ["assignee"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "process_steps_instance_id_fkey"
+      columns: ["instance_id"]
+isOneToOne: false
+      referencedRelation: "process_instances"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"process_tokens": {
+                  Row: {
+                    "attempts": number,"claimed_at": string | null,"created_at": string,"id": string,"instance_id": string,"node_id": string,"result": Json | null,"resume_at": string | null,"retries": number,"scope": NonNullable<Json>,"status": string,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "attempts"?: number,"claimed_at"?: string | null,"created_at"?: string,"id"?: string,"instance_id": string,"node_id": string,"result"?: Json | null,"resume_at"?: string | null,"retries"?: number,"scope"?: NonNullable<Json>,"status"?: string,"updated_at"?: string
+                  }
+                  Update: {
+                    "attempts"?: number,"claimed_at"?: string | null,"created_at"?: string,"id"?: string,"instance_id"?: string,"node_id"?: string,"result"?: Json | null,"resume_at"?: string | null,"retries"?: number,"scope"?: NonNullable<Json>,"status"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "process_tokens_instance_id_fkey"
+      columns: ["instance_id"]
+isOneToOne: false
+      referencedRelation: "process_instances"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"process_versions": {
+                  Row: {
+                    "author": string | null,"definition_id": string,"graph": NonNullable<Json>,"id": string,"number": number,"published_at": string,"signature": Json | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "author"?: string | null,"definition_id": string,"graph": NonNullable<Json>,"id"?: string,"number": number,"published_at"?: string,"signature"?: Json | null
+                  }
+                  Update: {
+                    "author"?: string | null,"definition_id"?: string,"graph"?: NonNullable<Json>,"id"?: string,"number"?: number,"published_at"?: string,"signature"?: Json | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "process_versions_author_fkey"
+      columns: ["author"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "process_versions_definition_id_fkey"
+      columns: ["definition_id"]
+isOneToOne: false
+      referencedRelation: "process_definitions"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"process_waits": {
+                  Row: {
+                    "child_instance_id": string | null,"correlation_key": string | null,"created_at": string,"data": NonNullable<Json>,"due_at": string | null,"id": string,"instance_id": string,"kind": string,"remind_at": string | null,"reminded_at": string | null,"resolved_at": string | null,"task_id": string | null,"token_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "child_instance_id"?: string | null,"correlation_key"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"due_at"?: string | null,"id"?: string,"instance_id": string,"kind": string,"remind_at"?: string | null,"reminded_at"?: string | null,"resolved_at"?: string | null,"task_id"?: string | null,"token_id": string
+                  }
+                  Update: {
+                    "child_instance_id"?: string | null,"correlation_key"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"due_at"?: string | null,"id"?: string,"instance_id"?: string,"kind"?: string,"remind_at"?: string | null,"reminded_at"?: string | null,"resolved_at"?: string | null,"task_id"?: string | null,"token_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "process_waits_instance_id_fkey"
+      columns: ["instance_id"]
+isOneToOne: false
+      referencedRelation: "process_instances"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "process_waits_token_id_fkey"
+      columns: ["token_id"]
+isOneToOne: false
+      referencedRelation: "process_tokens"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "active_mount": string | null,"active_pet": string | null,"attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"automations_paused": boolean,"avatar": NonNullable<Json>,"avatar_url": string | null,"buff_amount": number,"buff_day": string | null,"class": string | null,"coins": number,"costume": NonNullable<Json>,"created_at": string,"dead": boolean,"died_at": string | null,"display_name": string,"equipped": NonNullable<Json>,"game_mode": string,"game_vocab": boolean,"gamification_enabled": boolean,"gym_enabled": boolean | null,"hp": number,"hp_day": string | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"mp": number,"onboarded_at": string | null,"rebirths": number,"reborn_at": string | null,"resting": boolean,"shield": boolean,"skill_day": string | null,"stealth": number,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"use_costume": boolean,"username": string,"xp": number
@@ -3485,6 +3647,43 @@ isOneToOne: false
               "day": string,"distance_m": number,"duration_seconds": number,"reps": number,"weight_kg": number
             }[]
                            },
+"_process_close":
+{ Args: { "p_error": string,"p_instance": string,"p_status": string }; Returns: undefined
+                           },
+"_process_fail":
+{ Args: { "p_message": string }; Returns: undefined
+                           },
+"_process_own_instance":
+{ Args: { "p_instance": string }; Returns: {
+              "definition_id": string,
+"depth": number,
+"error": string | null,
+"fail_streak": number,
+"finished_at": string | null,
+"id": string,
+"origin": NonNullable<Json>,
+"owner_id": string,
+"page_id": string | null,
+"parent_instance_id": string | null,
+"parent_token_id": string | null,
+"start_data": NonNullable<Json>,
+"started_at": string,
+"started_by": string | null,
+"status": string,
+"steps_count": number,
+"updated_at": string,
+"vars": NonNullable<Json>,
+"version_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "process_instances"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"_process_start":
+{ Args: { "p_definition": string,"p_depth": number,"p_origin": Json,"p_owner": string,"p_page": string,"p_parent": string,"p_parent_token": string,"p_start": Json,"p_vars": Json }; Returns: string
+                           },
 "_random_of":
 { Args: { "p_list": Json }; Returns: string
                            },
@@ -3721,6 +3920,9 @@ isOneToOne: false
                            },
 "can_see_post":
 { Args: { "p_post_id": string }; Returns: boolean
+                           },
+"can_see_process_instance":
+{ Args: { "p_instance": string }; Returns: boolean
                            },
 "can_see_task":
 { Args: { "p_task_id": string }; Returns: boolean
@@ -4338,6 +4540,24 @@ isOneToOne: false
                            },
 "preset_can":
 { Args: { "p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string,"p_preset": string }; Returns: boolean
+                           },
+"process_cancel":
+{ Args: { "p_instance": string }; Returns: undefined
+                           },
+"process_publish":
+{ Args: { "p_definition": string }; Returns: string
+                           },
+"process_resume":
+{ Args: { "p_instance": string }; Returns: undefined
+                           },
+"process_start":
+{ Args: { "p_definition": string,"p_vars"?: Json }; Returns: string
+                           },
+"process_suspend":
+{ Args: { "p_instance": string }; Returns: undefined
+                           },
+"process_validate":
+{ Args: { "p_graph": Json }; Returns: undefined
                            },
 "profile_tasks":
 { Args: { "p_username": string }; Returns: Json
