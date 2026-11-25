@@ -2744,7 +2744,12 @@
     "words_one": "{{count}} word",
     "words_other": "{{count}} words",
     "footnotes": "Footnotes",
-    "random": "Random note"
+    "random": "Random note",
+    "conflictSaved": "Another save of this note was replaced by this one ({{at}}). Nothing was lost: you can merge both.",
+    "conflictMerge": "Merge by block",
+    "conflictView": "See the other version",
+    "conflictDiscard": "Discard the other",
+    "conflictOther": "The other version"
   },
   "callouts": {
     "note": "Note",

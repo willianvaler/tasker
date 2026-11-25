@@ -6,6 +6,7 @@ import {
   conteudoDaCerca,
   garantirIdBloco,
   lerBotao,
+  mesclarPorBloco,
   normalizar,
   semIdBloco,
   textoDoBloco,
@@ -108,7 +109,13 @@ describe('formato das anotações (ED1)', () => {
         // Os outros blocos continuam com o mesmo texto
         const outros = (bs: typeof antes, texto: string, sem: number) =>
           bs.filter((_, j) => j !== sem).map((x) => textoDoBloco(texto, x));
-        expect(outros(depois, r.md, depois.findIndex((x) => x.id === r.id))).toEqual(outros(antes, md, i));
+        expect(
+          outros(
+            depois,
+            r.md,
+            depois.findIndex((x) => x.id === r.id),
+          ),
+        ).toEqual(outros(antes, md, i));
         expect(semIdBloco(textoDoBloco(r.md, alvo!)).trimEnd()).toBe(
           textoDoBloco(md, b).replace(/\r$/, '').trimEnd(),
         );
@@ -170,6 +177,55 @@ describe('formato das anotações (ED1)', () => {
     for (const f of arquivos) {
       const md = fs.readFileSync(`${dir}/${f}`, 'utf8');
       expect(remontar(md)).toBe(md);
+    }
+  });
+});
+
+describe('mesclar por bloco (ED6)', () => {
+  test('nenhum bloco das duas versões se perde, na ordem', () => {
+    const base = '# Lista\n\nComprar pão\n\nPagar a luz';
+    const minha = '# Lista\n\nComprar pão\n\nLigar para a Ana\n\nPagar a luz';
+    const outra = '# Lista\n\nComprar pão e leite\n\nPagar a luz\n\nMarcar o médico';
+    const m = mesclarPorBloco(minha, outra);
+    expect(m).toBe(
+      '# Lista\n\nComprar pão e leite\n\nComprar pão\n\nLigar para a Ana\n\nPagar a luz\n\nMarcar o médico',
+    );
+    for (const t of [
+      ...blocos(minha).map((b) => textoDoBloco(minha, b)),
+      ...blocos(outra).map((b) => textoDoBloco(outra, b)),
+    ])
+      expect(m).toContain(t);
+    expect(base).toBeDefined();
+  });
+
+  test('versões iguais: nada muda', () => {
+    expect(mesclarPorBloco('a\n\nb', 'a\n\nb')).toBe('a\n\nb');
+  });
+
+  test('mil pares aleatórios: todo bloco das duas aparece no resultado', () => {
+    const r = semente(7);
+    const pedacos = [
+      'um',
+      'dois',
+      'três',
+      '- lista',
+      '# título',
+      '```\ncódigo\n```',
+      'quatro ^id1',
+      '> cit',
+    ];
+    for (let n = 0; n < 1000; n++) {
+      const gera = () =>
+        Array.from(
+          { length: 1 + Math.floor(r() * 6) },
+          () => pedacos[Math.floor(r() * pedacos.length)],
+        ).join('\n\n');
+      const a = gera();
+      const b = gera();
+      const m = mesclarPorBloco(a, b);
+      const textos = new Set(blocos(m).map((x) => textoDoBloco(m, x)));
+      for (const md of [a, b])
+        for (const x of blocos(md)) expect(textos.has(textoDoBloco(md, x))).toBe(true);
     }
   });
 });

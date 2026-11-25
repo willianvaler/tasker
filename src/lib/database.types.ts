@@ -1471,6 +1471,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"note_conflicts": {
+                  Row: {
+                    "body": string,"created_at": string,"id": string,"note_id": string,"replaced_by": string | null,"title": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "body": string,"created_at"?: string,"id"?: string,"note_id": string,"replaced_by"?: string | null,"title"?: string
+                  }
+                  Update: {
+                    "body"?: string,"created_at"?: string,"id"?: string,"note_id"?: string,"replaced_by"?: string | null,"title"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "note_conflicts_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "notes"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "note_conflicts_replaced_by_fkey"
+      columns: ["replaced_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"note_publication_failures": {
                   Row: {
                     "at": string,"note_id": string
@@ -1577,14 +1603,14 @@ isOneToOne: false
                   ]
                 },"notes": {
                   Row: {
-                    "body": string,"created_at": string,"folder_id": string | null,"id": string,"is_template": boolean,"pinned": boolean,"props": NonNullable<Json>,"tags": (string)[],"title": string,"updated_at": string,"user_id": string
+                    "body": string,"body_base": string | null,"created_at": string,"folder_id": string | null,"id": string,"is_template": boolean,"pinned": boolean,"props": NonNullable<Json>,"tags": (string)[],"title": string,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"is_template"?: boolean,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"body_base"?: string | null,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"is_template"?: boolean,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Update: {
-                    "body"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"is_template"?: boolean,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "body"?: string,"body_base"?: string | null,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"is_template"?: boolean,"pinned"?: boolean,"props"?: NonNullable<Json>,"tags"?: (string)[],"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {

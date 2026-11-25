@@ -18,6 +18,8 @@ If the server is down (maintenance, outage), the dot says **Server unavailable**
 
 If you and someone else change the same task offline, the last change **for each field** wins. For the description, the losing version is kept: "See previous version" shows up.
 
+In **notes**, if two edits of the same note (from two devices or two people) land on top of each other, the last one wins and the other is kept: the note shows a notice with **Merge by block** (joins both without deleting anything: what only one has goes in its place), **See the other version** and **Discard the other**.
+
 ## What needs a connection
 
 Invites, the students panel, automations, reports and the shop.

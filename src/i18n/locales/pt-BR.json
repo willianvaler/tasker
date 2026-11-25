@@ -2744,7 +2744,12 @@
     "words_one": "{{count}} palavra",
     "words_other": "{{count}} palavras",
     "footnotes": "Notas de rodapé",
-    "random": "Anotação aleatória"
+    "random": "Anotação aleatória",
+    "conflictSaved": "Outra gravação desta anotação foi substituída por esta ({{at}}). Nada se perdeu: dá para mesclar as duas.",
+    "conflictMerge": "Mesclar por bloco",
+    "conflictView": "Ver a outra versão",
+    "conflictDiscard": "Descartar a outra",
+    "conflictOther": "A outra versão"
   },
   "callouts": {
     "note": "Nota",

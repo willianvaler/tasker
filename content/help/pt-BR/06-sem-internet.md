@@ -18,6 +18,8 @@ Se o servidor estiver fora (manutenção, queda), o pontinho diz **Servidor fora
 
 Se você e outra pessoa mudarem a mesma tarefa sem internet, vale a última mudança **de cada campo**. Na descrição, a versão que perdeu fica guardada: aparece "Ver versão anterior".
 
+Nas **anotações**, se duas edições da mesma anotação (de dois aparelhos ou duas pessoas) chegarem uma por cima da outra, vale a última, e a outra fica guardada: a anotação mostra um aviso com **Mesclar por bloco** (junta as duas sem apagar nada: o que só uma tem entra no lugar), **Ver a outra versão** e **Descartar a outra**.
+
 ## O que precisa de conexão
 
 Convites, painel de alunos, automações, relatórios e loja.

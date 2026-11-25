@@ -313,6 +313,8 @@ const notes = new Table(
     tags: column.text,
     // Modelo de anotação (OB5, D290): 0/1
     is_template: column.integer,
+    // SHA-256 do texto em que a edição começou (ED6, D348): o servidor guarda o conflito
+    body_base: column.text,
     created_at: column.text,
     updated_at: column.text,
   },

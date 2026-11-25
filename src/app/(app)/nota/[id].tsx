@@ -61,6 +61,7 @@ import { Text, textClass } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import { applyFormat, type Format, type Selection } from '@/lib/markdown-edit';
 import { noteOutline, outlineIndex, wordCount } from '@/lib/note-blocks';
+import { mesclarPorBloco } from '@/lib/note-format';
 import { noteAliases, type NoteProps } from '@/lib/note-props';
 import { isDailyNote, templateVars } from '@/lib/note-templates';
 import { useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
@@ -69,7 +70,10 @@ import { useNoteShareActions, useNoteShares } from '@/lib/queries/note-shares';
 import {
   isSharedWithMe,
   NOTE_MAX,
+  useDiscardConflict,
+  useNoteConflicts,
   useNoteMutations,
+  type NoteConflict,
   useNotes,
   type Note,
 } from '@/lib/queries/notes';
@@ -243,6 +247,11 @@ function Editor({
     latest.current = { title, body, props };
   }, [title, body, props]);
   const { mutate } = m.update;
+  const conflicts = useNoteConflicts(note.id);
+  const { refetch: refetchConflicts } = conflicts;
+  const discard = useDiscardConflict(note.id);
+  const [verConflito, setVerConflito] = useState<NoteConflict | null>(null);
+  const salvo = conflicts.data?.[0];
   const save = useCallback(() => {
     const now = latest.current;
     if (
@@ -252,10 +261,16 @@ function Editor({
     )
       return;
     if (readOnly) return;
+    // A base é o texto em que esta edição começou: se o servidor já tiver outro, ele guarda o
+    // conflito em vez de perder (ED6, D348)
+    const baseBody = saved.current.body;
     saved.current = now;
     remember(now);
-    mutate({ id: note.id, ...now });
-  }, [mutate, note.id, readOnly]);
+    mutate(
+      { id: note.id, ...now, ...(now.body !== baseBody ? { baseBody } : {}) },
+      { onSettled: () => void refetchConflicts() },
+    );
+  }, [mutate, note.id, readOnly, refetchConflicts]);
 
   // "Mudou enquanto você editava" (V11-3): a última gravação vence. O que chega do servidor e não
   // é algo que esta tela gravou é de outra pessoa (ou de outro aparelho): sem nada por gravar, a
@@ -499,6 +514,41 @@ function Editor({
             {t('noteShare.sharedWith', { count: sharedCount })}
           </Text>
         )}
+        {salvo && !readOnly && (
+          <View
+            testID="saved-conflict-banner"
+            accessibilityRole="alert"
+            className="gap-2 rounded-lg border border-warn px-3 py-2"
+          >
+            <Text className="text-sm text-ink">
+              {t('notes.conflictSaved', { at: new Date(salvo.created_at).toLocaleString() })}
+            </Text>
+            <View className="flex-row flex-wrap gap-2">
+              <Button
+                variant="ghost"
+                label={t('notes.conflictMerge')}
+                onPress={() => {
+                  const merged = mesclarPorBloco(latest.current.body, salvo.body);
+                  setBody(merged);
+                  latest.current = { ...latest.current, body: merged };
+                  save();
+                  discard.mutate(salvo.id);
+                }}
+              />
+              <Button
+                variant="ghost"
+                label={t('notes.conflictView')}
+                onPress={() => setVerConflito(salvo)}
+              />
+              <Button
+                variant="ghost"
+                destructive
+                label={t('notes.conflictDiscard')}
+                onPress={() => discard.mutate(salvo.id)}
+              />
+            </View>
+          </View>
+        )}
         {conflict && (
           <View
             testID="conflict-banner"
@@ -698,6 +748,26 @@ function Editor({
           </Text>
         </View>
       </KeyboardAvoidingView>
+      {verConflito && (
+        <ConfirmDialog
+          title={t('notes.conflictOther')}
+          message={
+            verConflito.body.length > 4000
+              ? `${verConflito.body.slice(0, 4000)}…`
+              : verConflito.body
+          }
+          confirmLabel={t('notes.conflictMerge')}
+          onClose={() => setVerConflito(null)}
+          onConfirm={() => {
+            const merged = mesclarPorBloco(latest.current.body, verConflito.body);
+            setBody(merged);
+            latest.current = { ...latest.current, body: merged };
+            save();
+            discard.mutate(verConflito.id);
+            setVerConflito(null);
+          }}
+        />
+      )}
       {outlineMenu && (
         <ActionMenu
           title={t('notes.outline')}

@@ -2744,7 +2744,12 @@
     "words_one": "{{count}} palabra",
     "words_other": "{{count}} palabras",
     "footnotes": "Notas al pie",
-    "random": "Nota al azar"
+    "random": "Nota al azar",
+    "conflictSaved": "Otra versión de esta nota fue reemplazada por esta ({{at}}). No se perdió nada: puedes combinar las dos.",
+    "conflictMerge": "Combinar por bloque",
+    "conflictView": "Ver la otra versión",
+    "conflictDiscard": "Descartar la otra",
+    "conflictOther": "La otra versión"
   },
   "callouts": {
     "note": "Nota",

@@ -111,7 +111,10 @@ export function blocos(md: string): Bloco[] {
       const aberto = j >= ls.length;
       const tipo: TipoBloco =
         lang === 'questlist-button' ? 'botao' : lang === 'questlist' ? 'consulta' : 'codigo';
-      fechar(tipo, i, ate, { ...(lang ? { linguagem: lang } : {}), ...(aberto ? { aberto: true } : {}) });
+      fechar(tipo, i, ate, {
+        ...(lang ? { linguagem: lang } : {}),
+        ...(aberto ? { aberto: true } : {}),
+      });
       continue;
     }
     if (t.trim().startsWith('$$')) {
@@ -270,4 +273,40 @@ export function conteudoDaCerca(texto: string): string {
   const fecha =
     ls.length > 1 && /^ {0,3}(`{3,}|~{3,})\s*$/.test(ls[ls.length - 1]) ? ls.length - 1 : ls.length;
   return ls.slice(1, fecha).join('\n');
+}
+
+// ---------------------------------------------------------------------------------------------
+// Mesclar por bloco (ED6): a versão em conflito volta sem apagar nada da atual
+// ---------------------------------------------------------------------------------------------
+
+/**
+ * Junta a versão atual com a que ficou em conflito, bloco a bloco: tudo da atual fica, e cada bloco
+ * da outra que a atual não tem entra logo depois do bloco que vinha antes dele na outra (ou no
+ * começo). Bloco igual (mesmo texto, sem contar espaço no fim) não se repete. Não é por caractere:
+ * um parágrafo mudado nos dois lados fica duas vezes, um embaixo do outro, para a pessoa escolher.
+ */
+export function mesclarPorBloco(atual: string, outra: string): string {
+  const chave = (t: string) =>
+    t
+      .replace(/\r/g, '')
+      .replace(/[ \t]+$/gm, '')
+      .trim();
+  const a = blocos(atual).map((b) => textoDoBloco(atual, b));
+  const o = blocos(outra).map((b) => textoDoBloco(outra, b));
+  const out = [...a];
+  const tem = new Set(a.map(chave));
+  let ultimo = -1; // posição em `out` do último bloco da outra que já está no resultado
+  for (const t of o) {
+    const k = chave(t);
+    const ja = out.findIndex((x, i) => i > ultimo && chave(x) === k);
+    if (tem.has(k) && ja >= 0) {
+      ultimo = ja;
+      continue;
+    }
+    if (tem.has(k)) continue;
+    out.splice(ultimo + 1, 0, t);
+    tem.add(k);
+    ultimo += 1;
+  }
+  return out.join('\n\n');
 }

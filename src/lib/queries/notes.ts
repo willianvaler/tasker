@@ -19,6 +19,7 @@ import {
 } from '../sync/local';
 import type { TaskWithPage } from './tasks';
 import { NOTE_BODY_MAX } from '../vault';
+import { sha256Hex } from '../hash';
 
 // Anotações (W3): texto em Markdown simples (D187). Sem pasta, só da pessoa; numa pasta ou projeto
 // (pedido do dono, 20/10), de quem é dela. Com o banco no aparelho, leem e gravam nele e o sync
@@ -116,6 +117,8 @@ type NotePatch = {
   id: string;
   title?: string;
   body?: string;
+  /** O texto em que a edição começou: vai como hash, e o servidor guarda o conflito (ED6, D348) */
+  baseBody?: string;
   props?: NoteProps;
   is_template?: boolean;
 };
@@ -176,10 +179,16 @@ export function useNoteMutations() {
 
   const update = useMutation({
     networkMode,
-    mutationFn: async ({ id, ...patch }: NotePatch) => {
+    mutationFn: async ({ id, baseBody, ...patch }: NotePatch) => {
+      const body_base =
+        patch.body !== undefined && baseBody !== undefined ? await sha256Hex(baseBody) : undefined;
       if (isLocal()) {
         const { props, is_template, ...rest } = patch;
-        const row: Record<string, unknown> = { ...rest, updated_at: now() };
+        const row: Record<string, unknown> = {
+          ...rest,
+          ...(body_base ? { body_base } : {}),
+          updated_at: now(),
+        };
         if (props) row.props = JSON.stringify(props);
         if (is_template !== undefined) row.is_template = is_template ? 1 : 0;
         // As etiquetas são do servidor; sem internet, o espelho calcula para a tela já mostrar
@@ -198,10 +207,13 @@ export function useNoteMutations() {
         await localUpdate('notes', id, row);
         return;
       }
-      const { error } = await supabase.from('notes').update(patch).eq('id', id);
+      const { error } = await supabase
+        .from('notes')
+        .update({ ...patch, ...(body_base ? { body_base } : {}) })
+        .eq('id', id);
       if (error) throw error;
     },
-    onMutate: ({ id, ...patch }) => {
+    onMutate: ({ id, baseBody: _base, ...patch }) => {
       queryClient.setQueryData<Note[]>(KEY, (list) =>
         list?.map((n) => {
           if (n.id !== id) return n;
@@ -237,7 +249,13 @@ export function useNoteMutations() {
   const createMany = useMutation({
     networkMode,
     mutationFn: async (
-      list: { id: string; title: string; body: string; props: NoteProps; folderId?: string | null }[],
+      list: {
+        id: string;
+        title: string;
+        body: string;
+        props: NoteProps;
+        folderId?: string | null;
+      }[],
     ) => {
       if (!list.length) return;
       if (isLocal()) {
@@ -331,5 +349,39 @@ export function useDayTasks(date: string | null, timeZone: string) {
       );
       return { done, created };
     },
+  });
+}
+
+// ---------------------------------------------------------------------------------------------
+// Versões em conflito (ED6, D348): o texto que outra gravação substituiu, guardado pelo servidor
+// ---------------------------------------------------------------------------------------------
+
+export type NoteConflict = { id: string; title: string; body: string; created_at: string };
+
+/** Só com internet (a tabela não vai para o aparelho; o conflito nasce no servidor, ao subir). */
+export function useNoteConflicts(noteId: string) {
+  return useQuery({
+    queryKey: ['note-conflicts', noteId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('note_conflicts')
+        .select('id, title, body, created_at')
+        .eq('note_id', noteId)
+        .order('created_at', { ascending: false })
+        .limit(5);
+      if (error) throw error;
+      return data as NoteConflict[];
+    },
+  });
+}
+
+export function useDiscardConflict(noteId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('note_conflicts').delete().eq('id', id);
+      if (error) throw error;
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['note-conflicts', noteId] }),
   });
 }

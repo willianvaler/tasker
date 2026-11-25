@@ -18,6 +18,8 @@ Si el servidor está caído (mantenimiento, falla), el punto dice **Servidor no 
 
 Si tú y otra persona cambian la misma tarea sin internet, gana el último cambio **de cada campo**. En la descripción, la versión que perdió queda guardada: aparece "Ver versión anterior".
 
+En las **notas**, si dos ediciones de la misma nota (de dos dispositivos o dos personas) llegan una encima de la otra, gana la última y la otra se guarda: la nota muestra un aviso con **Combinar por bloque** (junta las dos sin borrar nada: lo que solo una tiene entra en su lugar), **Ver la otra versión** y **Descartar la otra**.
+
 ## Lo que necesita conexión
 
 Invitaciones, el panel de alumnos, automatizaciones, informes y la tienda.
