@@ -164,6 +164,16 @@ Deno.serve(async (req) => {
       const res = await executarToken(t, {
         expr: exprApi,
         passo: (tipo) => registro.get(tipo) as never,
+        funcao: async (id) => {
+          const { data: v } = await supabase
+            .from('process_versions')
+            .select('graph')
+            .eq('definition_id', id)
+            .order('number', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          return (v?.graph as never) ?? null;
+        },
         expandir: (texto, estado) =>
           expandir(
             texto,

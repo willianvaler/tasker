@@ -2,6 +2,8 @@ import { describe, expect, test } from '@jest/globals';
 
 import {
   avancar,
+  ehFuncaoPura,
+  rodarPura,
   executarToken,
   aposEspera,
   duracaoMin,
@@ -483,5 +485,84 @@ describe('executor de token (PR4)', () => {
       externo: async () => ({ tentar: 'HTTP 503' }),
     });
     expect(commits[0]).toEqual({ tipo: 'falha', erro: 'HTTP 503', tentar: true });
+  });
+});
+
+describe('funções puras (FN)', () => {
+  const pura: Grafo = {
+    v: 1,
+    assinatura: {
+      entradas: [{ nome: 'dias', tipo: 'numero' }],
+      saidas: [{ nome: 'prazo', tipo: 'data' }],
+    },
+    nos: [
+      { id: 'i', tipo: 'inicio', entradas: { prazo: 'hoje() + {var.dias}' } },
+      { id: 'f', tipo: 'fim' },
+    ],
+    arestas: [{ id: '1', de: 'i', para: 'f' }],
+  };
+
+  test('roda em linha e devolve só as saídas da assinatura', () => {
+    expect(ehFuncaoPura(pura)).toBe(true);
+    expect(
+      rodarPura(pura, { dias: 3 }, { hoje: '2026-11-25', agora: '2026-11-25T12:00:00Z' }, exprApi),
+    ).toEqual({
+      ok: true,
+      saidas: { prazo: '2026-11-28' },
+    });
+  });
+
+  test('o executor não cria instância filha para função pura: segue no mesmo passo', async () => {
+    const chama: Grafo = {
+      v: 1,
+      nos: [
+        {
+          id: 's',
+          tipo: 'subprocesso',
+          funcao: '00000000-0000-4000-8000-000000000001',
+          entradas: { dias: '2' },
+          saidas: { quando: '{retorno.saidas.prazo}' },
+        },
+        { id: 'f', tipo: 'fim' },
+      ],
+      arestas: [{ id: '1', de: 's', para: 'f' }],
+    };
+    const commits: Record<string, unknown>[] = [];
+    await executarToken(
+      {
+        token: 't',
+        claimed_at: 'c',
+        node: 's',
+        scope: {},
+        result: null,
+        retries: 0,
+        instance: 'i',
+        vars: {},
+        start: {},
+        graph: chama,
+        definition: 'd',
+        name: 'n',
+      },
+      {
+        expr: exprApi,
+        passo: () => undefined,
+        externo: async () => ({ ok: true }),
+        funcao: async () => pura,
+        commit: async (_t, _c, d) => (commits.push(d), 'ok'),
+        agora: () => '2026-11-25T12:00:00.000Z',
+      },
+    );
+    expect(commits[0]).toMatchObject({
+      tipo: 'seguir',
+      proximos: [{ no: 'f' }],
+      vars: { quando: '2026-11-27' },
+      resultado: { emLinha: true },
+    });
+  });
+
+  test('função com tarefa ou ação não é pura', () => {
+    expect(
+      ehFuncaoPura({ ...pura, nos: [...pura.nos, { id: 'h', tipo: 'humana', titulo: 'x' }] }),
+    ).toBe(false);
   });
 });

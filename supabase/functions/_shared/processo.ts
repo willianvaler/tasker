@@ -596,6 +596,8 @@ export type DepsExecutor = {
     claim: string,
     decisao: Record<string, unknown>,
   ) => Promise<'ok' | 'ignorado'>;
+  /** O grafo publicado de uma função (para rodar a pura em linha, FN) */
+  funcao?: (id: string) => Promise<Grafo | null>;
   /** Os `{{ }}` do V14 nos textos da tarefa humana (título e descrição) */
   expandir?: (
     texto: string,
@@ -646,6 +648,26 @@ export async function executarToken(
       };
   } else {
     decisao = avancar(t.graph, t.node, t.scope ?? {}, ctx, deps.expr);
+  }
+  // Função pura: roda aqui mesmo, sem instância filha, e o processo segue com as saídas
+  if (decisao.tipo === 'esperar' && decisao.espera.tipo === 'subprocesso' && deps.funcao) {
+    const fg = await deps.funcao(String(decisao.espera.funcao));
+    if (fg && ehFuncaoPura(fg)) {
+      const r = rodarPura(
+        fg,
+        (decisao.espera.entradas as Record<string, unknown>) ?? {},
+        { hoje: ctx.hoje, agora },
+        deps.expr,
+      );
+      if (!r.ok) return deps.commit(t.token, t.claimed_at, { tipo: 'falha', erro: r.erro });
+      const retorno = { saidas: r.saidas };
+      return deps.commit(t.token, t.claimed_at, {
+        tipo: 'seguir',
+        proximos: aposEspera(t.graph, t.node, t.scope ?? {}, {}),
+        vars: saidasDoNo(t.graph, t.node, { ...ctx, retorno }, deps.expr),
+        resultado: { emLinha: true, saidas: r.saidas },
+      });
+    }
   }
   const out: Record<string, unknown> = { ...decisao };
   if (decisao.tipo === 'esperar' && decisao.espera.tipo === 'humana' && deps.expandir) {
@@ -709,4 +731,57 @@ export async function executarToken(
     }
   }
   return deps.commit(t.token, t.claimed_at, out);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Funções puras (FN): só cálculo (início, fim, decisão e laço). Rodam em linha, no mesmo passo,
+// sem criar instância: cada nó pode ter `entradas` (nome → expressão), que viram variáveis.
+// ---------------------------------------------------------------------------------------------
+
+export const ehFuncaoPura = (g: Grafo) =>
+  g.nos.every((n) => ['inicio', 'fim', 'xor', 'laco'].includes(n.tipo));
+
+export function rodarPura(
+  g: Grafo,
+  entradas: Record<string, unknown>,
+  quando: { hoje: string; agora: string },
+  expr: ExprApi,
+): { ok: true; saidas: Record<string, unknown> } | { ok: false; erro: string } {
+  let vars: Record<string, unknown> = { ...entradas };
+  let atual: Proximo | undefined = {
+    no: g.nos.find((n) => n.tipo === 'inicio')?.id ?? '',
+    escopo: {},
+  };
+  for (let k = 0; k < 200 && atual; k++) {
+    const no = g.nos.find((n) => n.id === atual?.no);
+    if (!no) return { ok: false, erro: 'Função sem início' };
+    for (const [nome, texto] of Object.entries((no.entradas as Record<string, string>) ?? {})) {
+      const r = expr.avaliar(
+        texto,
+        { var: vars, inicio: {}, pagina: {}, retorno: {} },
+        { today: quando.hoje, now: quando.agora },
+      );
+      if (!r.ok) return { ok: false, erro: `Expressão "${texto}": ${r.error.code}` };
+      vars = { ...vars, [nome]: r.value };
+    }
+    const d = avancar(
+      g,
+      no.id,
+      atual.escopo ?? {},
+      { vars, inicio: {}, hoje: quando.hoje, agora: quando.agora },
+      expr,
+    );
+    if (d.tipo === 'falha') return { ok: false, erro: d.erro };
+    if (d.tipo === 'fim') {
+      if (d.erro) return { ok: false, erro: d.erro };
+      const nomes = g.assinatura?.saidas?.map((s) => s.nome);
+      return {
+        ok: true,
+        saidas: nomes ? Object.fromEntries(nomes.map((n) => [n, vars[n] ?? null])) : vars,
+      };
+    }
+    if (d.tipo !== 'seguir') return { ok: false, erro: 'Função pura só calcula' };
+    atual = d.proximos[0];
+  }
+  return { ok: false, erro: 'A função passou do limite de passos' };
 }
