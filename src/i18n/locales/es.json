@@ -4466,7 +4466,46 @@
       "doing": "En curso",
       "done": "Completada"
     },
-    "defaultQuery": "tareas donde vence <= hoy+7 no completadas"
+    "defaultQuery": "tareas donde vence <= hoy+7 no completadas",
+    "schema": {
+      "open": "Propiedades",
+      "hint": "Da un tipo a las propiedades de las notas de esta base. La relación apunta a las notas de otra base; el rollup calcula sobre las relacionadas.",
+      "remove": "Quitar",
+      "type": "Tipo de {{name}}",
+      "options": "Opciones (separadas por comas)",
+      "target": "Apunta a la base",
+      "noBases": "Crea otra base para relacionar.",
+      "inverse": "Propiedad del otro lado (opcional, bidireccional)",
+      "relation": "Sobre la relación",
+      "noRelations": "Crea una relación primero.",
+      "property": "Propiedad de las relacionadas (vacío: el título)",
+      "function": "Cálculo",
+      "notInAutomations": "Calculado en pantalla: no vale como disparador ni condición de automatización o proceso.",
+      "newName": "Nueva propiedad",
+      "add": "Añadir",
+      "limit": "Como máximo {{n}} propiedades por base.",
+      "tooMany": "Como máximo 500 relaciones por nota.",
+      "unavailable": "(no disponible)",
+      "err_muitas": "demasiadas relaciones",
+      "err_sem_relacao": "sin relación",
+      "kind_texto": "Texto",
+      "kind_numero": "Número",
+      "kind_data": "Fecha",
+      "kind_selecao": "Selección",
+      "kind_multi": "Selección múltiple",
+      "kind_caixa": "Casilla",
+      "kind_pessoa": "Persona",
+      "kind_url": "URL",
+      "kind_relacao": "Relación",
+      "kind_rollup": "Rollup",
+      "fn_count": "Conteo",
+      "fn_sum": "Suma",
+      "fn_avg": "Promedio",
+      "fn_min": "Mínimo",
+      "fn_max": "Máximo",
+      "fn_done": "% hecho",
+      "fn_list": "Lista"
+    }
   },
   "graph": {
     "title": "Grafo",
@@ -5505,7 +5544,8 @@
       "trigger_manual": "A mano o por una automatización",
       "anyValue": "Vacío vale cualquiera.",
       "mark": "Qué botón",
-      "markHint": "El nombre del botón en la nota (vacío: cualquiera)."
+      "markHint": "El nombre del botón en la nota (vacío: cualquiera).",
+      "storedOnly": "Solo propiedades guardadas: fórmulas y rollups no disparan."
     },
     "no": {
       "inicio": "Inicio",

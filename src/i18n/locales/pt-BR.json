@@ -4466,7 +4466,46 @@
       "doing": "Em andamento",
       "done": "Concluída"
     },
-    "defaultQuery": "tarefas onde vence <= hoje+7 não concluídas"
+    "defaultQuery": "tarefas onde vence <= hoje+7 não concluídas",
+    "schema": {
+      "open": "Propriedades",
+      "hint": "Dê um tipo às propriedades das anotações desta base. A relação aponta para as anotações de outra base; o rollup faz uma conta sobre as relacionadas.",
+      "remove": "Tirar",
+      "type": "Tipo de {{name}}",
+      "options": "Opções (separadas por vírgula)",
+      "target": "Aponta para a base",
+      "noBases": "Crie outra base para relacionar.",
+      "inverse": "Propriedade do outro lado (opcional, bidirecional)",
+      "relation": "Sobre a relação",
+      "noRelations": "Crie uma relação primeiro.",
+      "property": "Propriedade das relacionadas (vazio: o título)",
+      "function": "Conta",
+      "notInAutomations": "Calculado na tela: não vale como gatilho nem condição de automação ou processo.",
+      "newName": "Nova propriedade",
+      "add": "Adicionar",
+      "limit": "No máximo {{n}} propriedades por base.",
+      "tooMany": "No máximo 500 relações por anotação.",
+      "unavailable": "(indisponível)",
+      "err_muitas": "muitas relações",
+      "err_sem_relacao": "sem relação",
+      "kind_texto": "Texto",
+      "kind_numero": "Número",
+      "kind_data": "Data",
+      "kind_selecao": "Seleção",
+      "kind_multi": "Multisseleção",
+      "kind_caixa": "Caixa",
+      "kind_pessoa": "Pessoa",
+      "kind_url": "Endereço",
+      "kind_relacao": "Relação",
+      "kind_rollup": "Rollup",
+      "fn_count": "Contagem",
+      "fn_sum": "Soma",
+      "fn_avg": "Média",
+      "fn_min": "Mínimo",
+      "fn_max": "Máximo",
+      "fn_done": "% concluído",
+      "fn_list": "Lista"
+    }
   },
   "graph": {
     "title": "Grafo",
@@ -5505,7 +5544,8 @@
       "trigger_manual": "À mão ou por uma automação",
       "anyValue": "Vazio vale qualquer um.",
       "mark": "Qual botão",
-      "markHint": "O nome do botão na anotação (vazio: qualquer um)."
+      "markHint": "O nome do botão na anotação (vazio: qualquer um).",
+      "storedOnly": "Só propriedades guardadas: fórmulas e rollups não disparam."
     },
     "no": {
       "inicio": "Início",

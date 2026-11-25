@@ -127,6 +127,7 @@ function GatilhoInicio({ no, set }: { no: No; set: (p: Record<string, unknown>) 
             rotulo={t('auto.ed.property')}
             valor={g.propriedade ?? ''}
             onMudar={(propriedade) => mudar({ propriedade: propriedade || undefined })}
+            dica={t('processos.ed.storedOnly')}
           />
           <Campo
             rotulo={t('auto.ed.varValue')}

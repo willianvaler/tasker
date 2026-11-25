@@ -22,6 +22,7 @@ describe('bases: configuração (OB8)', () => {
       group: null,
       sort: null,
       totals: {},
+      schema: {},
     });
     expect(
       readBaseConfig({
@@ -39,6 +40,7 @@ describe('bases: configuração (OB8)', () => {
       group: 'status',
       sort: { column: 'due', desc: true },
       totals: { priority: 'max' },
+      schema: {},
     });
     expect(readBaseConfig({ view: 'kanban', sort: { column: '' } })).toMatchObject({
       view: 'table',

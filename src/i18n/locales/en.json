@@ -4466,7 +4466,46 @@
       "doing": "In progress",
       "done": "Done"
     },
-    "defaultQuery": "tasks where due <= today+7 not done"
+    "defaultQuery": "tasks where due <= today+7 not done",
+    "schema": {
+      "open": "Properties",
+      "hint": "Give the notes in this base typed properties. A relation points to the notes of another base; a rollup computes over the related ones.",
+      "remove": "Remove",
+      "type": "Type of {{name}}",
+      "options": "Options (comma-separated)",
+      "target": "Points to the base",
+      "noBases": "Create another base to relate to.",
+      "inverse": "Property on the other side (optional, two-way)",
+      "relation": "Over the relation",
+      "noRelations": "Create a relation first.",
+      "property": "Property of the related ones (empty: the title)",
+      "function": "Calculation",
+      "notInAutomations": "Computed on screen: it can't be an automation or process trigger or condition.",
+      "newName": "New property",
+      "add": "Add",
+      "limit": "At most {{n}} properties per base.",
+      "tooMany": "At most 500 relations per note.",
+      "unavailable": "(unavailable)",
+      "err_muitas": "too many relations",
+      "err_sem_relacao": "no relation",
+      "kind_texto": "Text",
+      "kind_numero": "Number",
+      "kind_data": "Date",
+      "kind_selecao": "Select",
+      "kind_multi": "Multi-select",
+      "kind_caixa": "Checkbox",
+      "kind_pessoa": "Person",
+      "kind_url": "URL",
+      "kind_relacao": "Relation",
+      "kind_rollup": "Rollup",
+      "fn_count": "Count",
+      "fn_sum": "Sum",
+      "fn_avg": "Average",
+      "fn_min": "Minimum",
+      "fn_max": "Maximum",
+      "fn_done": "% done",
+      "fn_list": "List"
+    }
   },
   "graph": {
     "title": "Graph",
@@ -5505,7 +5544,8 @@
       "trigger_manual": "By hand or by an automation",
       "anyValue": "Empty means any.",
       "mark": "Which button",
-      "markHint": "The button's name in the note (empty: any)."
+      "markHint": "The button's name in the note (empty: any).",
+      "storedOnly": "Stored properties only: formulas and rollups don't trigger."
     },
     "no": {
       "inicio": "Start",

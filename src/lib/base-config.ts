@@ -3,6 +3,7 @@
 // ordem e edição na célula. A configuração mora em `pages.config` (JSON). Funções puras, com testes.
 
 import { fold, type Source } from './query/parse';
+import { readSchema, type Schema } from './relations';
 import { readTotals, type Totals } from './totals';
 
 export type BaseView = 'table' | 'cards';
@@ -19,6 +20,8 @@ export type BaseConfig = {
   sort: BaseSort | null;
   /** Total do rodapé por coluna (VS2) */
   totals: Totals;
+  /** Propriedades tipadas, relações e rollups das anotações (ED3) */
+  schema: Schema;
 };
 
 export const TASK_COLUMNS = [
@@ -70,6 +73,7 @@ export function readBaseConfig(raw: unknown): BaseConfig {
         ? { column: sort.column, desc: sort.desc === true }
         : null,
     totals: readTotals(o.totals),
+    schema: readSchema(o.schema),
   };
 }
 

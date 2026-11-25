@@ -36,7 +36,9 @@ import {
   toggleColumn,
   type BaseConfig,
 } from '@/lib/base-config';
+import { BaseSchemaEditor } from '@/components/base-schema';
 import { cn } from '@/lib/cn';
+import { applyRelation, computeRollup, defOf, parseTyped, relationIds } from '@/lib/relations';
 import { readTask } from '@/lib/open-task';
 import {
   computeTotal,
@@ -92,7 +94,13 @@ export function BaseView({ page }: { page: Page }) {
         editable={manage}
         onSave={(query) => save({ ...config, query, sort: null })}
       />
-      <BaseControls config={config} source={source} manage={manage} onChange={save} />
+      <BaseControls
+        config={config}
+        source={source}
+        manage={manage}
+        onChange={save}
+        pageId={page.id}
+      />
       <BaseResults config={config} onSort={save} />
     </ScreenScroll>
   );
@@ -172,16 +180,18 @@ function BaseControls({
   source,
   manage,
   onChange,
+  pageId,
 }: {
   config: BaseConfig;
   source: Source;
   manage: boolean;
   onChange: (next: BaseConfig) => void;
+  pageId: string;
 }) {
   const { t } = useTranslation();
   const label = useColumnLabel();
   const notes = useNotes();
-  const [open, setOpen] = useState<'columns' | 'group' | null>(null);
+  const [open, setOpen] = useState<'columns' | 'group' | 'schema' | null>(null);
   const shown = baseColumns(config, source);
   const all: string[] =
     source === 'tasks'
@@ -189,6 +199,8 @@ function BaseControls({
       : [
           ...NOTE_COLUMNS,
           ...notePropNames(notes.data ?? []).map((n) => `props.${n}`),
+          // As do esquema (ED3), inclusive o rollup, que nenhuma anotação guarda
+          ...Object.keys(config.schema).map((n) => `props.${n}`),
           // Coluna escolhida de uma propriedade que nenhuma anotação usa mais continua na lista
           ...shown.filter((c) => isPropColumn(c)),
         ].filter((c, i, list) => list.indexOf(c) === i);
@@ -221,6 +233,13 @@ function BaseControls({
               selected={open === 'group'}
               onPress={() => setOpen(open === 'group' ? null : 'group')}
             />
+            {source === 'notes' && (
+              <Chip
+                label={t('base.schema.open')}
+                selected={open === 'schema'}
+                onPress={() => setOpen(open === 'schema' ? null : 'schema')}
+              />
+            )}
           </>
         )}
       </View>
@@ -238,6 +257,13 @@ function BaseControls({
               />
             ))}
         </View>
+      )}
+      {open === 'schema' && (
+        <BaseSchemaEditor
+          schema={config.schema}
+          pageId={pageId}
+          onChange={(schema) => onChange({ ...config, schema })}
+        />
       )}
       {open === 'group' && (
         <View
@@ -427,6 +453,27 @@ function TaskBase({
   );
 }
 
+/** As anotações que uma base mostra (a de destino de uma relação, ED3) */
+function notesOfBase(
+  page: Page,
+  notes: Note[],
+  ctx: QueryContext,
+  folders: (Named & { parent_id: string | null })[],
+): Note[] {
+  const parsed = parseQuery(readBaseConfig(page.config).query || DEFAULT_QUERY);
+  if (!parsed.ok || parsed.query.source !== 'notes') return notes;
+  const plan = fetchPlan(parsed.query, ctx, [], folders);
+  const ids = new Set(
+    runNotes(
+      notes,
+      { ...parsed.query, limit: 5000 },
+      ctx,
+      plan.by === 'folders' ? { folderIds: plan.ids } : {},
+    ).rows.map((r) => r.id),
+  );
+  return notes.filter((n) => ids.has(n.id));
+}
+
 function NoteBase({
   query,
   config,
@@ -444,6 +491,8 @@ function NoteBase({
   const notes = useNotes();
   const tree = useTree();
   const { update } = useNoteMutations();
+  const toast = useToast();
+  const tree2 = tree.data;
   if (!notes.data) return null;
   const plan = fetchPlan(query, ctx, [], folders);
   const result = runNotes(
@@ -453,8 +502,23 @@ function NoteBase({
     plan.by === 'folders' ? { folderIds: plan.ids } : {},
   );
   const byId = new Map(notes.data.map((n) => [n.id, n]));
+  const schema = config.schema;
   const valueOf = (note: Note, column: string): unknown => {
-    if (isPropColumn(column)) return propValue(note.props, propName(column));
+    if (isPropColumn(column)) {
+      const def = defOf(schema, propName(column));
+      // Rollup: calculado aqui, nunca gravado (D318); relação: os títulos de agora
+      if (def?.tipo === 'rollup') {
+        const r = computeRollup(note, def, byId);
+        return r.ok ? r.value : t(`base.schema.err_${r.erro}`);
+      }
+      const v = propValue(note.props, propName(column));
+      if (def?.tipo === 'relacao')
+        return relationIds(v).map((id) => {
+          const n = byId.get(id);
+          return n ? noteTitle(n, t('notes.untitled')) : t('base.schema.unavailable');
+        });
+      return v;
+    }
     switch (column) {
       case 'title':
         return noteTitle(note, t('notes.untitled'));
@@ -487,7 +551,21 @@ function NoteBase({
     const note = row.note;
     if (!note) return;
     if (column === 'title') update.mutate({ id: note.id, title: String(value) });
-    else if (isPropColumn(column)) {
+    else if (isPropColumn(column) && defOf(schema, propName(column))?.tipo === 'relacao') {
+      const def = defOf(schema, propName(column));
+      const r = applyRelation(
+        notes.data ?? [],
+        note.id,
+        propName(column),
+        (value as string[] | null) ?? [],
+        def?.inversa,
+      );
+      if (!r.ok) {
+        toast({ message: t('base.schema.tooMany') });
+        return;
+      }
+      for (const p of r.patches) update.mutate({ id: p.id, props: p.props as never });
+    } else if (isPropColumn(column)) {
       const name = propName(column);
       const key = Object.keys(note.props ?? {}).find((k) => k.toLowerCase() === name.toLowerCase());
       const props = { ...(note.props ?? {}) };
@@ -504,6 +582,24 @@ function NoteBase({
       config={config}
       onSort={onSort}
       onSave={save}
+      typed={{
+        editable: (c) => !(isPropColumn(c) && defOf(schema, propName(c))?.tipo === 'rollup'),
+        parse: (c, text, current) => {
+          const def = isPropColumn(c) ? defOf(schema, propName(c)) : undefined;
+          if (!def) return parseCell(c, text, current);
+          // Relação: os candidatos são as anotações da base de destino (ou todas, sem destino)
+          const alvo = def.base ? tree2?.pages.find((p) => p.id === def.base) : undefined;
+          const candidatos = alvo
+            ? notesOfBase(alvo, notes.data ?? [], ctx, folders)
+            : (notes.data ?? []);
+          const r = parseTyped(
+            def,
+            text,
+            candidatos.map((n) => ({ ...n, title: noteTitle(n, '') })),
+          );
+          return r.ok ? { ok: true, value: r.value } : { ok: false };
+        },
+      }}
     />
   );
 }
@@ -515,6 +611,7 @@ function BaseBody({
   config,
   onSort,
   onSave,
+  typed,
 }: {
   source: Source;
   rows: Row[];
@@ -522,6 +619,8 @@ function BaseBody({
   config: BaseConfig;
   onSort: (next: BaseConfig) => void;
   onSave: (row: Row, column: string, value: unknown) => void;
+  /** As propriedades tipadas (ED3): o que se edita e como o texto vira valor */
+  typed?: Pick<TableOptions, 'editable' | 'parse'>;
 }) {
   const { t } = useTranslation();
   const columns = baseColumns(config, source);
@@ -564,6 +663,7 @@ function BaseBody({
           onHeader={(c) => onSort({ ...config, sort: nextSort(config.sort, c) })}
           onSave={onSave}
           options={{
+            ...typed,
             totals: config.totals,
             onTotal: (c, total) => onSort({ ...config, totals: { ...config.totals, [c]: total } }),
             formatValue: (c, v) => (c === 'tags' ? `#${v}` : c === 'status' ? (status[v] ?? v) : v),
