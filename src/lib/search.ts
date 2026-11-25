@@ -100,17 +100,38 @@ export type SearchItem = {
   tags?: readonly string[] | null;
   /** Nomes da pasta e das de cima (a raiz conta: em:casa acha o que está em Casa/Cozinha) */
   folders?: readonly string[];
+  /** Título e texto já sem acento (`foldedText`): poupa refazer a cada busca (ED5) */
+  folded?: string;
 };
+
+/**
+ * Título e texto sem acento, guardados por versão (`chave` = id + data da última mudança): a busca
+ * em 100 mil anotações tira o acento uma vez só, não a cada tecla (ED5, D346). Até 200 mil itens.
+ */
+const DOBRADOS = new Map<string, string>();
+export function foldedText(chave: string, title: string, text?: string | null): string {
+  let v = DOBRADOS.get(chave);
+  if (v === undefined) {
+    v = fold(`${title}\n${text ?? ''}`);
+    if (DOBRADOS.size >= 200_000) DOBRADOS.clear();
+    DOBRADOS.set(chave, v);
+  }
+  return v;
+}
 
 export function matchSearch(q: ParsedSearch, item: SearchItem): boolean {
   if (q.kinds.length && !q.kinds.includes(item.kind)) return false;
-  const tags = (item.tags ?? []).map((t) => cleanTag(t)).filter((t): t is string => !!t);
+  // As etiquetas só são limpas quando a busca pede etiqueta (ED5: 100 mil itens a cada tecla)
+  const precisaTags = q.tags.length > 0 || q.exclude.some((ex) => ex.startsWith('#'));
+  const tags = precisaTags
+    ? (item.tags ?? []).map((t) => cleanTag(t)).filter((t): t is string => !!t)
+    : [];
   if (q.tags.some((want) => !tags.some((tag) => tagMatches(tag, want)))) return false;
   if (q.folders.length) {
     const names = (item.folders ?? []).map(fold);
     if (q.folders.some((want) => !names.some((n) => n.includes(want)))) return false;
   }
-  const hay = fold(`${item.title}\n${item.text ?? ''}`);
+  const hay = item.folded ?? fold(`${item.title}\n${item.text ?? ''}`);
   if (q.words.some((w) => !hay.includes(w))) return false;
   if (q.phrases.some((p) => !hay.includes(p))) return false;
   for (const ex of q.exclude) {
@@ -122,7 +143,11 @@ export function matchSearch(q: ParsedSearch, item: SearchItem): boolean {
 
 /** Ordem: título que começa com a busca, depois título que contém, depois só no texto */
 export function searchRank(q: ParsedSearch, item: SearchItem): number {
-  const title = fold(item.title);
+  // O título já vem sem acento no começo do `folded` (até a primeira quebra de linha)
+  const title =
+    item.folded !== undefined
+      ? item.folded.slice(0, (item.folded.indexOf('\n') + 1 || item.folded.length + 1) - 1)
+      : fold(item.title);
   const first = q.words[0] ?? q.phrases[0];
   if (!first) return 1;
   if (title.startsWith(first)) return 0;

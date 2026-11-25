@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals';
 
 import { fold } from '@/lib/query/parse';
-import { matchSearch, parseSearch, searchRank, type SearchItem } from '@/lib/search';
+import { foldedText, matchSearch, parseSearch, searchRank, type SearchItem } from '@/lib/search';
 
 import { gerarNotas } from '../../src/lib/__tests__/fixtures/notas-geradas';
 
@@ -14,10 +14,21 @@ test('busca em 100 mil anotações', () => {
   const base = gerarNotas(1000, 1);
   const itens: SearchItem[] = Array.from({ length: 100_000 }, (_, i) => {
     const n = base[i % base.length];
-    return { kind: 'note', title: `${n.title} ${i}`, text: n.body, tags: (n.props.tags as string[]) ?? [] };
+    return {
+      kind: 'note',
+      title: `${n.title} ${i}`,
+      text: n.body,
+      tags: (n.props.tags as string[]) ?? [],
+    };
   });
   const tempos: Record<string, number> = {};
-  for (const busca of ['mercado', 'reunião casa', '"projeto ideia"', 'tag:casa estudo', 'xyzinexistente']) {
+  for (const busca of [
+    'mercado',
+    'reunião casa',
+    '"projeto ideia"',
+    'tag:casa estudo',
+    'xyzinexistente',
+  ]) {
     const q = parseSearch(busca);
     const t0 = performance.now();
     const achou = itens.filter((it) => matchSearch(q, it));
@@ -37,5 +48,40 @@ test('busca em 100 mil anotações', () => {
     cache[busca] = Math.round(performance.now() - t0);
   }
   console.log('BUSCA_100K_CACHE_MS', JSON.stringify({ preparo, ...cache }));
+  // O caminho da paleta (D346): foldedText guarda por versão; a primeira busca prepara, as outras não
+  const comCache = itens.map((it, i) => ({
+    ...it,
+    folded: foldedText(`n${i}:v1`, it.title, it.text),
+  }));
+  const paleta: Record<string, number> = {};
+  for (const busca of [
+    'mercado',
+    'reunião casa',
+    '"projeto ideia"',
+    'tag:casa estudo',
+    'xyzinexistente',
+  ]) {
+    const q = parseSearch(busca);
+    const t0 = performance.now();
+    // Como a paleta: a cada busca, uma consulta ao cache por item (o texto já está pronto)
+    const achou = comCache
+      .map((it, i) => {
+        const item = {
+          kind: it.kind,
+          title: it.title,
+          text: it.text,
+          tags: it.tags,
+          folded: foldedText(`n${i}:v1`, '', ''),
+        };
+        return { item, ok: matchSearch(q, item), rank: 0 };
+      })
+      .filter((x) => x.ok)
+      .map((x) => ({ ...x, rank: searchRank(q, x.item) }))
+      .sort((a, b) => a.rank - b.rank)
+      .slice(0, 10);
+    expect(achou.length).toBeLessThanOrEqual(10);
+    paleta[busca] = Math.round(performance.now() - t0);
+  }
+  console.log('BUSCA_100K_PALETA_MS', JSON.stringify(paleta));
   expect(Object.keys(tempos)).toHaveLength(5);
 });

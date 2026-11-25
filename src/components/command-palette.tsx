@@ -61,7 +61,14 @@ import { cn } from '@/lib/cn';
 import { readTask } from '@/lib/open-task';
 import { noteTitle, useNotes } from '@/lib/queries/notes';
 import type { Task } from '@/lib/queries/tasks';
-import { hasOperators, matchSearch, parseSearch, pickRandom, searchRank } from '@/lib/search';
+import {
+  hasOperators,
+  foldedText,
+  matchSearch,
+  parseSearch,
+  pickRandom,
+  searchRank,
+} from '@/lib/search';
 import { usePomodoro, useStartTimer } from '@/components/timer-bar';
 import { useTree } from '@/lib/queries/tree';
 import { DURATION, useColors } from '@/lib/tokens';
@@ -503,6 +510,11 @@ function Palette({
             text: n.body,
             tags: n.tags,
             folders: folderNames.get(n.folder_id ?? ''),
+            folded: foldedText(
+              `${n.id}:${n.updated_at}`,
+              noteTitle(n, t('notes.untitled')),
+              n.body,
+            ),
           };
           return { n, item, ok: matchSearch(parsed, item), rank: searchRank(parsed, item) };
         })

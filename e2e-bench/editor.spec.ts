@@ -12,14 +12,17 @@ const userIdOf = (page: Page) =>
     return JSON.parse(localStorage.getItem(key ?? '') ?? '{}').user?.id as string;
   });
 
-const NOTE_MAX = 20_000;
+const NOTE_MAX = 1_000_000;
 
-test('editor na web: abrir, digitar e colar no teto de 20 mil caracteres', async ({ page }, testInfo) => {
-  test.setTimeout(180_000);
+for (const [nome, blocosN] of [
+  ['5 mil blocos', 5000],
+  ['20 mil palavras', 2900],
+] as const)
+test(`editor na web: abrir e digitar (${nome})`, async ({ page }, testInfo) => {
+  test.setTimeout(300_000);
   await signUp(page, testInfo);
   const uid = await userIdOf(page);
-  let body = notaGrande(2000);
-  body = body.slice(0, NOTE_MAX - 200);
+  const body = notaGrande(blocosN);
   const blocos = body.split('\n\n').length;
   const palavras = body.split(/\s+/).length;
   const [nota] = await adminRest('notes', {
@@ -38,7 +41,7 @@ test('editor na web: abrir, digitar e colar no teto de 20 mil caracteres', async
   const campo = page.getByRole('textbox', { name: 'Texto da anotação' });
   await expect(campo).toBeVisible();
   const editar = Date.now() - t1;
-  console.log(`BENCH abrir_ms ${abrir}`);
+  console.log(`BENCH [${nome}] abrir_ms ${abrir}`);
   console.log(`BENCH abrir_para_editavel_ms ${editar}`);
 
   // Digitar: tempo do evento de entrada até o próximo quadro, por tecla
@@ -65,10 +68,45 @@ test('editor na web: abrir, digitar e colar no teto de 20 mil caracteres', async
   // Colar: o texto inteiro de uma vez num campo vazio
   await page.keyboard.press('Control+a');
   await page.keyboard.press('Delete');
+  const mega = 'Texto colado de exemplo com acentuação. '.repeat(Math.floor(1_000_000 / 41));
   const t2 = Date.now();
-  await campo.fill(body);
+  await campo.fill(mega);
   await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
-  console.log(`BENCH colar_${Math.round(body.length / 1000)}kb_ms ${Date.now() - t2}`);
+  console.log(`BENCH colar_${Math.round(mega.length / 1000)}kb_ms ${Date.now() - t2}`);
   // O campo corta no teto (maxLength)
   await expect.poll(async () => (await campo.inputValue()).length).toBeLessThanOrEqual(NOTE_MAX);
+});
+
+// Sincronizar uma edição entre dois aparelhos online (dois navegadores na mesma conta), pelo PowerSync
+test('sync de uma edição entre dois aparelhos', async ({ page, browser }, testInfo) => {
+  test.setTimeout(180_000);
+  const ps = await fetch('http://127.0.0.1:8095/probes/liveness').catch(() => null);
+  test.skip(!ps?.ok, 'precisa do PowerSync local (npm run sync:start)');
+  const email = await signUp(page, testInfo);
+  const uid = await userIdOf(page);
+  const [nota] = await adminRest('notes', {
+    method: 'POST',
+    body: JSON.stringify({ user_id: uid, title: 'Sync', body: 'Começo' }),
+  });
+  const ctx2 = await browser.newContext();
+  const outro = await ctx2.newPage();
+  await outro.goto('/');
+  await outro.getByPlaceholder('E-mail').fill(email);
+  await outro.getByPlaceholder('Senha').fill('senha-forte-123');
+  await outro.getByRole('button', { name: 'Entrar', exact: true }).last().click();
+  await expect(outro.getByRole('heading', { name: /^Hoje/ })).toBeVisible({ timeout: 30_000 });
+  await outro.goto(`/nota/${nota.id}`);
+  await expect(outro.getByText('Começo').first()).toBeVisible({ timeout: 60_000 });
+  await page.goto(`/nota/${nota.id}`);
+  await page.getByRole('button', { name: 'Editar' }).click();
+  const campo = page.getByRole('textbox', { name: 'Texto da anotação' });
+  await campo.click();
+  await page.keyboard.press('Control+End');
+  const marca = `SYNC${Date.now()}`;
+  await page.keyboard.type(` ${marca}`);
+  // A gravação sai 800 ms depois de parar de digitar (o editor); o relógio conta dali
+  const t0 = Date.now() + 800;
+  await expect(outro.getByText(new RegExp(marca)).first()).toBeVisible({ timeout: 30_000 });
+  console.log(`BENCH sync_dois_aparelhos_ms ${Date.now() - t0}`);
+  await ctx2.close();
 });

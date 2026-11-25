@@ -16,7 +16,7 @@ import {
   type LucideIcon,
 } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useDeferredValue, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
@@ -316,14 +316,17 @@ function Editor({
     },
     inputRef: input,
   });
+  // O que se calcula sobre o texto inteiro fica um passo atrás de quem digita (ED5, D346): a tecla
+  // aparece na hora e os links, o sumário e a contagem vêm logo depois
+  const lento = useDeferredValue(body);
   const resolve = useLinkTitles(
-    parseLinks(`${body}\n${Object.values(props).join('\n')}`).flatMap((l) =>
+    parseLinks(`${lento}\n${Object.values(props).join('\n')}`).flatMap((l) =>
       l.kind && l.id ? [{ kind: l.kind, id: l.id }] : [],
     ),
   );
   const openLink = useOpenLink({ folderId: note.folder_id, body, setBody });
   // Onde cada título ficou na visualização; a âncora do link (ou o toque no sumário) rola até ele
-  const outline = noteOutline(body);
+  const outline = noteOutline(lento);
   const headingY = useRef<Record<number, number>>({});
   const pending = useRef(section ? outlineIndex(body, section) : -1);
   function onHeadingLayout(index: number, y: number) {
@@ -691,7 +694,7 @@ function Editor({
             {editing ? t('notes.markdownHint') : ''}
           </Text>
           <Text className="font-mono text-xs text-ink-muted">
-            {t('notes.words', { count: wordCount(body) })} · {body.length}/{NOTE_MAX}
+            {t('notes.words', { count: wordCount(lento) })} · {lento.length}/{NOTE_MAX}
           </Text>
         </View>
       </KeyboardAvoidingView>
