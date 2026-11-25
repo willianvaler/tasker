@@ -83,6 +83,16 @@ export function TaskMeta({
         <Text className={meta}>{recurrence}</Text>
       </View>
     ),
+    // Tarefa de um processo (PR6): o distintivo com o nome do processo
+    !!(task.meta && typeof task.meta === 'object' && 'processo' in (task.meta as object)) && (
+      <Text
+        key="processo"
+        className={cn(meta, 'text-accent')}
+        accessibilityLabel={t('processos.badge')}
+      >
+        {t('processos.badge')}
+      </Text>
+    ),
     detail && (
       <Text key="detail" className={meta}>
         {detail}

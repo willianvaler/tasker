@@ -34,6 +34,7 @@ import { getPanelMode } from '@/lib/prefs';
 import { readRepeatPlan } from '@/lib/repeat';
 import { Button, IconButton } from '@/components/ui/button';
 import { ConflictNotice } from '@/components/tasks/conflict-notice';
+import { ProcessTaskPanel, type MetaProcesso } from '@/components/processo/process-task-panel';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip as UiChip } from '@/components/ui/chip';
 import { ActionMenu, ConfirmDialog, useDialog } from '@/components/ui/dialog';
@@ -644,6 +645,15 @@ function TaskDetails({ task }: { task: Task }) {
               }}
             />
           </Section>
+        )}
+
+        {/* Tarefa de processo (PR6): responder, devolver e ir para a instância */}
+        {!!task.meta && typeof task.meta === 'object' && 'processo' in (task.meta as object) && (
+          <ProcessTaskPanel
+            taskId={task.id}
+            processo={(task.meta as { processo: MetaProcesso }).processo}
+            done={task.status === 'done'}
+          />
         )}
 
         {!task.parent_task_id && gym('subtasks') && <Subtasks task={task} />}
