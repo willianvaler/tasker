@@ -124,7 +124,9 @@
       "/supabase/",
       "/e2e/",
       "/e2e-capturas/",
-      "/scripts/bench/"
+      "/scripts/bench/",
+      "/e2e-bench/",
+      "/__tests__/fixtures/"
     ]
   }
 }

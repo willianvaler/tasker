@@ -106,8 +106,8 @@ describe('importVault', () => {
   });
 
   it('corta o texto grande demais e conta', () => {
-    const r = importVault([{ path: 'x.md', text: 'a'.repeat(25000) }], { newId: ids() });
-    expect(r.notes[0].body).toHaveLength(20000);
+    const r = importVault([{ path: 'x.md', text: 'a'.repeat(1_000_100) }], { newId: ids() });
+    expect(r.notes[0].body).toHaveLength(1_000_000);
     expect(r.truncated).toBe(1);
   });
 });

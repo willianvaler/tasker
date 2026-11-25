@@ -18,6 +18,7 @@ import {
   toTaskWithPage,
 } from '../sync/local';
 import type { TaskWithPage } from './tasks';
+import { NOTE_BODY_MAX } from '../vault';
 
 // Anotações (W3): texto em Markdown simples (D187). Sem pasta, só da pessoa; numa pasta ou projeto
 // (pedido do dono, 20/10), de quem é dela. Com o banco no aparelho, leem e gravam nele e o sync
@@ -53,7 +54,8 @@ function parseJson<T>(value: string | null, fallback: T): T {
     return fallback;
   }
 }
-export const NOTE_MAX = 20000;
+/** Teto do texto de uma anotação (ED1, V16-18, D345); o banco tem o mesmo `check`. */
+export const NOTE_MAX = NOTE_BODY_MAX;
 const KEY = ['notes'] as const;
 
 /**

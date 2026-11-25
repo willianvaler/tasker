@@ -9,7 +9,8 @@ import { cleanPropName, type NoteProps, type PropValue } from './note-props';
 import { fold } from './query/parse';
 import { cleanLinkTitle, linkMarkup, parseLinks, type LinkKind } from './wikilinks';
 
-export const NOTE_BODY_MAX = 20000;
+/** Teto do texto de uma anotação (ED1, V16-18, D345): o mesmo `check` do banco. */
+export const NOTE_BODY_MAX = 1_000_000;
 export const NOTE_TITLE_MAX = 200;
 /** Teto das propriedades no banco (8 KB, D289) */
 const PROPS_MAX = 8000;

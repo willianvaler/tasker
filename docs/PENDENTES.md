@@ -48,7 +48,8 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V14 | SL0 | Spike do Smart Life/Tuya: o Positivo no Smart Life, chaves da Tuya, comando real, cota, termos, estado do IR, fixtures, protocolo local | não começado | dono |
 | V14 | SL1 a SL5 | Conector Tuya: conexão, descoberta, comandos, ponte doméstica, tela Dispositivos | não começado | SL0 aprovado |
 | **V15** | — | Contexto do celular, câmeras, casa, saúde, estudo, captura, integrações | não começado | V14 |
-| **V16** | ED0 | Confirmar a biblioteca do editor (V16-4: manter o campo de texto, D343) e mandar o corpus de anotações reais para o ED1 (as outras decisões respondidas em 25/11) | pendente | dono |
+| **V16** | ED1 | Mandar o corpus de anotações reais (`tests/fixtures/notas/`, sem dado pessoal) | pendente | dono |
+| V16 | opcional | **Editor de blocos** (no lugar do campo de texto Markdown): adiado pelo dono em 25/11 (V16-4, D345). O `react-native-webview` já está no app; o custo é a conversão de e para Markdown sem perda e o peso no Moto E14 | opcional | dono |
 | V16 | ED1 a ED7, FN, PR1 a PR8 | Editor e Processos (BPM leve), sobre o motor do V14 | não começado | a Parte A espera o V16-4; a Parte B pode seguir |
 
 ## Decisões do dono em aberto
