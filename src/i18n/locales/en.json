@@ -4722,7 +4722,16 @@
     "perLine_other": "{{count}} tasks, one per line",
     "perLineHint": "In the Inbox, checking first in Add several.",
     "asNote": "Save as note",
-    "asNoteHint": "With the source link in the properties, like a web clip."
+    "asNoteHint": "With the source link in the properties, like a web clip.",
+    "oneTaskFile": "New task with the attachment",
+    "oneTaskFileHint": "Pick the list and the details; the file becomes the task attachment.",
+    "file": {
+      "tooBig": "The file is over 10 MB, the attachment limit. Large photos get reduced, but PDFs do not.",
+      "unreadable": "Could not read the file. Try sharing it again.",
+      "type": "Only images and PDFs become attachments through Share.",
+      "attached": "{{name}} attached to the task.",
+      "willAttach": "Attachment: {{name}}"
+    }
   },
   "pageExport": {
     "menu": "Export…",

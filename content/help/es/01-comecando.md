@@ -22,7 +22,7 @@ Pega una lista (una por línea), toca **Varias** o usa **+ → Varias a la vez**
 
 ## Desde otra app
 
-En un enlace, un mensaje o una nota de otra app, toca **Compartir** y elige **Questlist**. Se abre **Recibido de otra app**: **Crear una tarea** (el título viene rellenado y el texto y el enlace van a la descripción; eliges la lista) o, si vienen varias líneas, **una tarea por línea** en la Bandeja de entrada, revisando antes. En Android, funciona con la app instalada por el APK (desde esta versión); en el ordenador y en el móvil sin el APK, instala la app desde el navegador (Chrome o Edge: **Instalar app** en el menú) y aparece en Compartir. En iPhone, todavía no.
+En un enlace, un mensaje o una nota de otra app, toca **Compartir** y elige **Questlist**. Se abre **Recibido de otra app**: **Crear una tarea** (el título viene rellenado y el texto y el enlace van a la descripción; eliges la lista) o, si vienen varias líneas, **una tarea por línea** en la Bandeja de entrada, revisando antes. En Android, funciona con la app instalada por el APK (desde esta versión); en el ordenador y en el móvil sin el APK, instala la app desde el navegador (Chrome o Edge: **Instalar app** en el menú) y aparece en Compartir. En iPhone, todavía no. **Foto o PDF** (de la galería, del correo, de WhatsApp): **Nueva tarea con el adjunto** crea la tarea en la lista que elijas, con el nombre del archivo como título y el archivo como adjunto. La foto grande se reduce; el PDF llega hasta 10 MB (arriba de eso, la pantalla lo explica y no la crea). Imagen y PDF por Compartir solo funcionan en la app de Android (necesita el APK nuevo).
 
 ## Marcar
 

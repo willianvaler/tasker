@@ -22,7 +22,7 @@ Paste a list (one per line), tap **Many** or use **+ → Several at once**. Inde
 
 ## From another app
 
-On a link, a message or a note in another app, tap **Share** and pick **Questlist**. **Received from another app** opens: **Create a task** (the title comes filled in and the text and link go to the description; you pick the list) or, when there are several lines, **one task per line** in the Inbox, checking first. On Android, it works with the app installed from the APK (from this version on); on a computer or a phone without the APK, install the app from the browser (Chrome or Edge: **Install app** in the menu) and it shows up in Share. On iPhone, not yet.
+On a link, a message or a note in another app, tap **Share** and pick **Questlist**. **Received from another app** opens: **Create a task** (the title comes filled in and the text and link go to the description; you pick the list) or, when there are several lines, **one task per line** in the Inbox, checking first. On Android, it works with the app installed from the APK (from this version on); on a computer or a phone without the APK, install the app from the browser (Chrome or Edge: **Install app** in the menu) and it shows up in Share. On iPhone, not yet. **Photo or PDF** (from the gallery, email, WhatsApp): **New task with the attachment** creates the task in the list you pick, with the file name as the title and the file as the attachment. Large photos are reduced; PDFs go up to 10 MB (above that, the screen explains and does not create it). Images and PDFs through Share only work in the Android app (needs the new APK).
 
 ## Checking off
 

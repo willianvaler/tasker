@@ -1,7 +1,7 @@
 import { uuidv7 } from '@/lib/uuid';
 import { isTouchScreen } from '@/lib/touch';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ChevronDown, X } from 'lucide-react-native';
+import { ChevronDown, Paperclip, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput, View } from 'react-native';
@@ -13,6 +13,7 @@ import { RecurrenceEditor } from '@/components/tasks/task-extras';
 import { Button, IconButton } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConfirmDialog, useDialog } from '@/components/ui/dialog';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Sheet } from '@/components/ui/sheet';
 import { Text, textClass } from '@/components/ui/text';
@@ -23,6 +24,7 @@ import { getLastPageId, setLastPageId } from '@/lib/prefs';
 import type { RepeatPlan } from '@/lib/repeat';
 import { useToday } from '@/lib/queries/profile';
 import { exerciseName, useExerciseCatalog } from '@/lib/queries/exercises';
+import { useAttachmentMutations } from '@/lib/queries/attachments';
 import { useCreateTasks, useUpdateTask } from '@/lib/queries/tasks';
 import { isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { useColors } from '@/lib/tokens';
@@ -39,12 +41,17 @@ const PRIORITIES = [
 export default function NewTaskScreen() {
   const { t, i18n } = useTranslation();
   const colors = useColors();
-  // `title` e `notes`: já preenchidos (o que chegou pelo Compartilhar de outro app, PB8)
+  // `title` e `notes`: já preenchidos (o que chegou pelo Compartilhar de outro app, PB8); `file*`:
+  // a imagem ou o PDF compartilhado, que vira anexo depois de criar (CP1, D366)
   const params = useLocalSearchParams<{
     page?: string;
     folder?: string;
     title?: string;
     notes?: string;
+    fileUri?: string;
+    fileName?: string;
+    fileMime?: string;
+    fileSize?: string;
   }>();
   const tree = useTree();
   const today = useToday();
@@ -64,6 +71,17 @@ export default function NewTaskScreen() {
     captureTargetId(params, pages, (id) => folderScope(tree.data?.folders, id), getLastPageId()) ??
     null;
   const page = pages.find((p) => p.id === pageId) ?? tree.data?.inbox ?? undefined;
+  // O id nasce aqui para o anexo saber de qual tarefa é
+  const [newId] = useState(() => uuidv7());
+  const attach = useAttachmentMutations({ id: newId, folder_id: null, page_id: page?.id ?? null });
+  const sharedFile = params.fileUri
+    ? {
+        uri: params.fileUri,
+        name: params.fileName || null,
+        mime: params.fileMime || null,
+        size: params.fileSize ? Number(params.fileSize) : null,
+      }
+    : null;
   // Página de treino (AC2, D234): séries e observação; data, prioridade e etiquetas em "Mais opções"
   const [more, setMore] = useState(false);
   const workout = !!page && isWorkoutPage(tree.data, page);
@@ -89,8 +107,8 @@ export default function NewTaskScreen() {
 
   function save() {
     if (!title.trim() || !page) return false;
-    const id = uuidv7();
-    create.mutate({
+    const id = newId;
+    const created = create.mutateAsync({
       pageId: page.id,
       items: [
         {
@@ -113,6 +131,13 @@ export default function NewTaskScreen() {
     });
     // Notas não entram no create_tasks_batch: vão logo depois, na mesma fila
     if (notes.trim()) update.mutate({ id, patch: { notes: notes.trim() } });
+    // O anexo sobe depois que a tarefa existe (a promessa resolve mesmo com a tela fechada)
+    if (sharedFile)
+      void created
+        .then(() => attach.add.mutateAsync(sharedFile))
+        .then(() => toast({ message: t('shared.file.attached', { name: sharedFile.name ?? '' }) }))
+        .catch((err: Error) => toast({ message: err.message }));
+    else void created.catch(() => undefined);
     setLastPageId(page.id);
     toast({ message: t('advanced.created', { page: pageLabel(page) }) });
     router.replace({ pathname: '/task/[id]', params: { id } });
@@ -149,6 +174,15 @@ export default function NewTaskScreen() {
         maxLength={500}
         className={textClass('min-h-11 text-lg font-semibold text-ink')}
       />
+
+      {sharedFile && (
+        <View className="flex-row items-center gap-2">
+          <Icon icon={Paperclip} size={16} tone="ink-muted" />
+          <Text className="flex-1 text-sm text-ink" numberOfLines={1}>
+            {t('shared.file.willAttach', { name: sharedFile.name ?? '' })}
+          </Text>
+        </View>
+      )}
 
       <Field label={t('advanced.page')}>
         <View className="flex-row flex-wrap gap-2" accessibilityRole="radiogroup">

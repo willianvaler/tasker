@@ -54,3 +54,44 @@ export function hostOf(url: string | null) {
 export function sharedNotes(content: SharedContent) {
   return [...content.lines, content.url].filter(Boolean).join('\n').slice(0, 10000);
 }
+
+// ---------------------------------------------------------------------------------------------
+// Arquivo compartilhado (CP1, D366): imagem ou PDF que vira anexo da tarefa
+// ---------------------------------------------------------------------------------------------
+
+export type SharedFileInput = {
+  fileUri?: string | null;
+  fileName?: string | null;
+  fileMime?: string | null;
+  fileSize?: string | null;
+};
+export type SharedFile = { uri: string; name: string; mime: string | null; size: number | null };
+export type SharedFileResult =
+  | { file: SharedFile; problem: null }
+  | { file: null; problem: 'tooBig' | 'unreadable' | 'type' }
+  | { file: null; problem: null };
+
+const ACCEPTED = /^(image\/|application\/pdf$)/i;
+
+/**
+ * Lê o arquivo dos parâmetros da tela. Imagem grande ainda passa (o anexo reduz antes de subir);
+ * PDF acima do limite, ou o que nem foi copiado, é recusado com o motivo.
+ */
+export function sharedFile(
+  input: SharedFileInput,
+  limits: { maxBytes: number; compressible: (mime: string | null) => boolean },
+): SharedFileResult {
+  const name = (input.fileName ?? '').trim();
+  if (!name) return { file: null, problem: null };
+  const mime = (input.fileMime ?? '').trim() || null;
+  const size = input.fileSize && /^\d+$/.test(input.fileSize) ? Number(input.fileSize) : null;
+  if (mime && !ACCEPTED.test(mime)) return { file: null, problem: 'type' };
+  const big = size != null && size > limits.maxBytes && !limits.compressible(mime);
+  if (big) return { file: null, problem: 'tooBig' };
+  const uri = (input.fileUri ?? '').trim();
+  if (!uri) return { file: null, problem: size != null && size > limits.maxBytes ? 'tooBig' : 'unreadable' };
+  return { file: { uri, name, mime, size }, problem: null };
+}
+
+/** Título da tarefa quando só veio o arquivo: o nome sem a extensão. */
+export const fileTitle = (name: string) => name.replace(/\.[a-z0-9]{1,5}$/i, '').trim() || name;

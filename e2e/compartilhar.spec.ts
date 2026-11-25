@@ -37,3 +37,31 @@ test('compartilhar: link vira tarefa com a descrição; lista vira várias', asy
   await expect(page.getByRole('checkbox', { name: `Concluir Mercado ${stamp}` })).toBeVisible();
   await expect(page.getByRole('checkbox', { name: `Concluir Receita ${stamp}` })).toBeVisible();
 });
+
+// CP1 (ESCOPO_V15 §7, D366): imagem ou PDF que chega pelo Compartilhar vira anexo da tarefa, na
+// lista escolhida; PDF acima do limite é recusado com o motivo. Na web a cópia é um data:, no
+// Android o file:// do cache do app.
+test('compartilhar: imagem vira anexo; PDF grande demais é recusado', async ({ page }, testInfo) => {
+  await signUp(page, testInfo);
+  const stamp = Date.now();
+  const png =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+  const big = 12 * 1024 * 1024;
+  await page.goto(
+    `/compartilhar?fileUri=x&fileName=${encodeURIComponent('Manual.pdf')}&fileMime=application/pdf&fileSize=${big}`,
+  );
+  await expect(page.getByText(/passa de 10 MB/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Nova tarefa com o anexo' })).toBeDisabled();
+
+  await page.goto(
+    `/compartilhar?fileUri=${encodeURIComponent(png)}&fileName=${encodeURIComponent(
+      `Recibo ${stamp}.png`,
+    )}&fileMime=image/png&fileSize=70`,
+  );
+  await expect(page.getByText(`Recibo ${stamp}.png`, { exact: false }).first()).toBeVisible();
+  await page.getByRole('button', { name: 'Nova tarefa com o anexo' }).click();
+  await expect(page.getByRole('textbox', { name: 'Título' })).toHaveValue(`Recibo ${stamp}`);
+  await expect(page.getByText(`Anexo: Recibo ${stamp}.png`)).toBeVisible();
+  await page.getByRole('button', { name: 'Criar tarefa' }).click();
+  await expect(page.getByText(`Recibo ${stamp}.png anexado à tarefa.`)).toBeVisible({ timeout: 30_000 });
+});

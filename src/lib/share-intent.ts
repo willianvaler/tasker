@@ -13,7 +13,19 @@ export function useShareIntent() {
       if (!shared) return;
       router.push({
         pathname: '/compartilhar',
-        params: { title: shared.title ?? '', text: shared.text ?? '' },
+        params: {
+          title: shared.title ?? '',
+          text: shared.text ?? '',
+          // Imagem ou PDF (CP1): a cópia no cache do app vira anexo da tarefa
+          ...(shared.fileName
+            ? {
+                fileUri: shared.fileUri ?? '',
+                fileName: shared.fileName,
+                fileMime: shared.fileMime ?? '',
+                fileSize: shared.fileSize ?? '',
+              }
+            : {}),
+        },
       });
     };
     open(ShareIntent.take());

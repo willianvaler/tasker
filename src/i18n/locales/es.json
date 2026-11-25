@@ -4722,7 +4722,16 @@
     "perLine_other": "{{count}} tareas, una por línea",
     "perLineHint": "En la Bandeja de entrada, revisando antes en Agregar varias.",
     "asNote": "Guardar como nota",
-    "asNoteHint": "Con el enlace de origen en las propiedades, como un recorte de la web."
+    "asNoteHint": "Con el enlace de origen en las propiedades, como un recorte de la web.",
+    "oneTaskFile": "Nueva tarea con el adjunto",
+    "oneTaskFileHint": "Elige la lista y los detalles; el archivo queda como adjunto de la tarea.",
+    "file": {
+      "tooBig": "El archivo pasa de 10 MB, el límite del adjunto. Las fotos grandes se reducen, pero los PDF no.",
+      "unreadable": "No se pudo leer el archivo. Prueba compartirlo de nuevo.",
+      "type": "Solo las imágenes y los PDF se adjuntan desde Compartir.",
+      "attached": "{{name}} adjuntado a la tarea.",
+      "willAttach": "Adjunto: {{name}}"
+    }
   },
   "pageExport": {
     "menu": "Exportar…",
