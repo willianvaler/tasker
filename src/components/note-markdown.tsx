@@ -27,6 +27,7 @@ import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
 
 import { LinkPreview, type Peek, type PeekTarget } from '@/components/link-preview';
+import { NoteButton } from '@/components/note-button';
 import { NoteEmbed } from '@/components/note-embed';
 import { QueryBlock } from '@/components/note-query';
 import { Icon } from '@/components/ui/icon';
@@ -384,6 +385,7 @@ export function NoteMarkdown({
       | NoteSegment
       | { kind: 'embed'; index: number }
       | { kind: 'query'; index: number }
+      | { kind: 'button'; index: number }
       | { kind: 'math'; tex: string }
     )[] =>
       segment.kind === 'markdown'
@@ -418,7 +420,19 @@ export function NoteMarkdown({
   return (
     <View className="gap-1">
       {segments.map((segment, i) => {
-        if (plain && (segment.kind === 'query' || segment.kind === 'embed')) return null;
+        if (
+          plain &&
+          (segment.kind === 'query' || segment.kind === 'embed' || segment.kind === 'button')
+        )
+          return null;
+        if (segment.kind === 'button') {
+          // A anotação dona deste texto é a última da trilha (a de fora ou a incorporada)
+          const owner = trail?.at(-1)?.split('#')[0];
+          const source = embedded.buttons[segment.index];
+          return source !== undefined ? (
+            <NoteButton key={i} source={source} noteId={owner} />
+          ) : null;
+        }
         if (segment.kind === 'math') return <MathView key={i} tex={segment.tex} display />;
         if (segment.kind === 'query') {
           const source = embedded.queries[segment.index];

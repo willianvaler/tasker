@@ -25,7 +25,7 @@ import {
   useNotes,
   type Note,
 } from '@/lib/queries/notes';
-import { useTimeZone, useToday, useUiPrefs } from '@/lib/queries/profile';
+import { useProfile, useTimeZone, useToday, useUiPrefs } from '@/lib/queries/profile';
 import { pickRandom } from '@/lib/search';
 import { useSession } from '@/providers/session';
 import { useToast } from '@/providers/toast';
@@ -43,6 +43,7 @@ export default function NotesScreen() {
   const today = useToday();
   const timeZone = useTimeZone();
   const dailyTemplate = useUiPrefs().notes?.dailyTemplate;
+  const person = useProfile().data?.display_name;
   const [picking, setPicking, closePicking] = useDialog<true>();
   const [naming, setNaming, closeNaming] = useDialog<Note>();
   // As pessoais (as de pasta ficam na pasta); as de outra pessoa compartilhadas comigo à parte (OB14)
@@ -55,14 +56,26 @@ export default function NotesScreen() {
   const templateList = templates.data ?? [];
 
   const open = (id: string) => router.push({ pathname: '/nota/[id]', params: { id } });
-  const createFrom = (template: Note, title: string) =>
-    m.create
-      .mutateAsync({
-        title,
-        ...fromTemplate(template, { date: today, time: timeIn(timeZone), title }),
-      })
-      .then(open)
-      .catch((err: Error) => toast({ message: err.message }));
+  const createFrom = (template: Note, title: string) => {
+    const { cursor, ...content } = fromTemplate(template, {
+      date: today,
+      time: timeIn(timeZone),
+      title,
+      person: person ?? '',
+    });
+    return (
+      m.create
+        .mutateAsync({ title, ...content })
+        // {{cursor}} (ED4): abre editando, com o cursor onde o modelo pediu
+        .then((id) =>
+          router.push({
+            pathname: '/nota/[id]',
+            params: cursor === null ? { id } : { id, cursor: String(cursor) },
+          }),
+        )
+        .catch((err: Error) => toast({ message: err.message }))
+    );
+  };
   const newTemplate = () =>
     m.create
       .mutateAsync({ title: t('templatesNotes.newTitle'), isTemplate: true })

@@ -57,6 +57,8 @@ export type TemplateValues = {
   /** Hora, HH:MM */
   time: string;
   title: string;
+  /** Quem cria (ED4): o nome da pessoa */
+  person?: string;
 };
 
 const NAMES: Record<string, keyof TemplateValues> = {
@@ -70,7 +72,21 @@ const NAMES: Record<string, keyof TemplateValues> = {
   time: 'time',
   titulo: 'title',
   title: 'title',
+  pessoa: 'person',
+  person: 'person',
+  persona: 'person',
 };
+
+/** `{{cursor}}` (ED4): onde o cursor fica ao abrir a anotação criada do modelo */
+const CURSOR = /\{\{\s*cursor\s*\}\}/i;
+
+/** Tira o primeiro `{{cursor}}` (e os outros) e diz onde ele estava; sem ele, `null` */
+export function takeCursor(text: string): { text: string; cursor: number | null } {
+  const m = CURSOR.exec(text);
+  if (!m) return { text, cursor: null };
+  const cursor = m.index;
+  return { text: text.replace(/\{\{\s*cursor\s*\}\}/gi, ''), cursor };
+}
 
 const VARIABLE = /\{\{\s*([\p{L}]+)\s*\}\}/gu;
 
@@ -78,7 +94,7 @@ const VARIABLE = /\{\{\s*([\p{L}]+)\s*\}\}/gu;
 export function renderTemplate(text: string, values: TemplateValues) {
   return text.replace(VARIABLE, (whole, raw: string) => {
     const key = NAMES[raw.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '')];
-    return key ? values[key] : whole;
+    return key ? (values[key] ?? whole) : whole;
   });
 }
 

@@ -126,3 +126,19 @@ describe('transclusão de bloco (ED2)', () => {
     expect(MAX_EMBED_DEPTH).toBe(3);
   });
 });
+
+describe('bloco de botão (ED4)', () => {
+  test('a cerca questlist-button vira marca, com o JSON guardado', () => {
+    const r = extractEmbeds(
+      'Antes\n```questlist-button\n{"rotulo": "Ata", "acao": {"tipo": "criar_tarefa"}}\n```\nDepois',
+    );
+    expect(r.buttons).toEqual(['{"rotulo": "Ata", "acao": {"tipo": "criar_tarefa"}}']);
+    expect(splitEmbedMarks(r.text).map((p) => p.kind)).toEqual(['markdown', 'button', 'markdown']);
+  });
+
+  test('sem fechar, fica como texto (não roda)', () => {
+    const r = extractEmbeds('```questlist-button\n{"rotulo": "x"');
+    expect(r.buttons).toEqual([]);
+    expect(r.text).toContain('```questlist-button');
+  });
+});

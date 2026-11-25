@@ -75,6 +75,10 @@ To tag, write `#tag` in the text or put it in the tags property. Use a slash to 
 
 A **template** is a note used as a starting point. In Notes → **Templates**, **New template**; or, in a note, **More options** → **Turn into a template**. Templates do not show in lists. In the template text, `{{date}}`, `{{time}}` and `{{title}}` become the day, the time and the title when it is used. **From template** (in Notes) creates a note from one of them, and **Use for the daily note** makes every new daily note start with it.
 
+In a template, `{{person}}` becomes your name and `{{cursor}}` marks where the editor opens the new note (already editing).
+
+**Buttons:** a `questlist-button` code block with `{"rotulo": "Write minutes", "acao": {"tipo": "criar_tarefa", "titulo": "Minutes of {{evento.titulo}}"}}` becomes a button. The action is one of the automation actions: create task (without `lista`, it goes to the Inbox), notify, append text, set property, add tag, create from template, start a process, run another automation or `marcar` (which fires the "note button pressed" trigger). Each press goes to the history of the **Botões das anotações** automation. Webhook and device ask for confirmation, and a button that reads sensitive data (`{{saude.…}}`, `{{local.…}}`, `{{camera.…}}`, `{{dispositivo.…}}`) won't run. It needs internet. To create a note from a template every Monday at 9:00, use a time automation with **Create a note from a template**.
+
 ### Queries
 
 A ` ```questlist ` fence (or the `/query` command) shows, inside the note, the tasks or notes that match a question written in words:

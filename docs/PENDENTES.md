@@ -50,7 +50,7 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | **V15** | — | Contexto do celular, câmeras, casa, saúde, estudo, captura, integrações | não começado | V14 |
 | **V16** | ED1 | Mandar o corpus de anotações reais (`tests/fixtures/notas/`, sem dado pessoal) | pendente | dono |
 | V16 | opcional | **Editor de blocos** (no lugar do campo de texto Markdown): adiado pelo dono em 25/11 (V16-4, D345). O `react-native-webview` já está no app; o custo é a conversão de e para Markdown sem perda e o peso no Moto E14 | opcional | dono |
-| V16 | ED2, ED3, ED4, CL1 | Editor (transclusão, propriedades tipadas e relações, botões) e a colaboração ao vivo | parcial | ED1, ED5 a ED7, FN e PR1 a PR8 feitos; o editor de blocos é opcional (D345) |
+| V16 | CL1, ED5 (o que reprovou) | Colaboração ao vivo; abrir 5.000 blocos e digitar com 20 mil palavras ainda acima do orçamento | parcial | o resto do V16 feito; o editor de blocos é opcional (D345); medir no Moto E14 |
 
 ## Decisões do dono em aberto
 

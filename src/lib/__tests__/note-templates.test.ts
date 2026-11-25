@@ -1,6 +1,7 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, test } from '@jest/globals';
 
 import {
+  takeCursor,
   dailyNoteDays,
   findDailyNote,
   isDailyNote,
@@ -61,5 +62,20 @@ describe('modelos (OB5)', () => {
     const at = new Date('2026-11-03T11:05:00Z');
     expect(timeIn('America/Sao_Paulo', at)).toBe('08:05');
     expect(timeIn('UTC', at)).toBe('11:05');
+  });
+});
+
+describe('variáveis do modelo (ED4)', () => {
+  test('{{pessoa}} e o {{cursor}}', () => {
+    const corpo = renderTemplate('Reunião com {{pessoa}}\n\n{{cursor}}\n\nFim', {
+      date: '2026-11-25',
+      time: '09:00',
+      title: 'x',
+      person: 'Ana',
+    });
+    expect(takeCursor(corpo)).toEqual({ text: 'Reunião com Ana\n\n\n\nFim', cursor: 17 });
+    expect(takeCursor('sem')).toEqual({ text: 'sem', cursor: null });
+    // Sem a pessoa, a variável fica como está
+    expect(renderTemplate('{{pessoa}}', { date: '', time: '', title: '' })).toBe('{{pessoa}}');
   });
 });

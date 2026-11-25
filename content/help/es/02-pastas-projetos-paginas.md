@@ -75,6 +75,10 @@ Para etiquetar, escribe `#etiqueta` en el texto o ponla en la propiedad tags. Us
 
 Una **plantilla** es una nota que sirve de punto de partida. En Notas → **Plantillas**, **Nueva plantilla**; o, en una nota, **Más opciones** → **Convertir en plantilla**. Las plantillas no aparecen en las listas. En el texto de la plantilla, `{{fecha}}`, `{{hora}}` y `{{titulo}}` se cambian por el día, la hora y el título al usarla. **Desde plantilla** (en Notas) crea una nota a partir de una de ellas, y **Usar en la nota del día** hace que cada nota del día nueva empiece con ella.
 
+En la plantilla, `{{persona}}` se vuelve tu nombre y `{{cursor}}` marca dónde el editor abre la nota creada (ya editando).
+
+**Botones:** un bloque de código `questlist-button` con `{"rotulo": "Crear el acta", "acao": {"tipo": "criar_tarefa", "titulo": "Acta de {{evento.titulo}}"}}` se vuelve un botón. La acción es una de las automatizaciones: crear tarea (sin `lista`, va a la Bandeja de entrada), avisar, añadir texto, definir propiedad, etiquetar, crear desde plantilla, iniciar un proceso, ejecutar otra automatización o `marcar` (que dispara "botón de la nota pulsado"). Cada pulsación queda en el historial de la automatización **Botões das anotações**. Webhook y dispositivo piden confirmación, y el botón que lee datos sensibles (`{{saude.…}}`, `{{local.…}}`, `{{camera.…}}`, `{{dispositivo.…}}`) no se ejecuta. Necesita internet. Para crear una nota desde plantilla cada lunes a las 9:00, usa una automatización de horario con **Crear nota desde plantilla**.
+
 ### Consultas
 
 Una cerca ` ```questlist ` (o el comando `/consulta`) muestra, dentro de la nota, las tareas o notas que cumplen una pregunta escrita en palabras:

@@ -5627,5 +5627,12 @@
       "ateConcluido": "Hasta marcar Terminado"
     },
     "ofPage": "Procesos de esta página"
+  },
+  "noteButton": {
+    "done": "Hecho: {{label}}",
+    "sensitive": "Este botón lee datos sensibles (salud, ubicación, cámara, dispositivo) y no se ejecuta.",
+    "offline": "Necesita internet.",
+    "confirm": "Este botón toca un webhook o un dispositivo. ¿Ejecutarlo ahora?",
+    "run": "Ejecutar"
   }
 }

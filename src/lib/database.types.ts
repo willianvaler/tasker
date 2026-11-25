@@ -3627,6 +3627,9 @@ isOneToOne: false
 "_note_shared":
 { Args: { "p_edit": boolean,"p_note": string }; Returns: boolean
                            },
+"_note_visible":
+{ Args: { "p_note": string }; Returns: boolean
+                           },
 "_notify":
 { Args: { "p_kind": string,"p_payload": Json,"p_user": string }; Returns: undefined
                            },
@@ -3646,6 +3649,9 @@ isOneToOne: false
 { Args: { "p_set": Omit<Database["public"]['Tables']["workout_sets"]['Row'], Database["public"]['Tables']["workout_sets"]['ComputedFields']>,"p_tz": string }; Returns: {
               "day": string,"distance_m": number,"duration_seconds": number,"reps": number,"weight_kg": number
             }[]
+                           },
+"_process_check_calls":
+{ Args: { "p_definition": string,"p_graph": Json }; Returns: undefined
                            },
 "_process_child_done":
 { Args: { "p_child": Omit<Database["public"]['Tables']["process_instances"]['Row'], Database["public"]['Tables']["process_instances"]['ComputedFields']> }; Returns: undefined
@@ -3699,6 +3705,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"_process_page_start":
+{ Args: { "p_dados": Json,"p_kind": string,"p_note": Omit<Database["public"]['Tables']["notes"]['Row'], Database["public"]['Tables']["notes"]['ComputedFields']>,"p_owner": string }; Returns: undefined
+                           },
 "_process_resolve_wait":
 { Args: { "p_result": Json,"p_wait": string }; Returns: undefined
                            },
@@ -4535,6 +4544,12 @@ isOneToOne: false
                            },
 "normalize_labels":
 { Args: { "p_labels": (string)[] }; Returns: (string)[]
+                           },
+"note_button_run":
+{ Args: { "p_acao": Json,"p_confirmado"?: boolean,"p_note": string,"p_rotulo": string }; Returns: Json
+                           },
+"note_mark":
+{ Args: { "p_marca": string,"p_note": string }; Returns: undefined
                            },
 "note_tags":
 { Args: { "p_body": string,"p_props": Json }; Returns: (string)[]

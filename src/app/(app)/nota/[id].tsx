@@ -104,12 +104,23 @@ function contentKey(c: { title: string; body: string; props?: NoteProps | null }
 export default function NoteScreen() {
   // `secao`: a âncora de um link [[Anotação#Seção]] (OB1): abre formatada e rola até o título.
   // `lado`: a anotação ou lista aberta ao lado, no computador (OB12)
-  const { id, secao, lado } = useLocalSearchParams<{ id: string; secao?: string; lado?: string }>();
+  const { id, secao, lado, cursor } = useLocalSearchParams<{
+    id: string;
+    secao?: string;
+    lado?: string;
+    cursor?: string;
+  }>();
   const canSplit = useCanSplit();
   const side = canSplit ? parseSide(lado) : null;
   const closeSide = () => router.setParams({ lado: undefined });
   const main = (
-    <NoteMain id={id} section={secao} canSplit={canSplit} split={!!side && side.id !== id} />
+    <NoteMain
+      id={id}
+      section={secao}
+      cursor={cursor && /^\d+$/.test(cursor) ? Number(cursor) : undefined}
+      canSplit={canSplit}
+      split={!!side && side.id !== id}
+    />
   );
   if (!side || side.id === id) return main;
   return (
@@ -129,12 +140,15 @@ export default function NoteScreen() {
 function NoteMain({
   id,
   section,
+  cursor,
   canSplit = false,
   split = false,
   pane,
 }: {
   id: string;
   section?: string;
+  /** `{{cursor}}` do modelo (ED4): abre editando, com o cursor ali */
+  cursor?: number;
   canSplit?: boolean;
   /** Há outra coisa aberta ao lado: o sumário vai para o menu */
   split?: boolean;
@@ -173,6 +187,7 @@ function NoteMain({
       key={note.id}
       note={note}
       section={section}
+      cursor={cursor}
       canSplit={canSplit}
       compact={split || !!pane}
       pane={pane}
@@ -183,12 +198,14 @@ function NoteMain({
 function Editor({
   note,
   section,
+  cursor,
   canSplit,
   compact,
   pane,
 }: {
   note: Note;
   section?: string;
+  cursor?: number;
   canSplit: boolean;
   compact: boolean;
   pane?: () => void;
@@ -216,14 +233,16 @@ function Editor({
   const [title, setTitle] = useState(note.title);
   const [body, setBody] = useState(note.body);
   // Com texto, abre formatada; vazia, já no editor
-  const [editingState, setEditing] = useState(!note.body.trim() && !isSharedWithMe(note, me));
+  const [editingState, setEditing] = useState(
+    (cursor !== undefined || !note.body.trim()) && !isSharedWithMe(note, me),
+  );
   const editing = editingState && !readOnly;
-  const [selection, setSelection] = useState<Selection>({
-    start: note.body.length,
-    end: note.body.length,
-  });
-  // Seleção imposta depois de formatar; some no próximo movimento do cursor
-  const [forced, setForced] = useState<Selection | undefined>();
+  const inicio = cursor !== undefined ? Math.min(cursor, note.body.length) : note.body.length;
+  const [selection, setSelection] = useState<Selection>({ start: inicio, end: inicio });
+  // Seleção imposta depois de formatar (ou o {{cursor}} do modelo); some no próximo movimento
+  const [forced, setForced] = useState<Selection | undefined>(
+    cursor !== undefined ? { start: inicio, end: inicio } : undefined,
+  );
   const input = useRef<TextInput>(null);
   const scroll = useRef<ScrollView>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<true>();

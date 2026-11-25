@@ -8,7 +8,10 @@ import { parseLinks, headingKey, type WikiLink } from '@/lib/wikilinks';
 /** Marca que fica no lugar do ![[...]] até a hora de desenhar (não é Markdown que se escreva) */
 const MARK = '%%questlist-embed:';
 const QUERY_MARK = '%%questlist-query:';
-const MARK_LINE = /^%%questlist-(embed|query):(\d+)%%$/;
+const BUTTON_MARK = '%%questlist-button:';
+const MARK_LINE = /^%%questlist-(embed|query|button):(\d+)%%$/;
+/** O botão (ED4): ```questlist-button com o JSON */
+const BUTTON_FENCE = /^\s*```\s*questlist-button\s*$/i;
 /** A cerca de código da consulta (OB7): ```questlist (também ```query e ```consulta) */
 const QUERY_FENCE = /^\s*```\s*(questlist|query|consulta)\s*$/i;
 
@@ -53,14 +56,31 @@ export function extractEmbeds(text: string): {
   text: string;
   embeds: WikiLink[];
   queries: string[];
+  buttons: string[];
 } {
   const embeds: WikiLink[] = [];
   const queries: string[] = [];
-  if (!text.includes('![[') && !text.includes('```')) return { text, embeds, queries };
+  const buttons: string[] = [];
+  if (!text.includes('![[') && !text.includes('```')) return { text, embeds, queries, buttons };
+  // O botão aberto: as linhas do JSON até fechar a cerca
+  let button: string[] | null = null;
   let fence = false;
   // A consulta aberta: as linhas dela até fechar a cerca
   let query: string[] | null = null;
   const lines = text.split('\n').flatMap((line): string[] => {
+    if (button) {
+      if (/^\s*```\s*$/.test(line)) {
+        buttons.push(button.join('\n'));
+        button = null;
+        return [`${BUTTON_MARK}${buttons.length - 1}%%`];
+      }
+      button.push(line);
+      return [];
+    }
+    if (!fence && !query && BUTTON_FENCE.test(line)) {
+      button = [];
+      return [];
+    }
     if (query) {
       if (/^\s*```\s*$/.test(line)) {
         queries.push(query.join('\n').trim());
@@ -92,13 +112,17 @@ export function extractEmbeds(text: string): {
     queries.push(open.join('\n').trim());
     lines.push(`${QUERY_MARK}${queries.length - 1}%%`);
   }
-  return { text: lines.join('\n'), embeds, queries };
+  // Botão sem fechar: fica como texto (não roda o que não terminou)
+  const openButton = button as string[] | null;
+  if (openButton) lines.push('```questlist-button', ...openButton);
+  return { text: lines.join('\n'), embeds, queries, buttons };
 }
 
 export type EmbedPart =
   | { kind: 'markdown'; text: string }
   | { kind: 'embed'; index: number }
-  | { kind: 'query'; index: number };
+  | { kind: 'query'; index: number }
+  | { kind: 'button'; index: number };
 
 /** Separa um trecho de Markdown nas marcas do `extractEmbeds` */
 export function splitEmbedMarks(text: string): EmbedPart[] {
@@ -116,7 +140,7 @@ export function splitEmbedMarks(text: string): EmbedPart[] {
       continue;
     }
     flush();
-    out.push({ kind: m[1] === 'query' ? 'query' : 'embed', index: Number(m[2]) });
+    out.push({ kind: m[1] as 'query' | 'embed' | 'button', index: Number(m[2]) });
   }
   flush();
   return out;

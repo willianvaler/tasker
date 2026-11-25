@@ -75,6 +75,10 @@ Para etiquetar, escreva `#etiqueta` no texto ou ponha na propriedade tags. Use a
 
 Um **modelo** é uma anotação que serve de ponto de partida. Em Anotações → **Modelos**, **Novo modelo**; ou, numa anotação, **Mais opções** → **Transformar em modelo**. Os modelos não aparecem nas listas. No texto do modelo, `{{data}}`, `{{hora}}` e `{{titulo}}` viram o dia, a hora e o título quando ele é usado. **Do modelo** (em Anotações) cria uma anotação a partir de um deles, e **Usar na nota do dia** faz cada nota do dia nova começar com ele.
 
+No modelo, `{{pessoa}}` vira o seu nome e `{{cursor}}` marca onde o editor abre a anotação criada (já editando).
+
+**Botões:** um bloco de código `questlist-button` com `{"rotulo": "Criar a ata", "acao": {"tipo": "criar_tarefa", "titulo": "Ata de {{evento.titulo}}"}}` vira um botão. A ação é uma das automações: criar tarefa (sem `lista`, vai para a Caixa de entrada), avisar, acrescentar texto, definir propriedade, pôr etiqueta, criar de modelo, iniciar processo, rodar outra automação ou `marcar` (que dispara o gatilho "botão da anotação apertado"). Cada aperto fica no histórico da automação **Botões das anotações**. Webhook e dispositivo pedem confirmação, e o botão que lê dado sensível (`{{saude.…}}`, `{{local.…}}`, `{{camera.…}}`, `{{dispositivo.…}}`) não roda. Precisa de internet. Para criar uma anotação de modelo toda segunda às 9 h, use uma automação de horário com **Criar anotação de um modelo**.
+
 ### Consultas
 
 Uma cerca ` ```questlist ` (ou o comando `/consulta`) mostra, dentro da anotação, tarefas ou anotações que batem com uma pergunta escrita em palavras:

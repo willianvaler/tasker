@@ -7,7 +7,7 @@ import { Pressable, View } from 'react-native';
 import { Icon } from '@/components/ui/icon';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
-import { findDailyNote, renderTemplate, timeIn } from '@/lib/note-templates';
+import { findDailyNote, renderTemplate, takeCursor, timeIn } from '@/lib/note-templates';
 import {
   useDayTasks,
   useNoteMutations,
@@ -15,7 +15,7 @@ import {
   type Note,
   type NewNote,
 } from '@/lib/queries/notes';
-import { useTimeZone, useToday, useUiPrefs } from '@/lib/queries/profile';
+import { useProfile, useTimeZone, useToday, useUiPrefs } from '@/lib/queries/profile';
 import { pageLabel } from '@/lib/queries/tree';
 import type { TaskWithPage } from '@/lib/queries/tasks';
 import { useToast } from '@/providers/toast';
@@ -23,12 +23,14 @@ import { useToast } from '@/providers/toast';
 /** O texto de uma anotação nova a partir do modelo (variáveis trocadas) */
 export function fromTemplate(
   template: Pick<Note, 'body' | 'props'>,
-  values: { date: string; time: string; title: string },
-): Pick<NewNote, 'body' | 'props'> {
+  values: { date: string; time: string; title: string; person?: string },
+): Pick<NewNote, 'body' | 'props'> & { cursor: number | null } {
   const props: NewNote['props'] = {};
   for (const [key, value] of Object.entries(template.props ?? {}))
-    props[key] = typeof value === 'string' ? renderTemplate(value, values) : value;
-  return { body: renderTemplate(template.body, values), props };
+    props[key] = typeof value === 'string' ? takeCursor(renderTemplate(value, values)).text : value;
+  // {{cursor}} (ED4): sai do texto e diz onde o editor abre
+  const { text, cursor } = takeCursor(renderTemplate(template.body, values));
+  return { body: text, props, cursor };
 }
 
 /**
@@ -42,6 +44,7 @@ export function useOpenDailyNote() {
   const m = useNoteMutations();
   const toast = useToast();
   const templateId = useUiPrefs().notes?.dailyTemplate;
+  const person = useProfile().data?.display_name;
   const busy = useRef(false);
   return async (date: string = today) => {
     if (busy.current) return;
@@ -54,11 +57,19 @@ export function useOpenDailyNote() {
         return;
       }
       const template = list.find((n) => n.id === templateId && n.is_template);
-      const content = template
-        ? fromTemplate(template, { date, time: timeIn(timeZone), title: date })
-        : {};
+      const { cursor, ...content } = template
+        ? fromTemplate(template, {
+            date,
+            time: timeIn(timeZone),
+            title: date,
+            person: person ?? '',
+          })
+        : { cursor: null };
       const id = await m.create.mutateAsync({ title: date, ...content });
-      router.push({ pathname: '/nota/[id]', params: { id } });
+      router.push({
+        pathname: '/nota/[id]',
+        params: cursor === null ? { id } : { id, cursor: String(cursor) },
+      });
     } catch (err) {
       toast({ message: (err as Error).message });
     } finally {
