@@ -2,7 +2,7 @@ import { Asset } from 'expo-asset';
 import { Directory, File, Paths } from 'expo-file-system';
 import { useEffect, useRef, useState, type MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Dimensions, Keyboard, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import editorBundle from '../../assets/editor/editor.txt';
@@ -134,12 +134,30 @@ export function BlockEditor({
       setLinkSuggestions: (list) => send({ type: 'links', items: list }),
       openMenu: () => send({ type: 'menu' }),
       scrollToCursor: () => undefined,
+      caretRect: () => null,
       destroy: () => undefined,
     };
     return () => {
       apiRef.current = null;
     };
   });
+
+  // O teclado cobre o fim da WebView (ela não encolhe no Android): conta quanto e avisa a página
+  const box = useRef<View>(null);
+  useEffect(() => {
+    const report = (kb: number) =>
+      box.current?.measureInWindow((_x, y, _w, h) => {
+        const screen = Dimensions.get('window').height;
+        send({ type: 'keyboard', overlap: kb > 0 ? Math.max(0, y + h - (screen - kb)) : 0 });
+      });
+    const show = Keyboard.addListener('keyboardDidShow', (e) => report(e.endCoordinates.height));
+    const hide = Keyboard.addListener('keyboardDidHide', () => report(0));
+    return () => {
+      show.remove();
+      hide.remove();
+    };
+    // send lê a WebView pelo ref
+  }, []);
 
   useEffect(() => {
     if (ready.current && value !== last.current) {
@@ -179,7 +197,7 @@ export function BlockEditor({
   }, [suggestionKey]);
 
   return (
-    <View className="min-h-64 flex-1">
+    <View ref={box} className="min-h-64 flex-1">
       {uri && !failed && (
         <WebView
           ref={web}

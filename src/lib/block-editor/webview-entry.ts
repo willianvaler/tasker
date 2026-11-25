@@ -29,6 +29,7 @@ type Incoming =
   | { type: 'math'; id: number; svg: string | null }
   | { type: 'flush' }
   | { type: 'menu' }
+  | { type: 'keyboard'; overlap: number }
   | { type: 'focus' };
 
 declare global {
@@ -92,6 +93,12 @@ window.__ql = {
         return api?.focus();
       case 'menu':
         return api?.openMenu();
+      case 'keyboard':
+        // Quanto o teclado cobre da WebView (ela não encolhe): espaço embaixo e o cursor para cima
+        covered = Math.max(0, msg.overlap);
+        document.body.style.paddingBottom = `${covered}px`;
+        setTimeout(keepCaretVisible, 60);
+        return;
       case 'flush': {
         const md = api?.getMarkdown();
         if (md !== undefined) post({ type: 'change', markdown: md });
@@ -106,6 +113,20 @@ window.__ql = {
     }
   },
 };
+
+let covered = 0;
+
+/** O cursor fica acima do teclado (que cobre `covered` px do fim da WebView) */
+function keepCaretVisible() {
+  const r = api?.caretRect();
+  if (!r) return;
+  const limit = window.innerHeight - covered - 24;
+  if (r.bottom > limit) window.scrollBy(0, r.bottom - limit);
+  else if (r.top < 8) window.scrollBy(0, r.top - 8);
+}
+document.addEventListener('selectionchange', () => {
+  if (covered > 0) requestAnimationFrame(keepCaretVisible);
+});
 
 // O teclado encolhe a WebView: o cursor volta para a vista
 window.addEventListener('resize', () => setTimeout(() => api?.scrollToCursor(), 50));

@@ -23,6 +23,8 @@ export type BlockEditorApi = {
   openMenu(): void;
   /** Rola até o cursor (o teclado do celular encolheu a tela) */
   scrollToCursor(): void;
+  /** Onde está o cursor na tela (para fugir do teclado do celular) */
+  caretRect(): { top: number; bottom: number } | null;
   destroy(): void;
 };
 
@@ -212,6 +214,15 @@ export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEdito
     insertText: (text) => editor.chain().focus().insertContent(text).run(),
     setEditable: (editable) => editor.setEditable(editable),
     setLinkSuggestions: (items) => setLinkSuggestions(editor, items),
+    caretRect: () => {
+      if (!editor.isFocused) return null;
+      try {
+        const c = editor.view.coordsAtPos(editor.state.selection.head);
+        return { top: c.top, bottom: c.bottom };
+      } catch {
+        return null;
+      }
+    },
     scrollToCursor: () => {
       if (editor.isFocused) editor.commands.scrollIntoView();
     },
