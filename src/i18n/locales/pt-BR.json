@@ -2347,7 +2347,11 @@
         "horario": "Num horário",
         "intervalo": "A cada intervalo",
         "webhook": "Chamada de fora (webhook)",
-        "manual": "Só quando eu mandar"
+        "manual": "Só quando eu mandar",
+        "pagina_criada": "Anotação criada",
+        "pagina_propriedade_mudou": "Propriedade da anotação mudou",
+        "pagina_tag_adicionada": "Etiqueta adicionada na anotação",
+        "pagina_marcada_como": "Botão da anotação apertado"
       },
       "passo": {
         "notificar": "Avisar",
@@ -2362,7 +2366,12 @@
         "definir_variavel": "Guardar um valor",
         "se": "Se… senão",
         "parar": "Parar",
-        "alternar_modo_jogo": "Trocar o modo jogo"
+        "alternar_modo_jogo": "Trocar o modo jogo",
+        "iniciar_processo": "Iniciar um processo",
+        "pagina_criar_de_modelo": "Criar anotação de um modelo",
+        "pagina_anexar_texto": "Acrescentar texto na anotação",
+        "pagina_definir_propriedade": "Definir propriedade da anotação",
+        "pagina_adicionar_tag": "Pôr etiqueta na anotação"
       }
     },
     "ed": {
@@ -2589,7 +2598,15 @@
         "perdido": "perdido (atrasou)",
         "teste": "teste",
         "cancelada": "cancelada"
-      }
+      },
+      "appendText": "Texto (vai no fim, nada é apagado)",
+      "pageHint": "Na anotação do evento. Aceita {{evento.titulo}}.",
+      "property": "Propriedade",
+      "tag": "Etiqueta",
+      "noteTemplate": "Modelo de anotação",
+      "noNoteTemplates": "Nenhum modelo de anotação ainda.",
+      "process": "Processo",
+      "noProcesses": "Nenhum processo publicado ainda."
     }
   },
   "approval": {
@@ -5478,7 +5495,12 @@
       "escalate_notificar": "Só avisar",
       "simEnd_concluida": "Simulação: o processo chegou ao fim.",
       "simEnd_falhou": "Simulação: o processo falharia aqui.",
-      "simEnd_limite": "Simulação: passou do limite de passos (laço?)."
+      "simEnd_limite": "Simulação: passou do limite de passos (laço?).",
+      "trigger": "Começa quando",
+      "trigger_manual": "À mão ou por uma automação",
+      "anyValue": "Vazio vale qualquer um.",
+      "mark": "Qual botão",
+      "markHint": "O nome do botão na anotação (vazio: qualquer um)."
     },
     "no": {
       "inicio": "Início",
@@ -5558,6 +5580,7 @@
       "revisao3": "Revisão em 3 dias",
       "revisao7": "Revisão em 7 dias",
       "ateConcluido": "Até marcar Concluído"
-    }
+    },
+    "ofPage": "Processos desta página"
   }
 }

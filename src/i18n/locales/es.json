@@ -2347,7 +2347,11 @@
         "horario": "A una hora",
         "intervalo": "Cada cierto tiempo",
         "webhook": "Llamada externa (webhook)",
-        "manual": "Solo cuando la ejecute"
+        "manual": "Solo cuando la ejecute",
+        "pagina_criada": "Nota creada",
+        "pagina_propriedade_mudou": "Propiedad de la nota cambió",
+        "pagina_tag_adicionada": "Etiqueta añadida a una nota",
+        "pagina_marcada_como": "Botón de la nota pulsado"
       },
       "passo": {
         "notificar": "Avisar",
@@ -2362,7 +2366,12 @@
         "definir_variavel": "Guardar un valor",
         "se": "Si… si no",
         "parar": "Detener",
-        "alternar_modo_jogo": "Cambiar el modo juego"
+        "alternar_modo_jogo": "Cambiar el modo juego",
+        "iniciar_processo": "Iniciar un proceso",
+        "pagina_criar_de_modelo": "Crear nota desde plantilla",
+        "pagina_anexar_texto": "Añadir texto a la nota",
+        "pagina_definir_propriedade": "Definir propiedad de la nota",
+        "pagina_adicionar_tag": "Etiquetar la nota"
       }
     },
     "ed": {
@@ -2589,7 +2598,15 @@
         "perdido": "perdido (se atrasó)",
         "teste": "prueba",
         "cancelada": "cancelada"
-      }
+      },
+      "appendText": "Texto (va al final, no se borra nada)",
+      "pageHint": "En la nota del evento. Acepta {{evento.titulo}}.",
+      "property": "Propiedad",
+      "tag": "Etiqueta",
+      "noteTemplate": "Plantilla de nota",
+      "noNoteTemplates": "Aún no hay plantillas de nota.",
+      "process": "Proceso",
+      "noProcesses": "Aún no hay procesos publicados."
     }
   },
   "approval": {
@@ -5478,7 +5495,12 @@
       "escalate_notificar": "Solo avisar",
       "simEnd_concluida": "Simulación: el proceso llegó al final.",
       "simEnd_falhou": "Simulación: el proceso fallaría aquí.",
-      "simEnd_limite": "Simulación: pasó el límite de pasos (¿bucle?)."
+      "simEnd_limite": "Simulación: pasó el límite de pasos (¿bucle?).",
+      "trigger": "Empieza cuando",
+      "trigger_manual": "A mano o por una automatización",
+      "anyValue": "Vacío vale cualquiera.",
+      "mark": "Qué botón",
+      "markHint": "El nombre del botón en la nota (vacío: cualquiera)."
     },
     "no": {
       "inicio": "Inicio",
@@ -5558,6 +5580,7 @@
       "revisao3": "Repaso en 3 días",
       "revisao7": "Repaso en 7 días",
       "ateConcluido": "Hasta marcar Terminado"
-    }
+    },
+    "ofPage": "Procesos de esta página"
   }
 }

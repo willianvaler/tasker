@@ -103,7 +103,7 @@ describe('catálogo (espelho do automation_catalog() do banco)', () => {
   });
 
   test('o executor só sabe rodar passos do catálogo', () => {
-    for (const t of PASSOS_BASE) expect(CATALOGO.passos).toHaveProperty(t.id);
+    for (const t of PASSOS_BASE) expect(Object.keys(CATALOGO.passos)).toContain(t.id);
   });
 });
 

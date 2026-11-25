@@ -53,3 +53,7 @@ Cada chamada leva também `X-Questlist-Idempotency`: se chegar duas vezes com o 
 ## Receber uma chamada (webhook de entrada)
 
 Numa automação com o gatilho **Chamada de fora**, **Gerar endereço** mostra o endereço **uma vez** (guarde). Mande um `POST` com JSON ou formulário, até 16 KB; a resposta é sempre `202`, sem corpo. **Trocar endereço** invalida o antigo na hora. Há um limite de chamadas por minuto; acima dele, a resposta é `429`.
+
+## Anotações
+
+Criada, propriedade mudou, etiqueta adicionada e botão apertado são gatilhos; acrescentar texto, definir propriedade, pôr etiqueta, criar de um modelo e **iniciar um processo** são ações. Nenhuma ação apaga texto.

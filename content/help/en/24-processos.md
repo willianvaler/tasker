@@ -22,6 +22,10 @@ The design is edited on the web: the **+** buttons add steps, you connect by dra
 
 Conditions and calculations use the same language as calculated fields, with `{var.name}` (variables), `{inicio.*}` (who started it) and `{retorno.*}` (what the last wait returned). Every variable used must be declared.
 
+## Start from a note
+
+In the **Start** step, pick **Starts when**: a note is created, a property changes (for example `status` becomes `Studying`), a tag is added or a note button is pressed. The process stays linked to the note, which shows the **Processes of this page** card. Note actions (append text at the end, set a property, add a tag, create from a template) never erase what's written, and what the process itself changes in the note doesn't start it again. Only stored properties trigger; calculated ones don't.
+
 ## Limits
 
 Up to 200 steps per design, 2,000 steps per instance, 365 days, 500 running processes, 60 starts per hour and 5 functions nested. A failing step can retry (1, 5 and 30 min), take the error path or stop the process; when stopped, **Retry the failed step** tries again. **Pause all** (in Automations) also pauses processes.

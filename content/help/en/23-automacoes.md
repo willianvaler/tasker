@@ -53,3 +53,7 @@ Every call also carries `X-Questlist-Idempotency`: if it arrives twice with the 
 ## Receive a call (incoming webhook)
 
 In an automation with the **Incoming call** trigger, **Generate address** shows the address **once** (keep it). Send a `POST` with JSON or a form, up to 16 KB; the answer is always `202`, with no body. **Change address** invalidates the old one at once. There's a per-minute limit; above it, the answer is `429`.
+
+## Notes
+
+Created, property changed, tag added and button pressed are triggers; append text, set property, add tag, create from a template and **start a process** are actions. No action erases text.

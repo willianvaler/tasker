@@ -22,6 +22,10 @@ O desenho se edita na web: os botões **+** adicionam passos, você liga arrasta
 
 As condições e os cálculos usam a mesma linguagem do campo calculado, com `{var.nome}` (variáveis), `{inicio.*}` (quem iniciou) e `{retorno.*}` (o que a última espera devolveu). Toda variável usada precisa ser declarada.
 
+## Começar por uma anotação
+
+No passo **Início**, escolha **Começa quando**: uma anotação é criada, uma propriedade muda (por exemplo `status` vira `Estudando`), uma etiqueta é adicionada ou um botão da anotação é apertado. O processo fica ligado à anotação, que mostra o cartão **Processos desta página**. As ações de anotação (acrescentar texto no fim, definir propriedade, pôr etiqueta, criar de um modelo) nunca apagam o que já está escrito, e o que o próprio processo muda na anotação não o faz começar de novo. Só propriedades guardadas disparam; as calculadas, não.
+
 ## Limites
 
 Até 200 passos por desenho, 2.000 passos por instância, 365 dias, 500 processos em andamento, 60 inícios por hora e 5 funções uma dentro da outra. Um passo que falha pode tentar de novo (1, 5 e 30 min), seguir pelo caminho de erro ou parar o processo; parado, **Repetir o passo com falha** tenta outra vez. **Pausar todas** (nas Automações) também pausa os processos.

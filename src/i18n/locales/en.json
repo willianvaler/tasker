@@ -2347,7 +2347,11 @@
         "horario": "At a time",
         "intervalo": "Every interval",
         "webhook": "Incoming call (webhook)",
-        "manual": "Only when I run it"
+        "manual": "Only when I run it",
+        "pagina_criada": "Note created",
+        "pagina_propriedade_mudou": "Note property changed",
+        "pagina_tag_adicionada": "Tag added to a note",
+        "pagina_marcada_como": "Note button pressed"
       },
       "passo": {
         "notificar": "Notify",
@@ -2362,7 +2366,12 @@
         "definir_variavel": "Set a variable",
         "se": "If… else",
         "parar": "Stop",
-        "alternar_modo_jogo": "Change game mode"
+        "alternar_modo_jogo": "Change game mode",
+        "iniciar_processo": "Start a process",
+        "pagina_criar_de_modelo": "Create a note from a template",
+        "pagina_anexar_texto": "Append text to the note",
+        "pagina_definir_propriedade": "Set a note property",
+        "pagina_adicionar_tag": "Tag the note"
       }
     },
     "ed": {
@@ -2589,7 +2598,15 @@
         "perdido": "missed (late)",
         "teste": "test",
         "cancelada": "cancelled"
-      }
+      },
+      "appendText": "Text (goes at the end, nothing is removed)",
+      "pageHint": "On the event's note. Accepts {{evento.titulo}}.",
+      "property": "Property",
+      "tag": "Tag",
+      "noteTemplate": "Note template",
+      "noNoteTemplates": "No note templates yet.",
+      "process": "Process",
+      "noProcesses": "No published process yet."
     }
   },
   "approval": {
@@ -5478,7 +5495,12 @@
       "escalate_notificar": "Just notify",
       "simEnd_concluida": "Simulation: the process reached the end.",
       "simEnd_falhou": "Simulation: the process would fail here.",
-      "simEnd_limite": "Simulation: passed the step limit (a loop?)."
+      "simEnd_limite": "Simulation: passed the step limit (a loop?).",
+      "trigger": "Starts when",
+      "trigger_manual": "By hand or by an automation",
+      "anyValue": "Empty means any.",
+      "mark": "Which button",
+      "markHint": "The button's name in the note (empty: any)."
     },
     "no": {
       "inicio": "Start",
@@ -5558,6 +5580,7 @@
       "revisao3": "Review in 3 days",
       "revisao7": "Review in 7 days",
       "ateConcluido": "Until marked Done"
-    }
+    },
+    "ofPage": "Processes of this page"
   }
 }

@@ -37,6 +37,8 @@ import {
   useSecretNames,
   type Rule,
 } from '@/lib/queries/automation-rules';
+import { useNotes } from '@/lib/queries/notes';
+import { useDefinitions } from '@/lib/queries/processos';
 import { useProfile, useTimeZone, useToday } from '@/lib/queries/profile';
 import { useFolderActor, useMembers, webUrl } from '@/lib/queries/projects';
 import { findFolder, pageLabel, useTree } from '@/lib/queries/tree';
@@ -128,6 +130,8 @@ function Editor({
     escopo === 'projeto' && folder?.is_shared ? (folderId ?? undefined) : undefined,
   );
   const outras = useRules(escopo === 'projeto' ? (folderId ?? undefined) : undefined);
+  const processos = useDefinitions();
+  const modelosNota = useNotes({ templates: 'only' });
   const ctx: EditorCtx = {
     escopo,
     listas: pages.map((p) => ({ id: p.id, nome: pageLabel(p) })),
@@ -135,6 +139,10 @@ function Editor({
     regras: (outras.data ?? [])
       .filter((r) => r.id !== rule?.id)
       .map((r) => ({ id: r.id, nome: r.name })),
+    processos: (processos.data ?? [])
+      .filter((d) => !d.is_function)
+      .map((d) => ({ id: d.id, nome: d.name })),
+    modelosNota: (modelosNota.data ?? []).map((n) => ({ id: n.id, nome: n.title || '—' })),
   };
 
   const runs = useRuns(rule?.id);

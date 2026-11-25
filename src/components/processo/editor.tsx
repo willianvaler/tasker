@@ -92,6 +92,70 @@ function Escolha({
   );
 }
 
+const GATILHOS_PAGINA = [
+  'pagina.criada',
+  'pagina.propriedade_mudou',
+  'pagina.tag_adicionada',
+  'pagina.marcada_como',
+] as const;
+
+/** O início pode esperar um evento de anotação (PR7, D357); sem ele, começa à mão ou por automação. */
+function GatilhoInicio({ no, set }: { no: No; set: (p: Record<string, unknown>) => void }) {
+  const { t } = useTranslation();
+  const g = (no.gatilho ?? {}) as Record<string, string | undefined>;
+  const mudar = (patch: Record<string, string | undefined>) => {
+    const novo = { ...g, ...patch };
+    set({ gatilho: novo.tipo ? novo : undefined });
+  };
+  return (
+    <View className="gap-2">
+      <Escolha
+        rotulo={t('processos.ed.trigger')}
+        valor={g.tipo ?? 'manual'}
+        onMudar={(tipo) => set({ gatilho: tipo === 'manual' ? undefined : { tipo } })}
+        opcoes={[
+          { id: 'manual', label: t('processos.ed.trigger_manual') },
+          ...GATILHOS_PAGINA.map((id) => ({
+            id,
+            label: t(`auto.motor.gatilho.${id.replace('.', '_')}` as 'auto.motor.gatilho.manual'),
+          })),
+        ]}
+      />
+      {g.tipo === 'pagina.propriedade_mudou' && (
+        <>
+          <Campo
+            rotulo={t('auto.ed.property')}
+            valor={g.propriedade ?? ''}
+            onMudar={(propriedade) => mudar({ propriedade: propriedade || undefined })}
+          />
+          <Campo
+            rotulo={t('auto.ed.varValue')}
+            valor={g.valor ?? ''}
+            onMudar={(valor) => mudar({ valor: valor || undefined })}
+            dica={t('processos.ed.anyValue')}
+          />
+        </>
+      )}
+      {g.tipo === 'pagina.tag_adicionada' && (
+        <Campo
+          rotulo={t('auto.ed.tag')}
+          valor={g.tag ?? ''}
+          onMudar={(tag) => mudar({ tag: tag || undefined })}
+          dica={t('processos.ed.anyValue')}
+        />
+      )}
+      {g.tipo === 'pagina.marcada_como' && (
+        <Campo
+          rotulo={t('processos.ed.mark')}
+          valor={g.marca ?? ''}
+          onMudar={(marca) => mudar({ marca: marca || undefined })}
+          dica={t('processos.ed.markHint')}
+        />
+      )}
+    </View>
+  );
+}
+
 /** Texto JSON editável: grava só quando o JSON é válido. */
 function CampoJson({
   rotulo,
@@ -367,6 +431,7 @@ function PropriedadesNo({
           />
         </>
       )}
+      {no.tipo === 'inicio' && <GatilhoInicio no={no} set={set} />}
       {no.tipo === 'fim' && (
         <ToggleRow
           title={t('processos.ed.endError')}

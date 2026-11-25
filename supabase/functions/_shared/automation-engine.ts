@@ -34,6 +34,10 @@ export const CATALOGO = {
     intervalo: { escopos: PESSOAL },
     webhook: { escopos: PESSOAL },
     manual: { escopos: AMBOS },
+    'pagina.criada': { escopos: PESSOAL },
+    'pagina.propriedade_mudou': { escopos: PESSOAL },
+    'pagina.tag_adicionada': { escopos: PESSOAL },
+    'pagina.marcada_como': { escopos: PESSOAL },
   } as Record<string, Meta>,
   passos: {
     notificar: { escopos: AMBOS, externo: false },
@@ -49,6 +53,11 @@ export const CATALOGO = {
     se: { escopos: AMBOS, externo: false },
     parar: { escopos: AMBOS, externo: false },
     alternar_modo_jogo: { escopos: PESSOAL, externo: false },
+    'pagina.criar_de_modelo': { escopos: PESSOAL, externo: false },
+    'pagina.anexar_texto': { escopos: PESSOAL, externo: false },
+    'pagina.definir_propriedade': { escopos: PESSOAL, externo: false },
+    'pagina.adicionar_tag': { escopos: PESSOAL, externo: false },
+    iniciar_processo: { escopos: PESSOAL, externo: false },
   } as Record<string, Meta>,
   operadores: ['=', '≠', '<', '≤', '>', '≥', 'contem', 'comeca_com', 'em', 'vazio'],
   prontas: ['janela_horario', 'dias_semana', 'projeto', 'lista', 'etiqueta', 'nivel_min'],
@@ -1176,6 +1185,67 @@ export const PASSOS_BASE: TipoPasso[] = [
         ? { efeito: { tipo: 'alternar_modo_jogo', modo: p.modo } }
         : { erro: 'Modo de jogo: off, light ou full' },
   },
+  // Anotações (PR7, D357): só acrescentam ou definem; a página é a do evento, ou a escolhida
+  {
+    id: 'pagina.anexar_texto',
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      const t = expandir(texto(p.texto, 10_240), ctx, avisos);
+      return t
+        ? { avisos, efeito: { tipo: 'pagina.anexar_texto', texto: t, ...pagina(p) } }
+        : { erro: 'Acrescentar texto: diga o quê' };
+    },
+  },
+  {
+    id: 'pagina.definir_propriedade',
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      const nome = texto(p.propriedade, 60).trim();
+      if (!nome) return { erro: 'Definir propriedade: diga qual' };
+      const valor =
+        typeof p.valor === 'string' ? expandir(p.valor, ctx, avisos) : (p.valor ?? null);
+      return {
+        avisos,
+        efeito: { tipo: 'pagina.definir_propriedade', propriedade: nome, valor, ...pagina(p) },
+      };
+    },
+  },
+  {
+    id: 'pagina.adicionar_tag',
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      const tag = expandir(texto(p.tag, 50), ctx, avisos).trim().replace(/^#/, '');
+      return tag
+        ? { avisos, efeito: { tipo: 'pagina.adicionar_tag', tag, ...pagina(p) } }
+        : { erro: 'Pôr etiqueta: diga qual' };
+    },
+  },
+  {
+    id: 'pagina.criar_de_modelo',
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      if (typeof p.modelo !== 'string' || !UUID.test(p.modelo))
+        return { erro: 'Criar de modelo: escolha o modelo' };
+      return {
+        avisos,
+        efeito: {
+          tipo: 'pagina.criar_de_modelo',
+          modelo: p.modelo,
+          titulo: expandir(texto(p.titulo, 200), ctx, avisos),
+        },
+      };
+    },
+  },
+  {
+    id: 'iniciar_processo',
+    execute: (_ctx, p) =>
+      typeof p.processo === 'string' && UUID.test(p.processo)
+        ? { efeito: { tipo: 'iniciar_processo', processo: p.processo } }
+        : { erro: 'Iniciar processo: escolha o processo' },
+  },
 ];
+
+const pagina = (p: Passo) =>
+  typeof p.pagina === 'string' && UUID.test(p.pagina) ? { pagina: p.pagina } : {};
 
 export const registroBase = () => createRegistry(PASSOS_BASE);

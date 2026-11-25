@@ -53,3 +53,7 @@ Cada llamada lleva también `X-Questlist-Idempotency`: si llega dos veces con el
 ## Recibir una llamada (webhook de entrada)
 
 En una automatización con el disparador **Llamada externa**, **Generar dirección** muestra la dirección **una vez** (guárdala). Envía un `POST` con JSON o formulario, hasta 16 KB; la respuesta es siempre `202`, sin cuerpo. **Cambiar dirección** invalida la anterior al instante. Hay un límite de llamadas por minuto; por encima, la respuesta es `429`.
+
+## Notas
+
+Creada, propiedad cambiada, etiqueta añadida y botón pulsado son disparadores; añadir texto, definir propiedad, etiquetar, crear desde plantilla e **iniciar un proceso** son acciones. Ninguna acción borra texto.

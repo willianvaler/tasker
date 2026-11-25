@@ -22,6 +22,10 @@ El diseño se edita en la web: los botones **+** añaden pasos, conectas arrastr
 
 Las condiciones y los cálculos usan el mismo lenguaje del campo calculado, con `{var.nombre}` (variables), `{inicio.*}` (quién lo inició) y `{retorno.*}` (lo que devolvió la última espera). Toda variable usada tiene que estar declarada.
 
+## Empezar desde una nota
+
+En el paso **Inicio**, elige **Empieza cuando**: se crea una nota, cambia una propiedad (por ejemplo `status` pasa a `Estudiando`), se añade una etiqueta o se pulsa un botón de la nota. El proceso queda ligado a la nota, que muestra la tarjeta **Procesos de esta página**. Las acciones de nota (añadir texto al final, definir propiedad, etiquetar, crear desde plantilla) nunca borran lo escrito, y lo que el propio proceso cambia en la nota no lo hace empezar de nuevo. Solo disparan las propiedades guardadas; las calculadas, no.
+
 ## Límites
 
 Hasta 200 pasos por diseño, 2.000 pasos por instancia, 365 días, 500 procesos en curso, 60 inicios por hora y 5 funciones una dentro de otra. Un paso que falla puede reintentar (1, 5 y 30 min), seguir por el camino de error o detener el proceso; detenido, **Repetir el paso con fallo** lo intenta otra vez. **Pausar todas** (en Automatizaciones) también pausa los procesos.

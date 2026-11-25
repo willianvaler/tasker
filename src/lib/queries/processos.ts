@@ -70,6 +70,24 @@ export function useInstances(definitionId?: string) {
   });
 }
 
+/** Os processos que começaram por uma anotação (o cartão "Processos desta página", PR7). */
+export function usePageInstances(pageId: string | undefined) {
+  return useQuery({
+    queryKey: [KEY, 'pagina', pageId],
+    enabled: !!pageId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('process_instances')
+        .select('id, status, started_at, process_definitions(name)')
+        .eq('page_id', pageId ?? '')
+        .order('started_at', { ascending: false })
+        .limit(20);
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
 /** Uma instância com o grafo da versão dela, os tokens vivos e o histórico (PR5, §9). */
 export function useInstance(id: string | undefined) {
   return useQuery({

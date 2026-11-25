@@ -45,6 +45,7 @@ import { ScreenHeader } from '@/components/screen-header';
 import { NoteMarkdown } from '@/components/note-markdown';
 import { NoteShareDialog } from '@/components/note-share';
 import { NoteProperties } from '@/components/note-properties';
+import { PageProcesses } from '@/components/processo/page-processes';
 import {
   BacklinkChips,
   Backlinks,
@@ -707,6 +708,8 @@ function Editor({
                 <UnlinkedMentions note={note} title={title} aliases={noteAliases(props)} />
                 {/* OB9: o grafo local, com os vizinhos até 2 passos */}
                 <LocalGraph kind="note" id={note.id} />
+                {/* PR7: os processos que começaram por esta anotação */}
+                <PageProcesses noteId={note.id} />
                 {daily && <DailyJournal date={title.trim()} />}
               </ScreenScroll>
             )}

@@ -37,6 +37,9 @@ export type EditorCtx = {
   listas: Opcao[];
   pessoas: Opcao[];
   regras: Opcao[];
+  /** Processos e modelos de anotação da pessoa (PR7) */
+  processos?: Opcao[];
+  modelosNota?: Opcao[];
 };
 
 const DIAS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
@@ -761,6 +764,71 @@ export function StepFields({
             label: t(`auto.ed.mode_${m}` as 'auto.ed.title'),
           }))}
         />
+      );
+    case 'pagina.anexar_texto':
+      return (
+        <Field
+          label={t('auto.ed.appendText')}
+          value={num(passo.texto)}
+          onChange={(texto) => set({ texto })}
+          hint={t('auto.ed.pageHint')}
+        />
+      );
+    case 'pagina.definir_propriedade':
+      return (
+        <View className="gap-2">
+          <Field
+            label={t('auto.ed.property')}
+            value={num(passo.propriedade)}
+            onChange={(propriedade) => set({ propriedade })}
+          />
+          <Field
+            label={t('auto.ed.varValue')}
+            value={num(passo.valor)}
+            onChange={(valor) => set({ valor })}
+            hint={t('auto.ed.pageHint')}
+          />
+        </View>
+      );
+    case 'pagina.adicionar_tag':
+      return (
+        <Field
+          label={t('auto.ed.tag')}
+          value={num(passo.tag)}
+          onChange={(tag) => set({ tag })}
+          placeholder="#revisar"
+          hint={t('auto.ed.pageHint')}
+        />
+      );
+    case 'pagina.criar_de_modelo':
+      return ctx.modelosNota?.length ? (
+        <View className="gap-2">
+          <Choice
+            title={t('auto.ed.noteTemplate')}
+            value={num(passo.modelo)}
+            onChange={(modelo) => set({ modelo })}
+            options={ctx.modelosNota.map((m) => ({ id: m.id, label: m.nome }))}
+          />
+          <Field
+            label={t('auto.ed.title')}
+            value={num(passo.titulo)}
+            onChange={(titulo) => set({ titulo })}
+            hint={t('auto.ed.textHint')}
+          />
+        </View>
+      ) : (
+        <Text className="text-sm text-ink-muted">{t('auto.ed.noNoteTemplates')}</Text>
+      );
+    case 'iniciar_processo':
+      return ctx.processos?.length ? (
+        <Choice
+          title={t('auto.ed.process')}
+          value={num(passo.processo)}
+          onChange={(processo) => set({ processo })}
+          options={ctx.processos.map((m) => ({ id: m.id, label: m.nome }))}
+        />
+      ) : (
+        <Text className="text-sm text-ink-muted">{t('auto.ed.noProcesses')}</Text>
       );
     case 'enviar_webhook':
       return <WebhookFields passo={passo} set={set} segredos={segredos} onSegredo={onSegredo} />;

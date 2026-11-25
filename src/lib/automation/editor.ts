@@ -86,6 +86,12 @@ export function passoNovo(tipo: string): Passo {
       return { tipo, url: 'https://', metodo: 'POST', corpo: { texto: '{{evento.titulo}}' } };
     case 'alternar_modo_jogo':
       return { tipo, modo: 'light' };
+    case 'pagina.anexar_texto':
+      return { tipo, texto: '' };
+    case 'pagina.definir_propriedade':
+      return { tipo, propriedade: 'status', valor: '' };
+    case 'pagina.adicionar_tag':
+      return { tipo, tag: '' };
     default:
       return { tipo };
   }
