@@ -515,7 +515,7 @@ Pedido do dono em 22/10: "o app tem muitas funcionalidades, mas muitas ficam esc
 
 - [x] **CD54** Atalho D "perdido": a lista fora de foco deixa de valer para os atalhos e restaura só a própria seleção ao voltar (`lib/selection.ts`, E2E `selecao-atalho.spec.ts`)
 - [x] **R2a** Consulta: ícone de banco no lugar da lupa e cabeçalho da tabela que ordena (D369, `components/note-query.tsx`, `lib/query/sort.ts`, Jest `query-sort.test.ts`, E2E em `consultas.spec.ts`, Ajuda nos 3 idiomas)
-- [ ] **R1.0** Spike do editor de blocos (biblioteca, WebView, ida e volta sem perda, Moto E14)
+- [x] **R1.0** Spike do editor de blocos (D370, `docs/SPIKE_EDITOR_BLOCOS.md`): TipTap 3 sobre ProseMirror, medido no Chromium (CPU 1× e 6×), ida e volta sem perda pelos blocos do `note-format`; o Moto E14 fica para o R1.4
 - [ ] **R1.1 a R1.4** Editor de blocos: básicos, menu `/` e `+`, blocos do Questlist, celular
 - [ ] **R2b** Construtor visual da consulta e da Base
 - [ ] **R3** Achar as coisas (inventário, estados vazios, Novo e Ctrl+K completos, medição)
