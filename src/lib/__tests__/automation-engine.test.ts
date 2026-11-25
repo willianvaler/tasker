@@ -186,8 +186,8 @@ describe('compile e advance', () => {
   });
 
   test('passo que ainda não existe no executor falha com mensagem', () => {
-    const prog = compile([{ tipo: 'enviar_webhook', url: 'https://x' }], registroBase());
-    expect(advance(prog, 0, ctx(), registroBase()).erro).toMatch(/enviar_webhook/);
+    const prog = compile([{ tipo: 'comandar_dispositivo', dispositivo: 'x' }], registroBase());
+    expect(advance(prog, 0, ctx(), registroBase()).erro).toMatch(/comandar_dispositivo/);
   });
 });
 
@@ -233,7 +233,7 @@ describe('executeRun', () => {
     const db = fakeDb();
     const res = await executeRun(
       run([
-        { tipo: 'enviar_webhook', url: 'https://x' },
+        { tipo: 'comandar_dispositivo', dispositivo: 'x' },
         { tipo: 'notificar', corpo: 'x' },
       ]),
       registroBase(),

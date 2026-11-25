@@ -275,6 +275,26 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"automation_secrets": {
+                  Row: {
+                    "created_at": string,"id": string,"name": string,"rule_id": string,"secret_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"name": string,"rule_id": string,"secret_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"name"?: string,"rule_id"?: string,"secret_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "automation_secrets_rule_id_fkey"
+      columns: ["rule_id"]
+isOneToOne: false
+      referencedRelation: "automation_rules"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"availability_exceptions": {
                   Row: {
                     "created_at": string,"ends": string | null,"ends_on": string,"id": string,"note": string | null,"starts": string | null,"starts_on": string,"user_id": string
@@ -3163,6 +3183,38 @@ isOneToOne: false
 "_automation_next_run":
 { Args: { "p_after": string,"p_definition": Json,"p_tz": string }; Returns: string
                            },
+"_automation_own_rule":
+{ Args: { "p_rule": string }; Returns: {
+              "action": string | null,
+"consecutive_failures": number,
+"created_at": string,
+"created_by": string | null,
+"definition": NonNullable<Json>,
+"disabled_reason": string | null,
+"enabled": boolean,
+"folder_id": string | null,
+"id": string,
+"last_run_at": string | null,
+"name": string,
+"next_run_at": string | null,
+"owner_id": string | null,
+"page_id": string | null,
+"params": NonNullable<Json>,
+"runs": number,
+"scope": string,
+"trigger": string | null,
+"trigger_type": string | null,
+"updated_at": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "automation_rules"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"_automation_put_secret":
+{ Args: { "p_name": string,"p_rule": string,"p_value": string }; Returns: undefined
+                           },
 "_automation_scan_due":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
@@ -3543,6 +3595,18 @@ isOneToOne: false
 { Args: { "p_dedupe"?: string,"p_folder"?: string,"p_kind": string,"p_owner"?: string,"p_payload"?: Json }; Returns: string
                            },
 "automation_run_now":
+{ Args: { "p_rule": string }; Returns: string
+                           },
+"automation_run_secrets":
+{ Args: { "p_run": string }; Returns: Json
+                           },
+"automation_secret_names":
+{ Args: { "p_rule": string }; Returns: (string)[]
+                           },
+"automation_secret_set":
+{ Args: { "p_name": string,"p_rule": string,"p_value": string }; Returns: undefined
+                           },
+"automation_signing_secret":
 { Args: { "p_rule": string }; Returns: string
                            },
 "automation_step":

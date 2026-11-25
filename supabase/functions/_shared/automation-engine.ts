@@ -901,7 +901,7 @@ export function simulate(
 }
 
 // ---------------------------------------------------------------------------------------------
-// Tipos de passo (enviar_webhook chega no AU8 e comandar_dispositivo no SL3)
+// Tipos de passo (comandar_dispositivo chega no SL3)
 // ---------------------------------------------------------------------------------------------
 
 const texto = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : '');
@@ -1114,6 +1114,59 @@ export const PASSOS_BASE: TipoPasso[] = [
         return { erro: 'Automação chamando a si mesma em círculo' };
       if (cadeia.length + 1 >= 3) return { erro: 'No máximo 3 automações em sequência' };
       return { avisos, efeito: { tipo: 'executar_regra', regra } };
+    },
+  },
+  {
+    id: 'enviar_webhook',
+    externo: true,
+    // O corpo é um objeto JSON: cada texto é expandido e o JSON.stringify faz o escape (V14 §2.1)
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      const url = txt(p.url, ctx, avisos);
+      if (!/^https:\/\//i.test(url)) return { erro: 'Só endereços https://', avisos };
+      const metodo = String(p.metodo ?? 'POST').toUpperCase();
+      const cabecalhos: Record<string, string | { segredo: string }> = {};
+      if (p.cabecalhos && typeof p.cabecalhos === 'object' && !Array.isArray(p.cabecalhos)) {
+        for (const [k, v] of Object.entries(p.cabecalhos as Record<string, unknown>)) {
+          if (typeof v === 'string') cabecalhos[k] = txt(v, ctx, avisos);
+          else if (
+            v &&
+            typeof v === 'object' &&
+            typeof (v as { segredo?: unknown }).segredo === 'string'
+          ) {
+            cabecalhos[k] = { segredo: (v as { segredo: string }).segredo };
+          }
+        }
+      }
+      const expandeTudo = (v: unknown, nivel: number): unknown => {
+        if (nivel > 5) return null;
+        if (typeof v === 'string') return expandir(v, ctx, avisos);
+        if (Array.isArray(v)) return v.map((x) => expandeTudo(x, nivel + 1));
+        if (v && typeof v === 'object') {
+          return Object.fromEntries(
+            Object.entries(v as Record<string, unknown>).map(([k, x]) => [
+              k,
+              expandeTudo(x, nivel + 1),
+            ]),
+          );
+        }
+        return v;
+      };
+      const corpo =
+        p.corpo === undefined || p.corpo === null ? null : JSON.stringify(expandeTudo(p.corpo, 0));
+      if (corpo !== null && corpo.length > 16_384)
+        return { erro: 'Corpo do webhook com mais de 16 KB', avisos };
+      return {
+        avisos,
+        efeito: {
+          tipo: 'webhook',
+          url,
+          metodo,
+          cabecalhos,
+          corpo,
+          ...(p.assinar === true ? { assinar: true } : {}),
+        },
+      };
     },
   },
   {

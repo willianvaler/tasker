@@ -1,0 +1,55 @@
+# Automations
+
+An **automation** is a "when… if… then…" rule: **when** something happens (the trigger), **if** the conditions match, **then** the app runs the steps on its own, on the server. Yours live in **Settings → Automations**; a project's, in the project menu (**Automations**), for whoever can manage them.
+
+## When: the trigger
+
+- **Tasks:** created, completed, became ready (what it waited for is done), assigned to you, overdue, or due in a few minutes. **Whole list completed.**
+- **Game and project:** leveled up, boss defeated, milestone reached.
+- **Clock:** at a time (with weekdays) or every N hours, always in your time zone.
+- **Incoming call (webhook):** an address only for this automation; whatever arrives becomes `hook.*`.
+- **Only when I run it:** runs from the **Run now** button.
+
+Importing from Habitica or Todoist and using a template never trigger automations.
+
+## If: the conditions
+
+Optional. Combine with **AND** (all), **OR** (any) and **NOT**, up to 3 levels and 10 comparisons. There are ready-made ones — **time window** (22:00 to 06:00 crosses midnight), **weekdays**, **project**, **list**, **label** and **minimum level** — and comparing a value (`evento.titulo` contains "invoice", `evento.prioridade` ≥ 2). If the conditions don't match, the run shows in the history as "conditions: no".
+
+## Then: the steps
+
+Up to 20 steps: **notify** (in the app, on the phone or both), **create task** (due as a date or `+2` days), **update the task** (labels, list and due date), **assign** (in a project), **start a rest**, **wait** (1 minute to 7 days), **set a variable**, **if… else**, **run another automation**, **call a URL (webhook)**, **change game mode** and **stop**. An automation never completes, reopens or deletes a task.
+
+In texts, `{{evento.titulo}}` is replaced by the value. Filters: `|corta:40`, `|data`, `|hora` and `|padrao:"no name"`. You can also use `{{usuario.nome}}`, `{{usuario.nivel}}`, `{{agora|hora}}` and `{{var.name}}` (a value set earlier). A variable that doesn't exist becomes empty text and leaves a warning in the history. English and Spanish names work too (`{{event.title|cut:40}}`).
+
+The automation acts **as whoever created it**: it only does what that person can. If they leave the project, the action fails and shows in the history.
+
+## Test, run and the history
+
+**Test** shows what each step would do, with a sample of the trigger, without doing anything for real (no notification, no task, no call). **Run now** runs it for real. The **history** shows the last 50 runs, step by step, with the error when there is one.
+
+## Limits
+
+Each automation runs up to **60 times an hour**, and all of yours together, **600**; notifications, up to **10 an hour** per automation. Past that, the run is marked **limited** (it's not an error). An automation that fails **10 times in a row** is turned off and you get a notification; turn it back on after fixing it. A trigger that runs more than 15 minutes late (server down) doesn't run and is marked **missed**. **Pause all** stops everything right away, including what was waiting.
+
+## Call a URL (outgoing webhook)
+
+Works with Discord (the channel webhook), a Home Assistant exposed to the internet, IFTTT and any service with an **https://** address. The body is JSON, and the texts inside it accept `{{ }}`. Passwords and header tokens (`Authorization`) are stored separately, encrypted, and never come back to the screen. Addresses on your home network and the server itself are blocked.
+
+With **Sign**, every call carries `X-Questlist-Signature: t=<seconds>,v1=<signature>`, an HMAC-SHA256 of the text `t` + `.` + body, with the signing secret (shown once, when generated). To check it on your server (Node):
+
+```js
+const crypto = require('crypto');
+function verify(header, body, secret) {
+  const { t, v1 } = Object.fromEntries(header.split(',').map((p) => p.split('=')));
+  const expected = crypto.createHmac('sha256', secret).update(`${t}.${body}`).digest('hex');
+  const recent = Math.abs(Date.now() / 1000 - Number(t)) < 300;
+  return recent && crypto.timingSafeEqual(Buffer.from(v1), Buffer.from(expected));
+}
+```
+
+Every call also carries `X-Questlist-Idempotency`: if it arrives twice with the same value, it's the same call.
+
+## Receive a call (incoming webhook)
+
+In an automation with the **Incoming call** trigger, **Generate address** shows the address **once** (keep it). Send a `POST` with JSON or a form, up to 16 KB; the answer is always `202`, with no body. **Change address** invalidates the old one at once. There's a per-minute limit; above it, the answer is `429`.
