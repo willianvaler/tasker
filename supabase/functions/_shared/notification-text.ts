@@ -207,7 +207,12 @@ export function describeNotification(
       // A mensagem da automação foi escrita por quem a criou: vai como está. Do motor novo (AU2) vem
       // com `titulo` e pode não ter tarefa (regra de horário, nível etc.)
       const own = [p.titulo, p.message].filter(Boolean).join(': ');
-      const text = p.title ? (own ? `${own}: "${p.title}"` : say('automation')) : own || String(p.rule_name ?? '');
+      // No motor novo (com `rule_id`) o texto já traz o que a pessoa quis, com {{evento.titulo}}
+      const text = p.rule_id
+        ? own || String(p.rule_name ?? say('automation'))
+        : own
+          ? `${own}: "${p.title}"`
+          : say('automation');
       return p.task_id ? { text, taskId: String(p.task_id) } : { text };
     }
     case 'page_reminder':

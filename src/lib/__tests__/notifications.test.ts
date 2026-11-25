@@ -16,8 +16,17 @@ describe('textos das notificações (tela 🔔 e push)', () => {
   });
   test('automação do motor novo (AU2): título e texto, com ou sem tarefa', () => {
     expect(
-      describeNotification({ kind: 'automation', payload: { titulo: 'Boa noite', message: 'Desligue o ar' } }),
+      describeNotification({
+        kind: 'automation',
+        payload: { rule_id: 'r1', titulo: 'Boa noite', message: 'Desligue o ar' },
+      }),
     ).toEqual({ text: 'Boa noite: Desligue o ar' });
+    expect(
+      describeNotification({
+        kind: 'automation',
+        payload: { rule_id: 'r1', message: 'Feita: Carne', title: 'Carne', task_id: 't1' },
+      }),
+    ).toEqual({ text: 'Feita: Carne', taskId: 't1' });
     expect(
       describeNotification({
         kind: 'automation',

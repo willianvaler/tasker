@@ -65,9 +65,10 @@ e na tela `/automacoes/[id]`. O dono escolheu **absorver** essas automações no
 ponto natural para o `automation_emit` dos gatilhos de tarefa.
 
 **Importação em massa:** não há sinal `questlist.bulk`. Importar (Habitica, Todoist, plano de estudos)
-passa por `create_from_template` e pelo `create_tasks_batch`, os mesmos caminhos do uso normal. O AU2
-precisa ligar `set_config('questlist.bulk', '1', true)` nesses caminhos quando vierem da importação
-(parâmetro novo no RPC) e o `automation_emit` sai na primeira linha com ele.
+passa por `create_from_template` e pelo `create_tasks_batch`, os mesmos caminhos do uso normal.
+**Feito no AU3 (D335):** o `create_from_template` (modelos, kits, importações e plano de estudos) liga
+`questlist.bulk` na transação e o `automation_emit` sai com ele; o `create_tasks_batch` (captura e
+lote, uso normal) continua emitindo.
 
 ## 3. Push a partir do servidor
 

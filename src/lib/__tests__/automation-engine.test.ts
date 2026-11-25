@@ -2,6 +2,8 @@ import { describe, expect, test } from '@jest/globals';
 
 import {
   advance,
+  avaliar,
+  expandir,
   CATALOGO,
   compile,
   executeRun,
@@ -11,6 +13,7 @@ import {
   registroBase,
   registroCom,
   type Commit,
+  type Condicao,
   type Contexto,
   type Execucao,
   type TipoPasso,
@@ -106,7 +109,10 @@ describe('compile e advance', () => {
     blocos: ['entao', 'senao'],
     execute: (c) => ({ ramo: c.estado.var.x ? 'entao' : 'senao' }),
   };
-  const marca: TipoPasso = { id: 'marca', execute: (_c, p) => ({ var: { [String(p.nome)]: true } }) };
+  const marca: TipoPasso = {
+    id: 'marca',
+    execute: (_c, p) => ({ var: { [String(p.nome)]: true } }),
+  };
   const reg = registroCom([se, marca]);
   const passos = [
     { tipo: 'se', entao: [{ tipo: 'marca', nome: 'a' }], senao: [{ tipo: 'marca', nome: 'b' }] },
@@ -138,14 +144,26 @@ describe('compile e advance', () => {
   });
 
   test('notificar devolve o efeito; o canal e o destino caem no padrão', () => {
-    const prog = compile([{ tipo: 'notificar', titulo: 'Oi', corpo: 'Texto', canal: 'fax' }], registroBase());
+    const prog = compile(
+      [{ tipo: 'notificar', titulo: 'Oi', corpo: 'Texto', canal: 'fax' }],
+      registroBase(),
+    );
     const a = advance(prog, 0, ctx(), registroBase());
-    expect(a.efeito).toEqual({ tipo: 'notificacao', titulo: 'Oi', corpo: 'Texto', canal: 'ambos', para: 'dona' });
+    expect(a.efeito).toEqual({
+      tipo: 'notificacao',
+      titulo: 'Oi',
+      corpo: 'Texto',
+      canal: 'ambos',
+      para: 'dona',
+    });
     expect(a.status).toBe('ok');
   });
 
   test('regra pessoal só avisa a dona', () => {
-    const prog = compile([{ tipo: 'notificar', corpo: 'x', para: 'pessoa', pessoa: 'p2' }], registroBase());
+    const prog = compile(
+      [{ tipo: 'notificar', corpo: 'x', para: 'pessoa', pessoa: 'p2' }],
+      registroBase(),
+    );
     expect(advance(prog, 0, ctx(), registroBase()).efeito).toMatchObject({ para: 'dona' });
     expect(advance(prog, 0, ctx({ escopo: 'projeto' }), registroBase()).efeito).toMatchObject({
       para: 'pessoa',
@@ -171,9 +189,16 @@ describe('compile e advance', () => {
 
 describe('executeRun', () => {
   test('tipo de passo novo só pelo registro, sem mudar o executor', async () => {
-    const eco: TipoPasso = { id: 'eco_teste', execute: (_c, p) => ({ efeito: { tipo: 'eco', texto: p.texto } }) };
+    const eco: TipoPasso = {
+      id: 'eco_teste',
+      execute: (_c, p) => ({ efeito: { tipo: 'eco', texto: p.texto } }),
+    };
     const db = fakeDb();
-    const res = await executeRun(run([{ tipo: 'eco_teste', texto: 'oi' }]), registroCom([eco]), db.commit);
+    const res = await executeRun(
+      run([{ tipo: 'eco_teste', texto: 'oi' }]),
+      registroCom([eco]),
+      db.commit,
+    );
     expect(res).toBe('ok');
     expect(db.effects).toEqual([{ run: 'run1', step: 0, effect: { tipo: 'eco', texto: 'oi' } }]);
   });
@@ -203,12 +228,155 @@ describe('executeRun', () => {
   test('falha para a execução no passo', async () => {
     const db = fakeDb();
     const res = await executeRun(
-      run([{ tipo: 'descanso', segundos: 30 }, { tipo: 'notificar', corpo: 'x' }]),
+      run([
+        { tipo: 'descanso', segundos: 30 },
+        { tipo: 'notificar', corpo: 'x' },
+      ]),
       registroBase(),
       db.commit,
     );
     expect(res).toBe('falhou');
     expect(db.effects).toHaveLength(0);
     expect(db.rows.get('run1')).toEqual({ step: 0, status: 'falhou' });
+  });
+});
+
+describe('textos com {{ }} (V14 §2.1)', () => {
+  const c = ctx({
+    estado: {
+      evento: {
+        titulo: 'Comprar o presente de aniversário da tia Lurdes no sábado',
+        etiquetas: ['casa', 'rua'],
+        vencimento: '2026-12-05',
+      },
+      var: { x: 3 },
+    },
+    usuario: { nome: 'Ana', nivel: 7 },
+    fuso: 'America/Sao_Paulo',
+  });
+
+  test('corta:40 e variável inexistente vira vazio com aviso', () => {
+    const avisos: string[] = [];
+    expect(expandir('{{evento.titulo|corta:40}}', c, avisos)).toBe(
+      'Comprar o presente de aniversário da tia',
+    );
+    expect(avisos).toEqual([]);
+    expect(expandir('[{{evento.nada}}]', c, avisos)).toBe('[]');
+    expect(avisos).toEqual(['Variável inexistente: evento.nada']);
+  });
+
+  test('padrao cobre a falta sem aviso', () => {
+    const avisos: string[] = [];
+    expect(expandir('{{ evento.lista_nome | padrao:"sem lista" }}', c, avisos)).toBe('sem lista');
+    expect(avisos).toEqual([]);
+  });
+
+  test.each([
+    ['{{event.title|cut:7}}', 'Comprar'],
+    ['{{evento.titulo|recorta:7}}', 'Comprar'],
+    ['{{user.level}} / {{usuario.nome}}', '7 / Ana'],
+    ['{{evento.etiquetas}}', 'casa, rua'],
+    ['{{var.x}}', '3'],
+    ['{{evento.vencimento|data}}', '05/12/2026'],
+    ['{{event.due|date}}', '05/12/2026'],
+    ['{{agora|hora}}', '09:00'],
+  ])('%s → %s', (t, out) => {
+    expect(expandir(t, c, [])).toBe(out);
+  });
+
+  test('texto expandido tem no máximo 2.000 caracteres', () => {
+    const longo = ctx({ estado: { evento: { t: 'x'.repeat(3000) }, var: {} } });
+    expect(expandir('{{evento.t}}', longo, [])).toHaveLength(2000);
+  });
+});
+
+describe('condições (V14 §4)', () => {
+  const em = (agora: string, evento: Record<string, unknown> = {}) =>
+    ctx({ agora, fuso: 'America/Sao_Paulo', estado: { evento, var: {} }, usuario: { nivel: 5 } });
+  // 2026-11-24 é terça; 01:30 UTC = 22:30 de segunda em São Paulo
+  const segundaNoite = em('2026-11-24T01:30:00Z', {
+    titulo: 'Relatório mensal',
+    etiquetas: ['trabalho'],
+    prioridade: 2,
+  });
+
+  test.each([
+    [{ pronta: 'janela_horario', de: '22:00', ate: '06:00' }, true],
+    [{ pronta: 'janela_horario', de: '08:00', ate: '18:00' }, false],
+    [{ pronta: 'dias_semana', dias: [1] }, true],
+    [{ pronta: 'dias_semana', dias: [2] }, false],
+    [{ pronta: 'etiqueta', etiqueta: '#Trabalho' }, true],
+    [{ pronta: 'nivel_min', nivel: 5 }, true],
+    [{ pronta: 'nivel_min', nivel: 6 }, false],
+    [{ campo: 'evento.titulo', op: 'comeca_com', valor: 'relat' }, true],
+    [{ campo: 'evento.prioridade', op: '≥', valor: '2' }, true],
+    [{ campo: 'evento.prioridade', op: 'em', valor: '1, 2' }, true],
+    [{ campo: 'evento.etiquetas', op: 'contem', valor: 'trabalho' }, true],
+    [{ campo: 'evento.lista', op: 'vazio' }, true],
+    [{ campo: 'evento.lista', op: '≠', valor: 'x' }, true],
+  ])('%j → %s', (cond, esperado) => {
+    expect(avaliar(cond as Condicao, segundaNoite, [])).toBe(esperado);
+  });
+
+  test('janela que cruza a meia-noite: 05:59 dentro, 06:00 fora', () => {
+    const janela = { pronta: 'janela_horario', de: '22:00', ate: '06:00' } as Condicao;
+    expect(avaliar(janela, em('2026-11-24T08:59:00Z'), [])).toBe(true);
+    expect(avaliar(janela, em('2026-11-24T09:00:00Z'), [])).toBe(false);
+  });
+
+  test('E, OU e NÃO em 3 níveis', () => {
+    const cond = {
+      e: [
+        {
+          ou: [
+            { campo: 'evento.titulo', op: 'contem', valor: 'nada' },
+            { nao: { pronta: 'dias_semana', dias: [0, 6] } },
+          ],
+        },
+        { campo: 'evento.prioridade', op: '<', valor: 3 },
+      ],
+    } as Condicao;
+    expect(avaliar(cond, segundaNoite, [])).toBe(true);
+    expect(avaliar({ nao: cond } as Condicao, segundaNoite, [])).toBe(false);
+  });
+
+  test('erro de tipo vira falsa com aviso, sem exceção', () => {
+    const avisos: string[] = [];
+    expect(avaliar({ campo: 'evento.titulo', op: '>', valor: 3 }, segundaNoite, avisos)).toBe(
+      false,
+    );
+    expect(avisos[0]).toMatch(/Não dá para comparar/);
+  });
+
+  test('condições da regra que não batem: a execução acaba sem efeito', async () => {
+    const db = fakeDb();
+    const r = run([{ tipo: 'notificar', corpo: 'x' }], {
+      definition: {
+        condicoes: { pronta: 'dias_semana', dias: [0] },
+        passos: [{ tipo: 'notificar', corpo: 'x' }],
+      },
+      fuso: 'America/Sao_Paulo',
+    });
+    expect(await executeRun(r, registroBase(), db.commit, () => '2026-11-24T01:30:00Z')).toBe('ok');
+    expect(db.effects).toHaveLength(0);
+  });
+
+  test('SE escolhe o bloco pela condição e o aviso usa o texto expandido', async () => {
+    const db = fakeDb();
+    const r = run(
+      [
+        {
+          tipo: 'se',
+          condicao: { campo: 'evento.titulo', op: 'contem', valor: 'mensal' },
+          entao: [{ tipo: 'notificar', corpo: 'Feito: {{evento.titulo|corta:9}}' }],
+          senao: [{ tipo: 'notificar', corpo: 'outro' }],
+        },
+      ],
+      { state: { evento: { titulo: 'Relatório mensal' }, var: {} } },
+    );
+    await executeRun(r, registroBase(), db.commit);
+    expect(db.effects.map((e) => (e.effect as { corpo: string }).corpo)).toEqual([
+      'Feito: Relatório',
+    ]);
   });
 });

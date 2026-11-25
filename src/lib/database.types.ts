@@ -3143,6 +3143,12 @@ isOneToOne: false
 "_automation_sweep":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"_automation_task_payload":
+{ Args: { "p_actor": string,"p_task": string }; Returns: Json
+                           },
+"_automation_wants":
+{ Args: { "p_folder": string,"p_kind": string,"p_owner": string }; Returns: boolean
+                           },
 "_award_completion":
 { Args: { "p_completion_id": string,"p_created_done": boolean,"p_cycle_kind": string,"p_page": Omit<Database["public"]['Tables']["pages"]['Row'], Database["public"]['Tables']["pages"]['ComputedFields']>,"p_task": Omit<Database["public"]['Tables']["tasks"]['Row'], Database["public"]['Tables']["tasks"]['ComputedFields']> }; Returns: Json
                            },

@@ -68,6 +68,11 @@ export type Contexto = {
   regra: { id: string; nome: string };
   /** Instante da execução (ISO), para passos que dependem da hora. */
   agora: string;
+  /** Fuso IANA e idioma da dona (horário, dias da semana e os filtros |data e |hora). */
+  fuso?: string;
+  idioma?: string;
+  /** `usuario.*`: nome, nível, sequência e XP da dona, só leitura. */
+  usuario?: Record<string, unknown>;
 };
 
 /** Efeito que o banco aplica junto com o avanço do passo. `tipo` é do lado do banco (_automation_effect). */
@@ -113,20 +118,425 @@ export function createRegistry(tipos: TipoPasso[] = []): Registro {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Variáveis e textos com {{ }} (V14 §2.1)
+// ---------------------------------------------------------------------------------------------
+// Nomes canônicos em pt-BR, com apelidos em inglês e espanhol. Ficam aqui (e não no i18n) porque o
+// motor roda no Deno, sem o app: são os mesmos nos três idiomas da interface.
+
+const ESPACOS: Record<string, string> = {
+  evento: 'evento',
+  event: 'evento',
+  usuario: 'usuario',
+  user: 'usuario',
+  usuaria: 'usuario',
+  agora: 'agora',
+  now: 'agora',
+  ahora: 'agora',
+  var: 'var',
+  variavel: 'var',
+  variable: 'var',
+  hook: 'hook',
+  webhook: 'hook',
+  dispositivo: 'dispositivo',
+  device: 'dispositivo',
+};
+
+const CAMPOS: Record<string, string> = {
+  task: 'tarefa',
+  tarea: 'tarefa',
+  title: 'titulo',
+  name: 'nome',
+  nombre: 'nome',
+  list: 'lista',
+  list_name: 'lista_nome',
+  lista_nombre: 'lista_nome',
+  project: 'projeto',
+  proyecto: 'projeto',
+  project_name: 'projeto_nome',
+  proyecto_nombre: 'projeto_nome',
+  labels: 'etiquetas',
+  tags: 'etiquetas',
+  due: 'vencimento',
+  due_date: 'vencimento',
+  vencimiento: 'vencimento',
+  time: 'hora',
+  due_time: 'hora',
+  completed_at: 'concluida_em',
+  completada_en: 'concluida_em',
+  by: 'por',
+  by_name: 'por_nome',
+  por_nombre: 'por_nome',
+  person: 'pessoa',
+  persona: 'pessoa',
+  person_name: 'pessoa_nome',
+  persona_nombre: 'pessoa_nome',
+  level: 'nivel',
+  previous_level: 'nivel_anterior',
+  nivel_previo: 'nivel_anterior',
+  streak: 'sequencia',
+  racha: 'sequencia',
+  milestone: 'marco',
+  hito: 'marco',
+  milestone_name: 'marco_nome',
+  hito_nombre: 'marco_nome',
+  boss_name: 'boss_nome',
+  jefe: 'boss',
+  jefe_nombre: 'boss_nome',
+};
+
+const FILTROS: Record<string, string> = {
+  data: 'data',
+  date: 'data',
+  fecha: 'data',
+  hora: 'hora',
+  time: 'hora',
+  corta: 'corta',
+  cut: 'corta',
+  truncate: 'corta',
+  recorta: 'corta',
+  padrao: 'padrao',
+  default: 'padrao',
+  predeterminado: 'padrao',
+};
+
+/** Limite de um texto depois de expandido (V14 §2.1). */
+export const MAX_TEXTO = 2000;
+
+type Achado = { achou: boolean; valor: unknown };
+
+/** Lê `evento.titulo`, `usuario.nivel`, `agora`, `var.x` (com os apelidos). */
+export function resolver(caminho: string, ctx: Contexto): Achado {
+  const partes = caminho.trim().split('.').filter(Boolean);
+  const espaco = ESPACOS[(partes.shift() ?? '').toLowerCase()];
+  if (!espaco) return { achou: false, valor: undefined };
+  if (espaco === 'agora')
+    return partes.length ? { achou: false, valor: undefined } : { achou: true, valor: ctx.agora };
+  let atual: unknown =
+    espaco === 'evento'
+      ? ctx.estado.evento
+      : espaco === 'var'
+        ? ctx.estado.var
+        : espaco === 'usuario'
+          ? (ctx.usuario ?? {})
+          : (ctx.estado.evento as Record<string, unknown>)[espaco];
+  for (const parte of partes) {
+    if (atual === null || typeof atual !== 'object' || Array.isArray(atual))
+      return { achou: false, valor: undefined };
+    const obj = atual as Record<string, unknown>;
+    const chave = parte in obj ? parte : (CAMPOS[parte.toLowerCase()] ?? parte.toLowerCase());
+    if (!(chave in obj)) return { achou: false, valor: undefined };
+    atual = obj[chave];
+  }
+  return { achou: atual !== undefined, valor: atual };
+}
+
+const comoTexto = (v: unknown): string =>
+  v === null || v === undefined
+    ? ''
+    : Array.isArray(v)
+      ? v.map(comoTexto).join(', ')
+      : typeof v === 'object'
+        ? JSON.stringify(v)
+        : String(v);
+
+const DATA_SO = /^\d{4}-\d{2}-\d{2}$/;
+
+function formatar(v: string, filtro: 'data' | 'hora', ctx: Contexto): string | null {
+  if (!v) return '';
+  if (filtro === 'hora' && /^\d{2}:\d{2}(:\d{2})?$/.test(v)) return v.slice(0, 5);
+  const soData = DATA_SO.test(v);
+  const d = new Date(soData ? `${v}T00:00:00Z` : v);
+  if (Number.isNaN(d.getTime())) return null;
+  const timeZone = soData ? 'UTC' : (ctx.fuso ?? 'UTC');
+  try {
+    return new Intl.DateTimeFormat(
+      ctx.idioma ?? 'pt-BR',
+      filtro === 'data'
+        ? { timeZone, day: '2-digit', month: '2-digit', year: 'numeric' }
+        : { timeZone, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' },
+    ).format(d);
+  } catch {
+    return null;
+  }
+}
+
+/** Separa `evento.titulo | corta:40 | padrao:"a|b"` respeitando as aspas. */
+function partir(expr: string): string[] {
+  const out: string[] = [];
+  let atual = '';
+  let aspas = false;
+  for (const c of expr) {
+    if (c === '"') aspas = !aspas;
+    if (c === '|' && !aspas) {
+      out.push(atual.trim());
+      atual = '';
+    } else atual += c;
+  }
+  out.push(atual.trim());
+  return out;
+}
+
+/**
+ * Troca cada `{{ caminho | filtro }}` pelo valor. Variável que não existe vira texto vazio e deixa
+ * um aviso (não derruba o passo); `|padrao:"x"` cobre a falta sem aviso.
+ */
+export function expandir(texto: string, ctx: Contexto, avisos: string[]): string {
+  const out = texto.replace(/\{\{([^{}]*)\}\}/g, (_, expr: string) => {
+    const [caminho, ...filtros] = partir(expr);
+    const { achou, valor } = resolver(caminho, ctx);
+    let v = comoTexto(valor);
+    let faltou = !achou;
+    for (const f of filtros) {
+      const i = f.indexOf(':');
+      const nome = FILTROS[(i < 0 ? f : f.slice(0, i)).trim().toLowerCase()];
+      const arg = i < 0 ? '' : f.slice(i + 1).trim();
+      if (nome === 'data' || nome === 'hora') {
+        const r = formatar(v, nome, ctx);
+        if (r === null) avisos.push(`Não deu para ler "${v}" como ${nome}`);
+        else v = r;
+      } else if (nome === 'corta') {
+        const n = Number(arg);
+        if (Number.isInteger(n) && n >= 0) v = v.slice(0, n);
+        else avisos.push(`Filtro corta precisa de um número: ${f}`);
+      } else if (nome === 'padrao') {
+        if (!v) v = arg.replace(/^"(.*)"$/, '$1');
+        faltou = false;
+      } else {
+        avisos.push(`Filtro desconhecido: ${f}`);
+      }
+    }
+    if (faltou) avisos.push(`Variável inexistente: ${caminho}`);
+    return v;
+  });
+  return out.slice(0, MAX_TEXTO);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Condições (V14 §4): E, OU, NÃO, comparações e condições prontas
+// ---------------------------------------------------------------------------------------------
+
+export type Condicao =
+  | { e: Condicao[] }
+  | { ou: Condicao[] }
+  | { nao: Condicao }
+  | { pronta: string; [chave: string]: unknown }
+  | { campo: string; op: string; valor?: unknown };
+
+/** Orçamento de nós por avaliação (V14 §4). */
+const ORCAMENTO = 1000;
+
+const numero = (v: unknown): number | null => {
+  if (typeof v === 'number' && Number.isFinite(v)) return v;
+  if (typeof v === 'string' && v.trim() !== '' && Number.isFinite(Number(v))) return Number(v);
+  return null;
+};
+const igual = (a: unknown, b: unknown) => {
+  const na = numero(a);
+  const nb = numero(b);
+  if (na !== null && nb !== null) return na === nb;
+  return comoTexto(a).toLowerCase() === comoTexto(b).toLowerCase();
+};
+const vazio = (v: unknown) =>
+  v === null ||
+  v === undefined ||
+  v === '' ||
+  (Array.isArray(v) && v.length === 0) ||
+  (typeof v === 'object' && !Array.isArray(v) && Object.keys(v as object).length === 0);
+
+const DIAS = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 } as Record<string, number>;
+
+/** Hora (minutos do dia) e dia da semana (0 = domingo) no fuso da dona. */
+export function horaLocal(ctx: Contexto, avisos: string[]): { minutos: number; dia: number } {
+  const d = new Date(ctx.agora);
+  let partes: Intl.DateTimeFormatPart[];
+  try {
+    partes = new Intl.DateTimeFormat('en-US', {
+      timeZone: ctx.fuso ?? 'UTC',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+      weekday: 'short',
+    }).formatToParts(d);
+  } catch {
+    avisos.push(`Fuso desconhecido: ${ctx.fuso}`);
+    partes = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'UTC',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+      weekday: 'short',
+    }).formatToParts(d);
+  }
+  const get = (t: string) => partes.find((p) => p.type === t)?.value ?? '';
+  return {
+    minutos: Number(get('hour')) * 60 + Number(get('minute')),
+    dia: DIAS[get('weekday')] ?? 0,
+  };
+}
+
+const minutosDe = (hhmm: unknown) => {
+  const m = /^(\d{2}):(\d{2})$/.exec(String(hhmm ?? ''));
+  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+};
+
+function pronta(
+  c: { pronta: string; [k: string]: unknown },
+  ctx: Contexto,
+  avisos: string[],
+): boolean {
+  const evento = ctx.estado.evento;
+  switch (c.pronta) {
+    case 'janela_horario': {
+      const de = minutosDe(c.de);
+      const ate = minutosDe(c.ate);
+      if (de === null || ate === null) {
+        avisos.push('Janela de horário sem de/até');
+        return false;
+      }
+      const agora = horaLocal(ctx, avisos).minutos;
+      // Das 22:00 às 06:00 atravessa a meia-noite
+      return de <= ate ? agora >= de && agora < ate : agora >= de || agora < ate;
+    }
+    case 'dias_semana': {
+      const dias = Array.isArray(c.dias) ? c.dias.map(Number) : [];
+      return dias.includes(horaLocal(ctx, avisos).dia);
+    }
+    case 'projeto':
+      return evento.projeto !== undefined && igual(evento.projeto, c.projeto);
+    case 'lista':
+      return evento.lista !== undefined && igual(evento.lista, c.lista);
+    case 'etiqueta': {
+      const alvo = String(c.etiqueta ?? '')
+        .replace(/^#/, '')
+        .toLowerCase();
+      return (
+        Array.isArray(evento.etiquetas) &&
+        evento.etiquetas.some((e) => String(e).toLowerCase() === alvo)
+      );
+    }
+    case 'nivel_min': {
+      const nivel = numero(ctx.usuario?.nivel);
+      return nivel !== null && nivel >= Number(c.nivel);
+    }
+    default:
+      avisos.push(`Condição pronta desconhecida: ${c.pronta}`);
+      return false;
+  }
+}
+
+function comparar(
+  c: { campo: string; op: string; valor?: unknown },
+  ctx: Contexto,
+  avisos: string[],
+): boolean {
+  const caminho = c.campo.replace(/^\{\{|\}\}$/g, '').trim();
+  const { achou, valor: a } = resolver(caminho, ctx);
+  if (c.op === 'vazio') return vazio(a);
+  if (!achou) avisos.push(`Variável inexistente: ${caminho}`);
+  const b =
+    typeof c.valor === 'string' && c.valor.includes('{{')
+      ? expandir(c.valor, ctx, avisos)
+      : c.valor;
+  switch (c.op) {
+    case '=':
+      return achou && (Array.isArray(a) ? a.some((x) => igual(x, b)) : igual(a, b));
+    case '≠':
+      return !(achou && (Array.isArray(a) ? a.some((x) => igual(x, b)) : igual(a, b)));
+    case '<':
+    case '≤':
+    case '>':
+    case '≥': {
+      if (!achou) return false;
+      const na = numero(a);
+      const nb = numero(b);
+      let d: number;
+      if (na !== null && nb !== null) d = na - nb;
+      else if (
+        typeof a === 'string' &&
+        typeof b === 'string' &&
+        /^\d{4}-\d{2}/.test(a) &&
+        /^\d{4}-\d{2}/.test(b)
+      ) {
+        d = a < b ? -1 : a > b ? 1 : 0;
+      } else {
+        avisos.push(`Não dá para comparar "${comoTexto(a)}" ${c.op} "${comoTexto(b)}"`);
+        return false;
+      }
+      return c.op === '<' ? d < 0 : c.op === '≤' ? d <= 0 : c.op === '>' ? d > 0 : d >= 0;
+    }
+    case 'contem':
+      if (!achou) return false;
+      return Array.isArray(a)
+        ? a.some((x) => igual(x, b))
+        : comoTexto(a).toLowerCase().includes(comoTexto(b).toLowerCase());
+    case 'comeca_com':
+      return achou && comoTexto(a).toLowerCase().startsWith(comoTexto(b).toLowerCase());
+    case 'em': {
+      if (!achou) return false;
+      const lista = Array.isArray(b)
+        ? b
+        : comoTexto(b)
+            .split(',')
+            .map((x) => x.trim());
+      return lista.some((x) => igual(a, x));
+    }
+    default:
+      avisos.push(`Operador desconhecido: ${c.op}`);
+      return false;
+  }
+}
+
+/**
+ * Avalia a condição, sem efeito nenhum. Erro de tipo ou nó demais viram "falsa" mais um aviso; nunca
+ * interrompem a execução.
+ */
+export function avaliar(
+  cond: Condicao | null | undefined,
+  ctx: Contexto,
+  avisos: string[],
+): boolean {
+  if (!cond) return true;
+  const orcamento = { n: ORCAMENTO };
+  const go = (c: Condicao): boolean => {
+    if (--orcamento.n < 0) {
+      if (orcamento.n === -1) avisos.push('Condição grande demais');
+      return false;
+    }
+    if (!c || typeof c !== 'object') {
+      avisos.push('Condição inválida');
+      return false;
+    }
+    if ('e' in c) return Array.isArray(c.e) && c.e.every(go);
+    if ('ou' in c) return Array.isArray(c.ou) && c.ou.some(go);
+    if ('nao' in c) return !go(c.nao as Condicao);
+    if ('pronta' in c) return pronta(c, ctx, avisos);
+    if ('campo' in c && typeof c.campo === 'string') return comparar(c, ctx, avisos);
+    avisos.push('Condição inválida');
+    return false;
+  };
+  return go(cond);
+}
+
+// ---------------------------------------------------------------------------------------------
 // Programa linear
 // ---------------------------------------------------------------------------------------------
 
 /** Instrução: um passo (com o destino de cada bloco e do fim) ou um salto. */
 export type Instrucao =
   | { passo: Passo; caminho: string; blocos?: Record<string, number>; fim?: number }
-  | { salto: number };
+  | { salto: number }
+  | { condicoes: Condicao };
 
 /**
  * Achata os passos: o passo com blocos vem seguido do corpo de cada bloco, e cada corpo termina num
  * salto para depois do último. Passo de tipo desconhecido entra como está (falha quando for a vez dele).
  */
-export function compile(passos: Passo[], registro: Registro, prefixo = ''): Instrucao[] {
-  const out: Instrucao[] = [];
+export function compile(
+  passos: Passo[],
+  registro: Registro,
+  condicoes?: Condicao | null,
+): Instrucao[] {
+  const out: Instrucao[] = condicoes ? [{ condicoes }] : [];
   const emit = (lista: Passo[], base: string) => {
     lista.forEach((passo, i) => {
       const caminho = base ? `${base}.${i}` : String(i);
@@ -151,12 +561,18 @@ export function compile(passos: Passo[], registro: Registro, prefixo = ''): Inst
       for (const s of saltos) s.salto = out.length;
     });
   };
-  emit(passos, prefixo);
+  emit(passos, '');
   return out;
 }
 
 /** Linha do histórico de um passo (automation_runs.steps). */
-export type LinhaPasso = { caminho: string; tipo: string; ok: boolean; erro?: string; ramo?: string | null };
+export type LinhaPasso = {
+  caminho: string;
+  tipo: string;
+  ok: boolean;
+  erro?: string;
+  ramo?: string | null;
+};
 
 export type Avanco = {
   /** Próximo ponteiro (igual a program.length: acabou). */
@@ -170,20 +586,47 @@ export type Avanco = {
 };
 
 /** Um passo: puro. Saltos são seguidos sem virar passo. */
-export function advance(programa: Instrucao[], pc: number, ctx: Contexto, registro: Registro): Avanco {
+export function advance(
+  programa: Instrucao[],
+  pc: number,
+  ctx: Contexto,
+  registro: Registro,
+): Avanco {
   let p = pc;
   while (p < programa.length) {
     const inst = programa[p];
     if (!('salto' in inst)) break;
     p = inst.salto;
   }
-  if (p >= programa.length) return { proximo: programa.length, estado: ctx.estado, status: 'ok', avisos: [] };
-  const inst = programa[p] as Extract<Instrucao, { passo: Passo }>;
+  if (p >= programa.length)
+    return { proximo: programa.length, estado: ctx.estado, status: 'ok', avisos: [] };
+  const atual = programa[p];
+  if ('condicoes' in atual) {
+    // As condições da regra: não batendo, a execução acaba sem fazer nada (e fica no histórico)
+    const avisos: string[] = [];
+    const ok = avaliar(atual.condicoes, ctx, avisos);
+    const proximo = ok ? p + 1 : programa.length;
+    return {
+      proximo,
+      estado: ctx.estado,
+      status: proximo >= programa.length ? 'ok' : 'rodando',
+      avisos,
+      log: { caminho: 'condicoes', tipo: 'condicoes', ok: true, ramo: ok ? 'sim' : 'nao' },
+    };
+  }
+  const inst = atual as Extract<Instrucao, { passo: Passo }>;
   const tipo = registro.get(inst.passo.tipo);
   const base = { caminho: inst.caminho, tipo: inst.passo.tipo };
   if (!tipo) {
     const erro = `Passo "${inst.passo.tipo}" ainda não está disponível`;
-    return { proximo: p, estado: ctx.estado, status: 'falhou', erro, avisos: [], log: { ...base, ok: false, erro } };
+    return {
+      proximo: p,
+      estado: ctx.estado,
+      status: 'falhou',
+      erro,
+      avisos: [],
+      log: { ...base, ok: false, erro },
+    };
   }
   let r: Resultado;
   try {
@@ -192,13 +635,25 @@ export function advance(programa: Instrucao[], pc: number, ctx: Contexto, regist
     r = { erro: e instanceof Error ? e.message : String(e) };
   }
   if (r.erro) {
-    return { proximo: p, estado: ctx.estado, status: 'falhou', erro: r.erro, avisos: r.avisos ?? [], log: { ...base, ok: false, erro: r.erro } };
+    return {
+      proximo: p,
+      estado: ctx.estado,
+      status: 'falhou',
+      erro: r.erro,
+      avisos: r.avisos ?? [],
+      log: { ...base, ok: false, erro: r.erro },
+    };
   }
-  const estado: Estado = r.var ? { ...ctx.estado, var: { ...ctx.estado.var, ...r.var } } : ctx.estado;
+  const estado: Estado = r.var
+    ? { ...ctx.estado, var: { ...ctx.estado.var, ...r.var } }
+    : ctx.estado;
   let proximo = p + 1;
-  if (inst.blocos) proximo = r.ramo && r.ramo in inst.blocos ? inst.blocos[r.ramo] : (inst.fim ?? p + 1);
+  if (inst.blocos)
+    proximo = r.ramo && r.ramo in inst.blocos ? inst.blocos[r.ramo] : (inst.fim ?? p + 1);
   if (r.parar) proximo = programa.length;
-  const log: LinhaPasso = inst.blocos ? { ...base, ok: true, ramo: r.ramo ?? null } : { ...base, ok: true };
+  const log: LinhaPasso = inst.blocos
+    ? { ...base, ok: true, ramo: r.ramo ?? null }
+    : { ...base, ok: true };
   return {
     proximo,
     estado,
@@ -222,7 +677,10 @@ export type Execucao = {
   scope: Escopo;
   rule_id: string;
   rule_name: string;
-  definition: { passos?: Passo[] };
+  definition: { passos?: Passo[]; condicoes?: Condicao | null };
+  fuso?: string;
+  idioma?: string;
+  usuario?: Record<string, unknown>;
 };
 
 export type Commit = {
@@ -251,11 +709,19 @@ export async function executeRun(
   commit: CommitFn,
   agora: () => string = () => new Date().toISOString(),
 ): Promise<'ok' | 'falhou' | 'ignorado'> {
-  const programa = compile(run.definition.passos ?? [], registro);
+  const programa = compile(run.definition.passos ?? [], registro, run.definition.condicoes);
   let estado: Estado = { evento: run.state.evento ?? {}, var: run.state.var ?? {} };
   let pc = run.step;
   for (let guarda = 0; guarda <= programa.length + 1; guarda++) {
-    const ctx: Contexto = { estado, escopo: run.scope, regra: { id: run.rule_id, nome: run.rule_name }, agora: agora() };
+    const ctx: Contexto = {
+      estado,
+      escopo: run.scope,
+      regra: { id: run.rule_id, nome: run.rule_name },
+      agora: agora(),
+      fuso: run.fuso,
+      idioma: run.idioma,
+      usuario: run.usuario,
+    };
     const a = advance(programa, pc, ctx, registro);
     const res = await commit({
       run: run.id,
@@ -287,12 +753,19 @@ export const PASSOS_BASE: TipoPasso[] = [
   {
     id: 'notificar',
     execute: (ctx, p) => {
-      const titulo = texto(p.titulo, 80);
-      const corpo = texto(p.corpo, 240);
+      const avisos: string[] = [];
+      const titulo = expandir(texto(p.titulo, 2000), ctx, avisos).slice(0, 80);
+      const corpo = expandir(texto(p.corpo, 2000), ctx, avisos).slice(0, 240);
       if (!titulo && !corpo) return { erro: 'O aviso precisa de título ou texto' };
       const canal = p.canal === 'app' || p.canal === 'push' ? p.canal : 'ambos';
-      const para = ctx.escopo === 'pessoal' ? 'dona' : p.para === 'responsaveis' || p.para === 'pessoa' ? p.para : 'dona';
+      const para =
+        ctx.escopo === 'pessoal'
+          ? 'dona'
+          : p.para === 'responsaveis' || p.para === 'pessoa'
+            ? p.para
+            : 'dona';
       return {
+        avisos,
         efeito: {
           tipo: 'notificacao',
           titulo,
@@ -305,6 +778,14 @@ export const PASSOS_BASE: TipoPasso[] = [
     },
   },
   { id: 'parar', execute: () => ({ parar: true }) },
+  {
+    id: 'se',
+    blocos: ['entao', 'senao'],
+    execute: (ctx, p) => {
+      const avisos: string[] = [];
+      return { ramo: avaliar(p.condicao as Condicao, ctx, avisos) ? 'entao' : 'senao', avisos };
+    },
+  },
 ];
 
 export const registroBase = () => createRegistry(PASSOS_BASE);

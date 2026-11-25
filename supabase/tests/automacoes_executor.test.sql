@@ -2,6 +2,9 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 select plan(24);
+-- Começa com a fila vazia (o banco local guarda o que os E2E deixaram; tudo volta no rollback)
+delete from public.automation_runs;
+delete from public.automation_events;
 
 insert into auth.users (id, email) values
   ('11111111-1111-1111-1111-111111111111', 'dona@teste.local'),

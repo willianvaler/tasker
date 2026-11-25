@@ -14,6 +14,9 @@ import {
 
 export {
   advance,
+  avaliar,
+  expandir,
+  resolver,
   CATALOGO,
   compile,
   createRegistry,
@@ -24,6 +27,7 @@ export {
 export type {
   Commit,
   CommitFn,
+  Condicao,
   Contexto,
   Efeito,
   Escopo,
@@ -38,7 +42,12 @@ export type {
 const key = (id: string) => id.replace(/\./g, '_');
 
 export type TipoGatilhoInfo = { id: string; escopos: Escopo[]; label: () => string };
-export type TipoPassoInfo = { id: string; escopos: Escopo[]; externo: boolean; label: () => string };
+export type TipoPassoInfo = {
+  id: string;
+  escopos: Escopo[];
+  externo: boolean;
+  label: () => string;
+};
 
 export const GATILHOS: TipoGatilhoInfo[] = Object.entries(CATALOGO.gatilhos).map(([id, meta]) => ({
   id,
@@ -54,7 +63,8 @@ export const PASSOS: TipoPassoInfo[] = Object.entries(CATALOGO.passos).map(([id,
 }));
 
 /** Gatilhos e passos que valem para o escopo (o editor só mostra estes). */
-export const gatilhosDoEscopo = (escopo: Escopo) => GATILHOS.filter((g) => g.escopos.includes(escopo));
+export const gatilhosDoEscopo = (escopo: Escopo) =>
+  GATILHOS.filter((g) => g.escopos.includes(escopo));
 export const passosDoEscopo = (escopo: Escopo) => PASSOS.filter((p) => p.escopos.includes(escopo));
 
 /** Registro com os passos que o executor já sabe rodar, mais os que forem passados. */
