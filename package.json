@@ -113,7 +113,8 @@
     "wear": "bash scripts/build-wear.sh",
     "lab": "bash scripts/lab.sh",
     "promover": "bash scripts/promover.sh",
-    "feitos": "node scripts/feitos.mjs"
+    "feitos": "node scripts/feitos.mjs",
+    "bench:editor": "jest --testPathIgnorePatterns /node_modules/ --runTestsByPath scripts/bench/editor-busca.test.ts && node scripts/e2e.mjs -c playwright.bench.config.ts"
   },
   "private": true,
   "jest": {
@@ -122,7 +123,8 @@
       "/node_modules/",
       "/supabase/",
       "/e2e/",
-      "/e2e-capturas/"
+      "/e2e-capturas/",
+      "/scripts/bench/"
     ]
   }
 }

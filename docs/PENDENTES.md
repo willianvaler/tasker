@@ -48,7 +48,8 @@ Fora do fechamento: AC7.4 (desligado por padrão, e o resto vai com o V7), AC12.
 | V14 | SL0 | Spike do Smart Life/Tuya: o Positivo no Smart Life, chaves da Tuya, comando real, cota, termos, estado do IR, fixtures, protocolo local | não começado | dono |
 | V14 | SL1 a SL5 | Conector Tuya: conexão, descoberta, comandos, ponte doméstica, tela Dispositivos | não começado | SL0 aprovado |
 | **V15** | — | Contexto do celular, câmeras, casa, saúde, estudo, captura, integrações | não começado | V14 |
-| **V16** | — | Editor de anotações avançado e Processos (BPM leve), sobre o motor do V14 | não começado | V14 |
+| **V16** | ED0 | Aprovar o spike do editor (`docs/SPIKE_EDITOR.md`): manter o campo de texto e estender (V16-4), subir o teto de 20 mil caracteres (V16-18), informar os aparelhos de referência (V16-3) e o corpus de anotações reais para o ED1 | pendente | dono |
+| V16 | ED1 a ED7, FN, PR1 a PR8 | Editor e Processos (BPM leve), sobre o motor do V14 | não começado | ED0 aprovado e decisões V16-1 a V16-18 |
 
 ## Decisões do dono em aberto
 
