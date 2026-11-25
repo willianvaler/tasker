@@ -1,5 +1,5 @@
 import { useIsFocused } from 'expo-router';
-import { useEffect, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 
 import type { Task } from '@/lib/queries/tasks';
 
@@ -63,7 +63,30 @@ export function useSelection<T>(pick: (s: State) => T): T {
 
 export function useSelectableList(tasks: Task[]) {
   const focused = useIsFocused();
+  const mine = useRef<Task[] | null>(null);
+  // A seleção desta lista enquanto outra tela está por cima (a anotação, a tarefa aberta)
+  const saved = useRef<string | null | undefined>(undefined);
   useEffect(() => {
-    if (focused) selection.setList(tasks);
+    if (focused) {
+      const back = saved.current;
+      saved.current = undefined;
+      mine.current = tasks;
+      selection.setList(tasks);
+      // Voltou: vale a seleção que era desta lista, não um clique feito na outra tela
+      if (back !== undefined)
+        selection.select(back && tasks.some((t) => t.id === back) ? back : null);
+    } else if (mine.current && state.list === mine.current) {
+      // Saiu de foco: a seleção não fica valendo para os atalhos de outra tela
+      saved.current = state.selectedId;
+      mine.current = null;
+      selection.setList([]);
+    }
   }, [focused, tasks]);
+  // Desmontou (a anotação com a lista fechou): se a lista registrada ainda era esta, some
+  useEffect(
+    () => () => {
+      if (mine.current && state.list === mine.current) selection.setList([]);
+    },
+    [],
+  );
 }
