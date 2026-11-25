@@ -7,6 +7,7 @@ import {
   RefreshCw,
   Timer,
   Trash2,
+  Workflow,
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -187,6 +188,17 @@ function ProfileForm({ profile }: { profile: Profile }) {
           className="self-start"
           label={t('poll.title')}
           onPress={() => router.push('/enquetes')}
+        />
+      </Group>
+
+      <Group title={t('auto.ed.title')}>
+        <Text className="text-sm text-ink-muted">{t('auto.ed.settingsHint')}</Text>
+        <Button
+          variant="ghost"
+          icon={Workflow}
+          className="self-start"
+          label={t('auto.ed.open')}
+          onPress={() => router.push('/automacoes')}
         />
       </Group>
 

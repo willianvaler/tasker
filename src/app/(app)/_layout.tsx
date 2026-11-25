@@ -82,7 +82,9 @@ export default function AppLayout() {
               <Stack.Screen name="recompensas" />
               <Stack.Screen name="estabulo" />
               <Stack.Screen name="alunos/[id]" />
+              <Stack.Screen name="automacoes/index" />
               <Stack.Screen name="automacoes/[id]" />
+              <Stack.Screen name="automacao/[id]" />
               <Stack.Screen name="templates" options={{ presentation: 'modal' }} />
               <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
               {/* Painel da tarefa: o Sheet desenha o painel e a animação; a lista atrás continua viva */}

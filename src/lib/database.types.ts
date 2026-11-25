@@ -3183,6 +3183,9 @@ isOneToOne: false
 "_automation_next_run":
 { Args: { "p_after": string,"p_definition": Json,"p_tz": string }; Returns: string
                            },
+"_automation_overdue_count":
+{ Args: { "p_owner": string,"p_tz": string }; Returns: number
+                           },
 "_automation_own_rule":
 { Args: { "p_rule": string }; Returns: {
               "action": string | null,

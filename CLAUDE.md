@@ -75,7 +75,9 @@ src/
     (app)/treino/[id].tsx     # Modo Treino (tela cheia): séries, descanso, carga, resumo (D127)
     (app)/pomodoro.tsx        # Pomodoro: durações, sugestões de pausa, estatísticas (D129 a D132)
     (app)/alunos/[id].tsx     # Painel "Alunos" de uma página enviada (D137)
-    (app)/automacoes/[id].tsx # Automações "quando… então…" do projeto (D143)
+    (app)/automacoes/[id].tsx # Automações "quando… então…" do projeto (D143), com Editar no editor do V14
+    (app)/automacoes/index.tsx # Configurações → Automações: as pessoais, Pausar todas, uso da hora e modelos (AU7)
+    (app)/automacao/[id].tsx  # Editor de uma automação do V14 (Quando/Se/Então, Testar, histórico); /automacao/nova
   components/
     ui/                       # Button, Input, Checkbox, Chip, dialogs (PromptDialog, ConfirmDialog, ActionMenu),
                               # ProgressBar, Grid (colunas pela largura da janela)

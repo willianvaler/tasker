@@ -70,10 +70,10 @@ select public.automation_hook_fire((select t from tk2), '{"nome": "assinado"}', 
 reset role;
 select ok(exists (select 1 from public.automation_events where kind = 'webhook' and payload #>> '{hook,nome}' = 'assinado'),
   'com a assinatura certa, entra');
-select isnt((select last_used_at from public.automation_hooks), null, 'o último uso fica registrado');
+select isnt((select last_used_at from public.automation_hooks where rule_id = 'd0000000-0000-0000-0000-000000000001'), null, 'o último uso fica registrado');
 
 -- Corpo acima de 16 KB não entra
-update public.automation_hooks set require_signature = false;
+update public.automation_hooks set require_signature = false where rule_id = 'd0000000-0000-0000-0000-000000000001';
 set local role anon;
 select public.automation_hook_fire((select t from tk2), jsonb_build_object('x', repeat('a', 17000)));
 reset role;

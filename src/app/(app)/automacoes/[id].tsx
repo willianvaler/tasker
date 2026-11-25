@@ -1,6 +1,6 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import type { TFunction } from 'i18next';
-import { X } from 'lucide-react-native';
+import { Pencil, Plus, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -21,6 +21,7 @@ import {
   type AutomationTrigger,
   type RuleDraft,
 } from '@/lib/automations';
+import { resumoGatilho, type Definicao } from '@/lib/automation/editor';
 import { actorCan } from '@/lib/permissions';
 import {
   useAutomationMutations,
@@ -53,6 +54,10 @@ const THEN = {
 type Named = Map<string, string>;
 
 function sentence(rule: AutomationRule, t: TFunction, pages: Named, people: Named) {
+  // Regra no formato novo (editor do V14, AU7): o nome e o gatilho em uma frase
+  if (!rule.trigger || !rule.action) {
+    return `${rule.name} · ${resumoGatilho((rule.definition as unknown as Definicao).gatilho)}`;
+  }
   const p = (rule.params ?? {}) as Record<string, string | number | undefined>;
   const page = rule.page_id ? ` ${t('auto.inPage', { page: pages.get(rule.page_id) ?? '—' })}` : '';
   const when = `${t(WHEN[rule.trigger as AutomationTrigger])}${page}`;
@@ -125,6 +130,15 @@ export default function AutomationsScreen() {
               />
               {canManage && (
                 <IconButton
+                  icon={Pencil}
+                  label={t('auto.ed.edit', { name: text })}
+                  onPress={() =>
+                    router.push({ pathname: '/automacao/[id]', params: { id: rule.id } })
+                  }
+                />
+              )}
+              {canManage && (
+                <IconButton
                   tone="danger"
                   icon={X}
                   label={t('auto.remove', { rule: text })}
@@ -134,6 +148,21 @@ export default function AutomationsScreen() {
             </View>
           );
         })}
+
+        {canManage && (
+          <Button
+            variant="ghost"
+            icon={Plus}
+            className="self-start"
+            label={t('auto.ed.newFull')}
+            onPress={() =>
+              router.push({
+                pathname: '/automacao/[id]',
+                params: { id: 'nova', escopo: 'projeto', pasta: id },
+              })
+            }
+          />
+        )}
 
         {canManage && (
           <View className="gap-3">
