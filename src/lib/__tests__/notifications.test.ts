@@ -14,6 +14,17 @@ describe('textos das notificações (tela 🔔 e push)', () => {
       }),
     ).toEqual({ text: 'Ana te atribuiu "Carne" em Churrasco', taskId: 't1' });
   });
+  test('automação do motor novo (AU2): título e texto, com ou sem tarefa', () => {
+    expect(
+      describeNotification({ kind: 'automation', payload: { titulo: 'Boa noite', message: 'Desligue o ar' } }),
+    ).toEqual({ text: 'Boa noite: Desligue o ar' });
+    expect(
+      describeNotification({
+        kind: 'automation',
+        payload: { message: 'Feita', title: 'Carne', task_id: 't1' },
+      }),
+    ).toEqual({ text: 'Feita: "Carne"', taskId: 't1' });
+  });
   test('lembrete de tarefa com horário', () => {
     expect(
       describeNotification({

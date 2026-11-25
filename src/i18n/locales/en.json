@@ -2330,7 +2330,40 @@
     "runs_other": "Ran {{count}} times",
     "log": "Recent runs",
     "ok": "done",
-    "failed": "failed: {{message}}"
+    "failed": "failed: {{message}}",
+    "motor": {
+      "gatilho": {
+        "tarefa_criada": "Task created",
+        "tarefa_concluida": "Task completed",
+        "tarefa_atrasada": "Task overdue",
+        "tarefa_vencendo": "Task due soon",
+        "tarefa_pronta": "Task became ready",
+        "tarefa_atribuida": "Task assigned",
+        "lista_concluida": "Whole list completed",
+        "marco_atingido": "Milestone reached",
+        "nivel_subiu": "Leveled up",
+        "boss_derrotado": "Boss defeated",
+        "horario": "At a time",
+        "intervalo": "Every interval",
+        "webhook": "Incoming call (webhook)",
+        "manual": "Only when I run it"
+      },
+      "passo": {
+        "notificar": "Notify",
+        "criar_tarefa": "Create task",
+        "atualizar_tarefa": "Update task",
+        "atribuir": "Assign",
+        "descanso": "Start a rest",
+        "enviar_webhook": "Call a URL (webhook)",
+        "comandar_dispositivo": "Control a device",
+        "esperar": "Wait",
+        "executar_regra": "Run another automation",
+        "definir_variavel": "Set a variable",
+        "se": "If… else",
+        "parar": "Stop",
+        "alternar_modo_jogo": "Change game mode"
+      }
+    }
   },
   "approval": {
     "title": "Approval",

@@ -423,3 +423,7 @@ verify_jwt = false
 # E-mail da agenda (AG5): só o banco chama, com o segredo (EMAIL_WEBHOOK_SECRET)
 [functions.send-email]
 verify_jwt = false
+
+# Executor das automações (AU2): só o banco chama, com o segredo (AUTOMATION_WEBHOOK_SECRET)
+[functions.automation-run]
+verify_jwt = false

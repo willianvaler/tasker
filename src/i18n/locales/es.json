@@ -2330,7 +2330,40 @@
     "runs_other": "Corrió {{count}} veces",
     "log": "Últimas ejecuciones",
     "ok": "hecho",
-    "failed": "falló: {{message}}"
+    "failed": "falló: {{message}}",
+    "motor": {
+      "gatilho": {
+        "tarefa_criada": "Tarea creada",
+        "tarefa_concluida": "Tarea completada",
+        "tarefa_atrasada": "Tarea atrasada",
+        "tarefa_vencendo": "Tarea por vencer",
+        "tarefa_pronta": "Tarea lista para empezar",
+        "tarefa_atribuida": "Tarea asignada",
+        "lista_concluida": "Lista completa terminada",
+        "marco_atingido": "Hito alcanzado",
+        "nivel_subiu": "Subiste de nivel",
+        "boss_derrotado": "Jefe derrotado",
+        "horario": "A una hora",
+        "intervalo": "Cada cierto tiempo",
+        "webhook": "Llamada externa (webhook)",
+        "manual": "Solo cuando la ejecute"
+      },
+      "passo": {
+        "notificar": "Avisar",
+        "criar_tarefa": "Crear tarea",
+        "atualizar_tarefa": "Cambiar la tarea",
+        "atribuir": "Asignar",
+        "descanso": "Empezar descanso",
+        "enviar_webhook": "Llamar a una URL (webhook)",
+        "comandar_dispositivo": "Controlar dispositivo",
+        "esperar": "Esperar",
+        "executar_regra": "Ejecutar otra automatización",
+        "definir_variavel": "Guardar un valor",
+        "se": "Si… si no",
+        "parar": "Detener",
+        "alternar_modo_jogo": "Cambiar el modo juego"
+      }
+    }
   },
   "approval": {
     "title": "Aprobación",

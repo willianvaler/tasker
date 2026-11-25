@@ -203,12 +203,13 @@ export function describeNotification(
       };
     case 'prereq_reopened':
       return { text: say('prereq_reopened'), taskId: String(p.task_id) };
-    case 'automation':
-      return {
-        // A mensagem da automação foi escrita por quem a criou: vai como está
-        text: p.message ? `${p.message}: "${p.title}"` : say('automation'),
-        taskId: String(p.task_id),
-      };
+    case 'automation': {
+      // A mensagem da automação foi escrita por quem a criou: vai como está. Do motor novo (AU2) vem
+      // com `titulo` e pode não ter tarefa (regra de horário, nível etc.)
+      const own = [p.titulo, p.message].filter(Boolean).join(': ');
+      const text = p.title ? (own ? `${own}: "${p.title}"` : say('automation')) : own || String(p.rule_name ?? '');
+      return p.task_id ? { text, taskId: String(p.task_id) } : { text };
+    }
     case 'page_reminder':
       return {
         text: n(p.days) ? say('page_reminder_days') : say('page_reminder'),

@@ -2330,7 +2330,40 @@
     "runs_other": "Rodou {{count}} vezes",
     "log": "Últimas execuções",
     "ok": "feito",
-    "failed": "não deu: {{message}}"
+    "failed": "não deu: {{message}}",
+    "motor": {
+      "gatilho": {
+        "tarefa_criada": "Tarefa criada",
+        "tarefa_concluida": "Tarefa concluída",
+        "tarefa_atrasada": "Tarefa atrasada",
+        "tarefa_vencendo": "Tarefa perto do prazo",
+        "tarefa_pronta": "Tarefa ficou pronta",
+        "tarefa_atribuida": "Tarefa atribuída",
+        "lista_concluida": "Lista inteira concluída",
+        "marco_atingido": "Marco atingido",
+        "nivel_subiu": "Subiu de nível",
+        "boss_derrotado": "Boss derrotado",
+        "horario": "Num horário",
+        "intervalo": "A cada intervalo",
+        "webhook": "Chamada de fora (webhook)",
+        "manual": "Só quando eu mandar"
+      },
+      "passo": {
+        "notificar": "Avisar",
+        "criar_tarefa": "Criar tarefa",
+        "atualizar_tarefa": "Mudar a tarefa",
+        "atribuir": "Atribuir",
+        "descanso": "Começar descanso",
+        "enviar_webhook": "Chamar um endereço (webhook)",
+        "comandar_dispositivo": "Comandar dispositivo",
+        "esperar": "Esperar",
+        "executar_regra": "Rodar outra automação",
+        "definir_variavel": "Guardar um valor",
+        "se": "Se… senão",
+        "parar": "Parar",
+        "alternar_modo_jogo": "Trocar o modo jogo"
+      }
+    }
   },
   "approval": {
     "title": "Aprovação",

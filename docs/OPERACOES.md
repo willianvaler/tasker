@@ -109,6 +109,21 @@ npx supabase stop && npx supabase start
 
 Sem domínio verificado no Resend, o remetente `onboarding@resend.dev` só entrega no e-mail da conta do Resend. Ver o que saiu: `select kind, to_email, status, attempts, last_error, created_at from public.email_outbox order by created_at desc limit 20;`. O `alpha-copiar-producao.sh` tira `email_url`/`email_secret` da cópia (o alpha usa os dele). A confirmação de conta e o "esqueci a senha" (Auth) ainda usam o e-mail embutido do Supabase: ligar o SMTP do Resend no Auth é o próximo passo do V5-3.
 
+### Automações (executor, AU2)
+
+As automações rodam na Edge Function `automation-run`, chamada pelo banco a cada evento novo (pg_net) e pelo varredor do pg_cron a cada minuto (`automacoes-varredor`; retenção `automacoes-retencao`, eventos 7 dias, execuções 30). Sem `automation_url` no `app_config`, nada roda (as regras ficam com os eventos na fila). Em cada ambiente do servidor, uma vez:
+
+```bash
+echo "AUTOMATION_WEBHOOK_SECRET=$(openssl rand -hex 24)" >> supabase/functions/.env
+docker exec -i supabase_db_<projeto> psql -U postgres -c "insert into public.app_config values
+  ('automation_url', 'http://supabase_kong_<projeto>:8000/functions/v1/automation-run'),
+  ('automation_secret', '<o mesmo AUTOMATION_WEBHOOK_SECRET>')
+  on conflict (key) do update set value = excluded.value"
+npx supabase stop && npx supabase start
+```
+
+Ver o que rodou: `select r.name, x.status, x.step, x.error, x.started_at from public.automation_runs x join public.automation_rules r on r.id = x.rule_id order by x.started_at desc limit 20;`. Fila parada: `select kind, created_at from public.automation_events where processed_at is null;`. O `alpha-copiar-producao.sh` tira `automation_url`/`automation_secret` da cópia.
+
 ## Leitura de fotos (Gemini, V9)
 
 **Foto da nota** e **Foto de uma lista** chamam a Edge Function `read-photo`, que manda a foto ao Gemini (API do Google AI Studio). O portão do `/supabase` só deixa passar essa função, e só com login de verdade. A chave **não vai para o repositório**: fica em `supabase/functions/.env` (no `.gitignore`), que o `supabase start` carrega:
