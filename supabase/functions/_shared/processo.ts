@@ -685,7 +685,11 @@ export async function executarToken(
       },
       acao,
     );
-    if (r.erro) return deps.commit(t.token, t.claimed_at, { tipo: 'falha', erro: r.erro });
+    // Política do nó: "tentar de novo" vale também para o erro da ação (1, 5 e 30 min)
+    const tentar =
+      t.graph.nos.find((n) => n.id === t.node)?.falha === 'tentar' ? { tentar: true } : {};
+    if (r.erro)
+      return deps.commit(t.token, t.claimed_at, { tipo: 'falha', erro: r.erro, ...tentar });
     if (r.efeito && passo.externo) {
       const chave = `${t.instance}:${t.token}:${t.node}:${t.retries}`;
       const ext = await deps
@@ -698,7 +702,7 @@ export async function executarToken(
           tentar: true,
         });
       if ('erro' in ext)
-        return deps.commit(t.token, t.claimed_at, { tipo: 'falha', erro: ext.erro });
+        return deps.commit(t.token, t.claimed_at, { tipo: 'falha', erro: ext.erro, ...tentar });
       out.resultado = ext.resultado ?? null;
     } else if (r.efeito) {
       out.efeito = r.efeito;

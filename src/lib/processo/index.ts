@@ -38,4 +38,3 @@ export function textoDoErro(e: ErroGrafo, nomes: Map<string, string>): string {
   const no = e.no ? (nomes.get(e.no) ?? e.no) : '';
   return tr(`processos.erro.${e.codigo}`, { no, detalhe: e.detalhe ?? '' });
 }
-

@@ -200,6 +200,13 @@ function ProfileForm({ profile }: { profile: Profile }) {
           label={t('auto.ed.open')}
           onPress={() => router.push('/automacoes')}
         />
+        <Button
+          variant="ghost"
+          icon={Workflow}
+          className="self-start"
+          label={t('processos.open')}
+          onPress={() => router.push('/processos')}
+        />
       </Group>
 
       <Group title={t('settings.focus')}>

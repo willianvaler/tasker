@@ -560,7 +560,7 @@ function WebhookFields({
   );
 }
 
-function StepFields({
+export function StepFields({
   passo,
   onChange,
   ctx,

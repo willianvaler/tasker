@@ -3714,6 +3714,28 @@ isOneToOne: false
 "_process_sweep":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
+"_process_wait_of_task":
+{ Args: { "p_task": string }; Returns: {
+              "child_instance_id": string | null,
+"correlation_key": string | null,
+"created_at": string,
+"data": NonNullable<Json>,
+"due_at": string | null,
+"id": string,
+"instance_id": string,
+"kind": string,
+"remind_at": string | null,
+"reminded_at": string | null,
+"resolved_at": string | null,
+"task_id": string | null,
+"token_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "process_waits"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "_random_of":
 { Args: { "p_list": Json }; Returns: string
                            },
@@ -4580,11 +4602,20 @@ isOneToOne: false
 "process_claim":
 { Args: { "p_limit"?: number }; Returns: Json
                            },
+"process_complete_task":
+{ Args: { "p_escolha"?: string,"p_formulario"?: Json,"p_task": string }; Returns: Json
+                           },
+"process_delegate":
+{ Args: { "p_pessoa": string,"p_task": string }; Returns: undefined
+                           },
 "process_publish":
 { Args: { "p_definition": string }; Returns: string
                            },
 "process_resume":
 { Args: { "p_instance": string }; Returns: undefined
+                           },
+"process_return_task":
+{ Args: { "p_task": string }; Returns: undefined
                            },
 "process_signal":
 { Args: { "p_key": string,"p_payload"?: Json }; Returns: number
