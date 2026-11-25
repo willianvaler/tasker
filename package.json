@@ -83,6 +83,7 @@
     "@types/markdown-it": "^14.2.0",
     "@types/react": "~19.2.2",
     "babel-preset-expo": "~57.0.0",
+    "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
     "eslint-config-expo": "~57.0.2",
     "eslint-config-prettier": "^10.1.8",
@@ -125,7 +126,8 @@
     "lab": "bash scripts/lab.sh",
     "promover": "bash scripts/promover.sh",
     "feitos": "node scripts/feitos.mjs",
-    "bench:editor": "jest --testPathIgnorePatterns /node_modules/ --runTestsByPath scripts/bench/editor-busca.test.ts && node scripts/e2e.mjs -c playwright.bench.config.ts"
+    "bench:editor": "jest --testPathIgnorePatterns /node_modules/ --runTestsByPath scripts/bench/editor-busca.test.ts && node scripts/e2e.mjs -c playwright.bench.config.ts",
+    "editor:webview": "node scripts/editor-webview.mjs"
   },
   "private": true,
   "jest": {
@@ -139,5 +141,8 @@
       "/e2e-bench/",
       "/__tests__/fixtures/"
     ]
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }

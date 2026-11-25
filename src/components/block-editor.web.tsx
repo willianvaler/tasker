@@ -2,31 +2,16 @@ import { useEffect, useRef, useState, type MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
+import { useSlashItems } from '@/components/block-editor-items';
 import { mountBlockEditor, type BlockEditorApi } from '@/lib/block-editor/mount';
 import { texToSvg } from '@/lib/mathjax';
 import { useLinkCandidates } from '@/lib/queries/links';
 import { cleanLinkTitle, linkMarkup } from '@/lib/wikilinks';
-import type { SlashId, SlashItem } from '@/lib/block-editor/slash';
 
 // Editor de blocos na web (R1.1, D371): o TipTap montado direto na página. Recebe e devolve o
 // Markdown da anotação (o que não foi mexido volta byte a byte, lib/block-editor/markdown.ts).
 
 export const BLOCK_EDITOR = true;
-
-const IDS: SlashId[] = [
-  'text', 'h1', 'h2', 'h3', 'bullet', 'ordered', 'task', 'quote', 'callout', 'code', 'table',
-  'divider', 'formula', 'query', 'button', 'link', 'embed', 'image', 'today',
-];
-
-export function useSlashItems(): SlashItem[] {
-  const { t } = useTranslation();
-  return IDS.map((id) => ({
-    id,
-    label: t(`blockEditor.items.${id}.label`),
-    hint: t(`blockEditor.items.${id}.hint`),
-    keywords: t(`blockEditor.items.${id}.keywords`),
-  }));
-}
 
 export function BlockEditor({
   value,
@@ -37,6 +22,7 @@ export function BlockEditor({
   onImage,
   today,
   exclude,
+  onFail: _onFail,
 }: {
   value: string;
   onChange: (md: string) => void;
@@ -47,6 +33,8 @@ export function BlockEditor({
   today: string;
   /** A própria anotação não aparece nas sugestões do [[ */
   exclude?: string;
+  /** Só no celular (a WebView): o editor não abriu */
+  onFail?: (message: string) => void;
 }) {
   const { t } = useTranslation();
   // [[ (R1.3): o editor avisa o texto; o app busca e devolve as sugestões

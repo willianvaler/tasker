@@ -5855,6 +5855,8 @@
         "hint": "Escribe la fecha de hoy",
         "keywords": "fecha hoy"
       }
-    }
+    },
+    "insert": "Insertar",
+    "failed": "El editor de bloques no abrió ({{message}}); volviendo a Markdown."
   }
 }

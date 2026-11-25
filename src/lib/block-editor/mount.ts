@@ -19,6 +19,8 @@ export type BlockEditorApi = {
   setEditable(editable: boolean): void;
   /** As sugestões do `[[` (o que o app achou para o texto que `onLinkQuery` avisou) */
   setLinkSuggestions(items: LinkSuggestion[]): void;
+  /** Abre o menu `/` numa linha nova depois do bloco do cursor (o botão Inserir da barra) */
+  openMenu(): void;
   destroy(): void;
 };
 
@@ -208,6 +210,11 @@ export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEdito
     insertText: (text) => editor.chain().focus().insertContent(text).run(),
     setEditable: (editable) => editor.setEditable(editable),
     setLinkSuggestions: (items) => setLinkSuggestions(editor, items),
+    openMenu: () => {
+      const { $from } = editor.state.selection;
+      const pos = $from.depth > 0 ? $from.before(1) : 0;
+      openSlashAfter(editor, Math.min(pos, Math.max(0, editor.state.doc.content.size - 1)));
+    },
     destroy: () => {
       if (timer) {
         clearTimeout(timer);

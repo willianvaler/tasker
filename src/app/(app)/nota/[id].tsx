@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import {
   Blocks,
   Bold,
+  Plus,
   Code,
   Eye,
   Heading2,
@@ -486,6 +487,23 @@ function Editor({
     }
   }
 
+  const blockEditor = (
+    <BlockEditor
+      value={body}
+      onChange={setBody}
+      onBlur={save}
+      editable={!readOnly}
+      apiRef={blockApi}
+      onImage={() => void insertImage()}
+      today={today}
+      exclude={note.id}
+      onFail={(message) => {
+        toast({ message: t('blockEditor.failed', { message }) });
+        setMarkdownMode(true);
+      }}
+    />
+  );
+
   function format(kind: Format) {
     if (blocks) {
       const map = { bold: 'bold', italic: 'italic', heading: 'heading', list: 'bullet', numbered: 'ordered', task: 'task' } as const;
@@ -660,6 +678,14 @@ function Editor({
                 onPress={() => format(tool.kind)}
               />
             ))}
+          {editing && blocks && (
+            <Button
+              variant="ghost"
+              icon={Plus}
+              label={t('blockEditor.insert')}
+              onPress={() => blockApi.current?.openMenu()}
+            />
+          )}
           {editing && (
             <IconButton
               icon={Link2}
@@ -729,18 +755,14 @@ function Editor({
         <View className="flex-1 flex-row gap-6">
           <View className="flex-1">
             {editing && blocks ? (
-              <ScreenScroll className="flex-1" keyboardShouldPersistTaps="handled">
-                <BlockEditor
-                  value={body}
-                  onChange={setBody}
-                  onBlur={save}
-                  editable={!readOnly}
-                  apiRef={blockApi}
-                  onImage={() => void insertImage()}
-                  today={today}
-                  exclude={note.id}
-                />
-              </ScreenScroll>
+              Platform.OS === 'web' ? (
+                <ScreenScroll className="flex-1" keyboardShouldPersistTaps="handled">
+                  {blockEditor}
+                </ScreenScroll>
+              ) : (
+                // No celular a WebView rola sozinha
+                <View className="flex-1">{blockEditor}</View>
+              )
             ) : editing ? (
               // O campo ocupa o resto da tela e rola por dentro
               <TextInput

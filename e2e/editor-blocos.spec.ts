@@ -51,6 +51,11 @@ test('editor de blocos: menu /, título, lista de tarefas, tabela, callout e con
   await expect(editor.locator('table tr')).toHaveCount(3);
   await page.keyboard.type('Cor');
 
+  // O botão Inserir da barra abre o mesmo menu (o caminho do celular, sem mouse)
+  await page.getByRole('toolbar').getByRole('button', { name: 'Inserir', exact: true }).click();
+  await expect(page.getByRole('option', { name: /Divisória/ })).toBeVisible();
+  await page.keyboard.press('Escape');
+
   // O modo Markdown mostra o texto gravado
   await page.getByRole('button', { name: 'Editar como Markdown' }).click();
   const md = page.getByRole('textbox', { name: 'Texto da anotação' });

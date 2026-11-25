@@ -5855,6 +5855,8 @@
         "hint": "Writes today's date",
         "keywords": "date today"
       }
-    }
+    },
+    "insert": "Insert",
+    "failed": "The block editor did not open ({{message}}); switching to Markdown."
   }
 }
