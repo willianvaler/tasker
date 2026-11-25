@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import { Plus } from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -34,6 +35,7 @@ export default function ProcessosHome() {
       { onError, onSuccess: (id) => router.push({ pathname: '/processos/[id]', params: { id } }) },
     );
   const lista = defs.data ?? [];
+  const [advanced, setAdvanced] = useState(false);
   const Linha = ({ d }: { d: (typeof lista)[number] }) => (
     <Button
       variant="ghost"
@@ -77,36 +79,47 @@ export default function ProcessosHome() {
           />
         </View>
 
-        <View className="gap-2">
-          <SectionLabel title={t('processos.functions')} />
-          <Text className="text-xs text-ink-muted">{t('processos.functionsHint')}</Text>
-          {lista
-            .filter((d) => d.is_function)
-            .map((d) => (
-              <Linha key={d.id} d={d} />
-            ))}
+        {/* Funções são para quem já monta processos: ficam atrás de "Avançado" (M11), salvo se já houver */}
+        {!advanced && !lista.some((d) => d.is_function) ? (
           <Button
             variant="ghost"
             className="self-start"
-            label={t('processos.newFunction')}
-            disabled={!online}
-            onPress={() =>
-              criar(
-                t('processos.newFunctionName'),
-                {
-                  v: 1,
-                  assinatura: { entradas: [], saidas: [] },
-                  nos: [
-                    { id: 'inicio', tipo: 'inicio', x: 40, y: 40 },
-                    { id: 'fim', tipo: 'fim', x: 320, y: 40 },
-                  ],
-                  arestas: [{ id: 'a1', de: 'inicio', para: 'fim' }],
-                },
-                true,
-              )
-            }
+            label={t('base.advanced')}
+            aria-expanded={false}
+            onPress={() => setAdvanced(true)}
           />
-        </View>
+        ) : (
+          <View className="gap-2">
+            <SectionLabel title={t('processos.functions')} />
+            <Text className="text-xs text-ink-muted">{t('processos.functionsHint')}</Text>
+            {lista
+              .filter((d) => d.is_function)
+              .map((d) => (
+                <Linha key={d.id} d={d} />
+              ))}
+            <Button
+              variant="ghost"
+              className="self-start"
+              label={t('processos.newFunction')}
+              disabled={!online}
+              onPress={() =>
+                criar(
+                  t('processos.newFunctionName'),
+                  {
+                    v: 1,
+                    assinatura: { entradas: [], saidas: [] },
+                    nos: [
+                      { id: 'inicio', tipo: 'inicio', x: 40, y: 40 },
+                      { id: 'fim', tipo: 'fim', x: 320, y: 40 },
+                    ],
+                    arestas: [{ id: 'a1', de: 'inicio', para: 'fim' }],
+                  },
+                  true,
+                )
+              }
+            />
+          </View>
+        )}
 
         <View className="gap-2">
           <SectionLabel title={t('processos.templates')} />

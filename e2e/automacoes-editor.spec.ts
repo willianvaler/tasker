@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { adminRest, createPage, openSettings, signUp } from './helpers';
+import { adminRest, createPage, openSettings, signUp, waitForSync } from './helpers';
 
 // ESCOPO_V14 (AU7): o editor em formulário, só pela tela (celular e desktop), achando cada campo
 // pelo rótulo (o mesmo que o leitor de tela lê).
@@ -11,7 +11,8 @@ test('editor: modelo, Testar sem efeito e salvar pela tela', async ({ page }, te
   await openSettings(page);
   await page.getByRole('button', { name: 'Abrir as automações' }).click();
   await expect(page.getByRole('heading', { name: 'Automações' })).toBeVisible();
-  await expect(page.getByText(/Uso desta hora: \d+ de 600/)).toBeVisible();
+  // O uso da hora só aparece perto do limite (avaliação de UX, M11)
+  await expect(page.getByText(/Uso desta hora/)).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Usar "Lembrar das atrasadas às 19:00"' }).click();
   await expect(page.getByRole('textbox', { name: 'Nome' })).toHaveValue(
@@ -79,9 +80,8 @@ test('editor: regra do zero pela tela dispara ao concluir e mostra o histórico'
   await input.fill('Varrer a sala inteira');
   await input.press('Enter');
   await created;
-  const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
   await page.getByRole('checkbox', { name: 'Concluir Varrer a sala inteira' }).click();
-  await done;
+  await waitForSync(page);
   const [task] = await adminRest(`tasks?page_id=eq.${pageId}&select=labels`);
   await expect
     .poll(async () => (await adminRest(`tasks?page_id=eq.${pageId}&select=labels`))[0].labels, {

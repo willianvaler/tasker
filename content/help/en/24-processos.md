@@ -8,7 +8,7 @@ A **process** is a flow that lasts: hours, days or weeks. It creates tasks for p
 - **Instance:** one run of the process, with its own **variables** and **timeline**.
 - **Step:** each box in the design.
 - **Gate:** the **decision** (takes the first path whose condition is true, or the default) and the **parallel** (splits into paths at the same time and joins when all arrive).
-- **Function:** a process other processes call, with **inputs** and **outputs**.
+- **Function:** a process other processes call, with **inputs** and **outputs**. In the Processes list, functions stay under **Advanced** until you create the first one.
 
 ## The steps
 

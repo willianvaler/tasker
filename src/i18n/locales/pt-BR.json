@@ -156,7 +156,7 @@
     "placeholder": "Nova tarefa… (Enter para criar)",
     "readOnly": "Só leitura: você é leitor deste projeto",
     "offline": "Nova tarefa… (vai quando a conexão voltar)",
-    "hint": "amanhã · !! · #etiqueta · @pessoa · ^depende de",
+    "hint": "Dá para escrever junto: amanhã ou sexta (data), !! (prioridade), #etiqueta, @pessoa e ^tarefa (depende de)",
     "ambiguous": "{{names}}: mais de uma pessoa com esse nome. Escolha nos detalhes da tarefa.",
     "mentionList": "Pessoas do projeto",
     "mentionPick": "Atribuir a {{name}}",
@@ -2544,6 +2544,13 @@
       "to_responsaveis": "Os responsáveis da tarefa",
       "to_pessoa": "Uma pessoa do projeto",
       "trigger": "Quando",
+      "triggerGroup": {
+        "tarefas": "Tarefas",
+        "tempo": "Tempo",
+        "anotacoes": "Anotações",
+        "jogo": "Jogo",
+        "fora": "De fora"
+      },
       "updateHint": "Muda a tarefa do gatilho: etiquetas, lista e vencimento (nunca conclui nem apaga).",
       "url": "Endereço (https://)",
       "urlHint": "Endereços da rede de casa e do servidor são bloqueados.",

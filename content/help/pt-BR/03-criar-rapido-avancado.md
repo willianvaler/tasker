@@ -1,6 +1,6 @@
 # Criar rápido ou com detalhes
 
-**Rápido:** o campo Nova tarefa. Escreva e aperte Enter. Serve para quase tudo.
+**Rápido:** o campo Nova tarefa. Escreva e aperte Enter. Serve para quase tudo. Ao tocar no campo (em tela larga), ele lembra o que dá para escrever junto: data, `!!` de prioridade, `#etiqueta`, `@pessoa` e `^tarefa`.
 
 **Com detalhes:** o botão ao lado do campo, o menu **Novo** ou `Alt+Shift+N`. Abre um painel com lista, descrição, vencimento, prioridade, repetição, séries e etiquetas. `Ctrl+Enter` cria.
 

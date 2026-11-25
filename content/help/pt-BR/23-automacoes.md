@@ -4,6 +4,8 @@ Uma **automação** é uma regra "quando… se… então…": **quando** algo ac
 
 ## Quando: o gatilho
 
+No editor, os gatilhos aparecem em grupos: Tarefas, Tempo, Anotações, Jogo e De fora.
+
 - **Tarefas:** criada, concluída, ficou pronta (o que ela esperava foi feito), atribuída a você, atrasou, ou vai vencer em alguns minutos. **Lista inteira concluída.**
 - **Jogo e projeto:** subiu de nível, boss derrotado, marco atingido.
 - **Relógio:** num horário (com os dias da semana) ou a cada N horas, sempre no seu fuso.
@@ -30,7 +32,7 @@ A automação age **como quem a criou**: só faz o que essa pessoa pode. Se ela 
 
 ## Limites
 
-Cada automação roda até **60 vezes por hora**, e as suas somadas, **600**; avisos, até **10 por hora** por automação. Passando disso, a execução fica como **limitada** (não é erro). Uma automação que falha **10 vezes seguidas** é desligada, com um aviso para você; ligue de novo depois de corrigir. Um disparo que atrasar mais de 15 minutos (servidor fora do ar) não roda e fica como **perdido**. **Pausar todas** para tudo na hora, inclusive o que estava esperando.
+Cada automação roda até **60 vezes por hora**, e as suas somadas, **600**; avisos, até **10 por hora** por automação. Passando disso, a execução fica como **limitada** (não é erro). O uso da hora aparece em Automações quando chega perto do limite (80%). Uma automação que falha **10 vezes seguidas** é desligada, com um aviso para você; ligue de novo depois de corrigir. Um disparo que atrasar mais de 15 minutos (servidor fora do ar) não roda e fica como **perdido**. **Pausar todas** para tudo na hora, inclusive o que estava esperando.
 
 ## Chamar um endereço (webhook de saída)
 

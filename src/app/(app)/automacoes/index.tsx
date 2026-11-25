@@ -36,9 +36,12 @@ export default function AutomationsHome() {
 
         {usage.data && (
           <View className="gap-2">
-            <Text className="font-mono text-xs text-ink-muted">
-              {t('auto.ed.usage', { n: usage.data.hora, max: usage.data.limite_hora })}
-            </Text>
+            {/* O uso só aparece perto do limite (avaliação de UX, M11) */}
+            {usage.data.hora >= usage.data.limite_hora * 0.8 && (
+              <Text className="font-mono text-xs text-warn">
+                {t('auto.ed.usage', { n: usage.data.hora, max: usage.data.limite_hora })}
+              </Text>
+            )}
             <ToggleRow
               title={t('auto.ed.pauseAll')}
               hint={t('auto.ed.pauseAllHint')}

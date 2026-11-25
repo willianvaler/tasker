@@ -688,7 +688,8 @@ function Editor({
               onPress={() => blockApi.current?.openMenu()}
             />
           )}
-          {editing && (
+          {/* No editor de blocos, link e imagem estão no Inserir (M2: menos ícones soltos) */}
+          {editing && !blocks && (
             <IconButton
               icon={Link2}
               label={t('wikilinks.insert')}
@@ -696,7 +697,7 @@ function Editor({
               onPress={insertLink}
             />
           )}
-          {editing && (
+          {editing && !blocks && (
             <IconButton
               icon={ImagePlus}
               label={sendingImage ? t('noteImages.sending') : t('noteImages.insert')}

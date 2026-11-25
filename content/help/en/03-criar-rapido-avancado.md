@@ -1,6 +1,6 @@
 # Quick or detailed creation
 
-**Quick:** the New task field. Type and press Enter. It covers almost everything.
+**Quick:** the New task field. Type and press Enter. It covers almost everything. When you tap the field (on a wide screen), it reminds you what you can type along: a date, `!!` for priority, `#tag`, `@person` and `^task`.
 
 **Detailed:** the button next to the field, the **New** menu or `Alt+Shift+N`. It opens a panel with list, description, due date, priority, repeat, sets and labels. `Ctrl+Enter` creates.
 

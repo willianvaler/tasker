@@ -156,7 +156,7 @@
     "placeholder": "New task… (Enter to create)",
     "readOnly": "Read only: you are a viewer in this project",
     "offline": "New task… (sent when you are back online)",
-    "hint": "tomorrow · !! · #tag · @person · ^depends on",
+    "hint": "You can type along: tomorrow or friday (date), !! (priority), #tag, @person and ^task (depends on)",
     "ambiguous": "{{names}}: more than one person with that name. Pick one in the task details.",
     "mentionList": "Project people",
     "mentionPick": "Assign to {{name}}",
@@ -2544,6 +2544,13 @@
       "to_responsaveis": "The task's assignees",
       "to_pessoa": "A person in the project",
       "trigger": "When",
+      "triggerGroup": {
+        "tarefas": "Tasks",
+        "tempo": "Time",
+        "anotacoes": "Notes",
+        "jogo": "Game",
+        "fora": "Outside"
+      },
       "updateHint": "Changes the trigger's task: labels, list and due date (never completes or deletes).",
       "url": "Address (https://)",
       "urlHint": "Home network and server addresses are blocked.",

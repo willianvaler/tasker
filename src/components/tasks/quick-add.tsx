@@ -81,7 +81,8 @@ export function QuickAdd({
   // Pela largura da própria linha, não da janela: na Captura (576 px) as dicas cortavam o campo
   const [rowWidth, setRowWidth] = useState(0);
   const roomy = rowWidth >= 420;
-  const showHints = rowWidth >= 720;
+  // A dica da sintaxe aparece ao focar o campo, em texto comum (avaliação de UX, M3)
+  const [inputFocused, setInputFocused] = useState(false);
   // O react-native-web ainda só entende o antigo blurOnSubmit (o Input faz o mesmo)
   const webSubmit = Platform.OS === 'web' ? ({ blurOnSubmit: false } as object) : {};
   const ready = !!pageId && writable;
@@ -197,9 +198,13 @@ export function QuickAdd({
           placeholder={
             // Sem a árvore ainda, o campo aparece normal e desligado (nada de "Carregando…", M12)
             online
-                ? // Y2 (#7): no celular, o texto curto (o longo ficava cortado)
-                  (placeholder ?? t(roomy ? 'quickAdd.placeholder' : 'quickAdd.placeholderShort'))
-                : t('quickAdd.offline')
+              ? // Com o foco, a dica da sintaxe no lugar do placeholder, sem mexer no layout (M3:
+                // uma linha que aparecia e sumia empurrava a lista no meio do clique). Hábito
+                // não tem data nem @pessoa. Y2 (#7): no celular, o texto curto
+                inputFocused && roomy && !habit
+                ? t('quickAdd.hint')
+                : (placeholder ?? t(roomy ? 'quickAdd.placeholder' : 'quickAdd.placeholderShort'))
+              : t('quickAdd.offline')
           }
           placeholderTextColor={colors['ink-muted']}
           value={text}
@@ -226,13 +231,11 @@ export function QuickAdd({
           returnKeyType="done"
           autoFocus={autoFocus}
           accessibilityLabel={t('quickAdd.label')}
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setInputFocused(false)}
           aria-disabled={!ready}
           className={textClass('min-h-10 flex-1 text-base text-ink md:text-sm')}
         />
-        {/* Y2 (#8): hábito tem as dicas próprias, embaixo do campo (data e @pessoa não servem) */}
-        {showHints && ready && !text && !habit && (
-          <Text className="font-mono text-xs text-ink-muted">{t('quickAdd.hint')}</Text>
-        )}
         {ready && !habit && (
           <IconButton
             icon={SlidersHorizontal}

@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react-native';
-import { ActivityIndicator, Pressable, type PressableProps } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { ActivityIndicator, Platform, Pressable, View, type PressableProps } from 'react-native';
 
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
@@ -87,8 +88,17 @@ export function IconButton({
   tone?: 'ink' | 'ink-muted' | 'accent' | 'danger';
   className?: string;
 }) {
+  // Na web, o nome aparece ao parar o mouse em cima (avaliação de UX, M2: ícones sem rótulo). O
+  // `title` nativo não entra no texto da página
+  const ref = useRef<View>(null);
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const el = ref.current as unknown as HTMLElement | null;
+    el?.setAttribute?.('title', label);
+  }, [label]);
   return (
     <Pressable
+      ref={ref}
       accessibilityRole="button"
       accessibilityLabel={label}
       className={cn(

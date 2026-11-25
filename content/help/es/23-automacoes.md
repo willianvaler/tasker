@@ -4,6 +4,8 @@ Una **automatización** es una regla "cuando… si… entonces…": **cuando** p
 
 ## Cuando: el disparador
 
+En el editor, los disparadores aparecen en grupos: Tareas, Tiempo, Notas, Juego y De fuera.
+
 - **Tareas:** creada, completada, lista para empezar (lo que esperaba ya se hizo), asignada a ti, atrasada o a punto de vencer. **Lista completa terminada.**
 - **Juego y proyecto:** subiste de nivel, jefe derrotado, hito alcanzado.
 - **Reloj:** a una hora (con los días de la semana) o cada N horas, siempre en tu zona horaria.
@@ -30,7 +32,7 @@ La automatización actúa **como quien la creó**: solo hace lo que esa persona 
 
 ## Límites
 
-Cada automatización se ejecuta hasta **60 veces por hora**, y todas las tuyas juntas, **600**; avisos, hasta **10 por hora** por automatización. Pasado eso, la ejecución queda como **limitada** (no es un error). Una automatización que falla **10 veces seguidas** se apaga y recibes un aviso; enciéndela de nuevo después de corregirla. Un disparo que se atrase más de 15 minutos (servidor caído) no se ejecuta y queda como **perdido**. **Pausar todas** detiene todo al instante, incluso lo que estaba esperando.
+Cada automatización se ejecuta hasta **60 veces por hora**, y todas las tuyas juntas, **600**; avisos, hasta **10 por hora** por automatización. Pasado eso, la ejecución queda como **limitada** (no es un error). El uso de la hora aparece en Automatizaciones cuando se acerca al límite (80%). Una automatización que falla **10 veces seguidas** se apaga y recibes un aviso; enciéndela de nuevo después de corregirla. Un disparo que se atrase más de 15 minutos (servidor caído) no se ejecuta y queda como **perdido**. **Pausar todas** detiene todo al instante, incluso lo que estaba esperando.
 
 ## Llamar a una URL (webhook de salida)
 

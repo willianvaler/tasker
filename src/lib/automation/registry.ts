@@ -68,6 +68,19 @@ export const PASSOS: TipoPassoInfo[] = Object.entries(CATALOGO.passos).map(([id,
   label: () => tr(`auto.motor.passo.${key(id)}`),
 }));
 
+/** Grupos dos gatilhos no editor (avaliação de UX, M6: eram 19 chips soltos) */
+export type GrupoGatilho = 'tarefas' | 'tempo' | 'anotacoes' | 'jogo' | 'fora';
+export const GRUPOS_GATILHO: GrupoGatilho[] = ['tarefas', 'tempo', 'anotacoes', 'jogo', 'fora'];
+
+export function grupoDoGatilho(id: string): GrupoGatilho {
+  if (id.startsWith('tarefa.') || id.startsWith('lista.') || id.startsWith('marco.'))
+    return 'tarefas';
+  if (id === 'horario' || id === 'intervalo') return 'tempo';
+  if (id.startsWith('pagina.') || id.startsWith('nota.') || id.startsWith('link')) return 'anotacoes';
+  if (id.startsWith('nivel.') || id.startsWith('boss.')) return 'jogo';
+  return 'fora';
+}
+
 /** Gatilhos e passos que valem para o escopo (o editor só mostra estes). */
 export const gatilhosDoEscopo = (escopo: Escopo) =>
   GATILHOS.filter((g) => g.escopos.includes(escopo));

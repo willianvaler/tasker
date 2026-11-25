@@ -8,7 +8,7 @@ Um **processo** é um fluxo que dura: horas, dias ou semanas. Ele cria tarefas p
 - **Instância:** uma vez em que o processo roda, com as suas **variáveis** e a sua **linha do tempo**.
 - **Passo:** cada caixa do desenho.
 - **Portão:** a **decisão** (segue o primeiro caminho cuja condição é verdadeira, ou o padrão) e o **paralelo** (divide em caminhos ao mesmo tempo e junta quando todos chegam).
-- **Função:** um processo que outros chamam, com **entradas** e **saídas**.
+- **Função:** um processo que outros chamam, com **entradas** e **saídas**. Na lista de Processos, as funções ficam em **Avançado** até você criar a primeira.
 
 ## Os passos
 

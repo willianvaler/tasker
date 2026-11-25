@@ -20,6 +20,8 @@ import {
 import {
   CATALOGO,
   gatilhosDoEscopo,
+  grupoDoGatilho,
+  GRUPOS_GATILHO,
   passosDoEscopo,
   type Condicao,
   type Escopo,
@@ -141,12 +143,33 @@ export function TriggerFields({
   const deTarefa = gatilho.tipo.startsWith('tarefa.') || gatilho.tipo === 'lista.concluida';
   return (
     <View className="gap-3">
-      <Choice
-        title={t('auto.ed.trigger')}
-        value={gatilho.tipo}
-        onChange={(tipo) => onChange({ tipo })}
-        options={gatilhosDoEscopo(ctx.escopo).map((g) => ({ id: g.id, label: g.label() }))}
-      />
+      <View className="gap-2" accessibilityRole="radiogroup" aria-label={t('auto.ed.trigger')}>
+        <Text className="text-xs text-ink-muted">{t('auto.ed.trigger')}</Text>
+        {GRUPOS_GATILHO.map((grupo) => {
+          const options = gatilhosDoEscopo(ctx.escopo).filter(
+            (g) => grupoDoGatilho(g.id) === grupo,
+          );
+          if (!options.length) return null;
+          return (
+            <View key={grupo} className="gap-1 md:flex-row md:items-baseline md:gap-3">
+              <Text className="text-xs font-semibold text-ink md:w-24">
+                {t(`auto.ed.triggerGroup.${grupo}`)}
+              </Text>
+              <View className="flex-1 flex-row flex-wrap gap-2">
+                {options.map((g) => (
+                  <Chip
+                    key={g.id}
+                    role="radio"
+                    label={g.label()}
+                    selected={gatilho.tipo === g.id}
+                    onPress={() => onChange({ tipo: g.id })}
+                  />
+                ))}
+              </View>
+            </View>
+          );
+        })}
+      </View>
       {gatilho.tipo === 'horario' && (
         <>
           <Field

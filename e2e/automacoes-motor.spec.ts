@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { adminRest, createPage, signUp } from './helpers';
+import { adminRest, createPage, signUp, waitForSync } from './helpers';
 
 const userIdOf = (page: Page) =>
   page.evaluate(() => {
@@ -24,6 +24,7 @@ test('gatilhos do motor: tarefa, lista, atribuição, nível, boss e marco avisa
     name: 'Semana',
     type: 'Lista',
   });
+  await waitForSync(page);
   const [{ folder_id: folderId }] = await adminRest(`pages?id=eq.${pageId}&select=folder_id`);
   // Marco só existe em projeto
   await adminRest(`folders?id=eq.${folderId}`, {
@@ -82,9 +83,8 @@ test('gatilhos do motor: tarefa, lista, atribuição, nível, boss e marco avisa
   // Concluir a primeira (concluída + a segunda fica pronta) e a segunda (a lista inteira)
   await page.reload();
   for (const title of ['Lavar o carro da família', 'Secar o carro']) {
-    const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
     await page.getByRole('checkbox', { name: `Concluir ${title}` }).click();
-    await done;
+    await waitForSync(page);
   }
 
   // Jogo e marco: o motor só lê; aqui o banco muda direto
@@ -195,9 +195,8 @@ test('ações do motor: concluir cria a próxima tarefa e põe etiqueta', async 
   await input.fill('Lavar as toalhas');
   await input.press('Enter');
   await saved;
-  const done = page.waitForResponse((r) => r.url().includes('complete_task') && r.ok());
   await page.getByRole('checkbox', { name: 'Concluir Lavar as toalhas' }).click();
-  await done;
+  await waitForSync(page);
 
   await expect
     .poll(

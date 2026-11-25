@@ -156,7 +156,7 @@
     "placeholder": "Nueva tarea… (Enter para crear)",
     "readOnly": "Solo lectura: eres lector en este proyecto",
     "offline": "Nueva tarea… (se envía al volver la conexión)",
-    "hint": "mañana · !! · #etiqueta · @persona · ^depende de",
+    "hint": "Puedes escribir junto: mañana o viernes (fecha), !! (prioridad), #etiqueta, @persona y ^tarea (depende de)",
     "ambiguous": "{{names}}: hay más de una persona con ese nombre. Elige en los detalles de la tarea.",
     "mentionList": "Personas del proyecto",
     "mentionPick": "Asignar a {{name}}",
@@ -2544,6 +2544,13 @@
       "to_responsaveis": "Los responsables de la tarea",
       "to_pessoa": "Una persona del proyecto",
       "trigger": "Cuando",
+      "triggerGroup": {
+        "tarefas": "Tareas",
+        "tempo": "Tiempo",
+        "anotacoes": "Notas",
+        "jogo": "Juego",
+        "fora": "De fuera"
+      },
       "updateHint": "Cambia la tarea del disparador: etiquetas, lista y vencimiento (nunca completa ni borra).",
       "url": "Dirección (https://)",
       "urlHint": "Las direcciones de la red de casa y del servidor están bloqueadas.",

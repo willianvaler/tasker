@@ -8,7 +8,7 @@ Un **proceso** es un flujo que dura: horas, días o semanas. Crea tareas para pe
 - **Instancia:** una vez que el proceso se ejecuta, con sus **variables** y su **línea de tiempo**.
 - **Paso:** cada caja del diseño.
 - **Puerta:** la **decisión** (sigue el primer camino cuya condición es verdadera, o el predeterminado) y el **paralelo** (divide en caminos a la vez y junta cuando todos llegan).
-- **Función:** un proceso que otros llaman, con **entradas** y **salidas**.
+- **Función:** un proceso que otros llaman, con **entradas** y **salidas**. En la lista de Procesos, las funciones quedan en **Avanzado** hasta que crees la primera.
 
 ## Los pasos
 

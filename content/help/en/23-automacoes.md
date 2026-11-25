@@ -4,6 +4,8 @@ An **automation** is a "when… if… then…" rule: **when** something happens 
 
 ## When: the trigger
 
+In the editor, triggers are grouped: Tasks, Time, Notes, Game and Outside.
+
 - **Tasks:** created, completed, became ready (what it waited for is done), assigned to you, overdue, or due in a few minutes. **Whole list completed.**
 - **Game and project:** leveled up, boss defeated, milestone reached.
 - **Clock:** at a time (with weekdays) or every N hours, always in your time zone.
@@ -30,7 +32,7 @@ The automation acts **as whoever created it**: it only does what that person can
 
 ## Limits
 
-Each automation runs up to **60 times an hour**, and all of yours together, **600**; notifications, up to **10 an hour** per automation. Past that, the run is marked **limited** (it's not an error). An automation that fails **10 times in a row** is turned off and you get a notification; turn it back on after fixing it. A trigger that runs more than 15 minutes late (server down) doesn't run and is marked **missed**. **Pause all** stops everything right away, including what was waiting.
+Each automation runs up to **60 times an hour**, and all of yours together, **600**; notifications, up to **10 an hour** per automation. Past that, the run is marked **limited** (it's not an error). The hourly usage shows in Automations when it gets close to the limit (80%). An automation that fails **10 times in a row** is turned off and you get a notification; turn it back on after fixing it. A trigger that runs more than 15 minutes late (server down) doesn't run and is marked **missed**. **Pause all** stops everything right away, including what was waiting.
 
 ## Call a URL (outgoing webhook)
 
