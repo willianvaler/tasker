@@ -5328,5 +5328,38 @@
     "offlineDone": "Material guardado en el dispositivo para leer sin internet.",
     "offlineConfirm": "¿Descargar {{count}} archivos ({{size}}) a este dispositivo?",
     "offlineFailed": "{{count}} archivo no se descargó. Inténtalo de nuevo con internet."
+  },
+  "processos": {
+    "erro": {
+      "muitos_nos": "Más de 200 nodos ({{detalhe}}).",
+      "id_repetido": "Dos nodos con el mismo id ({{no}}).",
+      "tipo_desconhecido": "\"{{no}}\": tipo de nodo desconocido ({{detalhe}}).",
+      "sem_inicio": "Falta el inicio.",
+      "dois_inicios": "\"{{no}}\": el proceso solo puede tener un inicio.",
+      "sem_fim": "Falta un fin.",
+      "aresta_solta": "Una conexión apunta a un nodo que no existe.",
+      "inalcancavel": "\"{{no}}\" nunca se alcanza desde el inicio.",
+      "sem_saida": "\"{{no}}\" no tiene camino hasta un fin (¿bucle sin salida?).",
+      "entra_no_inicio": "Nada puede llegar al inicio.",
+      "sai_do_fim": "\"{{no}}\": nada sale de un fin.",
+      "sem_continuacao": "\"{{no}}\" no lleva a ningún lado.",
+      "xor_poucos_caminhos": "La decisión \"{{no}}\" necesita dos caminos o más.",
+      "xor_sem_padrao": "La decisión \"{{no}}\" necesita un camino por defecto (y solo uno).",
+      "xor_sem_condicao": "Decisión \"{{no}}\": un camino sin condición.",
+      "expressao": "\"{{no}}\": expresión con error ({{detalhe}}).",
+      "laco_max": "Bucle \"{{no}}\": repetir de 1 a 50 veces.",
+      "laco_caminhos": "El bucle \"{{no}}\" necesita un camino \"repetir\" y uno \"salir\".",
+      "acao_desconhecida": "\"{{no}}\": acción desconocida ({{detalhe}}).",
+      "dois_caminhos_de_erro": "\"{{no}}\": solo un camino de error.",
+      "humana_sem_titulo": "La tarea \"{{no}}\" necesita título.",
+      "escolha_desconhecida": "Tarea \"{{no}}\": un camino para una opción que no existe.",
+      "prazo_invalido": "Tarea \"{{no}}\": plazo como PT48H o P2D.",
+      "temporizador_sem_tempo": "Espera \"{{no}}\": di cuánto tiempo (PT2H) o hasta cuándo.",
+      "sem_funcao": "\"{{no}}\": elige la función.",
+      "multi_max": "\"{{no}}\": de 1 a 100 elementos.",
+      "and_sem_juncao": "El paralelo \"{{no}}\" divide y no junta: falta la puerta paralela que une los caminos.",
+      "and_junta_e_divide": "Paralelo \"{{no}}\": usa una puerta para juntar y otra para dividir.",
+      "variavel_nao_declarada": "\"{{no}}\" usa la variable \"{{detalhe}}\", que no se declaró."
+    }
   }
 }

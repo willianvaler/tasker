@@ -5328,5 +5328,38 @@
     "offlineDone": "Material saved on this device to read offline.",
     "offlineConfirm": "Download {{count}} files ({{size}}) to this device?",
     "offlineFailed": "{{count}} file didn't download. Try again with internet."
+  },
+  "processos": {
+    "erro": {
+      "muitos_nos": "More than 200 nodes ({{detalhe}}).",
+      "id_repetido": "Two nodes with the same id ({{no}}).",
+      "tipo_desconhecido": "\"{{no}}\": unknown node type ({{detalhe}}).",
+      "sem_inicio": "The start is missing.",
+      "dois_inicios": "\"{{no}}\": a process can only have one start.",
+      "sem_fim": "An end is missing.",
+      "aresta_solta": "A connection points to a node that doesn't exist.",
+      "inalcancavel": "\"{{no}}\" is never reached from the start.",
+      "sem_saida": "\"{{no}}\" has no path to an end (a loop with no exit?).",
+      "entra_no_inicio": "Nothing can lead into the start.",
+      "sai_do_fim": "\"{{no}}\": nothing leaves an end.",
+      "sem_continuacao": "\"{{no}}\" doesn't lead anywhere.",
+      "xor_poucos_caminhos": "Decision \"{{no}}\" needs two paths or more.",
+      "xor_sem_padrao": "Decision \"{{no}}\" needs one default path (only one).",
+      "xor_sem_condicao": "Decision \"{{no}}\": a path without a condition.",
+      "expressao": "\"{{no}}\": expression error ({{detalhe}}).",
+      "laco_max": "Loop \"{{no}}\": repeat 1 to 50 times.",
+      "laco_caminhos": "Loop \"{{no}}\" needs one \"repeat\" path and one \"exit\".",
+      "acao_desconhecida": "\"{{no}}\": unknown action ({{detalhe}}).",
+      "dois_caminhos_de_erro": "\"{{no}}\": only one error path.",
+      "humana_sem_titulo": "Task \"{{no}}\" needs a title.",
+      "escolha_desconhecida": "Task \"{{no}}\": a path for a choice that doesn't exist.",
+      "prazo_invalido": "Task \"{{no}}\": deadline like PT48H or P2D.",
+      "temporizador_sem_tempo": "Timer \"{{no}}\": say how long (PT2H) or until when.",
+      "sem_funcao": "\"{{no}}\": pick the function.",
+      "multi_max": "\"{{no}}\": 1 to 100 items.",
+      "and_sem_juncao": "Parallel \"{{no}}\" splits and never joins: the joining parallel gate is missing.",
+      "and_junta_e_divide": "Parallel \"{{no}}\": use one gate to join and another to split.",
+      "variavel_nao_declarada": "\"{{no}}\" uses the variable \"{{detalhe}}\", which wasn't declared."
+    }
   }
 }

@@ -5328,5 +5328,38 @@
     "offlineDone": "Material guardado no aparelho para ler sem internet.",
     "offlineConfirm": "Baixar {{count}} arquivos ({{size}}) para este aparelho?",
     "offlineFailed": "{{count}} arquivo não baixou. Tente de novo com internet."
+  },
+  "processos": {
+    "erro": {
+      "muitos_nos": "Mais de 200 nós ({{detalhe}}).",
+      "id_repetido": "Dois nós com o mesmo id ({{no}}).",
+      "tipo_desconhecido": "\"{{no}}\": tipo de nó desconhecido ({{detalhe}}).",
+      "sem_inicio": "Falta o início.",
+      "dois_inicios": "\"{{no}}\": o processo só pode ter um início.",
+      "sem_fim": "Falta um fim.",
+      "aresta_solta": "Uma ligação aponta para um nó que não existe.",
+      "inalcancavel": "\"{{no}}\" nunca é alcançado a partir do início.",
+      "sem_saida": "\"{{no}}\" não tem caminho até um fim (laço sem saída?).",
+      "entra_no_inicio": "Nada pode chegar no início.",
+      "sai_do_fim": "\"{{no}}\": nada sai de um fim.",
+      "sem_continuacao": "\"{{no}}\" não leva a lugar nenhum.",
+      "xor_poucos_caminhos": "Decisão \"{{no}}\" precisa de dois caminhos ou mais.",
+      "xor_sem_padrao": "Decisão \"{{no}}\" precisa de um caminho padrão (e só um).",
+      "xor_sem_condicao": "Decisão \"{{no}}\": um caminho sem condição.",
+      "expressao": "\"{{no}}\": expressão com erro ({{detalhe}}).",
+      "laco_max": "Laço \"{{no}}\": repetir de 1 a 50 vezes.",
+      "laco_caminhos": "Laço \"{{no}}\" precisa de um caminho \"repetir\" e um \"sair\".",
+      "acao_desconhecida": "\"{{no}}\": ação desconhecida ({{detalhe}}).",
+      "dois_caminhos_de_erro": "\"{{no}}\": só um caminho de erro.",
+      "humana_sem_titulo": "Tarefa \"{{no}}\" precisa de título.",
+      "escolha_desconhecida": "Tarefa \"{{no}}\": um caminho para uma escolha que não existe.",
+      "prazo_invalido": "Tarefa \"{{no}}\": prazo como PT48H ou P2D.",
+      "temporizador_sem_tempo": "Espera \"{{no}}\": diga quanto tempo (PT2H) ou até quando.",
+      "sem_funcao": "\"{{no}}\": escolha a função.",
+      "multi_max": "\"{{no}}\": de 1 a 100 itens.",
+      "and_sem_juncao": "Paralelo \"{{no}}\" divide e não junta: falta o portão paralelo que junta os caminhos.",
+      "and_junta_e_divide": "Paralelo \"{{no}}\": use um portão para juntar e outro para dividir.",
+      "variavel_nao_declarada": "\"{{no}}\" usa a variável \"{{detalhe}}\", que não foi declarada."
+    }
   }
 }
