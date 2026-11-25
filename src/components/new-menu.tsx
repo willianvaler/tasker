@@ -9,6 +9,7 @@ import {
   Repeat,
   SlidersHorizontal,
   Users,
+  Zap,
 } from 'lucide-react-native';
 import { createContext, useContext, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -115,6 +116,13 @@ export function NewMenuProvider({ children }: { children: ReactNode }) {
       key: 'A',
       icon: NotebookPen,
       onPress: run(newNote),
+    },
+    {
+      id: 'new.automation',
+      label: t('auto.new'),
+      key: 'U',
+      icon: Zap,
+      onPress: run(() => router.push('/automacao/nova')),
     },
     {
       id: 'new.batch',

@@ -71,7 +71,7 @@ import { blockAtOffset, embedKey } from '@/lib/note-embeds';
 import { garantirIdBloco, mesclarPorBloco } from '@/lib/note-format';
 import { noteAliases, type NoteProps } from '@/lib/note-props';
 import { isDailyNote, templateVars } from '@/lib/note-templates';
-import { getNoteEditor, setNoteEditor } from '@/lib/prefs';
+import { getEditorTipSeen, getNoteEditor, setEditorTipSeen, setNoteEditor } from '@/lib/prefs';
 import { useToday, useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
 import type { BlockEditorApi } from '@/lib/block-editor/mount';
 import { useLinkTitles } from '@/lib/queries/links';
@@ -254,6 +254,8 @@ function Editor({
   const [markdownMode, setMarkdownMode] = useState(() => getNoteEditor() === 'markdown');
   const blocks = BLOCK_EDITOR && !markdownMode;
   const blockApi = useRef<BlockEditorApi | null>(null);
+  // R3: o aviso que apresenta o editor de blocos, uma vez por aparelho
+  const [tipSeen, setTipSeen] = useState(getEditorTipSeen);
   const today = useToday();
   const scroll = useRef<ScrollView>(null);
   const [confirm, setConfirm, closeConfirm] = useDialog<true>();
@@ -748,6 +750,22 @@ function Editor({
         {editing && !autocomplete.open && !slash.open && (
           <View className="pt-2">
             <BacklinkChips kind="note" id={note.id} />
+          </View>
+        )}
+        {editing && blocks && !tipSeen && (
+          <View
+            testID="block-editor-tip"
+            className="flex-row items-center gap-3 rounded-lg bg-accent-soft px-3 py-2"
+          >
+            <Text className="flex-1 text-sm text-ink">{t('blockEditor.tip')}</Text>
+            <Button
+              variant="ghost"
+              label={t('blockEditor.tipOk')}
+              onPress={() => {
+                setEditorTipSeen();
+                setTipSeen(true);
+              }}
+            />
           </View>
         )}
         {editing && autocomplete.list}

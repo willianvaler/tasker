@@ -55,7 +55,7 @@ export function BlockEditor({
     const mounted = mountBlockEditor(el, {
       markdown: value,
       editable,
-      placeholder: t('notes.bodyPlaceholder'),
+      placeholder: t('blockEditor.placeholder'),
       plusLabel: t('blockEditor.plus'),
       onChange: (md) => latest.current.onChange(md),
       onBlur: () => latest.current.onBlur?.(),

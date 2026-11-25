@@ -227,10 +227,11 @@ export const SlashMenu = Extension.create<SlashOptions>({
       new Plugin({
         key,
         view: () => ({
-          update: (view, prev) => {
+          update: () => {
             // O Enter do teclado do celular durante a composição da palavra não chega como tecla:
             // ele quebra a linha. Com o menu aberto, desfaz a quebra e aplica o item escolhido
-            if (menu && current && !view.state.doc.eq(prev.doc)) {
+            // (a quebra pode chegar em duas transações: o texto e, depois, só o cursor)
+            if (menu && current) {
               const split = splitAfterSlash(editor, current.query);
               if (split) {
                 const item = shown[active];

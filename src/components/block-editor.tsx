@@ -204,7 +204,7 @@ export function BlockEditor({
                   type: 'init',
                   markdown: last.current,
                   editable,
-                  placeholder: t('notes.bodyPlaceholder'),
+                  placeholder: t('blockEditor.placeholder'),
                   plusLabel: t('blockEditor.plus'),
                   items,
                   today,

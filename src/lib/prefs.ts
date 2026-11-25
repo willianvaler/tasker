@@ -45,6 +45,15 @@ export function setNoteEditor(value: 'blocks' | 'markdown') {
   localStore.setItem(NOTE_EDITOR_KEY, value);
 }
 
+/** O aviso do editor de blocos (R3) já foi visto neste aparelho */
+export function getEditorTipSeen(): boolean {
+  return localStore.getItem('questlist:editor-tip') === '1';
+}
+
+export function setEditorTipSeen() {
+  localStore.setItem('questlist:editor-tip', '1');
+}
+
 /** Alguém já entrou neste aparelho: a entrada mostra o formulário antes da apresentação (S1). */
 export function isReturningDevice(): boolean {
   return localStore.getItem(RETURNING_KEY) === '1';

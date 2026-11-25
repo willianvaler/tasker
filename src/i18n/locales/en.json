@@ -5857,7 +5857,10 @@
       }
     },
     "insert": "Insert",
-    "failed": "The block editor did not open ({{message}}); switching to Markdown."
+    "failed": "The block editor did not open ({{message}}); switching to Markdown.",
+    "placeholder": "Write, or type / to insert a heading, list, table, query…",
+    "tip": "New: the editor shows formatted text. Type / (or tap Insert) to add a heading, list, table, callout, query and more; [[ links another note; the code button shows the Markdown.",
+    "tipOk": "Got it"
   },
   "queryBuilder": {
     "open": "Filters and sort",

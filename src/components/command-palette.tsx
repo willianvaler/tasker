@@ -2,22 +2,24 @@ import { useQueryClient } from '@tanstack/react-query';
 import { router, usePathname } from 'expo-router';
 import {
   Backpack,
+  CalendarClock,
   CalendarDays,
-  ChartColumn,
   CalendarRange,
+  ChartColumn,
   CheckSquare,
   CircleHelp,
   ClipboardCheck,
   ClipboardList,
   Dumbbell,
+  FileText,
   Folder,
-  Hash,
-  NotebookPen,
   Globe,
+  Hash,
   HeartPulse,
   House,
   Inbox,
   LayoutGrid,
+  NotebookPen,
   PanelLeft,
   Plus,
   RefreshCw,
@@ -25,26 +27,27 @@ import {
   Scale,
   Search,
   Send,
+  Settings,
   Shield,
   ShoppingBag,
+  Shuffle,
   SlidersHorizontal,
+  Star,
   SunMoon,
-  Settings,
   Swords,
   Timer,
   Trash2,
   Trophy,
+  type LucideIcon,
   User,
   UserPlus,
   Users,
   Watch,
-  Zap,
-  type LucideIcon,
   Waypoints,
-  FileText,
-  Shuffle,
-  Star,
+  Workflow,
+  Zap,
 } from 'lucide-react-native';
+import { useNewNote } from '@/components/notes-block';
 import { useColorScheme } from 'nativewind';
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -138,6 +141,7 @@ function Palette({
 
   const go = (href: Parameters<typeof router.navigate>[0]) => () => router.navigate(href);
   const openDaily = useOpenDailyNote();
+  const newNote = useNewNote(null);
   const startTimer = useStartTimer();
   // Página aberta: "Enviar esta página" (L3)
   const pathname = usePathname();
@@ -345,6 +349,62 @@ function Palette({
       icon: icon(CalendarDays),
       group: 0,
       run: go('/calendario'),
+    },
+    {
+      id: 'new-note',
+      label: t('notes.new'),
+      icon: icon(NotebookPen),
+      group: 0,
+      run: () => void newNote(),
+    },
+    {
+      id: 'go-notes',
+      label: t('notes.title'),
+      icon: icon(NotebookPen),
+      group: 0,
+      run: go('/notas'),
+    },
+    {
+      id: 'new-automation',
+      label: t('auto.new'),
+      icon: icon(Zap),
+      group: 0,
+      run: go('/automacao/nova'),
+    },
+    {
+      id: 'go-automations',
+      label: t('auto.title'),
+      icon: icon(Zap),
+      group: 0,
+      run: go('/automacoes'),
+    },
+    {
+      id: 'go-processes',
+      label: t('processos.title'),
+      icon: icon(Workflow),
+      group: 0,
+      run: go('/processos'),
+    },
+    {
+      id: 'go-availability',
+      label: t('availability.title'),
+      icon: icon(CalendarClock),
+      group: 0,
+      run: go('/disponibilidade'),
+    },
+    {
+      id: 'go-bookings',
+      label: t('bookingTypes.title'),
+      icon: icon(CalendarClock),
+      group: 0,
+      run: go('/compromissos'),
+    },
+    {
+      id: 'go-polls',
+      label: t('poll.title'),
+      icon: icon(CalendarClock),
+      group: 0,
+      run: go('/enquetes'),
     },
     {
       id: 'daily-note',

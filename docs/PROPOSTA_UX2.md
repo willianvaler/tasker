@@ -78,3 +78,26 @@ passar a poder **conter** listas e bases (como a página do Notion), sem mudar o
 3. **R1.1 → R1.2 → R1.3 → R1.4**, cada um publicado no alpha para o dono testar.
 4. **R2 construtor visual** (entra no editor novo como bloco).
 5. **R4**, depois da conversa.
+
+## 5. R3 feita (25/11, D375): o que estava escondido e o caminho de agora
+
+| O quê | Antes (só por texto ou "⋯") | Agora |
+|---|---|---|
+| Callout, tabela, código, divisória | Escrever `> [!tip]`, `\| a \| b \|`, três crases, `---` | `/` ou **Inserir** → escolher pelo nome (com a explicação de cada um) |
+| Consulta | Saber a linguagem (`tarefas onde … ordenar por …`) | `/consulta` cria um exemplo; **Filtros e ordem** monta tudo por controles; a tabela ordena pelo cabeçalho |
+| Botão de automação | Escrever o JSON do `questlist-button` | `/botão` cria um modelo pronto para trocar o texto |
+| Fórmula | Saber o `$$` | `/fórmula`, com o desenho aparecendo enquanto escreve |
+| Link entre anotações | Saber o `[[` | `/link` ou `[[`, com a lista de sugestões ali mesmo |
+| Incorporar | Saber o `![[…]]` | `/incorporar` |
+| Editor de blocos | (não existia) | Aviso na primeira vez; "Escreva, ou digite / para inserir…" no espaço vazio; o rodapé lembra o `/` |
+| Criar anotação, automação | Só pela barra lateral e menus | Também no **Ctrl+K** e no menu **Novo** (automação) |
+| Automações, processos, agenda, compromissos, enquetes, Casa | Só pelo Mais/Configurações | Também no **Ctrl+K** |
+
+**Passos para criar (contados no computador, a partir da anotação aberta e editando):**
+
+| Tarefa | Antes | Agora |
+|---|---|---|
+| Um callout | Saber a sintaxe e digitar 2 linhas (~25 teclas) | `/cal` + Enter + texto (5 teclas + o texto) |
+| Uma tabela 3 × 3 | Digitar 5 linhas com barras e traços (~40 teclas) | `/tab` + Enter (5 teclas), e escrever nas células |
+| Uma consulta ordenada em tabela | Saber a linguagem e escrever a frase inteira | `/cons` + Enter → Visualizar → **Filtros e ordem** → 3 toques → Aplicar |
+| Uma tarefa com data | Igual (a captura rápida já era curta) | Igual |

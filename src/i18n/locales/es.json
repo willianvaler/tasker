@@ -5857,7 +5857,10 @@
       }
     },
     "insert": "Insertar",
-    "failed": "El editor de bloques no abrió ({{message}}); volviendo a Markdown."
+    "failed": "El editor de bloques no abrió ({{message}}); volviendo a Markdown.",
+    "placeholder": "Escribe, o teclea / para insertar título, lista, tabla, consulta…",
+    "tip": "Nuevo: el editor muestra el texto con formato. Escribe / (o toca Insertar) para poner título, lista, tabla, callout, consulta y más; [[ enlaza otra nota; el botón de código muestra el Markdown.",
+    "tipOk": "Entendido"
   },
   "queryBuilder": {
     "open": "Filtros y orden",
