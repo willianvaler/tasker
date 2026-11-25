@@ -36,4 +36,4 @@ Toca la casilla. ¿Te equivocaste? El aviso tiene **Deshacer**.
 - **+** en el medio de la barra inferior (o **Nuevo** en la barra lateral): crea tarea, hábito, nota, lista, carpeta o proyecto.
 - **Más**: todo lo demás, con nombre y una línea que lo explica: Personas (amigos, equipos, clan), Juego, Ajustes, Ayuda, Papelera.
 
-En el móvil, los dos lugares junto al **+** son tuyos: cámbialos en **Ajustes → Navegación** (Planificar, Entrada, Hábitos, Carpetas, Entreno, Juego o Personas). La **lupa** de arriba encuentra cualquier lista, carpeta, pantalla o acción.
+En el móvil, los dos lugares junto al **+** son tuyos (al principio, **Notas** y **Carpetas**): cámbialos en **Ajustes → Navegación** (Notas, Planificar, Entrada, Hábitos, Carpetas, Entreno, Juego o Personas). Lo que no está en la barra queda en **Más**. La **lupa** de arriba encuentra cualquier lista, carpeta, pantalla o acción.

@@ -132,8 +132,6 @@ export default function TodayScreen() {
               </>
             }
           />
-          {!wide && <GameHeader />}
-          <GymPrompt />
           <ReviewPrompt />
           {/* Sem Meu dia, a sugestão seria só a primeira linha da lista: não repete (A4) */}
           <NextActionCard tasks={[...overdue, ...dueToday]} today={today} onlyWithMyDay />
@@ -169,6 +167,14 @@ export default function TodayScreen() {
             pageLabel={item.task.page ? pageLabel(item.task.page) : undefined}
           />
         )
+      }
+      // O jogo e a pergunta do treino vêm depois das tarefas do dia (avaliação de UX, M1): a Hoje
+      // começa pela captura e pela lista
+      ListFooterComponent={
+        <View className="gap-4 pt-6">
+          {!wide && <GameHeader />}
+          <GymPrompt />
+        </View>
       }
       ListEmptyComponent={
         tasks.isPending || habits.isPending ? null : (

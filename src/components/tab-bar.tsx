@@ -6,6 +6,7 @@ import {
   House,
   Inbox,
   LayoutGrid,
+  NotebookPen,
   Plus,
   Repeat,
   Swords,
@@ -30,6 +31,7 @@ import { useIsOnline } from '@/providers/online';
 
 const ICON: Record<'index' | 'mais' | TabSlot, LucideIcon> = {
   index: House,
+  notas: NotebookPen,
   planejar: CalendarRange,
   inbox: Inbox,
   habits: Repeat,
@@ -56,6 +58,7 @@ export function useTabLabel() {
   return (route: 'index' | 'mais' | TabSlot) =>
     ({
       index: t('nav.today'),
+      notas: t('notes.title'),
       planejar: t('nav.plan'),
       inbox: t('nav.inboxShort'),
       habits: t('nav.habits'),

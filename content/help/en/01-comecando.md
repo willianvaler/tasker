@@ -36,4 +36,4 @@ Tap the box. Mistake? The notice has **Undo**.
 - **+** in the middle of the bottom bar (or **New** in the sidebar): creates a task, habit, note, list, folder or project.
 - **More**: everything else, each with a name and a line explaining it: People (friends, teams, clan), Game, Settings, Help, Trash.
 
-On the phone, the two spots beside the **+** are yours: change them in **Settings → Navigation** (Plan, Inbox, Habits, Folders, Workouts, Game or People). The **magnifier** at the top finds any list, folder, screen or action.
+On the phone, the two spots beside the **+** are yours (at first, **Notes** and **Folders**): change them in **Settings → Navigation** (Notes, Plan, Inbox, Habits, Folders, Workouts, Game or People). Whatever isn't on the bar is under **More**. The **magnifier** at the top finds any list, folder, screen or action.

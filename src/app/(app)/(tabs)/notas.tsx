@@ -87,7 +87,7 @@ export default function NotesScreen() {
       <ScreenScroll contentContainerClassName="gap-4 pb-clear">
         <ScreenHeader
           title={t('notes.title')}
-          back
+          search
           right={<Button variant="ghost" icon={Plus} label={t('notes.new')} onPress={newNote} />}
         />
         <View className="flex-row flex-wrap gap-2">

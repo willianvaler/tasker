@@ -23,6 +23,7 @@ export default function TabsLayout() {
         }}
       >
         <Tabs.Screen name="index" options={{ title: t('nav.today') }} />
+        <Tabs.Screen name="notas" options={{ title: t('notes.title') }} />
         <Tabs.Screen name="planejar" options={{ title: t('nav.plan') }} />
         <Tabs.Screen name="inbox" options={{ title: t('nav.inbox') }} />
         <Tabs.Screen name="habits" options={{ title: t('nav.habits') }} />

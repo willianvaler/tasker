@@ -12,8 +12,8 @@ import {
 const base = { gym: false, game: 'light' as const };
 
 describe('barra de baixo (D258)', () => {
-  it('sem treino nem RPG: Planejar e Pastas', () => {
-    expect(resolveSlots(undefined, base)).toEqual(['planejar', 'folders']);
+  it('sem treino nem RPG: Anotações e Pastas (avaliação de UX, A2)', () => {
+    expect(resolveSlots(undefined, base)).toEqual(['notas', 'folders']);
   });
 
   it('quem treina começa com o Treino; quem joga no RPG, com o Jogo', () => {
@@ -29,14 +29,14 @@ describe('barra de baixo (D258)', () => {
   it('troca o que a conta não tem pelo padrão daquela posição', () => {
     // Treino desligado e jogo desligado
     expect(resolveSlots(['treino', 'jogo'], { gym: false, game: 'off' })).toEqual([
-      'planejar',
+      'notas',
       'folders',
     ]);
-    expect(resolveSlots(['lixo', 42], base)).toEqual(['planejar', 'folders']);
+    expect(resolveSlots(['lixo', 42], base)).toEqual(['notas', 'folders']);
   });
 
   it('não repete a mesma tela nas duas posições', () => {
-    expect(resolveSlots(['folders', 'folders'], base)).toEqual(['folders', 'planejar']);
+    expect(resolveSlots(['folders', 'folders'], base)).toEqual(['folders', 'notas']);
     expect(resolveSlots(['planejar', 'treino'], base)).toEqual(['planejar', 'folders']);
   });
 

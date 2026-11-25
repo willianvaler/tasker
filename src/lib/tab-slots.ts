@@ -3,10 +3,19 @@
 // no Mais. O Material pede de 3 a 5 destinos; antes eram 6 abas e um "+" flutuante.
 
 export type TabSlot =
-  'planejar' | 'inbox' | 'habits' | 'folders' | 'treino' | 'bem-estar' | 'jogo' | 'pessoas';
+  | 'notas'
+  | 'planejar'
+  | 'inbox'
+  | 'habits'
+  | 'folders'
+  | 'treino'
+  | 'bem-estar'
+  | 'jogo'
+  | 'pessoas';
 
 /** Na ordem em que aparecem para escolher. */
 export const TAB_SLOTS: readonly TabSlot[] = [
+  'notas',
   'planejar',
   'inbox',
   'habits',
@@ -38,11 +47,12 @@ export function availableSlots(ctx: TabContext): TabSlot[] {
 
 /**
  * Padrão sem escolha salva: quem treina vê o Treino (ou o Bem-estar, se a Academia mora nele); quem
- * joga no RPG, o Jogo; os outros, o Planejar.
+ * joga no RPG, o Jogo; os outros, as Anotações (avaliação de UX, A2: antes era o Planejar, e a
+ * anotação ficava a dois toques, no Mais).
  */
 export function defaultSlots(ctx: TabContext): [TabSlot, TabSlot] {
   const gym: TabSlot = ctx.gymInWellness ? 'bem-estar' : 'treino';
-  return [ctx.gym ? gym : ctx.game === 'full' ? 'jogo' : 'planejar', 'folders'];
+  return [ctx.gym ? gym : ctx.game === 'full' ? 'jogo' : 'notas', 'folders'];
 }
 
 /**
@@ -72,6 +82,7 @@ export function barRoutes(slots: [TabSlot, TabSlot]) {
 export const TAB_PATHS: readonly string[] = [
   '/',
   '/today',
+  '/notas',
   '/planejar',
   '/inbox',
   '/habits',

@@ -131,12 +131,14 @@ export default function MoreScreen() {
               href="/treino"
             />
           )}
-          <HubRow
-            icon={NotebookPen}
-            label={t('notes.title')}
-            hint={t('hub.notesHint')}
-            href="/notas"
-          />
+          {show('notas') && (
+            <HubRow
+              icon={NotebookPen}
+              label={t('notes.title')}
+              hint={t('hub.notesHint')}
+              href="/notas"
+            />
+          )}
           <HubRow
             icon={Waypoints}
             label={t('graph.title')}

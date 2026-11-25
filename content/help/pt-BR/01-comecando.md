@@ -36,4 +36,4 @@ Toque na caixinha. Errou? O aviso tem **Desfazer**.
 - **+** no meio da barra de baixo (ou **Novo** na barra lateral): cria tarefa, hábito, anotação, lista, pasta ou projeto.
 - **Mais**: tudo o resto, com nome e uma linha explicando: Pessoas (amigos, times, clã), Jogo, Configurações, Ajuda, Lixeira.
 
-No celular, as duas posições ao lado do **+** são suas: troque em **Configurações → Navegação** (Planejar, Entrada, Hábitos, Pastas, Treino, Jogo ou Pessoas). A **lupa** no topo acha qualquer lista, pasta, tela ou ação.
+No celular, as duas posições ao lado do **+** são suas (de começo, **Anotações** e **Pastas**): troque em **Configurações → Navegação** (Anotações, Planejar, Entrada, Hábitos, Pastas, Treino, Jogo ou Pessoas). O que não está na barra fica no **Mais**. A **lupa** no topo acha qualquer lista, pasta, tela ou ação.
