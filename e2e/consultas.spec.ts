@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, signUp } from './helpers';
+import { openTab, signUp, waitForSync } from './helpers';
 
 // OB7 (ESCOPO_V11 §5, D292): o bloco ```questlist na anotação, com a lista de tarefas marcável, a
 // contagem, a tabela, a consulta de anotações, o aviso sem filtro e o erro de escrita.
@@ -71,7 +71,7 @@ test('anotações: consulta questlist', async ({ page }, testInfo) => {
 
   // Concluir pela consulta: sai da lista das abertas e a contagem cai
   await list.getByRole('checkbox', { name: `Concluir Lavar ${stamp}` }).click();
-  await page.waitForResponse((r) => r.url().includes('/rpc/complete_task'));
+  await waitForSync(page);
   await expect(list.getByRole('checkbox')).toHaveCount(1);
   await expect(blocks.nth(1).getByTestId('query-count')).toHaveText('1 tarefa');
   await expect(blocks.nth(2).getByRole('table')).toContainText(`☑ Lavar ${stamp}`);

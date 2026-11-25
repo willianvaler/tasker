@@ -4438,6 +4438,7 @@
   },
   "base": {
     "query": "Base query",
+    "advanced": "Advanced",
     "apply": "Apply",
     "queryHint": "Same language as the questlist block: tasks or notes, where…, sort by… (Ctrl+Enter applies)",
     "table": "Table",

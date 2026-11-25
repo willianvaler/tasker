@@ -70,13 +70,13 @@ export const RawBlock = Node.create({
   },
 });
 
-/** Callout `> [!tipo]+ Título`: uma caixa com blocos dentro */
 /** Nomes dos tipos de callout no idioma do app (M7: o editor dizia "Tip" e a leitura, "Dica") */
 let calloutLabels: Record<string, string> = {};
 export function setCalloutLabels(labels: Record<string, string> | undefined) {
   calloutLabels = labels ?? {};
 }
 
+/** Callout `> [!tipo]+ Título`: uma caixa com blocos dentro */
 export const Callout = Node.create({
   name: 'callout',
   group: 'block',

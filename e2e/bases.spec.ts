@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { createPage, openTab, signUp } from './helpers';
+import { createPage, openTab, signUp, waitForSync } from './helpers';
 
 const savedPage = (page: Page) =>
   page.waitForResponse(
@@ -23,7 +23,8 @@ test('bases: tabela, edição na célula e cartões', async ({ page }, testInfo)
   await expect(page.getByRole('checkbox', { name: `Concluir Lixar ${stamp}` })).toBeVisible();
 
   await createPage(page, { folder: `Casa ${stamp}`, name: `Base ${stamp}`, type: 'Base' });
-  // Nasce com uma consulta de exemplo, que dá para trocar
+  // Nasce com uma consulta de exemplo, que dá para trocar (a frase fica em Avançado, M4)
+  await page.getByRole('button', { name: 'Avançado' }).click();
   const query = page.getByRole('textbox', { name: 'Consulta da base' });
   await expect(query).toHaveValue(/^tarefas onde vence/);
   await query.fill(`tarefas onde etiqueta = ${tag} ordenar por título`);
@@ -60,7 +61,7 @@ test('bases: tabela, edição na célula e cartões', async ({ page }, testInfo)
 
   // Concluir pela base e agrupar pelo status
   await table.getByRole('checkbox', { name: `Concluir Pintar ${stamp}` }).click();
-  await page.waitForResponse((r) => r.url().includes('/rpc/complete_task'));
+  await waitForSync(page);
   await page.getByRole('button', { name: 'Agrupar' }).click();
   await page.getByRole('radio', { name: 'Status' }).click();
   await expect(table.getByText('Concluída', { exact: true })).toBeVisible();

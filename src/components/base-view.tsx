@@ -126,6 +126,8 @@ function QueryEditor({
   const { t } = useTranslation();
   const [text, setText] = useState<string | null>(null);
   const [building, setBuilding] = useState(false);
+  // A frase escrita é o modo avançado (avaliação de UX, M4): à frente ficam os filtros
+  const [advanced, setAdvanced] = useState(false);
   const current = text ?? value;
   const changed = text !== null && text.trim() !== value;
   if (!editable)
@@ -142,14 +144,24 @@ function QueryEditor({
   };
   return (
     <View className="gap-2">
-      <Button
-        variant="ghost"
-        icon={SlidersHorizontal}
-        className="self-start"
-        label={t('queryBuilder.open')}
-        aria-expanded={building}
-        onPress={() => setBuilding(!building)}
-      />
+      <View className="flex-row flex-wrap items-center gap-2">
+        <Button
+          variant="primary"
+          icon={SlidersHorizontal}
+          label={t('queryBuilder.open')}
+          aria-expanded={building}
+          onPress={() => setBuilding(!building)}
+        />
+        <Text numberOfLines={1} className="min-w-0 flex-1 font-mono text-xs text-ink-muted">
+          {value}
+        </Text>
+        <Button
+          variant="ghost"
+          label={t('base.advanced')}
+          aria-expanded={advanced}
+          onPress={() => setAdvanced(!advanced)}
+        />
+      </View>
       {building && (
         <View className="overflow-hidden rounded-lg border border-line">
           <QueryBuilder
@@ -163,27 +175,31 @@ function QueryEditor({
           />
         </View>
       )}
-      <Input
-        accessibilityLabel={t('base.query')}
-        value={current}
-        onChangeText={setText}
-        multiline
-        className="min-h-16 py-2 font-mono md:min-h-12 md:text-xs"
-        onKeyPress={(e) => {
-          // Ctrl/⌘+Enter aplica (Enter sozinho quebra a linha)
-          const ev = e.nativeEvent as { key: string; ctrlKey?: boolean; metaKey?: boolean };
-          if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) apply();
-        }}
-      />
-      <View className="flex-row flex-wrap items-center gap-2">
-        <Button
-          label={t('base.apply')}
-          onPress={apply}
-          disabled={!changed}
-          className="self-start"
-        />
-        <Text className="flex-1 text-xs text-ink-muted">{t('base.queryHint')}</Text>
-      </View>
+      {advanced && (
+        <>
+          <Input
+            accessibilityLabel={t('base.query')}
+            value={current}
+            onChangeText={setText}
+            multiline
+            className="min-h-16 py-2 font-mono md:min-h-12 md:text-xs"
+            onKeyPress={(e) => {
+              // Ctrl/⌘+Enter aplica (Enter sozinho quebra a linha)
+              const ev = e.nativeEvent as { key: string; ctrlKey?: boolean; metaKey?: boolean };
+              if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) apply();
+            }}
+          />
+          <View className="flex-row flex-wrap items-center gap-2">
+            <Button
+              label={t('base.apply')}
+              onPress={apply}
+              disabled={!changed}
+              className="self-start"
+            />
+            <Text className="flex-1 text-xs text-ink-muted">{t('base.queryHint')}</Text>
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -873,6 +889,9 @@ function TotalsRow({
 }) {
   const { t, i18n } = useTranslation();
   const [local, setLocal] = useState<Totals>({});
+  // Sem total escolhido, a célula fica vazia (M5: o rodapé dizia "Total Total Total"); passando o
+  // mouse aparece o convite
+  const [hover, setHover] = useState<string | null>(null);
   const number = (column: string, n: number) =>
     options?.formatTotal?.(column, n) ??
     new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 2 }).format(n);
@@ -891,6 +910,7 @@ function TotalsRow({
       {lead > 0 && <View style={{ width: lead }} />}
       {columns.map((c) => {
         const values = rows.map((r) => r.value(c));
+        const isHover = hover === c;
         const numeric = isNumberColumn(values);
         const chosen = local[c] ?? options?.totals?.[c] ?? defaultTotal(values);
         const result = computeTotal(values, chosen);
@@ -916,6 +936,8 @@ function TotalsRow({
               setLocal((m) => ({ ...m, [c]: next }));
               options?.onTotal?.(c, next);
             }}
+            onHoverIn={() => setHover(c)}
+            onHoverOut={() => setHover((h) => (h === c ? null : h))}
             style={{ width: width(c), flexGrow: c === 'title' ? 1 : 0 }}
             className="min-h-9 justify-center px-3 py-2 hover:bg-line"
           >
@@ -923,7 +945,7 @@ function TotalsRow({
               numberOfLines={2}
               className={cn('font-mono text-xs', text ? 'text-ink' : 'text-ink-muted')}
             >
-              {text || name.none}
+              {text || (isHover ? name.none : '')}
             </Text>
           </Pressable>
         );

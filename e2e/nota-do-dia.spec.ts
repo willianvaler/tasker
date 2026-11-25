@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, signUp } from './helpers';
+import { openTab, signUp, waitForSync } from './helpers';
 
 // OB5 (ESCOPO_V11 §4, D290): modelo da nota do dia, nota do dia pela Hoje (e Alt+D), diário
 // automático com o que foi concluído e criado no dia, e o ponto no Calendário.
@@ -17,7 +17,7 @@ test('anotações: nota do dia, modelo e diário', async ({ page }, testInfo) =>
   await input.fill(`Aberta ${stamp}`);
   await input.press('Enter');
   await page.getByRole('checkbox', { name: `Concluir Feita ${stamp}` }).click();
-  await page.waitForResponse((r) => r.url().includes('/rpc/complete_task'));
+  await waitForSync(page);
 
   // Modelo da nota do dia
   await page.goto('/notas');
@@ -52,7 +52,9 @@ test('anotações: nota do dia, modelo e diário', async ({ page }, testInfo) =>
   ).toBeVisible();
   const url = page.url();
 
-  // De novo abre a mesma (não cria outra); no computador, pelo Alt+D
+  // De novo abre a mesma (não cria outra); no computador, pelo Alt+D. Antes de recarregar, a nota
+  // criada precisa ter subido
+  await waitForSync(page);
   await page.goto('/');
   if (desktop) {
     // Atalho com Alt não vale enquanto se digita: tira o foco do campo de captura

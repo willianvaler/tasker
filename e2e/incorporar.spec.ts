@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-import { createPage, signUp } from './helpers';
+import { createPage, signUp, waitForSync } from './helpers';
 
 async function newNote(page: Page, desktop: boolean) {
   if (desktop) await page.getByRole('button', { name: 'Nova anotação' }).first().click();
@@ -83,7 +83,7 @@ test('anotações: incorporar e prévia do link', async ({ page }, testInfo) => 
   const list = page.getByTestId('embed-page');
   await expect(list).toContainText(`Mercado ${stamp}`);
   await list.getByRole('checkbox', { name: `Concluir Pão ${stamp}` }).click();
-  await page.waitForResponse((r) => r.url().includes('/rpc/complete_task'));
+  await waitForSync(page);
   await expect(list.getByRole('checkbox', { name: `Reabrir Pão ${stamp}` })).toBeVisible();
 
   // Prévia do link

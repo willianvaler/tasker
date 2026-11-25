@@ -43,6 +43,8 @@ test('editor de blocos: menu /, título, lista de tarefas, tabela, callout e con
   await page.keyboard.type('/consulta');
   await page.keyboard.press('Enter');
   await expect(editor.locator('[data-raw="consulta"]')).toBeVisible();
+  // O resultado da consulta aparece ali dentro, com o construtor (avaliação de UX, A5)
+  await expect(editor.locator('[data-raw="consulta"] [data-testid="note-query"]')).toBeVisible();
 
   // O + ao lado do bloco (passando o mouse) abre o mesmo menu numa linha nova
   await editor.locator('h2').hover();
@@ -71,7 +73,8 @@ test('editor de blocos: menu /, título, lista de tarefas, tabela, callout e con
   await page.getByRole('button', { name: 'Voltar ao editor de blocos' }).click();
   await page.waitForTimeout(1500);
   await page.reload();
-  await page.getByRole('button', { name: 'Editar' }).click();
+  // No editor de blocos a anotação abre já escrevendo (A5)
+  await expect(page.getByRole('button', { name: 'Visualizar' })).toBeVisible();
   await expect(editor.locator('h2')).toHaveText('Plano da semana');
   await expect(editor.locator('.ql-callout')).toContainText('Atenção ao prazo');
 });

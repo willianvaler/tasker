@@ -237,9 +237,12 @@ function Editor({
   const [sharing, setSharing, closeSharing] = useDialog<true>();
   const [title, setTitle] = useState(note.title);
   const [body, setBody] = useState(note.body);
-  // Com texto, abre formatada; vazia, já no editor
+  // No editor de blocos, abre sempre escrevendo, como o Notion (avaliação de UX, A5): o texto já
+  // aparece formatado e, na web, consulta, botão e incorporar mostram o resultado ali dentro. No
+  // editor de Markdown, com texto abre formatada; vazia, já no editor
   const [editingState, setEditing] = useState(
-    (cursor !== undefined || !note.body.trim()) && !isSharedWithMe(note, me),
+    (cursor !== undefined || !note.body.trim() || (BLOCK_EDITOR && getNoteEditor() === 'blocks')) &&
+      !isSharedWithMe(note, me),
   );
   const editing = editingState && !readOnly;
   const inicio = cursor !== undefined ? Math.min(cursor, note.body.length) : note.body.length;
@@ -507,7 +510,14 @@ function Editor({
 
   function format(kind: Format) {
     if (blocks) {
-      const map = { bold: 'bold', italic: 'italic', heading: 'heading', list: 'bullet', numbered: 'ordered', task: 'task' } as const;
+      const map = {
+        bold: 'bold',
+        italic: 'italic',
+        heading: 'heading',
+        list: 'bullet',
+        numbered: 'ordered',
+        task: 'task',
+      } as const;
       blockApi.current?.format(map[kind]);
       return;
     }

@@ -4438,6 +4438,7 @@
   },
   "base": {
     "query": "Consulta da base",
+    "advanced": "Avançado",
     "apply": "Aplicar",
     "queryHint": "A mesma linguagem do bloco questlist: tarefas ou anotações, onde…, ordenar por… (Ctrl+Enter aplica)",
     "table": "Tabela",

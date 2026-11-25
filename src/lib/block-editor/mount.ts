@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core';
 
 import { LinkSuggest, setLinkSuggestions, type LinkSuggestion } from './link';
-import { MathPreview, type RenderMath } from './math';
+import { MathPreview, type BlockPreview, type RenderMath } from './math';
 import { docToMarkdown, markdownToDoc } from './markdown';
 import { editorExtensions, setCalloutLabels } from './schema';
 import { openSlashAfter, SlashMenu, type SlashOptions } from './slash';
@@ -45,6 +45,8 @@ export type MountOptions = {
   onLinkQuery?: (query: string | null) => void;
   /** Desenha a fórmula (o MathJax do app); sem ele, a fórmula fica só como texto */
   renderMath?: RenderMath;
+  /** Resultado de consulta, botão e incorporar dentro do editor (A5); sem ele, só o texto */
+  blockPreview?: BlockPreview;
   throttleMs?: number;
 };
 
@@ -81,6 +83,8 @@ export const EDITOR_CSS = `
 .ql-editor .ql-raw[data-raw="consulta"]::before { content: "▦ " var(--ql-query, "Consulta"); }
 .ql-editor .ql-raw[data-raw="botao"]::before { content: "▶ " var(--ql-button, "Botão"); }
 .ql-editor .ql-raw[data-raw="incorporar"]::before { content: "↳ " var(--ql-embed, "Incorporar"); }
+.ql-editor .ql-block-preview { margin-top: .4em; white-space: normal; cursor: auto; user-select: text; }
+.ql-editor .ql-raw:has(.ql-block-preview) pre { font-size: .8em; color: rgb(var(--ink-muted)); padding: .4em .7em; }
 .ql-editor .ql-math-preview { padding: .5em 0 .2em; text-align: center; color: rgb(var(--ink)); overflow-x: auto; }
 .ql-editor .ql-inline-formula svg { vertical-align: middle; }
 .ql-editor .ql-inline { border-radius: 4px; padding: 0 .25em; white-space: nowrap; }
@@ -127,7 +131,7 @@ export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEdito
     extensions: editorExtensions([
       SlashMenu.configure(o.slash),
       LinkSuggest.configure({ onQuery: (q) => o.onLinkQuery?.(q) }),
-      MathPreview.configure({ render: o.renderMath ?? null }),
+      MathPreview.configure({ render: o.renderMath ?? null, blocks: o.blockPreview ?? null }),
     ]),
     content: loaded.doc,
     editable: o.editable,

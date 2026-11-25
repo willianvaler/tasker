@@ -1,9 +1,15 @@
 import { useEffect, useRef, useState, type MutableRefObject } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { calloutLabels, useSlashItems } from '@/components/block-editor-items';
+import { NoteButton } from '@/components/note-button';
+import { NoteEmbed } from '@/components/note-embed';
+import { QueryBlock } from '@/components/note-query';
+import type { BlockPreview } from '@/lib/block-editor/math';
 import { mountBlockEditor, type BlockEditorApi } from '@/lib/block-editor/mount';
+import { extractEmbeds } from '@/lib/note-embeds';
 import { texToSvg } from '@/lib/mathjax';
 import { useLinkCandidates } from '@/lib/queries/links';
 import { cleanLinkTitle, linkMarkup } from '@/lib/wikilinks';
@@ -48,6 +54,21 @@ export function BlockEditor({
   useEffect(() => {
     latest.current = { onChange, onBlur, onImage, today };
   });
+  // A5: o resultado de consulta, botão e incorporar desenhado dentro do editor (portais nas caixas
+  // que o editor cria embaixo de cada bloco)
+  const previews = useRef(new Map<HTMLElement, Preview>());
+  const [shown, setShown] = useState<[HTMLElement, Preview][]>([]);
+  const blockPreview: BlockPreview = {
+    show: (el, kind, text, setText) => {
+      const old = previews.current.get(el);
+      if (old && old.kind === kind && old.text === text) return;
+      previews.current.set(el, { kind, text, setText });
+      setShown([...previews.current]);
+    },
+    gone: (el) => {
+      if (previews.current.delete(el)) setShown([...previews.current]);
+    },
+  };
 
   useEffect(() => {
     const el = host.current as unknown as HTMLElement | null;
@@ -62,6 +83,7 @@ export function BlockEditor({
       onBlur: () => latest.current.onBlur?.(),
       onLinkQuery: setLinkQuery,
       renderMath: (tex, display) => texToSvg(tex, display).then((r) => r?.svg ?? null),
+      blockPreview,
       slash: {
         items,
         onExternal: (id) => {
@@ -117,5 +139,36 @@ export function BlockEditor({
     api.current?.setEditable(editable);
   }, [editable]);
 
-  return <View ref={host} testID="block-editor" className="min-h-64 flex-1 pl-8" />;
+  return (
+    <>
+      <View ref={host} testID="block-editor" className="min-h-64 flex-1 pl-8" />
+      {shown.map(([el, p]) =>
+        createPortal(<BlockResult preview={p} noteId={exclude} />, el),
+      )}
+    </>
+  );
+}
+
+type Preview = { kind: string; text: string; setText: (next: string) => void };
+
+/** O que a caixa embaixo do bloco mostra: a consulta rodando, o botão, a anotação incorporada */
+function BlockResult({ preview, noteId }: { preview: Preview; noteId?: string }) {
+  const found = extractEmbeds(preview.text);
+  if (preview.kind === 'consulta') {
+    const source = found.queries[0];
+    if (source === undefined) return null;
+    return (
+      <QueryBlock
+        source={source}
+        // O construtor regrava só a frase, dentro das mesmas cercas
+        onEdit={(next) => preview.setText(preview.text.replace(source, next))}
+      />
+    );
+  }
+  if (preview.kind === 'botao') {
+    const source = found.buttons[0];
+    return source !== undefined ? <NoteButton source={source} noteId={noteId} /> : null;
+  }
+  const link = found.embeds[0];
+  return link ? <NoteEmbed link={link} depth={1} /> : null;
 }
