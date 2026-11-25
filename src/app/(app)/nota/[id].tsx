@@ -801,6 +801,17 @@ function Editor({
                     resolve={resolve}
                     onLink={openLink}
                     onHeadingLayout={onHeadingLayout}
+                    onEditQuery={
+                      readOnly
+                        ? undefined
+                        : (from, to) => {
+                            const fence = (x: string) => `\`\`\`questlist\n${x}\n\`\`\``;
+                            const next = body.includes(fence(from))
+                              ? body.replace(fence(from), fence(to))
+                              : body.replace(from, to);
+                            if (next !== body) setBody(next);
+                          }
+                    }
                   />
                 ) : (
                   <Text className="text-ink-muted">{t('notes.bodyPlaceholder')}</Text>

@@ -93,7 +93,7 @@ export const LinkSuggest = Extension.create<
         el.innerHTML = '<strong></strong><span></span>';
         (el.firstChild as HTMLElement).textContent = item.label;
         (el.lastChild as HTMLElement).textContent = item.context ?? '';
-        el.addEventListener('mousedown', (e) => {
+        el.addEventListener('pointerdown', (e) => {
           e.preventDefault();
           choose(item);
         });

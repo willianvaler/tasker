@@ -1,10 +1,12 @@
 import { router } from 'expo-router';
-import { ArrowDown, ArrowUp, CircleAlert, Database } from 'lucide-react-native';
+import { ArrowDown, ArrowUp, CircleAlert, Database, SlidersHorizontal } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 
+import { QueryBuilder } from '@/components/query-builder';
 import { TaskRow } from '@/components/tasks/task-row';
+import { IconButton } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { formatDueDate, todayIn } from '@/lib/parser/dates';
@@ -29,10 +31,18 @@ import { pageLabel, useTree } from '@/lib/queries/tree';
  * Bloco ```questlist (OB7, D292): a consulta escrita na anotação, com o resultado em lista
  * (tarefas com a caixinha de verdade), tabela ou contagem. Sem filtro seletivo, avisa e não roda.
  */
-export function QueryBlock({ source }: { source: string }) {
+export function QueryBlock({
+  source,
+  onEdit,
+}: {
+  source: string;
+  /** Regrava a frase da consulta (o construtor visual, R2b); sem isso, só leitura */
+  onEdit?: (next: string) => void;
+}) {
   const { t } = useTranslation();
   const parsed = parseQuery(source);
   const errorText = useErrorText();
+  const [building, setBuilding] = useState(false);
   return (
     <View testID="note-query" className="my-1 overflow-hidden rounded-lg border border-line">
       <View className="flex-row items-center gap-2 border-b border-line bg-wash px-3 py-1">
@@ -40,7 +50,25 @@ export function QueryBlock({ source }: { source: string }) {
         <Text numberOfLines={2} className="flex-1 font-mono text-xs text-ink-muted">
           {source || t('query.title')}
         </Text>
+        {onEdit && (
+          <IconButton
+            icon={SlidersHorizontal}
+            label={t('queryBuilder.open')}
+            aria-expanded={building}
+            onPress={() => setBuilding(!building)}
+          />
+        )}
       </View>
+      {building && onEdit && (
+        <QueryBuilder
+          source={source}
+          onCancel={() => setBuilding(false)}
+          onApply={(next) => {
+            setBuilding(false);
+            onEdit(next);
+          }}
+        />
+      )}
       {!parsed.ok ? (
         <Problem text={errorText(parsed.error)} />
       ) : !isSelective(parsed.query) ? (

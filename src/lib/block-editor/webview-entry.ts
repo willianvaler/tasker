@@ -107,5 +107,9 @@ window.__ql = {
   },
 };
 
+// O teclado encolhe a WebView: o cursor volta para a vista
+window.addEventListener('resize', () => setTimeout(() => api?.scrollToCursor(), 50));
+window.visualViewport?.addEventListener('resize', () => setTimeout(() => api?.scrollToCursor(), 50));
+
 window.addEventListener('error', (e) => post({ type: 'error', message: String(e.message) }));
 post({ type: 'ready' });

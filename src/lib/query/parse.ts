@@ -357,3 +357,13 @@ export function isSelective(query: Query): boolean {
   if (kinds.some((k) => k === 'tag' || dated.includes(k))) return true;
   return query.source === 'notes' && kinds.some((k) => k === 'prop' || k === 'title');
 }
+
+/** O valor digitado num campo do construtor visual (R2b), lido como na frase */
+export function valueFromText(field: Field, text: string): Value | null {
+  const tokens = tokenize(text);
+  if (tokens.length === 0) return null;
+  const r = parseValue(tokens, 0, field);
+  if (!r) return null;
+  // Sobrou texto (duas palavras sem aspas): vale como texto inteiro
+  return r.next < tokens.length ? { kind: 'text', value: text.trim() } : r.value;
+}

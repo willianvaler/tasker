@@ -137,6 +137,28 @@ function findSlash(editor: Editor): MenuState {
   return { range: { from, to: $from.pos }, query: m[2] };
 }
 
+/**
+ * A linha foi quebrada logo depois do `/consulta` (o cursor está numa linha vazia nova e a de cima
+ * termina com o comando): onde está a linha vazia e onde termina o comando.
+ */
+export function splitAfterSlash(
+  editor: Editor,
+  query: string,
+): { emptyFrom: number; emptyTo: number; end: number } | null {
+  const { $from, empty } = editor.state.selection;
+  if (!empty || $from.parent.content.size !== 0 || $from.depth < 1) return null;
+  const index = $from.index($from.depth - 1);
+  if (index === 0) return null;
+  const container = $from.node($from.depth - 1);
+  const prev = container.child(index - 1);
+  if (!prev.isTextblock) return null;
+  const text = prev.textContent;
+  if (!text.endsWith(`/${query}`) || !/(^|\s)$/.test(text.slice(0, text.length - query.length - 1)))
+    return null;
+  const emptyFrom = $from.before();
+  return { emptyFrom, emptyTo: $from.after(), end: emptyFrom - 1 };
+}
+
 export const SlashMenu = Extension.create<SlashOptions>({
   name: 'qlSlash',
   addOptions() {
@@ -187,7 +209,8 @@ export const SlashMenu = Extension.create<SlashOptions>({
         el.innerHTML = '<strong></strong><span></span>';
         (el.firstChild as HTMLElement).textContent = item.label;
         (el.lastChild as HTMLElement).textContent = item.hint;
-        el.addEventListener('mousedown', (e) => {
+        // pointerdown: vale para o dedo e para o mouse, e não tira o foco do editor
+        el.addEventListener('pointerdown', (e) => {
           e.preventDefault();
           choose(item);
         });
@@ -204,7 +227,28 @@ export const SlashMenu = Extension.create<SlashOptions>({
       new Plugin({
         key,
         view: () => ({
-          update: () => {
+          update: (view, prev) => {
+            // O Enter do teclado do celular durante a composição da palavra não chega como tecla:
+            // ele quebra a linha. Com o menu aberto, desfaz a quebra e aplica o item escolhido
+            if (menu && current && !view.state.doc.eq(prev.doc)) {
+              const split = splitAfterSlash(editor, current.query);
+              if (split) {
+                const item = shown[active];
+                const query = current.query;
+                close();
+                editor
+                  .chain()
+                  .command(({ tr }) => {
+                    tr.delete(split.emptyFrom, split.emptyTo);
+                    tr.setSelection(TextSelection.create(tr.doc, split.end));
+                    return true;
+                  })
+                  .run();
+                if (item)
+                  runSlash(editor, { from: split.end - query.length - 1, to: split.end }, item.id, options);
+                return;
+              }
+            }
             const found = editor.isEditable ? findSlash(editor) : null;
             if (!found) return close();
             if (!current || current.query !== found.query) active = 0;

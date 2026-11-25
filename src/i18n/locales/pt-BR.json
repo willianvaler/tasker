@@ -5858,5 +5858,61 @@
     },
     "insert": "Inserir",
     "failed": "O editor de blocos não abriu ({{message}}); voltando ao Markdown."
+  },
+  "queryBuilder": {
+    "open": "Filtros e ordem",
+    "unparsed": "A consulta escrita tem erro; o construtor começou do zero.",
+    "source": "Mostrar",
+    "tasks": "Tarefas",
+    "notes": "Anotações",
+    "where": "De onde",
+    "list": "Lista",
+    "folder": "Pasta",
+    "filters": "Filtros",
+    "value": "Valor de {{field}}",
+    "removeFilter": "Tirar o filtro",
+    "addFilter": "Filtro",
+    "status": "Situação",
+    "done": {
+      "null": "Todas",
+      "false": "Abertas",
+      "true": "Concluídas"
+    },
+    "sort": "Ordenar por",
+    "noSort": "Sem ordem",
+    "asc": "↑ crescente",
+    "desc": "↓ decrescente",
+    "show": "Como",
+    "views": {
+      "list": "Lista",
+      "table": "Tabela",
+      "count": "Contagem"
+    },
+    "limit": "Limite",
+    "text": "Como fica escrito",
+    "apply": "Aplicar",
+    "field": "Campo",
+    "operator": "Condição",
+    "contains": "contém",
+    "fields": {
+      "tag": "Etiqueta",
+      "due": "Vencimento",
+      "priority": "Prioridade",
+      "title": "Título",
+      "status": "Estado",
+      "created": "Criada",
+      "updated": "Atualizada",
+      "completed": "Concluída em"
+    },
+    "placeholders": {
+      "tag": "casa",
+      "due": "hoje+7 ou 2026-12-01",
+      "priority": "alta, média ou 0 a 3",
+      "title": "texto",
+      "status": "aberta, andamento, concluída",
+      "created": "hoje-7",
+      "updated": "hoje-1",
+      "completed": "hoje-7"
+    }
   }
 }

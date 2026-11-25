@@ -109,3 +109,40 @@ test('anotações: tabela da consulta ordena pelo cabeçalho', async ({ page }, 
   await header.click();
   await expect(header).toHaveAttribute('aria-sort', 'none');
 });
+
+// R2b (D374): o construtor visual muda a consulta sem escrever a frase
+test('anotações: construtor visual da consulta', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'basta um perfil');
+  const stamp = Date.now();
+  const tag = `vis${stamp}`;
+  await signUp(page, testInfo);
+  await openTab(page, 'Caixa de entrada');
+  const input = page.getByRole('textbox', { name: 'Nova tarefa' });
+  for (const title of [`Alfa ${stamp} #${tag}`, `Beta ${stamp} #${tag}`]) {
+    await input.fill(title);
+    await input.press('Enter');
+  }
+  await expect(page.getByRole('checkbox', { name: `Concluir Beta ${stamp}` })).toBeVisible();
+  await page.getByRole('button', { name: 'Nova anotação' }).first().click();
+  await page.getByRole('textbox', { name: 'Título da anotação' }).fill(`Visual ${stamp}`);
+  await page
+    .getByRole('textbox', { name: 'Texto da anotação' })
+    .fill(['```questlist', `tarefas onde etiqueta = ${tag}`, '```'].join('\n'));
+  await page.getByRole('button', { name: 'Visualizar' }).click();
+  await expect(page.getByRole('checkbox', { name: `Concluir Alfa ${stamp}` }).last()).toBeVisible();
+
+  await page.getByRole('button', { name: 'Filtros e ordem' }).click();
+  const builder = page.getByTestId('query-builder');
+  await builder.getByRole('radio', { name: 'Contagem' }).click();
+  await expect(page.getByTestId('query-builder-text')).toHaveText(
+    `tarefas onde etiqueta = "${tag}" como contagem`,
+  );
+  await builder.getByRole('button', { name: 'Aplicar' }).click();
+  await expect(page.getByTestId('query-count').last()).toHaveText('2 tarefas');
+
+  // O texto da anotação ficou com a frase nova
+  await page.getByRole('button', { name: 'Editar' }).click();
+  await expect(page.getByRole('textbox', { name: 'Texto da anotação' })).toHaveValue(
+    `\`\`\`questlist\ntarefas onde etiqueta = "${tag}" como contagem\n\`\`\``,
+  );
+});

@@ -1,9 +1,17 @@
 import { router } from 'expo-router';
-import { ArrowDown, ArrowUp, ArrowUpRight, CircleAlert, Search } from 'lucide-react-native';
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpRight,
+  CircleAlert,
+  Database,
+  SlidersHorizontal,
+} from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, ScrollView, TextInput, View } from 'react-native';
 
+import { QueryBuilder } from '@/components/query-builder';
 import { useErrorText, useQueryContext } from '@/components/note-query';
 import { ScreenScroll } from '@/components/screen';
 import { useToggleWithUndo } from '@/components/tasks/task-row';
@@ -117,12 +125,13 @@ function QueryEditor({
 }) {
   const { t } = useTranslation();
   const [text, setText] = useState<string | null>(null);
+  const [building, setBuilding] = useState(false);
   const current = text ?? value;
   const changed = text !== null && text.trim() !== value;
   if (!editable)
     return (
       <View className="flex-row items-center gap-2 rounded border border-line bg-wash px-3 py-2">
-        <Icon icon={Search} size={16} tone="ink-muted" />
+        <Icon icon={Database} size={16} tone="ink-muted" />
         <Text className="flex-1 font-mono text-xs text-ink-muted">{value}</Text>
       </View>
     );
@@ -133,6 +142,27 @@ function QueryEditor({
   };
   return (
     <View className="gap-2">
+      <Button
+        variant="ghost"
+        icon={SlidersHorizontal}
+        className="self-start"
+        label={t('queryBuilder.open')}
+        aria-expanded={building}
+        onPress={() => setBuilding(!building)}
+      />
+      {building && (
+        <View className="overflow-hidden rounded-lg border border-line">
+          <QueryBuilder
+            source={value}
+            onCancel={() => setBuilding(false)}
+            onApply={(next) => {
+              setBuilding(false);
+              setText(null);
+              onSave(next);
+            }}
+          />
+        </View>
+      )}
       <Input
         accessibilityLabel={t('base.query')}
         value={current}

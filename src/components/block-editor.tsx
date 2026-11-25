@@ -133,6 +133,7 @@ export function BlockEditor({
       setEditable: (e) => send({ type: 'editable', editable: e }),
       setLinkSuggestions: (list) => send({ type: 'links', items: list }),
       openMenu: () => send({ type: 'menu' }),
+      scrollToCursor: () => undefined,
       destroy: () => undefined,
     };
     return () => {

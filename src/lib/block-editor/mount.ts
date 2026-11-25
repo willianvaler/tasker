@@ -21,6 +21,8 @@ export type BlockEditorApi = {
   setLinkSuggestions(items: LinkSuggestion[]): void;
   /** Abre o menu `/` numa linha nova depois do bloco do cursor (o botão Inserir da barra) */
   openMenu(): void;
+  /** Rola até o cursor (o teclado do celular encolheu a tela) */
+  scrollToCursor(): void;
   destroy(): void;
 };
 
@@ -177,7 +179,7 @@ export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEdito
     plus.style.left = `${Math.max(-30, box.left - hostBox.left - 30)}px`;
   };
   host.addEventListener('mousemove', onMove);
-  plus.addEventListener('mousedown', (e) => {
+  plus.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     if (plusPos >= 0) openSlashAfter(editor, plusPos);
   });
@@ -210,6 +212,9 @@ export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEdito
     insertText: (text) => editor.chain().focus().insertContent(text).run(),
     setEditable: (editable) => editor.setEditable(editable),
     setLinkSuggestions: (items) => setLinkSuggestions(editor, items),
+    scrollToCursor: () => {
+      if (editor.isFocused) editor.commands.scrollIntoView();
+    },
     openMenu: () => {
       const { $from } = editor.state.selection;
       const pos = $from.depth > 0 ? $from.before(1) : 0;

@@ -356,6 +356,7 @@ export function NoteMarkdown({
   depth = 0,
   trail,
   plain = false,
+  onEditQuery,
 }: {
   value: string;
   onLink?: (href: LinkHref) => void;
@@ -367,6 +368,8 @@ export function NoteMarkdown({
   trail?: string[];
   /** Página pública (OB14): sem prévia, sem incorporar, sem consulta e sem abrir etiquetas */
   plain?: boolean;
+  /** Regrava a frase de uma consulta desta anotação (o construtor visual, R2b) */
+  onEditQuery?: (from: string, to: string) => void;
 }) {
   const { t } = useTranslation();
   const colors = useColors();
@@ -436,7 +439,13 @@ export function NoteMarkdown({
         if (segment.kind === 'math') return <MathView key={i} tex={segment.tex} display />;
         if (segment.kind === 'query') {
           const source = embedded.queries[segment.index];
-          return source !== undefined ? <QueryBlock key={i} source={source} /> : null;
+          return source !== undefined ? (
+            <QueryBlock
+              key={i}
+              source={source}
+              onEdit={depth === 0 && onEditQuery ? (next) => onEditQuery(source, next) : undefined}
+            />
+          ) : null;
         }
         if (segment.kind === 'embed') {
           const link = embedded.embeds[segment.index];

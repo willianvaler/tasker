@@ -209,14 +209,12 @@ export function useFolderActions() {
         onConfirm={({ name, icon, color }) => {
           if (editing) m.updateFolder.mutate({ id: editing.id, name, icon, color }, { onError });
           else
-            m.createFolder.mutate(
-              { name, icon, color, parentId, kind: project ? 'project' : 'folder' },
-              // Abre a pasta nova: o próximo passo é criar páginas nela
-              {
-                onError,
-                onSuccess: (id) => router.navigate({ pathname: '/folder/[id]', params: { id } }),
-              },
-            );
+            // Abre a pasta nova: o próximo passo é criar páginas nela. mutateAsync: o onSuccess do
+            // mutate se perde se quem chamou desmontar antes da resposta
+            m.createFolder
+              .mutateAsync({ name, icon, color, parentId, kind: project ? 'project' : 'folder' })
+              .then((id) => router.navigate({ pathname: '/folder/[id]', params: { id } }))
+              .catch(onError);
           close();
         }}
       />

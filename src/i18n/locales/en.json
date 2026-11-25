@@ -5858,5 +5858,61 @@
     },
     "insert": "Insert",
     "failed": "The block editor did not open ({{message}}); switching to Markdown."
+  },
+  "queryBuilder": {
+    "open": "Filters and sort",
+    "unparsed": "The written query has an error; the builder started from scratch.",
+    "source": "Show",
+    "tasks": "Tasks",
+    "notes": "Notes",
+    "where": "From",
+    "list": "List",
+    "folder": "Folder",
+    "filters": "Filters",
+    "value": "Value of {{field}}",
+    "removeFilter": "Remove the filter",
+    "addFilter": "Filter",
+    "status": "Status",
+    "done": {
+      "null": "All",
+      "false": "Open",
+      "true": "Done"
+    },
+    "sort": "Sort by",
+    "noSort": "No sort",
+    "asc": "↑ ascending",
+    "desc": "↓ descending",
+    "show": "As",
+    "views": {
+      "list": "List",
+      "table": "Table",
+      "count": "Count"
+    },
+    "limit": "Limit",
+    "text": "How it is written",
+    "apply": "Apply",
+    "field": "Field",
+    "operator": "Condition",
+    "contains": "contains",
+    "fields": {
+      "tag": "Tag",
+      "due": "Due date",
+      "priority": "Priority",
+      "title": "Title",
+      "status": "Status",
+      "created": "Created",
+      "updated": "Updated",
+      "completed": "Completed at"
+    },
+    "placeholders": {
+      "tag": "home",
+      "due": "today+7 or 2026-12-01",
+      "priority": "high, medium or 0 to 3",
+      "title": "text",
+      "status": "todo, doing, done",
+      "created": "today-7",
+      "updated": "today-1",
+      "completed": "today-7"
+    }
   }
 }
