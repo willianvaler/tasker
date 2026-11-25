@@ -1,5 +1,7 @@
 import { Editor } from '@tiptap/core';
 
+import { LinkSuggest, setLinkSuggestions, type LinkSuggestion } from './link';
+import { MathPreview, type RenderMath } from './math';
 import { docToMarkdown, markdownToDoc } from './markdown';
 import { editorExtensions } from './schema';
 import { openSlashAfter, SlashMenu, type SlashOptions } from './slash';
@@ -15,6 +17,8 @@ export type BlockEditorApi = {
   format(kind: FormatKind): void;
   insertText(text: string): void;
   setEditable(editable: boolean): void;
+  /** As sugestões do `[[` (o que o app achou para o texto que `onLinkQuery` avisou) */
+  setLinkSuggestions(items: LinkSuggestion[]): void;
   destroy(): void;
 };
 
@@ -29,6 +33,10 @@ export type MountOptions = {
   /** Chamado com o Markdown novo, no máximo a cada `throttleMs` (e ao sair do campo) */
   onChange: (md: string) => void;
   onBlur?: () => void;
+  /** O que se digitou depois do `[[` (null quando a lista fecha) */
+  onLinkQuery?: (query: string | null) => void;
+  /** Desenha a fórmula (o MathJax do app); sem ele, a fórmula fica só como texto */
+  renderMath?: RenderMath;
   throttleMs?: number;
 };
 
@@ -65,6 +73,8 @@ export const EDITOR_CSS = `
 .ql-editor .ql-raw[data-raw="consulta"]::before { content: "▦ " var(--ql-query, "Consulta"); }
 .ql-editor .ql-raw[data-raw="botao"]::before { content: "▶ " var(--ql-button, "Botão"); }
 .ql-editor .ql-raw[data-raw="incorporar"]::before { content: "↳ " var(--ql-embed, "Incorporar"); }
+.ql-editor .ql-math-preview { padding: .5em 0 .2em; text-align: center; color: rgb(var(--ink)); overflow-x: auto; }
+.ql-editor .ql-inline-formula svg { vertical-align: middle; }
 .ql-editor .ql-inline { border-radius: 4px; padding: 0 .25em; white-space: nowrap; }
 .ql-editor .ql-inline-link { color: rgb(var(--accent)); background: rgb(var(--accent-soft)); }
 .ql-editor .ql-inline-formula { font-family: ui-monospace, monospace; background: rgb(var(--wash)); }
@@ -105,7 +115,11 @@ export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEdito
 
   const editor = new Editor({
     element: host,
-    extensions: editorExtensions([SlashMenu.configure(o.slash)]),
+    extensions: editorExtensions([
+      SlashMenu.configure(o.slash),
+      LinkSuggest.configure({ onQuery: (q) => o.onLinkQuery?.(q) }),
+      MathPreview.configure({ render: o.renderMath ?? null }),
+    ]),
     content: loaded.doc,
     editable: o.editable,
     editorProps: {
@@ -193,6 +207,7 @@ export function mountBlockEditor(host: HTMLElement, o: MountOptions): BlockEdito
     },
     insertText: (text) => editor.chain().focus().insertContent(text).run(),
     setEditable: (editable) => editor.setEditable(editable),
+    setLinkSuggestions: (items) => setLinkSuggestions(editor, items),
     destroy: () => {
       if (timer) {
         clearTimeout(timer);

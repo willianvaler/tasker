@@ -68,3 +68,41 @@ test('editor de blocos: menu /, título, lista de tarefas, tabela, callout e con
   await expect(editor.locator('h2')).toHaveText('Plano da semana');
   await expect(editor.locator('.ql-callout')).toContainText('Atenção ao prazo');
 });
+
+// R1.3 (D372): [[ com sugestões e a prévia da fórmula, dentro do editor de blocos
+test('editor de blocos: [[ sugere anotações e a fórmula aparece desenhada', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'celular', 'o editor de blocos do celular é o R1.4');
+  // O MathJax é carregado na primeira fórmula
+  test.setTimeout(120_000);
+  await signUp(page, testInfo);
+  await page.evaluate(() => localStorage.setItem('questlist:note-editor', 'blocks'));
+  // Uma anotação para ser citada
+  await page.getByRole('button', { name: 'Nova anotação' }).first().click();
+  await page.getByRole('textbox', { name: 'Título da anotação' }).fill('Receita de bolo');
+  const editor = page.getByTestId('block-editor').locator('.ql-editor');
+  await editor.click();
+  await page.keyboard.type('Farinha e ovos');
+  await page.waitForTimeout(1200);
+
+  const first = page.url();
+  await page.getByRole('button', { name: 'Nova anotação' }).first().click();
+  await expect.poll(() => page.url()).not.toBe(first);
+  // A anotação anterior fica montada embaixo: vale o último editor
+  const second = page.getByTestId('block-editor').last().locator('.ql-editor');
+  await page.getByRole('textbox', { name: 'Título da anotação' }).last().fill('Cardápio');
+  await second.click();
+  await page.keyboard.type('Sobremesa: [[Rece');
+  await expect(page.getByRole('option', { name: /Receita de bolo/ })).toBeVisible();
+  await page.keyboard.press('Enter');
+  await expect(second.locator('[data-raw-inline="link"]')).toHaveText('Receita de bolo');
+
+  await page.keyboard.press('Enter');
+  await page.keyboard.type('/fórmula');
+  await page.keyboard.press('Enter');
+  await page.keyboard.type('x^2');
+  await expect(second.locator('.ql-math-preview svg')).toBeVisible({ timeout: 30_000 });
+
+  await page.getByRole('button', { name: 'Editar como Markdown' }).last().click();
+  const md = page.getByRole('textbox', { name: 'Texto da anotação' }).last();
+  await expect(md).toHaveValue(/^Sobremesa: \[\[Receita de bolo\|n:[0-9a-f-]{36}\]\] *\n\n\$\$\nx\^2\n\$\$/);
+});

@@ -738,6 +738,7 @@ function Editor({
                   apiRef={blockApi}
                   onImage={() => void insertImage()}
                   today={today}
+                  exclude={note.id}
                 />
               </ScreenScroll>
             ) : editing ? (

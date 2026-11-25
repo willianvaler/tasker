@@ -1,8 +1,11 @@
-import { useEffect, useRef, type MutableRefObject } from 'react';
+import { useEffect, useRef, useState, type MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { mountBlockEditor, type BlockEditorApi } from '@/lib/block-editor/mount';
+import { texToSvg } from '@/lib/mathjax';
+import { useLinkCandidates } from '@/lib/queries/links';
+import { cleanLinkTitle, linkMarkup } from '@/lib/wikilinks';
 import type { SlashId, SlashItem } from '@/lib/block-editor/slash';
 
 // Editor de blocos na web (R1.1, D371): o TipTap montado direto na página. Recebe e devolve o
@@ -33,6 +36,7 @@ export function BlockEditor({
   apiRef,
   onImage,
   today,
+  exclude,
 }: {
   value: string;
   onChange: (md: string) => void;
@@ -41,8 +45,13 @@ export function BlockEditor({
   apiRef?: MutableRefObject<BlockEditorApi | null>;
   onImage?: () => void;
   today: string;
+  /** A própria anotação não aparece nas sugestões do [[ */
+  exclude?: string;
 }) {
   const { t } = useTranslation();
+  // [[ (R1.3): o editor avisa o texto; o app busca e devolve as sugestões
+  const [linkQuery, setLinkQuery] = useState<string | null>(null);
+  const candidates = useLinkCandidates(linkQuery, exclude);
   const host = useRef<View>(null);
   const api = useRef<BlockEditorApi | null>(null);
   const items = useSlashItems();
@@ -62,6 +71,8 @@ export function BlockEditor({
       plusLabel: t('blockEditor.plus'),
       onChange: (md) => latest.current.onChange(md),
       onBlur: () => latest.current.onBlur?.(),
+      onLinkQuery: setLinkQuery,
+      renderMath: (tex, display) => texToSvg(tex, display).then((r) => r?.svg ?? null),
       slash: {
         items,
         onExternal: (id) => {
@@ -86,6 +97,33 @@ export function BlockEditor({
   useEffect(() => {
     api.current?.setMarkdown(value);
   }, [value]);
+
+  const typed = (linkQuery ?? '').trim();
+  const suggestions = [
+    ...candidates.map((c) => ({
+      key: `${c.kind}:${c.id}`,
+      label: c.title,
+      context: c.context,
+      markup: linkMarkup(c.title, c.kind, c.id),
+    })),
+    ...(typed &&
+    !candidates.some((c) => c.kind === 'note' && c.title.toLowerCase() === typed.toLowerCase())
+      ? [
+          {
+            key: 'new',
+            label: t('wikilinks.newLink', { title: cleanLinkTitle(typed) }),
+            context: null,
+            markup: `[[${cleanLinkTitle(typed)}]]`,
+          },
+        ]
+      : []),
+  ];
+  const suggestionKey = linkQuery === null ? '' : suggestions.map((x) => x.key).join(',');
+  useEffect(() => {
+    api.current?.setLinkSuggestions(linkQuery === null ? [] : suggestions);
+    // A lista muda quando as chaves mudam
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [suggestionKey]);
   useEffect(() => {
     api.current?.setEditable(editable);
   }, [editable]);

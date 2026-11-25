@@ -1,5 +1,5 @@
 import { Extension, type Editor, type Range } from '@tiptap/core';
-import { Plugin, PluginKey } from '@tiptap/pm/state';
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state';
 
 // Menu `/` e botão `+` do editor de blocos (R1.2, D371). Só DOM, sem React: o mesmo código roda na
 // web e na WebView do celular. Os textos vêm de quem monta o editor (i18n do app).
@@ -61,6 +61,15 @@ const raw = (kind: string, text: string) => ({
   content: text ? [{ type: 'text', text }] : [],
 });
 
+/** Volta o cursor `n` caracteres (para cair dentro do que acabou de entrar) */
+const back =
+  (n: number) =>
+  ({ tr }: { tr: import('@tiptap/pm/state').Transaction }) => {
+    const pos = Math.max(0, tr.selection.from - n);
+    tr.setSelection(TextSelection.create(tr.doc, pos));
+    return true;
+  };
+
 /** Aplica o item escolhido no lugar de `range` (o `/texto` digitado) */
 export function runSlash(editor: Editor, range: Range, id: SlashId, o: SlashOptions) {
   const chain = editor.chain().focus().deleteRange(range);
@@ -94,7 +103,8 @@ export function runSlash(editor: Editor, range: Range, id: SlashId, o: SlashOpti
     case 'divider':
       return chain.setHorizontalRule().run();
     case 'formula':
-      return chain.insertContent(raw('formula', '$$\n\n$$')).run();
+      // O cursor fica na linha do meio, entre os $$
+      return chain.insertContent(raw('formula', '$$\n\n$$')).command(back(3)).run();
     case 'query':
       return chain.insertContent(raw('consulta', `\`\`\`questlist\n${o.queryTemplate}\n\`\`\``)).run();
     case 'button':
@@ -102,7 +112,7 @@ export function runSlash(editor: Editor, range: Range, id: SlashId, o: SlashOpti
     case 'link':
       return chain.insertContent('[[').run();
     case 'embed':
-      return chain.insertContent(raw('incorporar', '![[]]')).run();
+      return chain.insertContent(raw('incorporar', '![[]]')).command(back(2)).run();
     case 'today':
       return chain.insertContent(o.today()).run();
     case 'image':

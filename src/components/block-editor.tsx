@@ -13,6 +13,7 @@ export function BlockEditor(_props: {
   apiRef?: MutableRefObject<BlockEditorApi | null>;
   onImage?: () => void;
   today: string;
+  exclude?: string;
 }) {
   return null;
 }
