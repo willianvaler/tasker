@@ -8,6 +8,7 @@ import {
   Globe,
   Hash,
   HeartPulse,
+  House,
   Inbox,
   LayoutGrid,
   LayoutTemplate,
@@ -121,6 +122,7 @@ export default function MoreScreen() {
               href="/bem-estar"
             />
           )}
+          <HubRow icon={House} label={t('casa.title')} hint={t('casa.hint')} href="/casa" />
           {gymOn && !gymInWellness && show('treino') && (
             <HubRow
               icon={Dumbbell}

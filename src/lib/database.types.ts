@@ -1005,6 +1005,32 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"equipments": {
+                  Row: {
+                    "brand": string | null,"created_at": string,"device_id": string | null,"id": string,"model": string | null,"name": string,"notes": string | null,"purchased_on": string | null,"room": string | null,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "brand"?: string | null,"created_at"?: string,"device_id"?: string | null,"id"?: string,"model"?: string | null,"name": string,"notes"?: string | null,"purchased_on"?: string | null,"room"?: string | null,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "brand"?: string | null,"created_at"?: string,"device_id"?: string | null,"id"?: string,"model"?: string | null,"name"?: string,"notes"?: string | null,"purchased_on"?: string | null,"room"?: string | null,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "equipments_device_id_fkey"
+      columns: ["device_id"]
+isOneToOne: false
+      referencedRelation: "devices"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "equipments_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"exercises": {
                   Row: {
                     "body_part": string,"equipment": string,"force": string | null,"id": string,"instructions": NonNullable<Json>,"kind": string,"level": string | null,"mechanic": string | null,"name_en": string,"name_es": string | null,"name_pt": string | null,"secondary": (string)[],"target": string | null,"updated_at": string
@@ -1349,6 +1375,44 @@ isOneToOne: false
                   Relationships: [
                     {
       foreignKeyName: "loot_log_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"maintenance_plans": {
+                  Row: {
+                    "created_at": string,"equipment_id": string,"every_n": number,"id": string,"last_done_on": string | null,"name": string,"next_on": string | null,"page_id": string | null,"paused": boolean,"prev_done_on": string | null,"task_id": string | null,"unit": string,"updated_at": string,"user_id": string,"_maintenance_sync_task": undefined | null
+                  }
+                  ComputedFields: "_maintenance_sync_task"
+                  Insert: {
+                    "created_at"?: string,"equipment_id": string,"every_n"?: number,"id"?: string,"last_done_on"?: string | null,"name": string,"next_on"?: string | null,"page_id"?: string | null,"paused"?: boolean,"prev_done_on"?: string | null,"task_id"?: string | null,"unit"?: string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"equipment_id"?: string,"every_n"?: number,"id"?: string,"last_done_on"?: string | null,"name"?: string,"next_on"?: string | null,"page_id"?: string | null,"paused"?: boolean,"prev_done_on"?: string | null,"task_id"?: string | null,"unit"?: string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "maintenance_plans_equipment_id_fkey"
+      columns: ["equipment_id"]
+isOneToOne: false
+      referencedRelation: "equipments"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "maintenance_plans_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "maintenance_plans_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "maintenance_plans_user_id_fkey"
       columns: ["user_id"]
 isOneToOne: false
       referencedRelation: "profiles"
@@ -3562,6 +3626,9 @@ isOneToOne: false
 "_email_retry":
 { Args: Record<PropertyKey, never>; Returns: undefined
                            },
+"_export_my_data_base":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
 "_force_record_crit":
 { Args: { "p_cycle": string,"p_session": string,"p_task_id": string }; Returns: undefined
                            },
@@ -3634,6 +3701,9 @@ isOneToOne: false
 "_log_activity":
 { Args: { "p_action": string,"p_folder_id": string,"p_payload": Json }; Returns: undefined
                            },
+"_maintenance_sync_task":
+{ Args: { "p_plan": Omit<Database["public"]['Tables']["maintenance_plans"]['Row'], Database["public"]['Tables']["maintenance_plans"]['ComputedFields']> }; Returns: undefined
+                           },
 "_max_mp":
 { Args: { "p_user": string }; Returns: number
                            },
@@ -3674,6 +3744,9 @@ isOneToOne: false
                            },
 "_notify_challenge":
 { Args: { "p_challenge_id": string,"p_users": (string)[] }; Returns: undefined
+                           },
+"_own_device":
+{ Args: { "p_device": string }; Returns: boolean
                            },
 "_page_all_done":
 { Args: { "p_page_id": string }; Returns: boolean
@@ -4546,6 +4619,9 @@ isOneToOne: false
       } },
 "log_warmup":
 { Args: { "p_task_id": string,"p_values"?: Json }; Returns: Json
+                           },
+"maintenance_next":
+{ Args: { "p_every": number,"p_last": string,"p_today": string,"p_unit": string }; Returns: string
                            },
 "material_code":
 { Args: { "p_name": string }; Returns: string

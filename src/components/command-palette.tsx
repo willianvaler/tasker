@@ -288,6 +288,13 @@ function Palette({
       run: go('/bem-estar'),
     },
     {
+      id: 'go-home',
+      label: t('casa.title'),
+      icon: icon(House),
+      group: 0,
+      run: go('/casa'),
+    },
+    {
       id: 'go-inbox',
       label: t('nav.inbox'),
       hint: 'G I',

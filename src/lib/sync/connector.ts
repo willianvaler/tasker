@@ -193,6 +193,14 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'notes',
     ],
   },
+  equipments: {
+    insert: ['name', 'room', 'brand', 'model', 'purchased_on', 'device_id', 'notes'],
+    update: ['name', 'room', 'brand', 'model', 'purchased_on', 'device_id', 'notes'],
+  },
+  maintenance_plans: {
+    insert: ['equipment_id', 'name', 'every_n', 'unit', 'last_done_on', 'page_id', 'paused'],
+    update: ['name', 'every_n', 'unit', 'last_done_on', 'page_id', 'paused'],
+  },
   workout_moves: { insert: ['page_id', 'from_day', 'to_day'], update: ['to_day'] },
   expenses: {
     insert: [

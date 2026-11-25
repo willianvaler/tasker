@@ -256,6 +256,34 @@ const medications = new Table({
   created_at: column.text,
   updated_at: column.text,
 });
+// Equipamentos e manutenção (CS1, D365): next_on, task_id e prev_done_on são do servidor
+const equipments = new Table({
+  user_id: column.text,
+  name: column.text,
+  room: column.text,
+  brand: column.text,
+  model: column.text,
+  purchased_on: column.text,
+  device_id: column.text,
+  notes: column.text,
+  created_at: column.text,
+  updated_at: column.text,
+});
+const maintenance_plans = new Table({
+  user_id: column.text,
+  equipment_id: column.text,
+  name: column.text,
+  every_n: column.integer,
+  unit: column.text,
+  last_done_on: column.text,
+  page_id: column.text,
+  paused: column.integer,
+  next_on: column.text,
+  task_id: column.text,
+  prev_done_on: column.text,
+  created_at: column.text,
+  updated_at: column.text,
+});
 const sensitive_consents = new Table({
   user_id: column.text,
   purpose: column.text,
@@ -672,6 +700,8 @@ export const AppSchema = new Schema({
   body_goals,
   sensitive_consents,
   medications,
+  equipments,
+  maintenance_plans,
   page_shares,
   share_checks,
   my_day,
