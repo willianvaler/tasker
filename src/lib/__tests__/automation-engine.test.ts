@@ -1,7 +1,8 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, jest, test } from '@jest/globals';
 
 import {
   advance,
+  simulate,
   vencimentoDe,
   avaliar,
   expandir,
@@ -551,5 +552,108 @@ describe('esperar e tentar de novo (AU5)', () => {
     );
     expect(db.commits[0]).toMatchObject({ status: 'tentar', step: 0, next: 0, error: 'Rede fora' });
     expect(db.rows.get('run1')).toEqual({ step: 0, status: 'tentar' });
+  });
+});
+
+describe('limites e Testar (AU6)', () => {
+  test('passou de 30 s de tempo ativo: falha sem fazer o resto', async () => {
+    const db = fakeDb();
+    let t = 0;
+    const lento: TipoPasso = { id: 'lento', execute: () => ((t += 20_000), {}) };
+    const res = await executeRun(
+      run([{ tipo: 'lento' }, { tipo: 'lento' }, { tipo: 'notificar', corpo: 'x' }]),
+      registroCom([lento]),
+      db.commit,
+      { relogio: () => t },
+    );
+    expect(res).toBe('falhou');
+    expect(db.commits.at(-1)).toMatchObject({
+      status: 'falhou',
+      error: 'Passou de 30 s de execução',
+      step: 2,
+    });
+    expect(db.effects).toHaveLength(0);
+  });
+
+  test('Testar mostra o que faria sem chamar nada', () => {
+    const chamou = jest.fn();
+    const externo: TipoPasso = {
+      id: 'fora',
+      externo: true,
+      execute: () => (chamou(), { efeito: { tipo: 'webhook', url: 'https://x' } }),
+    };
+    const out = simulate(
+      {
+        passos: [
+          { tipo: 'notificar', corpo: 'Oi {{evento.titulo}}' },
+          { tipo: 'esperar', minutos: 30 },
+          { tipo: 'fora' },
+        ],
+      },
+      ctx({ estado: { evento: { titulo: 'Ana' }, var: {} } }),
+      registroCom([externo]),
+    );
+    expect(out.fim).toBe('ok');
+    expect(out.linhas.map((l) => l.tipo)).toEqual(['notificar', 'esperar', 'fora']);
+    expect(out.linhas[0].efeito).toMatchObject({ corpo: 'Oi Ana' });
+    expect(out.linhas[1].esperaria).toBe('2026-11-24T12:30:00.000Z');
+    expect(out.linhas[2]).toMatchObject({ externo: true, efeito: { tipo: 'webhook' } });
+    // O execute é puro: monta o efeito, mas quem chamaria a rede é o executor, que o Testar não usa
+    expect(chamou).toHaveBeenCalledTimes(1);
+  });
+
+  test('Testar com condições que não batem para no começo', () => {
+    const out = simulate(
+      {
+        condicoes: { campo: 'evento.titulo', op: '=', valor: 'x' },
+        passos: [{ tipo: 'notificar', corpo: 'y' }],
+      },
+      ctx(),
+      registroBase(),
+    );
+    expect(out).toMatchObject({ fim: 'condicoes', linhas: [{ tipo: 'condicoes', ramo: 'nao' }] });
+  });
+
+  test('efeito externo: o executor faz com a chave da execução e do passo, e grava o resultado', async () => {
+    const fora: TipoPasso = {
+      id: 'fora',
+      externo: true,
+      execute: () => ({ efeito: { tipo: 'webhook' } }),
+    };
+    const chaves: string[] = [];
+    const db = fakeDb();
+    const res = await executeRun(
+      run([{ tipo: 'notificar', corpo: 'x' }, { tipo: 'fora' }]),
+      registroCom([fora]),
+      db.commit,
+      {
+        externo: async (_e, chave) => (
+          chaves.push(chave),
+          { ok: true, resultado: { status: 200 } }
+        ),
+      },
+    );
+    expect(res).toBe('ok');
+    expect(chaves).toEqual(['run1:1']);
+    // O efeito externo não vai para o banco (só o resultado, no histórico)
+    expect(db.commits[1]).toMatchObject({ effect: null, log: { resultado: { status: 200 } } });
+  });
+
+  test('efeito externo com erro passageiro tenta de novo; sem executor externo, falha', async () => {
+    const fora: TipoPasso = {
+      id: 'fora',
+      externo: true,
+      execute: () => ({ efeito: { tipo: 'webhook' } }),
+    };
+    const db = fakeDb();
+    expect(
+      await executeRun(run([{ tipo: 'fora' }]), registroCom([fora]), db.commit, {
+        externo: async () => ({ tentar: 'HTTP 503' }),
+      }),
+    ).toBe('tentar');
+    const db2 = fakeDb();
+    expect(await executeRun(run([{ tipo: 'fora' }]), registroCom([fora]), db2.commit)).toBe(
+      'falhou',
+    );
   });
 });

@@ -205,9 +205,9 @@ isOneToOne: false
                   ]
                 },"automation_rules": {
                   Row: {
-                    "action": string | null,"consecutive_failures": number,"created_at": string,"created_by": string | null,"definition": NonNullable<Json>,"disabled_reason": string | null,"enabled": boolean,"folder_id": string | null,"id": string,"last_run_at": string | null,"name": string,"next_run_at": string | null,"owner_id": string | null,"page_id": string | null,"params": NonNullable<Json>,"runs": number,"scope": string,"trigger": string | null,"trigger_type": string | null,"updated_at": string
+                    "action": string | null,"consecutive_failures": number,"created_at": string,"created_by": string | null,"definition": NonNullable<Json>,"disabled_reason": string | null,"enabled": boolean,"folder_id": string | null,"id": string,"last_run_at": string | null,"name": string,"next_run_at": string | null,"owner_id": string | null,"page_id": string | null,"params": NonNullable<Json>,"runs": number,"scope": string,"trigger": string | null,"trigger_type": string | null,"updated_at": string,"_automation_limited": string | null
                   }
-                  ComputedFields: never
+                  ComputedFields: "_automation_limited"
                   Insert: {
                     "action"?: string | null,"consecutive_failures"?: number,"created_at"?: string,"created_by"?: string | null,"definition"?: NonNullable<Json>,"disabled_reason"?: string | null,"enabled"?: boolean,"folder_id"?: string | null,"id"?: string,"last_run_at"?: string | null,"name"?: string,"next_run_at"?: string | null,"owner_id"?: string | null,"page_id"?: string | null,"params"?: NonNullable<Json>,"runs"?: number,"scope"?: string,"trigger"?: string | null,"trigger_type"?: string | null,"updated_at"?: string
                   }
@@ -1835,14 +1835,14 @@ isOneToOne: true
                   ]
                 },"profiles": {
                   Row: {
-                    "active_mount": string | null,"active_pet": string | null,"attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"avatar": NonNullable<Json>,"avatar_url": string | null,"buff_amount": number,"buff_day": string | null,"class": string | null,"coins": number,"costume": NonNullable<Json>,"created_at": string,"dead": boolean,"died_at": string | null,"display_name": string,"equipped": NonNullable<Json>,"game_mode": string,"game_vocab": boolean,"gamification_enabled": boolean,"gym_enabled": boolean | null,"hp": number,"hp_day": string | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"mp": number,"onboarded_at": string | null,"rebirths": number,"reborn_at": string | null,"resting": boolean,"shield": boolean,"skill_day": string | null,"stealth": number,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"use_costume": boolean,"username": string,"xp": number
+                    "active_mount": string | null,"active_pet": string | null,"attr_agi": number,"attr_con": number,"attr_int": number,"attr_str": number,"automations_paused": boolean,"avatar": NonNullable<Json>,"avatar_url": string | null,"buff_amount": number,"buff_day": string | null,"class": string | null,"coins": number,"costume": NonNullable<Json>,"created_at": string,"dead": boolean,"died_at": string | null,"display_name": string,"equipped": NonNullable<Json>,"game_mode": string,"game_vocab": boolean,"gamification_enabled": boolean,"gym_enabled": boolean | null,"hp": number,"hp_day": string | null,"id": string,"last_active_date": string | null,"level": number,"locale": string | null,"mp": number,"onboarded_at": string | null,"rebirths": number,"reborn_at": string | null,"resting": boolean,"shield": boolean,"skill_day": string | null,"stealth": number,"streak": number,"streak_best": number,"timezone": string,"ui_prefs": NonNullable<Json>,"use_costume": boolean,"username": string,"xp": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"username": string,"xp"?: number
+                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"automations_paused"?: boolean,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id": string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"username": string,"xp"?: number
                   }
                   Update: {
-                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"username"?: string,"xp"?: number
+                    "active_mount"?: string | null,"active_pet"?: string | null,"attr_agi"?: number,"attr_con"?: number,"attr_int"?: number,"attr_str"?: number,"automations_paused"?: boolean,"avatar"?: NonNullable<Json>,"avatar_url"?: string | null,"buff_amount"?: number,"buff_day"?: string | null,"class"?: string | null,"coins"?: number,"costume"?: NonNullable<Json>,"created_at"?: string,"dead"?: boolean,"died_at"?: string | null,"display_name"?: string,"equipped"?: NonNullable<Json>,"game_mode"?: string,"game_vocab"?: boolean,"gamification_enabled"?: boolean,"gym_enabled"?: boolean | null,"hp"?: number,"hp_day"?: string | null,"id"?: string,"last_active_date"?: string | null,"level"?: number,"locale"?: string | null,"mp"?: number,"onboarded_at"?: string | null,"rebirths"?: number,"reborn_at"?: string | null,"resting"?: boolean,"shield"?: boolean,"skill_day"?: string | null,"stealth"?: number,"streak"?: number,"streak_best"?: number,"timezone"?: string,"ui_prefs"?: NonNullable<Json>,"use_costume"?: boolean,"username"?: string,"xp"?: number
                   }
                   Relationships: [
                     
@@ -3125,6 +3125,12 @@ isOneToOne: false
 "_automation_legacy_name":
 { Args: { "p_action": string,"p_trigger": string }; Returns: string
                            },
+"_automation_limit":
+{ Args: { "p_default": number,"p_key": string }; Returns: number
+                           },
+"_automation_limited":
+{ Args: { "p_rule": Omit<Database["public"]['Tables']["automation_rules"]['Row'], Database["public"]['Tables']["automation_rules"]['ComputedFields']> }; Returns: string
+                           },
 "_automation_matching":
 { Args: { "p_folder": string,"p_kind": string,"p_owner": string,"p_payload": Json }; Returns: {
               "action": string | null,
@@ -3541,6 +3547,9 @@ isOneToOne: false
                            },
 "automation_step":
 { Args: { "p_claim": string,"p_effect"?: Json,"p_error"?: string,"p_log"?: Json,"p_next": number,"p_resume"?: string,"p_run": string,"p_state": Json,"p_status"?: string,"p_step": number,"p_warnings"?: Json }; Returns: string
+                           },
+"automation_usage":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "automation_validate":
 { Args: { "p_definition": Json,"p_folder": string,"p_owner": string,"p_rule_id": string,"p_scope": string }; Returns: undefined
@@ -4346,6 +4355,9 @@ isOneToOne: false
                            },
 "set_appearance":
 { Args: { "p_background": string,"p_portrait": string }; Returns: undefined
+                           },
+"set_automations_paused":
+{ Args: { "p_paused": boolean }; Returns: boolean
                            },
 "set_availability":
 { Args: { "p_rules": Json }; Returns: undefined

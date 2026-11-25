@@ -104,6 +104,8 @@ export type TipoPasso = {
   id: string;
   /** Blocos de passos dentro deste (SE: ['entao', 'senao']). */
   blocos?: string[];
+  /** Efeito para fora do app (webhook, dispositivo): quem faz é o executor, com chave de idempotência. */
+  externo?: boolean;
   execute: (ctx: Contexto, params: Passo) => Resultado;
 };
 
@@ -575,6 +577,7 @@ export function compile(
 
 /** Linha do histórico de um passo (automation_runs.steps). */
 export type LinhaPasso = {
+  resultado?: unknown;
   caminho: string;
   tipo: string;
   ok: boolean;
@@ -593,6 +596,8 @@ export type Avanco = {
   log?: LinhaPasso;
   /** Quando voltar (ISO), se a execução fica esperando. */
   volta?: string;
+  /** O efeito é para fora do app: o executor faz antes de gravar o passo. */
+  externo?: boolean;
 };
 
 /** O que o passo deixa a execução: segue, acabou, falhou, espera ou tenta de novo depois. */
@@ -685,6 +690,7 @@ export function advance(
       proximo,
       estado,
       efeito: r.efeito,
+      ...(tipo.externo && r.efeito ? { externo: true } : {}),
       status: 'esperando',
       avisos: r.avisos ?? [],
       log,
@@ -695,6 +701,7 @@ export function advance(
     proximo,
     estado,
     efeito: r.efeito,
+    ...(tipo.externo && r.efeito ? { externo: true } : {}),
     status: proximo >= programa.length ? 'ok' : 'rodando',
     avisos: r.avisos ?? [],
     log,
@@ -737,16 +744,41 @@ export type Commit = {
 /** Grava o passo no banco. 'ignorado': outro executor já fez este passo (ou a execução mudou). */
 export type CommitFn = (c: Commit) => Promise<'ok' | 'ignorado' | 'falhou'>;
 
+/** Resultado de um efeito externo feito pelo executor. */
+export type ResultadoExterno =
+  { ok: true; resultado?: unknown } | { tentar: string } | { erro: string };
+
+/** Faz o efeito externo (webhook, dispositivo). `chave` é a de idempotência: `<execução>:<passo>`. */
+export type ExternoFn = (efeito: Efeito, chave: string, run: Execucao) => Promise<ResultadoExterno>;
+
+export type OpcoesExecutor = {
+  agora?: () => string;
+  externo?: ExternoFn;
+  /** Tempo ativo máximo de uma execução, sem contar esperas (V14 §6.4). */
+  limiteMs?: number;
+  relogio?: () => number;
+};
+
+/** Tempo ativo por execução (V14 §6.4). */
+export const LIMITE_EXECUCAO_MS = 30_000;
+
 /**
  * Roda uma execução do ponto em que parou até o fim, um commit por passo. O commit com efeito é
  * idempotente no banco: se o mesmo passo chegar duas vezes, o segundo é ignorado e o executor para.
+ * Efeito externo é feito aqui antes do commit, com a chave `<execução>:<passo>` (quem recebe usa
+ * para não repetir, se o executor cair entre a chamada e o commit).
  */
 export async function executeRun(
   run: Execucao,
   registro: Registro,
   commit: CommitFn,
-  agora: () => string = () => new Date().toISOString(),
+  opcoes: OpcoesExecutor | (() => string) = {},
 ): Promise<'ok' | 'falhou' | 'ignorado' | 'esperando' | 'tentar'> {
+  const o: OpcoesExecutor = typeof opcoes === 'function' ? { agora: opcoes } : opcoes;
+  const agora = o.agora ?? (() => new Date().toISOString());
+  const relogio = o.relogio ?? (() => Date.now());
+  const limite = o.limiteMs ?? LIMITE_EXECUCAO_MS;
+  const inicio = relogio();
   const programa = compile(run.definition.passos ?? [], registro, run.definition.condicoes);
   let estado: Estado = {
     evento: run.state.evento ?? {},
@@ -755,6 +787,21 @@ export async function executeRun(
   };
   let pc = run.step;
   for (let guarda = 0; guarda <= programa.length + 1; guarda++) {
+    const base = { run: run.id, claim: run.claimed_at, step: pc, resume: null };
+    if (relogio() - inicio > limite) {
+      const error = `Passou de ${Math.round(limite / 1000)} s de execução`;
+      const res = await commit({
+        ...base,
+        next: pc,
+        state: estado,
+        effect: null,
+        log: null,
+        warnings: [],
+        status: 'falhou',
+        error,
+      });
+      return res === 'ok' ? 'falhou' : res;
+    }
     const ctx: Contexto = {
       estado,
       escopo: run.scope,
@@ -765,25 +812,92 @@ export async function executeRun(
       usuario: run.usuario,
     };
     const a = advance(programa, pc, ctx, registro);
+    let efeito = a.efeito ?? null;
+    let log = a.log ?? null;
+    let status = a.status;
+    let erro = a.erro ?? null;
+    if (a.externo && efeito) {
+      const r: ResultadoExterno = o.externo
+        ? await o.externo(efeito, `${run.id}:${pc}`, run).catch((e: unknown) => ({
+            tentar: e instanceof Error ? e.message : String(e),
+          }))
+        : { erro: 'Este executor não faz efeitos externos' };
+      efeito = null;
+      if ('tentar' in r) {
+        status = 'tentar';
+        erro = r.tentar;
+      } else if ('erro' in r) {
+        status = 'falhou';
+        erro = r.erro;
+        if (log) log = { ...log, ok: false, erro: r.erro };
+      } else if (log && r.resultado !== undefined) {
+        log = { ...log, resultado: r.resultado };
+      }
+    }
     const res = await commit({
-      run: run.id,
-      claim: run.claimed_at,
-      step: pc,
-      next: a.proximo,
+      ...base,
+      next: status === 'tentar' ? pc : a.proximo,
       state: a.estado,
-      effect: a.efeito ?? null,
-      log: a.log ?? null,
+      effect: efeito,
+      log,
       warnings: a.avisos,
-      status: a.status,
-      error: a.erro ?? null,
+      status,
+      error: erro,
       resume: a.volta ?? null,
     });
     if (res !== 'ok') return res;
-    if (a.status !== 'rodando') return a.status;
+    if (status !== 'rodando') return status;
     estado = a.estado;
     pc = a.proximo;
   }
   return 'falhou';
+}
+
+/** Uma linha do Testar: o que o passo faria. */
+export type LinhaSimulada = {
+  caminho: string;
+  tipo: string;
+  efeito?: Efeito;
+  externo?: boolean;
+  ramo?: string | null;
+  erro?: string;
+  esperaria?: string;
+  avisos: string[];
+};
+
+/**
+ * Testar (V14 §6.5): roda a regra com um evento de exemplo sem efeito nenhum. Não chama o banco nem
+ * a rede: só devolve o que cada passo faria (as esperas são puladas, com a hora em que voltaria).
+ */
+export function simulate(
+  definition: { passos?: Passo[]; condicoes?: Condicao | null },
+  ctx: Contexto,
+  registro: Registro,
+): { linhas: LinhaSimulada[]; fim: 'ok' | 'falhou' | 'condicoes' } {
+  const programa = compile(definition.passos ?? [], registro, definition.condicoes);
+  const linhas: LinhaSimulada[] = [];
+  let estado = ctx.estado;
+  let pc = 0;
+  for (let i = 0; i < 200 && pc < programa.length; i++) {
+    const a = advance(programa, pc, { ...ctx, estado }, registro);
+    if (a.log) {
+      linhas.push({
+        caminho: a.log.caminho,
+        tipo: a.log.tipo,
+        ...(a.efeito ? { efeito: a.efeito } : {}),
+        ...(a.externo ? { externo: true } : {}),
+        ...(a.log.ramo !== undefined ? { ramo: a.log.ramo } : {}),
+        ...(a.erro ? { erro: a.erro } : {}),
+        ...(a.volta ? { esperaria: a.volta } : {}),
+        avisos: a.avisos,
+      });
+      if (a.log.tipo === 'condicoes' && a.log.ramo === 'nao') return { linhas, fim: 'condicoes' };
+    }
+    if (a.status === 'falhou' || a.status === 'tentar') return { linhas, fim: 'falhou' };
+    estado = a.estado;
+    pc = a.proximo;
+  }
+  return { linhas, fim: 'ok' };
 }
 
 // ---------------------------------------------------------------------------------------------

@@ -23,12 +23,17 @@ export {
   executeRun,
   PASSOS_BASE,
   registroBase,
+  simulate,
+  LIMITE_EXECUCAO_MS,
   vencimentoDe,
 } from '../../../supabase/functions/_shared/automation-engine';
 export type {
   Commit,
   CommitFn,
   Condicao,
+  ExternoFn,
+  LinhaSimulada,
+  ResultadoExterno,
   Contexto,
   Efeito,
   Escopo,
