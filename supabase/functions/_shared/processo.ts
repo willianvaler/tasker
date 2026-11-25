@@ -60,7 +60,10 @@ export type Aresta = {
   prazo?: boolean;
 };
 
-export type Variavel = { nome: string; tipo: 'texto' | 'numero' | 'booleano' | 'data' | 'lista' | 'objeto' };
+export type Variavel = {
+  nome: string;
+  tipo: 'texto' | 'numero' | 'booleano' | 'data' | 'lista' | 'objeto';
+};
 
 export type Grafo = {
   v: 1;
@@ -110,7 +113,8 @@ export type ExprApi = {
 function expressoesDoNo(no: No): string[] {
   const out: string[] = [];
   const add = (v: unknown) => typeof v === 'string' && v.trim() && out.push(v);
-  if (no.entradas && typeof no.entradas === 'object') Object.values(no.entradas as Record<string, unknown>).forEach(add);
+  if (no.entradas && typeof no.entradas === 'object')
+    Object.values(no.entradas as Record<string, unknown>).forEach(add);
   if (no.tipo === 'laco') add(no.condicao);
   if (no.tipo === 'multi') add(no.lista);
   if (no.tipo === 'mensagem') add(no.chave);
@@ -136,7 +140,11 @@ export function duracaoMin(texto: unknown): number | null {
   return Number(m[1] ?? 0) * 1440 + Number(m[2] ?? 0) * 60 + Number(m[3] ?? 0);
 }
 
-export function validarGrafo(g: Grafo, expr: ExprApi, passosPermitidos: readonly string[]): ErroGrafo[] {
+export function validarGrafo(
+  g: Grafo,
+  expr: ExprApi,
+  passosPermitidos: readonly string[],
+): ErroGrafo[] {
   const erros: ErroGrafo[] = [];
   const nos = Array.isArray(g?.nos) ? g.nos : [];
   const arestas = Array.isArray(g?.arestas) ? g.arestas : [];
@@ -145,11 +153,13 @@ export function validarGrafo(g: Grafo, expr: ExprApi, passosPermitidos: readonly
   for (const n of nos) {
     if (!n?.id || porId.has(n.id)) erros.push({ codigo: 'id_repetido', no: n?.id });
     else porId.set(n.id, n);
-    if (!TIPOS_NO.includes(n?.tipo)) erros.push({ codigo: 'tipo_desconhecido', no: n?.id, detalhe: String(n?.tipo) });
+    if (!TIPOS_NO.includes(n?.tipo))
+      erros.push({ codigo: 'tipo_desconhecido', no: n?.id, detalhe: String(n?.tipo) });
   }
   const inicios = nos.filter((n) => n.tipo === 'inicio');
   if (inicios.length === 0) erros.push({ codigo: 'sem_inicio' });
-  if (inicios.length > 1) for (const n of inicios.slice(1)) erros.push({ codigo: 'dois_inicios', no: n.id });
+  if (inicios.length > 1)
+    for (const n of inicios.slice(1)) erros.push({ codigo: 'dois_inicios', no: n.id });
   if (!nos.some((n) => n.tipo === 'fim')) erros.push({ codigo: 'sem_fim' });
   const saem = new Map<string, Aresta[]>();
   const entram = new Map<string, Aresta[]>();
@@ -167,7 +177,9 @@ export function validarGrafo(g: Grafo, expr: ExprApi, passosPermitidos: readonly
   const alcanca = (de: string[], viz: (id: string) => string[]) => {
     const vistos = new Set(de);
     const fila = [...de];
-    while (fila.length) for (const p of viz(fila.shift() as string)) if (!vistos.has(p)) (vistos.add(p), fila.push(p));
+    while (fila.length)
+      for (const p of viz(fila.shift() as string))
+        if (!vistos.has(p)) (vistos.add(p), fila.push(p));
     return vistos;
   };
   const doInicio = alcanca([inicios[0].id], (id) => (saem.get(id) ?? []).map((a) => a.para));
@@ -198,32 +210,46 @@ export function validarGrafo(g: Grafo, expr: ExprApi, passosPermitidos: readonly
     }
     if (n.tipo === 'laco') {
       const max = Number(n.max ?? 0);
-      if (!Number.isInteger(max) || max < 1 || max > LIMITES.laco) erros.push({ codigo: 'laco_max', no: n.id });
-      if (out.filter((a) => a.laco === 'repetir').length !== 1 || out.filter((a) => a.laco === 'sair').length !== 1) {
+      if (!Number.isInteger(max) || max < 1 || max > LIMITES.laco)
+        erros.push({ codigo: 'laco_max', no: n.id });
+      if (
+        out.filter((a) => a.laco === 'repetir').length !== 1 ||
+        out.filter((a) => a.laco === 'sair').length !== 1
+      ) {
         erros.push({ codigo: 'laco_caminhos', no: n.id });
       }
     }
     if (n.tipo === 'servico') {
       const acao = n.acao as { tipo?: string } | undefined;
-      if (!acao?.tipo || !passosPermitidos.includes(acao.tipo)) erros.push({ codigo: 'acao_desconhecida', no: n.id, detalhe: acao?.tipo });
-      if (out.filter((a) => a.erro).length > 1) erros.push({ codigo: 'dois_caminhos_de_erro', no: n.id });
+      if (!acao?.tipo || !passosPermitidos.includes(acao.tipo))
+        erros.push({ codigo: 'acao_desconhecida', no: n.id, detalhe: acao?.tipo });
+      if (out.filter((a) => a.erro).length > 1)
+        erros.push({ codigo: 'dois_caminhos_de_erro', no: n.id });
     }
     if (n.tipo === 'humana') {
       if (!String(n.titulo ?? '').trim()) erros.push({ codigo: 'humana_sem_titulo', no: n.id });
       const escolhas = Array.isArray(n.escolhas) ? (n.escolhas as string[]) : [];
       for (const a of out.filter((x) => x.escolha)) {
-        if (!escolhas.includes(a.escolha as string)) erros.push({ codigo: 'escolha_desconhecida', no: n.id, aresta: a.id });
+        if (!escolhas.includes(a.escolha as string))
+          erros.push({ codigo: 'escolha_desconhecida', no: n.id, aresta: a.id });
       }
-      if (n.prazo !== undefined && duracaoMin(n.prazo) === null) erros.push({ codigo: 'prazo_invalido', no: n.id });
+      if (n.prazo !== undefined && duracaoMin(n.prazo) === null)
+        erros.push({ codigo: 'prazo_invalido', no: n.id });
     }
-    if (n.tipo === 'temporizador' && duracaoMin(n.duracao) === null && !String(n.ate ?? '').trim()) {
+    if (
+      n.tipo === 'temporizador' &&
+      duracaoMin(n.duracao) === null &&
+      !String(n.ate ?? '').trim()
+    ) {
       erros.push({ codigo: 'temporizador_sem_tempo', no: n.id });
     }
     if (n.tipo === 'subprocesso' || n.tipo === 'multi') {
-      if (typeof n.funcao !== 'string' || !/^[0-9a-f-]{36}$/.test(n.funcao)) erros.push({ codigo: 'sem_funcao', no: n.id });
+      if (typeof n.funcao !== 'string' || !/^[0-9a-f-]{36}$/.test(n.funcao))
+        erros.push({ codigo: 'sem_funcao', no: n.id });
       if (n.tipo === 'multi') {
         const max = Number(n.max ?? LIMITES.multi);
-        if (!Number.isInteger(max) || max < 1 || max > LIMITES.multi) erros.push({ codigo: 'multi_max', no: n.id });
+        if (!Number.isInteger(max) || max < 1 || max > LIMITES.multi)
+          erros.push({ codigo: 'multi_max', no: n.id });
       }
     }
     for (const t of expressoesDoNo(n)) {
@@ -238,11 +264,17 @@ export function validarGrafo(g: Grafo, expr: ExprApi, passosPermitidos: readonly
     const ramos = (saem.get(n.id) ?? []).map((a) =>
       alcanca([a.para], (id) => (saem.get(id) ?? []).map((x) => x.para)),
     );
-    const comum = nos.find((x) => x.tipo === 'and' && x.id !== n.id && junta(x.id) && ramos.every((r) => r.has(x.id)));
+    const comum = nos.find(
+      (x) => x.tipo === 'and' && x.id !== n.id && junta(x.id) && ramos.every((r) => r.has(x.id)),
+    );
     if (!comum) erros.push({ codigo: 'and_sem_juncao', no: n.id });
   }
   for (const n of nos.filter((x) => x.tipo === 'and' && junta(x.id))) {
-    if ((saem.get(n.id) ?? []).length !== 1 && (entram.get(n.id) ?? []).length >= 2 && (saem.get(n.id) ?? []).length > 1) {
+    if (
+      (saem.get(n.id) ?? []).length !== 1 &&
+      (entram.get(n.id) ?? []).length >= 2 &&
+      (saem.get(n.id) ?? []).length > 1
+    ) {
       erros.push({ codigo: 'and_junta_e_divide', no: n.id });
     }
   }
@@ -253,18 +285,28 @@ export function validarGrafo(g: Grafo, expr: ExprApi, passosPermitidos: readonly
     ...(g.assinatura?.entradas ?? []).map((v) => v.nome),
   ]);
   for (const n of nos) {
-    if (n.saidas && typeof n.saidas === 'object') for (const k of Object.keys(n.saidas as object)) declaradas.add(k);
-    if (Array.isArray(n.formulario)) for (const c of n.formulario as { nome?: string }[]) if (c.nome) declaradas.add(c.nome);
+    if (n.saidas && typeof n.saidas === 'object')
+      for (const k of Object.keys(n.saidas as object)) declaradas.add(k);
+    if (Array.isArray(n.formulario))
+      for (const c of n.formulario as { nome?: string }[]) if (c.nome) declaradas.add(c.nome);
   }
-  const usadas = (texto: string) => expr.campos(texto).filter((c) => c.startsWith('var.')).map((c) => c.slice(4).split('.')[0]);
+  const usadas = (texto: string) =>
+    expr
+      .campos(texto)
+      .filter((c) => c.startsWith('var.'))
+      .map((c) => c.slice(4).split('.')[0]);
   for (const n of nos) {
     for (const t of expressoesDoNo(n)) {
-      for (const v of usadas(t)) if (!declaradas.has(v)) erros.push({ codigo: 'variavel_nao_declarada', no: n.id, detalhe: v });
+      for (const v of usadas(t))
+        if (!declaradas.has(v))
+          erros.push({ codigo: 'variavel_nao_declarada', no: n.id, detalhe: v });
     }
   }
   for (const a of arestas) {
     if (!a.condicao) continue;
-    for (const v of usadas(a.condicao)) if (!declaradas.has(v)) erros.push({ codigo: 'variavel_nao_declarada', aresta: a.id, detalhe: v });
+    for (const v of usadas(a.condicao))
+      if (!declaradas.has(v))
+        erros.push({ codigo: 'variavel_nao_declarada', aresta: a.id, detalhe: v });
   }
   return erros;
 }
@@ -279,9 +321,19 @@ export type Escopo = { laco?: Record<string, number>; [chave: string]: unknown }
 export type Proximo = { no: string; escopo?: Escopo };
 
 export type Decisao =
-  | { tipo: 'seguir'; proximos: Proximo[]; vars?: Record<string, unknown>; efeito?: Record<string, unknown> & { tipo: string }; externo?: boolean }
+  | {
+      tipo: 'seguir';
+      proximos: Proximo[];
+      vars?: Record<string, unknown>;
+      efeito?: Record<string, unknown> & { tipo: string };
+      externo?: boolean;
+    }
   /** Espera (temporizador, mensagem, tarefa humana, subprocesso): o banco grava `process_waits` */
-  | { tipo: 'esperar'; espera: Record<string, unknown> & { tipo: string }; vars?: Record<string, unknown> }
+  | {
+      tipo: 'esperar';
+      espera: Record<string, unknown> & { tipo: string };
+      vars?: Record<string, unknown>;
+    }
   /** Portão paralelo de junção: o banco conta quantos chegaram */
   | { tipo: 'juntar'; no: string; esperados: number; seguir: Proximo[] }
   | { tipo: 'fim'; erro?: string }
@@ -297,31 +349,54 @@ export type Contexto = {
   retorno?: Record<string, unknown>;
 };
 
-const espacos = (c: Contexto) => ({ var: c.vars, inicio: c.inicio, pagina: c.pagina ?? {}, retorno: c.retorno ?? {} });
+const espacos = (c: Contexto) => ({
+  var: c.vars,
+  inicio: c.inicio,
+  pagina: c.pagina ?? {},
+  retorno: c.retorno ?? {},
+});
 
-export function avancar(g: Grafo, noId: string, escopo: Escopo, c: Contexto, expr: ExprApi): Decisao {
+export function avancar(
+  g: Grafo,
+  noId: string,
+  escopo: Escopo,
+  c: Contexto,
+  expr: ExprApi,
+): Decisao {
   const no = g.nos.find((n) => n.id === noId);
   if (!no) return { tipo: 'falha', erro: `Nó ${noId} não existe nesta versão` };
   const saem = g.arestas.filter((a) => a.de === no.id);
   const normais = saem.filter((a) => !a.erro && !a.prazo);
-  const ir = (a: Aresta[], esc: Escopo = escopo): Proximo[] => a.map((x) => ({ no: x.para, escopo: esc }));
+  const ir = (a: Aresta[], esc: Escopo = escopo): Proximo[] =>
+    a.map((x) => ({ no: x.para, escopo: esc }));
   const calcular = (texto: string) => {
     const r = expr.avaliar(texto, espacos(c), { today: c.hoje, now: c.agora });
-    if (!r.ok) throw new Error(`Expressão "${texto}": ${r.error.code}${r.error.name ? ` (${r.error.name})` : ''}`);
+    if (!r.ok)
+      throw new Error(
+        `Expressão "${texto}": ${r.error.code}${r.error.name ? ` (${r.error.name})` : ''}`,
+      );
     return r.value;
   };
   const entradas = () => {
     const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries((no.entradas as Record<string, string>) ?? {})) out[k] = calcular(v);
+    for (const [k, v] of Object.entries((no.entradas as Record<string, string>) ?? {}))
+      out[k] = calcular(v);
     return out;
   };
-  const verdade = (v: unknown) => v === true || (typeof v === 'number' && v !== 0) || (typeof v === 'string' && v !== '') || (Array.isArray(v) && v.length > 0);
+  const verdade = (v: unknown) =>
+    v === true ||
+    (typeof v === 'number' && v !== 0) ||
+    (typeof v === 'string' && v !== '') ||
+    (Array.isArray(v) && v.length > 0);
   try {
     switch (no.tipo) {
       case 'inicio':
         return { tipo: 'seguir', proximos: ir(normais) };
       case 'fim':
-        return { tipo: 'fim', ...(no.erro === true ? { erro: String(no.mensagem ?? 'Fim com erro') } : {}) };
+        return {
+          tipo: 'fim',
+          ...(no.erro === true ? { erro: String(no.mensagem ?? 'Fim com erro') } : {}),
+        };
       case 'servico': {
         const acao = { ...(no.acao as Record<string, unknown> & { tipo: string }) };
         // As entradas do nó viram variáveis da ação ({{var.x}} nos textos da ação também valem)
@@ -329,12 +404,15 @@ export function avancar(g: Grafo, noId: string, escopo: Escopo, c: Contexto, exp
         return { tipo: 'seguir', proximos: ir(normais), vars, efeito: acao };
       }
       case 'xor': {
-        for (const a of saem.filter((x) => !x.padrao)) if (a.condicao && verdade(calcular(a.condicao))) return { tipo: 'seguir', proximos: ir([a]) };
+        for (const a of saem.filter((x) => !x.padrao))
+          if (a.condicao && verdade(calcular(a.condicao)))
+            return { tipo: 'seguir', proximos: ir([a]) };
         return { tipo: 'seguir', proximos: ir(saem.filter((x) => x.padrao)) };
       }
       case 'and': {
         const chegam = g.arestas.filter((a) => a.para === no.id).length;
-        if (chegam >= 2) return { tipo: 'juntar', no: no.id, esperados: chegam, seguir: ir(normais) };
+        if (chegam >= 2)
+          return { tipo: 'juntar', no: no.id, esperados: chegam, seguir: ir(normais) };
         return { tipo: 'seguir', proximos: ir(normais) };
       }
       case 'laco': {
@@ -348,7 +426,10 @@ export function avancar(g: Grafo, noId: string, escopo: Escopo, c: Contexto, exp
       }
       case 'temporizador': {
         const min = duracaoMin(no.duracao);
-        const ate = min !== null ? new Date(Date.parse(c.agora) + min * 60_000).toISOString() : String(calcular(String(no.ate)));
+        const ate =
+          min !== null
+            ? new Date(Date.parse(c.agora) + min * 60_000).toISOString()
+            : String(calcular(String(no.ate)));
         return { tipo: 'esperar', espera: { tipo: 'temporizador', ate } };
       }
       case 'mensagem': {
@@ -356,7 +437,13 @@ export function avancar(g: Grafo, noId: string, escopo: Escopo, c: Contexto, exp
         const limite = duracaoMin(no.timeout);
         return {
           tipo: 'esperar',
-          espera: { tipo: 'mensagem', chave, ...(limite !== null ? { ate: new Date(Date.parse(c.agora) + limite * 60_000).toISOString() } : {}) },
+          espera: {
+            tipo: 'mensagem',
+            chave,
+            ...(limite !== null
+              ? { ate: new Date(Date.parse(c.agora) + limite * 60_000).toISOString() }
+              : {}),
+          },
         };
       }
       case 'humana': {
@@ -376,19 +463,39 @@ export function avancar(g: Grafo, noId: string, escopo: Escopo, c: Contexto, exp
             lista: no.lista ?? null,
             formulario: Array.isArray(no.formulario) ? no.formulario : [],
             escolhas: Array.isArray(no.escolhas) ? no.escolhas : [],
-            ...(prazo !== null ? { ate: new Date(Date.parse(c.agora) + prazo * 60_000).toISOString() } : {}),
-            ...(lembrete > 0 && prazo !== null ? { lembrete: new Date(Date.parse(c.agora) + Math.max(prazo - lembrete * 60, 0) * 60_000).toISOString() } : {}),
+            ...(prazo !== null
+              ? { ate: new Date(Date.parse(c.agora) + prazo * 60_000).toISOString() }
+              : {}),
+            ...(lembrete > 0 && prazo !== null
+              ? {
+                  lembrete: new Date(
+                    Date.parse(c.agora) + Math.max(prazo - lembrete * 60, 0) * 60_000,
+                  ).toISOString(),
+                }
+              : {}),
             escalar: no.escalar ?? null,
             xp: no.xp === true || g.opcoes?.xp_humana === true,
           },
         };
       }
       case 'subprocesso':
-        return { tipo: 'esperar', espera: { tipo: 'subprocesso', funcao: String(no.funcao), entradas: entradas() } };
+        return {
+          tipo: 'esperar',
+          espera: { tipo: 'subprocesso', funcao: String(no.funcao), entradas: entradas() },
+        };
       case 'multi': {
         const lista = calcular(String(no.lista));
         const itens = Array.isArray(lista) ? lista.slice(0, Number(no.max ?? LIMITES.multi)) : [];
-        return { tipo: 'esperar', espera: { tipo: 'multi', funcao: String(no.funcao), itens, entradas: entradas(), sequencial: no.sequencial === true } };
+        return {
+          tipo: 'esperar',
+          espera: {
+            tipo: 'multi',
+            funcao: String(no.funcao),
+            itens,
+            entradas: entradas(),
+            sequencial: no.sequencial === true,
+          },
+        };
       }
     }
   } catch (e) {
@@ -398,19 +505,30 @@ export function avancar(g: Grafo, noId: string, escopo: Escopo, c: Contexto, exp
 }
 
 /** Depois de uma espera: por onde seguir (a escolha da tarefa humana, o caminho do prazo). */
-export function aposEspera(g: Grafo, noId: string, escopo: Escopo, como: { escolha?: string; prazo?: boolean; erro?: boolean }): Proximo[] {
+export function aposEspera(
+  g: Grafo,
+  noId: string,
+  escopo: Escopo,
+  como: { escolha?: string; prazo?: boolean; erro?: boolean },
+): Proximo[] {
   const saem = g.arestas.filter((a) => a.de === noId);
   let caminho: Aresta[];
   if (como.prazo) caminho = saem.filter((a) => a.prazo);
   else if (como.erro) caminho = saem.filter((a) => a.erro);
-  else if (como.escolha && saem.some((a) => a.escolha === como.escolha)) caminho = saem.filter((a) => a.escolha === como.escolha);
+  else if (como.escolha && saem.some((a) => a.escolha === como.escolha))
+    caminho = saem.filter((a) => a.escolha === como.escolha);
   else caminho = saem.filter((a) => !a.erro && !a.prazo && !a.escolha);
   if (caminho.length === 0) caminho = saem.filter((a) => !a.erro && !a.prazo);
   return caminho.map((a) => ({ no: a.para, escopo }));
 }
 
 /** As saídas do nó (mapeamento `nome → expressão` sobre `retorno.*` e `var.*`) depois da espera. */
-export function saidasDoNo(g: Grafo, noId: string, c: Contexto, expr: ExprApi): Record<string, unknown> {
+export function saidasDoNo(
+  g: Grafo,
+  noId: string,
+  c: Contexto,
+  expr: ExprApi,
+): Record<string, unknown> {
   const no = g.nos.find((n) => n.id === noId);
   const out: Record<string, unknown> = {};
   // Formulário da tarefa humana: cada campo vira variável com o mesmo nome
@@ -422,4 +540,169 @@ export function saidasDoNo(g: Grafo, noId: string, c: Contexto, expr: ExprApi): 
     if (r.ok) out[k] = r.value;
   }
   return out;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Executor (PR4): um token reivindicado → a decisão gravada por `process_advance`. As dependências
+// entram por parâmetro (o registro de passos do V14, as expressões, o efeito externo e o commit),
+// para o Deno e os testes usarem o mesmo código.
+// ---------------------------------------------------------------------------------------------
+
+/** O que `process_claim` devolve por token. */
+export type TokenReivindicado = {
+  token: string;
+  claimed_at: string;
+  node: string;
+  scope: Escopo;
+  result: Record<string, unknown> | null;
+  retries: number;
+  instance: string;
+  vars: Record<string, unknown>;
+  start: Record<string, unknown>;
+  graph: Grafo;
+  definition: string;
+  name: string;
+  fuso?: string;
+  idioma?: string;
+  usuario?: Record<string, unknown>;
+};
+
+export type PassoV14 = {
+  externo?: boolean;
+  execute: (
+    ctx: {
+      estado: { evento: Record<string, unknown>; var: Record<string, unknown> };
+      escopo: 'pessoal';
+      regra: { id: string; nome: string };
+      agora: string;
+      fuso?: string;
+      idioma?: string;
+      usuario?: Record<string, unknown>;
+    },
+    params: Record<string, unknown> & { tipo: string },
+  ) => { efeito?: Record<string, unknown> & { tipo: string }; erro?: string; tentar?: string };
+};
+
+export type DepsExecutor = {
+  expr: ExprApi;
+  passo: (tipo: string) => PassoV14 | undefined;
+  /** Efeito externo (webhook); `chave` = instância:token:nó:tentativa */
+  externo: (
+    efeito: Record<string, unknown>,
+    chave: string,
+  ) => Promise<{ ok: true; resultado?: unknown } | { tentar: string } | { erro: string }>;
+  commit: (
+    token: string,
+    claim: string,
+    decisao: Record<string, unknown>,
+  ) => Promise<'ok' | 'ignorado'>;
+  /** Os `{{ }}` do V14 nos textos da tarefa humana (título e descrição) */
+  expandir?: (
+    texto: string,
+    estado: { evento: Record<string, unknown>; var: Record<string, unknown> },
+  ) => string;
+  agora?: () => string;
+};
+
+const hojeEm = (agora: string, fuso?: string) => {
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: fuso ?? 'UTC',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date(agora));
+  } catch {
+    return agora.slice(0, 10);
+  }
+};
+
+export async function executarToken(
+  t: TokenReivindicado,
+  deps: DepsExecutor,
+): Promise<'ok' | 'ignorado'> {
+  const agora = (deps.agora ?? (() => new Date().toISOString()))();
+  const ctx: Contexto = {
+    vars: t.vars ?? {},
+    inicio: t.start ?? {},
+    hoje: hojeEm(agora, t.fuso),
+    agora,
+    ...(t.result ? { retorno: t.result } : {}),
+  };
+  let decisao: Decisao;
+  if (t.result) {
+    // Voltando de uma espera: segue pela escolha, pelo prazo ou pelo erro, com as saídas do nó
+    const no = t.graph.nos.find((n) => n.id === t.node);
+    if (no?.tipo === 'and') decisao = avancar(t.graph, t.node, t.scope, ctx, deps.expr);
+    else
+      decisao = {
+        tipo: 'seguir',
+        proximos: aposEspera(t.graph, t.node, t.scope ?? {}, {
+          escolha: typeof t.result.escolha === 'string' ? t.result.escolha : undefined,
+          prazo: t.result.prazo === true,
+          erro: t.result.erro === true,
+        }),
+        vars: saidasDoNo(t.graph, t.node, ctx, deps.expr),
+      };
+  } else {
+    decisao = avancar(t.graph, t.node, t.scope ?? {}, ctx, deps.expr);
+  }
+  const out: Record<string, unknown> = { ...decisao };
+  if (decisao.tipo === 'esperar' && decisao.espera.tipo === 'humana' && deps.expandir) {
+    const estado = {
+      evento: { ...t.start, processo: t.instance },
+      var: { ...ctx.vars, ...(decisao.vars ?? {}) },
+    };
+    out.espera = {
+      ...decisao.espera,
+      titulo: deps.expandir(String(decisao.espera.titulo ?? ''), estado),
+      descricao: deps.expandir(String(decisao.espera.descricao ?? ''), estado),
+    };
+  }
+  if (decisao.tipo === 'seguir' && decisao.efeito) {
+    // A ação do V14, com os textos expandidos sobre as variáveis do processo
+    const acao = decisao.efeito;
+    const passo = deps.passo(acao.tipo);
+    delete out.efeito;
+    if (!passo) {
+      return deps.commit(t.token, t.claimed_at, {
+        tipo: 'falha',
+        erro: `Ação "${acao.tipo}" não disponível`,
+      });
+    }
+    const r = passo.execute(
+      {
+        estado: {
+          evento: { ...t.start, processo: t.instance },
+          var: { ...ctx.vars, ...(decisao.vars ?? {}) },
+        },
+        escopo: 'pessoal',
+        regra: { id: t.definition, nome: t.name },
+        agora,
+        fuso: t.fuso,
+        idioma: t.idioma,
+        usuario: t.usuario,
+      },
+      acao,
+    );
+    if (r.erro) return deps.commit(t.token, t.claimed_at, { tipo: 'falha', erro: r.erro });
+    if (r.efeito && passo.externo) {
+      const chave = `${t.instance}:${t.token}:${t.node}:${t.retries}`;
+      const ext = await deps
+        .externo(r.efeito, chave)
+        .catch((e: unknown) => ({ tentar: e instanceof Error ? e.message : String(e) }));
+      if ('tentar' in ext)
+        return deps.commit(t.token, t.claimed_at, {
+          tipo: 'falha',
+          erro: ext.tentar,
+          tentar: true,
+        });
+      if ('erro' in ext)
+        return deps.commit(t.token, t.claimed_at, { tipo: 'falha', erro: ext.erro });
+      out.resultado = ext.resultado ?? null;
+    } else if (r.efeito) {
+      out.efeito = r.efeito;
+    }
+  }
+  return deps.commit(t.token, t.claimed_at, out);
 }

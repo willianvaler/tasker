@@ -2,6 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import {
   avancar,
+  executarToken,
   aposEspera,
   duracaoMin,
   exprApi,
@@ -9,7 +10,9 @@ import {
   textoDoErro,
   validar,
   type Grafo,
+  type TokenReivindicado,
 } from '@/lib/processo';
+import { registroBase } from '@/lib/automation/registry';
 
 // ESCOPO_V16 (PR2, PR3, PR4): validação do grafo e o passo do motor, puros.
 
@@ -363,5 +366,122 @@ describe('passo do motor (PR3, PR4)', () => {
       vars: { nome: 'Compra' },
       efeito: { tipo: 'notificar', corpo: 'Oi {{var.nome}}' },
     });
+  });
+});
+
+describe('executor de token (PR4)', () => {
+  const grafo = g(
+    [
+      { id: 'i', tipo: 'inicio' },
+      {
+        id: 'w',
+        tipo: 'servico',
+        acao: {
+          tipo: 'enviar_webhook',
+          url: 'https://exemplo.com/h',
+          corpo: { cliente: '{{var.cliente}}' },
+        },
+      },
+      { id: 'n', tipo: 'servico', acao: { tipo: 'notificar', corpo: 'Oi {{var.cliente}}' } },
+      { id: 'h', tipo: 'humana', titulo: 'Conferir {{var.cliente}}' },
+      { id: 'f', tipo: 'fim' },
+    ],
+    [
+      { id: '1', de: 'i', para: 'w' },
+      { id: '2', de: 'w', para: 'n' },
+      { id: '3', de: 'n', para: 'h' },
+      { id: '4', de: 'h', para: 'f' },
+    ],
+  );
+  const token = (node: string, extra: Partial<TokenReivindicado> = {}): TokenReivindicado => ({
+    token: 't1',
+    claimed_at: '2026-11-25T12:00:00Z',
+    node,
+    scope: {},
+    result: null,
+    retries: 0,
+    instance: 'inst1',
+    vars: { cliente: 'Ana' },
+    start: {},
+    graph: grafo,
+    definition: 'def1',
+    name: 'Teste',
+    ...extra,
+  });
+  const reg = registroBase();
+  const base = (commits: unknown[], recebidos: Set<string>, entregas: { n: number }) => ({
+    expr: exprApi,
+    passo: (tipo: string) => reg.get(tipo) as never,
+    externo: async (efeito: Record<string, unknown>, chave: string) => {
+      entregas.n++;
+      // O destino descarta o que já recebeu com a mesma chave (X-Questlist-Idempotency)
+      if (!recebidos.has(chave)) recebidos.add(chave);
+      expect(efeito.corpo).toBe('{"cliente":"Ana"}');
+      return { ok: true as const, resultado: { status: 200 } };
+    },
+    commit: async (_t: string, _c: string, d: Record<string, unknown>) => (
+      commits.push(d),
+      'ok' as const
+    ),
+    expandir: (
+      texto: string,
+      estado: { evento: Record<string, unknown>; var: Record<string, unknown> },
+    ) => texto.replace(/\{\{var\.(\w+)\}\}/g, (_, k: string) => String(estado.var[k] ?? '')),
+  });
+
+  test('webhook: o executor caiu antes de gravar; a retomada manda a mesma chave e o destino recebe uma vez', async () => {
+    const recebidos = new Set<string>();
+    const entregas = { n: 0 };
+    const commits: unknown[] = [];
+    // Primeira vez: a gravação não acontece (o executor caiu)
+    await executarToken(token('w'), {
+      ...base(commits, recebidos, entregas),
+      commit: async () => 'ignorado',
+    });
+    // Reivindicado de novo (attempts muda, retries não): a mesma chave
+    await executarToken(
+      token('w', { claimed_at: '2026-11-25T12:03:00Z' }),
+      base(commits, recebidos, entregas),
+    );
+    expect(entregas.n).toBe(2);
+    expect([...recebidos]).toEqual(['inst1:t1:w:0']);
+    expect(commits[0]).toMatchObject({
+      tipo: 'seguir',
+      proximos: [{ no: 'n' }],
+      resultado: { status: 200 },
+    });
+    expect(commits[0]).not.toHaveProperty('efeito');
+  });
+
+  test('ação interna vai como efeito do V14, com o texto expandido', async () => {
+    const commits: Record<string, unknown>[] = [];
+    await executarToken(token('n'), base(commits, new Set(), { n: 0 }));
+    expect(commits[0]).toMatchObject({
+      tipo: 'seguir',
+      efeito: { tipo: 'notificacao', corpo: 'Oi Ana' },
+    });
+  });
+
+  test('tarefa humana espera com o título expandido; ao voltar, segue', async () => {
+    const commits: Record<string, unknown>[] = [];
+    await executarToken(token('h'), base(commits, new Set(), { n: 0 }));
+    expect(commits[0]).toMatchObject({
+      tipo: 'esperar',
+      espera: { tipo: 'humana', titulo: 'Conferir Ana' },
+    });
+    await executarToken(
+      token('h', { result: { concluida_por: 'u1' } }),
+      base(commits, new Set(), { n: 0 }),
+    );
+    expect(commits[1]).toMatchObject({ tipo: 'seguir', proximos: [{ no: 'f' }] });
+  });
+
+  test('erro passageiro do webhook pede nova tentativa', async () => {
+    const commits: Record<string, unknown>[] = [];
+    await executarToken(token('w'), {
+      ...base(commits, new Set(), { n: 0 }),
+      externo: async () => ({ tentar: 'HTTP 503' }),
+    });
+    expect(commits[0]).toEqual({ tipo: 'falha', erro: 'HTTP 503', tentar: true });
   });
 });

@@ -1881,14 +1881,14 @@ isOneToOne: true
                   ]
                 },"process_definitions": {
                   Row: {
-                    "active": boolean,"created_at": string,"description": string,"draft": NonNullable<Json>,"id": string,"is_function": boolean,"name": string,"owner_id": string,"start_trigger": string | null,"updated_at": string
+                    "active": boolean,"created_at": string,"description": string,"draft": NonNullable<Json>,"fail_streak": number,"id": string,"is_function": boolean,"name": string,"owner_id": string,"start_trigger": string | null,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "active"?: boolean,"created_at"?: string,"description"?: string,"draft"?: NonNullable<Json>,"id"?: string,"is_function"?: boolean,"name": string,"owner_id"?: string,"start_trigger"?: string | null,"updated_at"?: string
+                    "active"?: boolean,"created_at"?: string,"description"?: string,"draft"?: NonNullable<Json>,"fail_streak"?: number,"id"?: string,"is_function"?: boolean,"name": string,"owner_id"?: string,"start_trigger"?: string | null,"updated_at"?: string
                   }
                   Update: {
-                    "active"?: boolean,"created_at"?: string,"description"?: string,"draft"?: NonNullable<Json>,"id"?: string,"is_function"?: boolean,"name"?: string,"owner_id"?: string,"start_trigger"?: string | null,"updated_at"?: string
+                    "active"?: boolean,"created_at"?: string,"description"?: string,"draft"?: NonNullable<Json>,"fail_streak"?: number,"id"?: string,"is_function"?: boolean,"name"?: string,"owner_id"?: string,"start_trigger"?: string | null,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -1901,9 +1901,9 @@ isOneToOne: false
                   ]
                 },"process_instances": {
                   Row: {
-                    "definition_id": string,"depth": number,"error": string | null,"fail_streak": number,"finished_at": string | null,"id": string,"origin": NonNullable<Json>,"owner_id": string,"page_id": string | null,"parent_instance_id": string | null,"parent_token_id": string | null,"start_data": NonNullable<Json>,"started_at": string,"started_by": string | null,"status": string,"steps_count": number,"updated_at": string,"vars": NonNullable<Json>,"version_id": string
+                    "definition_id": string,"depth": number,"error": string | null,"fail_streak": number,"finished_at": string | null,"id": string,"origin": NonNullable<Json>,"owner_id": string,"page_id": string | null,"parent_instance_id": string | null,"parent_token_id": string | null,"start_data": NonNullable<Json>,"started_at": string,"started_by": string | null,"status": string,"steps_count": number,"updated_at": string,"vars": NonNullable<Json>,"version_id": string,"_process_child_done": undefined | null
                   }
-                  ComputedFields: never
+                  ComputedFields: "_process_child_done"
                   Insert: {
                     "definition_id": string,"depth"?: number,"error"?: string | null,"fail_streak"?: number,"finished_at"?: string | null,"id"?: string,"origin"?: NonNullable<Json>,"owner_id": string,"page_id"?: string | null,"parent_instance_id"?: string | null,"parent_token_id"?: string | null,"start_data"?: NonNullable<Json>,"started_at"?: string,"started_by"?: string | null,"status"?: string,"steps_count"?: number,"updated_at"?: string,"vars"?: NonNullable<Json>,"version_id": string
                   }
@@ -2017,9 +2017,9 @@ isOneToOne: false
                   ]
                 },"process_waits": {
                   Row: {
-                    "child_instance_id": string | null,"correlation_key": string | null,"created_at": string,"data": NonNullable<Json>,"due_at": string | null,"id": string,"instance_id": string,"kind": string,"remind_at": string | null,"reminded_at": string | null,"resolved_at": string | null,"task_id": string | null,"token_id": string
+                    "child_instance_id": string | null,"correlation_key": string | null,"created_at": string,"data": NonNullable<Json>,"due_at": string | null,"id": string,"instance_id": string,"kind": string,"remind_at": string | null,"reminded_at": string | null,"resolved_at": string | null,"task_id": string | null,"token_id": string,"_process_escalate": undefined | null
                   }
-                  ComputedFields: never
+                  ComputedFields: "_process_escalate"
                   Insert: {
                     "child_instance_id"?: string | null,"correlation_key"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"due_at"?: string | null,"id"?: string,"instance_id": string,"kind": string,"remind_at"?: string | null,"reminded_at"?: string | null,"resolved_at"?: string | null,"task_id"?: string | null,"token_id": string
                   }
@@ -3647,11 +3647,29 @@ isOneToOne: false
               "day": string,"distance_m": number,"duration_seconds": number,"reps": number,"weight_kg": number
             }[]
                            },
+"_process_child_done":
+{ Args: { "p_child": Omit<Database["public"]['Tables']["process_instances"]['Row'], Database["public"]['Tables']["process_instances"]['ComputedFields']> }; Returns: undefined
+                           },
 "_process_close":
 { Args: { "p_error": string,"p_instance": string,"p_status": string }; Returns: undefined
                            },
+"_process_effect":
+{ Args: { "p_effect": Json,"p_inst": Omit<Database["public"]['Tables']["process_instances"]['Row'], Database["public"]['Tables']["process_instances"]['ComputedFields']> }; Returns: Json
+                           },
+"_process_error_path":
+{ Args: { "p_graph": Json,"p_node": string }; Returns: Json
+                           },
+"_process_escalate":
+{ Args: { "p_wait": Omit<Database["public"]['Tables']["process_waits"]['Row'], Database["public"]['Tables']["process_waits"]['ComputedFields']> }; Returns: undefined
+                           },
 "_process_fail":
 { Args: { "p_message": string }; Returns: undefined
+                           },
+"_process_finish":
+{ Args: { "p_error": string,"p_instance": string,"p_status": string }; Returns: undefined
+                           },
+"_process_human_task":
+{ Args: { "p_espera": Json,"p_inst": Omit<Database["public"]['Tables']["process_instances"]['Row'], Database["public"]['Tables']["process_instances"]['ComputedFields']>,"p_node": Json,"p_token": Omit<Database["public"]['Tables']["process_tokens"]['Row'], Database["public"]['Tables']["process_tokens"]['ComputedFields']> }; Returns: string
                            },
 "_process_own_instance":
 { Args: { "p_instance": string }; Returns: {
@@ -3681,8 +3699,20 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"_process_resolve_wait":
+{ Args: { "p_result": Json,"p_wait": string }; Returns: undefined
+                           },
+"_process_spawn":
+{ Args: { "p_instance": string,"p_proximos": Json }; Returns: undefined
+                           },
 "_process_start":
 { Args: { "p_definition": string,"p_depth": number,"p_origin": Json,"p_owner": string,"p_page": string,"p_parent": string,"p_parent_token": string,"p_start": Json,"p_vars": Json }; Returns: string
+                           },
+"_process_start_child":
+{ Args: { "p_i": number,"p_wait": Omit<Database["public"]['Tables']["process_waits"]['Row'], Database["public"]['Tables']["process_waits"]['ComputedFields']> }; Returns: string
+                           },
+"_process_sweep":
+{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "_random_of":
 { Args: { "p_list": Json }; Returns: string
@@ -4541,14 +4571,23 @@ isOneToOne: false
 "preset_can":
 { Args: { "p_is_assignee"?: boolean,"p_is_creator"?: boolean,"p_permission": string,"p_preset": string }; Returns: boolean
                            },
+"process_advance":
+{ Args: { "p_claim": string,"p_decision": Json,"p_token": string }; Returns: string
+                           },
 "process_cancel":
 { Args: { "p_instance": string }; Returns: undefined
+                           },
+"process_claim":
+{ Args: { "p_limit"?: number }; Returns: Json
                            },
 "process_publish":
 { Args: { "p_definition": string }; Returns: string
                            },
 "process_resume":
 { Args: { "p_instance": string }; Returns: undefined
+                           },
+"process_signal":
+{ Args: { "p_key": string,"p_payload"?: Json }; Returns: number
                            },
 "process_start":
 { Args: { "p_definition": string,"p_vars"?: Json }; Returns: string

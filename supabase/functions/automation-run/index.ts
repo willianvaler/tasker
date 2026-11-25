@@ -9,14 +9,43 @@
 // Não entra no FUNCTIONS do scripts/supabase-gate.mjs: de fora, o portão fecha; só o banco chama.
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
-import { executeRun, registroBase, type Execucao, type ExternoFn } from '../_shared/automation-engine.ts';
-import { enviarWebhook, MAX_RESPOSTA, TEMPO_MS, type EfeitoWebhook } from '../_shared/webhook-out.ts';
+import {
+  executeRun,
+  expandir,
+  registroBase,
+  type Execucao,
+  type ExternoFn,
+} from '../_shared/automation-engine.ts';
+import { avaliarExpr, formulaFields, parseFormula } from '../_shared/expr.ts';
+import { executarToken, type ExprApi, type TokenReivindicado } from '../_shared/processo.ts';
+import {
+  enviarWebhook,
+  MAX_RESPOSTA,
+  TEMPO_MS,
+  type EfeitoWebhook,
+} from '../_shared/webhook-out.ts';
+
+// Expressões dos processos (FN0): as mesmas do app
+const exprApi: ExprApi = {
+  erro: (texto) => {
+    const p = parseFormula(texto);
+    return p.ok ? null : p.error.code;
+  },
+  campos: (texto) => {
+    const p = parseFormula(texto);
+    return p.ok ? formulaFields(p.node) : [];
+  },
+  avaliar: (texto, vars, quando) => avaliarExpr(texto, vars, quando),
+};
 
 // Tempo ativo por chamada (o varredor chama de novo no minuto seguinte se sobrar trabalho)
 const BUDGET_MS = 25_000;
 
 async function resolver(host: string): Promise<string[]> {
-  const [a, aaaa] = await Promise.allSettled([Deno.resolveDns(host, 'A'), Deno.resolveDns(host, 'AAAA')]);
+  const [a, aaaa] = await Promise.allSettled([
+    Deno.resolveDns(host, 'A'),
+    Deno.resolveDns(host, 'AAAA'),
+  ]);
   return [
     ...(a.status === 'fulfilled' ? a.value : []),
     ...(aaaa.status === 'fulfilled' ? aaaa.value : []),
@@ -24,7 +53,12 @@ async function resolver(host: string): Promise<string[]> {
 }
 
 /** TCP no IP validado, TLS com o nome (certificado e SNI), pedido cru e até 64 KB de resposta. */
-async function conectar(ip: string, porta: number, host: string, dados: string): Promise<Uint8Array> {
+async function conectar(
+  ip: string,
+  porta: number,
+  host: string,
+  dados: string,
+): Promise<Uint8Array> {
   const tcp = await Deno.connect({ hostname: ip, port: porta });
   let tls: Deno.TlsConn | null = null;
   const timer = setTimeout(() => (tls ?? tcp).close(), TEMPO_MS);
@@ -72,12 +106,19 @@ Deno.serve(async (req) => {
 
   const externo: ExternoFn = async (efeito, chave, run) => {
     if (efeito.tipo !== 'webhook') return { erro: `Efeito externo desconhecido: ${efeito.tipo}` };
-    const { data: segredos, error } = await supabase.rpc('automation_run_secrets', { p_run: run.id });
-    if (error) return { tentar: 'Não deu para ler os segredos da automação' };
-    return enviarWebhook(efeito as unknown as EfeitoWebhook, chave, (segredos ?? {}) as Record<string, string>, {
-      resolver,
-      conectar,
+    const { data: segredos, error } = await supabase.rpc('automation_run_secrets', {
+      p_run: run.id,
     });
+    if (error) return { tentar: 'Não deu para ler os segredos da automação' };
+    return enviarWebhook(
+      efeito as unknown as EfeitoWebhook,
+      chave,
+      (segredos ?? {}) as Record<string, string>,
+      {
+        resolver,
+        conectar,
+      },
+    );
   };
 
   while (Date.now() - start < BUDGET_MS) {
@@ -112,5 +153,53 @@ Deno.serve(async (req) => {
       total[res]++;
     }
   }
-  return Response.json(total);
+  // Processos (PR4, D352): os tokens prontos, pelo mesmo registro de passos e o mesmo webhook
+  const processos = { ok: 0, ignorado: 0 };
+  while (Date.now() - start < BUDGET_MS) {
+    const { data, error } = await supabase.rpc('process_claim', { p_limit: 20 });
+    if (error) return new Response(`process_claim: ${error.message}`, { status: 500 });
+    const tokens = (data ?? []) as TokenReivindicado[];
+    if (tokens.length === 0) break;
+    for (const t of tokens) {
+      const res = await executarToken(t, {
+        expr: exprApi,
+        passo: (tipo) => registro.get(tipo) as never,
+        expandir: (texto, estado) =>
+          expandir(
+            texto,
+            {
+              estado,
+              escopo: 'pessoal',
+              regra: { id: t.definition, nome: t.name },
+              agora: new Date().toISOString(),
+              fuso: t.fuso,
+              idioma: t.idioma,
+              usuario: t.usuario,
+            },
+            [],
+          ),
+        externo: async (efeito, chave) => {
+          if (efeito.tipo !== 'webhook')
+            return { erro: `Efeito externo desconhecido: ${String(efeito.tipo)}` };
+          return enviarWebhook(
+            efeito as unknown as EfeitoWebhook,
+            chave,
+            {},
+            { resolver, conectar },
+          );
+        },
+        commit: async (token, claim, decisao) => {
+          const { data: out, error: e } = await supabase.rpc('process_advance', {
+            p_token: token,
+            p_claim: claim,
+            p_decision: decisao,
+          });
+          if (e) return 'ignorado';
+          return out as 'ok' | 'ignorado';
+        },
+      });
+      processos[res]++;
+    }
+  }
+  return Response.json({ ...total, processos });
 });
