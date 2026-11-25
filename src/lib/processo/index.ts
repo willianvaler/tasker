@@ -6,7 +6,6 @@ import { tr } from '@/lib/i18n-ref';
 
 import { CATALOGO } from '../../../supabase/functions/_shared/automation-engine';
 import {
-  avancar,
   validarGrafo,
   type ErroGrafo,
   type ExprApi,
@@ -40,4 +39,3 @@ export function textoDoErro(e: ErroGrafo, nomes: Map<string, string>): string {
   return tr(`processos.erro.${e.codigo}`, { no, detalhe: e.detalhe ?? '' });
 }
 
-export { avancar };
