@@ -5,6 +5,9 @@ begin;
 create extension if not exists pgtap with schema extensions;
 select plan(11);
 
+-- Isolado das sobras dos E2E (a transação desfaz no fim)
+delete from public.email_outbox;
+
 insert into auth.users (id, email) values ('11111111-1111-1111-1111-111111111111', 'ana@teste.local');
 update public.profiles set timezone = 'America/Sao_Paulo', username = 'ana_email', display_name = 'Ana', locale = 'pt-BR'
 where id = '11111111-1111-1111-1111-111111111111';
