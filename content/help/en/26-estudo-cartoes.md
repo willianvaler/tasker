@@ -28,4 +28,8 @@ By default, **20 new cards** and **200 reviews** a day. Change them in **Daily l
 
 Reviewing works offline. Each answer is stored with its time, and a card's state is always rebuilt in time order: reviewing on the phone and on the computer, even offline, ends in the same result once both sync. Cards from a note created or edited offline show up after it syncs.
 
-In project notes, project members see the cards, and each person has their **own** reviews. Reviewing gives no XP or gold.
+In project notes, project members see the cards, and each person has their **own** reviews.
+
+## Study and the game
+
+With the game on, every **10 different cards** reviewed in a day make a **study session**: **+5 XP**, up to **3 sessions a day**. XP is per session, not per card (reviewing the same card again does not count twice), and a day with a session counts toward your **streak**. The screen shows how much is left for the next session. The server grants the XP when the review arrives: one done offline counts if it syncs by the next day. Study sessions give no gold or boss damage, and automations cannot grant this XP.

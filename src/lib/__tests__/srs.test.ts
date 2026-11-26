@@ -5,6 +5,7 @@ import {
   nextInterval,
   readSrsLimits,
   srsQueue,
+  studySessions,
   type Card,
   type CardReview,
 } from '../srs';
@@ -104,5 +105,17 @@ describe('readSrsLimits', () => {
       newPerDay: 5,
       reviewsPerDay: 200,
     });
+  });
+});
+
+describe('studySessions (espelho do _study_session)', () => {
+  const day = '2026-11-10';
+  const many = (n: number, d = day) =>
+    Array.from({ length: n }, (_, i) => rev(`s${d}${i}`, `card${i}`, 4, d));
+  it('cartões diferentes no dia, 10 por sessão, até 3', () => {
+    expect(studySessions(many(9), day, 10, 3)).toEqual({ sessions: 0, inSession: 9, capped: false });
+    expect(studySessions([...many(10), ...many(10)], day, 10, 3)).toMatchObject({ sessions: 1 });
+    expect(studySessions(many(10, '2026-11-09'), day, 10, 3).sessions).toBe(0);
+    expect(studySessions(many(45), day, 10, 3)).toMatchObject({ sessions: 3, capped: true });
   });
 });

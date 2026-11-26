@@ -13,7 +13,8 @@ Em **Configurações → Recursos → Jogo** você escolhe: **Desligado** (só a
 - Criar e concluir na hora não vale XP (vale o golpe).
 - Desmarcar devolve o que ganhou.
 - Tarefa-mãe com subtarefas não dá XP: as subtarefas dão.
-- Pomodoro dá um bônus pequeno, até 4 por dia.
+- Pomodoro dá um bônus pequeno, até 4 por dia. Num **projeto de estudo**, o foco de leitura também conta na **sequência**.
+- Revisar cartões: **+5 XP por sessão** de 10 cartões diferentes, até 3 por dia, e conta na sequência (veja Revisar cartões).
 - Cada hábito "bom e ruim" vale até 10 "+" por dia, e tarefas criadas e concluídas em poucos minutos têm um teto diário. Quando um limite chega, o aviso diz.
 - **Força do hábito:** a barrinha à esquerda de um hábito "bom e ruim" muda de cor conforme o uso, do vermelho (muitos "−" ou abandonado) ao azul (muitos "+"). Quando o hábito anda fraco, cada "+" puxa a força para cima mais depressa (o XP é o mesmo). No painel do hábito dá para deixar **só bom** ou **só ruim**: o outro botão some, e a força cai pela metade a cada dia sem uso.
 

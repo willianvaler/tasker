@@ -28,4 +28,8 @@ Por defecto, **20 tarjetas nuevas** y **200 repasos** por día. Cámbialos en **
 
 El repaso funciona sin internet. Cada respuesta se guarda con la hora, y el estado de la tarjeta siempre se rehace en orden de hora: repasar en el móvil y en la computadora, incluso sin conexión, llega al mismo resultado cuando los dos sincronizan. Las tarjetas de una nota nueva o editada sin internet aparecen después de que se sincroniza.
 
-En notas de un proyecto, quien es del proyecto ve las tarjetas, y cada persona tiene sus **propios** repasos. Repasar no da XP ni oro.
+En notas de un proyecto, quien es del proyecto ve las tarjetas, y cada persona tiene sus **propios** repasos.
+
+## Estudio y juego
+
+Con el juego activado, cada **10 tarjetas distintas** repasadas en el día forman una **sesión de estudio**: **+5 XP**, hasta **3 sesiones al día**. El XP es por sesión, no por tarjeta (repasar la misma tarjeta no cuenta otra vez), y el día con una sesión cuenta en la **racha**. La pantalla muestra cuánto falta para la próxima sesión. El XP lo da el servidor cuando llega el repaso: el hecho sin internet vale si se sincroniza hasta el día siguiente. La sesión de estudio no da oro ni daño al jefe, y las automatizaciones no conceden este XP.

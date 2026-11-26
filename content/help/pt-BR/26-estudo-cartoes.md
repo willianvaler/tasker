@@ -28,4 +28,8 @@ Por padrão, **20 cartões novos** e **200 revisões** por dia. Mude em **Limite
 
 A revisão funciona sem internet. Cada resposta é guardada com o horário, e o estado do cartão é sempre refeito em ordem de horário: revisar no celular e no computador, mesmo sem conexão, chega ao mesmo resultado quando os dois sincronizam. Os cartões de uma anotação nova ou editada sem internet aparecem depois que ela sincroniza.
 
-Em anotações de um projeto, quem é do projeto vê os cartões, e cada pessoa tem as **próprias** revisões. Revisar não dá XP nem ouro.
+Em anotações de um projeto, quem é do projeto vê os cartões, e cada pessoa tem as **próprias** revisões.
+
+## Estudo e jogo
+
+Com o jogo ligado, cada **10 cartões diferentes** revisados no dia fecham uma **sessão de estudo**: **+5 XP**, até **3 sessões por dia**. O XP é por sessão, não por cartão (rever o mesmo cartão não conta de novo), e o dia com uma sessão conta na **sequência**. A tela mostra quanto falta para a próxima sessão. Quem dá o XP é o servidor, quando a revisão chega: a feita sem internet vale se sincronizar até o dia seguinte. Sessão de estudo não dá ouro nem dano no boss, e automações não concedem esse XP.

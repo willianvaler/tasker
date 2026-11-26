@@ -1,5 +1,5 @@
 // Valores da gamificação. Quem concede XP, dano e ouro é o banco: o mesmo JSON
-// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20261159000000_renascer.sql) e o teste
+// está em public.xp_rules() (a versão mais nova, em supabase/migrations/20270111000000_estudo_jogo.sql) e o teste
 // gamification.test.ts falha se os dois divergirem. Mudou aqui? Mude lá numa migração nova.
 export const gamificationConfig = {
   /** Renascer (V4 §1.4, R1): nível mínimo e bônus de XP permanente por renascimento, com teto */
@@ -23,6 +23,8 @@ export const gamificationConfig = {
     habitPlus: 3,
     /** Foco de pomodoro concluído (K4) */
     pomodoro: 5,
+    /** Sessão de revisão de cartões (ET2): por sessão, nunca por cartão */
+    study: 5,
   },
   antiFarm: {
     /** Concluída em menos disso depois de criada: 0 XP (fora de cards e hábitos), mas o golpe vale */
@@ -37,6 +39,9 @@ export const gamificationConfig = {
     /** Pomodoros que valem XP por dia, e o foco mínimo para valer */
     pomodoroDailyCap: 4,
     pomodoroMinMinutes: 15,
+    /** Cartões diferentes revisados no dia que formam uma sessão de estudo, e sessões com XP por dia */
+    studySessionCards: 10,
+    studyDailyCap: 3,
   },
   level: {
     /** XP para passar do nível n para o n+1 = round(base * n ^ exponent) */

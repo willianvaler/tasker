@@ -183,3 +183,18 @@ export function nextInterval(reviews: CardReview[], grade: number, today: string
   };
   return cardState([...reviews, probe])?.interval ?? 1;
 }
+
+/**
+ * Sessões de estudo do dia (ET2, D388), a mesma conta do `_study_session` do servidor (quem dá o XP
+ * é ele): cada `size` cartões diferentes revisados no dia fecham uma sessão, até `cap`.
+ */
+export function studySessions(
+  reviews: CardReview[],
+  today: string,
+  size: number,
+  cap: number,
+): { sessions: number; inSession: number; capped: boolean } {
+  const cards = new Set(reviews.filter((r) => r.day === today).map((r) => r.card_id)).size;
+  const sessions = Math.min(cap, Math.floor(cards / size));
+  return { sessions, inSession: cards % size, capped: sessions >= cap };
+}

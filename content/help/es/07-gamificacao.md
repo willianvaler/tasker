@@ -13,7 +13,8 @@ En **Ajustes → Funciones → Juego** eliges: **Apagado** (solo las listas; el 
 - Crear y completar al instante no da XP (el golpe sí cuenta).
 - Desmarcar devuelve lo ganado.
 - Una tarea madre con subtareas no da XP: lo dan las subtareas.
-- El pomodoro da un bono pequeño, hasta 4 al día.
+- El pomodoro da un bono pequeño, hasta 4 al día. En un **proyecto de estudio**, el foco de lectura también cuenta en la **racha**.
+- Repasar tarjetas: **+5 XP por sesión** de 10 tarjetas distintas, hasta 3 al día, y cuenta en la racha (ver Repasar tarjetas).
 - Cada hábito "bueno y malo" vale hasta 10 "+" al día, y las tareas creadas y completadas en pocos minutos tienen un tope diario. Cuando se llega a un límite, el aviso lo dice.
 - **Fuerza del hábito:** la barrita a la izquierda de un hábito "bueno y malo" cambia de color con el uso, del rojo (muchos "−" o abandonado) al azul (muchos "+"). Cuando el hábito está débil, cada "+" sube la fuerza más rápido (el XP es el mismo). En el panel del hábito puedes dejarlo **solo bueno** o **solo malo**: el otro botón desaparece y la fuerza baja a la mitad cada día sin uso.
 

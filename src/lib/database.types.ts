@@ -4172,6 +4172,9 @@ isOneToOne: false
 "_storage_used":
 { Args: { "p_skip_attachment"?: string,"p_user": string }; Returns: number
                            },
+"_study_session":
+{ Args: { "p_day": string,"p_user": string }; Returns: undefined
+                           },
 "_suggest_username":
 { Args: { "p_name": string,"p_self"?: string }; Returns: string
                            },

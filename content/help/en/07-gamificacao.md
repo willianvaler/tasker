@@ -13,7 +13,8 @@ In **Settings → Features → Game** you choose: **Off** (just the lists; your 
 - Creating and completing right away gives no XP (the hit still counts).
 - Unchecking takes back what you earned.
 - A parent task with subtasks gives no XP: the subtasks do.
-- Pomodoro gives a small bonus, up to 4 a day.
+- Pomodoro gives a small bonus, up to 4 a day. In a **study project**, reading focus also counts toward your **streak**.
+- Reviewing cards: **+5 XP per session** of 10 different cards, up to 3 a day, and it counts toward your streak (see Review cards).
 - Each "good and bad" habit counts up to 10 "+" a day, and tasks created and completed within a few minutes have a daily cap. When a limit is reached, the notice says so.
 - **Habit strength:** the small bar to the left of a "good and bad" habit changes color with use, from red (many "−" or neglected) to blue (many "+"). When the habit is weak, each "+" pulls the strength up faster (the XP is the same). In the habit panel you can make it **good only** or **bad only**: the other button goes away, and the strength halves each day it isn't used.
 

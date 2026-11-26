@@ -41,6 +41,8 @@ test('cartões: da anotação para a revisão do dia', async ({ page }, testInfo
   await page.getByRole('button', { name: 'Mostrar resposta' }).click();
   await page.getByRole('button', { name: 'Bom, 1 dia' }).click();
   await expect(shown(page, 'Pronto por hoje: 3 revisões.')).toBeVisible();
+  // ET2: 2 cartões diferentes hoje; a sessão de estudo (XP do servidor) fecha em 10
+  await expect(shown(page, 'Sessão de estudo: 2 de 10 cartões (+5 XP ao completar).')).toBeVisible();
 
   // Recarregar: os dois já foram vistos hoje e só voltam amanhã
   await waitForSync(page);

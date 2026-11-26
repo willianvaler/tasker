@@ -6079,6 +6079,9 @@
     "limitsHint": "Quantos cartões novos e quantas revisões por dia (de 0 a 9999).",
     "newPerDay": "Novos por dia",
     "reviewsPerDay": "Revisões por dia",
-    "reviewNote": "Revisar cartões"
+    "reviewNote": "Revisar cartões",
+    "studyProgress": "Sessão de estudo: {{done}} de {{size}} cartões (+{{xp}} XP ao completar).",
+    "studyCapped_one": "A sessão de estudo de hoje já contou.",
+    "studyCapped_other": "As {{count}} sessões de estudo de hoje já contaram."
   }
 }

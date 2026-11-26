@@ -9,9 +9,18 @@ import { ScreenHeader } from '@/components/screen-header';
 import { Button, IconButton } from '@/components/ui/button';
 import { PromptDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
+import { gamificationConfig } from '@/lib/gamification.config';
 import { useCards, useReviewCard, type StudyCard } from '@/lib/queries/cards';
+import { useGameLevel } from '@/lib/queries/game';
 import { useToday, useUiPrefs, useUpdateUiPrefs } from '@/lib/queries/profile';
-import { GRADES, nextInterval, readSrsLimits, SRS_LIMIT_MAX, srsQueue } from '@/lib/srs';
+import {
+  GRADES,
+  nextInterval,
+  readSrsLimits,
+  SRS_LIMIT_MAX,
+  srsQueue,
+  studySessions,
+} from '@/lib/srs';
 import { uuidv7 } from '@/lib/uuid';
 import { useToast } from '@/providers/toast';
 
@@ -34,6 +43,8 @@ export default function CardsScreen() {
     null,
   );
   const [done, setDone] = useState(0);
+  const gameOn = useGameLevel() !== 'off';
+  const { studySessionCards: size, studyDailyCap: cap } = gamificationConfig.antiFarm;
 
   const data = cards.data;
   const queue = data ? srsQueue(data.cards, data.reviews, today, limits) : null;
@@ -71,6 +82,8 @@ export default function CardsScreen() {
   };
 
   const days = (n: number) => t('cards.days', { count: n });
+  // ET2: a sessão de estudo vale XP pelo servidor; aqui só mostra quanto falta
+  const study = data && gameOn ? studySessions(data.reviews, today, size, cap) : null;
 
   return (
     <Screen size="medium">
@@ -96,7 +109,6 @@ export default function CardsScreen() {
         ) : current ? (
           <View
             className={`gap-4 rounded border border-line p-4 ${READABLE}`}
-
             accessibilityLabel={t('cards.card')}
           >
             {!!current.note_title && (
@@ -151,6 +163,18 @@ export default function CardsScreen() {
               )}
           </View>
         ) : null}
+
+        {study && data && data.cards.length > 0 && (
+          <Text className={`text-sm text-ink-muted ${READABLE}`}>
+            {study.capped
+              ? t('cards.studyCapped', { count: cap })
+              : t('cards.studyProgress', {
+                  done: study.inSession,
+                  size,
+                  xp: gamificationConfig.xp.study,
+                })}
+          </Text>
+        )}
 
         {settings && (
           <PromptDialog

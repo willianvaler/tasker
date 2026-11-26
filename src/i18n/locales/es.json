@@ -6079,6 +6079,9 @@
     "limitsHint": "Cuántas tarjetas nuevas y cuántos repasos por día (de 0 a 9999).",
     "newPerDay": "Nuevas por día",
     "reviewsPerDay": "Repasos por día",
-    "reviewNote": "Repasar tarjetas"
+    "reviewNote": "Repasar tarjetas",
+    "studyProgress": "Sesión de estudio: {{done}} de {{size}} tarjetas (+{{xp}} XP al completarla).",
+    "studyCapped_one": "La sesión de estudio de hoy ya contó.",
+    "studyCapped_other": "Las {{count}} sesiones de estudio de hoy ya contaron."
   }
 }

@@ -6079,6 +6079,9 @@
     "limitsHint": "How many new cards and how many reviews per day (0 to 9999).",
     "newPerDay": "New per day",
     "reviewsPerDay": "Reviews per day",
-    "reviewNote": "Review cards"
+    "reviewNote": "Review cards",
+    "studyProgress": "Study session: {{done}} of {{size}} cards (+{{xp}} XP when complete).",
+    "studyCapped_one": "Today's study session has already counted.",
+    "studyCapped_other": "Today's {{count}} study sessions have already counted."
   }
 }
