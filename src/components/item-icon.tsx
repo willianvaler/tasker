@@ -1,17 +1,18 @@
 import {
   Columns3,
   Database,
-  Frame,
   Folder,
+  Frame,
   Inbox,
   LayoutGrid,
   List,
+  Package,
   Presentation,
   Repeat,
   Shield,
+  type LucideIcon,
   Users,
   Wallet,
-  type LucideIcon,
 } from 'lucide-react-native';
 
 import { Icon } from '@/components/ui/icon';
@@ -31,6 +32,7 @@ export type ItemKind =
   | 'base'
   | 'canvas'
   | 'meeting'
+  | 'pantry'
   | 'clan';
 
 /** Ícone padrão de cada tipo. */
@@ -46,6 +48,7 @@ export const DEFAULT_ICON: Record<ItemKind, LucideIcon> = {
   base: Database,
   canvas: Frame,
   meeting: Presentation,
+  pantry: Package,
   clan: Shield,
 };
 

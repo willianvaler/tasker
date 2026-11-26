@@ -2079,6 +2079,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"pantry_items": {
+                  Row: {
+                    "buy_qty": number,"created_at": string,"created_by": string | null,"folder_id": string | null,"id": string,"min_qty": number,"name": string,"page_id": string,"position": number,"qty": number,"shopping_task_id": string | null,"unit": string,"updated_at": string,"_pantry_sync": undefined | null
+                  }
+                  ComputedFields: "_pantry_sync"
+                  Insert: {
+                    "buy_qty"?: number,"created_at"?: string,"created_by"?: string | null,"folder_id"?: string | null,"id"?: string,"min_qty"?: number,"name": string,"page_id": string,"position"?: number,"qty"?: number,"shopping_task_id"?: string | null,"unit"?: string,"updated_at"?: string
+                  }
+                  Update: {
+                    "buy_qty"?: number,"created_at"?: string,"created_by"?: string | null,"folder_id"?: string | null,"id"?: string,"min_qty"?: number,"name"?: string,"page_id"?: string,"position"?: number,"qty"?: number,"shopping_task_id"?: string | null,"unit"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "pantry_items_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "pantry_items_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "pantry_items_page_id_fkey"
+      columns: ["page_id"]
+isOneToOne: false
+      referencedRelation: "pages"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "pantry_items_shopping_task_id_fkey"
+      columns: ["shopping_task_id"]
+isOneToOne: false
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"photo_reads": {
                   Row: {
                     "created_at": string,"id": string,"kind": string,"model": string | null,"ok": boolean,"provider": string,"user_id": string
@@ -4008,6 +4046,9 @@ isOneToOne: false
 "_page_title":
 { Args: { "p_page_id": string }; Returns: string
                            },
+"_pantry_sync":
+{ Args: { "p_item": Omit<Database["public"]['Tables']["pantry_items"]['Row'], Database["public"]['Tables']["pantry_items"]['ComputedFields']> }; Returns: undefined
+                           },
 "_planned_on":
 { Args: { "p_day": string,"p_page": string,"p_user": string }; Returns: boolean
                            },
@@ -5001,6 +5042,12 @@ isOneToOne: false
               "accepted_at": string,"done_now": number,"expected": number,"items": number,"last_activity": string,"last_reminded_at": string,"mode": string,"name": string,"notes_recent": number,"recipient_id": string,"sessions": number,"share_id": string
             }[]
                            },
+"pantry_buy_title":
+{ Args: { "p_buy": number,"p_name": string,"p_unit": string }; Returns: string
+                           },
+"pantry_needs":
+{ Args: { "p_min": number,"p_qty": number }; Returns: boolean
+                           },
 "patch_task_labels":
 { Args: { "p_add": (string)[],"p_remove": (string)[],"p_task_id": string }; Returns: undefined
                            },
@@ -5491,7 +5538,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban"|"expenses"|"base"|"canvas"|"meeting","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
+            "folder_role": "owner"|"manager"|"editor"|"contributor"|"viewer","page_reset_cycle": "none"|"daily"|"weekly"|"manual","page_view_type": "list"|"cards"|"habits"|"kanban"|"expenses"|"base"|"canvas"|"meeting"|"pantry","task_status": "todo"|"doing"|"done","team_role": "owner"|"admin"|"member"|"guest"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -5611,7 +5658,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban", "expenses", "base", "canvas", "meeting"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
+            "folder_role": ["owner", "manager", "editor", "contributor", "viewer"],"page_reset_cycle": ["none", "daily", "weekly", "manual"],"page_view_type": ["list", "cards", "habits", "kanban", "expenses", "base", "canvas", "meeting", "pantry"],"task_status": ["todo", "doing", "done"],"team_role": ["owner", "admin", "member", "guest"]
           }
         }
 } as const

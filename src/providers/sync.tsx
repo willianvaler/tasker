@@ -51,6 +51,8 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   links: [['links']],
   page_fields: [['page-fields']],
   expenses: [['expenses']],
+  // Despensa (CS4): a compra e a soma ao estoque voltam do servidor
+  pantry_items: [['pantry']],
   // Diário de treino (AC4): histórico, recordes e progressão
   workout_sets: [keys.workoutSets],
   workout_moves: [['workout-moves']],

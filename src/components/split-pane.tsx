@@ -5,6 +5,7 @@ import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { BaseView } from '@/components/base-view';
 import { MeetingView } from '@/components/meeting/meeting-view';
+import { PantryView } from '@/components/pantry-view';
 import { CanvasView } from '@/components/canvas/canvas-view';
 import { ExpensesView } from '@/components/expenses/expenses-view';
 import { Screen } from '@/components/screen';
@@ -119,6 +120,8 @@ export function PagePane({ id, onClose }: { id: string; onClose: () => void }) {
         <CanvasView page={page} />
       ) : page.view_type === 'meeting' ? (
         <MeetingView page={page} />
+      ) : page.view_type === 'pantry' ? (
+        <PantryView page={page} />
       ) : (
         <PageView page={page} />
       )}

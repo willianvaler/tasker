@@ -26,6 +26,7 @@ import { ExpensesView } from '@/components/expenses/expenses-view';
 import { BaseView } from '@/components/base-view';
 import { CanvasView } from '@/components/canvas/canvas-view';
 import { MeetingView } from '@/components/meeting/meeting-view';
+import { PantryView } from '@/components/pantry-view';
 import { usePageMode } from '@/components/tasks/page-mode';
 import { PageView } from '@/components/tasks/page-view';
 import { Text } from '@/components/ui/text';
@@ -90,7 +91,10 @@ export default function PageScreen() {
   // Gastos (V9), Base (OB8) e Canvas (OB10) não guardam tarefas: duplicar, enviar, campos e
   // publicar não se aplicam
   const expensesPage =
-    page?.view_type === 'expenses' || page?.view_type === 'base' || page?.view_type === 'canvas';
+    page?.view_type === 'expenses' ||
+    page?.view_type === 'base' ||
+    page?.view_type === 'canvas' ||
+    page?.view_type === 'pantry';
   // Treino começado e não terminado: o botão diz "Continuar treino"
   const resumable = useSyncExternalStore(subscribeWorkoutRuns, () => workoutInProgress(id));
   // Relacionados (V3 §2.4): ligar pede editar tarefas aqui
@@ -291,6 +295,8 @@ export default function PageScreen() {
         <CanvasView page={page} />
       ) : page?.view_type === 'meeting' ? (
         <MeetingView page={page} />
+      ) : page?.view_type === 'pantry' ? (
+        <PantryView page={page} />
       ) : (
         <PageView page={page} />
       )}

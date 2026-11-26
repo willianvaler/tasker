@@ -465,7 +465,9 @@
     "canvas": "Canvas",
     "canvasHint": "Pizarra infinita con tarjetas de notas, tareas y listas, flechas y grupos.",
     "meeting": "Reunión",
-    "meetingHint": "Orden del día con tiempo por punto, conducción, acta y acciones que se vuelven tareas."
+    "meetingHint": "Orden del día con tiempo por punto, conducción, acta y acciones que se vuelven tareas.",
+    "pantry": "Despensa",
+    "pantryHint": "Artículos de la casa con cantidad y mínimo; lo que se acabe va solo a la lista de compras, y comprar suma al stock."
   },
   "profile": {
     "title": "Perfil",
@@ -6121,5 +6123,40 @@
     "offlineFile": "Sin internet: el resultado se guarda en el dispositivo; adjuntar y abrir adjuntos esperan la conexión.",
     "fileType": "Solo foto (JPG, PNG, WebP) o PDF.",
     "fileTooBig": "Archivo de más de 10 MB."
+  },
+  "pantry": {
+    "shoppingDefault": "Compras",
+    "shoppingIs": "Lista de compras: {{name}}",
+    "openShopping": "Abrir",
+    "change": "Cambiar",
+    "noShopping": "Elige la lista de compras: lo que se acabe o quede bajo el mínimo entra en ella solo.",
+    "createShopping": "Crear la lista Compras",
+    "chooseShopping": "Usar otra lista de esta carpeta",
+    "askManager": "Quien gestiona el proyecto elige la lista de compras.",
+    "toBuy_one": "{{count}} artículo para comprar.",
+    "toBuy_other": "{{count}} artículos para comprar.",
+    "add": "Nuevo artículo",
+    "empty": "La despensa está vacía. Registra lo que la casa suele tener, con el mínimo de cada uno.",
+    "inShopping": "En la lista de compras",
+    "needs": "Hay que comprar",
+    "minimum": "Mínimo: {{min}}",
+    "less": "Quitar 1 de {{name}}",
+    "more": "Poner 1 en {{name}}",
+    "qtyOf": "{{name}}: {{qty}}",
+    "out": "Se acabó",
+    "outOf": "Se acabó: {{name}}",
+    "edit": "Editar {{name}}",
+    "remove": "Borrar {{name}}",
+    "removeTitle": "¿Borrar artículo?",
+    "removeBody": "{{name}} sale de la despensa (y de la lista de compras, si aún no se compró).",
+    "addTitle": "Nuevo artículo",
+    "editTitle": "Editar artículo",
+    "name": "Artículo (ej.: Arroz)",
+    "qty": "Cuánto hay",
+    "unit": "Unidad",
+    "min": "Mínimo",
+    "buy": "Comprar cada vez",
+    "formHint": "Bajo el mínimo (o en cero), el artículo va a la lista de compras; marcar la compra como hecha suma \"comprar cada vez\" a lo que hay.",
+    "badQty": "Usa solo números (ej.: 1,5); comprar cada vez debe ser más que cero."
   }
 }

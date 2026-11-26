@@ -248,6 +248,10 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['day', 'name', 'value', 'unit', 'ref_low', 'ref_high', 'note', 'file_path', 'file_mime'],
   },
   workout_moves: { insert: ['page_id', 'from_day', 'to_day'], update: ['to_day'] },
+  pantry_items: {
+    insert: ['page_id', 'name', 'unit', 'qty', 'min_qty', 'buy_qty', 'position'],
+    update: ['name', 'unit', 'qty', 'min_qty', 'buy_qty', 'position'],
+  },
   expenses: {
     insert: [
       'page_id',

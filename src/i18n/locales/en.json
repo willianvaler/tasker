@@ -465,7 +465,9 @@
     "canvas": "Canvas",
     "canvasHint": "Infinite whiteboard with cards for notes, tasks and lists, arrows and groups.",
     "meeting": "Meeting",
-    "meetingHint": "Agenda with time per item, facilitation, minutes and action items that become tasks."
+    "meetingHint": "Agenda with time per item, facilitation, minutes and action items that become tasks.",
+    "pantry": "Pantry",
+    "pantryHint": "Household items with quantity and minimum; whatever runs out goes to the shopping list by itself, and buying adds to the stock."
   },
   "profile": {
     "title": "Profile",
@@ -6121,5 +6123,40 @@
     "offlineFile": "Offline: the result is saved on this device; attaching and opening attachments wait for the connection.",
     "fileType": "Only a photo (JPG, PNG, WebP) or PDF.",
     "fileTooBig": "File over 10 MB."
+  },
+  "pantry": {
+    "shoppingDefault": "Shopping",
+    "shoppingIs": "Shopping list: {{name}}",
+    "openShopping": "Open",
+    "change": "Change",
+    "noShopping": "Choose the shopping list: whatever runs out or drops below the minimum goes there by itself.",
+    "createShopping": "Create the Shopping list",
+    "chooseShopping": "Use another list in this folder",
+    "askManager": "Whoever manages the project chooses the shopping list.",
+    "toBuy_one": "{{count}} item to buy.",
+    "toBuy_other": "{{count}} items to buy.",
+    "add": "New item",
+    "empty": "The pantry is empty. Add what the household usually keeps, with the minimum for each.",
+    "inShopping": "On the shopping list",
+    "needs": "Needs buying",
+    "minimum": "Minimum: {{min}}",
+    "less": "Take 1 from {{name}}",
+    "more": "Add 1 to {{name}}",
+    "qtyOf": "{{name}}: {{qty}}",
+    "out": "Ran out",
+    "outOf": "Ran out: {{name}}",
+    "edit": "Edit {{name}}",
+    "remove": "Delete {{name}}",
+    "removeTitle": "Delete item?",
+    "removeBody": "{{name}} leaves the pantry (and the shopping list, if not bought yet).",
+    "addTitle": "New item",
+    "editTitle": "Edit item",
+    "name": "Item (e.g. Rice)",
+    "qty": "How much you have",
+    "unit": "Unit",
+    "min": "Minimum",
+    "buy": "Buy each time",
+    "formHint": "Below the minimum (or at zero), the item goes to the shopping list; checking the purchase off adds \"buy each time\" to what you have.",
+    "badQty": "Use numbers only (e.g. 1.5); buy each time must be more than zero."
   }
 }

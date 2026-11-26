@@ -501,6 +501,24 @@ const comments = new Table(
 );
 
 // Gastos (V9): um lançamento por linha, valor em centavos; a foto da nota fica no Storage
+// Despensa (CS4, D390): a ligação com a compra (shopping_task_id) é só do servidor
+const pantry_items = new Table(
+  {
+    page_id: column.text,
+    folder_id: column.text,
+    name: column.text,
+    unit: column.text,
+    qty: column.real,
+    min_qty: column.real,
+    buy_qty: column.real,
+    position: column.real,
+    shopping_task_id: column.text,
+    created_by: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { page: ['page_id'] } },
+);
 const expenses = new Table(
   {
     page_id: column.text,
@@ -799,6 +817,7 @@ export const AppSchema = new Schema({
   task_assignees,
   comments,
   task_attachments,
+  pantry_items,
   expenses,
   exercises,
   user_exercises,

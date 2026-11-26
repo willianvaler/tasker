@@ -122,7 +122,7 @@ export async function createPage(
   }: {
     folder: string;
     name: string;
-    type: 'Lista' | 'Cards' | 'Hábitos' | 'Gastos' | 'Base' | 'Canvas' | 'Reunião';
+    type: 'Lista' | 'Cards' | 'Hábitos' | 'Gastos' | 'Base' | 'Canvas' | 'Reunião' | 'Despensa';
   },
 ) {
   await openTab(page, 'Pastas');
@@ -142,6 +142,7 @@ export async function createPage(
     Base: 'Base',
     Canvas: 'Canvas',
     Reunião: 'Reunião',
+    Despensa: 'Despensa',
   }[type];
   await page.getByRole('radio', { name: new RegExp(label) }).click();
   await page.getByRole('button', { name: 'Salvar' }).click();

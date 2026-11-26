@@ -465,7 +465,9 @@
     "canvas": "Canvas",
     "canvasHint": "Quadro branco infinito com cartões de anotações, tarefas e listas, setas e grupos.",
     "meeting": "Reunião",
-    "meetingHint": "Pauta com tempo por item, condução, ata e ações que viram tarefas."
+    "meetingHint": "Pauta com tempo por item, condução, ata e ações que viram tarefas.",
+    "pantry": "Despensa",
+    "pantryHint": "Itens da casa com quantidade e mínimo; o que acabar vai sozinho para a lista de compras, e comprar soma ao estoque."
   },
   "profile": {
     "title": "Perfil",
@@ -6121,5 +6123,40 @@
     "offlineFile": "Sem internet: o resultado é guardado no aparelho; anexar e abrir o anexo esperam a conexão.",
     "fileType": "Só foto (JPG, PNG, WebP) ou PDF.",
     "fileTooBig": "Arquivo acima de 10 MB."
+  },
+  "pantry": {
+    "shoppingDefault": "Compras",
+    "shoppingIs": "Lista de compras: {{name}}",
+    "openShopping": "Abrir",
+    "change": "Trocar",
+    "noShopping": "Escolha a lista de compras: o que acabar ou ficar abaixo do mínimo entra nela sozinho.",
+    "createShopping": "Criar a lista Compras",
+    "chooseShopping": "Usar outra lista desta pasta",
+    "askManager": "Quem gerencia o projeto escolhe a lista de compras.",
+    "toBuy_one": "{{count}} item para comprar.",
+    "toBuy_other": "{{count}} itens para comprar.",
+    "add": "Novo item",
+    "empty": "A despensa está vazia. Cadastre o que a casa costuma ter, com o mínimo de cada um.",
+    "inShopping": "Na lista de compras",
+    "needs": "Precisa comprar",
+    "minimum": "Mínimo: {{min}}",
+    "less": "Tirar 1 de {{name}}",
+    "more": "Pôr 1 em {{name}}",
+    "qtyOf": "{{name}}: {{qty}}",
+    "out": "Acabou",
+    "outOf": "Acabou: {{name}}",
+    "edit": "Editar {{name}}",
+    "remove": "Apagar {{name}}",
+    "removeTitle": "Apagar item?",
+    "removeBody": "{{name}} sai da despensa (e da lista de compras, se ainda não foi comprado).",
+    "addTitle": "Novo item",
+    "editTitle": "Editar item",
+    "name": "Item (ex.: Arroz)",
+    "qty": "Quanto tem",
+    "unit": "Unidade",
+    "min": "Mínimo",
+    "buy": "Comprar de cada vez",
+    "formHint": "Abaixo do mínimo (ou zerado), o item vai para a lista de compras; marcar a compra como feita soma o \"comprar de cada vez\" ao que tem.",
+    "badQty": "Use só números (ex.: 1,5); comprar de cada vez precisa ser mais que zero."
   }
 }

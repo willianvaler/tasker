@@ -17,7 +17,7 @@ import { Text } from '@/components/ui/text';
 import type { Page, PageSettings } from '@/lib/queries/tree';
 
 /** Tipos que não guardam tarefas (Gastos, Base, Canvas): só ao criar, e não viram outro tipo */
-const SPECIAL = ['expenses', 'base', 'canvas', 'meeting'] as const;
+const SPECIAL = ['expenses', 'base', 'canvas', 'meeting', 'pantry'] as const;
 const isSpecial = (v: Page['view_type'] | undefined) =>
   !!v && (SPECIAL as readonly string[]).includes(v);
 
@@ -30,6 +30,7 @@ const VIEW_TYPES = [
   { value: 'base', label: 'pageDialog.base', hint: 'pageDialog.baseHint' },
   { value: 'canvas', label: 'pageDialog.canvas', hint: 'pageDialog.canvasHint' },
   { value: 'meeting', label: 'pageDialog.meeting', hint: 'pageDialog.meetingHint' },
+  { value: 'pantry', label: 'pageDialog.pantry', hint: 'pageDialog.pantryHint' },
 ] as const satisfies readonly { value: Page['view_type']; label: string; hint: string }[];
 
 const RESET_CYCLES = [
