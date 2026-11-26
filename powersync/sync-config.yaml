@@ -96,6 +96,7 @@ streams:
     queries:
       - SELECT * FROM health_settings WHERE id = auth.user_id()
       - SELECT * FROM water_logs WHERE user_id = auth.user_id()
+      - SELECT * FROM sleep_logs WHERE user_id = auth.user_id()
 
   # Automações pessoais (AU1, D333): só as minhas; as de projeto são lidas pela rede
   automation_rules:

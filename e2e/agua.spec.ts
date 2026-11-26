@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab, signUp } from './helpers';
+import { openTab, signUp, waitForSync } from './helpers';
 
 // SA2 (D383): água no Bem-estar, só depois do consentimento da saúde; toques rápidos, outra
 // quantidade, meta e o modelo de lembrete nas automações
 test('água: consentimento, copo, outra quantidade, meta e lembrete', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
+  await waitForSync(page);
   await openTab(page, 'Bem-estar');
   await expect(page.getByText('Dados de saúde', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Concordo em guardar meus dados de saúde' }).click();
@@ -31,6 +32,7 @@ test('água: consentimento, copo, outra quantidade, meta e lembrete', async ({ p
   await expect(page.getByText(/não é dispositivo médico/)).toBeVisible();
 
   // Continua depois de recarregar (gravado no servidor ou no aparelho)
+  await waitForSync(page);
   await page.reload();
   await expect(page.getByText('500 mL de 500 mL')).toBeVisible({ timeout: 15_000 });
 

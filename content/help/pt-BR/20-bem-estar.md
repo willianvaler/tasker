@@ -16,6 +16,10 @@ No Bem-estar, **Cardápio de hoje** mostra os pratos do dia para marcar (marcar 
 
 Na primeira vez, a seção pede o **consentimento dos dados de saúde** (água, sono e exames ficam só na sua conta, entram na exportação e saem com a conta; tirar o consentimento em Configurações apaga tudo). Depois, **+ 1 copo** registra o tamanho do seu copo, **+ 500 mL** meio litro e **Outra quantidade** aceita `300 ml` ou `0,5 l`. Em cima, o total de hoje contra a meta; embaixo, os registros de hoje (o **X** apaga) e a semana em barras, com a média. **Meta e copo** muda os dois. O sino abre as **Automações**, onde o modelo **Lembrar de beber água** avisa de 2 em 2 horas, das 8h às 22h (o aviso não mostra quanto você bebeu). Funciona sem internet e sincroniza depois. O Questlist não é dispositivo médico: guarda o que você anota, sem recomendar nada.
 
+## Sono
+
+**Registrar sono** pede a hora em que dormiu, a hora em que acordou (`23:30`, `7h`, `07h30`) e o dia em que acordou (**hoje** ou **ontem**); passar da meia-noite é conta do app. Em cima, a última noite contra a meta (8 h no começo; **Meta de sono** muda, aceita `7,5`) e a média da semana; embaixo, as últimas noites (o **X** apaga) e a semana em barras. Cochilos no mesmo dia somam. Usa o mesmo consentimento da água e funciona sem internet.
+
 ## Vida saudável
 
 Hábitos prontos para pôr na tela **Hábitos** com um toque: beber água (8 copos por dia, com contador), dormir 8 horas, caminhar, 10 mil passos, comer fruta (2 por dia), verdura, ficar sem açúcar, alongar, meditar, sem tela antes de dormir e pegar sol. O que já está nos seus hábitos aparece como **Adicionado**. Depois de adicionado, é um hábito como qualquer outro: dá para mudar o nome, a meta e os dias. **Peso e medidas** também fica aqui.

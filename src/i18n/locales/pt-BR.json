@@ -5999,5 +5999,28 @@
     "settingsHint": "Meta do dia e tamanho do copo, em mL (meta de 250 a 10.000; copo de 50 a 2.000).",
     "goalPlaceholder": "Meta do dia em mL",
     "cupPlaceholder": "Copo em mL"
+  },
+  "sleep": {
+    "title": "Sono",
+    "last": "Última noite: {{duration}} (meta {{goal}})",
+    "none": "Nenhuma noite registrada nesta semana.",
+    "average": "Média da semana: {{avg}}",
+    "log": "Registrar sono",
+    "goal": "Meta de sono",
+    "recent": "Noites registradas",
+    "row": "{{bed}} → {{wake}} · {{duration}}",
+    "remove": "Apagar o sono das {{bed}}",
+    "chart": "Sono nos últimos 7 dias",
+    "bar": "{{day}}: {{duration}}",
+    "logTitle": "Como foi a noite?",
+    "logHint": "A hora em que dormiu, a hora em que acordou e o dia em que acordou (hoje ou ontem). Ex.: 23:30 e 7h.",
+    "bedPlaceholder": "Dormi às (ex.: 23:30)",
+    "wakePlaceholder": "Acordei às (ex.: 7h)",
+    "dayPlaceholder": "Acordei (hoje ou ontem)",
+    "today": "hoje",
+    "yesterday": "ontem",
+    "save": "Registrar",
+    "goalHint": "Quantas horas por noite (de 3 a 16; aceita 7,5).",
+    "goalPlaceholder": "Horas por noite"
   }
 }

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { HealthConsentGate, HealthNotice } from '@/components/health/health-privacy';
 import { Button, IconButton } from '@/components/ui/button';
 import { PromptDialog } from '@/components/ui/dialog';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -27,16 +26,15 @@ type Dialog = 'other' | 'settings' | null;
 
 /**
  * Água (SA2, D383) no Bem-estar: toques rápidos (um copo, meio litro, outra quantidade), o total do
- * dia contra a meta, os registros de hoje e a semana. Dado de saúde: só com o consentimento.
+ * dia contra a meta, os registros de hoje e a semana. Fica dentro do
+ * `HealthConsentGate` do Bem-estar.
  */
 export function WaterSection() {
   const { t } = useTranslation();
   return (
     <View className="gap-3">
       <SectionLabel title={t('water.title')} />
-      <HealthConsentGate>
-        <WaterBody />
-      </HealthConsentGate>
+      <WaterBody />
     </View>
   );
 }
@@ -157,8 +155,6 @@ function WaterBody() {
           ))}
         </View>
       </View>
-
-      <HealthNotice />
 
       {dialog === 'other' && (
         <PromptDialog

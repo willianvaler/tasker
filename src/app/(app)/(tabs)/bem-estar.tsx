@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { WorkoutHub } from '@/components/gym/workout-hub';
+import { HealthConsentGate, HealthNotice } from '@/components/health/health-privacy';
 import { HubRow, HubSection } from '@/components/hub';
 import { Screen, ScreenScroll } from '@/components/screen';
 import { ScreenHeader } from '@/components/screen-header';
@@ -10,6 +11,7 @@ import { Text } from '@/components/ui/text';
 import { DietSection } from '@/components/wellness/diet';
 import { HealthyHabitsSection } from '@/components/wellness/healthy-habits';
 import { MedicationsSection } from '@/components/wellness/medications';
+import { SleepSection } from '@/components/wellness/sleep';
 import { WaterSection } from '@/components/wellness/water';
 import { useGymInWellness, useProfile } from '@/lib/queries/profile';
 
@@ -25,11 +27,7 @@ export default function WellnessScreen() {
   return (
     <Screen size="medium">
       <ScreenScroll keyboardShouldPersistTaps="handled" contentContainerClassName="gap-8 pb-clear">
-        <ScreenHeader
-          search
-          help="bem-estar"
-          title={t('nav.wellness')}
-        />
+        <ScreenHeader search help="bem-estar" title={t('nav.wellness')} />
         {gymInside ? (
           <View className="gap-6">
             <Text className="font-serif text-xl text-ink">{t('nav.workout')}</Text>
@@ -46,7 +44,12 @@ export default function WellnessScreen() {
           </HubSection>
         )}
         <DietSection />
-        <WaterSection />
+        {/* Saúde (SA0): um consentimento só para a água, o sono e o que vier do §5 */}
+        <HealthConsentGate>
+          <WaterSection />
+          <SleepSection />
+          <HealthNotice />
+        </HealthConsentGate>
         <HealthyHabitsSection />
         <MedicationsSection />
       </ScreenScroll>

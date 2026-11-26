@@ -16,6 +16,10 @@ In Wellness, **Today's menu** shows the day's dishes to check off (checking comp
 
 The first time, the section asks for **consent for health data** (water, sleep and test results stay in your account only, are included in the export and are removed with the account; withdrawing consent in Settings deletes everything). Then **+ 1 glass** logs your glass size, **+ 500 mL** half a liter and **Other amount** accepts `300 ml` or `0.5 l`. At the top, today's total against the goal; below, today's entries (the **X** deletes) and the week as bars, with the average. **Goal and glass** changes both. The bell opens **Automations**, where the template **Remind me to drink water** reminds you every 2 hours, from 8 am to 10 pm (the reminder doesn't show how much you drank). Works offline and syncs later. Questlist isn't a medical device: it keeps what you write down and recommends nothing.
 
+## Sleep
+
+**Log sleep** asks when you fell asleep, when you woke up (`23:30`, `7h`, `07h30`) and the day you woke up (**today** or **yesterday**); crossing midnight is worked out by the app. At the top, last night against the goal (8 h to start; **Sleep goal** changes it, `7.5` works) and the week average; below, the latest nights (the **X** deletes) and the week as bars. Naps on the same day add up. Uses the same consent as water and works offline.
+
 ## Healthy living
 
 Ready-made habits to add to the **Habits** screen with one tap: drink water (8 glasses a day, with a counter), sleep 8 hours, walk, 10,000 steps, eat fruit (2 a day), vegetables, skip sugar, stretch, meditate, no screens before bed and get some sun. The ones already in your habits show as **Added**. Once added, it's a habit like any other: you can change the name, goal and days. **Weight and measurements** is here too.

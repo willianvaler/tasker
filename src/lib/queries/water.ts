@@ -71,7 +71,10 @@ export function useWater(today: string) {
 export function useWaterActions(today: string) {
   const queryClient = useQueryClient();
   const key = [...KEY, today];
-  const settle = () => queryClient.invalidateQueries({ queryKey: KEY });
+  const settle = () => {
+    void queryClient.invalidateQueries({ queryKey: KEY });
+    void queryClient.invalidateQueries({ queryKey: ['sleep'] });
+  };
   const patch = (update: (d: WaterData) => WaterData) =>
     queryClient.setQueryData<WaterData>(key, (d) => (d ? update(d) : d));
 

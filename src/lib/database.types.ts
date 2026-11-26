@@ -1303,14 +1303,14 @@ isOneToOne: false
                   ]
                 },"health_settings": {
                   Row: {
-                    "cup_ml": number,"id": string,"updated_at": string,"water_goal_ml": number
+                    "cup_ml": number,"id": string,"sleep_goal_min": number,"updated_at": string,"water_goal_ml": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "cup_ml"?: number,"id"?: string,"updated_at"?: string,"water_goal_ml"?: number
+                    "cup_ml"?: number,"id"?: string,"sleep_goal_min"?: number,"updated_at"?: string,"water_goal_ml"?: number
                   }
                   Update: {
-                    "cup_ml"?: number,"id"?: string,"updated_at"?: string,"water_goal_ml"?: number
+                    "cup_ml"?: number,"id"?: string,"sleep_goal_min"?: number,"updated_at"?: string,"water_goal_ml"?: number
                   }
                   Relationships: [
                     {
@@ -2413,6 +2413,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     },{
       foreignKeyName: "share_checks_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"sleep_logs": {
+                  Row: {
+                    "bed_time": string,"created_at": string,"day": string,"id": string,"user_id": string,"wake_time": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "bed_time": string,"created_at"?: string,"day": string,"id"?: string,"user_id"?: string,"wake_time": string
+                  }
+                  Update: {
+                    "bed_time"?: string,"created_at"?: string,"day"?: string,"id"?: string,"user_id"?: string,"wake_time"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "sleep_logs_user_id_fkey"
       columns: ["user_id"]
 isOneToOne: false
       referencedRelation: "profiles"

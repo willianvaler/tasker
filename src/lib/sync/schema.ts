@@ -260,7 +260,16 @@ const medications = new Table({
 const health_settings = new Table({
   water_goal_ml: column.integer,
   cup_ml: column.integer,
+  sleep_goal_min: column.integer,
   updated_at: column.text,
+});
+// Sono (SA1, D384): horas como 'HH:MM:SS'; a duração é conta do app
+const sleep_logs = new Table({
+  user_id: column.text,
+  day: column.text,
+  bed_time: column.text,
+  wake_time: column.text,
+  created_at: column.text,
 });
 const water_logs = new Table({
   user_id: column.text,
@@ -720,6 +729,7 @@ export const AppSchema = new Schema({
   medications,
   health_settings,
   water_logs,
+  sleep_logs,
   equipments,
   maintenance_plans,
   page_shares,
