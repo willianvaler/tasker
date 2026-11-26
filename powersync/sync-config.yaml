@@ -85,6 +85,20 @@ streams:
       - SELECT * FROM medications WHERE user_id = auth.user_id()
       - SELECT * FROM medication_intakes WHERE user_id = auth.user_id()
 
+  # Repetição espaçada (ET1, D386): os cartões das anotações que vejo (a mesma regra dos links) e
+  # as minhas revisões
+  cards:
+    auto_subscribe: true
+    with:
+      roots: SELECT folder_id FROM folder_members WHERE user_id = auth.user_id()
+      shared: SELECT note_id FROM note_shares WHERE user_id = auth.user_id()
+    queries:
+      - SELECT * FROM cards WHERE user_id = auth.user_id() AND folder_id IS NULL
+      - SELECT * FROM cards WHERE note_id IN shared
+      - SELECT * FROM cards WHERE folder_id IN roots
+      - SELECT cards.* FROM cards INNER JOIN folders ON cards.folder_id = folders.id WHERE folders.parent_id IN roots
+      - SELECT * FROM card_reviews WHERE user_id = auth.user_id()
+
   # Equipamentos e manutenção (CS1, D365): só os meus
   equipments:
     auto_subscribe: true

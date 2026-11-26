@@ -10,6 +10,7 @@ import {
   HeartPulse,
   House,
   Inbox,
+  Layers,
   LayoutGrid,
   LayoutTemplate,
   LogOut,
@@ -123,6 +124,7 @@ export default function MoreScreen() {
             />
           )}
           <HubRow icon={House} label={t('casa.title')} hint={t('casa.hint')} href="/casa" />
+          <HubRow icon={Layers} label={t('cards.title')} hint={t('cards.hint')} href="/cartoes" />
           {gymOn && !gymInWellness && show('treino') && (
             <HubRow
               icon={Dumbbell}

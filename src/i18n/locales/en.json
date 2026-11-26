@@ -6052,5 +6052,33 @@
     "save": "Log",
     "goalHint": "How many hours a night (3 to 16; 7.5 works).",
     "goalPlaceholder": "Hours a night"
+  },
+  "cards": {
+    "title": "Review cards",
+    "hint": "Spaced repetition with the cards in your notes",
+    "todayCount_one": "Today: {{count}} card",
+    "todayCount_other": "Today: {{count}} cards",
+    "card": "Card",
+    "answer": "Answer",
+    "show": "Show answer",
+    "grade": {
+      "again": "Again",
+      "hard": "Hard",
+      "good": "Good",
+      "easy": "Easy"
+    },
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "empty": "No cards yet. In a note, write a line with the question, ?:: and the answer:",
+    "syntax": "Capital of France ?:: Paris",
+    "nothing": "Nothing to review today.",
+    "finished_one": "Done for today: {{count}} review.",
+    "finished_other": "Done for today: {{count}} reviews.",
+    "limitReached": "Left for tomorrow by the daily limit: {{due}} reviews and {{fresh}} new.",
+    "limits": "Daily limits",
+    "limitsHint": "How many new cards and how many reviews per day (0 to 9999).",
+    "newPerDay": "New per day",
+    "reviewsPerDay": "Reviews per day",
+    "reviewNote": "Review cards"
   }
 }

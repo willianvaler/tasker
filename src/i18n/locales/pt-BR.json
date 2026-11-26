@@ -6052,5 +6052,33 @@
     "save": "Registrar",
     "goalHint": "Quantas horas por noite (de 3 a 16; aceita 7,5).",
     "goalPlaceholder": "Horas por noite"
+  },
+  "cards": {
+    "title": "Revisar cartões",
+    "hint": "Repetição espaçada com os cartões das anotações",
+    "todayCount_one": "Hoje: {{count}} cartão",
+    "todayCount_other": "Hoje: {{count}} cartões",
+    "card": "Cartão",
+    "answer": "Resposta",
+    "show": "Mostrar resposta",
+    "grade": {
+      "again": "Errei",
+      "hard": "Difícil",
+      "good": "Bom",
+      "easy": "Fácil"
+    },
+    "days_one": "{{count}} dia",
+    "days_other": "{{count}} dias",
+    "empty": "Nenhum cartão ainda. Numa anotação, escreva uma linha com a pergunta, ?:: e a resposta:",
+    "syntax": "Capital da França ?:: Paris",
+    "nothing": "Nada para revisar hoje.",
+    "finished_one": "Pronto por hoje: {{count}} revisão.",
+    "finished_other": "Pronto por hoje: {{count}} revisões.",
+    "limitReached": "Ficaram para amanhã, pelo limite do dia: {{due}} revisões e {{fresh}} novos.",
+    "limits": "Limites do dia",
+    "limitsHint": "Quantos cartões novos e quantas revisões por dia (de 0 a 9999).",
+    "newPerDay": "Novos por dia",
+    "reviewsPerDay": "Revisões por dia",
+    "reviewNote": "Revisar cartões"
   }
 }

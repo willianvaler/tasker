@@ -271,6 +271,31 @@ const medication_intakes = new Table({
   snoozed_until: column.text,
   acted_at: column.text,
 });
+// Repetição espaçada (ET1, D386): cartões só leitura (refeitos pelo servidor do texto das
+// anotações) e o log das revisões, só de inserção; o estado é conta do app (lib/srs.ts)
+const cards = new Table(
+  {
+    note_id: column.text,
+    user_id: column.text,
+    folder_id: column.text,
+    question: column.text,
+    answer: column.text,
+    position: column.integer,
+    created_at: column.text,
+  },
+  { indexes: { note: ['note_id'] } },
+);
+const card_reviews = new Table(
+  {
+    card_id: column.text,
+    user_id: column.text,
+    grade: column.integer,
+    day: column.text,
+    reviewed_at: column.text,
+    created_at: column.text,
+  },
+  { indexes: { card: ['card_id'] } },
+);
 // Saúde (SA2, D383): preferências (id = a pessoa) e a água do dia
 const health_settings = new Table({
   water_goal_ml: column.integer,
@@ -743,6 +768,8 @@ export const AppSchema = new Schema({
   sensitive_consents,
   medications,
   medication_intakes,
+  cards,
+  card_reviews,
   health_settings,
   water_logs,
   sleep_logs,

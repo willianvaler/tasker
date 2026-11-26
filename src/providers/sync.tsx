@@ -58,6 +58,9 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   sensitive_consents: [['body'], ['medications'], ['sensitive-consent']],
   medications: [['medications']],
   medication_intakes: [['medications']],
+  // Repetição espaçada (ET1): o servidor refaz os cartões quando a anotação muda
+  cards: [['cards']],
+  card_reviews: [['cards']],
 };
 
 // Com mutação de tarefa em andamento, estas só releem quando a fila esvaziar: o progresso das

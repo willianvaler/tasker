@@ -18,6 +18,7 @@ import {
   HeartPulse,
   House,
   Inbox,
+  Layers,
   LayoutGrid,
   NotebookPen,
   PanelLeft,
@@ -297,6 +298,13 @@ function Palette({
       icon: icon(House),
       group: 0,
       run: go('/casa'),
+    },
+    {
+      id: 'go-cards',
+      label: t('cards.title'),
+      icon: icon(Layers),
+      group: 0,
+      run: go('/cartoes'),
     },
     {
       id: 'go-inbox',

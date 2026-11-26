@@ -6052,5 +6052,33 @@
     "save": "Registrar",
     "goalHint": "Cuántas horas por noche (de 3 a 16; acepta 7,5).",
     "goalPlaceholder": "Horas por noche"
+  },
+  "cards": {
+    "title": "Repasar tarjetas",
+    "hint": "Repetición espaciada con las tarjetas de tus notas",
+    "todayCount_one": "Hoy: {{count}} tarjeta",
+    "todayCount_other": "Hoy: {{count}} tarjetas",
+    "card": "Tarjeta",
+    "answer": "Respuesta",
+    "show": "Mostrar respuesta",
+    "grade": {
+      "again": "Fallé",
+      "hard": "Difícil",
+      "good": "Bien",
+      "easy": "Fácil"
+    },
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días",
+    "empty": "Aún no hay tarjetas. En una nota, escribe una línea con la pregunta, ?:: y la respuesta:",
+    "syntax": "Capital de Francia ?:: París",
+    "nothing": "Nada que repasar hoy.",
+    "finished_one": "Listo por hoy: {{count}} repaso.",
+    "finished_other": "Listo por hoy: {{count}} repasos.",
+    "limitReached": "Quedaron para mañana por el límite del día: {{due}} repasos y {{fresh}} nuevas.",
+    "limits": "Límites del día",
+    "limitsHint": "Cuántas tarjetas nuevas y cuántos repasos por día (de 0 a 9999).",
+    "newPerDay": "Nuevas por día",
+    "reviewsPerDay": "Repasos por día",
+    "reviewNote": "Repasar tarjetas"
   }
 }

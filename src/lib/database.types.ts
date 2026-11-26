@@ -559,6 +559,90 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"card_reviews": {
+                  Row: {
+                    "card_id": string,"created_at": string,"day": string,"grade": number,"id": string,"reviewed_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "card_id": string,"created_at"?: string,"day": string,"grade": number,"id": string,"reviewed_at": string,"user_id"?: string
+                  }
+                  Update: {
+                    "card_id"?: string,"created_at"?: string,"day"?: string,"grade"?: number,"id"?: string,"reviewed_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "card_reviews_card_id_fkey"
+      columns: ["card_id"]
+isOneToOne: false
+      referencedRelation: "cards"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "card_reviews_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"card_states": {
+                  Row: {
+                    "card_id": string,"due": string,"ease": number,"interval_days": number,"lapses": number,"last_day": string,"reps": number,"reviews": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "card_id": string,"due": string,"ease": number,"interval_days": number,"lapses": number,"last_day": string,"reps": number,"reviews": number,"user_id": string
+                  }
+                  Update: {
+                    "card_id"?: string,"due"?: string,"ease"?: number,"interval_days"?: number,"lapses"?: number,"last_day"?: string,"reps"?: number,"reviews"?: number,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "card_states_card_id_fkey"
+      columns: ["card_id"]
+isOneToOne: false
+      referencedRelation: "cards"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "card_states_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"cards": {
+                  Row: {
+                    "answer": string,"created_at": string,"folder_id": string | null,"id": string,"note_id": string,"position": number,"question": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "answer": string,"created_at"?: string,"folder_id"?: string | null,"id": string,"note_id": string,"position"?: number,"question": string,"user_id": string
+                  }
+                  Update: {
+                    "answer"?: string,"created_at"?: string,"folder_id"?: string | null,"id"?: string,"note_id"?: string,"position"?: number,"question"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "cards_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "cards_note_id_fkey"
+      columns: ["note_id"]
+isOneToOne: false
+      referencedRelation: "notes"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "cards_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"challenge_members": {
                   Row: {
                     "challenge_id": string,"joined_at": string,"user_id": string
@@ -3727,6 +3811,9 @@ isOneToOne: false
 "_cap_quick_damage":
 { Args: { "p_damage": number,"p_user": string }; Returns: number
                            },
+"_card_state":
+{ Args: { "p_card": string,"p_user": string }; Returns: undefined
+                           },
 "_challenge_code":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
@@ -4015,6 +4102,9 @@ isOneToOne: false
                            },
 "_record_workout_day":
 { Args: { "p_minutes": number,"p_page": string,"p_source": string,"p_user": string }; Returns: undefined
+                           },
+"_refresh_cards":
+{ Args: { "p_folder": string,"p_note": string,"p_text": string,"p_user": string }; Returns: undefined
                            },
 "_refresh_links":
 { Args: { "p_folder": string,"p_id": string,"p_kind": string,"p_text": string,"p_user": string }; Returns: undefined

@@ -935,6 +935,19 @@ function Editor({
                   },
                 ]
               : []),
+            // ET1: os cartões desta anotação (pergunta ?:: resposta)
+            ...(note.body.includes('?::')
+              ? [
+                  {
+                    label: t('cards.reviewNote'),
+                    onPress: () => {
+                      closeMoreMenu();
+                      save();
+                      router.push({ pathname: '/cartoes', params: { nota: note.id } });
+                    },
+                  },
+                ]
+              : []),
             {
               label: t(favorite ? 'favorites.remove' : 'favorites.add'),
               onPress: () => {

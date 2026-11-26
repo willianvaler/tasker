@@ -240,6 +240,8 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     update: ['water_goal_ml', 'cup_ml', 'sleep_goal_min'],
   },
   water_logs: { insert: ['ml', 'day', 'logged_at'], update: ['ml'] },
+  // ET1: o log das revisões só recebe linhas novas
+  card_reviews: { insert: ['card_id', 'grade', 'day', 'reviewed_at'], update: [] },
   sleep_logs: { insert: ['day', 'bed_time', 'wake_time'], update: ['day', 'bed_time', 'wake_time'] },
   workout_moves: { insert: ['page_id', 'from_day', 'to_day'], update: ['to_day'] },
   expenses: {

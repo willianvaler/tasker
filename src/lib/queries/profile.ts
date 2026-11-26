@@ -83,6 +83,8 @@ export type UiPrefs = {
   };
   /** Anotações (OB5): o modelo da nota do dia (id de uma anotação marcada como modelo) */
   notes?: { dailyTemplate?: string | null };
+  /** Repetição espaçada (ET1): limites do dia (`readSrsLimits` em lib/srs.ts) */
+  srs?: { newPerDay?: number; reviewsPerDay?: number };
   /** Favoritos (OB12): anotações, listas e buscas, no alto da barra lateral (`lib/favorites.ts`) */
   favorites?: Record<string, string>[];
   /** Visões pessoais de cada lista (VS1, `lib/list-views.ts`): { <id da lista>: ListView[] } */
