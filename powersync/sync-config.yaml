@@ -81,7 +81,9 @@ streams:
   # Remédios do Bem-estar (BE4, dado sensível): só os meus
   medications:
     auto_subscribe: true
-    query: SELECT * FROM medications WHERE user_id = auth.user_id()
+    queries:
+      - SELECT * FROM medications WHERE user_id = auth.user_id()
+      - SELECT * FROM medication_intakes WHERE user_id = auth.user_id()
 
   # Equipamentos e manutenção (CS1, D365): só os meus
   equipments:

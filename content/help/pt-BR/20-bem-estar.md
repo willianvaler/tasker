@@ -33,4 +33,12 @@ Na primeira vez, o app pede o seu consentimento: remédio é dado de saúde, um 
 - **Comprei:** diga quantos comprimidos comprou (a caixa já vem preenchida); eles somam ao que resta.
 - No **…** do remédio: **Editar**, **Contar de novo** (conte o que sobrou e a conta recomeça de hoje), **Parar de tomar** (não desconta mais até você voltar) e **Apagar**.
 
+### Horários, lembrete e histórico
+
+- No remédio, **Horários** (opcional, ex.: `08:00, 20:00`, até 12) e **Escolher os dias** da semana (ex.: seg, qua e sex). Com horários, as vezes por dia passam a ser eles.
+- No horário da dose, chega um aviso (no 🔔 e, no app do celular, com os botões **Tomei**, **Pular** e **Adiar 15 min**). **Adiar** vale até 3 vezes por dose; depois de cada adiamento, o aviso volta.
+- O aviso diz só **"Hora do remédio"**, sem o nome, porque ele aparece até na tela de bloqueio. Para ver o nome, ligue **Mostrar o nome no aviso** naquele remédio.
+- Em **Doses de hoje**, no topo da seção, você responde as mesmas três opções (e **Desfazer**). O remédio mostra quantas doses tomou nos últimos 7 dias, e o **…** → **Histórico** lista as respostas dos últimos 30 dias.
+- O app só guarda o que você escreve: não tem bula, interação, dose recomendada nem conselho.
+
 A conta supõe que você tomou todas as doses desde a última contagem, a partir do dia seguinte a ela. Se esqueceu alguma, use **Contar de novo**. Os remédios funcionam sem internet, como as tarefas; o consentimento precisa de conexão.

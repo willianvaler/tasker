@@ -549,7 +549,10 @@
     "channel": "Avisos",
     "denied": "Permissão negada. Libere nas configurações do celular.",
     "noProject": "App sem projeto EAS configurado (veja PUBLICACAO.md).",
-    "browser": "No navegador, os avisos aparecem no sino."
+    "browser": "No navegador, os avisos aparecem no sino.",
+    "medTaken": "Tomei",
+    "medSkip": "Pular",
+    "medSnooze": "Adiar 15 min"
   },
   "character": {
     "title": "Personagem",
@@ -4051,7 +4054,34 @@
       "pause": "Parar de tomar",
       "resume": "Voltar a tomar",
       "options": "Opções de {{name}}",
-      "removeTitle": "Apagar {{name}}?"
+      "removeTitle": "Apagar {{name}}?",
+      "today": "Doses de hoje",
+      "stateTaken": "Tomei",
+      "stateSkipped": "Pulei",
+      "stateSnoozed_one": "Adiado até {{time}} ({{count}} de 3)",
+      "stateSnoozed_other": "Adiado até {{time}} ({{count}} de 3)",
+      "stateDue": "Na hora",
+      "stateLater": "Mais tarde",
+      "undoDose": "Desfazer {{dose}}",
+      "taken": "Tomei",
+      "takenDose": "Tomei {{dose}}",
+      "skip": "Pular",
+      "skipDose": "Pular {{dose}}",
+      "snooze": "Adiar 15 min",
+      "snoozeDose": "Adiar {{dose}}",
+      "history": "Histórico",
+      "historyTitle": "Histórico de {{name}}",
+      "historyEmpty": "Nenhuma dose respondida nos últimos 30 dias.",
+      "historySnoozed_one": "adiado {{count}} vez",
+      "historySnoozed_other": "adiado {{count}} vezes",
+      "adherence": "Últimos 7 dias: tomou {{taken}} de {{expected}}",
+      "pickDays": "Escolher os dias",
+      "doseTimes": "Horários (opcional)",
+      "doseTimesPlaceholder": "08:00, 20:00",
+      "doseTimesHint": "Com horário, o app avisa na hora com Tomei, Pular e Adiar e guarda o histórico.",
+      "doseTimesInvalid": "Escreva horários como 08:00, 20:00 (até 12).",
+      "showName": "Mostrar o nome no aviso",
+      "showNameHint": "Desligado, o aviso diz só \"Hora do remédio\" (aparece até na tela de bloqueio)."
     }
   },
   "bossPanel": {

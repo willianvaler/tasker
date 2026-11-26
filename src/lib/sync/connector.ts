@@ -180,6 +180,9 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'stock_on',
       'paused',
       'notes',
+      'dose_times',
+      'weekdays',
+      'show_name',
     ],
     update: [
       'name',
@@ -191,7 +194,15 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
       'stock_on',
       'paused',
       'notes',
+      'dose_times',
+      'weekdays',
+      'show_name',
     ],
+  },
+  // Histórico das doses (SA3): Tomei, Pular, Adiar
+  medication_intakes: {
+    insert: ['medication_id', 'day', 'slot', 'status', 'snoozes', 'snoozed_until', 'acted_at'],
+    update: ['status', 'snoozes', 'snoozed_until', 'acted_at'],
   },
   equipments: {
     insert: [
@@ -295,6 +306,8 @@ const JSON_COLUMNS = new Set([
   'split_among',
   'props',
   'definition',
+  'dose_times',
+  'weekdays',
 ]);
 
 function pick(data: Record<string, unknown>, columns: string[]) {

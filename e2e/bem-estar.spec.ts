@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-import { openSettings, openTab, shown, signUp } from './helpers';
+import { openSettings, openTab, shown, signUp, waitForSync } from './helpers';
 
 // Bem-estar (D270): remédios com o saldo do que falta, e a Academia dentro do Bem-estar.
 
 test('remédios: consentimento, novo, saldo e "Comprei"', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
+  await waitForSync(page);
   await openTab(page, 'Bem-estar');
   await expect(page.getByRole('heading', { name: 'Bem-estar' })).toBeVisible();
 
@@ -16,20 +17,17 @@ test('remédios: consentimento, novo, saldo e "Comprei"', async ({ page }, testI
   await page.getByRole('radio', { name: '2× por dia' }).click();
   await page.getByRole('textbox', { name: 'Comprimidos por caixa' }).fill('30');
   // "Quantos você tem agora" vazio vale uma caixa
-  const saved = page.waitForResponse((r) => r.url().includes('medications') && r.ok());
   await page.getByRole('button', { name: 'Salvar' }).click();
-  await saved;
   await expect(shown(page, name)).toBeVisible();
   await expect(shown(page, '1 comprimido · 2× por dia · Todo dia')).toBeVisible();
   await expect(shown(page, /Restam 30 comprimidos · dá até .* \(15 dias\)/)).toBeVisible();
 
   // Comprei: a caixa já vem preenchida e soma ao que resta
   await page.getByRole('button', { name: `Comprei ${name}` }).click();
-  const bought = page.waitForResponse((r) => r.url().includes('medications') && r.ok());
   await page.getByRole('button', { name: 'Somar' }).click();
-  await bought;
   await expect(shown(page, /Restam 60 comprimidos · dá até .* \(30 dias\)/)).toBeVisible();
 
+  await waitForSync(page);
   await page.reload();
   await expect(shown(page, /Restam 60 comprimidos/)).toBeVisible();
 });

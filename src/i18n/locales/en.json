@@ -549,7 +549,10 @@
     "channel": "Notifications",
     "denied": "Permission denied. Allow it in your phone settings.",
     "noProject": "App without an EAS project set up (see PUBLICACAO.md).",
-    "browser": "In the browser, notifications show up in the bell."
+    "browser": "In the browser, notifications show up in the bell.",
+    "medTaken": "Taken",
+    "medSkip": "Skip",
+    "medSnooze": "Snooze 15 min"
   },
   "character": {
     "title": "Character",
@@ -4051,7 +4054,34 @@
       "pause": "Stop taking",
       "resume": "Take again",
       "options": "Options for {{name}}",
-      "removeTitle": "Delete {{name}}?"
+      "removeTitle": "Delete {{name}}?",
+      "today": "Today's doses",
+      "stateTaken": "Taken",
+      "stateSkipped": "Skipped",
+      "stateSnoozed_one": "Snoozed until {{time}} ({{count}} of 3)",
+      "stateSnoozed_other": "Snoozed until {{time}} ({{count}} of 3)",
+      "stateDue": "Time to take",
+      "stateLater": "Later",
+      "undoDose": "Undo {{dose}}",
+      "taken": "Taken",
+      "takenDose": "Took {{dose}}",
+      "skip": "Skip",
+      "skipDose": "Skip {{dose}}",
+      "snooze": "Snooze 15 min",
+      "snoozeDose": "Snooze {{dose}}",
+      "history": "History",
+      "historyTitle": "{{name}} history",
+      "historyEmpty": "No doses answered in the last 30 days.",
+      "historySnoozed_one": "snoozed {{count}} time",
+      "historySnoozed_other": "snoozed {{count}} times",
+      "adherence": "Last 7 days: took {{taken}} of {{expected}}",
+      "pickDays": "Pick the days",
+      "doseTimes": "Times (optional)",
+      "doseTimesPlaceholder": "08:00, 20:00",
+      "doseTimesHint": "With times, the app reminds you on time with Taken, Skip and Snooze and keeps the history.",
+      "doseTimesInvalid": "Write times like 08:00, 20:00 (up to 12).",
+      "showName": "Show the name in the reminder",
+      "showNameHint": "Off, the reminder only says \"Time for your medicine\" (it shows even on the lock screen)."
     }
   },
   "bossPanel": {

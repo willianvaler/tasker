@@ -88,6 +88,24 @@ describe('textos das notificações (tela 🔔 e push)', () => {
       'Caio answered the poll "Café"',
     );
   });
+  test('remédio (SA3): sem o nome por padrão, com os botões no celular', () => {
+    const payload = { medication_id: 'm1', day: '2026-11-26', slot: '08:00', round: 0 };
+    expect(describeNotification({ kind: 'medication', payload })).toEqual({
+      text: '💊 08:00 · Hora do remédio',
+      url: '/bem-estar',
+    });
+    expect(
+      describeNotification(
+        { kind: 'medication', payload: { ...payload, round: 1, name: 'Losartana' } },
+        'en',
+      ).text,
+    ).toBe('💊 08:00 · Losartana: snooze is over');
+    const [push] = pushMessages({ kind: 'medication', payload }, ['tok']);
+    expect(push).toMatchObject({ categoryId: 'medication', data: { url: '/bem-estar' } });
+    expect(push.body).not.toContain('Losartana');
+    const [last] = pushMessages({ kind: 'medication', payload: { ...payload, round: 3 } }, ['tok']);
+    expect(last).toMatchObject({ categoryId: 'medication_last' });
+  });
   test('menção', () => {
     expect(
       describeNotification({

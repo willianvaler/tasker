@@ -33,4 +33,12 @@ La primera vez, la app pide tu consentimiento: los medicamentos son datos de sal
 - **Compré:** di cuántas pastillas compraste (la caja ya viene puesta); se suman a lo que queda.
 - En el **…** del medicamento: **Editar**, **Contar de nuevo** (cuenta lo que queda y la cuenta vuelve a empezar hoy), **Dejar de tomar** (no descuenta hasta que vuelvas) y **Borrar**.
 
+### Horarios, aviso e historial
+
+- En el medicamento, **Horarios** (opcional, ej.: `08:00, 20:00`, hasta 12) y **Elegir los días** de la semana (ej.: lun, mié y vie). Con horarios, las veces al día pasan a ser ellos.
+- A la hora de la dosis llega un aviso (en la 🔔 y, en la app del celular, con los botones **Tomé**, **Saltar** y **Posponer 15 min**). **Posponer** vale hasta 3 veces por dosis; después de cada una, el aviso vuelve.
+- El aviso dice solo **"Hora del remedio"**, sin el nombre, porque aparece incluso en la pantalla de bloqueo. Para ver el nombre, activa **Mostrar el nombre en el aviso** en ese medicamento.
+- En **Dosis de hoy**, arriba de la sección, respondes las mismas tres opciones (y **Deshacer**). Cada medicamento muestra cuántas dosis tomaste en los últimos 7 días, y **…** → **Historial** lista las respuestas de los últimos 30 días.
+- La app solo guarda lo que escribes: sin prospecto, interacciones, dosis recomendada ni consejos.
+
 La cuenta supone que tomaste todas las dosis desde el último conteo, a partir del día siguiente. Si olvidaste alguna, usa **Contar de nuevo**. Los medicamentos funcionan sin internet, como las tareas; el consentimiento necesita conexión.

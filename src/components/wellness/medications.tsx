@@ -9,11 +9,15 @@ import { Chip } from '@/components/ui/chip';
 import { ActionMenu, ConfirmDialog, DialogFrame, PromptDialog } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
+import { ToggleRow } from '@/components/ui/toggle-row';
+import { DosesToday, MedicationHistory } from '@/components/wellness/medication-doses';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 import {
+  adherence,
   medicationBalance,
+  parseDoseTimes,
   parsePills,
   type Medication,
   type MedicationBalance,
@@ -38,6 +42,7 @@ type Dialog =
   | { kind: 'count'; med: Medication }
   | { kind: 'menu'; med: Medication }
   | { kind: 'remove'; med: Medication }
+  | { kind: 'history'; med: Medication }
   | { kind: 'revoke' };
 
 /**
@@ -46,11 +51,11 @@ type Dialog =
  */
 export function MedicationsSection() {
   const { t } = useTranslation();
-  const meds = useMedications();
+  const today = useToday();
+  const meds = useMedications(today);
   const actions = useMedicationActions();
   const online = useIsOnline();
   const toast = useToast();
-  const today = useToday();
   const [dialog, setDialog] = useState<Dialog | null>(null);
   const close = () => setDialog(null);
   const fail = (e: Error) => toast({ message: e.message });
@@ -98,6 +103,7 @@ export function MedicationsSection() {
           />
         }
       />
+      {data && <DosesToday meds={list} intakes={data.intakes} today={today} />}
       {data && list.length === 0 && (
         <Text className="px-2 py-3 text-sm text-ink-muted">{t('wellness.meds.empty')}</Text>
       )}
@@ -106,6 +112,7 @@ export function MedicationsSection() {
           key={med.id}
           med={med}
           balance={medicationBalance(med, today)}
+          taken={med.dose_times.length ? adherence(med, data?.intakes ?? [], today) : null}
           onBought={() => setDialog({ kind: 'bought', med })}
           onMenu={() => setDialog({ kind: 'menu', med })}
         />
@@ -187,6 +194,10 @@ export function MedicationsSection() {
               onPress: () => setDialog({ kind: 'form', med: dialog.med }),
             },
             {
+              label: t('wellness.meds.history'),
+              onPress: () => setDialog({ kind: 'history', med: dialog.med }),
+            },
+            {
               label: t('wellness.meds.count'),
               onPress: () => setDialog({ kind: 'count', med: dialog.med }),
             },
@@ -214,6 +225,9 @@ export function MedicationsSection() {
             },
           ]}
         />
+      )}
+      {dialog?.kind === 'history' && (
+        <MedicationHistory med={dialog.med} intakes={data?.intakes ?? []} onClose={close} />
       )}
       {dialog?.kind === 'remove' && (
         <ConfirmDialog
@@ -249,16 +263,36 @@ function formatPills(n: number) {
   return new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(n);
 }
 
-/** "1 comprimido · 2× por dia", "½ comprimido · dia sim, dia não" */
+/** Dias da semana curtos no idioma do app, de domingo (0) a sábado. */
+function useWeekdayNames() {
+  const { i18n } = useTranslation();
+  // 2026-11-01 é domingo
+  return [0, 1, 2, 3, 4, 5, 6].map((d) =>
+    new Date(Date.UTC(2026, 10, 1 + d, 12)).toLocaleDateString(i18n.language, {
+      weekday: 'short',
+      timeZone: 'UTC',
+    }),
+  );
+}
+
+/** "1 comprimido · 2× por dia", "½ comprimido · dia sim, dia não", "1 comprimido · 08:00, 20:00 · seg, qua" */
 function useScheduleLabel() {
   const { t } = useTranslation();
-  return (med: Pick<Medication, 'dose' | 'times_per_day' | 'every_days'>) => {
+  const names = useWeekdayNames();
+  return (
+    med: Pick<Medication, 'dose' | 'times_per_day' | 'every_days' | 'dose_times' | 'weekdays'>,
+  ) => {
     const dose =
       med.dose === 0.5
         ? t('wellness.meds.half')
         : t('wellness.meds.dose', { count: med.dose, n: formatPills(med.dose) });
     const every = EVERY.find((e) => e.days === med.every_days);
-    const when = every ? t(every.key) : t('wellness.meds.everyN', { count: med.every_days });
+    const when = med.weekdays.length
+      ? med.weekdays.map((d) => names[d]).join(', ')
+      : every
+        ? t(every.key)
+        : t('wellness.meds.everyN', { count: med.every_days });
+    if (med.dose_times.length) return `${dose} · ${med.dose_times.join(', ')} · ${when}`;
     return med.times_per_day > 1
       ? `${dose} · ${t('wellness.meds.timesPerDay', { count: med.times_per_day })} · ${when}`
       : `${dose} · ${when}`;
@@ -268,11 +302,13 @@ function useScheduleLabel() {
 function MedicationRow({
   med,
   balance,
+  taken,
   onBought,
   onMenu,
 }: {
   med: Medication;
   balance: MedicationBalance;
+  taken: { taken: number; expected: number } | null;
   onBought: () => void;
   onMenu: () => void;
 }) {
@@ -315,6 +351,11 @@ function MedicationRow({
           {status}
           {balance.state === 'low' && ` · ${t('wellness.meds.buySoon')}`}
         </Text>
+        {taken && taken.expected > 0 && (
+          <Text className="text-xs text-ink-muted">
+            {t('wellness.meds.adherence', { taken: taken.taken, expected: taken.expected })}
+          </Text>
+        )}
       </View>
       <Button
         variant="ghost"
@@ -334,7 +375,15 @@ function MedicationRow({
 
 type FormFields = Pick<
   Medication,
-  'name' | 'dose' | 'times_per_day' | 'every_days' | 'pack_size' | 'stock'
+  | 'name'
+  | 'dose'
+  | 'times_per_day'
+  | 'every_days'
+  | 'pack_size'
+  | 'stock'
+  | 'dose_times'
+  | 'weekdays'
+  | 'show_name'
 >;
 
 /** Novo remédio ou editar: nome, quanto toma, a caixa e quantos tem agora. */
@@ -355,6 +404,12 @@ function MedicationForm({
   const [every, setEvery] = useState(med?.every_days ?? 1);
   const [pack, setPack] = useState(med?.pack_size ? String(med.pack_size) : '');
   const [stock, setStock] = useState(med ? formatPills(medicationBalance(med, today).left) : '');
+  const [clock, setClock] = useState(med?.dose_times.join(', ') ?? '');
+  const [days, setDays] = useState<number[]>(med?.weekdays ?? []);
+  const [pickDays, setPickDays] = useState((med?.weekdays.length ?? 0) > 0);
+  const [showName, setShowName] = useState(med?.show_name ?? false);
+  const names = useWeekdayNames();
+  const doseTimes = parseDoseTimes(clock);
   const doseValue = parsePills(dose);
   const stockValue = parsePills(stock || pack);
   const packValue = pack ? parsePills(pack) : null;
@@ -363,17 +418,24 @@ function MedicationForm({
     doseValue != null &&
     doseValue > 0 &&
     stockValue != null &&
+    doseTimes != null &&
+    (!pickDays || days.length > 0) &&
     (!pack || (packValue != null && Number.isInteger(packValue) && packValue > 0));
 
   function save() {
-    if (!valid || doseValue == null || stockValue == null) return;
+    if (!valid || doseValue == null || stockValue == null || doseTimes == null) return;
+    const weekdays = pickDays ? [...days].sort() : [];
     const fields: FormFields = {
       name: name.trim(),
       dose: doseValue,
-      times_per_day: times,
-      every_days: every,
+      // Com horários, as vezes por dia são eles; com dias da semana, o "a cada" é 1
+      times_per_day: doseTimes.length || times,
+      every_days: weekdays.length ? 1 : every,
       pack_size: packValue,
       stock: stockValue,
+      dose_times: doseTimes,
+      weekdays,
+      show_name: showName,
     };
     // Editar sem mexer no "tenho agora" não regrava a contagem (mantém a data dela)
     const counted = !med || stockValue !== medicationBalance(med, today).left;
@@ -409,15 +471,17 @@ function MedicationForm({
           accessibilityRole="radiogroup"
           accessibilityLabel={t('wellness.meds.howOften')}
         >
-          {TIMES.map((n) => (
-            <Chip
-              key={n}
-              role="radio"
-              label={t('wellness.meds.timesPerDay', { count: n })}
-              selected={times === n}
-              onPress={() => setTimes(n)}
-            />
-          ))}
+          {doseTimes?.length
+            ? null
+            : TIMES.map((n) => (
+                <Chip
+                  key={n}
+                  role="radio"
+                  label={t('wellness.meds.timesPerDay', { count: n })}
+                  selected={times === n}
+                  onPress={() => setTimes(n)}
+                />
+              ))}
         </View>
         <View
           className="flex-row flex-wrap gap-2"
@@ -429,11 +493,58 @@ function MedicationForm({
               key={e.days}
               role="radio"
               label={t(e.key)}
-              selected={every === e.days}
-              onPress={() => setEvery(e.days)}
+              selected={!pickDays && every === e.days}
+              onPress={() => {
+                setPickDays(false);
+                setEvery(e.days);
+              }}
             />
           ))}
+          <Chip
+            role="radio"
+            label={t('wellness.meds.pickDays')}
+            selected={pickDays}
+            onPress={() => setPickDays(true)}
+          />
         </View>
+        {pickDays && (
+          <View
+            className="flex-row flex-wrap gap-2"
+            accessibilityLabel={t('wellness.meds.pickDays')}
+          >
+            {names.map((label, d) => (
+              <Chip
+                key={d}
+                role="checkbox"
+                label={label}
+                selected={days.includes(d)}
+                onPress={() =>
+                  setDays((v) => (v.includes(d) ? v.filter((x) => x !== d) : [...v, d]))
+                }
+              />
+            ))}
+          </View>
+        )}
+      </View>
+      <View className="gap-1">
+        <Text className="text-sm text-ink">{t('wellness.meds.doseTimes')}</Text>
+        <Input
+          accessibilityLabel={t('wellness.meds.doseTimes')}
+          value={clock}
+          placeholder={t('wellness.meds.doseTimesPlaceholder')}
+          onChangeText={setClock}
+        />
+        <Text className={cn('text-xs', doseTimes ? 'text-ink-muted' : 'text-danger')}>
+          {doseTimes ? t('wellness.meds.doseTimesHint') : t('wellness.meds.doseTimesInvalid')}
+        </Text>
+        {!!doseTimes?.length && (
+          <ToggleRow
+            title={t('wellness.meds.showName')}
+            hint={t('wellness.meds.showNameHint')}
+            value={showName}
+            onChange={setShowName}
+          />
+        )}
       </View>
       <View className="flex-row gap-3">
         <View className="flex-1 gap-1">

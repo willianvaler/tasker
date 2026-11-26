@@ -33,4 +33,12 @@ The first time, the app asks for your consent: medicines are health data, sensit
 - **Bought:** enter how many pills you bought (the box size is filled in); they are added to what is left.
 - In the medicine’s **…**: **Edit**, **Count again** (count what is left and the estimate restarts today), **Stop taking** (no more counting down until you take it again) and **Delete**.
 
+### Times, reminder and history
+
+- On the medicine, **Times** (optional, e.g. `08:00, 20:00`, up to 12) and **Pick the days** of the week (e.g. Mon, Wed and Fri). With times, they set how many times a day.
+- At dose time a reminder arrives (in the 🔔 and, in the phone app, with the **Taken**, **Skip** and **Snooze 15 min** buttons). **Snooze** works up to 3 times per dose; after each snooze, the reminder comes back.
+- The reminder only says **"Time for your medicine"**, without the name, because it shows even on the lock screen. To see the name, turn on **Show the name in the reminder** for that medicine.
+- In **Today's doses**, at the top of the section, you answer the same three options (and **Undo**). Each medicine shows how many doses you took in the last 7 days, and **…** → **History** lists the answers from the last 30 days.
+- The app only keeps what you write: no leaflet, interactions, recommended dose or advice.
+
 The estimate assumes you took every dose since the last count, starting the day after it. If you missed some, use **Count again**. Medicines work offline, like tasks; giving consent needs a connection.

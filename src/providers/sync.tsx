@@ -57,6 +57,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   body_goals: [['body']],
   sensitive_consents: [['body'], ['medications'], ['sensitive-consent']],
   medications: [['medications']],
+  medication_intakes: [['medications']],
 };
 
 // Com mutação de tarefa em andamento, estas só releem quando a fila esvaziar: o progresso das

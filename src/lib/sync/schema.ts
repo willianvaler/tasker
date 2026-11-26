@@ -253,8 +253,23 @@ const medications = new Table({
   stock_on: column.text,
   paused: column.integer,
   notes: column.text,
+  // SA3: arrays viram texto JSON no SQLite
+  dose_times: column.text,
+  weekdays: column.text,
+  show_name: column.integer,
   created_at: column.text,
   updated_at: column.text,
+});
+// Histórico das doses (SA3, D385): id calculado do remédio, do dia e do horário
+const medication_intakes = new Table({
+  user_id: column.text,
+  medication_id: column.text,
+  day: column.text,
+  slot: column.text,
+  status: column.text,
+  snoozes: column.integer,
+  snoozed_until: column.text,
+  acted_at: column.text,
 });
 // Saúde (SA2, D383): preferências (id = a pessoa) e a água do dia
 const health_settings = new Table({
@@ -727,6 +742,7 @@ export const AppSchema = new Schema({
   body_goals,
   sensitive_consents,
   medications,
+  medication_intakes,
   health_settings,
   water_logs,
   sleep_logs,

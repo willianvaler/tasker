@@ -549,7 +549,10 @@
     "channel": "Avisos",
     "denied": "Permiso denegado. Actívalo en los ajustes del teléfono.",
     "noProject": "App sin proyecto EAS configurado (ver PUBLICACAO.md).",
-    "browser": "En el navegador, los avisos aparecen en la campana."
+    "browser": "En el navegador, los avisos aparecen en la campana.",
+    "medTaken": "Tomé",
+    "medSkip": "Saltar",
+    "medSnooze": "Posponer 15 min"
   },
   "character": {
     "title": "Personaje",
@@ -4051,7 +4054,34 @@
       "pause": "Dejar de tomar",
       "resume": "Volver a tomar",
       "options": "Opciones de {{name}}",
-      "removeTitle": "¿Borrar {{name}}?"
+      "removeTitle": "¿Borrar {{name}}?",
+      "today": "Dosis de hoy",
+      "stateTaken": "Tomada",
+      "stateSkipped": "Saltada",
+      "stateSnoozed_one": "Pospuesta hasta las {{time}} ({{count}} de 3)",
+      "stateSnoozed_other": "Pospuesta hasta las {{time}} ({{count}} de 3)",
+      "stateDue": "Es la hora",
+      "stateLater": "Más tarde",
+      "undoDose": "Deshacer {{dose}}",
+      "taken": "Tomé",
+      "takenDose": "Tomé {{dose}}",
+      "skip": "Saltar",
+      "skipDose": "Saltar {{dose}}",
+      "snooze": "Posponer 15 min",
+      "snoozeDose": "Posponer {{dose}}",
+      "history": "Historial",
+      "historyTitle": "Historial de {{name}}",
+      "historyEmpty": "Ninguna dosis respondida en los últimos 30 días.",
+      "historySnoozed_one": "pospuesta {{count}} vez",
+      "historySnoozed_other": "pospuesta {{count}} veces",
+      "adherence": "Últimos 7 días: tomó {{taken}} de {{expected}}",
+      "pickDays": "Elegir los días",
+      "doseTimes": "Horarios (opcional)",
+      "doseTimesPlaceholder": "08:00, 20:00",
+      "doseTimesHint": "Con horario, la app avisa a la hora con Tomé, Saltar y Posponer y guarda el historial.",
+      "doseTimesInvalid": "Escribe horarios como 08:00, 20:00 (hasta 12).",
+      "showName": "Mostrar el nombre en el aviso",
+      "showNameHint": "Apagado, el aviso dice solo \"Hora del remedio\" (aparece incluso en la pantalla de bloqueo)."
     }
   },
   "bossPanel": {

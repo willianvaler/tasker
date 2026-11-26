@@ -56,6 +56,10 @@ const TEXT: Record<
     booking_cancelled: (p) => `${p.guest} cancelou ${p.type_name} de ${p.when}`,
     booking_rescheduled: (p) => `${p.guest} remarcou ${p.type_name} para ${p.when}`,
     poll_vote: (p) => `${p.guest} respondeu a enquete "${p.title}"`,
+    medication: (p) =>
+      n(p.round)
+        ? `💊 ${p.slot} · ${p.name ?? 'Remédio'}: acabou o adiamento`
+        : `💊 ${p.slot} · ${p.name ?? 'Hora do remédio'}`,
     other: () => 'Novidade',
   },
   en: {
@@ -99,6 +103,10 @@ const TEXT: Record<
     booking_cancelled: (p) => `${p.guest} canceled ${p.type_name} on ${p.when}`,
     booking_rescheduled: (p) => `${p.guest} moved ${p.type_name} to ${p.when}`,
     poll_vote: (p) => `${p.guest} answered the poll "${p.title}"`,
+    medication: (p) =>
+      n(p.round)
+        ? `💊 ${p.slot} · ${p.name ?? 'Medicine'}: snooze is over`
+        : `💊 ${p.slot} · ${p.name ?? 'Time for your medicine'}`,
     other: () => 'News',
   },
   es: {
@@ -143,6 +151,10 @@ const TEXT: Record<
     booking_cancelled: (p) => `${p.guest} canceló ${p.type_name} del ${p.when}`,
     booking_rescheduled: (p) => `${p.guest} cambió ${p.type_name} al ${p.when}`,
     poll_vote: (p) => `${p.guest} respondió la encuesta "${p.title}"`,
+    medication: (p) =>
+      n(p.round)
+        ? `💊 ${p.slot} · ${p.name ?? 'Remedio'}: terminó la espera`
+        : `💊 ${p.slot} · ${p.name ?? 'Hora del remedio'}`,
     other: () => 'Novedad',
   },
 };
@@ -280,6 +292,9 @@ export function describeNotification(
     case 'poll_vote':
       // Enquete de horário (AG4): abre a enquete na tela da dona
       return { text: say('poll_vote'), url: `/enquetes/${p.poll_id}` };
+    case 'medication':
+      // Dose de remédio (SA3): o nome só vem no payload se a pessoa pediu (V15-7)
+      return { text: say('medication'), url: '/bem-estar' };
     case 'task_reminder': {
       // Lembrete de tarefa com horário (D206): "⏰ 20/10 15:00 · Ligar para o banco" (10/20 em inglês)
       const [, m, d] = String(p.due_date ?? '').split('-');
@@ -333,5 +348,26 @@ function pushMessage(notification: NotificationLike, to: string, locale: string)
             : teamInvite
               ? `/team-invite/${teamInvite}`
               : '/notifications';
+  // Dose de remédio (SA3): botões Tomei, Pular e Adiar (sem Adiar depois do 3º); a resposta do
+  // toque grava o histórico no app (lib/push.ts)
+  if (notification.kind === 'medication') {
+    const p = (notification.payload ?? {}) as P;
+    return {
+      to,
+      title: 'Questlist',
+      body: text,
+      sound: 'default',
+      categoryId: n(p.round) >= 3 ? 'medication_last' : 'medication',
+      data: {
+        url,
+        medication: {
+          medication_id: p.medication_id,
+          day: p.day,
+          slot: p.slot,
+          round: n(p.round) || 0,
+        },
+      },
+    };
+  }
   return { to, title: 'Questlist', body: text, sound: 'default', data: { url } };
 }

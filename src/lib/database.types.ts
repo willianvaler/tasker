@@ -1483,16 +1483,42 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
-                },"medications": {
+                },"medication_intakes": {
                   Row: {
-                    "created_at": string,"dose": number,"every_days": number,"id": string,"name": string,"notes": string | null,"pack_size": number | null,"paused": boolean,"stock": number,"stock_on": string,"times_per_day": number,"updated_at": string,"user_id": string
+                    "acted_at": string,"day": string,"id": string,"medication_id": string,"slot": string,"snoozed_until": string | null,"snoozes": number,"status": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"dose"?: number,"every_days"?: number,"id"?: string,"name": string,"notes"?: string | null,"pack_size"?: number | null,"paused"?: boolean,"stock"?: number,"stock_on": string,"times_per_day"?: number,"updated_at"?: string,"user_id"?: string
+                    "acted_at"?: string,"day": string,"id": string,"medication_id": string,"slot": string,"snoozed_until"?: string | null,"snoozes"?: number,"status": string,"user_id"?: string
                   }
                   Update: {
-                    "created_at"?: string,"dose"?: number,"every_days"?: number,"id"?: string,"name"?: string,"notes"?: string | null,"pack_size"?: number | null,"paused"?: boolean,"stock"?: number,"stock_on"?: string,"times_per_day"?: number,"updated_at"?: string,"user_id"?: string
+                    "acted_at"?: string,"day"?: string,"id"?: string,"medication_id"?: string,"slot"?: string,"snoozed_until"?: string | null,"snoozes"?: number,"status"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "medication_intakes_medication_id_fkey"
+      columns: ["medication_id"]
+isOneToOne: false
+      referencedRelation: "medications"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "medication_intakes_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"medications": {
+                  Row: {
+                    "created_at": string,"dose": number,"dose_times": (string)[],"every_days": number,"id": string,"name": string,"notes": string | null,"pack_size": number | null,"paused": boolean,"show_name": boolean,"stock": number,"stock_on": string,"times_per_day": number,"updated_at": string,"user_id": string,"weekdays": (number)[]
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"dose"?: number,"dose_times"?: (string)[],"every_days"?: number,"id"?: string,"name": string,"notes"?: string | null,"pack_size"?: number | null,"paused"?: boolean,"show_name"?: boolean,"stock"?: number,"stock_on": string,"times_per_day"?: number,"updated_at"?: string,"user_id"?: string,"weekdays"?: (number)[]
+                  }
+                  Update: {
+                    "created_at"?: string,"dose"?: number,"dose_times"?: (string)[],"every_days"?: number,"id"?: string,"name"?: string,"notes"?: string | null,"pack_size"?: number | null,"paused"?: boolean,"show_name"?: boolean,"stock"?: number,"stock_on"?: string,"times_per_day"?: number,"updated_at"?: string,"user_id"?: string,"weekdays"?: (number)[]
                   }
                   Relationships: [
                     {
@@ -3825,6 +3851,9 @@ isOneToOne: false
 "_max_mp":
 { Args: { "p_user": string }; Returns: number
                            },
+"_medication_dose_day":
+{ Args: { "p_day": string,"p_every": number,"p_stock_on": string,"p_weekdays": (number)[] }; Returns: boolean
+                           },
 "_missed_dailies":
 { Args: { "p_day": string,"p_user": string }; Returns: {
               "priority": number,"task_id": string,"title": string
@@ -4665,6 +4694,9 @@ isOneToOne: false
 "has_sensitive_consent":
 { Args: { "p_purpose": string }; Returns: boolean
                            },
+"has_sensitive_consent_of":
+{ Args: { "p_purpose": string,"p_user": string }; Returns: boolean
+                           },
 "hatch_pet":
 { Args: { "p_potion": string,"p_species": string }; Returns: Json
                            },
@@ -5031,6 +5063,9 @@ isOneToOne: false
                            },
 "save_time_poll":
 { Args: { "p_duration": number,"p_id": string,"p_note": string,"p_slots": (string)[],"p_title": string }; Returns: string
+                           },
+"send_medication_reminders":
+{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "send_task_reminders":
 { Args: Record<PropertyKey, never>; Returns: number

@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import { currentLocale, tr } from './i18n-ref';
+import { intakeFor } from './medications';
+import { saveIntake } from './queries/medications';
 import { localStore } from './storage';
 import { supabase } from './supabase';
 
@@ -93,10 +95,58 @@ export function hasPushToken() {
   return !!localStore.getItem(TOKEN_KEY);
 }
 
+// Botões do aviso de remédio (SA3, D385): o id da categoria vem da Edge Function. Abrem o app (assim
+// o JavaScript roda com certeza, mesmo com o app fechado) e gravam a dose no histórico.
+const MED_ACTIONS = ['taken', 'skipped', 'snoozed'] as const;
+type MedAction = (typeof MED_ACTIONS)[number];
+
+function registerMedicationCategories() {
+  const button = (id: MedAction) => ({
+    identifier: id,
+    buttonTitle: tr(
+      id === 'taken' ? 'push.medTaken' : id === 'skipped' ? 'push.medSkip' : 'push.medSnooze',
+    ),
+    options: { opensAppToForeground: true },
+  });
+  Notifications.setNotificationCategoryAsync('medication', MED_ACTIONS.map(button)).catch(() => {});
+  Notifications.setNotificationCategoryAsync('medication_last', [
+    button('taken'),
+    button('skipped'),
+  ]).catch(() => {});
+}
+
+type MedData = { medication_id?: unknown; day?: unknown; slot?: unknown; round?: unknown };
+
+async function answerMedication(action: MedAction, data: MedData) {
+  if (typeof data.medication_id !== 'string' || typeof data.day !== 'string') return;
+  const intake = intakeFor(
+    data.medication_id,
+    data.day,
+    String(data.slot ?? ''),
+    action,
+    { snoozes: Number(data.round) || 0 },
+    new Date(),
+  );
+  if (!intake) return;
+  await saveIntake(intake);
+  const { queryClient } = await import('../providers/query');
+  await queryClient.invalidateQueries({ queryKey: ['medications'] });
+}
+
 /** Tocar no aviso abre a tarefa ou o projeto (data.url vem da Edge Function). */
 export function usePushTapHandler() {
   useEffect(() => {
+    registerMedicationCategories();
     const open = (response: Notifications.NotificationResponse) => {
+      const action = response.actionIdentifier as MedAction;
+      if (MED_ACTIONS.includes(action)) {
+        const med = response.notification.request.content.data?.medication as MedData | undefined;
+        if (med) answerMedication(action, med).catch(() => {});
+        Notifications.dismissNotificationAsync(response.notification.request.identifier).catch(
+          () => {},
+        );
+        return;
+      }
       if (response.actionIdentifier !== Notifications.DEFAULT_ACTION_IDENTIFIER) return;
       const url = response.notification.request.content.data?.url;
       if (typeof url === 'string' && url.startsWith('/')) router.push(url as Href);
