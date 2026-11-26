@@ -2347,6 +2347,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"sensitive_releases": {
+                  Row: {
+                    "created_at": string,"field": string,"id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"field": string,"id"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"field"?: string,"id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "sensitive_releases_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"share_checks": {
                   Row: {
                     "cycle_key": string,"done_at": string,"id": string,"note": string | null,"page_id": string,"task_id": string,"user_id": string,"values": Json | null
@@ -3943,6 +3963,12 @@ isOneToOne: false
 "_seed_session_progress":
 { Args: { "p_session_id": string }; Returns: undefined
                            },
+"_sensitive_field":
+{ Args: { "p_field": string }; Returns: string
+                           },
+"_sensitive_released":
+{ Args: { "p_user": string }; Returns: Json
+                           },
 "_set_records":
 { Args: { "p_set": Omit<Database["public"]['Tables']["workout_sets"]['Row'], Database["public"]['Tables']["workout_sets"]['ComputedFields']> }; Returns: (string)[]
                            },
@@ -4871,6 +4897,9 @@ isOneToOne: false
               "context": string,"id": string,"title": string,"type": string
             }[]
                            },
+"release_sensitive_field":
+{ Args: { "p_field": string }; Returns: string
+                           },
 "remind_student":
 { Args: { "p_share_id": string }; Returns: undefined
                            },
@@ -5189,6 +5218,9 @@ isOneToOne: false
                            },
 "unpublish_note":
 { Args: { "p_note": string }; Returns: undefined
+                           },
+"unrelease_sensitive_field":
+{ Args: { "p_field": string }; Returns: undefined
                            },
 "unshare_note":
 { Args: { "p_note": string,"p_user": string }; Returns: undefined

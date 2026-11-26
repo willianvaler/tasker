@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { DataRequests } from '@/components/data-requests';
+import { SensitiveReleases } from '@/components/sensitive-releases';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog, PromptDialog, useDialog } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
@@ -76,6 +77,7 @@ export function PrivacySection() {
 
   return (
     <View className="gap-3">
+      <SensitiveReleases />
       {usage.data !== undefined && (
         <Text className="text-sm text-ink-muted">
           {t('attach.usage', {

@@ -84,6 +84,8 @@ export type Contexto = {
   idioma?: string;
   /** `usuario.*`: nome, nível, sequência e XP da dona, só leitura. */
   usuario?: Record<string, unknown>;
+  /** Campos sensíveis liberados pela dona para sair por webhook (SA0). Sem a lista, nenhum. */
+  liberados?: string[];
 };
 
 /** Efeito que o banco aplica junto com o avanço do passo. `tipo` é do lado do banco (_automation_effect). */
@@ -158,7 +160,40 @@ const ESPACOS: Record<string, string> = {
   webhook: 'hook',
   dispositivo: 'dispositivo',
   device: 'dispositivo',
+  // Dado sensível do V15 (§1.3): só sai num webhook se a pessoa liberou o campo (SA0, D382)
+  saude: 'saude',
+  health: 'saude',
+  salud: 'saude',
+  local: 'local',
+  location: 'local',
+  ubicacion: 'local',
+  camera: 'camera',
+  cam: 'camera',
+  camara: 'camera',
 };
+
+/** Espaços de dado sensível (V15-4): bloqueados em webhook, API e MCP sem liberação campo a campo. */
+export const ESPACOS_SENSIVEIS = ['saude', 'local', 'camera', 'dispositivo'] as const;
+
+/**
+ * Campos sensíveis citados em `{{ }}` nos textos que não foram liberados (`ctx.liberados`, da tabela
+ * `sensitive_releases`). Liberar `saude.agua` vale para `saude.agua.ml`; sem a lista, nada passa.
+ */
+export function sensiveisBloqueados(textos: string[], ctx: Contexto): string[] {
+  const liberados = ctx.liberados ?? [];
+  const out = new Set<string>();
+  for (const texto of textos) {
+    for (const m of texto.matchAll(/\{\{([^{}]*)\}\}/g)) {
+      const partes = partir(m[1])[0].trim().toLowerCase().split('.').filter(Boolean);
+      const espaco = ESPACOS[partes[0] ?? ''];
+      if (!espaco || !(ESPACOS_SENSIVEIS as readonly string[]).includes(espaco)) continue;
+      const campo = [espaco, ...partes.slice(1)].join('.');
+      const ok = liberados.some((l) => campo === l || campo.startsWith(`${l}.`));
+      if (!ok) out.add(campo);
+    }
+  }
+  return [...out];
+}
 
 const CAMPOS: Record<string, string> = {
   task: 'tarefa',
@@ -734,6 +769,8 @@ export type Execucao = {
   fuso?: string;
   idioma?: string;
   usuario?: Record<string, unknown>;
+  /** Campos sensíveis liberados (do `automation_claim`, SA0). */
+  liberados?: string[];
 };
 
 export type Commit = {
@@ -819,6 +856,7 @@ export async function executeRun(
       fuso: run.fuso,
       idioma: run.idioma,
       usuario: run.usuario,
+      liberados: run.liberados,
     };
     const a = advance(programa, pc, ctx, registro);
     let efeito = a.efeito ?? null;
@@ -1131,6 +1169,13 @@ export const PASSOS_BASE: TipoPasso[] = [
     // O corpo é um objeto JSON: cada texto é expandido e o JSON.stringify faz o escape (V14 §2.1)
     execute: (ctx, p) => {
       const avisos: string[] = [];
+      // V15-4: dado sensível só sai se a pessoa liberou o campo (a recusa é aqui, no servidor)
+      const bloqueados = sensiveisBloqueados([JSON.stringify([p.url, p.cabecalhos, p.corpo])], ctx);
+      if (bloqueados.length)
+        return {
+          erro: `Dado sensível bloqueado no webhook: ${bloqueados.join(', ')}. Libere o campo em Configurações → Privacidade para mandar.`,
+          avisos,
+        };
       const url = txt(p.url, ctx, avisos);
       if (!/^https:\/\//i.test(url)) return { erro: 'Só endereços https://', avisos };
       const metodo = String(p.metodo ?? 'POST').toUpperCase();

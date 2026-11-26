@@ -5956,5 +5956,21 @@
     "swapHint": "Who does it now instead of {{name}} (they swap places in the order):",
     "swapped": "Swapped. {{name}} was notified.",
     "edit": "Edit rotation"
+  },
+  "health": {
+    "notice": "Questlist isn't a medical device: it keeps what you write down, without interpreting it, recommending doses or diagnosing.",
+    "consentTitle": "Health data",
+    "consentBody": "Sleep, water, test results and anything else you log here are health data (sensitive data under privacy law). They stay in your account only, with no friends, teams or Community seeing them, are included in the export and are removed when the account is deleted. Withdrawing consent in Settings deletes everything right away.",
+    "consentAccept": "I agree to store my health data"
+  },
+  "sensitive": {
+    "title": "Sensitive data in automations",
+    "hint": "Health, location, camera and device data don't go out in a webhook unless you release the field here (e.g. saude.agua.ml). Automations that try to send another field stop with a warning in the history.",
+    "none": "No fields released.",
+    "listLabel": "Released fields",
+    "remove": "Block {{field}} again",
+    "placeholder": "saude.agua.ml",
+    "fieldLabel": "Sensitive field to release",
+    "add": "Release field"
   }
 }

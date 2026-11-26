@@ -5956,5 +5956,21 @@
     "swapHint": "Quem faz agora no lugar de {{name}} (as duas trocam de lugar na ordem):",
     "swapped": "Trocado. {{name}} foi avisada.",
     "edit": "Editar rodízio"
+  },
+  "health": {
+    "notice": "O Questlist não é dispositivo médico: guarda o que você anota, sem interpretar, recomendar dose ou diagnosticar.",
+    "consentTitle": "Dados de saúde",
+    "consentBody": "Sono, água, exames e o que mais você registrar aqui são dados de saúde (dado sensível pela LGPD). Ficam só na sua conta, sem amigos, times ou Comunidade verem, entram na exportação e saem com a exclusão da conta. Tirar o consentimento em Configurações apaga tudo na hora.",
+    "consentAccept": "Concordo em guardar meus dados de saúde"
+  },
+  "sensitive": {
+    "title": "Dados sensíveis em automações",
+    "hint": "Saúde, local, câmera e dispositivo não saem num webhook a menos que você libere o campo aqui (ex.: saude.agua.ml). As automações que tentam mandar outro campo param com um aviso no histórico.",
+    "none": "Nenhum campo liberado.",
+    "listLabel": "Campos liberados",
+    "remove": "Bloquear de novo {{field}}",
+    "placeholder": "saude.agua.ml",
+    "fieldLabel": "Campo sensível para liberar",
+    "add": "Liberar campo"
   }
 }

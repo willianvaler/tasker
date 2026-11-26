@@ -61,6 +61,10 @@ Cada chamada leva também `X-Questlist-Idempotency`: se chegar duas vezes com o 
 
 O Discord mostra a mensagem com o nome do webhook. O endereço do webhook é como uma senha: quem tiver o endereço posta no canal. Se ele vazar, apague o webhook no Discord e crie outro. Nenhum dado sensível (saúde, local, câmera, dispositivo) entra na mensagem.
 
+### Dado sensível
+
+Saúde, local, câmera e dispositivo (`{{saude.…}}`, `{{local.…}}`, `{{camera.…}}`, `{{dispositivo.…}}`) **não saem** num webhook: a automação para com o aviso "Dado sensível bloqueado" no histórico. Para mandar um campo, libere-o em **Configurações → Seus dados → Dados sensíveis em automações** (ex.: `saude.agua.ml`; liberar `saude.agua` vale para tudo dentro dele). Os processos nunca mandam dado sensível.
+
 ## Receber uma chamada (webhook de entrada)
 
 Numa automação com o gatilho **Chamada de fora**, **Gerar endereço** mostra o endereço **uma vez** (guarde). Mande um `POST` com JSON ou formulário, até 16 KB; a resposta é sempre `202`, sem corpo. **Trocar endereço** invalida o antigo na hora. Há um limite de chamadas por minuto; acima dele, a resposta é `429`.

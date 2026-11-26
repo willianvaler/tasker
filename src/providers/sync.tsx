@@ -51,7 +51,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   workout_moves: [['workout-moves']],
   body_metrics: [['body']],
   body_goals: [['body']],
-  sensitive_consents: [['body'], ['medications']],
+  sensitive_consents: [['body'], ['medications'], ['sensitive-consent']],
   medications: [['medications']],
 };
 

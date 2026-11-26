@@ -5956,5 +5956,21 @@
     "swapHint": "Quién lo hace ahora en lugar de {{name}} (cambian de lugar en el orden):",
     "swapped": "Cambiado. Se avisó a {{name}}.",
     "edit": "Editar turnos"
+  },
+  "health": {
+    "notice": "Questlist no es un dispositivo médico: guarda lo que anotas, sin interpretar, recomendar dosis ni diagnosticar.",
+    "consentTitle": "Datos de salud",
+    "consentBody": "Sueño, agua, exámenes y lo demás que registres aquí son datos de salud (dato sensible por la ley de privacidad). Quedan solo en tu cuenta, sin que amigos, equipos o la Comunidad los vean, entran en la exportación y se borran con la cuenta. Retirar el consentimiento en Configuración lo borra todo al instante.",
+    "consentAccept": "Acepto guardar mis datos de salud"
+  },
+  "sensitive": {
+    "title": "Datos sensibles en automatizaciones",
+    "hint": "Salud, ubicación, cámara y dispositivo no salen en un webhook a menos que liberes el campo aquí (ej.: saude.agua.ml). Las automatizaciones que intenten mandar otro campo se detienen con un aviso en el historial.",
+    "none": "Ningún campo liberado.",
+    "listLabel": "Campos liberados",
+    "remove": "Bloquear de nuevo {{field}}",
+    "placeholder": "saude.agua.ml",
+    "fieldLabel": "Campo sensible para liberar",
+    "add": "Liberar campo"
   }
 }

@@ -657,3 +657,69 @@ describe('limites e Testar (AU6)', () => {
     );
   });
 });
+
+describe('dado sensível no webhook (SA0, V15-4)', () => {
+  const webhook = PASSOS_BASE.find((p) => p.id === 'enviar_webhook')!;
+  const corpo = {
+    texto: 'Bebi {{saude.agua.ml}} mL em {{local.nome}}',
+    nivel: '{{usuario.nivel}}',
+  };
+
+  test('sem liberação, o webhook com saude.* ou local.* é recusado', () => {
+    const r = webhook.execute(ctx(), {
+      tipo: 'enviar_webhook',
+      url: 'https://exemplo.com/h',
+      corpo,
+    });
+    expect(r.erro).toMatch(/Dado sensível bloqueado no webhook: saude\.agua\.ml, local\.nome/);
+    expect(r.efeito).toBeUndefined();
+  });
+
+  test('apelidos em inglês e espanhol também contam, inclusive na URL e no cabeçalho', () => {
+    expect(
+      webhook.execute(ctx(), {
+        tipo: 'enviar_webhook',
+        url: 'https://exemplo.com/{{health.sleep}}',
+      }).erro,
+    ).toMatch(/saude\.sleep/);
+    expect(
+      webhook.execute(ctx(), {
+        tipo: 'enviar_webhook',
+        url: 'https://x.com',
+        cabecalhos: { X: '{{ubicacion.casa}}' },
+      }).erro,
+    ).toMatch(/local\.casa/);
+    expect(
+      webhook.execute(ctx(), {
+        tipo: 'enviar_webhook',
+        url: 'https://x.com',
+        corpo: { d: '{{ device.tomada }}' },
+      }).erro,
+    ).toMatch(/dispositivo\.tomada/);
+  });
+
+  test('o campo liberado (ou um pai dele) passa; o resto continua bloqueado', () => {
+    const r = webhook.execute(ctx({ liberados: ['saude.agua'] }), {
+      tipo: 'enviar_webhook',
+      url: 'https://x.com',
+      corpo,
+    });
+    expect(r.erro).toMatch(/bloqueado no webhook: local\.nome\./);
+    const ok = webhook.execute(ctx({ liberados: ['saude.agua', 'local.nome'] }), {
+      tipo: 'enviar_webhook',
+      url: 'https://x.com',
+      corpo,
+    });
+    expect(ok.erro).toBeUndefined();
+    expect(ok.efeito).toMatchObject({ tipo: 'webhook' });
+  });
+
+  test('sem dado sensível, nada muda', () => {
+    const r = webhook.execute(ctx(), {
+      tipo: 'enviar_webhook',
+      url: 'https://x.com',
+      corpo: { n: '{{usuario.nivel}}' },
+    });
+    expect(r.erro).toBeUndefined();
+  });
+});

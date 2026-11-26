@@ -61,6 +61,10 @@ Every call also carries `X-Questlist-Idempotency`: if it arrives twice with the 
 
 Discord shows the message with the webhook's name. The webhook address works like a password: anyone who has it can post to the channel. If it leaks, delete the webhook in Discord and create another. No sensitive data (health, location, camera, device) goes into the message.
 
+### Sensitive data
+
+Health, location, camera and device data (`{{saude.…}}`, `{{local.…}}`, `{{camera.…}}`, `{{dispositivo.…}}`) **don't go out** in a webhook: the automation stops with the warning "Sensitive data blocked" in the history. To send a field, release it in **Settings → Your data → Sensitive data in automations** (e.g. `saude.agua.ml`; releasing `saude.agua` covers everything inside it). Processes never send sensitive data.
+
 ## Receive a call (incoming webhook)
 
 In an automation with the **Incoming call** trigger, **Generate address** shows the address **once** (keep it). Send a `POST` with JSON or a form, up to 16 KB; the answer is always `202`, with no body. **Change address** invalidates the old one at once. There's a per-minute limit; above it, the answer is `429`.
