@@ -10,7 +10,8 @@ test('barra lateral: divisor dos atalhos e dos blocos', async ({ page }, testInf
   const split = page.getByRole('separator', { name: /Altura dos atalhos/ });
   await expect(split).toBeVisible();
   const full = Number(await split.getAttribute('aria-valuenow'));
-  expect(full).toBeGreaterThan(200);
+  // Hoje, Planejar, Entrada, Calendário e Pastas, mais a busca (R4 tirou Hábitos, Bem-estar e Pessoas)
+  expect(full).toBeGreaterThan(160);
 
   const box = (await split.boundingBox())!;
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);

@@ -34,6 +34,6 @@ Toque na caixinha. Errou? O aviso tem **Desfazer**.
 - **Planejar**: calendário, revisão semanal, próximos 7 dias, Caixa de entrada sem data e o que foi atribuído a você.
 - **Pastas**: pastas, listas e projetos (e a Academia, se você treina).
 - **+** no meio da barra de baixo (ou **Novo** na barra lateral): cria tarefa, hábito, anotação, lista, pasta ou projeto.
-- **Mais**: tudo o resto, com nome e uma linha explicando: Pessoas (amigos, times, clã), Jogo, Configurações, Ajuda, Lixeira.
+- **Mais**: tudo o resto, com nome e uma linha explicando: Hábitos, Bem-estar, Pessoas (amigos, times, clã), Jogo, Configurações, Ajuda, Lixeira. No computador, o cartão com o seu nome no rodapé da barra lateral abre o Mais.
 
 No celular, as duas posições ao lado do **+** são suas (de começo, **Anotações** e **Pastas**): troque em **Configurações → Navegação** (Anotações, Planejar, Entrada, Hábitos, Pastas, Treino, Jogo ou Pessoas). O que não está na barra fica no **Mais**. A **lupa** no topo acha qualquer lista, pasta, tela ou ação.

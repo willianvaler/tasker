@@ -204,15 +204,38 @@ export function useFolderActions() {
         )}
         placeholder={t(project ? 'folder.projectPlaceholder' : 'folder.namePlaceholder')}
         project={project}
+        // R4: projeto é uma chave da pasta da raiz (não um tipo escolhido antes); a academia e os
+        // grupos de treino ficam de fora
+        canToggleProject={
+          editing ? !editing.parent_id && !editing.is_gym && !editing.gym_group : !parentId
+        }
+        projectLocked={!!editing?.is_shared}
         initial={editing ?? undefined}
         onClose={close}
-        onConfirm={({ name, icon, color }) => {
-          if (editing) m.updateFolder.mutate({ id: editing.id, name, icon, color }, { onError });
+        onConfirm={({ name, icon, color, project: asProject }) => {
+          const kind = asProject === undefined ? undefined : asProject ? 'project' : 'folder';
+          if (editing)
+            m.updateFolder.mutate(
+              {
+                id: editing.id,
+                name,
+                icon,
+                color,
+                ...(kind && kind !== editing.kind ? { kind } : {}),
+              },
+              { onError },
+            );
           else
             // Abre a pasta nova: o próximo passo é criar páginas nela. mutateAsync: o onSuccess do
             // mutate se perde se quem chamou desmontar antes da resposta
             m.createFolder
-              .mutateAsync({ name, icon, color, parentId, kind: project ? 'project' : 'folder' })
+              .mutateAsync({
+                name,
+                icon,
+                color,
+                parentId,
+                kind: kind ?? (project ? 'project' : 'folder'),
+              })
               .then((id) => router.navigate({ pathname: '/folder/[id]', params: { id } }))
               .catch(onError);
           close();

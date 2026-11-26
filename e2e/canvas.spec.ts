@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 
 import { expect, test, type Page } from '@playwright/test';
 
-import { createPage, openTab, signUp } from './helpers';
+import { createPage, openTab, signUp, waitForSync } from './helpers';
 
 const savedPage = (page: Page) =>
   page.waitForResponse(
@@ -51,7 +51,7 @@ test('canvas: texto, grupo, tarefa de verdade e exportar', async ({ page }, test
   await saved;
   const box = canvas.getByRole('checkbox', { name: `Concluir Pintar ${stamp}` });
   await box.click();
-  await page.waitForResponse((r) => r.url().includes('/rpc/complete_task'));
+  await waitForSync(page);
   await expect(canvas.getByRole('checkbox', { name: `Reabrir Pintar ${stamp}` })).toBeChecked();
 
   // Guardado: volta igual (espera o cache do disco gravar a tarefa concluída)

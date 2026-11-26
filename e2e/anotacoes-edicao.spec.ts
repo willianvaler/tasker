@@ -48,7 +48,8 @@ test('anotações: comandos de barra, callout, destaque, rodapé, tabela e sumá
       '[^1]: Impresso, sem internet na trilha.',
     ].join('\n'),
   );
-  await expect(page.getByText(/^\d+ palavras · /)).toContainText('27 palavras');
+  // Só as palavras: o limite de caracteres aparece acima de 90% (avaliação de UX, M8)
+  await expect(page.getByText(/^\d+ palavras$/)).toHaveText('27 palavras');
 
   await page.getByRole('button', { name: 'Visualizar' }).click();
   await expect(page.getByTestId('callout-tip')).toContainText('Garrafa de 1 L');

@@ -6,8 +6,15 @@ import { IconPicker } from '@/components/icon-picker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { ToggleRow } from '@/components/ui/toggle-row';
 
-export type FolderSettings = { name: string; icon: string | null; color: string | null };
+export type FolderSettings = {
+  name: string;
+  icon: string | null;
+  color: string | null;
+  /** Só com `canToggleProject`: a pasta é um projeto (R4: interruptor, não um tipo à parte) */
+  project?: boolean;
+};
 
 /**
  * Criar ou renomear pasta/projeto: só o nome é obrigatório; ícone e cor do marcador
@@ -17,6 +24,8 @@ export function FolderDialog({
   title,
   placeholder,
   project,
+  canToggleProject,
+  projectLocked,
   initial,
   onConfirm,
   onClose,
@@ -24,6 +33,10 @@ export function FolderDialog({
   title: string;
   placeholder: string;
   project?: boolean;
+  /** Pasta da raiz: mostra a chave Projeto */
+  canToggleProject?: boolean;
+  /** Projeto compartilhado não volta a ser pasta (D78) */
+  projectLocked?: boolean;
   initial?: Partial<FolderSettings>;
   onConfirm: (settings: FolderSettings) => void;
   onClose: () => void;
@@ -32,10 +45,16 @@ export function FolderDialog({
   const [name, setName] = useState(initial?.name ?? '');
   const [icon, setIcon] = useState<string | null>(initial?.icon ?? null);
   const [color, setColor] = useState<string | null>(initial?.color ?? null);
+  const [isProject, setIsProject] = useState(!!project);
 
   function confirm() {
     if (!name.trim()) return;
-    onConfirm({ name: name.trim(), icon, color });
+    onConfirm({
+      name: name.trim(),
+      icon,
+      color,
+      ...(canToggleProject ? { project: isProject } : {}),
+    });
   }
 
   return (
@@ -63,9 +82,18 @@ export function FolderDialog({
             <Text className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
               {t('iconPicker.label')}
             </Text>
+            {canToggleProject && (
+              <ToggleRow
+                title={t('folder.projectToggle')}
+                hint={t(projectLocked ? 'folder.projectLocked' : 'folder.projectToggleHint')}
+                value={isProject}
+                disabled={projectLocked}
+                onChange={setIsProject}
+              />
+            )}
             <IconPicker
               value={icon}
-              kind={project ? 'project' : 'folder'}
+              kind={isProject ? 'project' : 'folder'}
               onChange={setIcon}
               color={color}
               onColor={setColor}

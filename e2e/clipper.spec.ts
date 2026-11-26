@@ -54,5 +54,8 @@ test('web clipper: recorte vira anotação, também depois de entrar', async ({ 
     `Artigo ${stamp}`,
   );
   await expect(page.getByText('Vale ler', { exact: true })).toBeVisible();
-  await expect(page.getByText(`https://exemplo.com/artigo-${stamp}`).first()).toBeVisible();
+  // Abre editando (A5): a origem fica no campo da propriedade
+  await expect(page.getByRole('textbox', { name: 'source' })).toHaveValue(
+    `https://exemplo.com/artigo-${stamp}`,
+  );
 });

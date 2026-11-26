@@ -2,7 +2,8 @@
 
 - Una **lista** guarda tus cosas: compras, entrenamiento, plan de viaje. El tipo puede ser **Tareas**, **Rutina** (checklist en tarjetas que se reinicia; buena para entrenar), **Hábitos**, **Tablero**, **Gastos**, **Base** o **Canvas** (ver Notas). Toda lista de tareas también se abre como **Tablero** (pestaña arriba). En el tablero, arrastra la tarjeta a otra columna (en el móvil, mantenla pulsada antes de arrastrar) o usa las flechas de la tarjeta. Para abrir la tarea, toca el lápiz de la tarjeta.
 - Una **carpeta** agrupa tus listas. Ejemplo: la carpeta **Gimnasio** con Entrenamiento A y B.
-- Un **proyecto** es una carpeta para hacer **con otras personas**. Ejemplo: el proyecto **Asado** con las listas Compras y Día, cada amigo con sus tareas.
+- Un **proyecto** es una carpeta para hacer **con otras personas**. Ejemplo: el proyecto **Asado** con las listas Compras y Día, cada amigo con sus tareas. No es un tipo aparte: al crear o editar una carpeta de la raíz, activa el interruptor **Proyecto** (invitaciones, progreso por persona, hitos y el jefe del proyecto). Compartir una carpeta también la convierte en proyecto, y un proyecto compartido no vuelve a ser carpeta.
+- En la barra lateral, carpetas y proyectos están en **un solo árbol**, y dentro de cada carpeta aparecen sus listas y **notas**. El bloque **Notas** muestra las sueltas (sin carpeta).
 
 ## Cuándo usar cada uno
 

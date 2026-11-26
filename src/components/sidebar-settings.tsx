@@ -12,7 +12,8 @@ import { useIsOnline } from '@/providers/online';
 
 /** Blocos que a conta tem: Academia só com o modo academia ligado. */
 export function availableBlocks(gymOn: boolean): SidebarBlock[] {
-  return ['notes', 'folders', ...(gymOn ? (['gym'] as const) : []), 'projects', 'received'];
+  // R4 (D380): Projetos entram na árvore de Pastas
+  return ['notes', 'folders', ...(gymOn ? (['gym'] as const) : []), 'received'];
 }
 
 export function useBlockLabel() {

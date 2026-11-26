@@ -30,7 +30,7 @@ export default function FoldersScreen() {
   const gymHere = gymOn && !gymInWellness;
   const sectionOrder = resolveBlocks(
     { order: useUiPrefs().sidebar?.order },
-    gymHere ? ['folders', 'gym', 'projects'] : ['folders', 'projects'],
+    gymHere ? ['folders', 'gym'] : ['folders'],
   );
   const received = useReceivedPages();
   const pending = usePendingShares();
@@ -49,7 +49,8 @@ export default function FoldersScreen() {
             kind: 'folder',
             block: 'folders' as const,
             title: t('folder.title'),
-            list: personal,
+            // R4 (D380): uma lista só; o projeto é uma pasta com a chave Projeto
+            list: [...personal, ...projects],
             add: () => actions.newFolder(),
           },
           // V6 §15.1: Academia acima de Projetos; o "+" cria um treino, não uma pasta
@@ -64,13 +65,6 @@ export default function FoldersScreen() {
                 },
               ]
             : []),
-          {
-            kind: 'project',
-            block: 'projects' as const,
-            title: t('folder.projects'),
-            list: projects,
-            add: () => actions.newProject(),
-          },
         ]
           // A ordem dos blocos do perfil (V6 §15.2) vale aqui também; esconder, só na barra lateral
           .sort((a, b) => sectionOrder.indexOf(a.block) - sectionOrder.indexOf(b.block))

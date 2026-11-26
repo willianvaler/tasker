@@ -6,17 +6,16 @@ import { openTab, signUp } from './helpers';
 test('projetos: criar pelo bloco fixo e configurar pelo Perfil', async ({ page }, testInfo) => {
   await signUp(page, testInfo);
   const name = `Obra ${testInfo.project.name} ${Date.now()}`;
-  if (testInfo.project.name === 'desktop') {
-    await page
-      .getByRole('navigation')
-      .getByRole('button', { name: 'Criar o primeiro projeto' })
-      .click();
-  } else {
+  // R4 (D380): projeto é a chave Projeto da pasta, na mesma árvore
+  if (testInfo.project.name === 'desktop')
+    await page.getByRole('navigation').getByRole('button', { name: 'Nova pasta' }).click();
+  else {
     await openTab(page, 'Pastas');
-    await page.getByRole('button', { name: 'Criar o primeiro projeto' }).click();
+    await page.getByRole('button', { name: 'Nova pasta' }).last().click();
   }
-  await page.getByPlaceholder('Nome (ex.: Churrasco do sábado)').fill(name);
-  await page.keyboard.press('Enter');
+  await page.getByPlaceholder('Nome (ex.: Academia)').fill(name);
+  await page.getByRole('switch', { name: 'Projeto' }).click();
+  await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.getByRole('heading', { name })).toBeVisible();
 
   // Pessoas → Projetos e convites (D257)

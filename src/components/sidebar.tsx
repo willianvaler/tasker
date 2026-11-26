@@ -8,13 +8,12 @@ import {
   ChevronRight,
   CircleHelp,
   Dumbbell,
-  HeartPulse,
   Inbox,
   LayoutGrid,
   Plus,
-  Repeat,
   Scale,
   Search,
+  StickyNote,
   Sun,
   User,
   Users,
@@ -35,6 +34,7 @@ import { ItemIcon, type ItemKind } from '@/components/item-icon';
 import { useNewMenu } from '@/components/new-menu';
 import { Badge, useUnreadCount } from '@/components/notifications-bell';
 import { NotesList, useNewNote } from '@/components/notes-block';
+import { useNotes, type Note } from '@/lib/queries/notes';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { IconButton } from '@/components/ui/button';
 import { PendingXp } from '@/components/game-bar';
@@ -80,21 +80,10 @@ const NAV: { href: Href & string; key: NavKey; icon: LucideIcon; also?: string[]
   { href: '/', key: 'today', icon: Sun },
   { href: '/planejar', key: 'plan', icon: CalendarRange, also: ['/mine', '/revisao'] },
   { href: '/inbox', key: 'inbox', icon: Inbox },
-  { href: '/habits', key: 'habits', icon: Repeat },
   { href: '/calendario', key: 'calendar', icon: CalendarDays },
   { href: '/folders', key: 'folders', icon: LayoutGrid, also: ['/folder/'] },
-  {
-    href: '/bem-estar',
-    key: 'wellness',
-    icon: HeartPulse,
-    also: ['/treino', '/biblioteca', '/corpo', '/treino-estatisticas'],
-  },
-  {
-    href: '/pessoas',
-    key: 'people',
-    icon: Users,
-    also: ['/amigos', '/teams', '/team/', '/clan', '/comunidade', '/projetos'],
-  },
+  // R4 (D380): Hábitos, Bem-estar e Pessoas moram no Mais (o cartão do rodapé); a barra fica com o
+  // que se usa todo dia e a árvore
 ];
 
 /** Telas que a barra lateral sempre mostra (o Mais do computador não as repete) */
@@ -110,6 +99,11 @@ export function Sidebar() {
   const pathname = usePathname();
   const tree = useTree();
   const online = useIsOnline();
+  // R4: as anotações de cada pasta entram na árvore (as soltas ficam no bloco Anotações)
+  const notes = useNotes();
+  const notesByFolder = new Map<string, Note[]>();
+  for (const n of notes.data ?? [])
+    if (n.folder_id) notesByFolder.set(n.folder_id, [...(notesByFolder.get(n.folder_id) ?? []), n]);
   const [actions, dialog] = useFolderActions();
   const [open, setOpen] = useState(() => new Set(getOpenFolders()));
   const [width, setWidth] = useState(getSidebarWidth);
@@ -168,29 +162,45 @@ export function Sidebar() {
         {expanded && (
           <>
             {folder.pages.map((page) => renderPage(page, depth + 1))}
+            {/* R4: a anotação mora na pasta, junto das listas (como as páginas do Notion) */}
+            {(notesByFolder.get(folder.id) ?? []).map((note) => (
+              <TreeRow
+                key={note.id}
+                depth={depth + 1}
+                href={`/nota/${note.id}`}
+                label={note.title || t('notes.untitled')}
+                icon={<Icon icon={StickyNote} tone="ink-muted" />}
+                active={pathname === `/nota/${note.id}`}
+              />
+            ))}
             {children.map((child) => renderFolder(child, depth + 1))}
-            {folder.pages.length === 0 && children.length === 0 && online && (
-              <Pressable
-                accessibilityRole="button"
-                className="min-h-8 flex-row items-center gap-2 rounded hover:bg-wash active:bg-wash"
-                style={{ paddingLeft: 28 + (depth + 1) * 12 }}
-                onPress={() =>
-                  folder.gym_group ? actions.newGroupWorkout(folder.id) : actions.newPage(folder.id)
-                }
-              >
-                <Icon icon={Plus} tone="ink-muted" />
-                {/* Y2 (#10): no projeto, "Nova lista", como na tela do projeto */}
-                <Text className="text-sm text-ink-muted">
-                  {t(
+            {folder.pages.length === 0 &&
+              children.length === 0 &&
+              !notesByFolder.has(folder.id) &&
+              online && (
+                <Pressable
+                  accessibilityRole="button"
+                  className="min-h-8 flex-row items-center gap-2 rounded hover:bg-wash active:bg-wash"
+                  style={{ paddingLeft: 28 + (depth + 1) * 12 }}
+                  onPress={() =>
                     folder.gym_group
-                      ? 'gym.newWorkout'
-                      : rootFolder(tree.data, folder.id)?.kind === 'project'
-                        ? 'project.item.new'
-                        : 'nav.newPage',
-                  )}
-                </Text>
-              </Pressable>
-            )}
+                      ? actions.newGroupWorkout(folder.id)
+                      : actions.newPage(folder.id)
+                  }
+                >
+                  <Icon icon={Plus} tone="ink-muted" />
+                  {/* Y2 (#10): no projeto, "Nova lista", como na tela do projeto */}
+                  <Text className="text-sm text-ink-muted">
+                    {t(
+                      folder.gym_group
+                        ? 'gym.newWorkout'
+                        : rootFolder(tree.data, folder.id)?.kind === 'project'
+                          ? 'project.item.new'
+                          : 'nav.newPage',
+                    )}
+                  </Text>
+                </Pressable>
+              )}
           </>
         )}
       </View>
@@ -249,7 +259,9 @@ export function Sidebar() {
               />
             }
           />
+          {/* R4 (D380): uma árvore só; o projeto é uma pasta com a chave Projeto (o ícone mostra) */}
           {personal.map((folder) => renderFolder(folder, 0))}
+          {projects.map((folder) => renderFolder(folder, 0))}
           {tree.data && personal.length + projects.length === 0 && (
             <Pressable
               accessibilityRole="button"
@@ -336,37 +348,8 @@ export function Sidebar() {
         )}
       </>
     ),
-    projects: (
-      <>
-        {/* W2: Projetos sempre à vista, com o "+" para criar direto daqui */}
-        <View>
-          <SectionHeader
-            label={t('nav.projects')}
-            action={
-              <IconButton
-                icon={Plus}
-                label={t('nav.newProjectHere')}
-                disabled={!online}
-                aria-disabled={!online}
-                onPress={() => actions.newProject()}
-              />
-            }
-          />
-          {projects.map((folder) => renderFolder(folder, 0))}
-          {tree.data && projects.length === 0 && (
-            <Pressable
-              accessibilityRole="button"
-              disabled={!online}
-              className="min-h-8 flex-row items-center gap-2 rounded px-2 hover:bg-wash active:bg-wash"
-              onPress={() => actions.newProject()}
-            >
-              <Icon icon={Plus} tone="ink-muted" />
-              <Text className="text-sm text-ink-muted">{t('nav.firstProject')}</Text>
-            </Pressable>
-          )}
-        </View>
-      </>
-    ),
+    // R4: os projetos entram na árvore de Pastas; o bloco antigo não aparece mais
+    projects: null,
     received: (
       <>
         {((received.data?.length ?? 0) > 0 || (pending.data?.length ?? 0) > 0) && (

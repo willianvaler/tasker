@@ -9,7 +9,7 @@ test('horário e lembrete de tarefa', async ({ page }, testInfo) => {
   const input = page.getByPlaceholder('Nova tarefa para hoje…').first();
   const created = page.waitForResponse((r) => r.url().includes('create_tasks_batch') && r.ok());
   await input.fill(`${title} às 23h`);
-  await input.press('Enter');
+  await page.keyboard.press('Enter'); // com o foco, o placeholder vira a dica da sintaxe (M3)
   await created;
   // A linha mostra a hora e o sino do lembrete (padrão: na hora)
   await expect(shown(page, /Hoje 23:00/).first()).toBeVisible();

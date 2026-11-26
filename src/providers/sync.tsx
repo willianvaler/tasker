@@ -39,6 +39,9 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   my_day: [['my-day']],
   notes: [['notes']],
   note_shares: [['notes'], ['note-shares']],
+  // Casa (CS1): o "feito" da manutenção agenda a próxima data no servidor
+  equipments: [['equipments']],
+  maintenance_plans: [['equipments']],
   // Links [[...]] (OB1): o "Citado em" acompanha o que o servidor refez
   links: [['links']],
   page_fields: [['page-fields']],

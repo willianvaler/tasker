@@ -114,11 +114,12 @@ test('tour de usabilidade', async ({ page }, testInfo) => {
   await step('novo-projeto', async () => {
     await openTab(page, 'Pastas');
     await page
-      .getByRole('button', { name: /Novo projeto|Criar o primeiro projeto/ })
-      .first()
+      .getByRole('button', { name: /Nova pasta|Criar a primeira pasta/ })
+      .last()
       .click();
     await page.getByPlaceholder(/Nome/).first().fill('Mudança');
-    await page.keyboard.press('Enter');
+    await page.getByRole('switch', { name: 'Projeto' }).click();
+    await page.getByRole('button', { name: 'Salvar' }).click();
   });
   await step('projeto-aberto', async () => {});
 

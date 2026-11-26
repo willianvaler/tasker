@@ -34,6 +34,6 @@ Toca la casilla. ¿Te equivocaste? El aviso tiene **Deshacer**.
 - **Planificar**: calendario, revisión semanal, los próximos 7 días, la Entrada sin fecha y lo que te asignaron.
 - **Carpetas**: carpetas, listas y proyectos (y el Gimnasio, si entrenas).
 - **+** en el medio de la barra inferior (o **Nuevo** en la barra lateral): crea tarea, hábito, nota, lista, carpeta o proyecto.
-- **Más**: todo lo demás, con nombre y una línea que lo explica: Personas (amigos, equipos, clan), Juego, Ajustes, Ayuda, Papelera.
+- **Más**: todo lo demás, con nombre y una línea que lo explica: Hábitos, Bienestar, Personas (amigos, equipos, clan), Juego, Ajustes, Ayuda, Papelera. En la computadora, la tarjeta con tu nombre al pie de la barra lateral abre Más.
 
 En el móvil, los dos lugares junto al **+** son tuyos (al principio, **Notas** y **Carpetas**): cámbialos en **Ajustes → Navegación** (Notas, Planificar, Entrada, Hábitos, Carpetas, Entreno, Juego o Personas). Lo que no está en la barra queda en **Más**. La **lupa** de arriba encuentra cualquier lista, carpeta, pantalla o acción.

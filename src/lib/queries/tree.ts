@@ -267,14 +267,22 @@ export function useTreeMutations() {
       name,
       icon,
       color,
+      kind,
     }: {
       id: string;
       name: string;
       icon?: string | null;
       /** undefined = não mexe; null = sem cor */
       color?: string | null;
+      /** Pasta ↔ projeto (R4), só na raiz; compartilhado não volta (o banco garante) */
+      kind?: 'folder' | 'project';
     }) => {
-      const patch = { name, icon: icon || null, ...(color === undefined ? {} : { color }) };
+      const patch = {
+        name,
+        icon: icon || null,
+        ...(color === undefined ? {} : { color }),
+        ...(kind ? { kind } : {}),
+      };
       if (isLocal()) return localUpdate('folders', id, patch);
       const { error } = await supabase.from('folders').update(patch).eq('id', id);
       if (error) throw error;

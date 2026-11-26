@@ -34,6 +34,6 @@ Tap the box. Mistake? The notice has **Undo**.
 - **Plan**: calendar, weekly review, the next 7 days, the Inbox without a date and what was assigned to you.
 - **Folders**: folders, lists and projects (and the Gym, if you work out).
 - **+** in the middle of the bottom bar (or **New** in the sidebar): creates a task, habit, note, list, folder or project.
-- **More**: everything else, each with a name and a line explaining it: People (friends, teams, clan), Game, Settings, Help, Trash.
+- **More**: everything else, each with a name and a line explaining it: Habits, Wellness, People (friends, teams, clan), Game, Settings, Help, Trash. On the computer, the card with your name at the bottom of the sidebar opens More.
 
 On the phone, the two spots beside the **+** are yours (at first, **Notes** and **Folders**): change them in **Settings → Navigation** (Notes, Plan, Inbox, Habits, Folders, Workouts, Game or People). Whatever isn't on the bar is under **More**. The **magnifier** at the top finds any list, folder, screen or action.

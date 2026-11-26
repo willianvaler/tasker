@@ -156,7 +156,11 @@ test('Alunos: números, cargas, observação, lembrete e arquivar', async ({
   // O treinador abre "Alunos" (depois de a fila da aluna subir)
   await waitForSync(ana);
   await page.reload();
-  await page.getByRole('button', { name: 'Compartilhar' }).click();
+  // Logo depois do reload, o primeiro toque pode chegar antes de a tela estar pronta
+  await expect(async () => {
+    await page.getByRole('button', { name: 'Compartilhar' }).click();
+    await expect(page.getByRole('menuitem', { name: 'Alunos' })).toBeVisible({ timeout: 2_000 });
+  }).toPass({ timeout: 20_000 });
   await page.getByRole('menuitem', { name: 'Alunos' }).click();
   await expect(page.getByRole('button', { name: /^Ana Aluna: Neste ciclo: 2\/2/ })).toBeVisible({
     timeout: 15_000,

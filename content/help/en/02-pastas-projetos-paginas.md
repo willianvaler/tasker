@@ -2,7 +2,8 @@
 
 - A **list** holds your things: groceries, a workout, a trip plan. Its type can be **Tasks**, **Routine** (a checklist in cards that resets; good for workouts), **Habits**, **Board**, **Expenses**, **Base** or **Canvas** (see Notes). Every task list also opens as a **Board** (tab at the top). On the board, drag a card to another column (on the phone, hold the card before dragging) or use the card’s arrows. To open the task, tap the pencil on the card.
 - A **folder** groups your lists. Example: the **Gym** folder with Workout A and Workout B.
-- A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks.
+- A **project** is a folder to do **with other people**. Example: the **Barbecue** project with Shopping and On the day lists, each friend with their own tasks. It isn't a separate type: when creating or editing a top-level folder, turn on the **Project** switch (invites, progress per person, milestones and the project boss). Sharing a folder also turns it into a project, and a shared project can't go back to being a folder.
+- In the sidebar, folders and projects are in **a single tree**, and inside each folder you see its lists and **notes**. The **Notes** block shows the loose ones (with no folder).
 
 ## When to use which
 
