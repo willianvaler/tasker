@@ -20,6 +20,10 @@ La primera vez, la sección pide el **consentimiento de los datos de salud** (ag
 
 **Registrar sueño** pide la hora en que te dormiste, la hora en que despertaste (`23:30`, `7h`, `07h30`) y el día en que despertaste (**hoy** o **ayer**); pasar la medianoche lo calcula la app. Arriba, anoche frente a la meta (8 h al principio; **Meta de sueño** la cambia, acepta `7,5`) y el promedio de la semana; abajo, las últimas noches (la **X** borra) y la semana en barras. Las siestas del mismo día se suman. Usa el mismo consentimiento que el agua y funciona sin internet.
 
+## Exámenes
+
+**Bienestar → Exámenes** (con el mismo consentimiento del agua y el sueño) guarda los resultados que copias del informe: el **examen** (ej.: Glucosa), el **valor**, la **unidad**, la **fecha** y, si quieres, el **rango de referencia** como está escrito en el informe (mínimo, máximo o los dos) y una nota. **+ Resultado** en un examen ya registrado trae el nombre, la unidad y el rango del último. Cada examen tiene su **gráfico** a lo largo del tiempo, con el rango que escribiste como una banda clara. Questlist **no interpreta**: no dice si el valor está alto, bajo o bien, ni lo compara con rangos de otros laboratorios. El clip **adjunta la foto o el PDF** del informe al resultado (hasta 10 MB; la foto se reduce antes de enviarla), y solo tú puedes abrirlo. Registrar, editar y ver el gráfico funcionan sin internet; adjuntar y abrir el adjunto necesitan conexión. Borrar el resultado borra el adjunto, y retirar el consentimiento borra todo.
+
 ## Vida saludable
 
 Hábitos listos para poner en la pantalla **Hábitos** con un toque: tomar agua (8 vasos al día, con contador), dormir 8 horas, caminar, 10 mil pasos, comer fruta (2 al día), verdura, sin azúcar, estirar, meditar, sin pantallas antes de dormir y tomar sol. Los que ya están en tus hábitos aparecen como **Añadido**. Una vez añadido, es un hábito como cualquier otro: puedes cambiar el nombre, la meta y los días. **Peso y medidas** también está aquí.

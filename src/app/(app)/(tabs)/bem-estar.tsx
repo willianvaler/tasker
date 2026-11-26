@@ -1,4 +1,4 @@
-import { Dumbbell } from 'lucide-react-native';
+import { Dumbbell, FlaskConical } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -44,10 +44,18 @@ export default function WellnessScreen() {
           </HubSection>
         )}
         <DietSection />
-        {/* Saúde (SA0): um consentimento só para a água, o sono e o que vier do §5 */}
+        {/* Saúde (SA0): um consentimento só para a água, o sono, os exames (SA4) e o que vier do §5 */}
         <HealthConsentGate>
           <WaterSection />
           <SleepSection />
+          <HubSection>
+            <HubRow
+              icon={FlaskConical}
+              label={t('exams.title')}
+              hint={t('exams.hint')}
+              href="/exames"
+            />
+          </HubSection>
           <HealthNotice />
         </HealthConsentGate>
         <HealthyHabitsSection />

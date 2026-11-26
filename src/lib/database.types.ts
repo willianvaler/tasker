@@ -1121,6 +1121,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"exam_results": {
+                  Row: {
+                    "created_at": string,"day": string,"file_mime": string | null,"file_path": string | null,"id": string,"name": string,"note": string,"ref_high": number | null,"ref_low": number | null,"unit": string,"user_id": string,"value": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"day": string,"file_mime"?: string | null,"file_path"?: string | null,"id"?: string,"name": string,"note"?: string,"ref_high"?: number | null,"ref_low"?: number | null,"unit"?: string,"user_id"?: string,"value": number
+                  }
+                  Update: {
+                    "created_at"?: string,"day"?: string,"file_mime"?: string | null,"file_path"?: string | null,"id"?: string,"name"?: string,"note"?: string,"ref_high"?: number | null,"ref_low"?: number | null,"unit"?: string,"user_id"?: string,"value"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "exam_results_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"exercises": {
                   Row: {
                     "body_part": string,"equipment": string,"force": string | null,"id": string,"instructions": NonNullable<Json>,"kind": string,"level": string | null,"mechanic": string | null,"name_en": string,"name_es": string | null,"name_pt": string | null,"secondary": (string)[],"target": string | null,"updated_at": string

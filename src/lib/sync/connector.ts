@@ -243,6 +243,10 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
   // ET1: o log das revisões só recebe linhas novas
   card_reviews: { insert: ['card_id', 'grade', 'day', 'reviewed_at'], update: [] },
   sleep_logs: { insert: ['day', 'bed_time', 'wake_time'], update: ['day', 'bed_time', 'wake_time'] },
+  exam_results: {
+    insert: ['day', 'name', 'value', 'unit', 'ref_low', 'ref_high', 'note', 'file_path', 'file_mime'],
+    update: ['day', 'name', 'value', 'unit', 'ref_low', 'ref_high', 'note', 'file_path', 'file_mime'],
+  },
   workout_moves: { insert: ['page_id', 'from_day', 'to_day'], update: ['to_day'] },
   expenses: {
     insert: [

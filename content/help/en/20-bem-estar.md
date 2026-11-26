@@ -20,6 +20,10 @@ The first time, the section asks for **consent for health data** (water, sleep a
 
 **Log sleep** asks when you fell asleep, when you woke up (`23:30`, `7h`, `07h30`) and the day you woke up (**today** or **yesterday**); crossing midnight is worked out by the app. At the top, last night against the goal (8 h to start; **Sleep goal** changes it, `7.5` works) and the week average; below, the latest nights (the **X** deletes) and the week as bars. Naps on the same day add up. Uses the same consent as water and works offline.
 
+## Lab results
+
+**Wellness → Lab results** (with the same consent as water and sleep) keeps the results you copy from the lab report: the **test** (e.g. Glucose), the **value**, the **unit**, the **date** and, if you like, the **reference range** as written on the report (minimum, maximum or both) and a note. **+ Result** on a test you already logged brings the name, unit and range of the latest one. Each test has its own **chart** over time, with the range you typed shown as a light band. Questlist **does not interpret**: it never says whether a value is high, low or fine, nor compares it with other labs' ranges. The paperclip **attaches the photo or PDF** of the report to the result (up to 10 MB; photos are reduced before upload), and only you can open it. Logging, editing and the chart work offline; attaching and opening attachments need a connection. Deleting the result deletes the attachment, and withdrawing consent deletes everything.
+
 ## Healthy living
 
 Ready-made habits to add to the **Habits** screen with one tap: drink water (8 glasses a day, with a counter), sleep 8 hours, walk, 10,000 steps, eat fruit (2 a day), vegetables, skip sugar, stretch, meditate, no screens before bed and get some sun. The ones already in your habits show as **Added**. Once added, it's a habit like any other: you can change the name, goal and days. **Weight and measurements** is here too.

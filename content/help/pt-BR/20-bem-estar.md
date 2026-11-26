@@ -20,6 +20,10 @@ Na primeira vez, a seção pede o **consentimento dos dados de saúde** (água, 
 
 **Registrar sono** pede a hora em que dormiu, a hora em que acordou (`23:30`, `7h`, `07h30`) e o dia em que acordou (**hoje** ou **ontem**); passar da meia-noite é conta do app. Em cima, a última noite contra a meta (8 h no começo; **Meta de sono** muda, aceita `7,5`) e a média da semana; embaixo, as últimas noites (o **X** apaga) e a semana em barras. Cochilos no mesmo dia somam. Usa o mesmo consentimento da água e funciona sem internet.
 
+## Exames
+
+**Bem-estar → Exames** (com o mesmo consentimento da água e do sono) guarda os resultados que você copia do laudo: o **exame** (ex.: Glicose), o **valor**, a **unidade**, a **data** e, se quiser, a **faixa de referência** como está escrita no laudo (mínimo, máximo ou os dois) e uma observação. **+ Resultado** num exame já registrado traz o nome, a unidade e a faixa do último. Cada exame tem o seu **gráfico** ao longo do tempo, com a faixa que você digitou como uma banda clara. O Questlist **não interpreta**: não diz se o valor está alto, baixo ou bom, nem compara com faixas de outros laboratórios. O clipe **anexa a foto ou o PDF** do laudo ao resultado (até 10 MB; a foto é reduzida antes de enviar), que só você abre. Registrar, editar e ver o gráfico funcionam sem internet; anexar e abrir o anexo pedem conexão. Apagar o resultado apaga o anexo, e tirar o consentimento apaga tudo.
+
 ## Vida saudável
 
 Hábitos prontos para pôr na tela **Hábitos** com um toque: beber água (8 copos por dia, com contador), dormir 8 horas, caminhar, 10 mil passos, comer fruta (2 por dia), verdura, ficar sem açúcar, alongar, meditar, sem tela antes de dormir e pegar sol. O que já está nos seus hábitos aparece como **Adicionado**. Depois de adicionado, é um hábito como qualquer outro: dá para mudar o nome, a meta e os dias. **Peso e medidas** também fica aqui.

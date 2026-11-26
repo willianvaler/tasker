@@ -311,6 +311,20 @@ const sleep_logs = new Table({
   wake_time: column.text,
   created_at: column.text,
 });
+// Exames (SA4, D389): o anexo fica no bucket `health` (enviar pede conexão)
+const exam_results = new Table({
+  user_id: column.text,
+  day: column.text,
+  name: column.text,
+  value: column.real,
+  unit: column.text,
+  ref_low: column.real,
+  ref_high: column.real,
+  note: column.text,
+  file_path: column.text,
+  file_mime: column.text,
+  created_at: column.text,
+});
 const water_logs = new Table({
   user_id: column.text,
   ml: column.integer,
@@ -773,6 +787,7 @@ export const AppSchema = new Schema({
   health_settings,
   water_logs,
   sleep_logs,
+  exam_results,
   equipments,
   maintenance_plans,
   page_shares,
