@@ -18,6 +18,10 @@ Times podem ter **cargos personalizados**, escolhendo permissão por permissão.
 
 Em tarefa sem ninguém, o botão **Assumir** coloca você como responsável. Serve para dividir o trabalho do time sem esperar alguém distribuir.
 
+## Rodízio
+
+Para as tarefas da casa (ou qualquer uma que se reveza), abra a tarefa e use **Fazer rodízio** em **Rodízio**: escolha quem entra e a ordem. Quem está na vez é a responsável. A vez passa para a próxima pessoa **a cada conclusão** ou **por semana** (na virada da semana). A lista mostra quanto cada pessoa fez, no total e nesta semana. **Pular a vez** passa para a próxima; **Trocar com…** faz outra pessoa assumir agora, e as duas trocam de lugar na ordem. Quem recebe a vez é avisado no 🔔. Pode pular ou trocar quem está na vez e quem escolhe responsáveis no projeto; desfazer a conclusão devolve a vez.
+
 ## Reações
 
 No projeto, dá para reagir com 👏 🔥 💪 ❤️ ou 🎉 a uma tarefa concluída (na **Atividade** do projeto ou nos comentários da tarefa) e a cada comentário. Toque no rosto com o **+** para escolher; toque de novo no emoji para tirar. Quem concluiu (ou quem comentou) recebe um aviso. Reagir precisa de internet, e quem pode comentar pode reagir, o Leitor também.

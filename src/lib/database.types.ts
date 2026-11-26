@@ -2579,6 +2579,38 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"task_rotations": {
+                  Row: {
+                    "created_by": string | null,"current_index": number,"folder_id": string,"last_completion": string | null,"members": (string)[],"mode": string,"task_id": string,"updated_at": string,"week_key": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_by"?: string | null,"current_index"?: number,"folder_id": string,"last_completion"?: string | null,"members": (string)[],"mode"?: string,"task_id": string,"updated_at"?: string,"week_key"?: string | null
+                  }
+                  Update: {
+                    "created_by"?: string | null,"current_index"?: number,"folder_id"?: string,"last_completion"?: string | null,"members"?: (string)[],"mode"?: string,"task_id"?: string,"updated_at"?: string,"week_key"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "task_rotations_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "task_rotations_folder_id_fkey"
+      columns: ["folder_id"]
+isOneToOne: false
+      referencedRelation: "folders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "task_rotations_task_id_fkey"
+      columns: ["task_id"]
+isOneToOne: true
+      referencedRelation: "tasks"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"tasks": {
                   Row: {
                     "actual_minutes": number,"approver_id": string | null,"approver_role": string | null,"completed_at": string | null,"completed_by": string | null,"count_down": number,"count_key": string | null,"count_up": number,"created_at": string,"created_by": string,"custom": NonNullable<Json>,"deps_mode": string,"depth": number,"done_cycle_key": string | null,"due_date": string | null,"due_time": string | null,"estimate_minutes": number | null,"exercise_id": string | null,"folder_id": string,"habit_kind": string,"habit_sides": string,"habit_target": number | null,"habit_value": number,"habit_value_day": string | null,"id": string,"labels": (string)[],"meta": Json | null,"milestone_id": string | null,"notes": string | null,"page_id": string,"parent_task_id": string | null,"position": number,"priority": number,"progression": string | null,"progression_step": number | null,"recurrence": Json | null,"remind_before": number | null,"reminded_at": string | null,"repeat_plan": Json | null,"start_date": string | null,"started_at": string | null,"status": Database["public"]['Enums']["task_status"],"superset": string | null,"title": string,"updated_at": string,"updated_by": string | null,"version": number,"visibility": string,"weight": number | null
@@ -3893,6 +3925,18 @@ isOneToOne: false
 "_roll_drop":
 { Args: { "p_level": number,"p_user": string }; Returns: string
                            },
+"_rotation_active":
+{ Args: { "p_folder": string,"p_user": string }; Returns: boolean
+                           },
+"_rotation_assign":
+{ Args: { "p_task": string }; Returns: undefined
+                           },
+"_rotation_step":
+{ Args: { "p_rot": Omit<Database["public"]['Tables']["task_rotations"]['Row'], Database["public"]['Tables']["task_rotations"]['ComputedFields']>,"p_steps": number }; Returns: number
+                           },
+"_rotation_week":
+{ Args: { "p_at"?: string,"p_folder": string }; Returns: string
+                           },
 "_save_note_version":
 { Args: { "p_body": string,"p_note": string,"p_props": Json,"p_title": string,"p_user": string }; Returns: boolean
                            },
@@ -4881,6 +4925,12 @@ isOneToOne: false
 "revoke_team_invite":
 { Args: { "p_invite_id": string }; Returns: undefined
                            },
+"rotation_pass":
+{ Args: { "p_task": string,"p_to"?: string }; Returns: undefined
+                           },
+"rotation_sweep":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "run_once":
 { Args: { "p_args": Json,"p_key": string,"p_name": string }; Returns: Json
                            },
@@ -4940,6 +4990,9 @@ isOneToOne: false
                            },
 "set_task_notes":
 { Args: { "p_base": string,"p_notes": string,"p_task_id": string }; Returns: undefined
+                           },
+"set_task_rotation":
+{ Args: { "p_members": (string)[],"p_mode"?: string,"p_task": string }; Returns: undefined
                            },
 "set_task_status":
 { Args: { "p_status": Database["public"]['Enums']["task_status"],"p_task_id": string }; Returns: Json
@@ -5092,6 +5145,9 @@ isOneToOne: false
                            },
 "task_cycle_kind":
 { Args: { "p_recurrence": Json,"p_reset_cycle": Database["public"]['Enums']["page_reset_cycle"],"p_view_type": Database["public"]['Enums']["page_view_type"] }; Returns: string
+                           },
+"task_rotation_state":
+{ Args: { "p_task": string }; Returns: Json
                            },
 "task_state":
 { Args: { "p_now"?: string,"p_task_id": string }; Returns: string

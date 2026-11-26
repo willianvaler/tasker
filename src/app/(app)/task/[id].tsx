@@ -70,6 +70,7 @@ import {
 } from '@/lib/queries/tasks';
 import { findFolder, isWorkoutPage, pageLabel, useTree } from '@/lib/queries/tree';
 import { AssigneesEditor, Comments } from '@/components/tasks/task-collab';
+import { RotationEditor } from '@/components/tasks/rotation-editor';
 import { ExerciseHistory } from '@/components/gym/exercise-history';
 import { ExerciseRecords } from '@/components/gym/exercise-records';
 import { ExerciseLink } from '@/components/gym/exercise-link';
@@ -427,6 +428,13 @@ function TaskDetails({ task }: { task: Task }) {
         {project && gym('assignees') && (
           <Section title={t('taskDetail.assignees')}>
             <AssigneesEditor task={task} />
+          </Section>
+        )}
+
+        {/* CS2 (D381): rodízio de quem faz, em tarefa de projeto que não é hábito nem recebida */}
+        {project && !isHabit && !received && !task.parent_task_id && gym('assignees') && (
+          <Section title={t('rotation.title')}>
+            <RotationEditor task={task} />
           </Section>
         )}
 

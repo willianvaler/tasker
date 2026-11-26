@@ -5927,5 +5927,34 @@
       "updated": "today-1",
       "completed": "today-7"
     }
+  },
+  "rotation": {
+    "title": "Rotation",
+    "hint": "Take turns: it passes to the next person when someone completes it, or every week.",
+    "start": "Set up rotation",
+    "needMembers": "A rotation needs at least 2 people in the project.",
+    "offline": "The rotation shows when you're online.",
+    "someone": "Someone",
+    "pickHint": "Who takes turns, in order:",
+    "order": "Rotation order",
+    "up": "Move {{name}} up",
+    "down": "Move {{name}} down",
+    "modeTurn": "After each completion",
+    "modeWeek": "Weekly",
+    "modeTurnHint": "passes when someone completes it",
+    "modeWeekHint": "passes when the week turns",
+    "save": "Save rotation",
+    "cancel": "Cancel",
+    "turnOff": "Turn off rotation",
+    "saved": "Rotation saved.",
+    "now": "{{name}}'s turn",
+    "row": "{{name}}: {{total}} in total, {{week}} this week",
+    "counts": "{{total}} total · {{week}} this week",
+    "skip": "Skip turn",
+    "skipped": "Turn skipped. {{name}} was notified.",
+    "swap": "Swap with…",
+    "swapHint": "Who does it now instead of {{name}} (they swap places in the order):",
+    "swapped": "Swapped. {{name}} was notified.",
+    "edit": "Edit rotation"
   }
 }

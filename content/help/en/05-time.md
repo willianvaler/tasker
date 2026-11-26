@@ -18,6 +18,10 @@ Teams can have **custom roles**, picking permission by permission.
 
 On a task with nobody assigned, **Take it** makes you the assignee. Handy for splitting the team's work without waiting for someone to hand it out.
 
+## Rotation
+
+For chores (or anything people take turns on), open the task and use **Set up rotation** under **Rotation**: choose who takes part and the order. Whoever's turn it is becomes the assignee. The turn passes to the next person **after each completion** or **weekly** (when the week turns). The list shows how much each person did, in total and this week. **Skip turn** passes to the next person; **Swap with…** makes someone else do it now, and the two swap places in the order. Whoever gets the turn is notified in 🔔. The person whose turn it is, and whoever can pick assignees in the project, can skip or swap; undoing the completion gives the turn back.
+
 ## Reactions
 
 In a project you can react with 👏 🔥 💪 ❤️ or 🎉 to a completed task (in the project's **Activity** or in the task's comments) and to each comment. Tap the face with the **+** to pick one; tap the emoji again to remove it. Whoever completed it (or wrote the comment) gets a notification. Reacting needs internet, and anyone who can comment can react, Viewers included.

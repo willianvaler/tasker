@@ -5927,5 +5927,34 @@
       "updated": "hoje-1",
       "completed": "hoje-7"
     }
+  },
+  "rotation": {
+    "title": "Rodízio",
+    "hint": "Revezar quem faz: a vez passa para a próxima pessoa quando alguém conclui ou a cada semana.",
+    "start": "Fazer rodízio",
+    "needMembers": "O rodízio precisa de pelo menos 2 pessoas no projeto.",
+    "offline": "O rodízio aparece com conexão.",
+    "someone": "Alguém",
+    "pickHint": "Quem entra no rodízio, na ordem da vez:",
+    "order": "Ordem do rodízio",
+    "up": "Subir {{name}}",
+    "down": "Descer {{name}}",
+    "modeTurn": "A cada conclusão",
+    "modeWeek": "Por semana",
+    "modeTurnHint": "passa quando alguém conclui",
+    "modeWeekHint": "passa na virada da semana",
+    "save": "Salvar rodízio",
+    "cancel": "Cancelar",
+    "turnOff": "Desligar rodízio",
+    "saved": "Rodízio salvo.",
+    "now": "Vez de {{name}}",
+    "row": "{{name}}: {{total}} no total, {{week}} nesta semana",
+    "counts": "{{total}} no total · {{week}} na semana",
+    "skip": "Pular a vez",
+    "skipped": "Vez pulada. {{name}} foi avisada.",
+    "swap": "Trocar com…",
+    "swapHint": "Quem faz agora no lugar de {{name}} (as duas trocam de lugar na ordem):",
+    "swapped": "Trocado. {{name}} foi avisada.",
+    "edit": "Editar rodízio"
   }
 }

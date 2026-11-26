@@ -5927,5 +5927,34 @@
       "updated": "hoy-1",
       "completed": "hoy-7"
     }
+  },
+  "rotation": {
+    "title": "Turnos",
+    "hint": "Turnarse: pasa a la siguiente persona cuando alguien la completa o cada semana.",
+    "start": "Hacer turnos",
+    "needMembers": "Los turnos necesitan al menos 2 personas en el proyecto.",
+    "offline": "Los turnos aparecen con conexión.",
+    "someone": "Alguien",
+    "pickHint": "Quién entra en los turnos, en orden:",
+    "order": "Orden de los turnos",
+    "up": "Subir {{name}}",
+    "down": "Bajar {{name}}",
+    "modeTurn": "En cada conclusión",
+    "modeWeek": "Por semana",
+    "modeTurnHint": "pasa cuando alguien la completa",
+    "modeWeekHint": "pasa al cambiar la semana",
+    "save": "Guardar turnos",
+    "cancel": "Cancelar",
+    "turnOff": "Quitar turnos",
+    "saved": "Turnos guardados.",
+    "now": "Turno de {{name}}",
+    "row": "{{name}}: {{total}} en total, {{week}} esta semana",
+    "counts": "{{total}} en total · {{week}} en la semana",
+    "skip": "Saltar el turno",
+    "skipped": "Turno saltado. Se avisó a {{name}}.",
+    "swap": "Cambiar con…",
+    "swapHint": "Quién lo hace ahora en lugar de {{name}} (cambian de lugar en el orden):",
+    "swapped": "Cambiado. Se avisó a {{name}}.",
+    "edit": "Editar turnos"
   }
 }

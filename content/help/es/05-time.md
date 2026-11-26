@@ -18,6 +18,10 @@ Los equipos pueden tener **cargos personalizados**, eligiendo permiso por permis
 
 En una tarea sin nadie, **Asumir** te pone como responsable. Sirve para repartir el trabajo del equipo sin esperar a que alguien lo distribuya.
 
+## Turnos
+
+Para las tareas de la casa (o cualquiera que se turne), abre la tarea y usa **Hacer turnos** en **Turnos**: elige quién entra y el orden. Quien tiene el turno es la persona responsable. El turno pasa a la siguiente persona **en cada conclusión** o **por semana** (al cambiar la semana). La lista muestra cuánto hizo cada persona, en total y esta semana. **Saltar el turno** pasa a la siguiente; **Cambiar con…** hace que otra persona lo haga ahora, y las dos cambian de lugar en el orden. Quien recibe el turno recibe un aviso en 🔔. Pueden saltar o cambiar quien tiene el turno y quien elige responsables en el proyecto; deshacer la conclusión devuelve el turno.
+
 ## Reacciones
 
 En un proyecto puedes reaccionar con 👏 🔥 💪 ❤️ o 🎉 a una tarea completada (en la **Actividad** del proyecto o en los comentarios de la tarea) y a cada comentario. Toca la cara con el **+** para elegir; toca el emoji otra vez para quitarlo. Quien la completó (o quien comentó) recibe un aviso. Reaccionar necesita internet, y quien puede comentar puede reaccionar, el Lector también.

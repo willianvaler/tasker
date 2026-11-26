@@ -11,6 +11,8 @@ const AFFECTS: Record<string, readonly (readonly string[])[]> = {
   tasks: [keys.tasks, keys.game, ['board']],
   task_completions: [keys.tasks],
   task_assignees: [keys.assignees, keys.mine],
+  // Rodízio (CS2): a vez que passou ao concluir, pular ou trocar
+  task_rotations: [['rotation']],
   comments: [['comments']],
   // Reações (PB2): na conclusão e nos comentários
   reactions: [['reactions']],
