@@ -256,6 +256,19 @@ const medications = new Table({
   created_at: column.text,
   updated_at: column.text,
 });
+// Saúde (SA2, D383): preferências (id = a pessoa) e a água do dia
+const health_settings = new Table({
+  water_goal_ml: column.integer,
+  cup_ml: column.integer,
+  updated_at: column.text,
+});
+const water_logs = new Table({
+  user_id: column.text,
+  ml: column.integer,
+  day: column.text,
+  logged_at: column.text,
+  created_at: column.text,
+});
 // Equipamentos e manutenção (CS1, D365): next_on, task_id e prev_done_on são do servidor
 const equipments = new Table({
   user_id: column.text,
@@ -705,6 +718,8 @@ export const AppSchema = new Schema({
   body_goals,
   sensitive_consents,
   medications,
+  health_settings,
+  water_logs,
   equipments,
   maintenance_plans,
   page_shares,

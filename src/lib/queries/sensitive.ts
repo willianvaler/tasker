@@ -25,7 +25,11 @@ export function useSensitiveConsent(purpose: SensitivePurpose) {
           'select id from sensitive_consents where user_id = ? and purpose = ? and revoked_at is null',
           [userId, purpose],
         );
-        return !!row;
+        if (row) return true;
+        // Recém-dado no servidor, a linha ainda não chegou ao aparelho: pergunta ao servidor (sem
+        // conexão, vale o aparelho). Senão a tela voltava ao pedido de consentimento por segundos
+        const { data, error } = await supabase.rpc('has_sensitive_consent', { p_purpose: purpose });
+        return !error && data === true;
       }
       const { data, error } = await supabase.rpc('has_sensitive_consent', { p_purpose: purpose });
       if (error) throw error;

@@ -1301,6 +1301,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"health_settings": {
+                  Row: {
+                    "cup_ml": number,"id": string,"updated_at": string,"water_goal_ml": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "cup_ml"?: number,"id"?: string,"updated_at"?: string,"water_goal_ml"?: number
+                  }
+                  Update: {
+                    "cup_ml"?: number,"id"?: string,"updated_at"?: string,"water_goal_ml"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "health_settings_id_fkey"
+      columns: ["id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"invites": {
                   Row: {
                     "created_at": string,"created_by": string | null,"expires_at": string,"folder_id": string,"id": string,"max_uses": number,"revoked_at": string | null,"role": Database["public"]['Enums']["folder_role"],"token": string,"uses": number,"_invite_problem": string | null
@@ -3158,6 +3178,26 @@ isOneToOne: false
                     {
       foreignKeyName: "user_templates_owner_id_fkey"
       columns: ["owner_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"water_logs": {
+                  Row: {
+                    "created_at": string,"day": string,"id": string,"logged_at": string,"ml": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"day": string,"id"?: string,"logged_at"?: string,"ml": number,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"day"?: string,"id"?: string,"logged_at"?: string,"ml"?: number,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "water_logs_user_id_fkey"
+      columns: ["user_id"]
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]

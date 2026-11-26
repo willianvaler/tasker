@@ -161,6 +161,29 @@ export const MODELOS: Modelo[] = [
     }),
   },
   {
+    // SA2 (D383): lembrete de beber água, de 2 em 2 horas, só de dia. O aviso não leva o total
+    // (dado de saúde não entra na notificação)
+    id: 'agua',
+    titulo: () => tr('auto.ed.model.water'),
+    descricao: () => tr('auto.ed.model.waterHint'),
+    montar: () => ({
+      name: tr('auto.ed.model.water'),
+      definition: {
+        v: 1,
+        gatilho: { tipo: 'intervalo', horas: 2 },
+        condicoes: { e: [{ pronta: 'janela_horario', de: '08:00', ate: '22:00' }] },
+        passos: [
+          {
+            tipo: 'notificar',
+            titulo: tr('auto.ed.model.waterTitle'),
+            corpo: tr('auto.ed.model.waterBody'),
+            canal: 'ambos',
+          },
+        ],
+      },
+    }),
+  },
+  {
     id: 'discord',
     titulo: () => tr('auto.ed.model.discord'),
     descricao: () => tr('auto.ed.model.discordHint'),
@@ -194,7 +217,9 @@ export const MODELOS: Modelo[] = [
             tipo: 'enviar_webhook',
             url: 'https://discord.com/api/webhooks/',
             metodo: 'POST',
-            corpo: { content: tr('auto.ed.model.discordBossBody', { boss: '{{evento.boss_nome}}' }) },
+            corpo: {
+              content: tr('auto.ed.model.discordBossBody', { boss: '{{evento.boss_nome}}' }),
+            },
           },
         ],
       },

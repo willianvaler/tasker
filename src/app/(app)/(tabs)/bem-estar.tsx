@@ -10,6 +10,7 @@ import { Text } from '@/components/ui/text';
 import { DietSection } from '@/components/wellness/diet';
 import { HealthyHabitsSection } from '@/components/wellness/healthy-habits';
 import { MedicationsSection } from '@/components/wellness/medications';
+import { WaterSection } from '@/components/wellness/water';
 import { useGymInWellness, useProfile } from '@/lib/queries/profile';
 
 // Bem-estar (ESCOPO_V10 §5, D270, D275): o que é de saúde num lugar: Dieta (cardápio da semana),
@@ -45,6 +46,7 @@ export default function WellnessScreen() {
           </HubSection>
         )}
         <DietSection />
+        <WaterSection />
         <HealthyHabitsSection />
         <MedicationsSection />
       </ScreenScroll>

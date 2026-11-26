@@ -2476,7 +2476,11 @@
         "plugHint": "Al completar una tarea, apagar un enchufe inteligente.",
         "discordBoss": "Avisar en Discord al vencer a un jefe",
         "discordBossHint": "Al derrotar a un jefe, enviar un mensaje al webhook de un canal de Discord.",
-        "discordBossBody": "¡Derroté al jefe {{boss}}!"
+        "discordBossBody": "¡Derroté al jefe {{boss}}!",
+        "water": "Recordar beber agua",
+        "waterHint": "Cada 2 horas, de 8 a 22 h, un aviso para registrar el agua.",
+        "waterTitle": "Hora de beber agua",
+        "waterBody": "Bebe un vaso y regístralo en Bienestar."
       },
       "models": "Plantillas",
       "moveDown": "Bajar el paso {{n}}",
@@ -5972,5 +5976,28 @@
     "placeholder": "saude.agua.ml",
     "fieldLabel": "Campo sensible para liberar",
     "add": "Liberar campo"
+  },
+  "water": {
+    "title": "Agua",
+    "today": "{{total}} de {{goal}}",
+    "progress": "Agua de hoy: {{total}} de {{goal}}",
+    "reached": "Meta de hoy cumplida.",
+    "left": "Faltan {{left}} para la meta.",
+    "cup": "+ 1 vaso ({{ml}})",
+    "add": "+ {{ml}}",
+    "other": "Otra cantidad",
+    "settings": "Meta y vaso",
+    "reminder": "Recordatorio de beber agua (Automatizaciones)",
+    "todayList": "Agua registrada hoy",
+    "remove": "Borrar el registro de {{ml}}",
+    "weekAverage": "Promedio de la semana: {{avg}} por día",
+    "chart": "Agua en los últimos 7 días",
+    "bar": "{{day}}: {{ml}}",
+    "otherTitle": "¿Cuánto bebiste?",
+    "otherPlaceholder": "Ej.: 300 ml o 0,5 l",
+    "register": "Registrar",
+    "settingsHint": "Meta del día y tamaño del vaso, en mL (meta de 250 a 10.000; vaso de 50 a 2.000).",
+    "goalPlaceholder": "Meta del día en mL",
+    "cupPlaceholder": "Vaso en mL"
   }
 }

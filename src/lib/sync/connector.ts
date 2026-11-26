@@ -223,6 +223,9 @@ const WRITABLE: Record<string, { insert: string[]; update: string[] }> = {
     insert: ['equipment_id', 'name', 'every_n', 'unit', 'last_done_on', 'page_id', 'paused'],
     update: ['name', 'every_n', 'unit', 'last_done_on', 'page_id', 'paused'],
   },
+  // Saúde (SA2): a linha das preferências tem o id da pessoa
+  health_settings: { insert: ['water_goal_ml', 'cup_ml'], update: ['water_goal_ml', 'cup_ml'] },
+  water_logs: { insert: ['ml', 'day', 'logged_at'], update: ['ml'] },
   workout_moves: { insert: ['page_id', 'from_day', 'to_day'], update: ['to_day'] },
   expenses: {
     insert: [

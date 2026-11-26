@@ -41,6 +41,9 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   note_shares: [['notes'], ['note-shares']],
   // Casa (CS1): o "feito" da manutenção agenda a próxima data no servidor
   equipments: [['equipments']],
+  // Água (SA2)
+  health_settings: [['water']],
+  water_logs: [['water']],
   maintenance_plans: [['equipments']],
   // Links [[...]] (OB1): o "Citado em" acompanha o que o servidor refez
   links: [['links']],

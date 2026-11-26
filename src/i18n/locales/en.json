@@ -2476,7 +2476,11 @@
         "plugHint": "When a task is completed, turn off a smart plug.",
         "discordBoss": "Post on Discord when defeating a boss",
         "discordBossHint": "When you defeat a boss, send a message to a Discord channel webhook.",
-        "discordBossBody": "I defeated the boss {{boss}}!"
+        "discordBossBody": "I defeated the boss {{boss}}!",
+        "water": "Remind me to drink water",
+        "waterHint": "Every 2 hours, from 8 am to 10 pm, a reminder to log your water.",
+        "waterTitle": "Time to drink water",
+        "waterBody": "Have a glass and log it in Wellness."
       },
       "models": "Templates",
       "moveDown": "Move step {{n}} down",
@@ -5972,5 +5976,28 @@
     "placeholder": "saude.agua.ml",
     "fieldLabel": "Sensitive field to release",
     "add": "Release field"
+  },
+  "water": {
+    "title": "Water",
+    "today": "{{total}} of {{goal}}",
+    "progress": "Water today: {{total}} of {{goal}}",
+    "reached": "Today's goal reached.",
+    "left": "{{left}} to go.",
+    "cup": "+ 1 glass ({{ml}})",
+    "add": "+ {{ml}}",
+    "other": "Other amount",
+    "settings": "Goal and glass",
+    "reminder": "Water reminder (Automations)",
+    "todayList": "Water logged today",
+    "remove": "Delete the {{ml}} entry",
+    "weekAverage": "Week average: {{avg}} a day",
+    "chart": "Water in the last 7 days",
+    "bar": "{{day}}: {{ml}}",
+    "otherTitle": "How much did you drink?",
+    "otherPlaceholder": "E.g. 300 ml or 0.5 l",
+    "register": "Log",
+    "settingsHint": "Daily goal and glass size, in mL (goal from 250 to 10,000; glass from 50 to 2,000).",
+    "goalPlaceholder": "Daily goal in mL",
+    "cupPlaceholder": "Glass in mL"
   }
 }

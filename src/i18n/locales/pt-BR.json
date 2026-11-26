@@ -2476,7 +2476,11 @@
         "plugHint": "Ao concluir uma tarefa, desligar uma tomada inteligente.",
         "discordBoss": "Contar no Discord quando vencer um boss",
         "discordBossHint": "Ao derrotar um boss, mandar uma mensagem para o webhook de um canal do Discord.",
-        "discordBossBody": "Derrotei o boss {{boss}}!"
+        "discordBossBody": "Derrotei o boss {{boss}}!",
+        "water": "Lembrar de beber água",
+        "waterHint": "De 2 em 2 horas, das 8h às 22h, um aviso para registrar a água.",
+        "waterTitle": "Hora de beber água",
+        "waterBody": "Beba um copo e registre no Bem-estar."
       },
       "models": "Modelos",
       "moveDown": "Descer o passo {{n}}",
@@ -5972,5 +5976,28 @@
     "placeholder": "saude.agua.ml",
     "fieldLabel": "Campo sensível para liberar",
     "add": "Liberar campo"
+  },
+  "water": {
+    "title": "Água",
+    "today": "{{total}} de {{goal}}",
+    "progress": "Água de hoje: {{total}} de {{goal}}",
+    "reached": "Meta de hoje batida.",
+    "left": "Faltam {{left}} para a meta.",
+    "cup": "+ 1 copo ({{ml}})",
+    "add": "+ {{ml}}",
+    "other": "Outra quantidade",
+    "settings": "Meta e copo",
+    "reminder": "Lembrete de beber água (Automações)",
+    "todayList": "Água registrada hoje",
+    "remove": "Apagar o registro de {{ml}}",
+    "weekAverage": "Média da semana: {{avg}} por dia",
+    "chart": "Água nos últimos 7 dias",
+    "bar": "{{day}}: {{ml}}",
+    "otherTitle": "Quanto você bebeu?",
+    "otherPlaceholder": "Ex.: 300 ml ou 0,5 l",
+    "register": "Registrar",
+    "settingsHint": "Meta do dia e tamanho do copo, em mL (meta de 250 a 10.000; copo de 50 a 2.000).",
+    "goalPlaceholder": "Meta do dia em mL",
+    "cupPlaceholder": "Copo em mL"
   }
 }
