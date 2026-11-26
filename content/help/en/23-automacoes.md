@@ -75,6 +75,8 @@ A personal automation with the **manual** trigger can get a link: under **When**
 
 When the link opens, Questlist asks you to sign in (if needed) and runs the automation as you. Only your account can use the link: for anyone else it shows as invalid. By default the page asks you to tap **Run** first; turn off **Ask for confirmation when opened** to run it right away. An automation that calls a webhook or a device **always** asks. **Replace link** or **Revoke** makes the old QR codes and tags stop working at once. On Android, the link opens in the browser, where you are already signed in to Questlist.
 
+To call an automation from apps like Automate, MacroDroid, Tasker or iPhone Shortcuts, see the article **Call Questlist from automation apps**.
+
 ## Notes
 
 Created, property changed, tag added and button pressed are triggers; append text, set property, add tag, create from a template and **start a process** are actions. No action erases text.

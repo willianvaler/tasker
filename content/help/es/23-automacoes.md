@@ -75,6 +75,8 @@ Una automatización personal con el disparador **manual** puede tener un enlace:
 
 Al abrir el enlace, Questlist te pide entrar (si hace falta) y ejecuta la automatización como tú. Solo tu cuenta usa el enlace: para otra persona aparece como no válido. Por defecto la pantalla pide **Ejecutar** antes; apaga **Pedir confirmación al abrir** para que se ejecute directo. Una automatización que llama a un webhook o a un dispositivo **siempre** pide confirmación. **Cambiar el enlace** o **Revocar** hace que los QR y las etiquetas antiguas dejen de funcionar al instante. En Android, el enlace se abre en el navegador, donde ya tienes la sesión de Questlist.
 
+Para llamar a una automatización desde apps como Automate, MacroDroid, Tasker o Atajos del iPhone, mira el artículo **Llamar a Questlist desde apps de automatización**.
+
 ## Notas
 
 Creada, propiedad cambiada, etiqueta añadida y botón pulsado son disparadores; añadir texto, definir propiedad, etiquetar, crear desde plantilla e **iniciar un proceso** son acciones. Ninguna acción borra texto.
