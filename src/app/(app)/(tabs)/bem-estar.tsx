@@ -1,4 +1,4 @@
-import { Dumbbell, FlaskConical } from 'lucide-react-native';
+import { ChefHat, Dumbbell, FlaskConical } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -44,6 +44,15 @@ export default function WellnessScreen() {
           </HubSection>
         )}
         <DietSection />
+        {/* Receitas e macros (SA5): anotações com porções e ingredientes; a tabela nutricional é da pessoa */}
+        <HubSection>
+          <HubRow
+            icon={ChefHat}
+            label={t('recipes.title')}
+            hint={t('recipes.hint')}
+            href="/receitas"
+          />
+        </HubSection>
         {/* Saúde (SA0): um consentimento só para a água, o sono, os exames (SA4) e o que vier do §5 */}
         <HealthConsentGate>
           <WaterSection />

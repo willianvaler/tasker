@@ -1887,6 +1887,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"nutrition_foods": {
+                  Row: {
+                    "basis": string,"carbs": number,"created_at": string,"fat": number,"id": string,"kcal": number,"name": string,"protein": number,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "basis"?: string,"carbs"?: number,"created_at"?: string,"fat"?: number,"id"?: string,"kcal"?: number,"name": string,"protein"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "basis"?: string,"carbs"?: number,"created_at"?: string,"fat"?: number,"id"?: string,"kcal"?: number,"name"?: string,"protein"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "nutrition_foods_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"page_dependencies": {
                   Row: {
                     "created_at": string,"created_by": string | null,"depends_on_page_id": string,"folder_id": string,"id": string,"page_id": string,"threshold_pct": number,"updated_at": string,"version": number

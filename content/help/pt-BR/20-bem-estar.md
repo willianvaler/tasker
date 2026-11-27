@@ -12,6 +12,15 @@ Em **Bem-estar → Dieta**, **Montar o cardápio da semana** cria a pasta **Diet
 
 No Bem-estar, **Cardápio de hoje** mostra os pratos do dia para marcar (marcar conclui os ingredientes junto). Marcado, o prato fica marcado até a semana virar, na segunda, e prato não comido não vira atrasado. **Gerar lista de compras** junta os ingredientes da semana, somando as quantidades ("Frango (400 g)"), e abre a criação em lote para você conferir e escolher a lista de destino.
 
+## Receitas e macros
+
+**Bem-estar → Receitas** junta as anotações que são receitas: as que têm as propriedades **porções** (um número) e **ingredientes** (uma lista, um ingrediente por item, como `500 g de carne moída` ou `2 xícaras de farinha`). **Nova receita** já cria a anotação com as duas. Os nomes valem nos três idiomas (`servings`/`ingredients`, `porciones`).
+
+- **Lista de compras:** marque as receitas, ajuste quantas porções vai fazer e toque em **Adicionar à lista de compras**. As quantidades acompanham as porções, e ingredientes iguais viram uma linha só quando a medida é da mesma dimensão (g com kg, mL com L). Medidas caseiras (colher, xícara) ficam como estão, sem conversão, e o que não tem quantidade ("sal a gosto") não soma. Você escolhe a lista e confere tudo na criação em lote antes de criar.
+- **Macros por porção:** vêm só da sua **Tabela nutricional** (o botão no alto de Receitas): cada alimento com kcal, proteína, carboidrato e gordura por 100 g, por 100 mL ou por unidade, digitados ou importados de um CSV (`nome;base;kcal;proteína;carboidrato;gordura`). O nome do ingrediente acha o alimento mesmo no plural ("ovos" acha "Ovo"); o que não está na tabela, ou está numa medida caseira, aparece em **Sem dados** e fica fora da conta. O Questlist não tem base nutricional própria e não estima valores.
+
+Tudo funciona sem internet e sincroniza depois.
+
 ## Água
 
 Na primeira vez, a seção pede o **consentimento dos dados de saúde** (água, sono e exames ficam só na sua conta, entram na exportação e saem com a conta; tirar o consentimento em Configurações apaga tudo). Depois, **+ 1 copo** registra o tamanho do seu copo, **+ 500 mL** meio litro e **Outra quantidade** aceita `300 ml` ou `0,5 l`. Em cima, o total de hoje contra a meta; embaixo, os registros de hoje (o **X** apaga) e a semana em barras, com a média. **Meta e copo** muda os dois. O sino abre as **Automações**, onde o modelo **Lembrar de beber água** avisa de 2 em 2 horas, das 8h às 22h (o aviso não mostra quanto você bebeu). Funciona sem internet e sincroniza depois. O Questlist não é dispositivo médico: guarda o que você anota, sem recomendar nada.

@@ -311,6 +311,18 @@ const sleep_logs = new Table({
   wake_time: column.text,
   created_at: column.text,
 });
+// Tabela nutricional (SA5, D391): valores por 100 g, 100 mL ou unidade
+const nutrition_foods = new Table({
+  user_id: column.text,
+  name: column.text,
+  basis: column.text,
+  kcal: column.real,
+  protein: column.real,
+  carbs: column.real,
+  fat: column.real,
+  created_at: column.text,
+  updated_at: column.text,
+});
 // Exames (SA4, D389): o anexo fica no bucket `health` (enviar pede conexão)
 const exam_results = new Table({
   user_id: column.text,
@@ -806,6 +818,7 @@ export const AppSchema = new Schema({
   water_logs,
   sleep_logs,
   exam_results,
+  nutrition_foods,
   equipments,
   maintenance_plans,
   page_shares,

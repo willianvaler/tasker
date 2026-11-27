@@ -12,6 +12,15 @@ En **Bienestar → Dieta**, **Armar el menú de la semana** crea la carpeta **Di
 
 En Bienestar, **Menú de hoy** muestra los platos del día para marcar (marcar completa los ingredientes también). Marcado, el plato queda marcado hasta que cambie la semana, el lunes, y un plato que no comiste no se vuelve atrasado. **Generar lista de compras** junta los ingredientes de la semana, sumando las cantidades ("Pollo (400 g)"), y abre la creación en lote para revisarla y elegir la lista de destino.
 
+## Recetas y macros
+
+**Bienestar → Recetas** reúne las notas que son recetas: las que tienen las propiedades **porciones** (un número) e **ingredientes** (una lista, un ingrediente por elemento, como `500 g de carne molida` o `2 tazas de harina`). **Nueva receta** crea la nota con las dos. Los nombres valen en los tres idiomas (`porções`, `servings`/`ingredients`).
+
+- **Lista de compras:** marca las recetas, ajusta cuántas porciones vas a hacer y toca **Agregar a la lista de compras**. Las cantidades siguen a las porciones, y los ingredientes iguales se vuelven una sola línea cuando la medida es de la misma dimensión (g con kg, mL con L). Las medidas caseras (cuchara, taza) quedan como están, sin conversión, y lo que no tiene cantidad ("sal al gusto") no se suma. Eliges la lista y revisas todo en la creación en lote antes de crear.
+- **Macros por porción:** vienen solo de tu **Tabla nutricional** (el botón arriba en Recetas): cada alimento con kcal, proteína, carbohidrato y grasa por 100 g, por 100 mL o por unidad, escritos o importados de un CSV (`nombre;base;kcal;proteína;carbohidrato;grasa`). El nombre del ingrediente encuentra el alimento aunque esté en plural ("huevos" encuentra "Huevo"); lo que no está en la tabla, o está en una medida casera, aparece en **Sin datos** y queda fuera de la cuenta. Questlist no tiene base nutricional propia y no estima valores.
+
+Todo funciona sin internet y se sincroniza después.
+
 ## Agua
 
 La primera vez, la sección pide el **consentimiento de los datos de salud** (agua, sueño y exámenes quedan solo en tu cuenta, entran en la exportación y se borran con la cuenta; retirar el consentimiento en Configuración lo borra todo). Después, **+ 1 vaso** registra el tamaño de tu vaso, **+ 500 mL** medio litro y **Otra cantidad** acepta `300 ml` o `0,5 l`. Arriba, el total de hoy frente a la meta; abajo, los registros de hoy (la **X** borra) y la semana en barras, con el promedio. **Meta y vaso** cambia los dos. La campana abre las **Automatizaciones**, donde la plantilla **Recordar beber agua** avisa cada 2 horas, de 8 a 22 h (el aviso no muestra cuánto bebiste). Funciona sin internet y sincroniza después. Questlist no es un dispositivo médico: guarda lo que anotas, sin recomendar nada.

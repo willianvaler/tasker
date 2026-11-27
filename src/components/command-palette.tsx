@@ -7,6 +7,7 @@ import {
   CalendarRange,
   ChartColumn,
   CheckSquare,
+  ChefHat,
   CircleHelp,
   ClipboardCheck,
   ClipboardList,
@@ -305,6 +306,13 @@ function Palette({
       icon: icon(Layers),
       group: 0,
       run: go('/cartoes'),
+    },
+    {
+      id: 'go-recipes',
+      label: t('recipes.title'),
+      icon: icon(ChefHat),
+      group: 0,
+      run: go('/receitas'),
     },
     {
       id: 'go-inbox',

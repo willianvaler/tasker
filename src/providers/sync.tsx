@@ -46,6 +46,7 @@ const AFFECTS: Record<string, readonly (readonly unknown[])[]> = {
   water_logs: [['water']],
   sleep_logs: [['sleep']],
   exam_results: [['exams']],
+  nutrition_foods: [['nutrition']],
   maintenance_plans: [['equipments']],
   // Links [[...]] (OB1): o "Citado em" acompanha o que o servidor refez
   links: [['links']],

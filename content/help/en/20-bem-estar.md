@@ -12,6 +12,15 @@ In **Wellness → Diet**, **Plan the week's menu** creates the **Diet** folder w
 
 In Wellness, **Today's menu** shows the day's dishes to check off (checking completes the ingredients too). A checked dish stays checked until the week turns, on Monday, and a dish you didn't eat never becomes overdue. **Make a shopping list** gathers the week's ingredients, adding up quantities ("Chicken (400 g)"), and opens batch creation so you can review it and pick the destination list.
 
+## Recipes and macros
+
+**Wellness → Recipes** gathers the notes that are recipes: those with the properties **servings** (a number) and **ingredients** (a list, one ingredient per item, like `500 g ground beef` or `2 cups flour`). **New recipe** creates the note with both. The names work in the three languages (`porções`/`ingredientes`, `porciones`).
+
+- **Shopping list:** check the recipes, set how many servings you will make and tap **Add to shopping list**. Quantities follow the servings, and equal ingredients become one line when the measure has the same dimension (g with kg, mL with L). Household measures (spoon, cup) stay as they are, with no conversion, and anything without a quantity ("salt to taste") is not added up. You choose the list and check everything in the batch screen before creating.
+- **Macros per serving:** come only from your **Nutrition table** (the button at the top of Recipes): each food with kcal, protein, carbs and fat per 100 g, per 100 mL or per unit, typed or imported from a CSV (`name;basis;kcal;protein;carbs;fat`). The ingredient name finds the food even in the plural ("eggs" finds "Egg"); anything not in the table, or in a household measure, shows under **Not in your table** and is left out. Questlist has no nutrition database of its own and does not estimate values.
+
+Everything works offline and syncs later.
+
 ## Water
 
 The first time, the section asks for **consent for health data** (water, sleep and test results stay in your account only, are included in the export and are removed with the account; withdrawing consent in Settings deletes everything). Then **+ 1 glass** logs your glass size, **+ 500 mL** half a liter and **Other amount** accepts `300 ml` or `0.5 l`. At the top, today's total against the goal; below, today's entries (the **X** deletes) and the week as bars, with the average. **Goal and glass** changes both. The bell opens **Automations**, where the template **Remind me to drink water** reminds you every 2 hours, from 8 am to 10 pm (the reminder doesn't show how much you drank). Works offline and syncs later. Questlist isn't a medical device: it keeps what you write down and recommends nothing.
